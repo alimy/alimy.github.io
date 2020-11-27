@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>language on 北 野</title>
+    <link>http://alimy.me/tags/language/</link>
+    <description>Recent content in language on 北 野</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
+    <lastBuildDate>Fri, 18 Mar 2016 20:45:00 +0800</lastBuildDate><atom:link href="http://alimy.me/tags/language/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>50 Shades of Go</title>
+      <link>http://alimy.me/post/dev_201603182045/</link>
+      <pubDate>Fri, 18 Mar 2016 20:45:00 +0800</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201603182045/</guid>
+      <description>&lt;p&gt;Go is a simple and fun language, but, like any other language, it has a few gotchas&amp;hellip; Many of those gotchas are not entirely Go&amp;rsquo;s fault. Some of these mistakes are natural traps if you are coming from another language. Others are due to faulty assumptions and missing details.&lt;/p&gt;
+&lt;p&gt;A lot of these gotchas may seem obvious if you took the time to learn the language reading the official spec, wiki, mailing list discussions, many great posts and presentations by Rob Pike, and the source code. Not everybody starts the same way though and that&amp;rsquo;s OK. If you are new to Go the information here will save you hours debugging your code.&lt;/p&gt;
+&lt;p&gt;This post covers Go 1.5 and below.&lt;/p&gt;
+&lt;h3 id=&#34;total-beginner&#34;&gt;Total Beginner:&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;#1&#34;&gt;Opening Brace Can&amp;rsquo;t Be Placed on a Separate Line&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#2&#34;&gt;Unused Variables&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#3&#34;&gt;Unused Imports&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#4&#34;&gt;Short Variable Declarations Can Be Used Only Inside Functions&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#5&#34;&gt;Redeclaring Variables Using Short Variable Declarations&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#6&#34;&gt;Can&amp;rsquo;t Use Short Variable Declarations to Set Field Values&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#7&#34;&gt;Accidental Variable Shadowing&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#8&#34;&gt;Can&amp;rsquo;t Use &amp;ldquo;nil&amp;rdquo; to Initialize a Variable Without an Explicit Type&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#9&#34;&gt;Using &amp;ldquo;nil&amp;rdquo; Slices and Maps&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#10&#34;&gt;Map Capacity&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;</description>
+    </item>
+    
+    <item>
+      <title>Intro to TOML</title>
+      <link>http://alimy.me/post/dev_201603132045/</link>
+      <pubDate>Sun, 13 Mar 2016 20:45:00 +0800</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201603132045/</guid>
+      <description>&lt;h3 id=&#34;overview-of-date-and-calendar-classes&#34;&gt;Overview of Date and Calendar classes&lt;/h3&gt;
+&lt;p&gt;TOML stands for Tom’s Own Minimal Language. It is a configuration language vaguely similar to YAML or property lists, but far, far better. But before we get into it in detail, let’s look back at what came before.&lt;/p&gt;
+&lt;h3 id=&#34;long-ago-in-a-galaxy-far-far-away&#34;&gt;Long Ago, In A Galaxy Far, Far Away&lt;/h3&gt;
+&lt;p&gt;Since the beginning of computing, people have needed a way to configure their software. On Linux, this generally is done in text files. For simple configurations, good old foo = bar works pretty well. One setting per line, name on the left, value on the right, separated by an equals. Great. But when your configuration gets more complicated, this quickly breaks down. What if you need a value that is more than one line? How do you indicate a value should be parsed as a number instead of a string? How do you namespace related configuration values so you don’t need ridiculously long names to prevent collisions?&lt;/p&gt;
+&lt;h3 id=&#34;the-dark-ages&#34;&gt;The Dark Ages&lt;/h3&gt;
+&lt;p&gt;In the 90’s, we used XML. And it sucked. XML is verbose, it’s hard for humans to read and write, and it still doesn’t solve a lot of the problems above (like how to specify the type of a value). In addition, the XML spec is huge, processing is very complicated, and all the extra features invite abuse and overcomplication.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Markdown</title>
+      <link>http://alimy.me/post/dev_201601131558/</link>
+      <pubDate>Wed, 13 Jan 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201601131558/</guid>
+      <description>&lt;h3 id=&#34;sect-what-is-markdown&#34;&gt;§ What is Markdown?&lt;/h3&gt;
+&lt;p&gt;Markdown is a way to style text on the web. You control the display of the
+document; formatting words as bold or italic, adding images, and creating lists
+are just a few of the things we can do with Markdown. Mostly, Markdown is just
+regular text with a few non-alphabetic characters thrown in, like # or *.&lt;br&gt;
+&lt;a href=&#34;http://daringfireball.net/projects/markdown/&#34; title=&#34;Daring FireBall: Home&#34;&gt;[Markdown Reference]&lt;/a&gt; &lt;a href=&#34;https://guides.github.com/features/mastering-markdown/&#34; title=&#34;GitHub&#39;s Mastering Markdown&#34;&gt;[Mastering Markdown]&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Too many open files 的解决方法</title>
+      <link>http://alimy.me/post/dev_201601121531/</link>
+      <pubDate>Tue, 12 Jan 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201601121531/</guid>
+      <description>&lt;h2 id=&#34;由来&#34;&gt;&amp;gt;由来&lt;/h2&gt;
+&lt;p&gt;gogs 打开一个android app库的资源文件夹(/coding/Coding-Android/src/master/app/src/main/res/drawable-xxhdpi)
+返回 500&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>关于TOML</title>
+      <link>http://alimy.me/post/dev_201601031221/</link>
+      <pubDate>Sun, 03 Jan 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201601031221/</guid>
+      <description>&lt;h2 id=&#34;toml的由来&#34;&gt;TOML的由来&lt;/h2&gt;
+&lt;p&gt;TOML的全称是　Tom&amp;rsquo;s Obvious, Minimal Language，因为它是GitHub　前CEO,联合创始人
+Tom Preston-Werner 于2013年创建的语言。&lt;/p&gt;
+&lt;p&gt;配置文件的使用由来已久，从.ini、XML、JSON、YAML再到TOML，语言的表达能力越来越强，同时书
+写便捷性也在不断提升。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>TOML v0.4.0</title>
+      <link>http://alimy.me/post/dev_201601021221/</link>
+      <pubDate>Sat, 02 Jan 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201601021221/</guid>
+      <description>&lt;p&gt;Tom&amp;rsquo;s Obvious, Minimal Language.&lt;/p&gt;
+&lt;p&gt;By Tom Preston-Werner.&lt;/p&gt;
+&lt;p&gt;Be warned, this spec is still changing a lot. Until it&amp;rsquo;s marked as 1.0, you
+should assume that it is unstable and act accordingly.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

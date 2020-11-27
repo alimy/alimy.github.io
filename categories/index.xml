@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Categories on 北 野</title>
+    <link>http://alimy.me/categories/</link>
+    <description>Recent content in Categories on 北 野</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
+    <lastBuildDate>Fri, 10 Jan 2020 04:25:00 +0800</lastBuildDate><atom:link href="http://alimy.me/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Development</title>
+      <link>http://alimy.me/categories/development/</link>
+      <pubDate>Fri, 10 Jan 2020 04:25:00 +0800</pubDate>
+      
+      <guid>http://alimy.me/categories/development/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Rust</title>
+      <link>http://alimy.me/categories/rust/</link>
+      <pubDate>Fri, 10 Jan 2020 04:25:00 +0800</pubDate>
+      
+      <guid>http://alimy.me/categories/rust/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>RPC</title>
+      <link>http://alimy.me/categories/rpc/</link>
+      <pubDate>Sun, 05 Jan 2020 00:47:00 +0800</pubDate>
+      
+      <guid>http://alimy.me/categories/rpc/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Art</title>
+      <link>http://alimy.me/categories/art/</link>
+      <pubDate>Fri, 15 Mar 2019 12:00:00 +0800</pubDate>
+      
+      <guid>http://alimy.me/categories/art/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Security</title>
+      <link>http://alimy.me/categories/security/</link>
+      <pubDate>Sat, 17 Nov 2018 14:35:00 +0800</pubDate>
+      
+      <guid>http://alimy.me/categories/security/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Other</title>
+      <link>http://alimy.me/categories/other/</link>
+      <pubDate>Sat, 01 Sep 2018 19:42:00 +0800</pubDate>
+      
+      <guid>http://alimy.me/categories/other/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Information</title>
+      <link>http://alimy.me/categories/information/</link>
+      <pubDate>Mon, 21 May 2018 08:19:00 +0800</pubDate>
+      
+      <guid>http://alimy.me/categories/information/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Golang</title>
+      <link>http://alimy.me/categories/golang/</link>
+      <pubDate>Sat, 03 Mar 2018 19:34:00 +0800</pubDate>
+      
+      <guid>http://alimy.me/categories/golang/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Transport</title>
+      <link>http://alimy.me/categories/transport/</link>
+      <pubDate>Thu, 24 Mar 2016 22:55:00 +0800</pubDate>
+      
+      <guid>http://alimy.me/categories/transport/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Game</title>
+      <link>http://alimy.me/categories/game/</link>
+      <pubDate>Thu, 24 Mar 2016 21:35:00 +0800</pubDate>
+      
+      <guid>http://alimy.me/categories/game/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Cloud</title>
+      <link>http://alimy.me/categories/cloud/</link>
+      <pubDate>Sat, 16 Jan 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://alimy.me/categories/cloud/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>language</title>
+      <link>http://alimy.me/categories/language/</link>
+      <pubDate>Wed, 13 Jan 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://alimy.me/categories/language/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

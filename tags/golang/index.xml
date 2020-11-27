@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Golang on 北 野</title>
+    <link>http://alimy.me/tags/golang/</link>
+    <description>Recent content in Golang on 北 野</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
+    <lastBuildDate>Sat, 03 Mar 2018 19:34:00 +0800</lastBuildDate><atom:link href="http://alimy.me/tags/golang/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Golang Tutorial: What&#39;s DefaultServeMux in net/http</title>
+      <link>http://alimy.me/post/dev_201803031932/</link>
+      <pubDate>Sat, 03 Mar 2018 19:34:00 +0800</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201803031932/</guid>
+      <description>&lt;p&gt;craete a HTTPS Server use net/http and route handle function by DefaultServeMux, see code below:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;package main
+
+import (
+	&amp;quot;net/http&amp;quot;
+	&amp;quot;fmt&amp;quot;
+	&amp;quot;log&amp;quot;
+)
+
+func hello(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, &amp;quot;[%s]: hello!&amp;quot;, r.Host)
+}
+
+func world(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, &amp;quot;[%s]: world!&amp;quot;, r.Host)
+}
+
+func main() {
+	server := http.Server{
+		Addr: &amp;quot;127.0.0.1:8080&amp;quot;,
+	}
+	http.HandleFunc(&amp;quot;/hello&amp;quot;, hello)
+	http.HandleFunc(&amp;quot;/world&amp;quot;, world)
+
+	log.Fatal(server.ListenAndServe())
+}
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    
+    <item>
+      <title>Golang Tutorial: Create HTTPS Server use net/http</title>
+      <link>http://alimy.me/post/dev_201803030946/</link>
+      <pubDate>Sat, 03 Mar 2018 09:46:00 +0800</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201803030946/</guid>
+      <description>&lt;p&gt;It is simple to craete a HTTPS Server use net/http, see code below:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;package main
+
+import (
+	&amp;quot;net/http&amp;quot;
+	&amp;quot;fmt&amp;quot;
+)
+
+type SimpleHandler struct {
+	Name string
+}
+
+func (h *SimpleHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, &amp;quot;%s: Hello World!&amp;quot;, h.Name)
+}
+
+func main() {
+	server := http.Server{
+		Addr:    &amp;quot;127.0.0.1:8080&amp;quot;,
+		Handler: &amp;amp;SimpleHandler{Name: &amp;quot;SimpleServer&amp;quot;},
+	}
+	server.ListenAndServeTLS(&amp;quot;cert.pem&amp;quot;, &amp;quot;key.pem&amp;quot;)
+}
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    
+    <item>
+      <title>Go - See what packages my app imports</title>
+      <link>http://alimy.me/post/dev_201604101827/</link>
+      <pubDate>Sun, 10 Apr 2016 18:27:00 +0800</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201604101827/</guid>
+      <description>&lt;p&gt;It’s often practical to see what packages your app is importing. Unfortunately there isn’t a simple way to do that, however it is doable via the go list tool and using templates.&lt;/p&gt;
+&lt;p&gt;Go to your app and run the following.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ go list -f &#39;{{join .Deps &amp;quot;\n&amp;quot;}}&#39; |  xargs go list -f &#39;{{if not .Standard}}{{.ImportPath}}{{end}}&#39;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Here is an example with the clirescue refactoring example:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ cd $GOPATH/src/github.com/GoBootcamp/clirescue
+$ go list -f &#39;{{join .Deps &amp;quot;\n&amp;quot;}}&#39; | xargs go list -f &#39;{{if not .Standard}}{{.ImportPath}}{{end}}&#39;
+github.com/GoBootcamp/clirescue/cmdutil
+github.com/GoBootcamp/clirescue/trackerapi
+github.com/GoBootcamp/clirescue/user
+github.com/codegangsta/cli
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If you want the list to also contain standard packages, edit the template and use:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ go list -f &#39;{{join .Deps &amp;quot;\n&amp;quot;}}&#39; |  xargs go list -f &#39;{{.ImportPath}}&#39;
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    
+    <item>
+      <title>Go - EBNF</title>
+      <link>http://alimy.me/post/dev_201604021445/</link>
+      <pubDate>Sat, 02 Apr 2016 14:45:00 +0800</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201604021445/</guid>
+      <description>&lt;h3 id=&#34;notation&#34;&gt;Notation&lt;/h3&gt;
+&lt;p&gt;The syntax is specified using Extended Backus-Naur Form (EBNF):&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Production  = production_name &amp;quot;=&amp;quot; [ Expression ] &amp;quot;.&amp;quot; .
+Expression  = Alternative { &amp;quot;|&amp;quot; Alternative } .
+Alternative = Term { Term } .
+Term        = production_name | token [ &amp;quot;…&amp;quot; token ] | Group | Option | Repetition .
+Group       = &amp;quot;(&amp;quot; Expression &amp;quot;)&amp;quot; .
+Option      = &amp;quot;[&amp;quot; Expression &amp;quot;]&amp;quot; .
+Repetition  = &amp;quot;{&amp;quot; Expression &amp;quot;}&amp;quot; .
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Productions are expressions constructed from terms and the following operators, in increasing precedence:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;|   alternation
+()  grouping
+[]  option (0 or 1 times)
+{}  repetition (0 to n times)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Lower-case production names are used to identify lexical tokens. Non-terminals are in CamelCase. Lexical tokens are enclosed in double quotes &amp;quot;&amp;quot; or back quotes ``.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

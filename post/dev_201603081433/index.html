@@ -1,0 +1,461 @@
+  <!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <title> XStream: Java to XML &middot; 北 野 </title>
+    
+    <link rel="stylesheet" type="text/css" href="http://alimy.me/css/uno.css" />
+    <link rel="stylesheet" type="text/css" href="http://alimy.me/css/lightGallery.css" />
+    
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://alimy.me/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" href="http://alimy.me/favicon.png">
+    
+    <script src="http://alimy.me/js/jquery.min.js"></script>
+    <script src="http://alimy.me/js/main.min.js"></script>
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75081327-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+<script>
+  "use strict";
+  
+  !function() {
+    var t = window.driftt = window.drift = window.driftt || [];
+    if (!t.init) {
+      if (t.invoked) return void (window.console && console.error && console.error("Drift snippet included twice."));
+      t.invoked = !0, t.methods = [ "identify", "config", "track", "reset", "debug", "show", "ping", "page", "hide", "off", "on" ], 
+      t.factory = function(e) {
+        return function() {
+          var n = Array.prototype.slice.call(arguments);
+          return n.unshift(e), t.push(n), t;
+        };
+      }, t.methods.forEach(function(e) {
+        t[e] = t.factory(e);
+      }), t.load = function(t) {
+        var e = 3e5, n = Math.ceil(new Date() / e) * e, o = document.createElement("script");
+        o.type = "text/javascript", o.async = !0, o.crossorigin = "anonymous", o.src = "https://js.driftt.com/include/" + n + "/" + t + ".js";
+        var i = document.getElementsByTagName("script")[0];
+        i.parentNode.insertBefore(o, i);
+      };
+    }
+  }();
+  drift.SNIPPET_VERSION = '0.3.1';
+  drift.load('b8zniyzvbfap');
+  </script>
+
+
+
+<script>
+(function(f, a, t, h, o, m){
+a[h]=a[h]||function(){
+  (a[h].q=a[h].q||[]).push(arguments)
+};
+o=f.createElement('script'),
+m=f.getElementsByTagName('script')[0];
+o.async=1; o.src=t; o.id='fathom-script';
+m.parentNode.insertBefore(o,m)
+})(document, window, '//fathom.traefic.com/tracker.js', 'fathom');
+fathom('trackPageview');
+</script>
+
+
+    <style type="text/css">
+        body {
+          background-color:#f9f9f9;
+        }
+        .panel-wrapper {
+          box-shadow:0px 0px 8px rgba(68,68,68,.6);
+          -moz-box-shadow:0px 0px 8px rgba(68,68,68,.6);
+          border-radius:4px;
+          -moz-border-radius:4px;
+          padding:16px 24px;
+          margin-top:32px;
+          background-color:#fff
+        }
+        .panel-wrapper:hover {
+          box-shadow:0px 0px 12px rgba(68,68,68,.6);
+          -moz-box-shadow:0px 0px 12px rgba(68,68,68,.6);
+        }
+        #more {
+          margin-top:16px;
+        }
+        #copyright {
+          padding:2em 0 0;
+          display:block;
+          font-size:.9em;
+          color:#b3b3b3;
+          width:100%;
+          text-align:center
+        }
+        #list-indicator {
+          min-width:48px;
+          text-align:center;
+          float:right;
+          margin-right:64px;
+          background:rgba(68,68,68,.2);
+          border-radius:4px;
+          -moz-border-radius:4px;
+          padding:8px;
+        }
+        #list-date {
+          color:#999;
+          font-size: .9em;
+          font-style:italic;
+        }
+        #post-navigator {
+          padding:24px 0px 16px 0px;
+          vertical-align: middle;
+        }
+        #post-navigator>a {
+          display: block;
+          color:#2479cc;
+          text-decoration:none;
+        }
+        #post-navigator-prev {
+          float:left;
+        }
+        #post-navigator-next {
+          float:right;
+        }
+        .pages {
+            text-align: center;
+            margin-right: -15px;
+            margin-left: -15px;
+        }
+        .pages>ul {
+            font-weight: lighter;
+        }
+        .pages>.pagination {
+            display: inline-block;
+            padding-left: 0;
+            margin: 20px 0px;
+            border-radius: 4px;
+        }
+        .pages .pagination>li {
+            display:inline;
+        }
+
+.pagination>.active>a, .pagination>.active>span, .pagination>.active>a:hover, .pagination>.active>span:hover, .pagination>.active>a:focus, .pagination>.active>span:focus {
+    z-index: 2;
+    color: #fff;
+    cursor: default;
+    background-color: #428bca;
+    border-color: #428bca;
+}
+
+.pagination>li>a, .pagination>li>span {
+    position: relative;
+    float: left;
+    padding: 6px 12px;
+    margin-left: -1px;
+    line-height: 1.428571429;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+.pagination>li:first-child>a, .pagination>li:first-child>span {
+    margin-left: 0;
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
+}
+.pagination>.disabled>span, .pagination>.disabled>span:hover, .pagination>.disabled>span:focus, .pagination>.disabled>a, .pagination>.disabled>a:hover, .pagination>.disabled>a:focus {
+    color: #999;
+    cursor: not-allowed;
+    background-color: #fff;
+    border-color: #ddd;
+}
+.pagination>li:last-child>a, .pagination>li:last-child>span {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+*, *:before, *:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+    </style>
+</head>
+
+  <body>
+    <div id="scriptHeader">
+    <span class="mobile btn-mobile-menu">
+            <i class="fa fa-bars btn-mobile-menu__icon"></i>
+            <i class="fa fa-times btn-mobile-close__icon hidden"> </i>
+    </span>
+    <header class="
+        
+            panel-cover panel-cover--collapsed
+        " >
+    <div class="panel-main">
+        <div class="panel-main__inner panel-inverted">
+            <div class="panel-main__content"> 
+                <a href="http://alimy.me/"> <img src="http://alimy.me/images/logo.jpg" width="142" height="142" alt="北 野 logo" class="panel-cover__logo logo" /> </a> 
+                <h1 class="panel-cover__title panel-title">
+                    <a href="http://alimy.me/">北 野</a>
+                </h1>
+                <hr class="panel-cover__divider" />
+                <p class="panel-cover__description">  糊涂小栈  </p>
+                <hr class="panel-cover__divider panel-cover__divider--secondary" />
+                <div class="navigation-wrapper">
+                    <nav class="cover-navigation cover-navigation--primary">
+                        <ul class="navigation">
+                            <li class="navigation__item"><a href="http://alimy.me" title="博客首页" class="blog-button">Blog</a> </li> </br></br>
+                            <li class="navigation__item"><a href="http://alimy.me/post/" title="文章列表" class="blog-button">Archive</a> </li>
+                            </br>  </ul>
+                            <nav class="cover-navigation navigation--social">
+</br>
+    <ul class="navigation"> 
+        
+        <li class="navigation__item">
+            <a href="http://twitter.com/bitriory" title="@Twitter"> <i class='fa fa-twitter'></i> <span class="label">Twitter</span> </a>
+        </li>   
+        
+        <li class="navigation__item">
+            <a href="https://github.com/alimy" title="@GitHub"> <i class='fa fa-github'></i> <span class="label">Github</span> </a>
+        </li>  
+        
+        <li class="navigation__item">
+            <a href="http://gitbus.com/alimy" title="@GitBus"> <i class='fa fa-bars'></i> <span class="label">GitBus</span> </a>
+        </li>  </br>    </ul>
+</nav>
+
+                    </nav>  </div>
+            </div>
+        </div>
+        <div class="panel-cover--overlay"></div>
+    </div>
+</header>
+</div>
+<noscript>
+    <style>
+        #scriptHeader {display:none;}
+        .navigation-wrapper{
+            display: block;
+            top: 0;
+        }
+    </style>
+
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url()">
+        <div class="panel-main">
+            <div class="panel-main__inner panel-inverted">
+                <div class="panel-main__content"> 
+                    <a href="http://alimy.me/"> <img src="http://alimy.me/images/logo.jpg" width="80" alt="北 野 logo" class="panel-cover__logo logo" /> </a> 
+                    <h1 class="panel-cover__title panel-title">
+                        <a href="http://alimy.me/">北 野</a>
+                    </h1>
+                    <hr class="panel-cover__divider" />
+                    <p class="panel-cover__description">  糊涂小栈  </p>
+                    <hr class="panel-cover__divider panel-cover__divider--secondary" />
+                    <div class="navigation-wrapper">
+                        <nav class="cover-navigation cover-navigation--primary">
+                            <ul class="navigation">
+                                <li class="navigation__item"><a href="http://alimy.me/" title="博客首页" class="blog-button">Blog</a> </li>
+                                </br>  </ul>
+                        </nav> <nav class="cover-navigation navigation--social">
+</br>
+    <ul class="navigation"> 
+        
+        <li class="navigation__item">
+            <a href="http://twitter.com/bitriory" title="@Twitter"> <i class='fa fa-twitter'></i> <span class="label">Twitter</span> </a>
+        </li>   
+        
+        <li class="navigation__item">
+            <a href="https://github.com/alimy" title="@GitHub"> <i class='fa fa-github'></i> <span class="label">Github</span> </a>
+        </li>  
+        
+        <li class="navigation__item">
+            <a href="http://gitbus.com/alimy" title="@GitBus"> <i class='fa fa-bars'></i> <span class="label">GitBus</span> </a>
+        </li>  </br>    </ul>
+</nav>
+ </div>
+                </div>
+            </div>
+            <div class="panel-cover--overlay"></div>
+        </div>
+    </header>
+</noscript>
+
+    <div class="content-wrapper">
+      <div class="content-wrapper__inner">
+        <div class="post panel-wrapper">
+            <h2>XStream: Java to XML</h2>
+          
+          <p>In the <a href="http://alimy.me/post/dev_201603081411">previous</a> example we saw how to convert a Java Object to XML and back. In this example we look at another example of Java Object to XML Conversion. The example uses an object called a &lsquo;JazzArtist&rsquo;. This object has a list of &lsquo;Album&rsquo; objects besides some other properties. We see here another example of Alias and implicit collection. (To understand alias and implicit collections look at this tutorial) We divide the example in three parts. In the first part we do not use aliases or implicit collections. In the second part we use aliases and in the third part we use an implicit Collection. Note the output from the three parts and observe how aliases and implicit collection change the way the output xml looks.</p>
+<pre><code>package com.studytrails.xml.xstream;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.thoughtworks.xstream.XStream;
+
+public class CreateXMLFromMusicArtistObject {
+
+    public static void main(String[] args) {
+        CreateXMLFromMusicArtistObject marshaller = new CreateXMLFromMusicArtistObject();
+        marshaller.createXMlFromObject();
+        marshaller.createXMLFromObjectUsingAlias();
+        marshaller.createXMLFromObjectUsingAliasAndImplicitCollection();
+    }
+</code></pre><p>The JazzArtist and Album classes</p>
+<pre><code>class JazzArtist {
+    public String name;
+    public boolean isAlive;
+    public String url;
+    public List&lt;Album&gt; albums = new ArrayList&lt;Album&gt;();
+
+    public JazzArtist(String name, boolean isAlive, String url) {
+        this.name = name;
+        this.isAlive = isAlive;
+        this.url = url;
+    }
+
+    public void addAlbum(Album album) {
+        albums.add(album);
+    }
+
+}
+
+class Album {
+    public String title;
+    public int noOfrecords;
+    public int year;
+
+    public Album(String title, int noOfrecords, int year) {
+        this.title = title;
+        this.noOfrecords = noOfrecords;
+        this.year = year;
+    }
+}
+</code></pre><p>The first method - without alias and Implicit Collection</p>
+<pre><code>private void createXMlFromObject() {
+ JazzArtist artist = new JazzArtist(&quot;Bix Beiderbecke&quot;, false, null);
+ Album album1 = new Album(&quot;Bix Beiderbecke with the Paul Whiteman Orchestra&quot;, 5, 1928);
+ Album album2 = new Album(&quot;Bix Beiderbecke and His Gang&quot;, 6, 1927);
+ artist.addAlbum(album1);
+ artist.addAlbum(album2);
+ XStream xStream = new XStream();
+ System.out.println(xStream.toXML(artist));
+}
+</code></pre><p>The output from the first method</p>
+<pre><code>&lt;com.studytrails.xml.xstream.jazzartist&gt;
+  &lt;name&gt;Bix Beiderbecke&lt;/name&gt;
+  &lt;isalive&gt;false&lt;/isalive&gt;
+  &lt;albums&gt;
+    &lt;com.studytrails.xml.xstream.album&gt;
+      &lt;title&gt;Bix Beiderbecke with the Paul Whiteman Orchestra&lt;/title&gt;
+      &lt;noofrecords&gt;5&lt;/noofrecords&gt;
+      &lt;year&gt;1928&lt;/year&gt;
+    &lt;/com.studytrails.xml.xstream.album&gt;
+    &lt;com.studytrails.xml.xstream.album&gt;
+      &lt;title&gt;Bix Beiderbecke and His Gang&lt;/title&gt;
+      &lt;noofrecords&gt;6&lt;/noofrecords&gt;
+      &lt;year&gt;1927&lt;/year&gt;
+    &lt;/com.studytrails.xml.xstream.album&gt;
+  &lt;/albums&gt;
+&lt;/com.studytrails.xml.xstream.jazzartist&gt;
+</code></pre><p>The second method - with aliases</p>
+<pre><code>private void createXMLFromObjectUsingAliasAndImplicitCollection() {
+ JazzArtist artist2 = new JazzArtist(&quot;Benny Goodman&quot;, false, null);
+ Album album3 = new Album(&quot;In Stockholm&quot;, 5, 1959);
+ Album album4 = new Album(&quot;A Jazz Holiday&quot;, 3, 1928);
+ artist2.addAlbum(album3);
+ artist2.addAlbum(album4);
+ XStream xStream2 = new XStream();
+ xStream2.alias(&quot;artist&quot;, JazzArtist.class);
+ xStream2.alias(&quot;album&quot;, Album.class);
+ xStream2.addImplicitCollection(JazzArtist.class, &quot;albums&quot;);
+ System.out.println(xStream2.toXML(artist2));
+}
+</code></pre><p>Output from the second method, the long class names are replaced by the alias.</p>
+<pre><code>&lt;artist&gt;
+  &lt;name&gt;Benny Goodman&lt;/name&gt;
+  &lt;isalive&gt;false&lt;/isalive&gt;
+  &lt;albums&gt;
+    &lt;album&gt;
+      &lt;title&gt;In Stockholm&lt;/title&gt;
+      &lt;noofrecords&gt;5&lt;/noofrecords&gt;
+      &lt;year&gt;1959&lt;/year&gt;
+    &lt;/album&gt;
+    &lt;album&gt;
+      &lt;title&gt;A Jazz Holiday&lt;/title&gt;
+      &lt;noofrecords&gt;3&lt;/noofrecords&gt;
+      &lt;year&gt;1928&lt;/year&gt;
+    &lt;/album&gt;
+  &lt;/albums&gt;
+&lt;/artist&gt;
+</code></pre><p>The third method - with alias and implicit collection</p>
+<pre><code>private void createXMLFromObjectUsingAlias() {
+ JazzArtist artist2 = new JazzArtist(&quot;Benny Goodman&quot;, false, null);
+ Album album3 = new Album(&quot;In Stockholm&quot;, 5, 1959);
+ Album album4 = new Album(&quot;A Jazz Holiday&quot;, 3, 1928);
+ artist2.addAlbum(album3);
+ artist2.addAlbum(album4);
+ XStream xStream2 = new XStream();
+ xStream2.alias(&quot;artist&quot;, JazzArtist.class);
+ xStream2.alias(&quot;album&quot;, Album.class);
+ System.out.println(xStream2.toXML(artist2));
+}
+</code></pre><p>output from the third method, the &lsquo;albums&rsquo; element is not required and all the &lsquo;album&rsquo; elements are now directly children of the artist.</p>
+<pre><code>&lt;artist&gt;
+  &lt;name&gt;Benny Goodman&lt;/name&gt;
+  &lt;isalive&gt;false&lt;/isalive&gt;
+  &lt;album&gt;
+    &lt;title&gt;In Stockholm&lt;/title&gt;
+    &lt;noofrecords&gt;5&lt;/noofrecords&gt;
+    &lt;year&gt;1959&lt;/year&gt;
+  &lt;/album&gt;
+  &lt;album&gt;
+    &lt;title&gt;A Jazz Holiday&lt;/title&gt;
+    &lt;noofrecords&gt;3&lt;/noofrecords&gt;
+    &lt;year&gt;1928&lt;/year&gt;
+  &lt;/album&gt;
+&lt;/artist&gt;
+</code></pre><hr>
+<p>(Note: This article’s original links is <a href="http://www.studytrails.com/java/xml/xstream/xstream-xml-to-java.jsp" title="XStream XML to Java"><em>here</em></a> )</p>
+        </div>
+        <div id="post-navigator">
+          <a id="post-navigator-prev" href="http://alimy.me/post/dev_201603081427/" title="上一篇">&lt;&lt; XStream: XML To Java</a>
+          <a id="post-navigator-next" href="http://alimy.me/post/dev_201603081441/" title="下一篇">XStream: Java to XML Using Annotation >></a>
+        </div>
+        <div id="post-comments">
+          <h3>Comments</h3>
+          
+
+
+<div id="disqus_thread"></div>
+
+<script type="text/javascript">
+  var disqusUsername = "alimy";
+
+  (function() { 
+  var d = document, s = d.createElement('script');
+
+  s.src = '//' + disqusUsername + '.disqus.com/embed.js';
+
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+          <footer id="copyright"> <p>&copy;2015-2020 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
+
+    </div>
+    <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
+if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
+var s=document.getElementsByTagName('script')[0];sc.src='http://alimy.me/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
+WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
+
+  </body>
+</html>

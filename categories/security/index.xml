@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Security on 北 野</title>
+    <link>http://alimy.me/categories/security/</link>
+    <description>Recent content in Security on 北 野</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
+    <lastBuildDate>Sat, 17 Nov 2018 14:35:00 +0800</lastBuildDate><atom:link href="http://alimy.me/categories/security/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>AppArmor的前世今生和基本使用</title>
+      <link>http://alimy.me/post/dev_201811171435/</link>
+      <pubDate>Sat, 17 Nov 2018 14:35:00 +0800</pubDate>
+      
+      <guid>http://alimy.me/post/dev_201811171435/</guid>
+      <description>&lt;h4 id=&#34;一mac和dac-一些前置知识&#34;&gt;一：MAC和DAC (一些前置知识)&lt;/h4&gt;
+&lt;p&gt;DAC(Discretionary Access Control)，自主访问控制，是最常用的一类访问控制机制，意思为主体（文件所有者）可以自主指定系统中其它用户对其文件的所有权，最典型的就是Linux的&amp;quot;拥有者/同组用户/其他&amp;quot;。这种方式虽然为用户提供了很大的灵活性，但是缺乏必要的安全性&lt;/p&gt;
+&lt;p&gt;MAC(Mandatory Access Control)，强制访问控制,在这种机制下，系统中的每一个进程，每一个文件，每一个IPC主体都被管理员按照严格的规则设置了相应的安全属性，不能被用户和其它直接或间接的修改。&lt;/p&gt;
+&lt;h4 id=&#34;二apparmorhttpsgitlabcomapparmorapparmor-apparmor-in-gitlab&#34;&gt;二：&lt;a href=&#34;https://gitlab.com/apparmor/apparmor&#34; title=&#34;AppArmor in GitLab&#34;&gt;AppArmor&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;由于SELinux使用复杂，适用于对安全要求特别高的企业或者组织，为了简化操作，就推出了AppArmor，所以可以说AppArmor脱胎于SELinux，但与SELinux基于角色的MAC不同的是，AppArmor是与程序绑定的基于路径的MAC，也就是说如果路径发生改变，策略就会失效。一般的Linux的系统，都会内置以上两种MAC其中的一种，这也意味着，你需要对文件（其它）进行操作，你需要同时通过DAC和 MAC的检测。&lt;/p&gt;
+&lt;p&gt;AppArmor有两种工作模式：enforcement、complain/learning&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Enforcement – 在这种模式下，配置文件里列出的限制条件都会得到执行，并且对于违反这些限制条件的程序会进行日志记录。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Complain – 在这种模式下，配置文件里的限制条件不会得到执行，AppArmor只是对程序的行为进行记录。例如程序可以写一个在配置文件里注明只读的文件，但AppArmor不会对程序的行为进行限制，只是进行记录。这种模式也叫学习模式，如果某个程序的行为不符合其配置文件的限制，可以将其行为记录到系统日志，并且可以根据程序的行为，将日志转换成配置文件。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;AppArmor可以对程序进行多方面的限制，详细可以看官方文档，这里只提供几个基本的例子：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;文件系统的访问控制   例：  /home/Desktop/a.c rw 表示程序可以对/home/Desktop/a.c 进行读和写。&lt;/li&gt;
+&lt;li&gt;资源限制   例： set rlimit as&amp;lt;=1M ，表示该程序可以使用的虚拟内存小于等于1M&lt;/li&gt;
+&lt;li&gt;访问网络   例： network inet tcp ,表示该程序可以在IPV4的情况下使用TCP协议 　&lt;/li&gt;
+&lt;li&gt;capability条目 例：capability setgid，表示程序进行setgid操作。&lt;/li&gt;
+&lt;/ol&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,557 @@
+  <!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <title> XStream: Java to XML and Back &middot; 北 野 </title>
+    
+    <link rel="stylesheet" type="text/css" href="http://alimy.me/css/uno.css" />
+    <link rel="stylesheet" type="text/css" href="http://alimy.me/css/lightGallery.css" />
+    
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://alimy.me/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" href="http://alimy.me/favicon.png">
+    
+    <script src="http://alimy.me/js/jquery.min.js"></script>
+    <script src="http://alimy.me/js/main.min.js"></script>
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75081327-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+<script>
+  "use strict";
+  
+  !function() {
+    var t = window.driftt = window.drift = window.driftt || [];
+    if (!t.init) {
+      if (t.invoked) return void (window.console && console.error && console.error("Drift snippet included twice."));
+      t.invoked = !0, t.methods = [ "identify", "config", "track", "reset", "debug", "show", "ping", "page", "hide", "off", "on" ], 
+      t.factory = function(e) {
+        return function() {
+          var n = Array.prototype.slice.call(arguments);
+          return n.unshift(e), t.push(n), t;
+        };
+      }, t.methods.forEach(function(e) {
+        t[e] = t.factory(e);
+      }), t.load = function(t) {
+        var e = 3e5, n = Math.ceil(new Date() / e) * e, o = document.createElement("script");
+        o.type = "text/javascript", o.async = !0, o.crossorigin = "anonymous", o.src = "https://js.driftt.com/include/" + n + "/" + t + ".js";
+        var i = document.getElementsByTagName("script")[0];
+        i.parentNode.insertBefore(o, i);
+      };
+    }
+  }();
+  drift.SNIPPET_VERSION = '0.3.1';
+  drift.load('b8zniyzvbfap');
+  </script>
+
+
+
+<script>
+(function(f, a, t, h, o, m){
+a[h]=a[h]||function(){
+  (a[h].q=a[h].q||[]).push(arguments)
+};
+o=f.createElement('script'),
+m=f.getElementsByTagName('script')[0];
+o.async=1; o.src=t; o.id='fathom-script';
+m.parentNode.insertBefore(o,m)
+})(document, window, '//fathom.traefic.com/tracker.js', 'fathom');
+fathom('trackPageview');
+</script>
+
+
+    <style type="text/css">
+        body {
+          background-color:#f9f9f9;
+        }
+        .panel-wrapper {
+          box-shadow:0px 0px 8px rgba(68,68,68,.6);
+          -moz-box-shadow:0px 0px 8px rgba(68,68,68,.6);
+          border-radius:4px;
+          -moz-border-radius:4px;
+          padding:16px 24px;
+          margin-top:32px;
+          background-color:#fff
+        }
+        .panel-wrapper:hover {
+          box-shadow:0px 0px 12px rgba(68,68,68,.6);
+          -moz-box-shadow:0px 0px 12px rgba(68,68,68,.6);
+        }
+        #more {
+          margin-top:16px;
+        }
+        #copyright {
+          padding:2em 0 0;
+          display:block;
+          font-size:.9em;
+          color:#b3b3b3;
+          width:100%;
+          text-align:center
+        }
+        #list-indicator {
+          min-width:48px;
+          text-align:center;
+          float:right;
+          margin-right:64px;
+          background:rgba(68,68,68,.2);
+          border-radius:4px;
+          -moz-border-radius:4px;
+          padding:8px;
+        }
+        #list-date {
+          color:#999;
+          font-size: .9em;
+          font-style:italic;
+        }
+        #post-navigator {
+          padding:24px 0px 16px 0px;
+          vertical-align: middle;
+        }
+        #post-navigator>a {
+          display: block;
+          color:#2479cc;
+          text-decoration:none;
+        }
+        #post-navigator-prev {
+          float:left;
+        }
+        #post-navigator-next {
+          float:right;
+        }
+        .pages {
+            text-align: center;
+            margin-right: -15px;
+            margin-left: -15px;
+        }
+        .pages>ul {
+            font-weight: lighter;
+        }
+        .pages>.pagination {
+            display: inline-block;
+            padding-left: 0;
+            margin: 20px 0px;
+            border-radius: 4px;
+        }
+        .pages .pagination>li {
+            display:inline;
+        }
+
+.pagination>.active>a, .pagination>.active>span, .pagination>.active>a:hover, .pagination>.active>span:hover, .pagination>.active>a:focus, .pagination>.active>span:focus {
+    z-index: 2;
+    color: #fff;
+    cursor: default;
+    background-color: #428bca;
+    border-color: #428bca;
+}
+
+.pagination>li>a, .pagination>li>span {
+    position: relative;
+    float: left;
+    padding: 6px 12px;
+    margin-left: -1px;
+    line-height: 1.428571429;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+.pagination>li:first-child>a, .pagination>li:first-child>span {
+    margin-left: 0;
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
+}
+.pagination>.disabled>span, .pagination>.disabled>span:hover, .pagination>.disabled>span:focus, .pagination>.disabled>a, .pagination>.disabled>a:hover, .pagination>.disabled>a:focus {
+    color: #999;
+    cursor: not-allowed;
+    background-color: #fff;
+    border-color: #ddd;
+}
+.pagination>li:last-child>a, .pagination>li:last-child>span {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+*, *:before, *:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+    </style>
+</head>
+
+  <body>
+    <div id="scriptHeader">
+    <span class="mobile btn-mobile-menu">
+            <i class="fa fa-bars btn-mobile-menu__icon"></i>
+            <i class="fa fa-times btn-mobile-close__icon hidden"> </i>
+    </span>
+    <header class="
+        
+            panel-cover panel-cover--collapsed
+        " >
+    <div class="panel-main">
+        <div class="panel-main__inner panel-inverted">
+            <div class="panel-main__content"> 
+                <a href="http://alimy.me/"> <img src="http://alimy.me/images/logo.jpg" width="142" height="142" alt="北 野 logo" class="panel-cover__logo logo" /> </a> 
+                <h1 class="panel-cover__title panel-title">
+                    <a href="http://alimy.me/">北 野</a>
+                </h1>
+                <hr class="panel-cover__divider" />
+                <p class="panel-cover__description">  糊涂小栈  </p>
+                <hr class="panel-cover__divider panel-cover__divider--secondary" />
+                <div class="navigation-wrapper">
+                    <nav class="cover-navigation cover-navigation--primary">
+                        <ul class="navigation">
+                            <li class="navigation__item"><a href="http://alimy.me" title="博客首页" class="blog-button">Blog</a> </li> </br></br>
+                            <li class="navigation__item"><a href="http://alimy.me/post/" title="文章列表" class="blog-button">Archive</a> </li>
+                            </br>  </ul>
+                            <nav class="cover-navigation navigation--social">
+</br>
+    <ul class="navigation"> 
+        
+        <li class="navigation__item">
+            <a href="http://twitter.com/bitriory" title="@Twitter"> <i class='fa fa-twitter'></i> <span class="label">Twitter</span> </a>
+        </li>   
+        
+        <li class="navigation__item">
+            <a href="https://github.com/alimy" title="@GitHub"> <i class='fa fa-github'></i> <span class="label">Github</span> </a>
+        </li>  
+        
+        <li class="navigation__item">
+            <a href="http://gitbus.com/alimy" title="@GitBus"> <i class='fa fa-bars'></i> <span class="label">GitBus</span> </a>
+        </li>  </br>    </ul>
+</nav>
+
+                    </nav>  </div>
+            </div>
+        </div>
+        <div class="panel-cover--overlay"></div>
+    </div>
+</header>
+</div>
+<noscript>
+    <style>
+        #scriptHeader {display:none;}
+        .navigation-wrapper{
+            display: block;
+            top: 0;
+        }
+    </style>
+
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url()">
+        <div class="panel-main">
+            <div class="panel-main__inner panel-inverted">
+                <div class="panel-main__content"> 
+                    <a href="http://alimy.me/"> <img src="http://alimy.me/images/logo.jpg" width="80" alt="北 野 logo" class="panel-cover__logo logo" /> </a> 
+                    <h1 class="panel-cover__title panel-title">
+                        <a href="http://alimy.me/">北 野</a>
+                    </h1>
+                    <hr class="panel-cover__divider" />
+                    <p class="panel-cover__description">  糊涂小栈  </p>
+                    <hr class="panel-cover__divider panel-cover__divider--secondary" />
+                    <div class="navigation-wrapper">
+                        <nav class="cover-navigation cover-navigation--primary">
+                            <ul class="navigation">
+                                <li class="navigation__item"><a href="http://alimy.me/" title="博客首页" class="blog-button">Blog</a> </li>
+                                </br>  </ul>
+                        </nav> <nav class="cover-navigation navigation--social">
+</br>
+    <ul class="navigation"> 
+        
+        <li class="navigation__item">
+            <a href="http://twitter.com/bitriory" title="@Twitter"> <i class='fa fa-twitter'></i> <span class="label">Twitter</span> </a>
+        </li>   
+        
+        <li class="navigation__item">
+            <a href="https://github.com/alimy" title="@GitHub"> <i class='fa fa-github'></i> <span class="label">Github</span> </a>
+        </li>  
+        
+        <li class="navigation__item">
+            <a href="http://gitbus.com/alimy" title="@GitBus"> <i class='fa fa-bars'></i> <span class="label">GitBus</span> </a>
+        </li>  </br>    </ul>
+</nav>
+ </div>
+                </div>
+            </div>
+            <div class="panel-cover--overlay"></div>
+        </div>
+    </header>
+</noscript>
+
+    <div class="content-wrapper">
+      <div class="content-wrapper__inner">
+        <div class="post panel-wrapper">
+            <h2>XStream: Java to XML and Back</h2>
+          
+          <h3 id="the-problem-statement">The Problem Statement</h3>
+<p>XStream can be used to convert a Java Object to XML and back. This tutorial aims to create a java representation of the BBC RSS. We will start with a Simple java class and gradually start adding complexity to it so that it can be converted to the BBC RSS. Note that if you are looking at a way to parse an XML, it would be a good idea to first build a java class that XStream can convert to the required XML. XStream can then use the same class to deserialize the XML. First, have a look at the <a href="http://feeds.bbci.co.uk/news/technology/rss.xml?edition=int" title="BBC RSS">BBC RSS</a>. Your browser would have formatted it to html so look at the source to see the XML. The parent element is &lsquo;rss&rsquo;. It has a child element called &lsquo;channel&rsquo;. The &lsquo;channel&rsquo; has some properties (title, link, image etc) and a list of news &lsquo;item&rsquo;(s). Each &lsquo;item&rsquo; has properties set on it (title, description etc). The aim is to create a Java class that XStream can convert to the BBC RSS.</p>
+<h3 id="creating-an-xstream-instance">Creating an XStream Instance</h3>
+<p>The first step is to create an instance of com.thoughtworks.xstream.XStream. This class is a facade to the XStream API and provides all major functionalities. If this class does not solve your problem then you could directly call the API methods. After obtaining the instance of XStream use the fromXML method to convert the XML to a java object. Note that creating an XStream instance is an expensive operation. It is therefore advisable to create a proper instance once and then reuse it for multiple calls (even in parallel). The setup is not threadsafe but any subsequent marshalling/unmarshalling is threadsafe.</p>
+<h3 id="aliases">Aliases</h3>
+<p>XStream provides a very useful functionality called aliases. In our example we want to convert an instance of com.studytrails.xml.xstream.Rss to an rss element. We tell XStream that the element &lsquo;rss&rsquo; is an &lsquo;alias&rsquo; to &lsquo;com.studytrails.xml.xstream.Rss&rsquo; so that XStream knows how to convert them. If we dont provide the alias while converting the object to XML then XStream would give the element the fully qualified name of the class. Aliases work for Classes as well as fields. The example below demonstrates the use of aliases.</p>
+<h3 id="implicit-collection">Implicit Collection</h3>
+<p>The Channel element in BBC has a list of items. However, note that the XML stream does not have an <!-- raw HTML omitted --> element containing a list of <!-- raw HTML omitted --> elements. The XML stream just has a list of <!-- raw HTML omitted --> elements directly under the <!-- raw HTML omitted --> element. We want to map them to the &lsquo;items&rsquo; java.util.List of the Channel Object. To accomplish this we use a concept in XStream called Implicit Collection. we say that &lsquo;items&rsquo; is an implicit collection. What that means is that there is actually no &lsquo;items&rsquo; element in the XML, but put all XML elements with name &lsquo;item&rsquo; (since the java property items is of type List<!-- raw HTML omitted -->) into the &lsquo;items&rsquo; property of the java object. Look at the example to see how it works.</p>
+<h3 id="attributes">Attributes</h3>
+<p>Handling attributes is a little tricky. In this example we provide one way to handle attributes, however, we have a dedicated tutorial to explain how attributes can be handled using XStream.</p>
+<h3 id="namespaces">Namespaces</h3>
+<p>Elements within a namespace can be handled by XStream by using aliases. In this example there is a link within the namespace atom. we just use an alias to read that</p>
+<pre><code>xstream.aliasField(&quot;atom:link&quot;, Channel.class, &quot;a_link&quot;);
+</code></pre><h3 id="example">Example</h3>
+<p>Lets start building the java example. As a first step create a Java class for the root element i.e. RSS</p>
+<pre><code>package com.studytrails.xml.xstream;
+
+import com.thoughtworks.xstream.XStream;
+
+public class BBCRSSExample {
+    public static void main(String[] args) {
+        XStream xStream = new XStream();
+        Rss bbcRss = new Rss();
+        System.out.println(xStream.toXML(bbcRss));
+    }
+}
+
+class Rss {
+}
+</code></pre><p>The output</p>
+<pre><code>&lt;com.studytrails.xml.xstream.Rss/&gt;
+</code></pre><p>We dont want the fully qualified name of the class for Rss. Lets use alias to simplify the name. Add this line after creating the Rss instance</p>
+<pre><code>xStream.alias(&quot;rss&quot;, Rss.class);
+</code></pre><p>The output now becomes</p>
+<pre><code>&lt;rss/&gt;
+</code></pre><p>The rss elmenent contains a Channel element. Lets create a Channel class. The channel element is a child of rss element. Create a field in the Rss class to hold an object of type Channel. Add these lines to the main method</p>
+<pre><code>Channel channel = new Channel();
+bbcRss.channel = channel;
+</code></pre><p>Here&rsquo;s how the Rss and Channel class looks now</p>
+<pre><code>class Rss {
+    public Channel channel;
+}
+class Channel {
+}
+</code></pre><p>Here&rsquo;s how the XML looks now</p>
+<pre><code>&lt;rss&gt;
+  &lt;channel/&gt;
+&lt;/rss&gt;
+</code></pre><p>Before we start adding fields to the classes lets look at an important field. The channel element contains this :</p>
+<pre><code>&lt;atom:link href=&quot;http://feeds.bbci.co.uk/news/technology/rss.xml&quot; rel=&quot;self&quot; type=&quot;application/rss+xml&quot;&gt;
+&lt;/atom:link&gt;
+</code></pre><p>the link element belongs to a different namespace. There is a neat little trick to handle this.
+Create a class called AtomLink.</p>
+<pre><code>class AtomLink {
+    public String href;
+    public String rel;
+    public String type;
+}
+</code></pre><p>Create an instance of AtomLink in the main class and assign it to a field in the Channel class</p>
+<pre><code>AtomLink atomLink = new AtomLink();
+atomLink.href = &quot;http://feeds.bbci.co.uk/news/technology/rss.xml&quot;;
+atomLink.rel = &quot;self&quot;;
+atomLink.type = &quot;application/rss+xml&quot;;
+channel.a_link = atomLink;
+</code></pre><p>Use alias to give the element a namespace prefix</p>
+<pre><code>xStream.aliasField(&quot;atom:link&quot;, Channel.class, &quot;a_link&quot;);
+</code></pre><p>and now we want href, rel and type to be attributes instead of child elements, this is how we do that</p>
+<pre><code>xstream.aliasAttribute(AtomLink.class, &quot;type&quot;, &quot;type&quot;);
+xstream.aliasAttribute(AtomLink.class, &quot;href&quot;, &quot;href&quot;);
+xstream.aliasAttribute(AtomLink.class, &quot;rel&quot;, &quot;rel&quot;);
+</code></pre><p>Lets see how our XML looks now</p>
+<pre><code>&lt;rss&gt;
+  &lt;channel&gt;
+    &lt;atom:link href=&quot;http://feeds.bbci.co.uk/news/technology/rss.xml&quot; rel=&quot;self&quot; type=&quot;application/rss+xml&quot;&gt;
+  &lt;/atom:link&gt;&lt;/channel&gt;
+&lt;/rss&gt;
+</code></pre><p>Hope you are enjoying the example. It is important that you understand what&rsquo;s happened so far. Go back to the example if you have any doubt since we will start picking up pace now.
+The next important part is the item. The channel contains a list of items but the items are not included in a parent &lsquo;items&rsquo; element. XStream handles this using a concept called Implicit Collection. Lets see how it works, first lets create the Item class</p>
+<pre><code>class Item {
+    public String title;
+}
+</code></pre><p>create a field in channel class to hold the list of items</p>
+<pre><code>class Channel {
+    public AtomLink a_link;
+    public List&lt;Item&gt; items;
+}
+</code></pre><p>In the main class we create an alias for Item and then add an implicit Collection for items. We add two items to the list and see how the XML looks.</p>
+<pre><code>xStream.alias(&quot;item&quot;, Item.class);
+xStream.addImplicitCollection(Channel.class, &quot;items&quot;);
+channel.items = new ArrayList&lt;Item&gt;();
+Item item = new Item();
+item.title=&quot;Item1&quot;;
+Item item2 = new Item();
+item2.title=&quot;Item2&quot;;
+channel.items.add(item);
+channel.items.add(item2);
+</code></pre><p>The resulting XML</p>
+<pre><code>&lt;rss&gt;
+  &lt;channel&gt;
+    &lt;atom:link href=&quot;http://feeds.bbci.co.uk/news/technology/rss.xml&quot; rel=&quot;self&quot; type=&quot;application/rss+xml&quot;&gt;
+    &lt;item&gt;
+      &lt;title&gt;Item1&lt;/title&gt;
+    &lt;/item&gt;
+    &lt;item&gt;
+      &lt;title&gt;Item2&lt;/title&gt;
+    &lt;/item&gt;
+  &lt;/atom:link&gt;&lt;/channel&gt;
+&lt;/rss&gt;
+</code></pre><p>Next we add class for the Thumbnail which is part of the item element. An item can have multiple thumbnails. Lets use an array now instead of a Collection just to demonstrate how an ImplicitArray works.</p>
+<pre><code>class Item {
+    public String title;
+    public MediaThumbnail[] media_thumbnails;
+}
+
+class MediaThumbnail {
+    public int width;
+    public int height;
+    public String url;
+
+}
+</code></pre><p>The main method creates the array and adds thumbnails to it</p>
+<pre><code>xStream.addImplicitArray(Item.class, &quot;media_thumbnails&quot;, &quot;media:thumbnail&quot;);
+xStream.aliasAttribute(MediaThumbnail.class, &quot;width&quot;,&quot;width&quot;);
+xStream.aliasAttribute(MediaThumbnail.class, &quot;height&quot;,&quot;height&quot;);
+xStream.aliasAttribute(MediaThumbnail.class, &quot;url&quot;,&quot;url&quot;);
+
+MediaThumbnail thumbnail = new MediaThumbnail();
+thumbnail.height=100;
+thumbnail.width=50;
+thumbnail.url=&quot;thumbnail_link&quot;;
+MediaThumbnail thumbnail2 = new MediaThumbnail();
+thumbnail2.height=100;
+thumbnail2.width=50;
+thumbnail2.url=&quot;thumbnail_link2&quot;;
+
+item.media_thumbnails = new MediaThumbnail[2];
+item.media_thumbnails[0] = thumbnail;
+item.media_thumbnails[1] = thumbnail2;
+</code></pre><p>We have almost built up the whole class. We can further add the Image class that stores the image in a channel. After creating all classes we start adding the other fields to them. Once the Rss class is ready you can then use it to read the BBC RRS! Heres the complete class and the main method that does the reading.</p>
+<pre><code>package com.studytrails.xml.xstream;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import com.thoughtworks.xstream.XStream;
+
+public class XStreamDeserializerExample1 {
+
+    private String bbcUrl = &quot;http://feeds.bbci.co.uk/news/technology/rss.xml?edition=int&quot;;
+
+    public static void main(String[] args) throws MalformedURLException {
+        XStreamDeserializerExample1 serializer = new XStreamDeserializerExample1();
+        serializer.basicSerialization();
+    }
+
+    private void basicSerialization() throws MalformedURLException {
+
+        XStream xstream = new XStream();
+        xstream.alias(&quot;rss&quot;, Rss.class);
+        xstream.aliasField(&quot;atom:link&quot;, Channel.class, &quot;a_link&quot;);
+        xstream.alias(&quot;item&quot;, Item.class);
+
+        xstream.aliasAttribute(AtomLink.class, &quot;type&quot;, &quot;type&quot;);
+        xstream.aliasAttribute(AtomLink.class, &quot;href&quot;, &quot;href&quot;);
+        xstream.aliasAttribute(AtomLink.class, &quot;rel&quot;, &quot;rel&quot;);
+
+        xstream.aliasAttribute(MediaThumbnail.class, &quot;width&quot;,&quot;width&quot;);
+        xstream.aliasAttribute(MediaThumbnail.class, &quot;height&quot;,&quot;height&quot;);
+        xstream.aliasAttribute(MediaThumbnail.class, &quot;url&quot;,&quot;url&quot;);
+
+        xstream.addImplicitCollection(Channel.class, &quot;items&quot;);
+        xstream.addImplicitArray(Item.class, &quot;media_thumbnails&quot;, &quot;media:thumbnail&quot;);
+        Rss bbcFeed = (Rss) xstream.fromXML(new URL(bbcUrl));
+        // bbcFeed now contains the Java representation of the BBC RSS
+    }
+}
+</code></pre><p>The classes</p>
+<pre><code>package com.studytrails.xml.xstream;
+
+import java.util.List;
+
+public class Rss {
+    public Channel channel;
+}
+
+class Channel {
+    public String title;
+    public String link;
+    public String description;
+    public String language;
+    public String lastBuildDate;
+    public String copyright;
+    public Image4 image;
+    public String ttl;
+    public AtomLink a_link;
+    public List&lt;item&gt; items;
+}
+
+class AtomLink {
+    public String href;
+    public String rel;
+    public String type;
+}
+
+class Item {
+    public String title;
+    public String description;
+    public String link;
+    public String guid;
+    public String pubDate;
+    public MediaThumbnail[] media_thumbnails;
+}
+
+class MediaThumbnail {
+    public int width;
+    public int height;
+    public String url;
+}
+
+class Image {
+    public String url;
+    public String title;
+    public String link;
+    public String width;
+    public String height;
+}
+</code></pre><hr>
+<p>(Note: This article’s original links is <a href="http://www.studytrails.com/java/xml/xstream/xstream-java-to-xml-and-back.jsp" title="XStream Parsing an XML"><em>here</em></a> )</p>
+        </div>
+        <div id="post-navigator">
+          <a id="post-navigator-prev" href="http://alimy.me/post/dev_201603081355/" title="上一篇">&lt;&lt; Xstream: Introduction</a>
+          <a id="post-navigator-next" href="http://alimy.me/post/dev_201603081427/" title="下一篇">XStream: XML To Java >></a>
+        </div>
+        <div id="post-comments">
+          <h3>Comments</h3>
+          
+
+
+<div id="disqus_thread"></div>
+
+<script type="text/javascript">
+  var disqusUsername = "alimy";
+
+  (function() { 
+  var d = document, s = d.createElement('script');
+
+  s.src = '//' + disqusUsername + '.disqus.com/embed.js';
+
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+          <footer id="copyright"> <p>&copy;2015-2020 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
+
+    </div>
+    <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
+if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
+var s=document.getElementsByTagName('script')[0];sc.src='http://alimy.me/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
+WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
+
+  </body>
+</html>
