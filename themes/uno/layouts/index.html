@@ -1,0 +1,23 @@
+    {{ partial "head.html" . }}
+    <body>
+        {{ partial "sidebar.html" . }}
+        <div class="content-wrapper">
+            <div class="content-wrapper__inner">
+                <section id="main">
+                    <div>
+                        {{ range .Paginator.Pages }}
+                            {{ .Render "summary"}}
+                        {{ end }}
+                    </div>
+                    </br>
+                    <h4>
+                        <a href="{{ .Site.BaseURL }}/post/" title="文章列表">Archive</a>
+                    </h4>
+                </section>
+                {{ partial "pagination.html" . }}
+            {{ partial "footer.html" . }}
+            </div>
+        </div>
+        {{ partial "script.html" .}}
+    </body>
+</html>

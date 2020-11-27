@@ -1,0 +1,16 @@
+baseurl = "http://alimy.me"
+title = "北 野"
+author = "Michael Li"
+copyright = "&copy;2018, Alimy; all rights reserved."
+canonifyurls = true
+paginate = 9
+theme = "uno"
+
+[params]
+    name = "Alimy"
+    logo = "/images/logo.jpg"
+    description = "糊涂小栈"
+    github = "alimy"
+    gitbus = "alimy"
+    twitter = "bitriory"
+    disqus = "alimy"

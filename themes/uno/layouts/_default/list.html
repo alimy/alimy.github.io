@@ -1,0 +1,31 @@
+    {{ partial "head.html" . }}
+    <body>
+        {{ partial "sidebar.html" . }}
+        <div class="content-wrapper">
+            <div class="content-wrapper__inner">
+                <h2>文章列表</h2>
+                {{ range .Data.Pages.GroupByDate "2006年 01月" }}
+                <div class="panel-wrapper">
+                <div id="caption">
+                <h3>
+                  {{ .Key }}
+                  {{ $pages := len .Pages }}
+                  <span id="list-indicator" title="共{{ $pages }}篇文章">{{ len .Pages }} </span>
+                </h3>
+                </div>
+                <ul id="list">
+                    {{range .Pages }}
+                    <li>
+                        <a href="{{ .Permalink }}">{{ .Title }} {{ if .GetParam "draft"}}DRAFT{{end}}</a>&nbsp;
+                        <span id="list-date">({{ .Date.Format "Mon, Jan 02, 2006" }})</span>
+                    </li>
+                    {{ end }}
+                </ul>
+                </div>
+                {{ end }}
+                {{ partial "footer.html" . }}
+            </div>
+        </div>
+    </body>
+    {{ partial "script.html" .}}
+</html>
