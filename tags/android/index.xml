@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>android on 北 野</title>
-    <link>http://alimy.me/tags/android/</link>
+    <link>https://alimy.me/tags/android/</link>
     <description>Recent content in android on 北 野</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Sat, 19 Mar 2016 22:45:00 +0800</lastBuildDate><atom:link href="http://alimy.me/tags/android/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 19 Mar 2016 22:45:00 +0800</lastBuildDate><atom:link href="https://alimy.me/tags/android/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Android: Volley&#43;OkHttp with https</title>
-      <link>http://alimy.me/post/dev_201603192245/</link>
+      <link>https://alimy.me/post/dev_201603192245/</link>
       <pubDate>Sat, 19 Mar 2016 22:45:00 +0800</pubDate>
       
-      <guid>http://alimy.me/post/dev_201603192245/</guid>
+      <guid>https://alimy.me/post/dev_201603192245/</guid>
       <description>&lt;h3 id=&#34;android-network-simple&#34;&gt;Android Network Simple&lt;/h3&gt;
 &lt;p&gt;This article shows how to use volley with OkHttp and security your api with https.
 本文可以在&lt;a href=&#34;http://www.jianshu.com/p/e58161cbc3a4&#34; title=&#34;Android 网络--我是怎么做的: Volley+OkHttp+Https&#34;&gt;简书&lt;/a&gt;浏览。&lt;/p&gt;

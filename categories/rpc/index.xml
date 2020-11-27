@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>RPC on 北 野</title>
-    <link>http://alimy.me/categories/rpc/</link>
+    <link>https://alimy.me/categories/rpc/</link>
     <description>Recent content in RPC on 北 野</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Sun, 05 Jan 2020 00:47:00 +0800</lastBuildDate><atom:link href="http://alimy.me/categories/rpc/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 05 Jan 2020 00:47:00 +0800</lastBuildDate><atom:link href="https://alimy.me/categories/rpc/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>简单使用docker部署Tars</title>
-      <link>http://alimy.me/post/dev_202001050047/</link>
+      <link>https://alimy.me/post/dev_202001050047/</link>
       <pubDate>Sun, 05 Jan 2020 00:47:00 +0800</pubDate>
       
-      <guid>http://alimy.me/post/dev_202001050047/</guid>
+      <guid>https://alimy.me/post/dev_202001050047/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://github.com/TarsCloud/Tars&#34;&gt;Tars&lt;/a&gt;是腾讯从2008年到今天一直在使用的后台逻辑层的统一应用框架TAF（Total Application Framework），目前支持C++,Java,PHP,Nodejs,Go语言。该框架为用户提供了涉及到开发、运维、以及测试的一整套解决方案，帮助一个产品或者服务快速开发、部署、测试、上线。 它集可扩展协议编解码、高性能RPC通信框架、名字路由与发现、发布监控、日志统计、配置管理等于一体，通过它可以快速用微服务的方式构建自己的稳定可靠的分布式应用，并实现完整有效的服务治理，非参Nice。本文简单介绍通过docker部署一套用于开发测试的Tars尝尝滋味。&lt;/p&gt;
 &lt;h4 id=&#34;配置清单&#34;&gt;配置清单&lt;/h4&gt;
 &lt;p&gt;单节点部署Tars：&lt;/p&gt;
@@ -37,10 +37,10 @@
     
     <item>
       <title>Protocol Buffers Messages Encoding</title>
-      <link>http://alimy.me/post/dev_201909211645/</link>
+      <link>https://alimy.me/post/dev_201909211645/</link>
       <pubDate>Sat, 21 Sep 2019 16:45:00 +0800</pubDate>
       
-      <guid>http://alimy.me/post/dev_201909211645/</guid>
+      <guid>https://alimy.me/post/dev_201909211645/</guid>
       <description>&lt;p&gt;This document describes the binary wire format for protocol buffer messages. You don&amp;rsquo;t need to understand this to use protocol buffers in your applications, but it can be very useful to know how different protocol buffer formats affect the size of your encoded messages.&lt;/p&gt;
 &lt;h3 id=&#34;a-simple-message&#34;&gt;A Simple Message&lt;/h3&gt;
 &lt;p&gt;Let&amp;rsquo;s say you have the following very simple message definition:&lt;/p&gt;
@@ -54,10 +54,10 @@
     
     <item>
       <title>Cap&#39;n Proto Encoding Spec</title>
-      <link>http://alimy.me/post/dev_201909211630/</link>
+      <link>https://alimy.me/post/dev_201909211630/</link>
       <pubDate>Sat, 21 Sep 2019 16:30:00 +0800</pubDate>
       
-      <guid>http://alimy.me/post/dev_201909211630/</guid>
+      <guid>https://alimy.me/post/dev_201909211630/</guid>
       <description>&lt;h3 id=&#34;sectorganization&#34;&gt;§Organization&lt;/h3&gt;
 &lt;h4 id=&#34;64-bit-words&#34;&gt;64-bit Words&lt;/h4&gt;
 &lt;p&gt;For the purpose of Cap’n Proto, a “word” is defined as 8 bytes, or 64 bits. Since alignment of data is important, all objects (structs, lists, and blobs) are aligned to word boundaries, and sizes are usually expressed in terms of words. (Primitive values are aligned to a multiple of their size within a struct or list.)&lt;/p&gt;
@@ -68,10 +68,10 @@
     
     <item>
       <title>Tars语言与协议</title>
-      <link>http://alimy.me/post/dev_201909211556/</link>
+      <link>https://alimy.me/post/dev_201909211556/</link>
       <pubDate>Sat, 21 Sep 2019 15:56:00 +0800</pubDate>
       
-      <guid>http://alimy.me/post/dev_201909211556/</guid>
+      <guid>https://alimy.me/post/dev_201909211556/</guid>
       <description>&lt;h3 id=&#34;目录&#34;&gt;目录&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;#main-chapter-1&#34;&gt;Tars语言&lt;/a&gt;&lt;/li&gt;
@@ -90,10 +90,10 @@
     
     <item>
       <title>Protocol Buffers Version 3 Language Specification</title>
-      <link>http://alimy.me/post/dev_201909211536/</link>
+      <link>https://alimy.me/post/dev_201909211536/</link>
       <pubDate>Sat, 21 Sep 2019 15:36:00 +0800</pubDate>
       
-      <guid>http://alimy.me/post/dev_201909211536/</guid>
+      <guid>https://alimy.me/post/dev_201909211536/</guid>
       <description>&lt;p&gt;This is a language specification reference for version 3 of the Protocol Buffers language (proto3). The syntax is specified using Extended &lt;a href=&#34;https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_Form&#34; title=&#34;EBNF in WIKI&#34;&gt;Backus-Naur Form (EBNF)&lt;/a&gt;:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;|   alternation
 ()  grouping
@@ -111,10 +111,10 @@ hexDigit     = &amp;quot;0&amp;quot; … &amp;quot;9&amp;quot; | &amp;quot;A&amp
     
     <item>
       <title>Protocol Buffers Version 2 Language Specification</title>
-      <link>http://alimy.me/post/dev_201909211516/</link>
+      <link>https://alimy.me/post/dev_201909211516/</link>
       <pubDate>Sat, 21 Sep 2019 15:16:00 +0800</pubDate>
       
-      <guid>http://alimy.me/post/dev_201909211516/</guid>
+      <guid>https://alimy.me/post/dev_201909211516/</guid>
       <description>&lt;p&gt;This is a language specification reference for version 2 of the Protocol Buffers language (proto2). The syntax is specified using Extended &lt;a href=&#34;https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_Form&#34; title=&#34;EBNF in WIKI&#34;&gt;Backus-Naur Form (EBNF)&lt;/a&gt;:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;|   alternation
 ()  grouping
@@ -133,10 +133,10 @@ hexDigit     = &amp;quot;0&amp;quot; … &amp;quot;9&amp;quot; | &amp;quot;A&amp
     
     <item>
       <title>Cap&#39;n Proto Schema Language</title>
-      <link>http://alimy.me/post/dev_201909211159/</link>
+      <link>https://alimy.me/post/dev_201909211159/</link>
       <pubDate>Sat, 21 Sep 2019 11:59:00 +0800</pubDate>
       
-      <guid>http://alimy.me/post/dev_201909211159/</guid>
+      <guid>https://alimy.me/post/dev_201909211159/</guid>
       <description>&lt;h2 id=&#34;schema-language&#34;&gt;Schema Language&lt;/h2&gt;
 &lt;p&gt;Like Protocol Buffers and Thrift (but unlike JSON or MessagePack), Cap’n Proto messages are strongly-typed and not self-describing. You must define your message structure in a special language, then invoke the Cap’n Proto compiler (&lt;code&gt;capnp compile&lt;/code&gt;) to generate source code to manipulate that message type in your desired language.&lt;/p&gt;
 &lt;h4 id=&#34;for-example&#34;&gt;For example:&lt;/h4&gt;

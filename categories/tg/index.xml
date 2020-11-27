@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tg on 北 野</title>
-    <link>http://alimy.me/categories/tg/</link>
+    <link>https://alimy.me/categories/tg/</link>
     <description>Recent content in Tg on 北 野</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Fri, 27 Nov 2020 17:11:00 +0800</lastBuildDate><atom:link href="http://alimy.me/categories/tg/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 27 Nov 2020 17:11:00 +0800</lastBuildDate><atom:link href="https://alimy.me/categories/tg/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Tg: MTProto v2</title>
-      <link>http://alimy.me/post/dev_202011271711/</link>
+      <link>https://alimy.me/post/dev_202011271711/</link>
       <pubDate>Fri, 27 Nov 2020 17:11:00 +0800</pubDate>
       
-      <guid>http://alimy.me/post/dev_202011271711/</guid>
+      <guid>https://alimy.me/post/dev_202011271711/</guid>
       <description>&lt;h2 id=&#34;mobile-protocol-detailed-description&#34;&gt;Mobile Protocol: Detailed Description&lt;/h2&gt;
 &lt;p&gt;This article describes the basic layer of the MTProto protocol version 2.0 (Cloud chats, server-client encryption). The principal differences from version 1.0 (&lt;a href=&#34;mobile-protocol-v1.md&#34;&gt;described here&lt;/a&gt; for reference) are as follows:&lt;/p&gt;
 &lt;ul&gt;

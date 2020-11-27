@@ -2,7 +2,7 @@
   <channel>
       <title>北 野 on 北 野 </title>
       <generator uri="https://gohugo.io">Hugo</generator>
-    <link>http://alimy.me/</link>
+    <link>https://alimy.me/</link>
     
     
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
@@ -10,10 +10,10 @@
     
     <item>
       <title>Posts</title>
-      <link>http://alimy.me/post/</link>
+      <link>https://alimy.me/post/</link>
       <pubDate>Fri, 27 Nov 2020 17:11:00 CST</pubDate>
       
-      <guid>http://alimy.me/post/</guid>
+      <guid>https://alimy.me/post/</guid>
       <description></description>
     </item>
     

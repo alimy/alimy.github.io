@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Gopher on 北 野</title>
-    <link>http://alimy.me/tags/gopher/</link>
+    <link>https://alimy.me/tags/gopher/</link>
     <description>Recent content in Gopher on 北 野</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Fri, 18 Mar 2016 20:45:00 +0800</lastBuildDate><atom:link href="http://alimy.me/tags/gopher/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 18 Mar 2016 20:45:00 +0800</lastBuildDate><atom:link href="https://alimy.me/tags/gopher/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>50 Shades of Go</title>
-      <link>http://alimy.me/post/dev_201603182045/</link>
+      <link>https://alimy.me/post/dev_201603182045/</link>
       <pubDate>Fri, 18 Mar 2016 20:45:00 +0800</pubDate>
       
-      <guid>http://alimy.me/post/dev_201603182045/</guid>
+      <guid>https://alimy.me/post/dev_201603182045/</guid>
       <description>&lt;p&gt;Go is a simple and fun language, but, like any other language, it has a few gotchas&amp;hellip; Many of those gotchas are not entirely Go&amp;rsquo;s fault. Some of these mistakes are natural traps if you are coming from another language. Others are due to faulty assumptions and missing details.&lt;/p&gt;
 &lt;p&gt;A lot of these gotchas may seem obvious if you took the time to learn the language reading the official spec, wiki, mailing list discussions, many great posts and presentations by Rob Pike, and the source code. Not everybody starts the same way though and that&amp;rsquo;s OK. If you are new to Go the information here will save you hours debugging your code.&lt;/p&gt;
 &lt;p&gt;This post covers Go 1.5 and below.&lt;/p&gt;

@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Security on 北 野</title>
-    <link>http://alimy.me/categories/security/</link>
+    <link>https://alimy.me/categories/security/</link>
     <description>Recent content in Security on 北 野</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Sat, 17 Nov 2018 14:35:00 +0800</lastBuildDate><atom:link href="http://alimy.me/categories/security/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 17 Nov 2018 14:35:00 +0800</lastBuildDate><atom:link href="https://alimy.me/categories/security/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>AppArmor的前世今生和基本使用</title>
-      <link>http://alimy.me/post/dev_201811171435/</link>
+      <link>https://alimy.me/post/dev_201811171435/</link>
       <pubDate>Sat, 17 Nov 2018 14:35:00 +0800</pubDate>
       
-      <guid>http://alimy.me/post/dev_201811171435/</guid>
+      <guid>https://alimy.me/post/dev_201811171435/</guid>
       <description>&lt;h4 id=&#34;一mac和dac-一些前置知识&#34;&gt;一：MAC和DAC (一些前置知识)&lt;/h4&gt;
 &lt;p&gt;DAC(Discretionary Access Control)，自主访问控制，是最常用的一类访问控制机制，意思为主体（文件所有者）可以自主指定系统中其它用户对其文件的所有权，最典型的就是Linux的&amp;quot;拥有者/同组用户/其他&amp;quot;。这种方式虽然为用户提供了很大的灵活性，但是缺乏必要的安全性&lt;/p&gt;
 &lt;p&gt;MAC(Mandatory Access Control)，强制访问控制,在这种机制下，系统中的每一个进程，每一个文件，每一个IPC主体都被管理员按照严格的规则设置了相应的安全属性，不能被用户和其它直接或间接的修改。&lt;/p&gt;

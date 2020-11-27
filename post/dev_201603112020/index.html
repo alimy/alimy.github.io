@@ -6,14 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
     <title> Jackson: Introduction &middot; 北 野 </title>
     
-    <link rel="stylesheet" type="text/css" href="http://alimy.me/css/uno.css" />
-    <link rel="stylesheet" type="text/css" href="http://alimy.me/css/lightGallery.css" />
+    <link rel="stylesheet" type="text/css" href="https://alimy.me/css/uno.css" />
+    <link rel="stylesheet" type="text/css" href="https://alimy.me/css/lightGallery.css" />
     
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://alimy.me/apple-touch-icon-144-precomposed.png">
-    <link rel="shortcut icon" href="http://alimy.me/favicon.png">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://alimy.me/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" href="https://alimy.me/favicon.png">
     
-    <script src="http://alimy.me/js/jquery.min.js"></script>
-    <script src="http://alimy.me/js/main.min.js"></script>
+    <script src="https://alimy.me/js/jquery.min.js"></script>
+    <script src="https://alimy.me/js/main.min.js"></script>
     <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -198,9 +198,9 @@ fathom('trackPageview');
     <div class="panel-main">
         <div class="panel-main__inner panel-inverted">
             <div class="panel-main__content"> 
-                <a href="http://alimy.me/"> <img src="http://alimy.me/images/logo.jpg" width="142" height="142" alt="北 野 logo" class="panel-cover__logo logo" /> </a> 
+                <a href="https://alimy.me/"> <img src="https://alimy.me/images/logo.jpg" width="142" height="142" alt="北 野 logo" class="panel-cover__logo logo" /> </a> 
                 <h1 class="panel-cover__title panel-title">
-                    <a href="http://alimy.me/">北 野</a>
+                    <a href="https://alimy.me/">北 野</a>
                 </h1>
                 <hr class="panel-cover__divider" />
                 <p class="panel-cover__description">  糊涂小栈  </p>
@@ -208,8 +208,8 @@ fathom('trackPageview');
                 <div class="navigation-wrapper">
                     <nav class="cover-navigation cover-navigation--primary">
                         <ul class="navigation">
-                            <li class="navigation__item"><a href="http://alimy.me" title="博客首页" class="blog-button">Blog</a> </li> </br></br>
-                            <li class="navigation__item"><a href="http://alimy.me/post/" title="文章列表" class="blog-button">Archive</a> </li>
+                            <li class="navigation__item"><a href="https://alimy.me" title="博客首页" class="blog-button">Blog</a> </li> </br></br>
+                            <li class="navigation__item"><a href="https://alimy.me/post/" title="文章列表" class="blog-button">Archive</a> </li>
                             </br>  </ul>
                             <nav class="cover-navigation navigation--social">
 </br>
@@ -248,9 +248,9 @@ fathom('trackPageview');
         <div class="panel-main">
             <div class="panel-main__inner panel-inverted">
                 <div class="panel-main__content"> 
-                    <a href="http://alimy.me/"> <img src="http://alimy.me/images/logo.jpg" width="80" alt="北 野 logo" class="panel-cover__logo logo" /> </a> 
+                    <a href="https://alimy.me/"> <img src="https://alimy.me/images/logo.jpg" width="80" alt="北 野 logo" class="panel-cover__logo logo" /> </a> 
                     <h1 class="panel-cover__title panel-title">
-                        <a href="http://alimy.me/">北 野</a>
+                        <a href="https://alimy.me/">北 野</a>
                     </h1>
                     <hr class="panel-cover__divider" />
                     <p class="panel-cover__description">  糊涂小栈  </p>
@@ -258,7 +258,7 @@ fathom('trackPageview');
                     <div class="navigation-wrapper">
                         <nav class="cover-navigation cover-navigation--primary">
                             <ul class="navigation">
-                                <li class="navigation__item"><a href="http://alimy.me/" title="博客首页" class="blog-button">Blog</a> </li>
+                                <li class="navigation__item"><a href="https://alimy.me/" title="博客首页" class="blog-button">Blog</a> </li>
                                 </br>  </ul>
                         </nav> <nav class="cover-navigation navigation--social">
 </br>
@@ -298,29 +298,29 @@ fathom('trackPageview');
 <li>From a JsonNode Tree</li>
 <li>Building a Json Stream</li>
 </ul>
-<p>In the <a href="http://alimy.me/post/dev_201603112025" title="Java to JSON and back">first tutorial</a> we look at all the three ways of creating JSON. Note that if you are new to Jackson this is probably the best place to begin even if you are looking at a way to parse JSON.</p>
+<p>In the <a href="https://alimy.me/post/dev_201603112025" title="Java to JSON and back">first tutorial</a> we look at all the three ways of creating JSON. Note that if you are new to Jackson this is probably the best place to begin even if you are looking at a way to parse JSON.</p>
 <h3 id="parsing-json">Parsing JSON</h3>
-<p>The <a href="http://alimy.me/post/dev_201603112025" title="Java to JSON and back">previous tutorial</a> showed how to convert a java object to JSON. the same java object can then be used to bind the json to java. However, as the author of jackson points out, there are three ways to parse JSON using Jackson.</p>
+<p>The <a href="https://alimy.me/post/dev_201603112025" title="Java to JSON and back">previous tutorial</a> showed how to convert a java object to JSON. the same java object can then be used to bind the json to java. However, as the author of jackson points out, there are three ways to parse JSON using Jackson.</p>
 <ol>
-<li><a href="http://alimy.me/post/dev_201603112030" title="json and java - Streaming">Streaming</a> - use the JsonParser to parse the json stream. It provides the json elements as tokens. Use the JsonGenerator to generate the json from string, integer, boolean etc.</li>
-<li><a href="http://alimy.me/post/dev_201603112035" title="build java tree model from json">Tree Traversing</a> - the compete json can be read into a JsonNode. The node can then be traversed to get the required property. A tree can also be created and then written as json string</li>
-<li><a href="http://alimy.me/post/dev_201603112040" title="Data Binding">Data Binding</a> - Binding the Json to custom java objects (POJO). Jackson offers a lot of flexibility around these. Annotation can be used to mark properties and constructors on the POJO.</li>
+<li><a href="https://alimy.me/post/dev_201603112030" title="json and java - Streaming">Streaming</a> - use the JsonParser to parse the json stream. It provides the json elements as tokens. Use the JsonGenerator to generate the json from string, integer, boolean etc.</li>
+<li><a href="https://alimy.me/post/dev_201603112035" title="build java tree model from json">Tree Traversing</a> - the compete json can be read into a JsonNode. The node can then be traversed to get the required property. A tree can also be created and then written as json string</li>
+<li><a href="https://alimy.me/post/dev_201603112040" title="Data Binding">Data Binding</a> - Binding the Json to custom java objects (POJO). Jackson offers a lot of flexibility around these. Annotation can be used to mark properties and constructors on the POJO.</li>
 </ol>
 <p>Jackson provides certain features that make the API extremely useful and flexible. These features are</p>
 <ol>
-<li><a href="http://alimy.me/post/dev_201603112045" title="List Serialization">List Serialization</a> - Serialization list can be tricky if type info is to be preserved. Look at this example to see how to do that.</li>
-<li><a href="http://alimy.me/post/dev_201603112050" title="Annotation and Dynamic beans">Annotation and Dynamic beans</a> - Serialize unknown properties of json into a Map in the Java Object.</li>
-<li><a href="http://alimy.me/post/dev_201603112055" title="Annotation Filters">Annotation Filters</a> - While data binding, properties of the POJO can be ignored or filtered out. These filters can be set using annotation on the POJO or by using custom filters in the calling class.</li>
-<li><a href="http://alimy.me/post/dev_201603112100" title="Mix-in">Mix-in</a> - Annotations on POJO can be used to map the POJO properties to Json properties and to also mark constructors for use during data binding. However, what if the POJO is from a third party, and cannot be annotated. Mix-in comes to the rescue. It provides a way to annotate third party classes.</li>
-<li><a href="http://alimy.me/post/dev_201603112105" title="Polymorphic Behaviour">Polymorphic Behaviour</a> - If a Json is created using objects that are specific instances of an abstract class, then Jackson provides a way to create the exact subclass</li>
+<li><a href="https://alimy.me/post/dev_201603112045" title="List Serialization">List Serialization</a> - Serialization list can be tricky if type info is to be preserved. Look at this example to see how to do that.</li>
+<li><a href="https://alimy.me/post/dev_201603112050" title="Annotation and Dynamic beans">Annotation and Dynamic beans</a> - Serialize unknown properties of json into a Map in the Java Object.</li>
+<li><a href="https://alimy.me/post/dev_201603112055" title="Annotation Filters">Annotation Filters</a> - While data binding, properties of the POJO can be ignored or filtered out. These filters can be set using annotation on the POJO or by using custom filters in the calling class.</li>
+<li><a href="https://alimy.me/post/dev_201603112100" title="Mix-in">Mix-in</a> - Annotations on POJO can be used to map the POJO properties to Json properties and to also mark constructors for use during data binding. However, what if the POJO is from a third party, and cannot be annotated. Mix-in comes to the rescue. It provides a way to annotate third party classes.</li>
+<li><a href="https://alimy.me/post/dev_201603112105" title="Polymorphic Behaviour">Polymorphic Behaviour</a> - If a Json is created using objects that are specific instances of an abstract class, then Jackson provides a way to create the exact subclass</li>
 </ol>
 <p>The subsequent tutorials provides examples for each of the above cases.</p>
 <hr>
 <p>(Note: This article’s original links is <a href="http://www.studytrails.com/java/json/java-jackson-introduction.jsp" title="Jackson Introduction"><em>here</em></a> )</p>
         </div>
         <div id="post-navigator">
-          <a id="post-navigator-prev" href="http://alimy.me/post/dev_201603092120/" title="上一篇">&lt;&lt; XStream: XML Transformation</a>
-          <a id="post-navigator-next" href="http://alimy.me/post/dev_201603112025/" title="下一篇">Jackson: Java to JSON and back >></a>
+          <a id="post-navigator-prev" href="https://alimy.me/post/dev_201603092120/" title="上一篇">&lt;&lt; XStream: XML Transformation</a>
+          <a id="post-navigator-next" href="https://alimy.me/post/dev_201603112025/" title="下一篇">Jackson: Java to JSON and back >></a>
         </div>
         <div id="post-comments">
           <h3>Comments</h3>
@@ -350,7 +350,7 @@ fathom('trackPageview');
     </div>
     <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
 if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
-var s=document.getElementsByTagName('script')[0];sc.src='http://alimy.me/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
+var s=document.getElementsByTagName('script')[0];sc.src='https://alimy.me/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
 WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
 
   </body>
