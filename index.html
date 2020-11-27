@@ -294,6 +294,31 @@ fathom('trackPageview');
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="http://alimy.me/post/dev_202011271711/" title="阅读全文">Tg: MTProto v2 </a> </h2>
+
+</header>
+<div class="summary">
+    <h2 id="mobile-protocol-detailed-description">Mobile Protocol: Detailed Description</h2>
+<p>This article describes the basic layer of the MTProto protocol version 2.0 (Cloud chats, server-client encryption). The principal differences from version 1.0 (<a href="mobile-protocol-v1.md">described here</a> for reference) are as follows:</p>
+<ul>
+<li>SHA-256 is used instead of SHA-1;</li>
+<li>Padding bytes are involved in the computation of <code>msg_key</code>;</li>
+<li><code>msg_key</code> depends not only on the message to be encrypted, but on a portion of <code>auth_key</code> as well;
+12..1024 padding bytes are used instead of 0..15 padding bytes in v.1.0.</li>
+</ul>
+<h4 id="protocol-description">Protocol description</h4>
+<p>Before a message (or a multipart message) is transmitted over a network using a transport protocol, it is encrypted in a certain way, and an external header is added at the top of the message that consists of a 64-bit key identifier <code>auth_key_id</code> (that uniquely identifies an authorization key for the server as well as the user) and a 128-bit message key <code>msg_key</code>.</p>
+<p>The authorization key <code>auth_key</code> combined with the message key <code>msg_key</code> define an actual 256-bit key <code>aes_key</code> and a 256-bit initialization vector <code>aes_iv</code>, which are used to encrypt the message using AES-256 encryption in infinite garble extension (IGE) mode. Note that the initial part of the message to be encrypted contains variable data (session, message ID, sequence number, server salt) that obviously influences the message key (and thus the AES key and iv). In <strong>MTProto 2.0</strong>, the message key is defined as the 128 middle bits of the SHA-256 of the message body (including session, message ID, padding, etc.) prepended by 32 bytes taken from the authorization key. In the older <strong>MTProto 1.0</strong>, the message key was computed as the lower 128 bits of SHA-1 of the message body, excluding the padding bytes.</p>
+<p>Multipart messages are encrypted as a single message.</p>
+</div>
+<footer id="more">
+<a href='http://alimy.me/post/dev_202011271711/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="http://alimy.me/post/dev_202001100425/" title="阅读全文">Rust系统环境变量配置 </a> </h2>
 
 </header>
@@ -513,84 +538,6 @@ struct Date {
 </div>
 <footer id="more">
 <a href='http://alimy.me/post/dev_201909211159/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="http://alimy.me/post/dev_201904141055/" title="阅读全文">Tus Resumable Upload Protocol </a> </h2>
-
-</header>
-<div class="summary">
-    <p><strong>Version:</strong> 1.0.0 (<a href="http://semver.org">SemVer</a>)<!-- raw HTML omitted -->
-<strong>Date:</strong> 2016-03-25<!-- raw HTML omitted -->
-<strong>Authors:</strong> <a href="https://twitter.com/felixge">Felix Geisendörfer</a>, <a href="https://twitter.com/kvz">Kevin van
-Zonneveld</a>, <a href="https://twitter.com/tim_kos">Tim Koschützki</a>,
-<a href="https://github.com/vayam">Naren Venkataraman</a>, <a href="https://twitter.com/Acconut_">Marius
-Kleidl</a><!-- raw HTML omitted -->
-<strong>Collaborators</strong>:
-<a href="https://github.com/biasedbit">Bruno de Carvalho</a>,
-<a href="https://github.com/sandfox">James Butler</a>,
-<a href="https://github.com/cybic">Øystein Steimler</a>,
-<a href="https://github.com/srijs">Sam Rijs</a>,
-<a href="https://github.com/khangtoh">Khang Toh</a>,
-<a href="https://github.com/Amodio">Jacques Boscq</a>,
-<a href="https://github.com/jerefrer">Jérémy FRERE</a>,
-<a href="https://github.com/hintjens">Pieter Hintjens</a>,
-<a href="https://github.com/ehd">Stephan Seidt</a>,
-<a href="https://github.com/aranw">Aran Wilkinson</a>,
-<a href="https://github.com/Baughn">Svein Ove Aas</a>,
-<a href="https://github.com/noptic">Oliver Anan</a>,
-<a href="https://github.com/schmerg">Tim</a>,
-<a href="https://github.com/j4james">j4james</a>,
-<a href="https://github.com/reschke">Julian Reschke</a>,
-<a href="https://github.com/evert">Evert Pot</a>,
-<a href="https://github.com/homeworkprod">Jochen Kupperschmidt</a>,
-<a href="https://github.com/andrewfenn">Andrew Fenn</a>,
-<a href="https://github.com/kevinswiber">Kevin Swiber</a>,
-<a href="https://github.com/0x20h">Jan Kohlhof</a>,
-<a href="https://github.com/radiospiel">eno</a>,
-<a href="https://github.com/luk-">Luke Arduini</a>,
-<a href="https://github.com/sheeep">Jim Schmid</a>,
-<a href="https://github.com/jf">Jeffrey &lsquo;jf&rsquo; Lim</a>,
-<a href="https://github.com/timemachine3030">Daniel Lopretto</a>,
-<a href="https://github.com/MarkMurphy">Mark Murphy</a>,
-<a href="https://github.com/pmdarrow">Peter Darrow</a>,
-<a href="https://github.com/Gargaj">Gargaj</a>,
-<a href="https://github.com/qsorix">Tomasz Rydzyński</a>,
-<a href="https://github.com/tino">Tino de Bruijn</a>,
-<a href="https://github.com/kless">Jonas mg</a>,
-<a href="https://github.com/ChristianUlbrich">Christian Ulbrich</a>,
-<a href="https://github.com/jonhoo">Jon Gjengset</a>,
-<a href="https://github.com/wronglink">Michael Elovskikh</a>,
-<a href="https://github.com/technoweenie">Rick Olson</a>,
-<a href="https://convolv.es">J. Ryan Stinnett</a>,
-<a href="https://github.com/ifedapoolarewaju">Ifedapo Olarewaju</a>
-<a href="https://github.com/ronag">Robert Nagy</a></p>
-<p>The key words &ldquo;MUST&rdquo;, &ldquo;MUST NOT&rdquo;, &ldquo;REQUIRED&rdquo;, &ldquo;SHALL&rdquo;, &ldquo;SHALL NOT&rdquo;, &ldquo;SHOULD&rdquo;,
-&ldquo;SHOULD NOT&rdquo;, &ldquo;RECOMMENDED&rdquo;, &ldquo;MAY&rdquo;, and &ldquo;OPTIONAL&rdquo; in this document are to be
-interpreted as described in <a href="http://www.ietf.org/rfc/rfc2119.txt">RFC 2119</a>.</p>
-<h2 id="status">Status</h2>
-<p>Following <a href="http://semver.org">SemVer</a>, as of 1.0.0 tus is ready for general
-adoption. We don&rsquo;t expect to make breaking changes, but if we do, those will
-have to be in a 2.0.0. Introducing a new extension or any backwards-compatible
-change adding new functionality will result in a bumped MINOR version.</p>
-<h2 id="contributing">Contributing</h2>
-<p>This protocol is authored and owned by the tus community. We welcome patches
-and feedback via
-<a href="https://github.com/tus/tus-resumable-upload-protocol">GitHub</a>. All authors and
-collaborators will be listed as such in the protocol header.</p>
-<p>Please also <a href="https://github.com/tus/tus.io/issues/new">let us know</a> about any
-implementations (open source or commercial) if you&rsquo;d like to be listed on the
-<a href="https://www.tus.io/implementations.html">implementations</a> page.</p>
-<h2 id="abstract">Abstract</h2>
-<p>The protocol provides a mechanism for resumable file uploads via HTTP/1.1 (<a href="https://tools.ietf.org/html/rfc7230">RFC
-7230</a>) and HTTP/2 (<a href="https://tools.ietf.org/html/rfc7540">RFC
-7540</a>).</p>
-</div>
-<footer id="more">
-<a href='http://alimy.me/post/dev_201904141055/' title="继续阅读"><nobr>Read More →</nobr></a>
 </footer>
 </article>
 
