@@ -289,7 +289,7 @@ fathom('trackPageview');
         <div class="post panel-wrapper">
             <h2>Tg: Current MTProto TL-schema</h2>
           
-          <p>Below you will find the current MTProto TL-schema. More detais on <a href="post/dev_202012071315/">TL</a></p>
+          <p>Below you will find the current MTProto TL-schema. More detais on <a href="post/dev_202012071315/">TL</a>.</p>
 <pre><code>int ? = Int;
 long ? = Long;
 double ? = Double;
@@ -303,7 +303,6 @@ int256 8*[ int ] = Int256;
 resPQ#05162463 nonce:int128 server_nonce:int128 pq:bytes server_public_key_fingerprints:Vector&lt;long&gt; = ResPQ;
 
 p_q_inner_data#83c95aec pq:bytes p:bytes q:bytes nonce:int128 server_nonce:int128 new_nonce:int256 = P_Q_inner_data;
-
 
 server_DH_params_fail#79cb045d nonce:int128 server_nonce:int128 new_nonce_hash:int128 = Server_DH_Params;
 server_DH_params_ok#d0e8075c nonce:int128 server_nonce:int128 encrypted_answer:bytes = Server_DH_Params;
@@ -368,7 +367,6 @@ destroy_session#e7512126 session_id:long = DestroySessionRes;
 http_wait#9299359f max_delay:int wait_after:int max_wait:int = HttpWait;
 </code></pre><hr>
 <p>(Notice: Origin official document is <a href="https://core.telegram.org/mtproto/description" title=" Current MTProto TL-schema"><em>Here</em></a>)</p>
-
         </div>
         <div id="post-navigator">
           <a id="post-navigator-prev" href="https://alimy.me/post/dev_202012071337/" title="上一篇">&lt;&lt; Tg: Service Messages</a>
