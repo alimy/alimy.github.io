@@ -1,11 +1,10 @@
-    <!DOCTYPE html>
+  <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
-	<meta name="generator" content="Hugo 0.79.0-DEV" />
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <title> 北 野 &middot; 北 野 </title>
+    <title> Tg: Type serialization &middot; 北 野 </title>
     
     <link rel="stylesheet" type="text/css" href="https://alimy.me/css/uno.css" />
     <link rel="stylesheet" type="text/css" href="https://alimy.me/css/lightGallery.css" />
@@ -186,17 +185,15 @@ fathom('trackPageview');
     </style>
 </head>
 
-    <body>
-        <div id="scriptHeader">
+  <body>
+    <div id="scriptHeader">
     <span class="mobile btn-mobile-menu">
             <i class="fa fa-bars btn-mobile-menu__icon"></i>
             <i class="fa fa-times btn-mobile-close__icon hidden"> </i>
     </span>
     <header class="
         
-        
-                panel-cover panel-cover--collapsed
-        
+            panel-cover panel-cover--collapsed
         " >
     <div class="panel-main">
         <div class="panel-main__inner panel-inverted">
@@ -287,217 +284,54 @@ fathom('trackPageview');
     </header>
 </noscript>
 
-        <div class="content-wrapper">
-            <div class="content-wrapper__inner">
-                <section id="main">
-                    <div>
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/dev_201601222145/" title="阅读全文">History of IRC </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="sectabout">§About</h3>
-<p>IRC(Internet Relay Chat) is an application layer protocol that facilitates communication in the form of text.<a href="https://en.wikipedia.org/wiki/Internet_Relay_Chat" title="Internet Relay Chat">[wikipedia]</a></p>
-<h3 id="sectthe-beginning">§The Beginning</h3>
-<p>IRC was born during summer 1988 when Jarkko &ldquo;WiZ&rdquo; Oikarinen wrote the first IRC client and server at the University of Oulu, Finland (where he was working at the Department of Information Processing Science).</p>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/dev_201601222145/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/day_201601201649/" title="阅读全文">我今年，二十七八岁 </a> </h2>
-
-</header>
-<div class="summary">
-    <p><img src="https://alimy.me/images/post/20160120170100.webp" alt=""></p>
-<p>我今年二十七八岁，每天起床的时间从中午12点变成了早上7点，睡觉的时间从凌晨变成了晚上11点。</p>
-<p>我今年二十七八岁，工作中开始接触形形色色的人，见到亲戚朋友，他们不再问你考试考了多少分，而
-是问你工资多少，结婚没有&hellip;</p>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/day_201601201649/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/dev_201601161712/" title="阅读全文">DogeOS,SmartOS,illumos </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="sect这些都是什么">§这些都是什么？</h3>
+    <div class="content-wrapper">
+      <div class="content-wrapper__inner">
+        <div class="post panel-wrapper">
+            <h2>Tg: Type serialization</h2>
+          
+          <p>See <a href="post/dev_202012071321/">Polymorphism in TL</a> and <a href="post/dev_202012071315">TL Language</a>.</p>
+<p>It remains to describe how types, e.g. values of type Type, are transmitted (serialized). In general, there is nothing unexpected going on here: we have type constructors of various arities (for example, List is an arity-1 constructor, but IntList is a 0-arity constructor); and if we know that a 32-bit “name” is assigned to each type constructor, there are no further questions &ndash; values of type Type are serialized exactly like values of any other recursive type with a defined set of constructors of differing arity.</p>
+<p>How can a 32-bit “name” be assigned to a type (a type constructor, to be more exact) such as List or IntList? It is proposed to use the sum of the names of all of its constructors, plus the CRC32 of the string with the designation of the type&rsquo;s name and all of its parameters such as “IntList = Type” or “List X:Type = Type”. This way, the List constructor’s “name” is the sum of the CRC32s of the three strings &ldquo;List X:Type = Type&rdquo;, &ldquo;cons X:Type hd:X tl:List X = List X&rdquo;, and &ldquo;nil X:Type = List X&rdquo;. For “bare” types (which, formally speaking, are subtypes of the corresponding “boxed” type), the situation is somewhat more complicated; the logical negation of the corresponding constructor’s name is used. For built-in bareand boxed types (for example, int and Int), a pseudo-declaration is used (for example, int ? = Int&quot;).</p>
 <ul>
-<li>都是操作系统</li>
-<li>都是云计算操作系统</li>
-<li>都是先进的云计算操作系统</li>
-<li>都是小众的先进的云计算操作系统</li>
+<li>This description is somewhat outdated and may be updated in the future. Specifically, how to treat the ! modifier has not been explained.*</li>
 </ul>
-<p><del>讲完收工</del></p>
-<p>当然不是这么简单 :)</p>
-<p>但是也不希望写的太长。以下就尽量言简意垓的把来龙去脉，历史纠纷，以及革命先进性都说清楚。</p>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/dev_201601161712/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/dev_201601131558/" title="阅读全文">Markdown </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="sect-what-is-markdown">§ What is Markdown?</h3>
-<p>Markdown is a way to style text on the web. You control the display of the
-document; formatting words as bold or italic, adding images, and creating lists
-are just a few of the things we can do with Markdown. Mostly, Markdown is just
-regular text with a few non-alphabetic characters thrown in, like # or *.<br>
-<a href="http://daringfireball.net/projects/markdown/" title="Daring FireBall: Home">[Markdown Reference]</a> <a href="https://guides.github.com/features/mastering-markdown/" title="GitHub's Mastering Markdown">[Mastering Markdown]</a></p>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/dev_201601131558/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/dev_201601121531/" title="阅读全文">Too many open files 的解决方法 </a> </h2>
-
-</header>
-<div class="summary">
-    <h2 id="由来">&gt;由来</h2>
-<p>gogs 打开一个android app库的资源文件夹(/coding/Coding-Android/src/master/app/src/main/res/drawable-xxhdpi)
-返回 500</p>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/dev_201601121531/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/art_201601111212/" title="阅读全文">诱惑 </a> </h2>
-
-</header>
-<div class="summary">
-    <p><a href="https://alimy.me/images/post/20160111121200.jpg" title="点击查看大图"><img src="https://alimy.me/images/post/20160111121200.webp" alt="图片加载中&hellip;请使用支持Webp的浏览器加速查看"></a></p>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/art_201601111212/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/art_201601100836/" title="阅读全文">咏春 </a> </h2>
-
-</header>
-<div class="summary">
-    <p><a href="https://alimy.me/images/post/20160110095600.jpg" title="点击查看大图"><img src="https://alimy.me/images/post/20160110095600.webp" alt="图片加载中&hellip;请使用支持Webp的浏览器加速查看"></a></p>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/art_201601100836/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/art_201601090836/" title="阅读全文">陌陌 </a> </h2>
-
-</header>
-<div class="summary">
-    <p><a href="https://alimy.me/images/post/20160109084900.jpg" title="点击查看大图"><img src="https://alimy.me/images/post/20160109084900.webp" alt="图片加载中&hellip;请使用支持Webp的浏览器加速查看"></a></p>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/art_201601090836/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/art_201601080836/" title="阅读全文">冰月 </a> </h2>
-
-</header>
-<div class="summary">
-    <p><a href="https://alimy.me/images/post/20160108084900.jpg" title="点击查看大图"><img src="https://alimy.me/images/post/20160108084900.webp" alt="图片加载中&hellip;请使用支持Webp的浏览器加速查看"></a></p>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/art_201601080836/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                    </div>
-                    </br>
-                    <h4>
-                        <a href="https://alimy.me/post/" title="文章列表">Archive</a>
-                    </h4>
-                </section>
-                <div class="pages">
-  
-<ul class="pagination">
-  <li class="page-item">
-    <a href="https://alimy.me/" class="page-link" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
-  </li>
-  <li class="page-item">
-    <a href="https://alimy.me/page/12/" class="page-link" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
-  </li>
-  <li class="page-item">
-    <a class="page-link" href="https://alimy.me/">1</a>
-  </li>
-  <li class="page-item">
-    <a class="page-link" href="https://alimy.me/page/2/">2</a>
-  </li>
-  <li class="page-item">
-    <a class="page-link" href="https://alimy.me/page/3/">3</a>
-  </li>
-  <li class="page-item disabled">
-    <span aria-hidden="true">&nbsp;&hellip;&nbsp;</span>
-  </li>
-  <li class="page-item">
-    <a class="page-link" href="https://alimy.me/page/12/">12</a>
-  </li>
-  <li class="page-item active">
-    <a class="page-link" href="https://alimy.me/page/13/">13</a>
-  </li>
-  <li class="page-item">
-    <a class="page-link" href="https://alimy.me/page/14/">14</a>
-  </li>
-  <li class="page-item">
-    <a class="page-link" href="https://alimy.me/page/15/">15</a>
-  </li>
-  <li class="page-item">
-    <a href="https://alimy.me/page/14/" class="page-link" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
-  </li>
-  <li class="page-item">
-    <a href="https://alimy.me/page/15/" class="page-link" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
-  </li>
-</ul>
-
-
-</div>
-
-              <footer id="copyright"> <p>&copy;2015-2020 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
-
-            </div>
+<hr>
+<p>(Notice: Origin official document is <a href="https://core.telegram.org/mtproto/description" title="Type serialization"><em>Here</em></a>)</p>
         </div>
-        <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
+        <div id="post-navigator">
+          <a id="post-navigator-prev" href="https://alimy.me/post/dev_202012071321/" title="上一篇">&lt;&lt; Tg: Polymorphism in TL</a>
+          <a id="post-navigator-next" href="https://alimy.me/post/dev_202012071333/" title="下一篇">Tg: Binary Data Serialization >></a>
+        </div>
+        <div id="post-comments">
+          <h3>Comments</h3>
+          
+
+
+<div id="disqus_thread"></div>
+
+<script type="text/javascript">
+  var disqusUsername = "alimy";
+
+  (function() { 
+  var d = document, s = d.createElement('script');
+
+  s.src = '//' + disqusUsername + '.disqus.com/embed.js';
+
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+          <footer id="copyright"> <p>&copy;2015-2020 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
+
+    </div>
+    <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
 if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
 var s=document.getElementsByTagName('script')[0];sc.src='https://alimy.me/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
 WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
 
-    </body>
+  </body>
 </html>

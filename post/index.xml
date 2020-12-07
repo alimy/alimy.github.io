@@ -6,7 +6,108 @@
     <description>Recent content in Posts on 北 野</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Fri, 27 Nov 2020 17:11:00 +0800</lastBuildDate><atom:link href="https://alimy.me/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 07 Dec 2020 13:37:00 +0800</lastBuildDate><atom:link href="https://alimy.me/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Tg: Service Messages</title>
+      <link>https://alimy.me/post/dev_202012071337/</link>
+      <pubDate>Mon, 07 Dec 2020 13:37:00 +0800</pubDate>
+      
+      <guid>https://alimy.me/post/dev_202012071337/</guid>
+      <description>&lt;h4 id=&#34;response-to-an-rpc-query&#34;&gt;Response to an RPC query&lt;/h4&gt;
+&lt;p&gt;A response to an RPC query is normally wrapped as follows:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;rpc_result#f35c6d01 req_msg_id:long result:Object = RpcResult;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Here req_msg_id is the identifier of the message sent by the other party and containing an RPC query. This way, the recipient knows that the result is a response to the specific RPC query in question. At the same time, this response serves as acknowledgment of the other party’s receipt of the req_msg_id message.&lt;/p&gt;
+&lt;p&gt;Note that the response to an RPC query must also be acknowledged. Most frequently, this coincides with the transmission of the next message (which may have a container attached to it carrying a service message with the acknowledgment).&lt;/p&gt;
+&lt;h4 id=&#34;rpc-error&#34;&gt;RPC Error&lt;/h4&gt;
+&lt;p&gt;The result field returned in response to any RPC query may also contain an error message in the following format:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;rpc_error#2144ca19 error_code:int error_message:string = RpcError;
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    
+    <item>
+      <title>Tg: Binary Data Serialization</title>
+      <link>https://alimy.me/post/dev_202012071333/</link>
+      <pubDate>Mon, 07 Dec 2020 13:33:00 +0800</pubDate>
+      
+      <guid>https://alimy.me/post/dev_202012071333/</guid>
+      <description>&lt;p&gt;MTProto operation requires that elementary and composite data types as well as queries to which such data types are passed as arguments or by which they are returned, be transmitted in binary format (i. e. serialized) . The &lt;a href=&#34;post/dev_202012071315/&#34;&gt;TL language&lt;/a&gt; is used to describe the data types to be serialized.&lt;/p&gt;
+&lt;h4 id=&#34;general-definitions&#34;&gt;General Definitions&lt;/h4&gt;
+&lt;p&gt;For our purposes, we can identify a type with the set of its (serialized) values understood as strings (finite sequences) of 32-bit numbers (transmitted in little endian order).&lt;/p&gt;
+&lt;p&gt;Therefore:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Alphabet (A), in this case, is a set of 32-bit numbers (normally, signed, i. e. between &lt;code&gt;-2^31&lt;/code&gt; and &lt;code&gt;2^31 - 1)&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Value, in this case, is the same as a string in Alphabet A, i. e. a finite (possibly, empty) sequence of 32-bit numbers. The set of all such sequences is designated as A*.&lt;/li&gt;
+&lt;li&gt;Type, for our purposes, is the same as the set of legal values of a type, i. e. some set T which is a subset of A* and is a prefix code (i. e. no element of T may be a prefix for any other element). Therefore, any sequence from A* can contain no more than one prefix that is a member of T.&lt;/li&gt;
+&lt;li&gt;Value of Type T is any sequence (value) which is a member of T as a subset of A*.&lt;/li&gt;
+&lt;li&gt;Compatible Types are the types T and T’ not intersecting as subsets of A*, such that the union of T and T&#39; is a prefix code.&lt;/li&gt;
+&lt;li&gt;Coordinated System of Types is a finite or infinite set of types T_1, &amp;hellip;, T_n, &amp;hellip;, such that any two types from this set are compatible.&lt;/li&gt;
+&lt;li&gt;Data Type is the same as type in the sense of the definition above.&lt;/li&gt;
+&lt;li&gt;Functional Type is a type describing a function; it is not a type in the sense of the definition above. Initially, we ignore the existence of functional types and describe only the data types; however, in reality, functional types will later be implemented in some extension of this system using the so-called temporary combinators.&lt;/li&gt;
+&lt;/ul&gt;</description>
+    </item>
+    
+    <item>
+      <title>Tg: Type serialization</title>
+      <link>https://alimy.me/post/dev_202012071330/</link>
+      <pubDate>Mon, 07 Dec 2020 13:30:00 +0800</pubDate>
+      
+      <guid>https://alimy.me/post/dev_202012071330/</guid>
+      <description>&lt;p&gt;See &lt;a href=&#34;post/dev_202012071321/&#34;&gt;Polymorphism in TL&lt;/a&gt; and &lt;a href=&#34;post/dev_202012071315&#34;&gt;TL Language&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;It remains to describe how types, e.g. values of type Type, are transmitted (serialized). In general, there is nothing unexpected going on here: we have type constructors of various arities (for example, List is an arity-1 constructor, but IntList is a 0-arity constructor); and if we know that a 32-bit “name” is assigned to each type constructor, there are no further questions &amp;ndash; values of type Type are serialized exactly like values of any other recursive type with a defined set of constructors of differing arity.&lt;/p&gt;
+&lt;p&gt;How can a 32-bit “name” be assigned to a type (a type constructor, to be more exact) such as List or IntList? It is proposed to use the sum of the names of all of its constructors, plus the CRC32 of the string with the designation of the type&amp;rsquo;s name and all of its parameters such as “IntList = Type” or “List X:Type = Type”. This way, the List constructor’s “name” is the sum of the CRC32s of the three strings &amp;ldquo;List X:Type = Type&amp;rdquo;, &amp;ldquo;cons X:Type hd:X tl:List X = List X&amp;rdquo;, and &amp;ldquo;nil X:Type = List X&amp;rdquo;. For “bare” types (which, formally speaking, are subtypes of the corresponding “boxed” type), the situation is somewhat more complicated; the logical negation of the corresponding constructor’s name is used. For built-in bareand boxed types (for example, int and Int), a pseudo-declaration is used (for example, int ? = Int&amp;quot;).&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;This description is somewhat outdated and may be updated in the future. Specifically, how to treat the ! modifier has not been explained.*&lt;/li&gt;
+&lt;/ul&gt;</description>
+    </item>
+    
+    <item>
+      <title>Tg: Polymorphism in TL</title>
+      <link>https://alimy.me/post/dev_202012071321/</link>
+      <pubDate>Mon, 07 Dec 2020 13:21:00 +0800</pubDate>
+      
+      <guid>https://alimy.me/post/dev_202012071321/</guid>
+      <description>&lt;p&gt;It should be noted that in the TL schema of the overwhelming majority of API calls the use of polymorphic types is restricted to the Vector type. Nevertheless, having a view of the big picture is still helpful.&lt;/p&gt;
+&lt;h4 id=&#34;ordinary-inductive-types&#34;&gt;Ordinary inductive types&lt;/h4&gt;
+&lt;p&gt;For example, let us consider the IntList, which is defined as follows:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;int_cons hd:int tl:IntList = IntList;
+int_nil = IntList;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The “int_cons” and “int_nil” constructors as well as the “IntList” type itself are expressions of the following types (writing A : X means that A is an expression of type X):&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;IntList : Type;
+int_cons : int -&amp;gt; IntList -&amp;gt; IntList;
+int_nil : IntList;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The keyword Type is used to denote the type of all types. Note that Type is not Object (Object is the type of all terms). Here is alternative syntax that could be used in some other functional programming language (but not in TL):&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;NewType IntList :=
+| int_cons hd:int tl:IntList
+| int_nil
+EndType
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    
+    <item>
+      <title>Tg: TL Language</title>
+      <link>https://alimy.me/post/dev_202012071315/</link>
+      <pubDate>Mon, 07 Dec 2020 13:15:00 +0800</pubDate>
+      
+      <guid>https://alimy.me/post/dev_202012071315/</guid>
+      <description>&lt;p&gt;TL (Type Language) serves to describe the used system of types, constructors, and existing functions. In fact, the combinator description format presented in Binary Data Serialization is used.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;See also:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;post/dev_202012071321/&#34;&gt;Polymorphism in TL&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Advanced topics:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;tl-dependent.md&#34;&gt;Dependent types in TL&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;tl-formal.md&#34;&gt;Formal description of TL&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;tl-combinators.md&#34;&gt;Formal description of TL combinators&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;post/dev_202012071330/&#34;&gt;Type serialization&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;tl-tl.md&#34;&gt;TL schema for serialization of TL schemas&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;tl-optargs.md&#34;&gt;Optional combinator parameters and their values&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;tl-abstract-types.md&#34;&gt;Binary serialization and abstract TL types&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;tl-patterns.md&#34;&gt;Formal description of templates in TL&lt;/a&gt;&lt;/p&gt;
+&lt;h4 id=&#34;overview&#34;&gt;Overview&lt;/h4&gt;
+&lt;p&gt;A TL program usually consists of two sections separated by keyword &lt;code&gt;---functions---&lt;/code&gt;. The first section consists of declarations of built-in types and aggregate types (i.e. their constructors). The second section consists of the declared functions, i.e. functional combinators.&lt;/p&gt;
+&lt;p&gt;Actually, both the first and second sections consist of combinator declarations, each of which ends with a semicolon. However, the first section contains only constructors, while the second section only involves functions. Each combinator is declared using a “combinator declaration” in the format explained above. However, the combinator number and field names may be explicitly assigned.&lt;/p&gt;
+&lt;p&gt;If additional type declarations are required after functions have been declared, the keyword (section divider) &lt;code&gt;---types---&lt;/code&gt; is used. Furthermore, a functional combinator may be declared in the type section if its result type begins with an exclamation point (in fact, when the function section is interpreted, this exclamation point is added automatically).&lt;/p&gt;
+&lt;p&gt;To explicitly define 32-bit names of combinators, a hash mark (&lt;code&gt;#&lt;/code&gt;) is added immediately after the combinator’s name, followed by 8 hexadecimal digits.&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>Tg: MTProto v2</title>
       <link>https://alimy.me/post/dev_202011271711/</link>

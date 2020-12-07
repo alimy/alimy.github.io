@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Tg on 北 野</title>
-    <link>https://alimy.me/categories/tg/</link>
-    <description>Recent content in Tg on 北 野</description>
+    <title>tg on 北 野</title>
+    <link>https://alimy.me/tags/tg/</link>
+    <description>Recent content in tg on 北 野</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Mon, 07 Dec 2020 13:37:00 +0800</lastBuildDate><atom:link href="https://alimy.me/categories/tg/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 07 Dec 2020 13:37:00 +0800</lastBuildDate><atom:link href="https://alimy.me/tags/tg/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Tg: Service Messages</title>
       <link>https://alimy.me/post/dev_202012071337/</link>

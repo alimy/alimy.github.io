@@ -294,6 +294,180 @@ fathom('trackPageview');
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="https://alimy.me/post/dev_201901101804/" title="阅读全文">OpenAPI Specification </a> </h2>
+
+</header>
+<div class="summary">
+    <h4 id="version-302">Version 3.0.2</h4>
+<p>The key words &ldquo;MUST&rdquo;, &ldquo;MUST NOT&rdquo;, &ldquo;REQUIRED&rdquo;, &ldquo;SHALL&rdquo;, &ldquo;SHALL NOT&rdquo;, &ldquo;SHOULD&rdquo;, &ldquo;SHOULD NOT&rdquo;, &ldquo;RECOMMENDED&rdquo;, &ldquo;NOT RECOMMENDED&rdquo;, &ldquo;MAY&rdquo;, and &ldquo;OPTIONAL&rdquo; in this document are to be interpreted as described in <a href="https://tools.ietf.org/html/bcp14">BCP 14</a> <a href="https://tools.ietf.org/html/rfc2119">RFC2119</a> <a href="https://tools.ietf.org/html/rfc8174">RFC8174</a> when, and only when, they appear in all capitals, as shown here.</p>
+<p>This document is licensed under <a href="https://www.apache.org/licenses/LICENSE-2.0.html">The Apache License, Version 2.0</a>.</p>
+<h2 id="introduction">Introduction</h2>
+<p>The OpenAPI Specification (OAS) defines a standard, language-agnostic interface to RESTful APIs which allows both humans and computers to discover and understand the capabilities of the service without access to source code, documentation, or through network traffic inspection. When properly defined, a consumer can understand and interact with the remote service with a minimal amount of implementation logic.</p>
+<p>An OpenAPI definition can then be used by documentation generation tools to display the API, code generation tools to generate servers and clients in various programming languages, testing tools, and many other use cases.</p>
+</div>
+<footer id="more">
+<a href='https://alimy.me/post/dev_201901101804/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="https://alimy.me/post/dev_201901091450/" title="阅读全文">YAML 简明参考 </a> </h2>
+
+</header>
+<div class="summary">
+    <h3 id="sect语法说明">§语法说明</h3>
+<p>在<a href="https://yaml.org">yaml.org（英文）</a>可以找到轻巧而好用的<a href="https://yaml.org/refcard.html">小抄（亦是用YAML表示）</a>及<a href="https://yaml.org/spec/">格式说明</a>。下面的内容，是关于基本组件的摘要。</p>
+<ul>
+<li>YAML使用可打印的Unicode字符，可使用UTF-8或UTF-16。</li>
+<li>使用空白字符为文件缩进来表示结构；不过不能使用跳格字符(TAB)。</li>
+<li>注解由井字号（ # ）开始，可以出现在一行中的任何位置，而且范围只有一行（也就是一般所谓的单行注解）</li>
+<li>每个清单成员以单行表示，并用短杠+空白（ -   ）起始。或使用方括号（ <input disabled="" type="checkbox"> ），并用逗号+空白（ ,   ）分开成员。</li>
+<li>每个散列表的成员用冒号+空白（ :   ）分开键值和内容。或使用大括号（ {   } ），并用逗号+空白（ ,   ）分开。
+<ul>
+<li>散列表的键值可以用问号 ( ? )起始，用来明确的表示多个词汇组成的键值。</li>
+</ul>
+</li>
+<li>字符串平常并不使用引号，但必要的时候可以用双引号 ( &quot; )或单引号 ( ' )框住。
+<ul>
+<li>使用双引号表示字符串时，可用倒斜线（ \ ）开始的转义字符（这跟C语言类似）表示特殊字符。</li>
+</ul>
+</li>
+<li>区块的字符串用缩进和修饰符（非必要）来和其他数据分隔，有新行保留（preserve）（使用符号 | ）或新行折叠（flod）（使用符号 &gt; ）两种方式。</li>
+<li>在单一文件中，可用连续三个连字号（&mdash;）区分多个文件。
+<ul>
+<li>另外，还有选择性的连续三个点号（ &hellip; ）用来表示文件结尾。</li>
+</ul>
+</li>
+<li>重复的内容可使从参考标记星号 ( * )复制到锚点标记（ &amp; ）。</li>
+<li>指定格式可以使用两个惊叹号 ( !! )，后面接上名称。</li>
+<li>文件中的单一文件可以使用指导指令，使用方法是百分比符号( % )。有两个指导指令在YAML1.1版中被定义：
+<ul>
+<li>%YAML 指导指令，用来识别文件的YAML版本。</li>
+<li>%TAG 指导指令，被用在URI的前缀标记。这个方法在标记节点的类型时相当有用。
+YAML在使用逗号及冒号时，后面都必须接一个空白字符，所以可以在字符串或数值中自由加入分隔符号( 例如：5,280 或 <a href="http://www.wikipedia.org">http://www.wikipedia.org</a> ) 而不需要使用引号。</li>
+</ul>
+</li>
+</ul>
+<p>另外还有两个特殊符号在YAML中被保留，有可能在未来的版本被使用&ndash;（ @ ）和（ ` ）。</p>
+</div>
+<footer id="more">
+<a href='https://alimy.me/post/dev_201901091450/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="https://alimy.me/post/dev_201811252059/" title="阅读全文">FAQs: ssh </a> </h2>
+
+</header>
+<div class="summary">
+    <h4 id="sect解决ssh登录后闲置时间过长而断开连接">§解决ssh登录后闲置时间过长而断开连接</h4>
+<p>通过终端连接服务器时，当鼠标和键盘长时间不操作，服务器就会自动断开连接，解决此问题的方法如下：</p>
+<ul>
+<li>
+<p>方法一、
+修改/etc/ssh/sshd_config配置文件，找到ClientAliveCountMax（单位为分钟）修改你想要的值，
+执行service sshd reload</p>
+</li>
+<li>
+<p>方法二、
+找到所在用户的.ssh目录,如root用户该目录在：/root/.ssh/
+在该目录创建config文件</p>
+</li>
+</ul>
+<pre><code>$ vi /root/.ssh/config
+</code></pre><p>加入下面一句：</p>
+<pre><code>ServerAliveInterval 60
+</code></pre><p>保存退出，重新开启root用户的shell，则ssh远程服务器的时候，
+不会因为长时间操作断开。应该是加入这句之后，ssh客户端会每隔一
+段时间自动与ssh服务器通信一次，所以长时间操作不会断开。</p>
+<ul>
+<li>方法三、
+修改/etc/profile配置文件</li>
+</ul>
+<pre><code>$ vi /etc/profile
+</code></pre><p>增加：TMOUT=1800
+这样30分钟没操作就自动LOGOUT</p>
+</div>
+<footer id="more">
+<a href='https://alimy.me/post/dev_201811252059/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="https://alimy.me/post/dev_201811250757/" title="阅读全文">sshuttle：不需配置的 VPN </a> </h2>
+
+</header>
+<div class="summary">
+    <p>sshuttle 被其作者称为 “穷人的 VPN”（A poor man’s instant VPN），甚至不需要远端服务器的 root 权限就可以用（只需要一个普通 SSH 帐号），和在 Mac/Linux 客户端直接用 ssh -D 的方式有点类似。如果不想花钱买 VPN，又懒得自己在 VPS 上安装和设置复杂的 VPN 服务，又不想用 ssh -D 这么朴素的技巧的话可以试一下这个 sshuttle，按照作者的说法 sshuttle 比 sshd -D 的方式快一点，因为 It’s just data-over-TCP，而不是 TCP-over-TCP，TCP-over-TCP 的方式会带来不必要的性能问题，因为 TCP 本身就是可靠传输协议，保证了包的有序性和无差错，并确保包被接受，如果有包丢失的话 TCP 协议可以自己立即重传弥补，所以没必要两层都 TCP，一层 TCP 就比较安全了。</p>
+<p>sshuttle 的用法很简单，在客户端下载和运行就可以了（需要有 Python 的支持），无需在服务器端做任何配置（但是需要一个 ssh 帐号和 Python 支持）：</p>
+<pre><code>$ git clone https://github.com/sshuttle/sshuttle
+$ cd sshuttle
+$ sudo ./setup.py install
+$ sshuttle -r username@sshserver 0.0.0.0/0 -vv
+Starting sshuttle proxy.
+[local sudo] Password: 
+firewall manager: Starting firewall with Python version 2.7.15
+firewall manager: ready method name nat.
+IPv6 enabled: False
+UDP enabled: False
+DNS enabled: False
+User enabled: False
+Binding redirector: 12300 12299
+TCP redirector listening on ('127.0.0.1', 12299).
+TCP redirector listening with &lt;socket._socketobject object at 0x7f5eb68b1c90&gt;.
+Starting client with Python version 2.7.15
+c : connecting to server...
+...
+</code></pre>
+</div>
+<footer id="more">
+<a href='https://alimy.me/post/dev_201811250757/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="https://alimy.me/post/dev_201811171435/" title="阅读全文">AppArmor的前世今生和基本使用 </a> </h2>
+
+</header>
+<div class="summary">
+    <h4 id="一mac和dac-一些前置知识">一：MAC和DAC (一些前置知识)</h4>
+<p>DAC(Discretionary Access Control)，自主访问控制，是最常用的一类访问控制机制，意思为主体（文件所有者）可以自主指定系统中其它用户对其文件的所有权，最典型的就是Linux的&quot;拥有者/同组用户/其他&quot;。这种方式虽然为用户提供了很大的灵活性，但是缺乏必要的安全性</p>
+<p>MAC(Mandatory Access Control)，强制访问控制,在这种机制下，系统中的每一个进程，每一个文件，每一个IPC主体都被管理员按照严格的规则设置了相应的安全属性，不能被用户和其它直接或间接的修改。</p>
+<h4 id="二apparmorhttpsgitlabcomapparmorapparmor-apparmor-in-gitlab">二：<a href="https://gitlab.com/apparmor/apparmor" title="AppArmor in GitLab">AppArmor</a></h4>
+<p>由于SELinux使用复杂，适用于对安全要求特别高的企业或者组织，为了简化操作，就推出了AppArmor，所以可以说AppArmor脱胎于SELinux，但与SELinux基于角色的MAC不同的是，AppArmor是与程序绑定的基于路径的MAC，也就是说如果路径发生改变，策略就会失效。一般的Linux的系统，都会内置以上两种MAC其中的一种，这也意味着，你需要对文件（其它）进行操作，你需要同时通过DAC和 MAC的检测。</p>
+<p>AppArmor有两种工作模式：enforcement、complain/learning</p>
+<ul>
+<li>
+<p>Enforcement – 在这种模式下，配置文件里列出的限制条件都会得到执行，并且对于违反这些限制条件的程序会进行日志记录。</p>
+</li>
+<li>
+<p>Complain – 在这种模式下，配置文件里的限制条件不会得到执行，AppArmor只是对程序的行为进行记录。例如程序可以写一个在配置文件里注明只读的文件，但AppArmor不会对程序的行为进行限制，只是进行记录。这种模式也叫学习模式，如果某个程序的行为不符合其配置文件的限制，可以将其行为记录到系统日志，并且可以根据程序的行为，将日志转换成配置文件。</p>
+</li>
+</ul>
+<p>AppArmor可以对程序进行多方面的限制，详细可以看官方文档，这里只提供几个基本的例子：</p>
+<ol>
+<li>文件系统的访问控制   例：  /home/Desktop/a.c rw 表示程序可以对/home/Desktop/a.c 进行读和写。</li>
+<li>资源限制   例： set rlimit as&lt;=1M ，表示该程序可以使用的虚拟内存小于等于1M</li>
+<li>访问网络   例： network inet tcp ,表示该程序可以在IPV4的情况下使用TCP协议 　</li>
+<li>capability条目 例：capability setgid，表示程序进行setgid操作。</li>
+</ol>
+</div>
+<footer id="more">
+<a href='https://alimy.me/post/dev_201811171435/' title="继续阅读"><nobr>Read More →</nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="https://alimy.me/post/dev_201811111946/" title="阅读全文">Athens:香港服务器Docker部署 </a> </h2>
 
 </header>
@@ -441,162 +615,6 @@ replace (
 </article>
 
                         
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/dev_201807151843/" title="阅读全文">Guide: gorilla/mux </a> </h2>
-
-</header>
-<div class="summary">
-    <p>The name mux stands for &ldquo;HTTP request multiplexer&rdquo;. Like the standard
-<code>http.ServeMux</code>, <code>mux.Router</code> matches incoming requests against a list of
-registered routes and calls a handler for the route that matches the URL
-or other conditions. The main features are:</p>
-<pre><code>* Requests can be matched based on URL host, path, path prefix, schemes,
-  header and query values, HTTP methods or using custom matchers.
-* URL hosts, paths and query values can have variables with an optional
-  regular expression.
-* Registered URLs can be built, or &quot;reversed&quot;, which helps maintaining
-  references to resources.
-* Routes can be used as subrouters: nested routes are only tested if the
-  parent route matches. This is useful to define groups of routes that
-  share common conditions like a host, a path prefix or other repeated
-  attributes. As a bonus, this optimizes request matching.
-* It implements the http.Handler interface so it is compatible with the
-  standard http.ServeMux.
-</code></pre>
-<p>Let&rsquo;s start registering a couple of URL paths and handlers:</p>
-<pre><code>func main() {
-  r := mux.NewRouter()
-  r.HandleFunc(&quot;/&quot;, HomeHandler)
-  r.HandleFunc(&quot;/products&quot;, ProductsHandler)
-  r.HandleFunc(&quot;/articles&quot;, ArticlesHandler)
-  http.Handle(&quot;/&quot;, r)
-  log.Fatal(http.ListenAndServe(&quot;:12345&quot;, nil))
-}
-</code></pre>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/dev_201807151843/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/dev_201807012219/" title="阅读全文">Docker: 对Docker Remote API进行认证 </a> </h2>
-
-</header>
-<div class="summary">
-    <ul>
-<li>建立证书授权中心</li>
-</ul>
-<pre><code>$ sudo mkdir /etc/docker
-$ cd /etc/docker
-$ echo 01 | sudo tee ca.csl
-$ sudo openssl genrsa -des3 -out ca-key.pem
-$ sudo openssl req -new -x509 -days 365 -key ca-key.pem -out ca.pem
-</code></pre><ul>
-<li>创建服务器的证书签名请求和密钥</li>
-</ul>
-<pre><code>$ sudo openssl genrsa -des3 -out server-key.pem
-$ sudo openssl req -new -key server-key.pem -out server.csr
-$ sudo openssl x509 -req -days 365 -in server.csr -CA ca.pem -CAkey ca-key.pem -out server-cert.pem
-$ sudo openssl rsa -in server-key.pem -out server-key.pem
-$ sudo chmod 0600 /etc/docker/server-key.pem /etc/docker/server-cert.pem /etc/docker/ca-key.pem /etc/docker/ca.pem
-</code></pre><ul>
-<li>配置Docker守护进程 (/etc/docker/daemon.json on Linux systems, or C:\ProgramData\docker\config\daemon.json on Windows.)</li>
-</ul>
-<pre><code>{
-  &quot;debug&quot;: true,
-  &quot;tls&quot;: true,
-  &quot;tlscacert&quot;: &quot;/etc/docker/ca.pem&quot;,
-  &quot;tlscert&quot;: &quot;/etc/docker/server-cert.pem&quot;,
-  &quot;tlskey&quot;: &quot;/etc/docker/server-key.pem&quot;,
-  &quot;hosts&quot;: [&quot;tcp://&lt;config of CN&gt;:2376&quot;]
-}
-</code></pre>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/dev_201807012219/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/dev_201807011459/" title="阅读全文">存储系统: 札记 </a> </h2>
-
-</header>
-<div class="summary">
-    <ul>
-<li><a href="http://www.importnew.com/3292.html" title="Finding a needle in Haystack: Facebook’s photo storage">经典论文翻译导读之《Finding a needle in Haystack: Facebook’s photo storage》</a></li>
-<li><a href="https://mp.weixin.qq.com/s?__biz=MzI4NDMyNTU2Mw==&amp;mid=2247483679&amp;idx=1&amp;sn=584dbd80aa08fa1188627ad725680928&amp;mpshare=1&amp;scene=1&amp;srcid=1208L9z4yXKLW60rPph2ZmMn#rd" title="微信序列号生成器架构设计及演变">万亿级调用系统：微信序列号生成器架构设计及演变</a></li>
-</ul>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/dev_201807011459/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/dev_201806301842/" title="阅读全文">Gogs: PR-5322 </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="add-new-dockerfiledocker-ce-for-docker-cev1706-to-build-gogss-docker-image">Add new Dockerfile.docker-ce for docker-ce(&gt;=v17.06) to build Gogs&rsquo;s docker image</h3>
-<p>Docker-CE can be given to a new build stage by adding <code>AS</code> name to the<code> FROM</code> instruction sine release version of v17.06. The Dockerfile&rsquo;s <code>FROM</code> instruction like below:</p>
-<h4 id="from">FROM</h4>
-<pre><code>FROM &lt;image&gt; [AS &lt;name&gt;]
-</code></pre><p>Or</p>
-<pre><code>FROM &lt;image&gt;[:&lt;tag&gt;] [AS &lt;name&gt;]
-</code></pre><p>Or</p>
-<pre><code>FROM &lt;image&gt;[@&lt;digest&gt;] [AS &lt;name&gt;]
-</code></pre><ul>
-<li>Optionally a name can be given to a new build stage by adding <code>AS</code> name to the <code>FROM</code> instruction. The name can be used in subsequent <code>FROM</code> and <code>COPY --from=&lt;name|index&gt;</code> instructions to refer to the image built in this stage.</li>
-</ul>
-<p>Find Docker-ce official document <a href="https://docs.docker.com/v17.06/engine/reference/builder/#from" title="Docker official Document">here</a>.</p>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/dev_201806301842/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/dev_201806040842/" title="阅读全文">Gogs: PR-5262 </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="fix-make-build-failure-when-enviroment-of-gopath-have-multiple-items">Fix make build failure when enviroment of <code>GOPATH</code> have multiple items</h3>
-<pre><code>[alimy@rover gogs]$ pwd
-/home/alimy/art/arg/src/github.com/gogs/gogs
-[alimy@rover gogs]$ echo $GOPATH
-/home/alimy/art/ago:/home/alimy/art/arg
-[alimy@rover gogs]$ make
-go install &quot;-v&quot; -ldflags '-X &quot;github.com/gogs/gogs/pkg/setting.BuildTime=2018-06-04 06:17:19 UTC&quot; -X &quot;github.com/gogs/gogs/pkg/setting.BuildGitHash=c08aab90ec696b7fcc56b8da0a468e74d266b89e&quot;' -tags '&quot;&quot;'
-cp '/home/alimy/art/ago:/home/alimy/art/arg/bin/gogs' .
-cp: cannot stat '/home/alimy/art/ago:/home/alimy/art/arg/bin/gogs': No such file or directory
-Makefile:36: recipe for target 'build' failed
-make: *** [build] Error 1
-</code></pre><p>In this scene <code>GOPATH</code> have two item (/home/alimy/art/ago and /home/alimy/art/arg) and gogs source is not in first <code>GOPATH</code> items, when excecute <code>go install ...</code> will install to path that contain the source of gogs&rsquo;s <code>GOPATH</code> items. when cp gogs file back will occur error like above.
-this patch fixed this problem.</p>
-<pre><code>[alimy@rover gogs]$ echo $GOPATH
-/home/alimy/art/ago:/home/alimy/art/arg
-[alimy@rover gogs]$ pwd
-/home/alimy/art/arg/src/github.com/gogs/gogs
-[alimy@rover gogs]$ echo ${PWD%%src*}
-/home/alimy/art/arg/
-</code></pre>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/dev_201806040842/' title="继续阅读"><nobr>Read More →</nobr></a>
-</footer>
-</article>
-
-                        
                     </div>
                     </br>
                     <h4>
@@ -628,13 +646,13 @@ this patch fixed this problem.</p>
     <span aria-hidden="true">&nbsp;&hellip;&nbsp;</span>
   </li>
   <li class="page-item">
-    <a class="page-link" href="https://alimy.me/page/14/">14</a>
+    <a class="page-link" href="https://alimy.me/page/15/">15</a>
   </li>
   <li class="page-item">
     <a href="https://alimy.me/page/4/" class="page-link" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
   </li>
   <li class="page-item">
-    <a href="https://alimy.me/page/14/" class="page-link" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+    <a href="https://alimy.me/page/15/" class="page-link" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
   </li>
 </ul>
 
