@@ -298,7 +298,7 @@ fathom('trackPageview');
 
 </header>
 <div class="summary">
-    <p>Below you will find the current MTProto TL-schema. More detais on <a href="post/dev_202012071315/">TL</a>.</p>
+    <p>Below you will find the current MTProto TL-schema. More detais on <a href="https://alimy.me/post/dev_202012071315/">TL</a>.</p>
 <pre><code>int ? = Int;
 long ? = Long;
 double ? = Double;
@@ -410,7 +410,7 @@ http_wait#9299359f max_delay:int wait_after:int max_wait:int = HttpWait;
 
 </header>
 <div class="summary">
-    <p>MTProto operation requires that elementary and composite data types as well as queries to which such data types are passed as arguments or by which they are returned, be transmitted in binary format (i. e. serialized) . The <a href="post/dev_202012071315/">TL language</a> is used to describe the data types to be serialized.</p>
+    <p>MTProto operation requires that elementary and composite data types as well as queries to which such data types are passed as arguments or by which they are returned, be transmitted in binary format (i. e. serialized) . The <a href="https://alimy.me/post/dev_202012071315/">TL language</a> is used to describe the data types to be serialized.</p>
 <h4 id="general-definitions">General Definitions</h4>
 <p>For our purposes, we can identify a type with the set of its (serialized) values understood as strings (finite sequences) of 32-bit numbers (transmitted in little endian order).</p>
 <p>Therefore:</p>
@@ -437,7 +437,7 @@ http_wait#9299359f max_delay:int wait_after:int max_wait:int = HttpWait;
 
 </header>
 <div class="summary">
-    <p>See <a href="post/dev_202012071321/">Polymorphism in TL</a> and <a href="post/dev_202012071315">TL Language</a>.</p>
+    <p>See <a href="https://alimy.me/post/dev_202012071321/">Polymorphism in TL</a> and <a href="https://alimy.me/post/dev_202012071315">TL Language</a>.</p>
 <p>It remains to describe how types, e.g. values of type Type, are transmitted (serialized). In general, there is nothing unexpected going on here: we have type constructors of various arities (for example, List is an arity-1 constructor, but IntList is a 0-arity constructor); and if we know that a 32-bit “name” is assigned to each type constructor, there are no further questions &ndash; values of type Type are serialized exactly like values of any other recursive type with a defined set of constructors of differing arity.</p>
 <p>How can a 32-bit “name” be assigned to a type (a type constructor, to be more exact) such as List or IntList? It is proposed to use the sum of the names of all of its constructors, plus the CRC32 of the string with the designation of the type&rsquo;s name and all of its parameters such as “IntList = Type” or “List X:Type = Type”. This way, the List constructor’s “name” is the sum of the CRC32s of the three strings &ldquo;List X:Type = Type&rdquo;, &ldquo;cons X:Type hd:X tl:List X = List X&rdquo;, and &ldquo;nil X:Type = List X&rdquo;. For “bare” types (which, formally speaking, are subtypes of the corresponding “boxed” type), the situation is somewhat more complicated; the logical negation of the corresponding constructor’s name is used. For built-in bareand boxed types (for example, int and Int), a pseudo-declaration is used (for example, int ? = Int&quot;).</p>
 <ul>
@@ -486,7 +486,7 @@ EndType
 <div class="summary">
     <p>TL (Type Language) serves to describe the used system of types, constructors, and existing functions. In fact, the combinator description format presented in Binary Data Serialization is used.</p>
 <p><strong>See also:</strong></p>
-<p><a href="post/dev_202012071321/">Polymorphism in TL</a></p>
+<p><a href="https://alimy.me/post/dev_202012071321/">Polymorphism in TL</a></p>
 <p><strong>Advanced topics:</strong></p>
 <p><a href="tl-dependent.md">Dependent types in TL</a></p>
 <p><a href="tl-formal.md">Formal description of TL</a></p>

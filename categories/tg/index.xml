@@ -13,7 +13,7 @@
       <pubDate>Mon, 07 Dec 2020 13:48:00 +0800</pubDate>
       
       <guid>https://alimy.me/post/dev_202012071348/</guid>
-      <description>&lt;p&gt;Below you will find the current MTProto TL-schema. More detais on &lt;a href=&#34;post/dev_202012071315/&#34;&gt;TL&lt;/a&gt;.&lt;/p&gt;
+      <description>&lt;p&gt;Below you will find the current MTProto TL-schema. More detais on &lt;a href=&#34;https://alimy.me/post/dev_202012071315/&#34;&gt;TL&lt;/a&gt;.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;int ? = Int;
 long ? = Long;
 double ? = Double;
@@ -115,7 +115,7 @@ http_wait#9299359f max_delay:int wait_after:int max_wait:int = HttpWait;
       <pubDate>Mon, 07 Dec 2020 13:33:00 +0800</pubDate>
       
       <guid>https://alimy.me/post/dev_202012071333/</guid>
-      <description>&lt;p&gt;MTProto operation requires that elementary and composite data types as well as queries to which such data types are passed as arguments or by which they are returned, be transmitted in binary format (i. e. serialized) . The &lt;a href=&#34;post/dev_202012071315/&#34;&gt;TL language&lt;/a&gt; is used to describe the data types to be serialized.&lt;/p&gt;
+      <description>&lt;p&gt;MTProto operation requires that elementary and composite data types as well as queries to which such data types are passed as arguments or by which they are returned, be transmitted in binary format (i. e. serialized) . The &lt;a href=&#34;https://alimy.me/post/dev_202012071315/&#34;&gt;TL language&lt;/a&gt; is used to describe the data types to be serialized.&lt;/p&gt;
 &lt;h4 id=&#34;general-definitions&#34;&gt;General Definitions&lt;/h4&gt;
 &lt;p&gt;For our purposes, we can identify a type with the set of its (serialized) values understood as strings (finite sequences) of 32-bit numbers (transmitted in little endian order).&lt;/p&gt;
 &lt;p&gt;Therefore:&lt;/p&gt;
@@ -137,7 +137,7 @@ http_wait#9299359f max_delay:int wait_after:int max_wait:int = HttpWait;
       <pubDate>Mon, 07 Dec 2020 13:30:00 +0800</pubDate>
       
       <guid>https://alimy.me/post/dev_202012071330/</guid>
-      <description>&lt;p&gt;See &lt;a href=&#34;post/dev_202012071321/&#34;&gt;Polymorphism in TL&lt;/a&gt; and &lt;a href=&#34;post/dev_202012071315&#34;&gt;TL Language&lt;/a&gt;.&lt;/p&gt;
+      <description>&lt;p&gt;See &lt;a href=&#34;https://alimy.me/post/dev_202012071321/&#34;&gt;Polymorphism in TL&lt;/a&gt; and &lt;a href=&#34;https://alimy.me/post/dev_202012071315&#34;&gt;TL Language&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;It remains to describe how types, e.g. values of type Type, are transmitted (serialized). In general, there is nothing unexpected going on here: we have type constructors of various arities (for example, List is an arity-1 constructor, but IntList is a 0-arity constructor); and if we know that a 32-bit “name” is assigned to each type constructor, there are no further questions &amp;ndash; values of type Type are serialized exactly like values of any other recursive type with a defined set of constructors of differing arity.&lt;/p&gt;
 &lt;p&gt;How can a 32-bit “name” be assigned to a type (a type constructor, to be more exact) such as List or IntList? It is proposed to use the sum of the names of all of its constructors, plus the CRC32 of the string with the designation of the type&amp;rsquo;s name and all of its parameters such as “IntList = Type” or “List X:Type = Type”. This way, the List constructor’s “name” is the sum of the CRC32s of the three strings &amp;ldquo;List X:Type = Type&amp;rdquo;, &amp;ldquo;cons X:Type hd:X tl:List X = List X&amp;rdquo;, and &amp;ldquo;nil X:Type = List X&amp;rdquo;. For “bare” types (which, formally speaking, are subtypes of the corresponding “boxed” type), the situation is somewhat more complicated; the logical negation of the corresponding constructor’s name is used. For built-in bareand boxed types (for example, int and Int), a pseudo-declaration is used (for example, int ? = Int&amp;quot;).&lt;/p&gt;
 &lt;ul&gt;
@@ -176,7 +176,7 @@ EndType
       <guid>https://alimy.me/post/dev_202012071315/</guid>
       <description>&lt;p&gt;TL (Type Language) serves to describe the used system of types, constructors, and existing functions. In fact, the combinator description format presented in Binary Data Serialization is used.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;See also:&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;post/dev_202012071321/&#34;&gt;Polymorphism in TL&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://alimy.me/post/dev_202012071321/&#34;&gt;Polymorphism in TL&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Advanced topics:&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;tl-dependent.md&#34;&gt;Dependent types in TL&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;tl-formal.md&#34;&gt;Formal description of TL&lt;/a&gt;&lt;/p&gt;
