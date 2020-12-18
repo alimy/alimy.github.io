@@ -4,7 +4,7 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <title> Tg: Current MTProto TL-schema &middot; 北 野 </title>
+    <title> Tg:TL-formal &middot; 北 野 </title>
     
     <link rel="stylesheet" type="text/css" href="https://alimy.me/css/uno.css" />
     <link rel="stylesheet" type="text/css" href="https://alimy.me/css/lightGallery.css" />
@@ -287,89 +287,299 @@ fathom('trackPageview');
     <div class="content-wrapper">
       <div class="content-wrapper__inner">
         <div class="post panel-wrapper">
-            <h2>Tg: Current MTProto TL-schema</h2>
+            <h2>Tg:TL-formal</h2>
           
-          <p>Below you will find the current MTProto TL-schema. More detais on <a href="https://alimy.me/post/dev_202012071315/">TL</a>.</p>
-<pre><code>int ? = Int;
+          <p>See also <a href="https://core.telegram.org/mtproto/TL">TL Language</a>. For the syntax of declaring combinators, see in article <a href="https://core.telegram.org/mtproto/TL-combinators">Formal declaration of TL combinators</a>. For the syntax of patterns, see in article <a href="https://core.telegram.org/mtproto/TL-patterns">Formal declaration of TL patterns</a>.</p>
+<h3 id="tokens">Tokens</h3>
+<p>Comments are the same as in C/C++. They are removed by a lexical parser (for example, being replaced by a single space). Whitespace separates tokens. Except for string constants, tokens cannot contain spaces.</p>
+<p>Character classes:</p>
+<pre><code>lc-letter ::= `a` | `b` | ... | `z`
+uc-letter ::= `A` | `B` | ... | `Z`
+digit ::= `0` | `1` | ... | `9`
+hex-digit ::= digit | `a` | `b` | `c` | `d` | `e` | `f`
+underscore ::= `_`
+letter ::= lc-letter | uc-letter
+ident-char ::= letter | digit | underscore
+</code></pre><p>Simple identifiers and keywords:</p>
+<pre><code>lc-ident ::= lc-letter { ident-char }
+uc-ident ::= uc-letter { ident-char }
+namespace-ident ::= lc-ident
+lc-ident-ns ::= [ namespace-ident `.` ] lc-ident
+uc-ident-ns ::= [ namespace-ident `.` ] uc-ident
+lc-ident-full ::= lc-ident-ns [ `#` hex-digit *8 ]
+</code></pre><p>Tokens:</p>
+<pre><code>underscore ::= `_`
+colon ::= `:`
+semicolon ::= `;`
+open-par ::= `(`
+close-par ::= `)`
+open-bracket ::= `[`
+close-bracket ::= `]`
+open-brace ::= `{`
+close-brace ::= `}`
+triple-minus ::= `---`
+nat-const ::= *digit* { *digit* }
+lc-ident-full
+lc-ident
+uc-ident-ns
+equals ::= `=`
+hash ::= `#`
+question-mark ::= `?`
+percent ::= `%`
+plus ::= `+`
+langle ::= `&lt;`
+rangle ::= `&gt;`
+comma ::= `,`
+dot ::= `.`
+asterisk ::= `*`
+excl-mark ::= `!`
+Final-kw ::= `Final`
+New-kw ::= `New`
+Empty-kw ::= `Empty`
+</code></pre><p><code>Final</code> is a reserved keyword, e.g. a special token. Words like <code>Type</code> are not keywords, rather they are identifiers with preset values.</p>
+<p>Tokens consisting of one or more constant symbols shall be hereafter denoted using terms in quotation marks (for example, <code>---</code> replaces <em>triple-minus</em>).</p>
+<h2 id="syntax">Syntax</h2>
+<h3 id="general-syntax-of-a-tl-program">General syntax of a TL program</h3>
+<p>Syntactically, a TL program consists of a stream of tokens (separated by spaces, which are ignored at this stage). General program structure:</p>
+<pre><code>TL-program ::= constr-declarations { `---` `functions` `---` fun-declarations | `---` `types` `---` constr-declarations }
+</code></pre><p>Here the constructor- and function declarations are nearly identical in their syntax (they are both combinators):</p>
+<pre><code>constr-declarations ::= { declaration }
+fun-declarations ::= { declaration }
+</code></pre><p>There are various declarations:</p>
+<pre><code>declaration ::= combinator-decl | partial-app-decl | final-decl
+</code></pre><p>Before explaining how declarations of combinators, partial applications, and type <code>finalization</code> are given, we will introduce additional syntactical categories:</p>
+<h3 id="syntactical-categories-and-constructions">Syntactical categories and constructions</h3>
+<p>The concept of an expression (<em>expr</em>) is important. There are type expressions (<em>type-expr</em>) and numeric expressions (<em>nat-expr</em>). However, they are defined the same way. Their correctness as type- or numeric expressions is checked when the type of the analyzed expression is checked.</p>
+<pre><code>type-expr ::= expr
+nat-expr ::= expr
+expr ::= { subexpr }
+subexpr ::= term | nat-const `+` subexpr | subexpr `+` nat-const
+term ::= `(` expr `)` | type-ident | var-ident | nat-const | `%` term | type-ident `&lt;` expr { `,` expr } `&gt;`
+type-ident ::= boxed-type-ident | lc-ident-ns | `#`
+boxed-type-ident ::= uc-ident-ns
+var-ident ::= lc-ident | uc-ident
+type-term ::= term
+nat-term ::= term
+</code></pre><p>Note that writing <code>E = E_1 E_2 ... E_n</code> in the expression for <em>expr</em> means applying the function <em>E_1</em> to the argument <em>E_2</em>, applying the result to <em>E_3</em>, etc. Specifically, <code>E_1 E_2 E_3 = (E_1 E_2) E_3</code>. A solitary <code>#</code> is included in <em>type-ident</em>, because it is actually the identifier for a built-in type (<code>#</code> alias <code>nat</code>).</p>
+<p>The expression <code>E&lt;E_1,...,E_n&gt;</code> is syntactic sugar for <code>(E (E_1) ... (E_n))</code>, i.e. both expressions are transformed into the same internal representation.</p>
+<h3 id="combinator-declarations">Combinator declarations</h3>
+<pre><code>combinator-decl ::= full-combinator-id { opt-args } { args } `=` result-type `;`
+full-combinator-id ::= lc-ident-full | `_`
+combinator-id ::= lc-ident-ns | `_`
+opt-args ::= `{` var-ident { var-ident } : [excl-mark] type-expr `}`
+args ::= var-ident-opt `:` [ conditional-def ] [ `!` ] type-term
+args ::= [ var-ident-opt `:` ] [ multiplicity `*`] `[` { args } `]`
+args ::= `(` var-ident-opt { var-ident-opt } `:` [`!`] type-term `)`
+args ::= [ `!` ] type-term
+multiplicity ::= nat-term
+var-ident-opt ::= var-ident | `_`
+conditional-def ::= var-ident [ `.` nat-const ] `?`
+result-type ::= boxed-type-ident { subexpr }
+result-type ::= boxed-type-ident `&lt;` subexpr { `,` subexpr } `&gt;`
+</code></pre><p>See <a href="https://core.telegram.org/mtproto/TL-combinators">Formal declaration of TL combinators</a> for a description of what exactly this means. Here we will only note that when declaring the type of a combinator’s next argument, only the names of previously arranged (more to the left) arguments of the same combinator may be used as variables, but when declaring the result type you can use all of its parameters (of type <code>Type</code> and <code>#</code>).</p>
+<p>Note that the names of combinators declared in this way may be used in TL itself only as the corresponding bare types. The only combinators that appear in declarations are built-in: <code>O : #</code> and <code>S : # -&gt; #</code>.</p>
+<p>There are also “pseudo-declarations” that are allowed only to declare built-in types (such as <code>int ? = Int;</code>):</p>
+<pre><code>builtin-combinator-decl ::= full-combinator-id `?` `=` boxed-type-ident `;`
+</code></pre><h3 id="partial-applications-patterns">Partial applications (patterns)</h3>
+<pre><code>partial-app-decl ::= partial-type-app-decl | partial-comb-app-decl
+partial-type-app-decl ::= boxed-type-ident subexpr { subexpr } `;` | boxed-type-ident `&lt;` expr { `,` expr } `&gt;` `;`
+partial-comb-app-decl ::= combinator-id subexpr { subexpr } `;`
+</code></pre><p>See <a href="https://core.telegram.org/mtproto/TL-patterns">Formal declaration of TL patterns</a>.</p>
+<h3 id="type-finalization">Type finalization</h3>
+<pre><code>final-decl ::= `New` boxed-type-ident `;` | `Final` boxed-type-ident `;` | `Empty` boxed-type-ident `;`
+</code></pre><p>This type of declaration means that there must not be any constructor for the indicated type: before the declaration for <code>New</code> and after the declaration for <code>Final</code>. The keyword <code>Empty</code> enables both effects.</p>
+<h3 id="predefined-identifiers">Predefined identifiers</h3>
+<p>Nearly all predefined identifiers may be given using the following schema (usually located in <code>common.tl</code>):</p>
+<pre><code>/////
+//
+// Common Types
+//
+/////
+
+// Built-in types
+int ? = Int;
 long ? = Long;
 double ? = Double;
 string ? = String;
 
-vector {t:Type} # [ t ] = Vector t;
+// Boolean emulation
+boolFalse = Bool;
+boolTrue = Bool;
 
-int128 4*[ int ] = Int128;
-int256 8*[ int ] = Int256;
+// Boolean for diagonal queries
+boolStat statTrue:int statFalse:int statUnknown:int = BoolStat;
 
-resPQ#05162463 nonce:int128 server_nonce:int128 pq:bytes server_public_key_fingerprints:Vector&lt;long&gt; = ResPQ;
+// Vector
+vector {t:Type} # [t] = Vector t;
+tuple {t:Type} {n:#} [t] = Tuple t n;
+vectorTotal {t:Type} total_count:int vector:%(Vector t) = VectorTotal t;
 
-p_q_inner_data#83c95aec pq:bytes p:bytes q:bytes nonce:int128 server_nonce:int128 new_nonce:int256 = P_Q_inner_data;
+/////
+//
+// Result- (Maybe-) types
+//
+/////
 
-server_DH_params_fail#79cb045d nonce:int128 server_nonce:int128 new_nonce_hash:int128 = Server_DH_Params;
-server_DH_params_ok#d0e8075c nonce:int128 server_nonce:int128 encrypted_answer:bytes = Server_DH_Params;
+resultFalse {t:Type} = Maybe t;
+resultTrue {t:Type} result:t = Maybe t;
 
-server_DH_inner_data#b5890dba nonce:int128 server_nonce:int128 g:int dh_prime:bytes g_a:bytes server_time:int = Server_DH_inner_data;
+pair {X:Type} {Y:Type} a:X b:Y = Pair X Y;
+map {X:Type} {Y:Type} key:X value:Y = Map X Y;
 
-client_DH_inner_data#6643b654 nonce:int128 server_nonce:int128 retry_id:long g_b:bytes = Client_DH_Inner_Data;
+Empty False;
+true = True;
 
-dh_gen_ok#3bcbf734 nonce:int128 server_nonce:int128 new_nonce_hash1:int128 = Set_client_DH_params_answer;
-dh_gen_retry#46dc1fb9 nonce:int128 server_nonce:int128 new_nonce_hash2:int128 = Set_client_DH_params_answer;
-dh_gen_fail#a69dae02 nonce:int128 server_nonce:int128 new_nonce_hash3:int128 = Set_client_DH_params_answer;
+unit = Unit;
+</code></pre><ul>
+<li>Predefined identifier <code>Type</code>: This type signifies the type of all types. It is usually used to specify the types of optional parameters in the constructors of polymorphic types. If strongly desired, it can be used in its own right, but this is very rarely needed in practice.</li>
+<li>Identifier <code>#</code>: This type is used to specify a special type of nonnegative integers in the range from 0 to 2^31-1; its main purpose is the same as that of <code>Type</code>. There are two built-in constructors: <code>O</code> : # and <code>S</code> : # -&gt; # (“null” and “next number”, respectively), which work as if <code>#</code> was defined using the schema</li>
+</ul>
+<pre><code>O = #;
+S # = #;
+</code></pre><ul>
+<li>Identifier <code>Tuple</code>: Type -&gt; # -&gt; Type denotes a set of the specified number of values of the indicated type. In other words, <em>Tuple X n</em> means “a set of <em>n</em> values of type <em>X</em>&quot;.</li>
+<li>The type<code>Bool</code>, with two constructors <code>boolTrue</code> and <code>boolFalse</code>, is used to transmit Boolean values.</li>
+<li>The constructor-less type <code>False</code> may be used instead of undeclared or invalid types in the construction of a TL schema, because any attempt to (de)serialize a value of type <code>False</code> will produce an error. Usage Example:</li>
+</ul>
+<pre><code>user {flags:#} id:flags.0?string first_name:flags.1?string last_name:flags.2?string reserved3:flags.3?False reserved4:flags.4?False = User flags;
+user_present {flags:#} info:%(User flags) = UserInfo flags;
+user_absent {flags:#} = UserInfo flags;
+getUser flags:# id:int = !UserInfo flags;
+</code></pre><p>In the future, bits 3 and 4 in the <code>flags</code> field may be used to transmit new fields after changing the names and types of the <code>reserved3</code> and <code>reserved4</code> fields. This will change the <code>user</code> constructor’s number, but this isn’t too important, since the <code>User flags</code> type is only used as a bare type. Transmitting bits 3 or 4 in the <code>flags</code> field in a <code>getUser</code> query before these fields have actually been defined will lead to an error in the (de)serialization of the request.</p>
+<ul>
+<li>The type <code>True</code> with a single null constructor <code>true</code> plays a role similar to the void type in C/C++. It is especially useful as a bare type <code>%True</code>, alias <code>true</code>, because its serialization has zero length. For example, the <code>first_name:flags.1?string</code> constructor used above is in fact shorthand for (the as-yet unsupported) alternative-type general constructor <code>first_name:(flags.1?string:true)</code>.</li>
+</ul>
+<p>When directly used in a <a href="https://core.telegram.org/mtproto/TL-combinators#conditional-fields">conditional field</a> it may simply indicate the presence (absence) of a certain parameter with void type. If the conditional field exists, the associated parameter will not be populated; the conditional field simply exists and the existance value can be used to perform certain operations, example:</p>
+<pre><code>user {flags:#} id:flags.0?string first_name:flags.1?string last_name:flags.2?string bot:flags.3?true reserved4:flags.4?False = User flags;
+</code></pre><p>If bit 3 of the <code>flags</code> parameter isn&rsquo;t set, the user is a normal user. If bit 3 of the <code>flags</code> parameter is set, this indicates that the specified user is a bot: however, during deserialization, the <code>bot</code> parameter must not be assigned any value, since <code>true</code> is actually a <code>void</code> type.</p>
+<ul>
+<li>The type<code>Unit</code> with a single null constructor <code>Unit</code> is similar to the previous type.</li>
+</ul>
+<h4 id="antlr-definition">ANTLR definition</h4>
+<p>An <a href="https://www.antlr.org/">ANLTR</a> definition of TL grammar can be found <a href="https://gitlab.com/telekram/telekram/-/blob/master/generator/src/commonMain/antlr/TL.g4">here »</a>.</p>
+<pre><code>grammar TL;
 
-rpc_result#f35c6d01 req_msg_id:long result:Object = RpcResult;
-rpc_error#2144ca19 error_code:int error_message:string = RpcError;
+/* +++ Tokens +++ */
 
-rpc_answer_unknown#5e2ad36e = RpcDropAnswer;
-rpc_answer_dropped_running#cd78e586 = RpcDropAnswer;
-rpc_answer_dropped#a43ad8b7 msg_id:long seq_no:int bytes:int = RpcDropAnswer;
+/* === Character classes and Simple identifiers and keywords === */
+NUMBER_ : [0-9]+ ;
+HEX_CONST_ : ([a-f0-9] | NUMBER_)+ ;
+LC_IDENT_ : [a-z] ([_a-zA-Z] | HEX_CONST_)* ;
+UC_IDENT_ : [A-Z] ([_a-zA-Z] | HEX_CONST_)* ;
+namespace_ident : LC_IDENT_ ;
+lc_ident_ns : (namespace_ident DOT)* LC_IDENT_ ;
+uc_ident_ns : (namespace_ident DOT)* UC_IDENT_ ;
+hex_const : HEX_CONST_ | NUMBER_ ;
+lc_ident_full : lc_ident_ns (HASH hex_const)? ;
+var_ident : LC_IDENT_ | UC_IDENT_ ;
 
-future_salt#0949d9dc valid_since:int valid_until:int salt:long = FutureSalt;
-future_salts#ae500895 req_msg_id:long now:int salts:vector&lt;future_salt&gt; = FutureSalts;
+/* === Tokens === */
+UNDERSCORE : '_' ;
+COLON : ':' ;
+SEMICOLON : ';' ;
+OPEN_PAR : '(' ;
+CLOSE_PAR : ')' ;
+OPEN_BRACKET : '[' ;
+CLOSE_BRACKET : ']' ;
+OPEN_BRACE : '{' ;
+CLOSE_BRACE : '}' ;
+TYPES : '---' WS? 'TYPES' WS? '---' ;
+FUNCTIONS : '---' WS? 'functions' WS? '---' ;
+nat_const : NUMBER_ ;
+EQUALS : '=' ;
+HASH : '#' ;
+QUESTION_MARK : '?' ;
+PERCENT : '%' ;
+PLUS : '+' ;
+LANGLE : '&lt;' ;
+RANGLE : '&gt;' ;
+COMMA : ',' ;
+DOT : '.' ;
+ASTERISK : '*' ;
+EXCL_MARK : '!' ;
+FINAL_KW : 'Final' WS ;
+NEW_KW : 'New' WS ;
+EMPTY_KW : 'Empty' WS ;
+/* +++ Syntax +++ */
+/* === General syntax of a TL program === */
+tl_program : constr_declarations ((TYPES WS? constr_declarations) | (FUNCTIONS WS? fun_declarations))* ;
+constr_declarations : declaration* ;
+fun_declarations : declaration* ;
+// Note this is modified from the original to add `builtin_combinator_decl` - see https://t.me/c/1147847827/36700
+declaration : (combinator_decl | builtin_combinator_decl | partial_app_decl | final_decl) WS? SEMICOLON WS? ;
 
-pong#347773c5 msg_id:long ping_id:long = Pong;
+/* === Syntactical categories and constructions === */
+type_expr : EXCL_MARK? expr ;
+nat_expr : expr ;
+expr : subexpr (WS subexpr)* ;
+subexpr : term | nat_const WS? PLUS WS? subexpr | subexpr WS? PLUS WS? nat_const ;
+term
+    : OPEN_PAR WS? expr WS? CLOSE_PAR
+    | type_ident
+    | var_ident
+    | nat_const
+    | PERCENT term
+    | type_ident WS? LANGLE WS? expr (WS? COMMA WS? expr)* WS? RANGLE
+    ;
+type_ident : boxed_type_ident | lc_ident_ns | HASH ;
+boxed_type_ident : uc_ident_ns ;
+type_term : EXCL_MARK? term;
+nat_term : term;
 
-destroy_session_ok#e22045fc session_id:long = DestroySessionRes;
-destroy_session_none#62d350c9 session_id:long = DestroySessionRes;
+/* === Combinator declarations === */
+combinator_decl : full_combinator_id WS opt_args* args* WS? EQUALS WS? result_type ;
+full_combinator_id : lc_ident_full | UNDERSCORE ;
+combinator_id : lc_ident_ns | UNDERSCORE ;
+opt_args : OPEN_BRACE var_ident (WS var_ident)* WS? COLON type_expr CLOSE_BRACE WS ;
+args
+    : simple_arg
+    | bracket_arg
+    | par_arg
+    | type_arg
+    ;
+simple_arg : var_ident_opt COLON conditional_def? type_term WS ;
+bracket_arg : (var_ident_opt WS? COLON WS?)? (multiplicity WS? ASTERISK WS?)? OPEN_BRACKET WS? args* WS? CLOSE_BRACKET ;
+par_arg : OPEN_PAR var_ident_opt (WS var_ident_opt)* WS? COLON WS? type_term WS ;
+type_arg : type_term WS ;
+multiplicity : nat_term ;
+var_ident_opt : var_ident | UNDERSCORE ;
+conditional_def : var_ident (DOT nat_const)? QUESTION_MARK ;
+result_type
+    : boxed_type_ident (WS subexpr (WS subexpr)*)?
+    | boxed_type_ident WS? LANGLE WS? subexpr (WS? COMMA WS? subexpr)* WS? RANGLE
+    ;
+builtin_combinator_decl : full_combinator_id WS QUESTION_MARK WS? EQUALS WS? boxed_type_ident ;
 
-new_session_created#9ec20908 first_msg_id:long unique_id:long server_salt:long = NewSession;
+/* === Partial applications (patterns) === */
+partial_app_decl : partial_type_app_decl | partial_comb_app_decl ;
+partial_type_app_decl
+    : boxed_type_ident WS subexpr (WS subexpr)*
+    | boxed_type_ident WS? LANGLE WS? expr (WS? COMMA WS? expr)* WS? RANGLE
+    ;
+partial_comb_app_decl : combinator_id WS subexpr (WS subexpr)* ;
 
-msg_container#73f1f8dc messages:vector&lt;%Message&gt; = MessageContainer;
-message msg_id:long seqno:int bytes:int body:Object = Message;
-msg_copy#e06046b2 orig_message:Message = MessageCopy;
+/* === Type finalization === */
+final_decl
+    : NEW_KW boxed_type_ident
+    | FINAL_KW boxed_type_ident
+    | EMPTY_KW boxed_type_ident
+    ;
 
-gzip_packed#3072cfa1 packed_data:bytes = Object;
+/* +++ Other +++ */
+/* === Root program definition === */
+tl_file : WS? tl_program WS? EOF ;
 
-msgs_ack#62d6b459 msg_ids:Vector&lt;long&gt; = MsgsAck;
+/* === Whitespace handling === */
+WS : [ \r\n\t]+ ;
 
-bad_msg_notification#a7eff811 bad_msg_id:long bad_msg_seqno:int error_code:int = BadMsgNotification;
-bad_server_salt#edab447b bad_msg_id:long bad_msg_seqno:int error_code:int new_server_salt:long = BadMsgNotification;
-
-msg_resend_req#7d861a08 msg_ids:Vector&lt;long&gt; = MsgResendReq;
-msgs_state_req#da69fb52 msg_ids:Vector&lt;long&gt; = MsgsStateReq;
-msgs_state_info#04deb57d req_msg_id:long info:bytes = MsgsStateInfo;
-msgs_all_info#8cc0d131 msg_ids:Vector&lt;long&gt; info:bytes = MsgsAllInfo;
-msg_detailed_info#276d3ec6 msg_id:long answer_msg_id:long bytes:int status:int = MsgDetailedInfo;
-msg_new_detailed_info#809db6df answer_msg_id:long bytes:int status:int = MsgDetailedInfo;
-
----functions---
-
-req_pq#60469778 nonce:int128 = ResPQ;
-
-req_DH_params#d712e4be nonce:int128 server_nonce:int128 p:bytes q:bytes public_key_fingerprint:long encrypted_data:bytes = Server_DH_Params;
-
-set_client_DH_params#f5045f1f nonce:int128 server_nonce:int128 encrypted_data:bytes = Set_client_DH_params_answer;
-
-rpc_drop_answer#58e4a740 req_msg_id:long = RpcDropAnswer;
-get_future_salts#b921bd04 num:int = FutureSalts;
-ping#7abe77ec ping_id:long = Pong;
-ping_delay_disconnect#f3427b8c ping_id:long disconnect_delay:int = Pong;
-destroy_session#e7512126 session_id:long = DestroySessionRes;
-
-http_wait#9299359f max_delay:int wait_after:int max_wait:int = HttpWait;
+/* === Comments === */
+LINE_COMMENT : '//' .+? ('\n'|EOF) -&gt; skip ;
+MULTILINE_COMMENT : '/*' .+? '*/' -&gt; skip ;
 </code></pre><hr>
-<p>(Notice: Origin official document is <a href="https://core.telegram.org/mtproto/description" title=" Current MTProto TL-schema"><em>Here</em></a>)</p>
+<p>(Notice: Origin official document is <a href="https://core.telegram.org/mtproto/TL-formal" title=" TL-formal"><em>Here</em></a>)</p>
         </div>
         <div id="post-navigator">
-          <a id="post-navigator-prev" href="https://alimy.me/post/dev_202012071337/" title="上一篇">&lt;&lt; Tg: Service Messages</a>
+          <a id="post-navigator-prev" href="https://alimy.me/post/dev_2020120181630/" title="上一篇">&lt;&lt; Tg: Current MTProto TL-schema</a>
           
         </div>
         <div id="post-comments">

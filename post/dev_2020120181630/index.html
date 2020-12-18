@@ -1,10 +1,10 @@
-    <!DOCTYPE html>
+  <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <title> Tg &middot; 北 野 </title>
+    <title> Tg: Current MTProto TL-schema &middot; 北 野 </title>
     
     <link rel="stylesheet" type="text/css" href="https://alimy.me/css/uno.css" />
     <link rel="stylesheet" type="text/css" href="https://alimy.me/css/lightGallery.css" />
@@ -185,17 +185,15 @@ fathom('trackPageview');
     </style>
 </head>
 
-    <body>
-        <div id="scriptHeader">
+  <body>
+    <div id="scriptHeader">
     <span class="mobile btn-mobile-menu">
             <i class="fa fa-bars btn-mobile-menu__icon"></i>
             <i class="fa fa-times btn-mobile-close__icon hidden"> </i>
     </span>
     <header class="
         
-        
             panel-cover panel-cover--collapsed
-        
         " >
     <div class="panel-main">
         <div class="panel-main__inner panel-inverted">
@@ -286,89 +284,124 @@ fathom('trackPageview');
     </header>
 </noscript>
 
-        <div class="content-wrapper">
-            <div class="content-wrapper__inner">
-                <h2>文章列表</h2>
-                
-                <div class="panel-wrapper">
-                <div id="caption">
-                <h3>
-                  2020年 12月
-                  
-                  <span id="list-indicator" title="共7篇文章">7 </span>
-                </h3>
-                </div>
-                <ul id="list">
-                    
-                    <li>
-                        <a href="https://alimy.me/post/dev_202012071348/">Tg:TL-formal </a>&nbsp;
-                        <span id="list-date">(Fri, Dec 18, 2020)</span>
-                    </li>
-                    
-                    <li>
-                        <a href="https://alimy.me/post/dev_2020120181630/">Tg: Current MTProto TL-schema </a>&nbsp;
-                        <span id="list-date">(Mon, Dec 07, 2020)</span>
-                    </li>
-                    
-                    <li>
-                        <a href="https://alimy.me/post/dev_202012071337/">Tg: Service Messages </a>&nbsp;
-                        <span id="list-date">(Mon, Dec 07, 2020)</span>
-                    </li>
-                    
-                    <li>
-                        <a href="https://alimy.me/post/dev_202012071333/">Tg: Binary Data Serialization </a>&nbsp;
-                        <span id="list-date">(Mon, Dec 07, 2020)</span>
-                    </li>
-                    
-                    <li>
-                        <a href="https://alimy.me/post/dev_202012071330/">Tg: Type serialization </a>&nbsp;
-                        <span id="list-date">(Mon, Dec 07, 2020)</span>
-                    </li>
-                    
-                    <li>
-                        <a href="https://alimy.me/post/dev_202012071321/">Tg: Polymorphism in TL </a>&nbsp;
-                        <span id="list-date">(Mon, Dec 07, 2020)</span>
-                    </li>
-                    
-                    <li>
-                        <a href="https://alimy.me/post/dev_202012071315/">Tg: TL Language </a>&nbsp;
-                        <span id="list-date">(Mon, Dec 07, 2020)</span>
-                    </li>
-                    
-                </ul>
-                </div>
-                
-                <div class="panel-wrapper">
-                <div id="caption">
-                <h3>
-                  2020年 11月
-                  
-                  <span id="list-indicator" title="共2篇文章">2 </span>
-                </h3>
-                </div>
-                <ul id="list">
-                    
-                    <li>
-                        <a href="https://alimy.me/post/dev_202011271711/">Tg: MTProto v2 </a>&nbsp;
-                        <span id="list-date">(Fri, Nov 27, 2020)</span>
-                    </li>
-                    
-                    <li>
-                        <a href="https://alimy.me/post/dev_202011271705/">Tg: MTProto v1 </a>&nbsp;
-                        <span id="list-date">(Fri, Nov 27, 2020)</span>
-                    </li>
-                    
-                </ul>
-                </div>
-                
-                  <footer id="copyright"> <p>&copy;2015-2020 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
+    <div class="content-wrapper">
+      <div class="content-wrapper__inner">
+        <div class="post panel-wrapper">
+            <h2>Tg: Current MTProto TL-schema</h2>
+          
+          <p>Below you will find the current MTProto TL-schema. More detais on <a href="https://alimy.me/post/dev_202012071315/">TL</a>.</p>
+<pre><code>int ? = Int;
+long ? = Long;
+double ? = Double;
+string ? = String;
 
-            </div>
+vector {t:Type} # [ t ] = Vector t;
+
+int128 4*[ int ] = Int128;
+int256 8*[ int ] = Int256;
+
+resPQ#05162463 nonce:int128 server_nonce:int128 pq:bytes server_public_key_fingerprints:Vector&lt;long&gt; = ResPQ;
+
+p_q_inner_data#83c95aec pq:bytes p:bytes q:bytes nonce:int128 server_nonce:int128 new_nonce:int256 = P_Q_inner_data;
+
+server_DH_params_fail#79cb045d nonce:int128 server_nonce:int128 new_nonce_hash:int128 = Server_DH_Params;
+server_DH_params_ok#d0e8075c nonce:int128 server_nonce:int128 encrypted_answer:bytes = Server_DH_Params;
+
+server_DH_inner_data#b5890dba nonce:int128 server_nonce:int128 g:int dh_prime:bytes g_a:bytes server_time:int = Server_DH_inner_data;
+
+client_DH_inner_data#6643b654 nonce:int128 server_nonce:int128 retry_id:long g_b:bytes = Client_DH_Inner_Data;
+
+dh_gen_ok#3bcbf734 nonce:int128 server_nonce:int128 new_nonce_hash1:int128 = Set_client_DH_params_answer;
+dh_gen_retry#46dc1fb9 nonce:int128 server_nonce:int128 new_nonce_hash2:int128 = Set_client_DH_params_answer;
+dh_gen_fail#a69dae02 nonce:int128 server_nonce:int128 new_nonce_hash3:int128 = Set_client_DH_params_answer;
+
+rpc_result#f35c6d01 req_msg_id:long result:Object = RpcResult;
+rpc_error#2144ca19 error_code:int error_message:string = RpcError;
+
+rpc_answer_unknown#5e2ad36e = RpcDropAnswer;
+rpc_answer_dropped_running#cd78e586 = RpcDropAnswer;
+rpc_answer_dropped#a43ad8b7 msg_id:long seq_no:int bytes:int = RpcDropAnswer;
+
+future_salt#0949d9dc valid_since:int valid_until:int salt:long = FutureSalt;
+future_salts#ae500895 req_msg_id:long now:int salts:vector&lt;future_salt&gt; = FutureSalts;
+
+pong#347773c5 msg_id:long ping_id:long = Pong;
+
+destroy_session_ok#e22045fc session_id:long = DestroySessionRes;
+destroy_session_none#62d350c9 session_id:long = DestroySessionRes;
+
+new_session_created#9ec20908 first_msg_id:long unique_id:long server_salt:long = NewSession;
+
+msg_container#73f1f8dc messages:vector&lt;%Message&gt; = MessageContainer;
+message msg_id:long seqno:int bytes:int body:Object = Message;
+msg_copy#e06046b2 orig_message:Message = MessageCopy;
+
+gzip_packed#3072cfa1 packed_data:bytes = Object;
+
+msgs_ack#62d6b459 msg_ids:Vector&lt;long&gt; = MsgsAck;
+
+bad_msg_notification#a7eff811 bad_msg_id:long bad_msg_seqno:int error_code:int = BadMsgNotification;
+bad_server_salt#edab447b bad_msg_id:long bad_msg_seqno:int error_code:int new_server_salt:long = BadMsgNotification;
+
+msg_resend_req#7d861a08 msg_ids:Vector&lt;long&gt; = MsgResendReq;
+msgs_state_req#da69fb52 msg_ids:Vector&lt;long&gt; = MsgsStateReq;
+msgs_state_info#04deb57d req_msg_id:long info:bytes = MsgsStateInfo;
+msgs_all_info#8cc0d131 msg_ids:Vector&lt;long&gt; info:bytes = MsgsAllInfo;
+msg_detailed_info#276d3ec6 msg_id:long answer_msg_id:long bytes:int status:int = MsgDetailedInfo;
+msg_new_detailed_info#809db6df answer_msg_id:long bytes:int status:int = MsgDetailedInfo;
+
+---functions---
+
+req_pq#60469778 nonce:int128 = ResPQ;
+
+req_DH_params#d712e4be nonce:int128 server_nonce:int128 p:bytes q:bytes public_key_fingerprint:long encrypted_data:bytes = Server_DH_Params;
+
+set_client_DH_params#f5045f1f nonce:int128 server_nonce:int128 encrypted_data:bytes = Set_client_DH_params_answer;
+
+rpc_drop_answer#58e4a740 req_msg_id:long = RpcDropAnswer;
+get_future_salts#b921bd04 num:int = FutureSalts;
+ping#7abe77ec ping_id:long = Pong;
+ping_delay_disconnect#f3427b8c ping_id:long disconnect_delay:int = Pong;
+destroy_session#e7512126 session_id:long = DestroySessionRes;
+
+http_wait#9299359f max_delay:int wait_after:int max_wait:int = HttpWait;
+</code></pre><hr>
+<p>(Notice: Origin official document is <a href="https://core.telegram.org/mtproto/description" title=" Current MTProto TL-schema"><em>Here</em></a>)</p>
         </div>
-    </body>
+        <div id="post-navigator">
+          <a id="post-navigator-prev" href="https://alimy.me/post/dev_202012071337/" title="上一篇">&lt;&lt; Tg: Service Messages</a>
+          <a id="post-navigator-next" href="https://alimy.me/post/dev_202012071348/" title="下一篇">Tg:TL-formal >></a>
+        </div>
+        <div id="post-comments">
+          <h3>Comments</h3>
+          
+
+
+<div id="disqus_thread"></div>
+
+<script type="text/javascript">
+  var disqusUsername = "alimy";
+
+  (function() { 
+  var d = document, s = d.createElement('script');
+
+  s.src = '//' + disqusUsername + '.disqus.com/embed.js';
+
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+          <footer id="copyright"> <p>&copy;2015-2020 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
+
+    </div>
     <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
 if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
 var s=document.getElementsByTagName('script')[0];sc.src='https://alimy.me/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
 WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
 
+  </body>
 </html>

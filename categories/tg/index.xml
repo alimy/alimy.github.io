@@ -6,13 +6,33 @@
     <description>Recent content in Tg on 北 野</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Mon, 07 Dec 2020 13:48:00 +0800</lastBuildDate><atom:link href="https://alimy.me/categories/tg/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 18 Dec 2020 16:30:00 +0800</lastBuildDate><atom:link href="https://alimy.me/categories/tg/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Tg: Current MTProto TL-schema</title>
+      <title>Tg:TL-formal</title>
       <link>https://alimy.me/post/dev_202012071348/</link>
-      <pubDate>Mon, 07 Dec 2020 13:48:00 +0800</pubDate>
+      <pubDate>Fri, 18 Dec 2020 16:30:00 +0800</pubDate>
       
       <guid>https://alimy.me/post/dev_202012071348/</guid>
+      <description>&lt;p&gt;See also &lt;a href=&#34;https://core.telegram.org/mtproto/TL&#34;&gt;TL Language&lt;/a&gt;. For the syntax of declaring combinators, see in article &lt;a href=&#34;https://core.telegram.org/mtproto/TL-combinators&#34;&gt;Formal declaration of TL combinators&lt;/a&gt;. For the syntax of patterns, see in article &lt;a href=&#34;https://core.telegram.org/mtproto/TL-patterns&#34;&gt;Formal declaration of TL patterns&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id=&#34;tokens&#34;&gt;Tokens&lt;/h3&gt;
+&lt;p&gt;Comments are the same as in C/C++. They are removed by a lexical parser (for example, being replaced by a single space). Whitespace separates tokens. Except for string constants, tokens cannot contain spaces.&lt;/p&gt;
+&lt;p&gt;Character classes:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;lc-letter ::= `a` | `b` | ... | `z`
+uc-letter ::= `A` | `B` | ... | `Z`
+digit ::= `0` | `1` | ... | `9`
+hex-digit ::= digit | `a` | `b` | `c` | `d` | `e` | `f`
+underscore ::= `_`
+letter ::= lc-letter | uc-letter
+ident-char ::= letter | digit | underscore
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    
+    <item>
+      <title>Tg: Current MTProto TL-schema</title>
+      <link>https://alimy.me/post/dev_2020120181630/</link>
+      <pubDate>Mon, 07 Dec 2020 13:48:00 +0800</pubDate>
+      
+      <guid>https://alimy.me/post/dev_2020120181630/</guid>
       <description>&lt;p&gt;Below you will find the current MTProto TL-schema. More detais on &lt;a href=&#34;https://alimy.me/post/dev_202012071315/&#34;&gt;TL&lt;/a&gt;.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;int ? = Int;
 long ? = Long;
