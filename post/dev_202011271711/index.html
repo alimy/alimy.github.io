@@ -111,6 +111,27 @@ fathom('trackPageview');
           font-size: .9em;
           font-style:italic;
         }
+        #post-tags {
+					margin-top: 1rem!important;
+					margin-bottom: 1rem!important;
+				}
+				.post-tags-item {
+          padding-left: .75rem!important;
+					padding-right: .75rem!important;
+          padding-top: .25rem!important;
+					padding-bottom: .25rem!important;
+          margin-right: .5rem!important;
+          margin-top: .25rem!important;
+					margin-bottom: .25rem!important;
+					font-size: .875rem!important;
+          color:#666666;
+          display: inline-block!important;
+					border-radius: .25rem!important;
+					background-color:rgb(242 242 247)!important;
+				}
+        .post-tags-item:hover {
+          color:#38b2ac;
+				}
         #post-navigator {
           padding:24px 0px 16px 0px;
           vertical-align: middle;
@@ -124,7 +145,7 @@ fathom('trackPageview');
           float:left;
         }
         #post-navigator-next {
-          float:right;
+float:right;
         }
         .pages {
             text-align: center;
@@ -435,6 +456,15 @@ Contains the cypher text for the following data:</p>
 <p>During the creation of the authorization key, the client obtains its server salt (to be used with the new key for all communication in the near future). The client then creates an encrypted session using the newly generated key, and subsequent communication occurs within that session (including the transmission of the user&rsquo;s registration information and phone number validation) unless the client creates a new session. The client is free to create new or additional sessions at any time by choosing a new random session_id.</p>
 <hr>
 <p>(Notice: Origin official document is <a href="https://core.telegram.org/mtproto/description" title=" MTProto v2"><em>Here</em></a>)</p>
+				<div id="post-tags">
+				  
+				  	
+						  <a href="https://alimy.me/tags/development/" class="post-tags-item">#development</a>
+						
+						  <a href="https://alimy.me/tags/tg/" class="post-tags-item">#tg</a>
+						
+					
+				</div>
         </div>
         <div id="post-navigator">
           <a id="post-navigator-prev" href="https://alimy.me/post/dev_202011271705/" title="上一篇">&lt;&lt; Tg: MTProto v1</a>

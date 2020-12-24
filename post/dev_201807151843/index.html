@@ -111,6 +111,27 @@ fathom('trackPageview');
           font-size: .9em;
           font-style:italic;
         }
+        #post-tags {
+					margin-top: 1rem!important;
+					margin-bottom: 1rem!important;
+				}
+				.post-tags-item {
+          padding-left: .75rem!important;
+					padding-right: .75rem!important;
+          padding-top: .25rem!important;
+					padding-bottom: .25rem!important;
+          margin-right: .5rem!important;
+          margin-top: .25rem!important;
+					margin-bottom: .25rem!important;
+					font-size: .875rem!important;
+          color:#666666;
+          display: inline-block!important;
+					border-radius: .25rem!important;
+					background-color:rgb(242 242 247)!important;
+				}
+        .post-tags-item:hover {
+          color:#38b2ac;
+				}
         #post-navigator {
           padding:24px 0px 16px 0px;
           vertical-align: middle;
@@ -124,7 +145,7 @@ fathom('trackPageview');
           float:left;
         }
         #post-navigator-next {
-          float:right;
+float:right;
         }
         .pages {
             text-align: center;
@@ -548,6 +569,13 @@ r.Use(amw.Middleware)
 </code></pre>
 <p>Note: The handler chain will be stopped if your middleware doesn&rsquo;t call <code>next.ServeHTTP()</code> with the corresponding parameters. This can be used to abort a request if the middleware writer wants to.</p>
 <p>(Origin official document is <a href="http://www.gorillatoolkit.org/pkg/mux" title="gorilla/mux document"><em>Here</em></a> and <a href="https://github.com/gorilla/mux" title="gorilla/mux source code in GitHub"><em>Source code in GitHub</em></a>)</p>
+				<div id="post-tags">
+				  
+				  	
+						  <a href="https://alimy.me/tags/development/" class="post-tags-item">#development</a>
+						
+					
+				</div>
         </div>
         <div id="post-navigator">
           <a id="post-navigator-prev" href="https://alimy.me/post/dev_201807012219/" title="上一篇">&lt;&lt; Docker: 对Docker Remote API进行认证</a>

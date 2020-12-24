@@ -111,6 +111,27 @@ fathom('trackPageview');
           font-size: .9em;
           font-style:italic;
         }
+        #post-tags {
+					margin-top: 1rem!important;
+					margin-bottom: 1rem!important;
+				}
+				.post-tags-item {
+          padding-left: .75rem!important;
+					padding-right: .75rem!important;
+          padding-top: .25rem!important;
+					padding-bottom: .25rem!important;
+          margin-right: .5rem!important;
+          margin-top: .25rem!important;
+					margin-bottom: .25rem!important;
+					font-size: .875rem!important;
+          color:#666666;
+          display: inline-block!important;
+					border-radius: .25rem!important;
+					background-color:rgb(242 242 247)!important;
+				}
+        .post-tags-item:hover {
+          color:#38b2ac;
+				}
         #post-navigator {
           padding:24px 0px 16px 0px;
           vertical-align: middle;
@@ -124,7 +145,7 @@ fathom('trackPageview');
           float:left;
         }
         #post-navigator-next {
-          float:right;
+float:right;
         }
         .pages {
             text-align: center;
@@ -296,6 +317,13 @@ TiDB 是新一代开源分布式 NewSQL 数据库，模型受 Google Spanner / F
 <p>CockroachDB（中文名蟑螂DB，所以又可以称为小强DB），是构建于事务处理及强一致性KV存储上的分布式SQL数据库，支持水平扩展、自动容错处理、强一致性事务，并且提供SQL接口用于数据处理，是Google Spanner/F1的开源实现。
 CockroachDB适用于应用对数据要求精确、可靠、完全正确的场景，支持自动复制、均匀分布、基于极小配置的数据恢复，可用于分布式的、可复制的联机事务处理（OLTP），多数据中心的部署，私有云的基础构建，它不适用于读少写多的场景，可以用内存数据库来代替，也不适用于复杂的join查询，重量级的数据分析及联机分析处理（OLAP）。</p>
 <p>CockroachDB is a distributed SQL database built on a transactional and strongly-consistent key-value store. It scales horizontally; survives disk, machine, rack, and even datacenter failures with minimal latency disruption and no manual intervention; supports strongly-consistent ACID transactions; and provides a familiar SQL API for structuring, manipulating, and querying data.SQL queries reach CockroachDB&rsquo;s cluster through the <a href="https://www.postgresql.org/docs/10/static/index.html" title="PostgreSQL 10.3 Documentation">PostgreSQL</a> wire protocol.</p>
+				<div id="post-tags">
+				  
+				  	
+						  <a href="https://alimy.me/tags/development/" class="post-tags-item">#development</a>
+						
+					
+				</div>
         </div>
         <div id="post-navigator">
           <a id="post-navigator-prev" href="https://alimy.me/post/dev_201804192316/" title="上一篇">&lt;&lt; Logus:另一种简单、优雅、高效打Log的方式</a>
