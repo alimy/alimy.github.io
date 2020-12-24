@@ -7,6 +7,13 @@
             <h2>{{ .Title }}</h2>
           <!--<span class="post-date">{{ .Date.Format "Mon, Jan 2, 2006" }}</span>-->
           {{ .Content }}
+				<div id="post-tags">
+				  {{ with .GetTerms "tags" }}
+				  	{{ range $index, $value := . }}
+						  <a href="{{ .Permalink }}" class="post-tags-item">#{{ .LinkTitle }}</a>
+						{{ end }}
+					{{ end }}
+				</div>
         </div>
         <div id="post-navigator">
           {{with .PrevPage }}<a id="post-navigator-prev" href="{{ .Permalink }}" title="上一篇"><< {{ .Title }}</a>{{ end }}
