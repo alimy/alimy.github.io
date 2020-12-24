@@ -10,7 +10,7 @@
 				<div id="post-tags">
 				  {{ with .GetTerms "tags" }}
 				  	{{ range $index, $value := . }}
-						  <a href="{{ .Permalink }}" class="post-tags-item">#{{ .LinkTitle }}</a>
+						  <a href="{{ .Permalink }}" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i> {{ .LinkTitle }}</a>
 						{{ end }}
 					{{ end }}
 				</div>
