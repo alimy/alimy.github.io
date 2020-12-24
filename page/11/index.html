@@ -319,7 +319,7 @@ float:right;
 <p>Note: The mapping from Java to JSON (and back) is limited, since not anything can be expressed in JSON as with XML. It works quite well for simple objects, but one should not expect wonders. Additionally XStream supports only Jettison 1.0.1. Any other version will not work correctly (even newer ones).</p>
 </div>
 <footer id="more">
-<a href='https://alimy.me/post/dev_201603092115/' title="继续阅读"><nobr>Read More →</nobr></a>
+<a href='https://alimy.me/post/dev_201603092115/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
 </footer>
 </article>
 
@@ -346,7 +346,7 @@ float:right;
 </ol>
 </div>
 <footer id="more">
-<a href='https://alimy.me/post/dev_201603092105/' title="继续阅读"><nobr>Read More →</nobr></a>
+<a href='https://alimy.me/post/dev_201603092105/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
 </footer>
 </article>
 
@@ -360,7 +360,7 @@ float:right;
     In the previous tutorials we saw an example of how to convert java object to XML and back. That tutorial also explained the concept of aliases and implicit collection.In the last tutorial we show how to write a custom converter. In this tutorial, lets see some of the basic built in converters of XStream and how the resultant XML from those converters look like. We will look at how the following types are converted.
 </div>
 <footer id="more">
-<a href='https://alimy.me/post/dev_201603092100/' title="继续阅读"><nobr>Read More →</nobr></a>
+<a href='https://alimy.me/post/dev_201603092100/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
 </footer>
 </article>
 
@@ -374,7 +374,7 @@ float:right;
     <p>In the previous tutorials we saw an example of how to convert a <a href="https://alimy.me/post/dev_201603081411" title="parsing an xml">java object to XML and back</a>. That tutorial also explained the concept of aliases and implicit collection. While serializing a Java object to XML XStream uses custom converters. These converters specify how to create XML from a Java Object or how to create a Java Object from XML elements. In most cases the provided converters should suffice, however, in certain cases you may want to create your own converters. To do so create a class that implements com.thoughtworks.xstream.converters.Converter and implement the void marshal(Object source, HierarchicalStreamWriter writer, MarshallingContext context); and Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context); The example below demonstrates a CustomConverter. To make the example more interesting we will write a converter to serialize a BufferedImage. The image for the example can be downloaded from here</p>
 </div>
 <footer id="more">
-<a href='https://alimy.me/post/dev_201603092055/' title="继续阅读"><nobr>Read More →</nobr></a>
+<a href='https://alimy.me/post/dev_201603092055/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
 </footer>
 </article>
 
@@ -397,7 +397,7 @@ float:right;
 </ul>
 </div>
 <footer id="more">
-<a href='https://alimy.me/post/dev_201603092051/' title="继续阅读"><nobr>Read More →</nobr></a>
+<a href='https://alimy.me/post/dev_201603092051/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
 </footer>
 </article>
 
@@ -417,7 +417,7 @@ XStream has no influence about this behavior.
 </code></pre>
 </div>
 <footer id="more">
-<a href='https://alimy.me/post/dev_201603092041/' title="继续阅读"><nobr>Read More →</nobr></a>
+<a href='https://alimy.me/post/dev_201603092041/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
 </footer>
 </article>
 
@@ -438,7 +438,7 @@ XStream has no influence about this behavior.
 </ul>
 </div>
 <footer id="more">
-<a href='https://alimy.me/post/dev_201603081441/' title="继续阅读"><nobr>Read More →</nobr></a>
+<a href='https://alimy.me/post/dev_201603081441/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
 </footer>
 </article>
 
@@ -468,7 +468,7 @@ public class CreateXMLFromMusicArtistObject {
 </code></pre>
 </div>
 <footer id="more">
-<a href='https://alimy.me/post/dev_201603081433/' title="继续阅读"><nobr>Read More →</nobr></a>
+<a href='https://alimy.me/post/dev_201603081433/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
 </footer>
 </article>
 
@@ -516,7 +516,7 @@ class Music {
 </code></pre>
 </div>
 <footer id="more">
-<a href='https://alimy.me/post/dev_201603081427/' title="继续阅读"><nobr>Read More →</nobr></a>
+<a href='https://alimy.me/post/dev_201603081427/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
 </footer>
 </article>
 
@@ -528,11 +528,9 @@ class Music {
                 <div class="pages">
   
 <ul class="pagination">
+  
   <li class="page-item">
-    <a href="https://alimy.me/" class="page-link" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
-  </li>
-  <li class="page-item">
-    <a href="https://alimy.me/page/10/" class="page-link" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+    <a href="https://alimy.me/page/10/" class="page-link" aria-label="Previous"><span aria-hidden="true"><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;&nbsp;Previous</span></a>
   </li>
   <li class="page-item">
     <a class="page-link" href="https://alimy.me/">1</a>
@@ -562,11 +560,9 @@ class Music {
     <a class="page-link" href="https://alimy.me/page/15/">15</a>
   </li>
   <li class="page-item">
-    <a href="https://alimy.me/page/12/" class="page-link" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+    <a href="https://alimy.me/page/12/" class="page-link" aria-label="Next">Next&nbsp;&nbsp;<i class="fa fa-arrow-right" aria-hidden="true"></i></a>
   </li>
-  <li class="page-item">
-    <a href="https://alimy.me/page/15/" class="page-link" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
-  </li>
+  
 </ul>
 
 
