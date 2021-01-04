@@ -1,10 +1,10 @@
-    <!DOCTYPE html>
+  <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <title> Tg &middot; 北 野 </title>
+    <title> Tg: Serialized binary TL-schema in vkext format(*.tlo) &middot; 北 野 </title>
     
     <link rel="stylesheet" type="text/css" href="https://alimy.me/css/uno.css" />
     <link rel="stylesheet" type="text/css" href="https://alimy.me/css/lightGallery.css" />
@@ -202,17 +202,15 @@ float:right;
     </style>
 </head>
 
-    <body>
-        <div id="scriptHeader">
+  <body>
+    <div id="scriptHeader">
     <span class="mobile btn-mobile-menu">
             <i class="fa fa-bars btn-mobile-menu__icon"></i>
             <i class="fa fa-times btn-mobile-close__icon hidden"> </i>
     </span>
     <header class="
         
-        
             panel-cover panel-cover--collapsed
-        
         " >
     <div class="panel-main">
         <div class="panel-main__inner panel-inverted">
@@ -303,107 +301,84 @@ float:right;
     </header>
 </noscript>
 
-        <div class="content-wrapper">
-            <div class="content-wrapper__inner">
-                <h2>文章列表</h2>
-                
-                <div class="panel-wrapper">
-                <div id="caption">
-                <h3>
-                  2021年 01月
-                  
-                  <span id="list-indicator" title="共1篇文章">1 </span>
-                </h3>
-                </div>
-                <ul id="list">
-                    
-                    <li>
-                        <a href="https://alimy.me/post/dev_202101042002/">Tg: Serialized binary TL-schema in vkext format(*.tlo) </a>&nbsp;
-                        <span id="list-date">(Mon, Jan 04, 2021)</span>
-                    </li>
-                    
-                </ul>
-                </div>
-                
-                <div class="panel-wrapper">
-                <div id="caption">
-                <h3>
-                  2020年 12月
-                  
-                  <span id="list-indicator" title="共7篇文章">7 </span>
-                </h3>
-                </div>
-                <ul id="list">
-                    
-                    <li>
-                        <a href="https://alimy.me/post/dev_202012071348/">Tg:TL-formal </a>&nbsp;
-                        <span id="list-date">(Fri, Dec 18, 2020)</span>
-                    </li>
-                    
-                    <li>
-                        <a href="https://alimy.me/post/dev_202012081630/">Tg: Current MTProto TL-schema </a>&nbsp;
-                        <span id="list-date">(Mon, Dec 07, 2020)</span>
-                    </li>
-                    
-                    <li>
-                        <a href="https://alimy.me/post/dev_202012071337/">Tg: Service Messages </a>&nbsp;
-                        <span id="list-date">(Mon, Dec 07, 2020)</span>
-                    </li>
-                    
-                    <li>
-                        <a href="https://alimy.me/post/dev_202012071333/">Tg: Binary Data Serialization </a>&nbsp;
-                        <span id="list-date">(Mon, Dec 07, 2020)</span>
-                    </li>
-                    
-                    <li>
-                        <a href="https://alimy.me/post/dev_202012071330/">Tg: Type serialization </a>&nbsp;
-                        <span id="list-date">(Mon, Dec 07, 2020)</span>
-                    </li>
-                    
-                    <li>
-                        <a href="https://alimy.me/post/dev_202012071321/">Tg: Polymorphism in TL </a>&nbsp;
-                        <span id="list-date">(Mon, Dec 07, 2020)</span>
-                    </li>
-                    
-                    <li>
-                        <a href="https://alimy.me/post/dev_202012071315/">Tg: TL Language </a>&nbsp;
-                        <span id="list-date">(Mon, Dec 07, 2020)</span>
-                    </li>
-                    
-                </ul>
-                </div>
-                
-                <div class="panel-wrapper">
-                <div id="caption">
-                <h3>
-                  2020年 11月
-                  
-                  <span id="list-indicator" title="共2篇文章">2 </span>
-                </h3>
-                </div>
-                <ul id="list">
-                    
-                    <li>
-                        <a href="https://alimy.me/post/dev_202011271711/">Tg: MTProto v2 </a>&nbsp;
-                        <span id="list-date">(Fri, Nov 27, 2020)</span>
-                    </li>
-                    
-                    <li>
-                        <a href="https://alimy.me/post/dev_202011271705/">Tg: MTProto v1 </a>&nbsp;
-                        <span id="list-date">(Fri, Nov 27, 2020)</span>
-                    </li>
-                    
-                </ul>
-                </div>
-                
-                  <footer id="copyright"> <p>&copy;2015-2020 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
+    <div class="content-wrapper">
+      <div class="content-wrapper__inner">
+        <div class="post panel-wrapper">
+            <h2>Tg: Serialized binary TL-schema in vkext format(*.tlo)</h2>
+          
+          <pre><code>---types---
+/////
+//
+// Serialized binary TL-schema in vkext format
+//
+/////
 
-            </div>
+tls.schema_v2 version:int date:int types_num:# types:types_num*[tls.Type] constructor_num:# constructors:constructor_num*[tls.Combinator] functions_num:# functions:functions_num*[tls.Combinator] = tls.Schema;
+
+tls.type name:int id:string constructors_num:int flags:int arity:int params_type:long = tls.Type;
+tls.combinator name:int id:string type_name:int left:tls.CombinatorLeft right:tls.CombinatorRight = tls.Combinator;
+tls.combinatorLeftBuiltin = tls.CombinatorLeft;
+tls.combinatorLeft args_num:# args:args_num*[tls.Arg] = tls.CombinatorLeft;
+
+tls.combinatorRight value:tls.TypeExpr = tls.CombinatorRight;
+
+tls.arg id:string flags:# var_num:flags.1?int exist_var_num:flags.2?int exist_var_bit:flags.2?int type:tls.TypeExpr = tls.Arg;
+
+tls.exprType _:tls.TypeExpr = tls.Expr;
+tls.exprNat _:tls.NatExpr = tls.Expr;
+
+tls.natConst value:int = tls.NatExpr;
+tls.natVar dif:int var_num:int = tls.NatExpr;
+
+tls.typeVar var_num:int flags:int = tls.TypeExpr;
+tls.array multiplicity:tls.NatExpr args_num:# args:args_num*[tls.Arg] = tls.TypeExpr;
+tls.typeExpr name:int flags:int children_num:# children:children_num*[tls.Expr] = tls.TypeExpr;
+---functions---
+</code></pre>
+				<div id="post-tags">
+				  
+				  	
+						  <a href="https://alimy.me/tags/development/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;development</a>
+						
+						  <a href="https://alimy.me/tags/tg/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;tg</a>
+						
+					
+				</div>
         </div>
-    </body>
+        <div id="post-navigator">
+          <a id="post-navigator-prev" href="https://alimy.me/post/dev_202012071348/" title="上一篇"><i class="fa fa-chevron-left" aria-hidden="true"></i>&nbsp;Tg:TL-formal</a>
+          
+        </div>
+        <div id="post-comments">
+          <h3>Comments</h3>
+          
+
+
+<div id="disqus_thread"></div>
+
+<script type="text/javascript">
+  var disqusUsername = "alimy";
+
+  (function() { 
+  var d = document, s = d.createElement('script');
+
+  s.src = '//' + disqusUsername + '.disqus.com/embed.js';
+
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+          <footer id="copyright"> <p>&copy;2015-2020 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
+
+    </div>
     <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
 if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
 var s=document.getElementsByTagName('script')[0];sc.src='https://alimy.me/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
 WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
 
+  </body>
 </html>

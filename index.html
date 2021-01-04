@@ -311,6 +311,48 @@ float:right;
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="https://alimy.me/post/dev_202101042002/" title="阅读全文">Tg: Serialized binary TL-schema in vkext format(*.tlo) </a> </h2>
+
+</header>
+<div class="summary">
+    <pre><code>---types---
+/////
+//
+// Serialized binary TL-schema in vkext format
+//
+/////
+
+tls.schema_v2 version:int date:int types_num:# types:types_num*[tls.Type] constructor_num:# constructors:constructor_num*[tls.Combinator] functions_num:# functions:functions_num*[tls.Combinator] = tls.Schema;
+
+tls.type name:int id:string constructors_num:int flags:int arity:int params_type:long = tls.Type;
+tls.combinator name:int id:string type_name:int left:tls.CombinatorLeft right:tls.CombinatorRight = tls.Combinator;
+tls.combinatorLeftBuiltin = tls.CombinatorLeft;
+tls.combinatorLeft args_num:# args:args_num*[tls.Arg] = tls.CombinatorLeft;
+
+tls.combinatorRight value:tls.TypeExpr = tls.CombinatorRight;
+
+tls.arg id:string flags:# var_num:flags.1?int exist_var_num:flags.2?int exist_var_bit:flags.2?int type:tls.TypeExpr = tls.Arg;
+
+tls.exprType _:tls.TypeExpr = tls.Expr;
+tls.exprNat _:tls.NatExpr = tls.Expr;
+
+tls.natConst value:int = tls.NatExpr;
+tls.natVar dif:int var_num:int = tls.NatExpr;
+
+tls.typeVar var_num:int flags:int = tls.TypeExpr;
+tls.array multiplicity:tls.NatExpr args_num:# args:args_num*[tls.Arg] = tls.TypeExpr;
+tls.typeExpr name:int flags:int children_num:# children:children_num*[tls.Expr] = tls.TypeExpr;
+---functions---
+</code></pre>
+</div>
+<footer id="more">
+<a href='https://alimy.me/post/dev_202101042002/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="https://alimy.me/post/dev_202012071348/" title="阅读全文">Tg:TL-formal </a> </h2>
 
 </header>
@@ -336,7 +378,7 @@ ident-char ::= letter | digit | underscore
                         
                             <article class="post panel-wrapper">
 <header>
-<h2 ><a href="https://alimy.me/post/dev_2020120181630/" title="阅读全文">Tg: Current MTProto TL-schema </a> </h2>
+<h2 ><a href="https://alimy.me/post/dev_202012081630/" title="阅读全文">Tg: Current MTProto TL-schema </a> </h2>
 
 </header>
 <div class="summary">
@@ -419,7 +461,7 @@ http_wait#9299359f max_delay:int wait_after:int max_wait:int = HttpWait;
 </code></pre>
 </div>
 <footer id="more">
-<a href='https://alimy.me/post/dev_2020120181630/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+<a href='https://alimy.me/post/dev_202012081630/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
 </footer>
 </article>
 
@@ -571,23 +613,6 @@ EndType
 </div>
 <footer id="more">
 <a href='https://alimy.me/post/dev_202011271711/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/dev_202011271705/" title="阅读全文">Tg: MTProto v1 </a> </h2>
-
-</header>
-<div class="summary">
-    <h2 id="mobile-protocol-detailed-description">Mobile Protocol: Detailed Description</h2>
-<p>Prior to a message (or a multipart message) being transmitted over a network using a transport protocol, it is encrypted in a certain way, and an external header is added at the top of the message which is: a 64-bit key identifier (that uniquely identifies an authorization key for the server as well as the user) and a 128-bit message key.</p>
-<p>A user key together with the message key define an actual 256-bit key and a 256-bit initialization vector, which is what encrypts the message using AES-256 encryption with infinite garble extension (IGE). Note that the initial part of the message to be encrypted contains variable data (session, message ID, sequence number, server salt) that obviously influences the message key (and thus the AES key and iv). The message key is defined as the 128 lower-order bits of the SHA1 of the message body (including session, message ID, etc.) Multipart messages are encrypted as a single message.
-<img src="https://alimy.me/images/post/20201127170500.png" alt=""></p>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/dev_202011271705/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
 </footer>
 </article>
 

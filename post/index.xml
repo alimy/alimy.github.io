@@ -6,7 +6,44 @@
     <description>Recent content in Posts on 北 野</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Fri, 18 Dec 2020 16:30:00 +0800</lastBuildDate><atom:link href="https://alimy.me/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 04 Jan 2021 20:02:00 +0800</lastBuildDate><atom:link href="https://alimy.me/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Tg: Serialized binary TL-schema in vkext format(*.tlo)</title>
+      <link>https://alimy.me/post/dev_202101042002/</link>
+      <pubDate>Mon, 04 Jan 2021 20:02:00 +0800</pubDate>
+      
+      <guid>https://alimy.me/post/dev_202101042002/</guid>
+      <description>&lt;pre&gt;&lt;code&gt;---types---
+/////
+//
+// Serialized binary TL-schema in vkext format
+//
+/////
+
+tls.schema_v2 version:int date:int types_num:# types:types_num*[tls.Type] constructor_num:# constructors:constructor_num*[tls.Combinator] functions_num:# functions:functions_num*[tls.Combinator] = tls.Schema;
+
+tls.type name:int id:string constructors_num:int flags:int arity:int params_type:long = tls.Type;
+tls.combinator name:int id:string type_name:int left:tls.CombinatorLeft right:tls.CombinatorRight = tls.Combinator;
+tls.combinatorLeftBuiltin = tls.CombinatorLeft;
+tls.combinatorLeft args_num:# args:args_num*[tls.Arg] = tls.CombinatorLeft;
+
+tls.combinatorRight value:tls.TypeExpr = tls.CombinatorRight;
+
+tls.arg id:string flags:# var_num:flags.1?int exist_var_num:flags.2?int exist_var_bit:flags.2?int type:tls.TypeExpr = tls.Arg;
+
+tls.exprType _:tls.TypeExpr = tls.Expr;
+tls.exprNat _:tls.NatExpr = tls.Expr;
+
+tls.natConst value:int = tls.NatExpr;
+tls.natVar dif:int var_num:int = tls.NatExpr;
+
+tls.typeVar var_num:int flags:int = tls.TypeExpr;
+tls.array multiplicity:tls.NatExpr args_num:# args:args_num*[tls.Arg] = tls.TypeExpr;
+tls.typeExpr name:int flags:int children_num:# children:children_num*[tls.Expr] = tls.TypeExpr;
+---functions---
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    
     <item>
       <title>Tg:TL-formal</title>
       <link>https://alimy.me/post/dev_202012071348/</link>
@@ -29,10 +66,10 @@ ident-char ::= letter | digit | underscore
     
     <item>
       <title>Tg: Current MTProto TL-schema</title>
-      <link>https://alimy.me/post/dev_2020120181630/</link>
+      <link>https://alimy.me/post/dev_202012081630/</link>
       <pubDate>Mon, 07 Dec 2020 13:48:00 +0800</pubDate>
       
-      <guid>https://alimy.me/post/dev_2020120181630/</guid>
+      <guid>https://alimy.me/post/dev_202012081630/</guid>
       <description>&lt;p&gt;Below you will find the current MTProto TL-schema. More detais on &lt;a href=&#34;https://alimy.me/post/dev_202012071315/&#34;&gt;TL&lt;/a&gt;.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;int ? = Int;
 long ? = Long;
