@@ -1,0 +1,1082 @@
+  <!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <title> Kotlin: 几种设计模式 &middot; 北 野 </title>
+    
+    <link rel="stylesheet" type="text/css" href="https://alimy.me/css/uno.css" />
+    <link rel="stylesheet" type="text/css" href="https://alimy.me/css/lightGallery.css" />
+    
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://alimy.me/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" href="https://alimy.me/favicon.png">
+    
+    <script src="https://alimy.me/js/jquery.min.js"></script>
+    <script src="https://alimy.me/js/main.min.js"></script>
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75081327-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+<script>
+  "use strict";
+  
+  !function() {
+    var t = window.driftt = window.drift = window.driftt || [];
+    if (!t.init) {
+      if (t.invoked) return void (window.console && console.error && console.error("Drift snippet included twice."));
+      t.invoked = !0, t.methods = [ "identify", "config", "track", "reset", "debug", "show", "ping", "page", "hide", "off", "on" ], 
+      t.factory = function(e) {
+        return function() {
+          var n = Array.prototype.slice.call(arguments);
+          return n.unshift(e), t.push(n), t;
+        };
+      }, t.methods.forEach(function(e) {
+        t[e] = t.factory(e);
+      }), t.load = function(t) {
+        var e = 3e5, n = Math.ceil(new Date() / e) * e, o = document.createElement("script");
+        o.type = "text/javascript", o.async = !0, o.crossorigin = "anonymous", o.src = "https://js.driftt.com/include/" + n + "/" + t + ".js";
+        var i = document.getElementsByTagName("script")[0];
+        i.parentNode.insertBefore(o, i);
+      };
+    }
+  }();
+  drift.SNIPPET_VERSION = '0.3.1';
+  drift.load('b8zniyzvbfap');
+  </script>
+
+
+
+<script>
+(function(f, a, t, h, o, m){
+a[h]=a[h]||function(){
+  (a[h].q=a[h].q||[]).push(arguments)
+};
+o=f.createElement('script'),
+m=f.getElementsByTagName('script')[0];
+o.async=1; o.src=t; o.id='fathom-script';
+m.parentNode.insertBefore(o,m)
+})(document, window, '//fathom.traefic.com/tracker.js', 'fathom');
+fathom('trackPageview');
+</script>
+
+
+    <style type="text/css">
+        body {
+          background-color:#f9f9f9;
+        }
+        .panel-wrapper {
+          box-shadow:0px 0px 8px rgba(68,68,68,.6);
+          -moz-box-shadow:0px 0px 8px rgba(68,68,68,.6);
+          border-radius:4px;
+          -moz-border-radius:4px;
+          padding:16px 24px;
+          margin-top:32px;
+          background-color:#fff
+        }
+        .panel-wrapper:hover {
+          box-shadow:0px 0px 12px rgba(68,68,68,.6);
+          -moz-box-shadow:0px 0px 12px rgba(68,68,68,.6);
+        }
+        #more {
+          margin-top:16px;
+        }
+        #copyright {
+          padding:2em 0 0;
+          display:block;
+          font-size:.9em;
+          color:#b3b3b3;
+          width:100%;
+          text-align:center
+        }
+        #list-indicator {
+          min-width:48px;
+          text-align:center;
+          float:right;
+          margin-right:64px;
+          background:rgba(68,68,68,.2);
+          border-radius:4px;
+          -moz-border-radius:4px;
+          padding:8px;
+        }
+        #list-date {
+          color:#999;
+          font-size: .9em;
+          font-style:italic;
+        }
+				.post-tags-item {
+          padding-left: .75rem!important;
+					padding-right: .75rem!important;
+          padding-top: .25rem!important;
+					padding-bottom: .25rem!important;
+          margin-right: .5rem!important;
+          margin-top: .25rem!important;
+					margin-bottom: .25rem!important;
+					font-size: .875rem!important;
+          color:#666666;
+          display: inline-block!important;
+					border-radius: .25rem!important;
+					background-color:rgb(242 242 247)!important;
+				}
+        .post-tags-item:hover {
+          color:#38b2ac;
+				}
+        #post-navigator {
+          padding:24px 0px 16px 0px;
+          vertical-align: middle;
+        }
+        #post-navigator>a {
+          display: block;
+          color:#2479cc;
+          text-decoration:none;
+        }
+        #post-navigator-prev {
+          float:left;
+        }
+        #post-navigator-next {
+float:right;
+        }
+        .pages {
+            text-align: center;
+            margin-right: -15px;
+            margin-left: -15px;
+        }
+        .pages>ul {
+            font-weight: lighter;
+        }
+        .pages>.pagination {
+            display: inline-block;
+            padding-left: 0;
+            margin: 20px 0px;
+            border-radius: 4px;
+        }
+        .pages .pagination>li {
+            display:inline;
+        }
+
+.pagination>.active>a, .pagination>.active>span, .pagination>.active>a:hover, .pagination>.active>span:hover, .pagination>.active>a:focus, .pagination>.active>span:focus {
+    z-index: 2;
+    color: #fff;
+    cursor: default;
+    background-color: #428bca;
+    border-color: #428bca;
+}
+
+.pagination>li>a, .pagination>li>span {
+    position: relative;
+    float: left;
+    padding: 6px 12px;
+    margin-left: -1px;
+    line-height: 1.428571429;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+.pagination>li:first-child>a, .pagination>li:first-child>span {
+    margin-left: 0;
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
+}
+.pagination>.disabled>span, .pagination>.disabled>span:hover, .pagination>.disabled>span:focus, .pagination>.disabled>a, .pagination>.disabled>a:hover, .pagination>.disabled>a:focus {
+    color: #999;
+    cursor: not-allowed;
+    background-color: #fff;
+    border-color: #ddd;
+}
+.pagination>li:last-child>a, .pagination>li:last-child>span {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+*, *:before, *:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+    </style>
+</head>
+
+  <body>
+    <div id="scriptHeader">
+    <span class="mobile btn-mobile-menu">
+            <i class="fa fa-bars btn-mobile-menu__icon"></i>
+            <i class="fa fa-times btn-mobile-close__icon hidden"> </i>
+    </span>
+    <header class="
+        
+            panel-cover panel-cover--collapsed
+        " >
+    <div class="panel-main">
+        <div class="panel-main__inner panel-inverted">
+            <div class="panel-main__content"> 
+                <a href="https://alimy.me/"> <img src="https://alimy.me/images/logo.jpg" width="142" height="142" alt="北 野 logo" class="panel-cover__logo logo" /> </a> 
+                <h1 class="panel-cover__title panel-title">
+                    <a href="https://alimy.me/">北 野</a>
+                </h1>
+                <hr class="panel-cover__divider" />
+                <p class="panel-cover__description">  糊涂小栈  </p>
+                <hr class="panel-cover__divider panel-cover__divider--secondary" />
+                <div class="navigation-wrapper">
+                    <nav class="cover-navigation cover-navigation--primary">
+                        <ul class="navigation">
+                            <li class="navigation__item"><a href="https://alimy.me" title="博客首页" class="blog-button">Blog</a> </li> </br></br>
+                            <li class="navigation__item"><a href="https://alimy.me/post/" title="文章列表" class="blog-button">Archive</a> </li>
+                            </br>  </ul>
+                            <nav class="cover-navigation navigation--social">
+</br>
+    <ul class="navigation"> 
+        
+        <li class="navigation__item">
+            <a href="http://twitter.com/bitriory" title="@Twitter"> <i class='fa fa-twitter'></i> <span class="label">Twitter</span> </a>
+        </li>   
+        
+        <li class="navigation__item">
+            <a href="https://github.com/alimy" title="@GitHub"> <i class='fa fa-github'></i> <span class="label">Github</span> </a>
+        </li>  
+        
+        <li class="navigation__item">
+            <a href="http://gitbus.com/alimy" title="@GitBus"> <i class='fa fa-bars'></i> <span class="label">GitBus</span> </a>
+        </li>  </br>    </ul>
+</nav>
+
+                    </nav>  </div>
+            </div>
+        </div>
+        <div class="panel-cover--overlay"></div>
+    </div>
+</header>
+</div>
+<noscript>
+    <style>
+        #scriptHeader {display:none;}
+        .navigation-wrapper{
+            display: block;
+            top: 0;
+        }
+    </style>
+
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url()">
+        <div class="panel-main">
+            <div class="panel-main__inner panel-inverted">
+                <div class="panel-main__content"> 
+                    <a href="https://alimy.me/"> <img src="https://alimy.me/images/logo.jpg" width="80" alt="北 野 logo" class="panel-cover__logo logo" /> </a> 
+                    <h1 class="panel-cover__title panel-title">
+                        <a href="https://alimy.me/">北 野</a>
+                    </h1>
+                    <hr class="panel-cover__divider" />
+                    <p class="panel-cover__description">  糊涂小栈  </p>
+                    <hr class="panel-cover__divider panel-cover__divider--secondary" />
+                    <div class="navigation-wrapper">
+                        <nav class="cover-navigation cover-navigation--primary">
+                            <ul class="navigation">
+                                <li class="navigation__item"><a href="https://alimy.me/" title="博客首页" class="blog-button">Blog</a> </li>
+                                </br>  </ul>
+                        </nav> <nav class="cover-navigation navigation--social">
+</br>
+    <ul class="navigation"> 
+        
+        <li class="navigation__item">
+            <a href="http://twitter.com/bitriory" title="@Twitter"> <i class='fa fa-twitter'></i> <span class="label">Twitter</span> </a>
+        </li>   
+        
+        <li class="navigation__item">
+            <a href="https://github.com/alimy" title="@GitHub"> <i class='fa fa-github'></i> <span class="label">Github</span> </a>
+        </li>  
+        
+        <li class="navigation__item">
+            <a href="http://gitbus.com/alimy" title="@GitBus"> <i class='fa fa-bars'></i> <span class="label">GitBus</span> </a>
+        </li>  </br>    </ul>
+</nav>
+ </div>
+                </div>
+            </div>
+            <div class="panel-cover--overlay"></div>
+        </div>
+    </header>
+</noscript>
+
+    <div class="content-wrapper">
+      <div class="content-wrapper__inner">
+        <div class="post panel-wrapper">
+            <h2>Kotlin: 几种设计模式</h2>
+          
+          <h4 id="创建型模式">创建型模式</h4>
+<p>原始模型</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Computer</span> {
+	<span style="color:#66d9ef">val</span> cpu: String
+}
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PC</span>(<span style="color:#66d9ef">override</span> <span style="color:#66d9ef">val</span> cpu: String = <span style="color:#e6db74">&#34;Core&#34;</span>): Computer
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Server</span>(<span style="color:#66d9ef">override</span> <span style="color:#66d9ef">val</span> cpu: String = <span style="color:#e6db74">&#34;Xeon&#34;</span>): Computer
+
+<span style="color:#66d9ef">enum</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ComputerType</span> {
+	PC, Server
+}
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ComputerFactory</span> {
+	<span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">produce</span>(type: ComputerType): Computer {
+		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">when</span>(type) {
+			ComputerType.PC <span style="color:#f92672">-&gt;</span> PC()
+			ComputerType.Server <span style="color:#f92672">-&gt;</span> Server()
+		}
+	}
+}
+
+&gt;&gt;&gt; <span style="color:#66d9ef">val</span> comp = ComputerFactory().produce(ComputerType.PC)
+&gt;&gt;&gt; println(comp.cpu)
+Core
+</code></pre></div><p>使用单例代替工厂类</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">object</span> <span style="color:#a6e22e">ComputerFactory</span> {
+	<span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">produce</span>(type: ComputerType): Computer {
+		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">when</span>(type) {
+			ComputerType.PC <span style="color:#f92672">-&gt;</span> PC()
+			ComputerType.Server <span style="color:#f92672">-&gt;</span> Server()
+		}
+	}
+}
+
+&gt;&gt;&gt; <span style="color:#66d9ef">val</span> comp = computerFactory.produce(ComputerType.PC)
+&gt;&gt;&gt; println(comp)
+Core
+</code></pre></div><p>invoke运算符重载</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">object</span> <span style="color:#a6e22e">ComputerFactory</span> {
+	<span style="color:#66d9ef">operator</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">invoke</span>(type: ComputerType): Computer {
+		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">when</span>(type) {
+			ComputerType.PC <span style="color:#f92672">-&gt;</span> PC()
+			ComputerType.Server <span style="color:#f92672">-&gt;</span> Server()
+		}
+	}
+}
+
+&gt;&gt;&gt; <span style="color:#66d9ef">val</span> comp = computerFactory(ComputerType.PC)
+&gt;&gt;&gt; println(comp)
+Core
+</code></pre></div><p>伴生对象创建静态工厂方法</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Computer</span> {
+	<span style="color:#66d9ef">val</span> cpu: String
+	
+	<span style="color:#66d9ef">companion</span> <span style="color:#66d9ef">object</span> {
+		<span style="color:#66d9ef">operator</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">invoke</span>(type: ComputerType): Computer {
+			<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">when</span>(type) {
+				ComputerType.PC <span style="color:#f92672">-&gt;</span> PC()
+				ComputerType.Server <span style="color:#f92672">-&gt;</span> Server()
+			}
+		}
+	}
+}
+
+&gt;&gt;&gt; <span style="color:#66d9ef">val</span> comp = Computer(ComputerType.PC)
+&gt;&gt;&gt; println(comp)
+Core
+</code></pre></div><p>具名伴生对象</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Computer</span> {
+	<span style="color:#66d9ef">val</span> cpu: String
+	
+	<span style="color:#66d9ef">companion</span> <span style="color:#66d9ef">object</span> Factory {
+		<span style="color:#66d9ef">operator</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">invoke</span>(type: ComputerType): Computer {
+			<span style="color:#66d9ef">return</span> whenn(type) {
+				ComputerType.PC <span style="color:#f92672">-&gt;</span> PC()
+				ComputerType.Server <span style="color:#f92672">-&gt;</span> Server()
+			}
+		}
+	}
+}
+
+&gt;&gt;&gt; <span style="color:#66d9ef">val</span> comp = Computer.Factory(ComputerType.PC)
+&gt;&gt;&gt; println(comp)
+Core
+</code></pre></div><p>扩展伴生对象方法</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">Computer</span>.Companion.fromCPU(cpu: String): ComputerType? = <span style="color:#66d9ef">when</span>(cpu) {
+	<span style="color:#e6db74">&#34;Core&#34;</span> <span style="color:#f92672">-&gt;</span> ComputerType.PC
+	<span style="color:#e6db74">&#34;Xeon&#34;</span> <span style="color:#f92672">-&gt;</span> ComputerType.Server
+}
+
+<span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">Computer</span>.Companion.Factory.fromCPU(cpu: String): ComputerType? = <span style="color:#66d9ef">when</span>(cpu) {
+	<span style="color:#e6db74">&#34;Core&#34;</span> <span style="color:#f92672">-&gt;</span> ComputerType.PC
+	<span style="color:#e6db74">&#34;Xeon&#34;</span> <span style="color:#f92672">-&gt;</span> ComputerType.Server
+}
+
+&gt;&gt;&gt; <span style="color:#66d9ef">val</span> pc = Computer.fromCPU(<span style="color:#e6db74">&#34;Core&#34;</span>)
+&gt;&gt;&gt; <span style="color:#66d9ef">val</span> server = Computer.Factory.fromCPU(<span style="color:#e6db74">&#34;Xeon&#34;</span>)
+</code></pre></div><p><strong>抽象工厂模式</strong><br>
+为创建一组相关或相互依赖的对象提供一个接口， 而且无需指定他们的具体类.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Computer</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Dell</span>: Computer
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Asus</span>: Computer
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Acer</span>: Computer
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">DellFactory</span>: AbstrctFactory() {
+	<span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">produce</span>() = Dell()
+}
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AsusFactory</span>: AbstractFactory() {
+	<span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">produce</span>() = Asus()
+}
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AcerFatory</span>: AbstractFactory() {
+	<span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">produce</span>() = Acer()
+}
+
+<span style="color:#66d9ef">abstract</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AbstractFactory</span> {
+	<span style="color:#66d9ef">abstract</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">produce</span>(): Computer
+	
+	<span style="color:#66d9ef">companion</span> <span style="color:#66d9ef">object</span> {
+		<span style="color:#66d9ef">inline</span> <span style="color:#66d9ef">operator</span> <span style="color:#66d9ef">fun</span>&lt;<span style="color:#66d9ef">reified</span> T: Computer&gt; invoke(): AbstractFactory = 
+			<span style="color:#66d9ef">when</span>(T<span style="color:#f92672">::</span><span style="color:#66d9ef">class</span>) {
+				Dell<span style="color:#f92672">::</span><span style="color:#66d9ef">class</span> <span style="color:#960050;background-color:#1e0010">-&gt; </span><span style="color:#a6e22e">DellFactory</span>()
+				Asus<span style="color:#f92672">::</span><span style="color:#66d9ef">class</span> <span style="color:#960050;background-color:#1e0010">-&gt; </span><span style="color:#a6e22e">AsusFactory</span>()
+				Acer<span style="color:#f92672">::</span><span style="color:#66d9ef">class</span> <span style="color:#960050;background-color:#1e0010">-&gt; </span><span style="color:#a6e22e">AcerFatory</span>()
+				<span style="color:#66d9ef">else</span>        <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">throw</span> IllegalArgumentException()
+			}
+	}
+}
+
+<span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">main</span>(args:  Array&lt;String&gt;) {
+	<span style="color:#66d9ef">val</span> dellFactory = AbstractFactory&lt;Dell&gt;()
+	<span style="color:#66d9ef">val</span> dell = dellFactory.produce()
+	println(dell)
+}
+</code></pre></div><p><strong>用具名可选参数而不是构建者模式</strong><br>
+本质上builder模式模拟类具名的可选参数，就像Ada和Python中的一样.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Robot</span>(
+	<span style="color:#66d9ef">val</span> code: String,
+	<span style="color:#66d9ef">val</span> battery: String? = <span style="color:#66d9ef">null</span>
+	<span style="color:#66d9ef">val</span> height: Int? = <span style="color:#66d9ef">null</span>,
+	<span style="color:#66d9ef">val</span> weight: Int? = <span style="color:#66d9ef">null</span>
+) {
+	<span style="color:#66d9ef">init</span> {
+		require(weight <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">||</span> battery <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span>) {
+			<span style="color:#e6db74">&#34;Batter should be determined when setting weight.&#34;</span>
+		}
+	}
+}
+&gt;&gt;&gt; <span style="color:#66d9ef">val</span> robot1 = Robot(code = <span style="color:#e6db74">&#34;007&#34;</span>)
+&gt;&gt;&gt; <span style="color:#66d9ef">val</span> robot2 = Robot(code = <span style="color:#e6db74">&#34;007&#34;</span>, battery = <span style="color:#e6db74">&#34;R6&#34;</span>)
+&gt;&gt;&gt; <span style="color:#66d9ef">val</span> robot3 = Robot(code = <span style="color:#e6db74">&#34;007&#34;</span>, weight = <span style="color:#ae81ff">100</span>)
+java.lang.IllegalArgumentException: Batter should be determined <span style="color:#66d9ef">when</span> setting weight.
+</code></pre></div><h4 id="行为型模式">行为型模式</h4>
+<ul>
+<li>观察者模式<br>
+观察者模式定义了一个一对多的依赖关系，让一个或多个观察者对象监听一个主题对象。这样以来，当被观察者状态发生改变时，需要通知相应的观察者，使这些观察者对象能够自动更新。</li>
+</ul>
+<p>从java.util.Observable说起</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">import</span> java.util.*
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">StackUpdate</span>: Observable() {
+	<span style="color:#66d9ef">val</span> observers = mutableSetOf&lt;Observer&gt;();
+	
+	<span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">setStockChanged</span>(price: Int) {
+		<span style="color:#66d9ef">this</span>.Observers.forEach { <span style="color:#66d9ef">it</span>.update(<span style="color:#66d9ef">this</span>, price)}
+	}
+}
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">StockDisplay</span>: Observer {
+	<span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">update</span>(o: Observable, price: Any) {
+		jif (o <span style="color:#66d9ef">is</span> StockUpdate) {
+			println(<span style="color:#e6db74">&#34;The latest stock price is </span><span style="color:#e6db74">${price}</span><span style="color:#e6db74">.&#34;</span>)
+		}
+	}
+}
+
+<span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">main</span>(args: Array&lt;String&gt;) {
+	<span style="color:#66d9ef">val</span> su = StockUpdate()
+	<span style="color:#66d9ef">val</span> sd = StockDisplay()
+	su.observers.add(sd)
+	su.setStackChanged(<span style="color:#ae81ff">100</span>)
+} 
+<span style="color:#75715e">// 运行结果
+</span><span style="color:#75715e"></span>The latest stock price <span style="color:#66d9ef">is</span> <span style="color:#ae81ff">100.</span>
+</code></pre></div><p><strong>Observable</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">import</span> kotlin.properties.Delegates
+
+<span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">StockUpdateListener</span> {
+	<span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onRise</span>(price: Int)
+	<span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onFall</span>(price: Int)
+}
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">StockDisplay</span>: StockUpdateListener {
+	<span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onRise</span>(price: Int) {
+		println(<span style="color:#e6db74">&#34;The latest stock price has risen to </span><span style="color:#e6db74">${price}</span><span style="color:#e6db74">.&#34;</span>)
+	}
+	
+	<span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onFall</span>(price: Int) {
+		println(<span style="color:#e6db74">&#34;The latest stock price has fell to </span><span style="color:#e6db74">${price}</span><span style="color:#e6db74">.&#34;</span>)
+	}
+}
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">StockUpdate</span> {
+	<span style="color:#66d9ef">var</span> listeners = mutableSetOf&lt;StockUpdateListener&gt;()
+	
+	<span style="color:#66d9ef">var</span> price: Int <span style="color:#66d9ef">by</span> Delegates.observable(<span style="color:#ae81ff">0</span>) { _, old, new <span style="color:#f92672">-&gt;</span>
+		listeners.forEach {
+			<span style="color:#66d9ef">if</span> (new &gt; old) <span style="color:#66d9ef">it</span>.onRise(price) <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">it</span>.onFall(price)
+		}
+	}
+}
+
+<span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">main</span>(args: Array&lt;String&gt;) {
+	<span style="color:#66d9ef">val</span> su = StockUpdate()
+	<span style="color:#66d9ef">val</span> sd = StockDiaplay()
+	su.listeners.add(sd)
+	su.price = <span style="color:#ae81ff">100</span>
+	su.price = <span style="color:#ae81ff">98</span>
+}
+<span style="color:#75715e">// 运行结果
+</span><span style="color:#75715e"></span>The latest stock price has risen to <span style="color:#ae81ff">100.</span>
+The latest stock price has fell to <span style="color:#ae81ff">98.</span>
+</code></pre></div><p><strong>Vetoable</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">import</span> kotlin.properties.Delegates
+
+<span style="color:#66d9ef">var</span> value: Int <span style="color:#66d9ef">by</span> Delegates.vetoable(<span style="color:#ae81ff">0</span>) { prop, old, new <span style="color:#f92672">-&gt;</span>
+	new &gt; <span style="color:#ae81ff">0</span>
+}
+
+&gt;&gt;&gt; value = <span style="color:#ae81ff">1</span>
+&gt;&gt;&gt; println(value)
+<span style="color:#ae81ff">1</span>
+&gt;&gt;&gt; value = -<span style="color:#ae81ff">1</span>
+&gt;&gt;&gt; println(value)
+<span style="color:#ae81ff">1</span>
+</code></pre></div><h4 id="高阶函数简化策略模式模版方法模式">高阶函数简化策略模式、模版方法模式</h4>
+<p>原始策略模式</p>
+<pre><code class="language-kotin" data-lang="kotin">interface SwimStrategy {
+	fun swim()
+}
+
+class Breaststroke: SwimStrategy {
+	override fun swim() {
+		println(&quot;I am breaststroking...&quot;)
+	}
+}
+
+class Backstroke: SwimStrategy {
+	override fun swim() {
+		println(&quot;I am backstroke...&quot;)
+	}
+}
+
+class Freestyle: SwimStrategy {
+	override fun swim() {
+		println(&quot;I am freestyling...&quot;)
+	}
+}
+
+class Swimmer(val strategy: SwimStrategy) {
+	fun swim() {
+		strategy.swim()
+	}
+}
+
+fun main(args: Array&lt;String&gt;) {
+	val weekendShaw = Swimmer(Freestyle())
+	weekendsShaw.swim()
+	val weekdayShaw = Swimmer(Breaststroke())
+	weekdayShaw.swim()
+}
+// 运行结果
+I am freestyling...
+I am breaststroking...
+</code></pre><p><strong>高阶函数抽象</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">breakstroke</span>() {println(<span style="color:#e6db74">&#34;I am breaststroking...&#34;</span>)}
+<span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">backstroke</span>() {println(<span style="color:#e6db74">&#34;I am backstroke...&#34;</span>)}
+<span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">freestyle</span>() {println(<span style="color:#e6db74">&#34;I am freestyle...&#34;</span>)}
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Swimmer</span>(<span style="color:#66d9ef">val</span> swimming: () <span style="color:#f92672">-&gt;</span> Unit) {
+	<span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">swim</span>() {
+		swimming()
+	}
+}
+
+<span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">main</span>(args: Array&lt;String&gt;) {
+	<span style="color:#66d9ef">val</span> weekendShaw = Swimmer(<span style="color:#f92672">::</span>freestyle)
+	weekendShaw.swim()
+	<span style="color:#66d9ef">val</span> weekdaysShaw = Swimmer(<span style="color:#f92672">::</span>breaststroke)
+	weekdayShaw.swim()
+}
+</code></pre></div><p><strong>模板方法模式：高阶函数代替继承</strong><br>
+原始模板方法</p>
+<pre><code class="language-kotin" data-lang="kotin">abstract class CivicCenterTask {
+	fun execute() {
+		this.lineUp()
+		this.askForHelp()
+		this.evaluate()
+	}
+	
+	private fun lineUp() {
+		println(&quot;line up to take a number&quot;)
+	}
+	
+	privaate fun evaluate() {
+		println(&quot;evaluaten service attiude&quot;)
+	}
+	
+	abstract fun askForHelp()
+}
+
+class PullSocialSecurity: CivicCenterTask {
+	override fun askForHelp() {
+		println(&quot;ask for pulling the social security&quot;)	
+	}
+}
+
+class ApplyForCitizenCard: CiviCenterTask {
+	override fun askForHelp() {
+		println(&quot;apply for a citizen card&quot;)
+	}
+}
+
+val pss = PullSocialSecurity()
+&gt;&gt;&gt; pss.execute()
+line up to take a number
+ask for pulling the social security
+evaluaten service attitude
+
+val afcc = ApplyForCitizenCard()
+&gt;&gt;&gt; afcc.execute()
+line up to take a number
+apply for a citizen card
+evaluaten service attitude
+</code></pre><p>高阶函数改造.</p>
+<pre><code class="language-kotin" data-lang="kotin">class CiviCenterTask {
+	fun execute(askForHelp: () -&gt; Unit) {
+		this.lineUp()
+		askForHelp()
+		this.evaluate()
+	}
+	
+	private lineUp() {
+		println(&quot;line up to take a number&quot;)
+	}
+	
+	private fun evalute() {
+		println(&quot;evaluaten service attitude&quot;)
+	}
+}
+	
+fun pullSocialSecurity() {
+	println(&quot;ask for pulling the social security&quot;)
+}
+	
+fun applyForCitizenCard() {
+	println(&quot;apply for citizen card&quot;)
+}
+	
+var task1 = CivicCenterTask()
+&gt;&gt;&gt; task1.execute(::pullSocialSecurity)
+line up to take a number
+ask for pulling the social security
+evaluaten service attitude
+	
+val task2 = CivicCenterTask()
+&gt;&gt;&gt; task2.execute(::applyForCityzenCard)
+line up to take a number
+apply for a citizen card
+evaluaten service attitude
+</code></pre><p><strong>迭代器模式</strong></p>
+<ol>
+<li>实现Iterator接口</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">data</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Book</span>(<span style="color:#66d9ef">val</span> name: String)
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Bookcase</span>(<span style="color:#66d9ef">val</span> books: List&lt;Book&gt;): Iterator&lt;Book&gt; {
+	<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">val</span> iterator: Iterator&lt;Book&gt;
+	<span style="color:#66d9ef">init</span> {
+		<span style="color:#66d9ef">this</span>.iterator = books.iterator()
+	}
+	
+	<span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">hasNext</span>() = <span style="color:#66d9ef">this</span>.iterator.hasNext()
+	<span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">next</span>() = <span style="color:#66d9ef">this</span>.iterator.next()
+}
+
+<span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">main</span>(args: Array&lt;String&gt;) {
+	<span style="color:#66d9ef">val</span> bookcase = Bookcase(
+		listOf(Book(<span style="color:#e6db74">&#34;Dive into Kotlin&#34;</span>), Book(<span style="color:#e6db74">&#34;Thinking in Java&#34;</span>))
+	)
+	<span style="color:#66d9ef">while</span>(bookcase.hasNext()) {
+		println(<span style="color:#e6db74">&#34;The book name is </span><span style="color:#e6db74">${bookcase.next().name}</span><span style="color:#e6db74">&#34;</span>)
+	}
+	<span style="color:#66d9ef">for</span> (book <span style="color:#66d9ef">in</span> bookcase) {
+		println(<span style="color:#e6db74">&#34;The book name is </span><span style="color:#e6db74">${book.name}</span><span style="color:#e6db74">&#34;</span>)
+	}
+}
+<span style="color:#75715e">// 运行结果
+</span><span style="color:#75715e"></span>The book name <span style="color:#66d9ef">is</span> Dive into Kotlin
+The book name <span style="color:#66d9ef">is</span> Thinging <span style="color:#66d9ef">in</span> Java
+The book name <span style="color:#66d9ef">is</span> Dive into Kotlin
+The book name <span style="color:#66d9ef">is</span> Thinging <span style="color:#66d9ef">in</span> Java
+</code></pre></div><ol start="2">
+<li>重载iterator方法</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">data</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Book</span>(<span style="color:#66d9ef">val</span> name: String)
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Bookcase</span>(<span style="color:#66d9ef">val</span> books: List&lt;Book&gt;) {
+	<span style="color:#66d9ef">operator</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">iterator</span>(): Iterator&lt;Book&gt; = <span style="color:#66d9ef">this</span>.books.iterator()
+}
+
+<span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">main</span>(args: Array&lt;String&gt;) {
+	<span style="color:#66d9ef">for</span> (book <span style="color:#66d9ef">in</span> bookcase) {
+		println(<span style="color:#e6db74">&#34;The book name is </span><span style="color:#e6db74">${book.name}</span><span style="color:#e6db74">&#34;</span>)
+	}
+}
+<span style="color:#75715e">// 运行结果
+</span><span style="color:#75715e"></span>The book name <span style="color:#66d9ef">is</span> Dive into Kotlin
+The book name <span style="color:#66d9ef">is</span> Thinging <span style="color:#66d9ef">in</span> Java
+</code></pre></div><ol start="3">
+<li>通过扩展函数</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">data</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Book</span>(<span style="color:#66d9ef">val</span> name: String)
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Bookcase</span>(<span style="color:#66d9ef">val</span> books: List&lt;Book&gt;){}
+
+<span style="color:#66d9ef">operator</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">Bookcase</span>.iterator(): Iterator&lt;Book&gt; = books.iterator()
+
+<span style="color:#75715e">// operator fun Bookcase.iterator(): Iterator&lt;Book&gt; = object: Iterator&lt;Book&gt; {
+</span><span style="color:#75715e">// 	val iterator = books.iterator()
+</span><span style="color:#75715e">// 	override fun hasNext() = iterator.hasNext()
+</span><span style="color:#75715e">// 	override fun next() = iterator.next()
+</span><span style="color:#75715e">// }
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">main</span>(args: Array&lt;String&gt;) {
+	<span style="color:#66d9ef">for</span> (book <span style="color:#66d9ef">in</span> bookcase) {
+		println(<span style="color:#e6db74">&#34;The book name is </span><span style="color:#e6db74">${book.name}</span><span style="color:#e6db74">&#34;</span>)
+	}
+}
+<span style="color:#75715e">// 运行结果
+</span><span style="color:#75715e"></span>The book name <span style="color:#66d9ef">is</span> Dive into Kotlin
+The book name <span style="color:#66d9ef">is</span> Thinging <span style="color:#66d9ef">in</span> Java
+</code></pre></div><p><strong>用偏函数实现责任链模式</strong><br>
+责任链模式的目的就是避免请求的发送者和接受者之间的耦合关系，将这个对象连成一条链，并沿着这条链传递请求，直到有一个对象处理它为止。</p>
+<ol>
+<li>原始模型</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">data</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ApplyEvent</span>(<span style="color:#66d9ef">val</span> money: Int, <span style="color:#66d9ef">val</span> title: String)
+
+<span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">ApplyHandler</span> {
+	<span style="color:#66d9ef">val</span> successor: ApplyHandler?
+	<span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">handleEvent</span>(event: AppleEvent)
+}
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">GroupLeader</span>(<span style="color:#66d9ef">override</span> <span style="color:#66d9ef">val</span> successor: ApplyHandler?): ApplyHandler {
+	<span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">handleEvent</span>(event: ApplyEvent) {
+		<span style="color:#66d9ef">when</span> {
+			event.money <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">100</span> <span style="color:#f92672">-&gt;</span> println(<span style="color:#e6db74">&#34;Group Leader handled application: </span><span style="color:#e6db74">${event.title}</span><span style="color:#e6db74">&#34;</span>)
+			<span style="color:#66d9ef">else</span> <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">when</span>(successor) {
+				<span style="color:#66d9ef">is</span> ApplyHandler <span style="color:#f92672">-&gt;</span> successor.handleEvent(event)
+				<span style="color:#66d9ef">else</span> <span style="color:#f92672">-&gt;</span> println(<span style="color:#e6db74">&#34;Group Leader: This application cannot be handdle.&#34;</span>)
+			}
+		}
+	}
+}
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">President</span>(<span style="color:#66d9ef">override</span> <span style="color:#66d9ef">val</span> successor: ApplyHandler?): ApplyHandler {
+	<span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">handleEvent</span>(event: ApplyEvent) {
+		<span style="color:#66d9ef">when</span> {
+			event.money <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">500</span> <span style="color:#f92672">-&gt;</span> println(<span style="color:#e6db74">&#34;President handled application: </span><span style="color:#e6db74">${event.title}</span><span style="color:#e6db74">&#34;</span>)
+			<span style="color:#66d9ef">else</span> <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">when</span>(successor) {
+				<span style="color:#66d9ef">is</span> ApplyHandler <span style="color:#f92672">-&gt;</span> successor.handleEvent(event)
+				<span style="color:#66d9ef">else</span> <span style="color:#f92672">-&gt;</span> println(<span style="color:#e6db74">&#34;Prisident: This application cannot be handdle&#34;</span>)
+			}
+		}
+	}
+}
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">College</span>(<span style="color:#66d9ef">override</span> <span style="color:#66d9ef">val</span> successor: ApplyHnadler?): ApplyHandler {
+	<span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">handleEvent</span>(event: ApplyEvent) {
+		<span style="color:#66d9ef">when</span> {
+			event.money &gt; <span style="color:#ae81ff">1000</span> <span style="color:#f92672">-&gt;</span> println(<span style="color:#e6db74">&#34;College: This application is refused.&#34;</span>)
+			<span style="color:#66d9ef">else</span> <span style="color:#f92672">-&gt;</span> println(<span style="color:#e6db74">&#34;College handled application: </span><span style="color:#e6db74">${event.title}</span><span style="color:#e6db74">&#34;</span>)
+		}
+	}
+}
+
+<span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">main</span>(args: Array&lt;String&gt;) {
+	<span style="color:#66d9ef">val</span> college = College(<span style="color:#66d9ef">null</span>)
+	<span style="color:#66d9ef">val</span> president = Predsident(college)
+	<span style="color:#66d9ef">val</span> groupLeader = GroupLeader(president)
+	
+	groupLeader.handleEvent(ApplyEvent(<span style="color:#ae81ff">10</span>, <span style="color:#e6db74">&#34;buy a pen&#34;</span>))
+	groupLeader.handleEvent(ApplyEvent(<span style="color:#ae81ff">200</span>, <span style="color:#e6db74">&#34;team building&#34;</span>))
+	groupLeader.handleEvent(ApplyEvent(<span style="color:#ae81ff">600</span>, <span style="color:#e6db74">&#34;hold a debate match&#34;</span>))
+	groupLeader.handleEvent(ApplyEvent(<span style="color:#ae81ff">1200</span>, <span style="color:#e6db74">&#34;annual meeting of the college&#34;</span>))
+}
+<span style="color:#75715e">// 运行结果
+</span><span style="color:#75715e"></span>Group Leader handled application: buy a pen.
+President handled application: team building.
+College handled application: hold a debate match.
+College: This application <span style="color:#66d9ef">is</span> refused.
+</code></pre></div><p><strong>使用偏函数</strong><br>
+偏函数是个数学中的概念，指的是定义域X中可能存在某些值在值域Y中没有对应的值。</p>
+<p>开源库<a href="https://github.com/MarioAriasC/funKTionale">funKTionale</a>实现了PartialFunction.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PartialFunction</span>&lt;<span style="color:#66d9ef">in</span> P1, <span style="color:#66d9ef">out</span> R&gt;(<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">val</span> definedAt: (P1) <span style="color:#f92672">-&gt;</span> Boolean, <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">val</span> f: (P1) <span style="color:#f92672">-&gt;</span> R) :(P1) <span style="color:#f92672">-&gt;</span> R {
+	<span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">invoke</span>(p1: P1): R {
+		<span style="color:#66d9ef">if</span> (definedAt(P1)) {
+			<span style="color:#66d9ef">return</span> f(p1)
+		} <span style="color:#66d9ef">else</span> {
+			<span style="color:#66d9ef">throw</span> IllegalArgumentException(<span style="color:#e6db74">&#34;Value: $(p1) isn&#39;t supported by this function&#34;</span>)
+		}
+	}
+	
+	<span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">isDefinedAt</span>(p1: P1) = definedAt(p1)
+}
+
+<span style="color:#66d9ef">infix</span> <span style="color:#66d9ef">fun</span> &lt;<span style="color:#a6e22e">P1</span>, <span style="color:#a6e22e">R</span>&gt; <span style="color:#a6e22e">PartialFunction</span>&lt;P1, R&gt;.OrElse(that: PartialFunction&lt;P1, R&gt;): PartialFunction&lt;P1, R&gt; {
+	<span style="color:#66d9ef">return</span> PartialFunction({ <span style="color:#66d9ef">this</span>.isDefinedAt(<span style="color:#66d9ef">it</span>) <span style="color:#f92672">||</span> that.isDefinedAt(<span style="color:#66d9ef">it</span>) }) {
+		<span style="color:#66d9ef">when</span> {
+			<span style="color:#66d9ef">this</span>.isDefinedAt(<span style="color:#66d9ef">it</span>) <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">this</span>(<span style="color:#66d9ef">it</span>)
+			<span style="color:#66d9ef">else</span> <span style="color:#f92672">-&gt;</span> that(<span style="color:#66d9ef">it</span>)
+		}
+	}
+}
+
+<span style="color:#66d9ef">data</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ApplyEvent</span>(<span style="color:#66d9ef">val</span> money: Int, <span style="color:#66d9ef">val</span> title: String)
+
+<span style="color:#66d9ef">val</span> groupLeader = {
+	<span style="color:#66d9ef">val</span> definedAt: (ApplyEvent) <span style="color:#f92672">-&gt;</span> Boolean = { <span style="color:#66d9ef">it</span>.money <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">200</span> }
+	<span style="color:#66d9ef">val</span> handler: (ApplyEvent) <span style="color:#f92672">-&gt;</span> Unit = { println(<span style="color:#e6db74">&#34;Group Leader handled application: </span><span style="color:#e6db74">${it.title}</span><span style="color:#e6db74">.&#34;</span>)}
+	PartialFunction(definedAt, handler)
+}()
+
+<span style="color:#66d9ef">val</span> president = {
+	<span style="color:#66d9ef">val</span> definedAt: (ApplyEvent) <span style="color:#f92672">-&gt;</span> Boolean =  { <span style="color:#66d9ef">it</span>.money <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">500</span>}
+	<span style="color:#66d9ef">val</span> handler: (ApplyEvent) <span style="color:#f92672">-&gt;</span> Unit = { println(<span style="color:#e6db74">&#34;President handled application: </span><span style="color:#e6db74">${it.title}</span><span style="color:#e6db74">.&#34;</span>)}
+	PartialFunction(definedAt, handler)
+}()
+
+<span style="color:#66d9ef">val</span> college = {
+	<span style="color:#66d9ef">val</span> definedAt: (ApplyEvent) <span style="color:#f92672">-&gt;</span> Boolean = { <span style="color:#66d9ef">true</span> }
+	<span style="color:#66d9ef">val</span> handler: (ApplyEvent) <span style="color:#f92672">-&gt;</span> Unit = {
+		<span style="color:#66d9ef">when</span> {
+			<span style="color:#66d9ef">it</span>.money &gt; <span style="color:#ae81ff">1000</span> <span style="color:#f92672">-&gt;</span> println(<span style="color:#e6db74">&#34;College: This application is refused.&#34;</span>)
+			<span style="color:#66d9ef">else</span> <span style="color:#f92672">-&gt;</span> println(<span style="color:#e6db74">&#34;College handled application: </span><span style="color:#e6db74">${it.title}</span><span style="color:#e6db74">&#34;</span>)
+		}
+	}
+	PartialFunction(definedAt, handler)
+}()
+
+<span style="color:#66d9ef">val</span> applyChain = groupLeader orElse president orElse college
+
+&gt;&gt;&gt; applyChain(ApplyEvent(<span style="color:#ae81ff">600</span>, <span style="color:#e6db74">&#34;hold a debate match&#34;</span>))
+College handled application: hold a debate match.
+</code></pre></div><p><strong>ADT 实现状态模式</strong><br>
+状态模式允许一个对象在其内部状态改变时改变它的行为， 对象看起来似乎修改了它的类。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">sealed</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">WaterMachineState</span>(<span style="color:#66d9ef">open</span> <span style="color:#66d9ef">val</span> machine: WaterMachine) {
+	<span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">turnHeating</span>() {
+		<span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span> <span style="color:#f92672">!is</span> Heating) {
+			println(<span style="color:#e6db74">&#34;turn heating&#34;</span>)
+			machine.state = machine.heating
+		} <span style="color:#66d9ef">else</span> {
+			println(<span style="color:#e6db74">&#34;The state is already heating mode.&#34;</span>)
+		}
+	}
+	
+	<span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">turnCooling</span>() {
+		<span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span> <span style="color:#f92672">!is</span> Cooling) {
+			println(<span style="color:#e6db74">&#34;turn cooling&#34;</span>)
+			machine.state = machine.cooling
+		} <span style="color:#66d9ef">else</span> {
+			println(<span style="color:#e6db74">&#34;The state is already cooling mode.&#34;</span>)
+		}
+	}
+	
+	<span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">turnOff</span>() {
+		<span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span> <span style="color:#f92672">!is</span> Off) {
+			println(<span style="color:#e6db74">&#34;turn off&#34;</span>)
+			machine.state = machine.off
+		} <span style="color:#66d9ef">else</span> {
+			println(<span style="color:#e6db74">&#34;The state is already off.&#34;</span>)
+		}
+	}
+}
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Off</span>(<span style="color:#66d9ef">override</span> <span style="color:#66d9ef">val</span> machine: WatterMachine): WatterMachineState(machine)
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Heating</span>(<span style="color:#66d9ef">override</span> <span style="color:#66d9ef">val</span> machine: WatterMachine): WatterMachineState(machine)
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Cooling</span>(<span style="color:#66d9ef">override</span> <span style="color:#66d9ef">val</span> machine: WatterMachine): 
+WatterMachineState(machine)
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">WaterMachine</span> {
+	<span style="color:#66d9ef">var</span> state: WaterMachineState
+	<span style="color:#66d9ef">val</span> off = Off(<span style="color:#66d9ef">this</span>)
+	<span style="color:#66d9ef">val</span> heating = Heating(<span style="color:#66d9ef">this</span>)
+	<span style="color:#66d9ef">val</span> cooling = Cooling(<span style="color:#66d9ef">this</span>)
+	
+	<span style="color:#66d9ef">init</span> {
+		<span style="color:#66d9ef">this</span>.state = off
+	}
+	
+	<span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">turnHeating</span>() {
+		<span style="color:#66d9ef">this</span>.state.turnHeating()
+	}
+	
+	<span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">turnCooling</span>() {
+		<span style="color:#66d9ef">this</span>.state.turnCooling()
+	}
+	
+	<span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">turnOff</span>() {
+		<span style="color:#66d9ef">this</span>.state.turnOff()
+	}
+}
+
+<span style="color:#66d9ef">enum</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Moment</span> {
+	EARLY_MORNING,
+	DRINKING_WATER,
+	INSTANCE_NOODLES,
+	AFTER_WORK
+}
+
+<span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">waterMachineOps</span>(machine: WaterMachine, moment: Moment) {
+	<span style="color:#66d9ef">when</span>(moment) {
+		Moment.EARLY_MORNING,
+		Moment.DRINKING_WATER <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">when</span>(machine.state) {
+			<span style="color:#f92672">!is</span> Cooling <span style="color:#f92672">-&gt;</span> machine.turnCooling()
+		}
+		Moment.INSTANCE_NOODLES <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">when</span>(machine.state) {
+			<span style="color:#f92672">!is</span> Heating <span style="color:#f92672">-&gt;</span> machine.turnHeating()
+		}
+		Moment.AFTER_WORK <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">when</span>(machine.state) {
+			<span style="color:#f92672">!is</span> OFF <span style="color:#f92672">-&gt;</span> machine.turnOff()
+		}
+		<span style="color:#66d9ef">else</span> <span style="color:#f92672">-&gt;</span> Unit
+	}
+}
+
+<span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">main</span>(args: Array&lt;String&gt;) {
+	<span style="color:#66d9ef">val</span> machine = WaterMachine()
+	waterMachineOps(machine, Moment.DRINKING_WATER)
+	waterMachineOps(machine, Moment.INSTANCE_NOODLES)
+	waterMachineOps(machine, Moment.DRINKING_WATER)
+	waterMachineOps(machine, Moment.AFTER_WORk)
+}
+<span style="color:#75715e">// 执行结果
+</span><span style="color:#75715e"></span>turn cooling
+turn heating
+turn cooling
+turn off
+</code></pre></div><h4 id="结构型模式">结构型模式</h4>
+<p><strong>装饰模式： 使用委托减少样板代码</strong><br>
+装饰模式就是在不必改变原类文件和使用继承的情况下， 动态地扩展一个对象的功能。该模式通过创建一个包装对象，来包裹真实的对象。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Macbook</span> {
+	<span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">getCost</span>(): Int
+	<span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">getDesc</span>(): String
+	<span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">getProdDate</span>(): String
+}
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MacBookPro</span>: MacBook {
+	<span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">getCost</span>() = <span style="color:#ae81ff">10000</span>
+	<span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">getDesc</span>() = <span style="color:#e6db74">&#34;Macbook Pro&#34;</span>
+	<span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">getProdDate</span>() = <span style="color:#e6db74">&#34;Late 2011&#34;</span>
+}
+
+<span style="color:#75715e">// 装饰类
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ProcessorUpgradeMacbookPro</span>(<span style="color:#66d9ef">val</span> macbook: MacBook): MacBook <span style="color:#66d9ef">by</span> macbook {
+	<span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">getCost</span>() = macbook.getCost() + <span style="color:#ae81ff">219</span>
+	<span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">getDesc</span>() = macbook.getDesc() + <span style="color:#e6db74">&#34;, +1G Memory&#34;</span>
+}
+
+<span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">main</span>(args: Array&lt;String&gt;) {
+	<span style="color:#66d9ef">val</span> macBookPro = MacBookPro()
+	<span style="color:#66d9ef">val</span> processorUpgradeMacbookPro = ProcessorUpgradeMacbookPro(macBookPro)
+	println(processorUpgradeMacbookPro.getCost())
+	println(processorUpgradeMacbookPro.getDesc())
+}
+<span style="color:#75715e">// 运行结果
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">10219</span>
+Macbook Pro, +<span style="color:#ae81ff">1</span>G Memory
+</code></pre></div><p><strong>通过扩展代替装饰者</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Printer</span> {
+	<span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">drawline</span>() {
+		println(<span style="color:#e6db74">&#34;————————————————&#34;</span>)
+	}
+	
+	<span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">drawDottedLine</span>() {
+		println(<span style="color:#e6db74">&#34;----------------&#34;</span>)
+	}
+	
+	func drawStars() {
+		println(<span style="color:#e6db74">&#34;****************&#34;</span>)
+	}
+}
+
+<span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">Printer</span>.startDraw(decorated: Printer.() <span style="color:#f92672">-&gt;</span> Unit) {
+	println(<span style="color:#e6db74">&#34;+++ start drawing +++&#34;</span>)
+	<span style="color:#66d9ef">this</span>.decorated()
+	println(<span style="color:#e6db74">&#34;+++ end drawing +++&#34;</span>)
+}
+
+<span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">main</span>(args: Array&lt;String&gt;) {
+	Printer().run {
+		startDraw {
+			drawLine()
+		}
+		startDraw {
+			drawDottedLine()
+		}
+		startDraw {
+			drawStars()
+		}
+	}
+}
+<span style="color:#75715e">// 运行结果
+</span><span style="color:#75715e"></span><span style="color:#f92672">++</span>+ start drawing <span style="color:#f92672">++</span>+
+<span style="color:#960050;background-color:#1e0010">————————————————</span>
+<span style="color:#f92672">++</span>+ end drawing <span style="color:#f92672">++</span>+
+<span style="color:#f92672">++</span>+ start drawing <span style="color:#f92672">++</span>+
+<span style="color:#f92672">----------------</span>
+<span style="color:#f92672">++</span>+ end drawing <span style="color:#f92672">++</span>+
+<span style="color:#f92672">++</span>+ start drawing <span style="color:#f92672">++</span>+
+****************
+<span style="color:#f92672">++</span>+ end drawing <span style="color:#f92672">++</span>+
+</code></pre></div>
+				<div id="post-tags">
+				  
+				  	
+						  <a href="https://alimy.me/tags/development/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;development</a>
+						
+						  <a href="https://alimy.me/tags/kotin/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;kotin</a>
+						
+						  <a href="https://alimy.me/tags/language/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;language</a>
+						
+					
+				</div>
+        </div>
+        <div id="post-navigator">
+          <a id="post-navigator-prev" href="https://alimy.me/post/dev_202101042002/" title="上一篇"><i class="fa fa-chevron-left" aria-hidden="true"></i>&nbsp;Tg: Serialized binary TL-schema in vkext format(*.tlo)</a>
+          
+        </div>
+        <div id="post-comments">
+          <h3>Comments</h3>
+          
+
+
+<div id="disqus_thread"></div>
+
+<script type="text/javascript">
+  var disqusUsername = "alimy";
+
+  (function() { 
+  var d = document, s = d.createElement('script');
+
+  s.src = '//' + disqusUsername + '.disqus.com/embed.js';
+
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+          <footer id="copyright"> <p>&copy;2015-2021 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
+
+    </div>
+    <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
+if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
+var s=document.getElementsByTagName('script')[0];sc.src='https://alimy.me/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
+WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
+
+  </body>
+</html>

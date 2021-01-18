@@ -6,7 +6,41 @@
     <description>Recent content in language on 北 野</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Fri, 18 Mar 2016 20:45:00 +0800</lastBuildDate><atom:link href="https://alimy.me/tags/language/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 18 Jan 2021 12:48:00 +0800</lastBuildDate><atom:link href="https://alimy.me/tags/language/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Kotlin: 几种设计模式</title>
+      <link>https://alimy.me/post/dev_202101181248/</link>
+      <pubDate>Mon, 18 Jan 2021 12:48:00 +0800</pubDate>
+      
+      <guid>https://alimy.me/post/dev_202101181248/</guid>
+      <description>&lt;h4 id=&#34;创建型模式&#34;&gt;创建型模式&lt;/h4&gt;
+&lt;p&gt;原始模型&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-kotlin&#34; data-lang=&#34;kotlin&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;interface&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Computer&lt;/span&gt; {
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;val&lt;/span&gt; cpu: String
+}
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;PC&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;override&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;val&lt;/span&gt; cpu: String = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Core&amp;#34;&lt;/span&gt;): Computer
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Server&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;override&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;val&lt;/span&gt; cpu: String = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Xeon&amp;#34;&lt;/span&gt;): Computer
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;enum&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;ComputerType&lt;/span&gt; {
+	PC, Server
+}
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;ComputerFactory&lt;/span&gt; {
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;fun&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;produce&lt;/span&gt;(type: ComputerType): Computer {
+		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;when&lt;/span&gt;(type) {
+			ComputerType.PC &lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt; PC()
+			ComputerType.Server &lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt; Server()
+		}
+	}
+}
+
+&amp;gt;&amp;gt;&amp;gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;val&lt;/span&gt; comp = ComputerFactory().produce(ComputerType.PC)
+&amp;gt;&amp;gt;&amp;gt; println(comp.cpu)
+Core
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    
     <item>
       <title>50 Shades of Go</title>
       <link>https://alimy.me/post/dev_201603182045/</link>

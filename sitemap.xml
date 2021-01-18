@@ -4,27 +4,52 @@
   
   <url>
     <loc>https://alimy.me/categories/</loc>
-    <lastmod>2021-01-04T20:02:00+08:00</lastmod>
+    <lastmod>2021-01-18T12:48:00+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://alimy.me/categories/development/</loc>
-    <lastmod>2021-01-04T20:02:00+08:00</lastmod>
+    <lastmod>2021-01-18T12:48:00+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://alimy.me/tags/development/</loc>
-    <lastmod>2021-01-04T20:02:00+08:00</lastmod>
+    <lastmod>2021-01-18T12:48:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://alimy.me/tags/kotin/</loc>
+    <lastmod>2021-01-18T12:48:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://alimy.me/post/dev_202101181248/</loc>
+    <lastmod>2021-01-18T12:48:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://alimy.me/tags/language/</loc>
+    <lastmod>2021-01-18T12:48:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://alimy.me/categories/language/</loc>
+    <lastmod>2021-01-18T12:48:00+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://alimy.me/post/</loc>
-    <lastmod>2021-01-04T20:02:00+08:00</lastmod>
+    <lastmod>2021-01-18T12:48:00+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://alimy.me/tags/</loc>
-    <lastmod>2021-01-04T20:02:00+08:00</lastmod>
+    <lastmod>2021-01-18T12:48:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://alimy.me/</loc>
+    <lastmod>2021-01-18T12:48:00+08:00</lastmod>
   </url>
   
   <url>
@@ -39,11 +64,6 @@
   
   <url>
     <loc>https://alimy.me/post/dev_202101042002/</loc>
-    <lastmod>2021-01-04T20:02:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://alimy.me/</loc>
     <lastmod>2021-01-04T20:02:00+08:00</lastmod>
   </url>
   
@@ -203,7 +223,7 @@
   </url>
   
   <url>
-    <loc>https://alimy.me/post/day_2018090119142/</loc>
+    <loc>https://alimy.me/post/day_201809011942/</loc>
     <lastmod>2018-09-01T19:42:00+08:00</lastmod>
   </url>
   
@@ -459,11 +479,6 @@
   
   <url>
     <loc>https://alimy.me/tags/gopher/</loc>
-    <lastmod>2016-03-18T20:45:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://alimy.me/tags/language/</loc>
     <lastmod>2016-03-18T20:45:00+08:00</lastmod>
   </url>
   
@@ -740,11 +755,6 @@
   <url>
     <loc>https://alimy.me/post/dev_201601161712/</loc>
     <lastmod>2016-01-16T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://alimy.me/categories/language/</loc>
-    <lastmod>2016-01-13T00:00:00+00:00</lastmod>
   </url>
   
   <url>
