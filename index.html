@@ -311,7 +311,7 @@ float:right;
                         
                             <article class="post panel-wrapper">
 <header>
-<h2 ><a href="https://alimy.me/post/dev_202101191738/" title="阅读全文">MacOS /usr/bin/目录下 Operation not permitted的解决 </a> </h2>
+<h2 ><a href="https://alimy.me/post/dev_202101191805/" title="阅读全文">MacOS /usr/bin/目录下 Operation not permitted的解决 </a> </h2>
 
 </header>
 <div class="summary">
@@ -331,6 +331,25 @@ float:right;
 </li>
 </ol>
 <p><strong>Rootless机制是对抗恶意程序的最后防线，除非特殊需要时我们才将其关闭，否则保持开启状态</strong></p>
+</div>
+<footer id="more">
+<a href='https://alimy.me/post/dev_202101191805/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="https://alimy.me/post/dev_202101191738/" title="阅读全文">Mac OS包管理软件brew和port介绍 </a> </h2>
+
+</header>
+<div class="summary">
+    <p>Mac OS中主要有三种包管理工具：MacPorts，Homebrew，Fink。这里简介Homebrew和MacPorts的区别：</p>
+<p><strong>MacPorts</strong>：<br>
+因为 Mac OS 源自 BSD，因此将 BSD 中的 Port 移植到 OS 成为 MacPorts 就一点不奇怪。MacPorts 会独立于 OS 自建一套仓库树，OS 的包执行目录为 /usr/local，而 MacPorts 的包执行目录为 /opt/local。MacPorts 尽量不影响系统现有程序，自然也就尽量少复用系统已有程序。MacPorts 安装包的过程是下载该程序的所有源文件及其依赖包，然后在本地进行 Build 生成最终的可执行文件。这样做的好处是在系统中存在一套独立的生态环境，从而不影响系统自身的生态环境，缺点就是浪费了系统自身的生态资源。</p>
+<p><strong>Homebrew</strong>：<br>
+在 Lion 之后兴起的包管理工具，工作方式与 MacPorts 类似，下载源代码然后本地 Build。不同之处在于 Homebrew 采取与 MacPorts 截然相反的态度，对系统资源是最大程度的利用，因此可以说 Homebrew 是直接对现有系统生态环境进行修改，所有包也是直接安装到现有的生态环境中，这样做的好处是节约了系统资源，但缺点是每一次操作都是直接对系统进行修改，严重依赖和影响现有系统。</p>
+<p>使用 MacPorts 和 Homebrew 都需要预装 XCode Command Line Tools，即意味着还需要提前预装 XCode。（根据官方文档来看，Fink 安装比较新的工具包时，因为提前编译完成所以无需依赖 XCode，但对于一些不是二进制的包，如果需要本地编译，还是需要依赖 XCode。换而言之，如果想在 OS 中编译源码，都需要 XCode 提供支持）</p>
 </div>
 <footer id="more">
 <a href='https://alimy.me/post/dev_202101191738/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
@@ -598,34 +617,6 @@ http_wait#9299359f max_delay:int wait_after:int max_wait:int = HttpWait;
 </div>
 <footer id="more">
 <a href='https://alimy.me/post/dev_202012071330/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/dev_202012071321/" title="阅读全文">Tg: Polymorphism in TL </a> </h2>
-
-</header>
-<div class="summary">
-    <p>It should be noted that in the TL schema of the overwhelming majority of API calls the use of polymorphic types is restricted to the Vector type. Nevertheless, having a view of the big picture is still helpful.</p>
-<h4 id="ordinary-inductive-types">Ordinary inductive types</h4>
-<p>For example, let us consider the IntList, which is defined as follows:</p>
-<pre><code>int_cons hd:int tl:IntList = IntList;
-int_nil = IntList;
-</code></pre><p>The “int_cons” and “int_nil” constructors as well as the “IntList” type itself are expressions of the following types (writing A : X means that A is an expression of type X):</p>
-<pre><code>IntList : Type;
-int_cons : int -&gt; IntList -&gt; IntList;
-int_nil : IntList;
-</code></pre><p>The keyword Type is used to denote the type of all types. Note that Type is not Object (Object is the type of all terms). Here is alternative syntax that could be used in some other functional programming language (but not in TL):</p>
-<pre><code>NewType IntList :=
-| int_cons hd:int tl:IntList
-| int_nil
-EndType
-</code></pre>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/dev_202012071321/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
 </footer>
 </article>
 

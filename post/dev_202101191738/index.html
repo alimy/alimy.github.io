@@ -4,7 +4,7 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <title> MacOS /usr/bin/目录下 Operation not permitted的解决 &middot; 北 野 </title>
+    <title> Mac OS包管理软件brew和port介绍 &middot; 北 野 </title>
     
     <link rel="stylesheet" type="text/css" href="https://alimy.me/css/uno.css" />
     <link rel="stylesheet" type="text/css" href="https://alimy.me/css/lightGallery.css" />
@@ -304,24 +304,41 @@ float:right;
     <div class="content-wrapper">
       <div class="content-wrapper__inner">
         <div class="post panel-wrapper">
-            <h2>MacOS /usr/bin/目录下 Operation not permitted的解决</h2>
+            <h2>Mac OS包管理软件brew和port介绍</h2>
           
-          <p>mac系统下的Rootless机制，让我们在root权限下也不能随心所欲的读写所有路径了，特殊情况下我们需要关闭Rootless时，可尝试如下操作：</p>
+          <p>Mac OS中主要有三种包管理工具：MacPorts，Homebrew，Fink。这里简介Homebrew和MacPorts的区别：</p>
+<p><strong>MacPorts</strong>：<br>
+因为 Mac OS 源自 BSD，因此将 BSD 中的 Port 移植到 OS 成为 MacPorts 就一点不奇怪。MacPorts 会独立于 OS 自建一套仓库树，OS 的包执行目录为 /usr/local，而 MacPorts 的包执行目录为 /opt/local。MacPorts 尽量不影响系统现有程序，自然也就尽量少复用系统已有程序。MacPorts 安装包的过程是下载该程序的所有源文件及其依赖包，然后在本地进行 Build 生成最终的可执行文件。这样做的好处是在系统中存在一套独立的生态环境，从而不影响系统自身的生态环境，缺点就是浪费了系统自身的生态资源。</p>
+<p><strong>Homebrew</strong>：<br>
+在 Lion 之后兴起的包管理工具，工作方式与 MacPorts 类似，下载源代码然后本地 Build。不同之处在于 Homebrew 采取与 MacPorts 截然相反的态度，对系统资源是最大程度的利用，因此可以说 Homebrew 是直接对现有系统生态环境进行修改，所有包也是直接安装到现有的生态环境中，这样做的好处是节约了系统资源，但缺点是每一次操作都是直接对系统进行修改，严重依赖和影响现有系统。</p>
+<p>使用 MacPorts 和 Homebrew 都需要预装 XCode Command Line Tools，即意味着还需要提前预装 XCode。（根据官方文档来看，Fink 安装比较新的工具包时，因为提前编译完成所以无需依赖 XCode，但对于一些不是二进制的包，如果需要本地编译，还是需要依赖 XCode。换而言之，如果想在 OS 中编译源码，都需要 XCode 提供支持）</p>
+<ul>
+<li>
+<p>Homebrew</p>
 <ol>
-<li>
-<p>重启按住 <code>Command+R</code>，进入恢复模式，打开Terminal；</p>
-</li>
-<li>
-<p>键入命令 <code>csrutil disable</code>；</p>
-</li>
-<li>
-<p>再次重启，即可对 usr/bin 目录下文件进行修改；</p>
-</li>
-<li>
-<p>如果要恢复保护机制，重新进入保护模式，输入 <code>csrutil enable</code>;</p>
-</li>
+<li>Homebrew的安装在<a href="http://brew.sh/index_zh-cn.html">http://brew.sh/index_zh-cn.html</a>上面有介绍，很简单。一般前提是要安装ruby，然后执行一段脚本即可安装。</li>
+<li>切换安装源
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e">#进入安装目录</span>
+%&gt; cd /usr/local/Homebrew
+<span style="color:#75715e">#切换清华镜像源</span>
+%&gt; git remote set-url origin git://mirrors.tuna.tsinghua.edu.cn/homebrew.git
+<span style="color:#75715e">#切换中科大镜像源</span>
+%&gt; git remote set-url origin http://mirrors.ustc.edu.cn/homebrew.git
+<span style="color:#75715e">#更新</span>
+%&gt; brew upgrade
+     
+</code></pre></div></li>
 </ol>
-<p><strong>Rootless机制是对抗恶意程序的最后防线，除非特殊需要时我们才将其关闭，否则保持开启状态</strong></p>
+</li>
+<li>
+<p>MacPorts</p>
+<ol>
+<li>安装
+从<a href="https://www.macports.org/install.php">https://www.macports.org/install.php</a>中下载对应dmg安装包后双击安装</li>
+<li>更改安装源，参考：<a href="https://www.leg.uct.ac.za/mirrors/packages/macports">https://www.leg.uct.ac.za/mirrors/packages/macports</a></li>
+</ol>
+</li>
+</ul>
 				<div id="post-tags">
 				  
 				  	
@@ -336,7 +353,7 @@ float:right;
         </div>
         <div id="post-navigator">
           <a id="post-navigator-prev" href="https://alimy.me/post/dev_202101181248/" title="上一篇"><i class="fa fa-chevron-left" aria-hidden="true"></i>&nbsp;Kotlin: 几种设计模式</a>
-          
+          <a id="post-navigator-next" href="https://alimy.me/post/dev_202101191805/" title="下一篇">MacOS /usr/bin/目录下 Operation not permitted的解决&nbsp;<i class="fa fa-chevron-right" aria-hidden="true"></i></a>
         </div>
         <div id="post-comments">
           <h3>Comments</h3>
