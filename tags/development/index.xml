@@ -6,7 +6,20 @@
     <description>Recent content in development on 北 野</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Tue, 19 Jan 2021 18:05:00 +0800</lastBuildDate><atom:link href="https://alimy.me/tags/development/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 31 Jan 2021 10:10:00 +0800</lastBuildDate><atom:link href="https://alimy.me/tags/development/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Uber’s Real-Time Push Platform</title>
+      <link>https://alimy.me/post/dev_202101311010/</link>
+      <pubDate>Sun, 31 Jan 2021 10:10:00 +0800</pubDate>
+      
+      <guid>https://alimy.me/post/dev_202101311010/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;https://alimy.me/images/post/20210131101000.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Uber builds multi-sided marketplaces handling millions of trips every day across the globe. We strive to build real-time experiences for all our users.&lt;/p&gt;
+&lt;p&gt;The nature of real time marketplaces make them very lively. Over the course of a trip, there are multiple participants that can modify and view the state of an ongoing trip and need real-time updates. This creates the need to keep all active participants and apps synced with real-time information, whether it’s through pickup time, arrival time, and route lines on the screen, or nearby drivers when you open the app.&lt;/p&gt;
+&lt;p&gt;A key dimension of growth was feature explosion in critical user screens and the need for developers across the company to build real-time mobile features in a decentralized way on a shared app screen.&lt;/p&gt;
+&lt;p&gt;This article describes how we went from polling for refreshing the app to a gRPC-based bi-directional streaming protocol to build our app experience.&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>MacOS /usr/bin/目录下 Operation not permitted的解决</title>
       <link>https://alimy.me/post/dev_202101191805/</link>
