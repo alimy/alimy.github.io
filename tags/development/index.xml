@@ -6,7 +6,30 @@
     <description>Recent content in development on 北 野</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Sun, 31 Jan 2021 10:10:00 +0800</lastBuildDate><atom:link href="https://alimy.me/tags/development/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 15 Mar 2021 15:21:00 +0800</lastBuildDate><atom:link href="https://alimy.me/tags/development/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>部署v1.20版的Kubernetes集群</title>
+      <link>https://alimy.me/post/dev_202103151521/</link>
+      <pubDate>Mon, 15 Mar 2021 15:21:00 +0800</pubDate>
+      
+      <guid>https://alimy.me/post/dev_202103151521/</guid>
+      <description>&lt;h3 id=&#34;主机环境预设&#34;&gt;主机环境预设&lt;/h3&gt;
+&lt;p&gt;本示例中的Kubernetes集群部署将基于以下环境进行。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;OS: Ubuntu 20.04.1&lt;/li&gt;
+&lt;li&gt;Kubernetes：v1.20&lt;/li&gt;
+&lt;li&gt;Container Runtime:  Docker CE 20.10.0&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;测试环境说明&#34;&gt;测试环境说明&lt;/h4&gt;
+&lt;p&gt;测试使用的Kubernetes集群可由一个master主机及一个以上（建议至少两个）node主机组成，这些主机可以是物理服务器，也可以运行于vmware、virtualbox或kvm等虚拟化平台上的虚拟机，甚至是公有云上的VPS主机。&lt;/p&gt;
+&lt;p&gt;本测试环境将由master01、node01、node02和node03四个独立的主机组成，它们分别拥有4核心的CPU及4G的内存资源，操作系统环境均为仅小化部署的Ubuntu Server 20.04.1 LTS，启用了SSH服务，域名为magedu.com。此外，各主机需要预设的系统环境如下：&lt;/p&gt;
+&lt;p&gt;（1）借助于chronyd服务（程序包名称chrony）设定各节点时间精确同步；&lt;/p&gt;
+&lt;p&gt;（2）通过DNS完成各节点的主机名称解析；&lt;/p&gt;
+&lt;p&gt;（3）各节点禁用所有的Swap设备；&lt;/p&gt;
+&lt;p&gt;（4）各节点禁用默认配置的iptables防火墙服务；&lt;/p&gt;
+&lt;p&gt;注意：为了便于操作，后面将在各节点直接以系统管理员root用户进行操作。若用户使用了普通用户，建议将如下各命令以sudo方式运行。&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>Uber’s Real-Time Push Platform</title>
       <link>https://alimy.me/post/dev_202101311010/</link>
