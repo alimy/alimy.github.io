@@ -6,7 +6,41 @@
     <description>Recent content in Posts on 北 野</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Mon, 15 Mar 2021 15:21:00 +0800</lastBuildDate><atom:link href="https://alimy.me/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 04 Apr 2021 15:20:45 +0800</lastBuildDate><atom:link href="https://alimy.me/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>如何在Fedora 31命令行模式下禁止睡眠</title>
+      <link>https://alimy.me/post/dev_202104042045/</link>
+      <pubDate>Sun, 04 Apr 2021 15:20:45 +0800</pubDate>
+      
+      <guid>https://alimy.me/post/dev_202104042045/</guid>
+      <description>&lt;p&gt;笔记本进入睡眠状态后，很多服务不能远程连接使用，例如 SSH 会连接不上，需要修改一下配置：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;#禁止睡眠&lt;/span&gt;
+%&amp;gt; systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
+ 
+&lt;span style=&#34;color:#75715e&#34;&gt;#启用睡眠&lt;/span&gt;
+%&amp;gt; systemctl unmask sleep.target suspend.target hibernate.target hybrid-sleep.target
+ 
+&lt;span style=&#34;color:#75715e&#34;&gt;#配置盖子（笔记本）&lt;/span&gt;
+%&amp;gt; vi /etc/systemd/logind.conf
+ 
+找到该行#HandleLidSwitch&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;suspend,将该行更改为以下所需的设置之一：
+&lt;span style=&#34;color:#75715e&#34;&gt;#关闭盖子时关闭计算机&lt;/span&gt;
+HandleLidSwitch&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;poweroff
+&lt;span style=&#34;color:#75715e&#34;&gt;#在合上盖子时到休眠计算机&lt;/span&gt;
+HandleLidSwitch&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;hibernate
+&lt;span style=&#34;color:#75715e&#34;&gt;#关闭盖子时暂停计算机&lt;/span&gt;
+HandleLidSwitch&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;suspend
+&lt;span style=&#34;color:#75715e&#34;&gt;#不执行任何操作&lt;/span&gt;
+HandleLidSwitch&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;ignore
+ 
+&lt;span style=&#34;color:#75715e&#34;&gt;#保存文件，然后重新启动服务&lt;/span&gt;
+systemctl restart systemd-logind
+&lt;span style=&#34;color:#75715e&#34;&gt;#或者&lt;/span&gt;
+service systemd-logind restart
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    
     <item>
       <title>部署v1.20版的Kubernetes集群</title>
       <link>https://alimy.me/post/dev_202103151521/</link>

@@ -311,6 +311,45 @@ float:right;
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="https://alimy.me/post/dev_202104042045/" title="阅读全文">如何在Fedora 31命令行模式下禁止睡眠 </a> </h2>
+
+</header>
+<div class="summary">
+    <p>笔记本进入睡眠状态后，很多服务不能远程连接使用，例如 SSH 会连接不上，需要修改一下配置：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">
+<span style="color:#75715e">#禁止睡眠</span>
+%&gt; systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
+ 
+<span style="color:#75715e">#启用睡眠</span>
+%&gt; systemctl unmask sleep.target suspend.target hibernate.target hybrid-sleep.target
+ 
+<span style="color:#75715e">#配置盖子（笔记本）</span>
+%&gt; vi /etc/systemd/logind.conf
+ 
+找到该行#HandleLidSwitch<span style="color:#f92672">=</span>suspend,将该行更改为以下所需的设置之一：
+<span style="color:#75715e">#关闭盖子时关闭计算机</span>
+HandleLidSwitch<span style="color:#f92672">=</span>poweroff
+<span style="color:#75715e">#在合上盖子时到休眠计算机</span>
+HandleLidSwitch<span style="color:#f92672">=</span>hibernate
+<span style="color:#75715e">#关闭盖子时暂停计算机</span>
+HandleLidSwitch<span style="color:#f92672">=</span>suspend
+<span style="color:#75715e">#不执行任何操作</span>
+HandleLidSwitch<span style="color:#f92672">=</span>ignore
+ 
+<span style="color:#75715e">#保存文件，然后重新启动服务</span>
+systemctl restart systemd-logind
+<span style="color:#75715e">#或者</span>
+service systemd-logind restart
+</code></pre></div>
+</div>
+<footer id="more">
+<a href='https://alimy.me/post/dev_202104042045/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="https://alimy.me/post/dev_202103151521/" title="阅读全文">部署v1.20版的Kubernetes集群 </a> </h2>
 
 </header>
@@ -599,28 +638,6 @@ http_wait#9299359f max_delay:int wait_after:int max_wait:int = HttpWait;
 </article>
 
                         
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/dev_202012071337/" title="阅读全文">Tg: Service Messages </a> </h2>
-
-</header>
-<div class="summary">
-    <h4 id="response-to-an-rpc-query">Response to an RPC query</h4>
-<p>A response to an RPC query is normally wrapped as follows:</p>
-<pre><code>rpc_result#f35c6d01 req_msg_id:long result:Object = RpcResult;
-</code></pre><p>Here req_msg_id is the identifier of the message sent by the other party and containing an RPC query. This way, the recipient knows that the result is a response to the specific RPC query in question. At the same time, this response serves as acknowledgment of the other party’s receipt of the req_msg_id message.</p>
-<p>Note that the response to an RPC query must also be acknowledged. Most frequently, this coincides with the transmission of the next message (which may have a container attached to it carrying a service message with the acknowledgment).</p>
-<h4 id="rpc-error">RPC Error</h4>
-<p>The result field returned in response to any RPC query may also contain an error message in the following format:</p>
-<pre><code>rpc_error#2144ca19 error_code:int error_message:string = RpcError;
-</code></pre>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/dev_202012071337/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
                     </div>
                     </br>
                     
@@ -645,7 +662,7 @@ http_wait#9299359f max_delay:int wait_after:int max_wait:int = HttpWait;
     <span aria-hidden="true">&nbsp;&hellip;&nbsp;</span>
   </li>
   <li class="page-item">
-    <a class="page-link" href="https://alimy.me/page/15/">15</a>
+    <a class="page-link" href="https://alimy.me/page/16/">16</a>
   </li>
   <li class="page-item">
     <a href="https://alimy.me/page/2/" class="page-link" aria-label="Next">Next&nbsp;&nbsp;<i class="fa fa-arrow-right" aria-hidden="true"></i></a>
