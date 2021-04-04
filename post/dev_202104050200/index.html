@@ -4,7 +4,7 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <title> 如何在Fedora 33命令行模式下禁止睡眠 &middot; 北 野 </title>
+    <title> 使用Dnsmasq 实现 hosts 泛解析 &middot; 北 野 </title>
     
     <link rel="stylesheet" type="text/css" href="https://alimy.me/css/uno.css" />
     <link rel="stylesheet" type="text/css" href="https://alimy.me/css/lightGallery.css" />
@@ -304,45 +304,48 @@ float:right;
     <div class="content-wrapper">
       <div class="content-wrapper__inner">
         <div class="post panel-wrapper">
-            <h2>如何在Fedora 33命令行模式下禁止睡眠</h2>
+            <h2>使用Dnsmasq 实现 hosts 泛解析</h2>
           
-          <p>切换启动模式：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">%&gt; systemctl get-default <span style="color:#75715e"># 获取当前启动模式</span>
-%&gt; systemctl set-default multi-user.target <span style="color:#75715e"># 默认命令行模式启动</span>
-%&gt; systemctl set-default graphical.target <span style="color:#75715e"># 默认图形模式启动</span>
-</code></pre></div><p>笔记本进入睡眠状态后，很多服务不能远程连接使用，例如 SSH 会连接不上，需要修改一下配置：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">%&gt; systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target <span style="color:#75715e"># 禁止睡眠</span>
+          <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$&gt; sudo dnf install dnsmasq -y <span style="color:#75715e"># 安装 Dnsmasq </span>
+$&gt; sudo cp /etc/dnsmasq.conf<span style="color:#f92672">{</span>,bak<span style="color:#f92672">}</span> <span style="color:#75715e"># 先把配置文件备份一份</span>
+$&gt; sudo vim /etc/dnsmasq.conf
+<span style="color:#75715e"># 严格按照 resolv-file 文件中的顺序从上到下进行 DNS 解析, 直到第一个成功解析成功为止</span>
+strict-order
 
-%&gt; systemctl unmask sleep.target suspend.target hibernate.target hybrid-sleep.target <span style="color:#75715e"># 启用睡眠</span>
- 
-%&gt; vi /etc/systemd/logind.conf <span style="color:#75715e"># 配置盖子（笔记本）</span>
- 
-找到该行#HandleLidSwitch<span style="color:#f92672">=</span>suspend,将该行更改为以下所需的设置之一：
-<span style="color:#75715e">#关闭盖子时关闭计算机</span>
-HandleLidSwitch<span style="color:#f92672">=</span>poweroff
-<span style="color:#75715e">#在合上盖子时到休眠计算机</span>
-HandleLidSwitch<span style="color:#f92672">=</span>hibernate
-<span style="color:#75715e">#关闭盖子时暂停计算机</span>
-HandleLidSwitch<span style="color:#f92672">=</span>suspend
-<span style="color:#75715e">#不执行任何操作</span>
-HandleLidSwitch<span style="color:#f92672">=</span>ignore
- 
-%&gt; systemctl restart systemd-logind <span style="color:#75715e"># 保存文件，然后重新启动服务</span>
-%&gt; service systemd-logind restart <span style="color:#75715e"># 同上</span>
-</code></pre></div>
+<span style="color:#75715e"># 监听的 IP 地址</span>
+listen-address<span style="color:#f92672">=</span>127.0.0.1
+
+<span style="color:#75715e"># 设置缓存大小</span>
+cache-size<span style="color:#f92672">=</span><span style="color:#ae81ff">10240</span>
+
+<span style="color:#75715e"># 泛域名解析，访问任何 baidu.com 域名都会被解析到 6.6.6.6</span>
+address<span style="color:#f92672">=</span>/baidu.com/6.6.6.6
+</code></pre></div><p>域名解析默认读取 /etc/hosts 文件到本地域名配置文件（不支持泛域名）。</p>
+<p>DNS 配置默认读取 /etc/resolv.conf 上游 DNS 配置文件，如果读取不到 /etc/hosts 的地址解析，就会转发给 resolv.conf 进行解析地址。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ sudo vim /etc/resolv.conf <span style="color:#75715e"># DNS 配置文件</span>
+<span style="color:#75715e"># 这些都是常用的DNS，可以配置很多</span>
+nameserver 127.0.0.1  <span style="color:#75715e"># 一定要放在第一个</span>
+nameserver 8.8.8.8
+nameserver 8.8.4.4
+nameserver 1.1.1.1
+
+$&gt; sudo systemctl enable --now dnsmasq <span style="color:#75715e"># 启动服务</span>
+Created symlink from /etc/systemd/system/multi-user.target.wants/dnsmasq.service to /usr/lib/systemd/system/dnsmasq.service.
+
+</code></pre></div><p>Dnsmasq 还有一项非常有用的功能就是可以对已经解析过的域名进行缓存，下次在访问这个域名的时候就可以直接返回 IP 地址，而不再需要经过 DNS 查询。</p>
 				<div id="post-tags">
 				  
 				  	
-						  <a href="https://alimy.me/tags/faqs/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;FAQs</a>
+						  <a href="https://alimy.me/tags/development/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;development</a>
 						
-						  <a href="https://alimy.me/tags/linux/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;linux</a>
+						  <a href="https://alimy.me/tags/dns/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;dns</a>
 						
 					
 				</div>
         </div>
         <div id="post-navigator">
-          <a id="post-navigator-prev" href="https://alimy.me/post/dev_202103151521/" title="上一篇"><i class="fa fa-chevron-left" aria-hidden="true"></i>&nbsp;部署v1.20版的Kubernetes集群</a>
-          <a id="post-navigator-next" href="https://alimy.me/post/dev_202104050200/" title="下一篇">使用Dnsmasq 实现 hosts 泛解析&nbsp;<i class="fa fa-chevron-right" aria-hidden="true"></i></a>
+          <a id="post-navigator-prev" href="https://alimy.me/post/dev_202104042045/" title="上一篇"><i class="fa fa-chevron-left" aria-hidden="true"></i>&nbsp;如何在Fedora 33命令行模式下禁止睡眠</a>
+          
         </div>
         <div id="post-comments">
           <h3>Comments</h3>
