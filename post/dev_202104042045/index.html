@@ -306,7 +306,11 @@ float:right;
         <div class="post panel-wrapper">
             <h2>如何在Fedora 31命令行模式下禁止睡眠</h2>
           
-          <p>笔记本进入睡眠状态后，很多服务不能远程连接使用，例如 SSH 会连接不上，需要修改一下配置：</p>
+          <p>切换启动模式：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">%&gt; systemctl get-default <span style="color:#75715e"># 获取当前启动模式</span>
+%&gt; systemctl set-default multi-user.target <span style="color:#75715e"># 默认命令行模式启动</span>
+%&gt; systemctl set-default graphical.target <span style="color:#75715e"># 默认图形模式启动</span>
+</code></pre></div><p>笔记本进入睡眠状态后，很多服务不能远程连接使用，例如 SSH 会连接不上，需要修改一下配置：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">
 <span style="color:#75715e">#禁止睡眠</span>
 %&gt; systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target

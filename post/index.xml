@@ -13,7 +13,11 @@
       <pubDate>Sun, 04 Apr 2021 15:20:45 +0800</pubDate>
       
       <guid>https://alimy.me/post/dev_202104042045/</guid>
-      <description>&lt;p&gt;笔记本进入睡眠状态后，很多服务不能远程连接使用，例如 SSH 会连接不上，需要修改一下配置：&lt;/p&gt;
+      <description>&lt;p&gt;切换启动模式：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;%&amp;gt; systemctl get-default &lt;span style=&#34;color:#75715e&#34;&gt;# 获取当前启动模式&lt;/span&gt;
+%&amp;gt; systemctl set-default multi-user.target &lt;span style=&#34;color:#75715e&#34;&gt;# 默认命令行模式启动&lt;/span&gt;
+%&amp;gt; systemctl set-default graphical.target &lt;span style=&#34;color:#75715e&#34;&gt;# 默认图形模式启动&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;笔记本进入睡眠状态后，很多服务不能远程连接使用，例如 SSH 会连接不上，需要修改一下配置：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;
 &lt;span style=&#34;color:#75715e&#34;&gt;#禁止睡眠&lt;/span&gt;
 %&amp;gt; systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
