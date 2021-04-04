@@ -320,15 +320,11 @@ float:right;
 %&gt; systemctl set-default multi-user.target <span style="color:#75715e"># 默认命令行模式启动</span>
 %&gt; systemctl set-default graphical.target <span style="color:#75715e"># 默认图形模式启动</span>
 </code></pre></div><p>笔记本进入睡眠状态后，很多服务不能远程连接使用，例如 SSH 会连接不上，需要修改一下配置：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">
-<span style="color:#75715e">#禁止睡眠</span>
-%&gt; systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">%&gt; systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target <span style="color:#75715e"># 禁止睡眠</span>
+
+%&gt; systemctl unmask sleep.target suspend.target hibernate.target hybrid-sleep.target <span style="color:#75715e"># 启用睡眠</span>
  
-<span style="color:#75715e">#启用睡眠</span>
-%&gt; systemctl unmask sleep.target suspend.target hibernate.target hybrid-sleep.target
- 
-<span style="color:#75715e">#配置盖子（笔记本）</span>
-%&gt; vi /etc/systemd/logind.conf
+%&gt; vi /etc/systemd/logind.conf <span style="color:#75715e"># 配置盖子（笔记本）</span>
  
 找到该行#HandleLidSwitch<span style="color:#f92672">=</span>suspend,将该行更改为以下所需的设置之一：
 <span style="color:#75715e">#关闭盖子时关闭计算机</span>
@@ -340,10 +336,8 @@ HandleLidSwitch<span style="color:#f92672">=</span>suspend
 <span style="color:#75715e">#不执行任何操作</span>
 HandleLidSwitch<span style="color:#f92672">=</span>ignore
  
-<span style="color:#75715e">#保存文件，然后重新启动服务</span>
-systemctl restart systemd-logind
-<span style="color:#75715e">#或者</span>
-service systemd-logind restart
+%&gt; systemctl restart systemd-logind <span style="color:#75715e"># 保存文件，然后重新启动服务</span>
+%&gt; service systemd-logind restart <span style="color:#75715e"># 同上</span>
 </code></pre></div>
 </div>
 <footer id="more">
