@@ -18,7 +18,7 @@
 &lt;/ul&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;%&amp;gt; openssl genrsa -out ca.key &lt;span style=&#34;color:#ae81ff&#34;&gt;2048&lt;/span&gt;
 %&amp;gt; openssl req -new -x509 -days &lt;span style=&#34;color:#ae81ff&#34;&gt;3650&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;     -subj &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/C=China/L=Shanghai/O=grpc/CN=grpc.me&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;     -subj &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/C=CN/L=Shanghai/O=grpc/CN=grpc.me&amp;#34;&lt;/span&gt;
      -key ca.key -out ca.crt
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;生成服务器证书(server.key, server.crt)&lt;/li&gt;
@@ -27,12 +27,12 @@
 
 &lt;span style=&#34;color:#75715e&#34;&gt;# 未使用CA签名的server.crt&lt;/span&gt;
 %&amp;gt; openssl req -new -x509 -days &lt;span style=&#34;color:#ae81ff&#34;&gt;3650&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;     -subj &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/C=China/L=Shanghai/O=grpc-server/CN=server.grpc.me&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;     -subj &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/C=CN/L=Shanghai/O=grpc-server/CN=server.grpc.me&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;     -key server.key -out server.crt
  
 &lt;span style=&#34;color:#75715e&#34;&gt;# 使用CA签名的server.crt&lt;/span&gt;
 %&amp;gt; openssl req -new &lt;span style=&#34;color:#ae81ff&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;     -subj &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/C=China/L=Shanghai/O=grpc-server/CN=server.grpc.me&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;     -subj &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/C=CN/L=Shanghai/O=grpc-server/CN=server.grpc.me&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;     -key server.key -out server.csr
 %&amp;gt; openssl x509 -req -sha256 &lt;span style=&#34;color:#ae81ff&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;     -CA ca.crt -CAkey ca.key -CAcreateserial -days &lt;span style=&#34;color:#ae81ff&#34;&gt;3650&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;\
