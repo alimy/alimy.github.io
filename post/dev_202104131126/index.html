@@ -405,10 +405,10 @@ float:right;
     <span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">conn</span>.<span style="color:#a6e22e">Close</span>()
     <span style="color:#f92672">...</span>
 }
-
-<span style="color:#f92672">*</span> <span style="color:#a6e22e">客户端</span><span style="color:#f92672">/</span><span style="color:#a6e22e">服务端启动</span>(<span style="color:#a6e22e">不带CA</span>)
-<span style="color:#960050;background-color:#1e0010">​</span><span style="color:#e6db74">``</span><span style="color:#960050;background-color:#1e0010">`</span><span style="color:#a6e22e">golang</span>
-<span style="color:#75715e">// file: server.go
+</code></pre></div><ul>
+<li>客户端/服务端启动(不带CA)</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#75715e">// file: server.go
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
     <span style="color:#a6e22e">creds</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">credentials</span>.<span style="color:#a6e22e">NewServerTLSFromFile</span>(<span style="color:#e6db74">&#34;server.crt&#34;</span>, <span style="color:#e6db74">&#34;server.key&#34;</span>)
     <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
