@@ -6,7 +6,45 @@
     <description>Recent content in FAQs on 北 野</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Sun, 04 Apr 2021 15:20:45 +0800</lastBuildDate><atom:link href="https://alimy.me/tags/faqs/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 22 May 2021 09:48:00 +0800</lastBuildDate><atom:link href="https://alimy.me/tags/faqs/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>解决GitHub官网打不开问题</title>
+      <link>https://alimy.me/post/dev_202105220948/</link>
+      <pubDate>Sat, 22 May 2021 09:48:00 +0800</pubDate>
+      
+      <guid>https://alimy.me/post/dev_202105220948/</guid>
+      <description>&lt;p&gt;GitHub经常打不开，或者打开特别慢，一种解决方案是 找到官网IP地址、CDN域名IP地址、静态资源IP地址，然后配置本机hosts文件，刷新DNS缓存即可。&lt;/p&gt;
+&lt;h3 id=&#34;查询三个域名的ip&#34;&gt;查询三个域名的IP：&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com&#34;&gt;github.com&lt;/a&gt;: &lt;a href=&#34;https://github.com.ipaddress.com/&#34;&gt;https://github.com.ipaddress.com/&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;fastly.net.ipaddress.com: &lt;a href=&#34;https://fastly.net.ipaddress.com/github.global.ssl.fastly.net&#34;&gt;https://fastly.net.ipaddress.com/github.global.ssl.fastly.net&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;assets-cdn.github.com: &lt;a href=&#34;https://github.com.ipaddress.com/assets-cdn.github.com&#34;&gt;https://github.com.ipaddress.com/assets-cdn.github.com&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;添加获取的对应ip地址到本地hosts文件&#34;&gt;添加获取的对应IP地址到本地hosts文件&lt;/h3&gt;
+&lt;p&gt;MacOS或Linux环境hosts文件路径&lt;code&gt;/etc/hosts&lt;/code&gt; ; Windows环境是&lt;code&gt;C:\Windows\System32\drivers\etc&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;以下是在MacOS或Linux环境下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;% sudo cat &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;lt;&amp;lt;EOF&amp;gt;&amp;gt;/etc/hosts
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;# github.com
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;140.82.113.3 github.com
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;199.232.69.194 github.global.ssl.fastly.net
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;185.199.108.153 assets-cdn.github.com
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;185.199.109.153 assets-cdn.github.com
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;185.199.110.153 assets-cdn.github.com
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;185.199.111.153 assets-cdn.github.com
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;EOF&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;刷新dns&#34;&gt;刷新DNS&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;% ipconfig /flushdns &lt;span style=&#34;color:#75715e&#34;&gt;# in windows&lt;/span&gt;
+% sudo systemctl restart network-manager &lt;span style=&#34;color:#75715e&#34;&gt;# in Linux that use systemd as init&lt;/span&gt;
+% sudo killall -HUP mDNSResponder &lt;span style=&#34;color:#75715e&#34;&gt;# in MacOS&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    
     <item>
       <title>如何在Fedora 33命令行模式下禁止睡眠</title>
       <link>https://alimy.me/post/dev_202104042045/</link>
