@@ -338,7 +338,8 @@ float:right;
 </code></pre></div><p>注意：如果使用了dnsmasq作为本地代理DNS服务器，还需要重启dnsmasq服务：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">% sudo systemctl restart dnsmasq <span style="color:#75715e"># in Linux that use systemd as init</span>
 % sudo brew services restart dnsmasq <span style="color:#75715e"># in MacOS</span>
-</code></pre></div>
+</code></pre></div><hr>
+<p>后记：亲测，不是特别有用，时灵时不灵，关键是GitHub资源拉取受阻不一定是DNS污染所致，可能是对应的IP地址访问受阻，这就有点蛋疼了 :(</p>
 				<div id="post-tags">
 				  
 				  	
