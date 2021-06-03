@@ -311,6 +311,76 @@ float:right;
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="https://alimy.me/post/art_202106031912/" title="阅读全文">如果有人追你 </a> </h2>
+
+</header>
+<div class="summary">
+    <p><a href="https://alimy.me/images/post/20210603191201.png" title="点击查看大图"><img src="https://alimy.me/images/post/20210603191200.jpg" alt=""></a></p>
+</div>
+<footer id="more">
+<a href='https://alimy.me/post/art_202106031912/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="https://alimy.me/post/art_202106031910/" title="阅读全文">我爱你，甚于昨日 </a> </h2>
+
+</header>
+<div class="summary">
+    <p><a href="https://alimy.me/images/post/20210603191001.png" title="点击查看大图"><img src="https://alimy.me/images/post/20210603191001.png" alt=""></a></p>
+</div>
+<footer id="more">
+<a href='https://alimy.me/post/art_202106031910/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="https://alimy.me/post/art_202106031908/" title="阅读全文">甚是爱你 </a> </h2>
+
+</header>
+<div class="summary">
+    <p><a href="https://alimy.me/images/post/20210603190801.png" title="点击查看大图"><img src="https://alimy.me/images/post/20210603190801.png" alt=""></a></p>
+</div>
+<footer id="more">
+<a href='https://alimy.me/post/art_202106031908/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="https://alimy.me/post/art_202106031905/" title="阅读全文">我是要娶你的！ </a> </h2>
+
+</header>
+<div class="summary">
+    <p><a href="https://alimy.me/images/post/20210603190501.png" title="点击查看大图"><img src="https://alimy.me/images/post/20210603190500.jpg" alt=""></a></p>
+</div>
+<footer id="more">
+<a href='https://alimy.me/post/art_202106031905/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="https://alimy.me/post/art_202106031901/" title="阅读全文">最温暖的晚安 </a> </h2>
+
+</header>
+<div class="summary">
+    <p><a href="https://alimy.me/images/post/20210603190101.png" title="点击查看大图"><img src="https://alimy.me/images/post/20210603190101.png" alt=""></a></p>
+</div>
+<footer id="more">
+<a href='https://alimy.me/post/art_202106031901/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="https://alimy.me/post/ark_202105221307/" title="阅读全文">袁隆平院士给妈妈的信《妈妈，稻子熟了》 </a> </h2>
 
 </header>
@@ -436,137 +506,6 @@ address<span style="color:#f92672">=</span>/baidu.com/6.6.6.6
 </article>
 
                         
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/dev_202104042045/" title="阅读全文">如何在Fedora 33命令行模式下禁止睡眠 </a> </h2>
-
-</header>
-<div class="summary">
-    <p>切换启动模式：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">%&gt; systemctl get-default <span style="color:#75715e"># 获取当前启动模式</span>
-%&gt; systemctl set-default multi-user.target <span style="color:#75715e"># 默认命令行模式启动</span>
-%&gt; systemctl set-default graphical.target <span style="color:#75715e"># 默认图形模式启动</span>
-</code></pre></div><p>笔记本进入睡眠状态后，很多服务不能远程连接使用，例如 SSH 会连接不上，需要修改一下配置：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">%&gt; systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target <span style="color:#75715e"># 禁止睡眠</span>
-
-%&gt; systemctl unmask sleep.target suspend.target hibernate.target hybrid-sleep.target <span style="color:#75715e"># 启用睡眠</span>
- 
-%&gt; vi /etc/systemd/logind.conf <span style="color:#75715e"># 配置盖子（笔记本）</span>
- 
-找到该行#HandleLidSwitch<span style="color:#f92672">=</span>suspend,将该行更改为以下所需的设置之一：
-<span style="color:#75715e">#关闭盖子时关闭计算机</span>
-HandleLidSwitch<span style="color:#f92672">=</span>poweroff
-<span style="color:#75715e">#在合上盖子时到休眠计算机</span>
-HandleLidSwitch<span style="color:#f92672">=</span>hibernate
-<span style="color:#75715e">#关闭盖子时暂停计算机</span>
-HandleLidSwitch<span style="color:#f92672">=</span>suspend
-<span style="color:#75715e">#不执行任何操作</span>
-HandleLidSwitch<span style="color:#f92672">=</span>ignore
- 
-%&gt; systemctl restart systemd-logind <span style="color:#75715e"># 保存文件，然后重新启动服务</span>
-%&gt; service systemd-logind restart <span style="color:#75715e"># 同上</span>
-</code></pre></div>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/dev_202104042045/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/dev_202103151521/" title="阅读全文">部署v1.20版的Kubernetes集群 </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="主机环境预设">主机环境预设</h3>
-<p>本示例中的Kubernetes集群部署将基于以下环境进行。</p>
-<ul>
-<li>OS: Ubuntu 20.04.1</li>
-<li>Kubernetes：v1.20</li>
-<li>Container Runtime:  Docker CE 20.10.0</li>
-</ul>
-<h4 id="测试环境说明">测试环境说明</h4>
-<p>测试使用的Kubernetes集群可由一个master主机及一个以上（建议至少两个）node主机组成，这些主机可以是物理服务器，也可以运行于vmware、virtualbox或kvm等虚拟化平台上的虚拟机，甚至是公有云上的VPS主机。</p>
-<p>本测试环境将由master01、node01、node02和node03四个独立的主机组成，它们分别拥有4核心的CPU及4G的内存资源，操作系统环境均为仅小化部署的Ubuntu Server 20.04.1 LTS，启用了SSH服务，域名为magedu.com。此外，各主机需要预设的系统环境如下：</p>
-<p>（1）借助于chronyd服务（程序包名称chrony）设定各节点时间精确同步；</p>
-<p>（2）通过DNS完成各节点的主机名称解析；</p>
-<p>（3）各节点禁用所有的Swap设备；</p>
-<p>（4）各节点禁用默认配置的iptables防火墙服务；</p>
-<p>注意：为了便于操作，后面将在各节点直接以系统管理员root用户进行操作。若用户使用了普通用户，建议将如下各命令以sudo方式运行。</p>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/dev_202103151521/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/dev_202101311010/" title="阅读全文">Uber’s Real-Time Push Platform </a> </h2>
-
-</header>
-<div class="summary">
-    <p><img src="https://alimy.me/images/post/20210131101000.png" alt=""></p>
-<p>Uber builds multi-sided marketplaces handling millions of trips every day across the globe. We strive to build real-time experiences for all our users.</p>
-<p>The nature of real time marketplaces make them very lively. Over the course of a trip, there are multiple participants that can modify and view the state of an ongoing trip and need real-time updates. This creates the need to keep all active participants and apps synced with real-time information, whether it’s through pickup time, arrival time, and route lines on the screen, or nearby drivers when you open the app.</p>
-<p>A key dimension of growth was feature explosion in critical user screens and the need for developers across the company to build real-time mobile features in a decentralized way on a shared app screen.</p>
-<p>This article describes how we went from polling for refreshing the app to a gRPC-based bi-directional streaming protocol to build our app experience.</p>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/dev_202101311010/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/dev_202101191805/" title="阅读全文">MacOS /usr/bin/目录下 Operation not permitted的解决 </a> </h2>
-
-</header>
-<div class="summary">
-    <p>mac系统下的Rootless机制，让我们在root权限下也不能随心所欲的读写所有路径了，特殊情况下我们需要关闭Rootless时，可尝试如下操作：</p>
-<ol>
-<li>
-<p>重启按住 <code>Command+R</code>，进入恢复模式，打开Terminal；</p>
-</li>
-<li>
-<p>键入命令 <code>csrutil disable</code>；</p>
-</li>
-<li>
-<p>再次重启，即可对 usr/bin 目录下文件进行修改；</p>
-</li>
-<li>
-<p>如果要恢复保护机制，重新进入保护模式，输入 <code>csrutil enable</code>;</p>
-</li>
-</ol>
-<p><strong>Rootless机制是对抗恶意程序的最后防线，除非特殊需要时我们才将其关闭，否则保持开启状态</strong></p>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/dev_202101191805/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/dev_202101191738/" title="阅读全文">Mac OS包管理软件brew和port介绍 </a> </h2>
-
-</header>
-<div class="summary">
-    <p>Mac OS中主要有三种包管理工具：MacPorts，Homebrew，Fink。这里简介Homebrew和MacPorts的区别：</p>
-<p><strong>MacPorts</strong>：<br>
-因为 Mac OS 源自 BSD，因此将 BSD 中的 Port 移植到 OS 成为 MacPorts 就一点不奇怪。MacPorts 会独立于 OS 自建一套仓库树，OS 的包执行目录为 /usr/local，而 MacPorts 的包执行目录为 /opt/local。MacPorts 尽量不影响系统现有程序，自然也就尽量少复用系统已有程序。MacPorts 安装包的过程是下载该程序的所有源文件及其依赖包，然后在本地进行 Build 生成最终的可执行文件。这样做的好处是在系统中存在一套独立的生态环境，从而不影响系统自身的生态环境，缺点就是浪费了系统自身的生态资源。</p>
-<p><strong>Homebrew</strong>：<br>
-在 Lion 之后兴起的包管理工具，工作方式与 MacPorts 类似，下载源代码然后本地 Build。不同之处在于 Homebrew 采取与 MacPorts 截然相反的态度，对系统资源是最大程度的利用，因此可以说 Homebrew 是直接对现有系统生态环境进行修改，所有包也是直接安装到现有的生态环境中，这样做的好处是节约了系统资源，但缺点是每一次操作都是直接对系统进行修改，严重依赖和影响现有系统。</p>
-<p>使用 MacPorts 和 Homebrew 都需要预装 XCode Command Line Tools，即意味着还需要提前预装 XCode。（根据官方文档来看，Fink 安装比较新的工具包时，因为提前编译完成所以无需依赖 XCode，但对于一些不是二进制的包，如果需要本地编译，还是需要依赖 XCode。换而言之，如果想在 OS 中编译源码，都需要 XCode 提供支持）</p>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/dev_202101191738/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
                     </div>
                     </br>
                     
@@ -591,7 +530,7 @@ HandleLidSwitch<span style="color:#f92672">=</span>ignore
     <span aria-hidden="true">&nbsp;&hellip;&nbsp;</span>
   </li>
   <li class="page-item">
-    <a class="page-link" href="https://alimy.me/page/16/">16</a>
+    <a class="page-link" href="https://alimy.me/page/17/">17</a>
   </li>
   <li class="page-item">
     <a href="https://alimy.me/page/2/" class="page-link" aria-label="Next">Next&nbsp;&nbsp;<i class="fa fa-arrow-right" aria-hidden="true"></i></a>

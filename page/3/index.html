@@ -311,6 +311,132 @@ float:right;
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="https://alimy.me/post/dev_202012071337/" title="阅读全文">Tg: Service Messages </a> </h2>
+
+</header>
+<div class="summary">
+    <h4 id="response-to-an-rpc-query">Response to an RPC query</h4>
+<p>A response to an RPC query is normally wrapped as follows:</p>
+<pre><code>rpc_result#f35c6d01 req_msg_id:long result:Object = RpcResult;
+</code></pre><p>Here req_msg_id is the identifier of the message sent by the other party and containing an RPC query. This way, the recipient knows that the result is a response to the specific RPC query in question. At the same time, this response serves as acknowledgment of the other party’s receipt of the req_msg_id message.</p>
+<p>Note that the response to an RPC query must also be acknowledged. Most frequently, this coincides with the transmission of the next message (which may have a container attached to it carrying a service message with the acknowledgment).</p>
+<h4 id="rpc-error">RPC Error</h4>
+<p>The result field returned in response to any RPC query may also contain an error message in the following format:</p>
+<pre><code>rpc_error#2144ca19 error_code:int error_message:string = RpcError;
+</code></pre>
+</div>
+<footer id="more">
+<a href='https://alimy.me/post/dev_202012071337/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="https://alimy.me/post/dev_202012071333/" title="阅读全文">Tg: Binary Data Serialization </a> </h2>
+
+</header>
+<div class="summary">
+    <p>MTProto operation requires that elementary and composite data types as well as queries to which such data types are passed as arguments or by which they are returned, be transmitted in binary format (i. e. serialized) . The <a href="https://alimy.me/post/dev_202012071315/">TL language</a> is used to describe the data types to be serialized.</p>
+<h4 id="general-definitions">General Definitions</h4>
+<p>For our purposes, we can identify a type with the set of its (serialized) values understood as strings (finite sequences) of 32-bit numbers (transmitted in little endian order).</p>
+<p>Therefore:</p>
+<ul>
+<li>Alphabet (A), in this case, is a set of 32-bit numbers (normally, signed, i. e. between <code>-2^31</code> and <code>2^31 - 1)</code>.</li>
+<li>Value, in this case, is the same as a string in Alphabet A, i. e. a finite (possibly, empty) sequence of 32-bit numbers. The set of all such sequences is designated as A*.</li>
+<li>Type, for our purposes, is the same as the set of legal values of a type, i. e. some set T which is a subset of A* and is a prefix code (i. e. no element of T may be a prefix for any other element). Therefore, any sequence from A* can contain no more than one prefix that is a member of T.</li>
+<li>Value of Type T is any sequence (value) which is a member of T as a subset of A*.</li>
+<li>Compatible Types are the types T and T’ not intersecting as subsets of A*, such that the union of T and T' is a prefix code.</li>
+<li>Coordinated System of Types is a finite or infinite set of types T_1, &hellip;, T_n, &hellip;, such that any two types from this set are compatible.</li>
+<li>Data Type is the same as type in the sense of the definition above.</li>
+<li>Functional Type is a type describing a function; it is not a type in the sense of the definition above. Initially, we ignore the existence of functional types and describe only the data types; however, in reality, functional types will later be implemented in some extension of this system using the so-called temporary combinators.</li>
+</ul>
+</div>
+<footer id="more">
+<a href='https://alimy.me/post/dev_202012071333/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="https://alimy.me/post/dev_202012071330/" title="阅读全文">Tg: Type serialization </a> </h2>
+
+</header>
+<div class="summary">
+    <p>See <a href="https://alimy.me/post/dev_202012071321/">Polymorphism in TL</a> and <a href="https://alimy.me/post/dev_202012071315">TL Language</a>.</p>
+<p>It remains to describe how types, e.g. values of type Type, are transmitted (serialized). In general, there is nothing unexpected going on here: we have type constructors of various arities (for example, List is an arity-1 constructor, but IntList is a 0-arity constructor); and if we know that a 32-bit “name” is assigned to each type constructor, there are no further questions &ndash; values of type Type are serialized exactly like values of any other recursive type with a defined set of constructors of differing arity.</p>
+<p>How can a 32-bit “name” be assigned to a type (a type constructor, to be more exact) such as List or IntList? It is proposed to use the sum of the names of all of its constructors, plus the CRC32 of the string with the designation of the type&rsquo;s name and all of its parameters such as “IntList = Type” or “List X:Type = Type”. This way, the List constructor’s “name” is the sum of the CRC32s of the three strings &ldquo;List X:Type = Type&rdquo;, &ldquo;cons X:Type hd:X tl:List X = List X&rdquo;, and &ldquo;nil X:Type = List X&rdquo;. For “bare” types (which, formally speaking, are subtypes of the corresponding “boxed” type), the situation is somewhat more complicated; the logical negation of the corresponding constructor’s name is used. For built-in bareand boxed types (for example, int and Int), a pseudo-declaration is used (for example, int ? = Int&quot;).</p>
+<ul>
+<li>This description is somewhat outdated and may be updated in the future. Specifically, how to treat the ! modifier has not been explained.*</li>
+</ul>
+</div>
+<footer id="more">
+<a href='https://alimy.me/post/dev_202012071330/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="https://alimy.me/post/dev_202012071321/" title="阅读全文">Tg: Polymorphism in TL </a> </h2>
+
+</header>
+<div class="summary">
+    <p>It should be noted that in the TL schema of the overwhelming majority of API calls the use of polymorphic types is restricted to the Vector type. Nevertheless, having a view of the big picture is still helpful.</p>
+<h4 id="ordinary-inductive-types">Ordinary inductive types</h4>
+<p>For example, let us consider the IntList, which is defined as follows:</p>
+<pre><code>int_cons hd:int tl:IntList = IntList;
+int_nil = IntList;
+</code></pre><p>The “int_cons” and “int_nil” constructors as well as the “IntList” type itself are expressions of the following types (writing A : X means that A is an expression of type X):</p>
+<pre><code>IntList : Type;
+int_cons : int -&gt; IntList -&gt; IntList;
+int_nil : IntList;
+</code></pre><p>The keyword Type is used to denote the type of all types. Note that Type is not Object (Object is the type of all terms). Here is alternative syntax that could be used in some other functional programming language (but not in TL):</p>
+<pre><code>NewType IntList :=
+| int_cons hd:int tl:IntList
+| int_nil
+EndType
+</code></pre>
+</div>
+<footer id="more">
+<a href='https://alimy.me/post/dev_202012071321/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="https://alimy.me/post/dev_202012071315/" title="阅读全文">Tg: TL Language </a> </h2>
+
+</header>
+<div class="summary">
+    <p>TL (Type Language) serves to describe the used system of types, constructors, and existing functions. In fact, the combinator description format presented in Binary Data Serialization is used.</p>
+<p><strong>See also:</strong></p>
+<p><a href="https://alimy.me/post/dev_202012071321/">Polymorphism in TL</a></p>
+<p><strong>Advanced topics:</strong></p>
+<p><a href="tl-dependent.md">Dependent types in TL</a></p>
+<p><a href="tl-formal.md">Formal description of TL</a></p>
+<p><a href="tl-combinators.md">Formal description of TL combinators</a></p>
+<p><a href="post/dev_202012071330/">Type serialization</a></p>
+<p><a href="tl-tl.md">TL schema for serialization of TL schemas</a></p>
+<p><a href="tl-optargs.md">Optional combinator parameters and their values</a></p>
+<p><a href="tl-abstract-types.md">Binary serialization and abstract TL types</a></p>
+<p><a href="tl-patterns.md">Formal description of templates in TL</a></p>
+<h4 id="overview">Overview</h4>
+<p>A TL program usually consists of two sections separated by keyword <code>---functions---</code>. The first section consists of declarations of built-in types and aggregate types (i.e. their constructors). The second section consists of the declared functions, i.e. functional combinators.</p>
+<p>Actually, both the first and second sections consist of combinator declarations, each of which ends with a semicolon. However, the first section contains only constructors, while the second section only involves functions. Each combinator is declared using a “combinator declaration” in the format explained above. However, the combinator number and field names may be explicitly assigned.</p>
+<p>If additional type declarations are required after functions have been declared, the keyword (section divider) <code>---types---</code> is used. Furthermore, a functional combinator may be declared in the type section if its result type begins with an exclamation point (in fact, when the function section is interpreted, this exclamation point is added automatically).</p>
+<p>To explicitly define 32-bit names of combinators, a hash mark (<code>#</code>) is added immediately after the combinator’s name, followed by 8 hexadecimal digits.</p>
+</div>
+<footer id="more">
+<a href='https://alimy.me/post/dev_202012071315/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="https://alimy.me/post/dev_202011271711/" title="阅读全文">Tg: MTProto v2 </a> </h2>
 
 </header>
@@ -412,127 +538,6 @@ registry = &quot;git://mirrors.ustc.edu.cn/crates.io-index&quot;
 </article>
 
                         
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/dev_201909211645/" title="阅读全文">Protocol Buffers Messages Encoding </a> </h2>
-
-</header>
-<div class="summary">
-    <p>This document describes the binary wire format for protocol buffer messages. You don&rsquo;t need to understand this to use protocol buffers in your applications, but it can be very useful to know how different protocol buffer formats affect the size of your encoded messages.</p>
-<h3 id="a-simple-message">A Simple Message</h3>
-<p>Let&rsquo;s say you have the following very simple message definition:</p>
-<pre><code>message Test1 {
-  optional int32 a = 1;
-}
-</code></pre><p>In an application, you create a <code>Test1</code> message and set <code>a</code> to 150. You then serialize the message to an output stream. If you were able to examine the encoded message, you&rsquo;d see three bytes:</p>
-<pre><code>08 96 01
-</code></pre><p>So far, so small and numeric – but what does it mean? Read on&hellip;</p>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/dev_201909211645/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/dev_201909211630/" title="阅读全文">Cap&#39;n Proto Encoding Spec </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="sectorganization">§Organization</h3>
-<h4 id="64-bit-words">64-bit Words</h4>
-<p>For the purpose of Cap’n Proto, a “word” is defined as 8 bytes, or 64 bits. Since alignment of data is important, all objects (structs, lists, and blobs) are aligned to word boundaries, and sizes are usually expressed in terms of words. (Primitive values are aligned to a multiple of their size within a struct or list.)</p>
-<h4 id="messages">Messages</h4>
-<p>The unit of communication in Cap’n Proto is a “message”. A message is a tree of objects, with the root always being a struct.</p>
-<p>Physically, messages may be split into several “segments”, each of which is a flat blob of bytes. Typically, a segment must be loaded into a contiguous block of memory before it can be accessed, so that the relative pointers within the segment can be followed quickly. However, when a message has multiple segments, it does not matter where those segments are located in memory relative to each other; inter-segment pointers are encoded differently, as we’ll see later.</p>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/dev_201909211630/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/dev_201909211556/" title="阅读全文">Tars语言与协议 </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="目录">目录</h3>
-<ul>
-<li><a href="#main-chapter-1">Tars语言</a></li>
-<li><a href="#main-chapter-2">Tars协议</a></li>
-</ul>
-<h2 id="1-tars语言-a-idmain-chapter-1a">1. Tars语言 <!-- raw HTML omitted --><!-- raw HTML omitted --></h2>
-<h3 id="11-接口文件">1.1. 接口文件</h3>
-<ul>
-<li>Tars语言是一种类c++标识符的语言，用于生成具体的服务接口文件</li>
-<li>Tars文件是Tars框架中客户端和服务端的通信接口，通过Tars的映射实现远程对象调用</li>
-<li>Tars文件的扩展名必须以.tars为扩展名</li>
-<li>对于结构定义，可以支持扩展字段，即可以增加字段而不影响原有结构的解析，可以在存储/协议等地方单独使用</li>
-<li>大小写敏感</li>
-</ul>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/dev_201909211556/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/dev_201909211536/" title="阅读全文">Protocol Buffers Version 3 Language Specification </a> </h2>
-
-</header>
-<div class="summary">
-    <p>This is a language specification reference for version 3 of the Protocol Buffers language (proto3). The syntax is specified using Extended <a href="https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_Form" title="EBNF in WIKI">Backus-Naur Form (EBNF)</a>:</p>
-<pre><code>|   alternation
-()  grouping
-[]  option (zero or one time)
-{}  repetition (any number of times)
-</code></pre><p>For more information about using proto3, see the language guide.</p>
-<h3 id="lexical-elements">Lexical elements</h3>
-<h4 id="letters-and-digits">Letters and digits</h4>
-<pre><code>letter = &quot;A&quot; … &quot;Z&quot; | &quot;a&quot; … &quot;z&quot;
-decimalDigit = &quot;0&quot; … &quot;9&quot;
-octalDigit   = &quot;0&quot; … &quot;7&quot;
-hexDigit     = &quot;0&quot; … &quot;9&quot; | &quot;A&quot; … &quot;F&quot; | &quot;a&quot; … &quot;f&quot;
-</code></pre>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/dev_201909211536/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/dev_201909211516/" title="阅读全文">Protocol Buffers Version 2 Language Specification </a> </h2>
-
-</header>
-<div class="summary">
-    <p>This is a language specification reference for version 2 of the Protocol Buffers language (proto2). The syntax is specified using Extended <a href="https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_Form" title="EBNF in WIKI">Backus-Naur Form (EBNF)</a>:</p>
-<pre><code>|   alternation
-()  grouping
-[]  option (zero or one time)
-{}  repetition (any number of times)
-</code></pre><p>For more information about using proto2, see the language guide.</p>
-<h3 id="lexical-elements">Lexical elements</h3>
-<h4 id="letters-and-digits">Letters and digits</h4>
-<pre><code>letter = &quot;A&quot; … &quot;Z&quot; | &quot;a&quot; … &quot;z&quot;
-capitalLetter =  &quot;A&quot; … &quot;Z&quot;
-decimalDigit = &quot;0&quot; … &quot;9&quot;
-octalDigit   = &quot;0&quot; … &quot;7&quot;
-hexDigit     = &quot;0&quot; … &quot;9&quot; | &quot;A&quot; … &quot;F&quot; | &quot;a&quot; … &quot;f&quot;
-</code></pre>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/dev_201909211516/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
                     </div>
                     </br>
                     
@@ -560,7 +565,7 @@ hexDigit     = &quot;0&quot; … &quot;9&quot; | &quot;A&quot; … &quot;F&quot;
     <span aria-hidden="true">&nbsp;&hellip;&nbsp;</span>
   </li>
   <li class="page-item">
-    <a class="page-link" href="https://alimy.me/page/16/">16</a>
+    <a class="page-link" href="https://alimy.me/page/17/">17</a>
   </li>
   <li class="page-item">
     <a href="https://alimy.me/page/4/" class="page-link" aria-label="Next">Next&nbsp;&nbsp;<i class="fa fa-arrow-right" aria-hidden="true"></i></a>
