@@ -1,0 +1,700 @@
+  <!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <title> MySQL 8.0直方图 &middot; 北 野 </title>
+    
+    <link rel="stylesheet" type="text/css" href="https://alimy.me/css/uno.css" />
+    <link rel="stylesheet" type="text/css" href="https://alimy.me/css/lightGallery.css" />
+    
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://alimy.me/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" href="https://alimy.me/favicon.png">
+    
+    <script src="https://alimy.me/js/jquery.min.js"></script>
+    <script src="https://alimy.me/js/main.min.js"></script>
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75081327-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+<script>
+  "use strict";
+  
+  !function() {
+    var t = window.driftt = window.drift = window.driftt || [];
+    if (!t.init) {
+      if (t.invoked) return void (window.console && console.error && console.error("Drift snippet included twice."));
+      t.invoked = !0, t.methods = [ "identify", "config", "track", "reset", "debug", "show", "ping", "page", "hide", "off", "on" ], 
+      t.factory = function(e) {
+        return function() {
+          var n = Array.prototype.slice.call(arguments);
+          return n.unshift(e), t.push(n), t;
+        };
+      }, t.methods.forEach(function(e) {
+        t[e] = t.factory(e);
+      }), t.load = function(t) {
+        var e = 3e5, n = Math.ceil(new Date() / e) * e, o = document.createElement("script");
+        o.type = "text/javascript", o.async = !0, o.crossorigin = "anonymous", o.src = "https://js.driftt.com/include/" + n + "/" + t + ".js";
+        var i = document.getElementsByTagName("script")[0];
+        i.parentNode.insertBefore(o, i);
+      };
+    }
+  }();
+  drift.SNIPPET_VERSION = '0.3.1';
+  drift.load('b8zniyzvbfap');
+  </script>
+
+
+
+<script>
+(function(f, a, t, h, o, m){
+a[h]=a[h]||function(){
+  (a[h].q=a[h].q||[]).push(arguments)
+};
+o=f.createElement('script'),
+m=f.getElementsByTagName('script')[0];
+o.async=1; o.src=t; o.id='fathom-script';
+m.parentNode.insertBefore(o,m)
+})(document, window, '//fathom.traefic.com/tracker.js', 'fathom');
+fathom('trackPageview');
+</script>
+
+
+    <style type="text/css">
+        body {
+          background-color:#f9f9f9;
+        }
+        .panel-wrapper {
+          box-shadow:0px 0px 8px rgba(68,68,68,.6);
+          -moz-box-shadow:0px 0px 8px rgba(68,68,68,.6);
+          border-radius:4px;
+          -moz-border-radius:4px;
+          padding:16px 24px;
+          margin-top:32px;
+          background-color:#fff
+        }
+        .panel-wrapper:hover {
+          box-shadow:0px 0px 12px rgba(68,68,68,.6);
+          -moz-box-shadow:0px 0px 12px rgba(68,68,68,.6);
+        }
+        #more {
+          margin-top:16px;
+        }
+        #copyright {
+          padding:2em 0 0;
+          display:block;
+          font-size:.9em;
+          color:#b3b3b3;
+          width:100%;
+          text-align:center
+        }
+        #list-indicator {
+          min-width:48px;
+          text-align:center;
+          float:right;
+          margin-right:64px;
+          background:rgba(68,68,68,.2);
+          border-radius:4px;
+          -moz-border-radius:4px;
+          padding:8px;
+        }
+        #list-date {
+          color:#999;
+          font-size: .9em;
+          font-style:italic;
+        }
+				.post-tags-item {
+          padding-left: .75rem!important;
+					padding-right: .75rem!important;
+          padding-top: .25rem!important;
+					padding-bottom: .25rem!important;
+          margin-right: .5rem!important;
+          margin-top: .25rem!important;
+					margin-bottom: .25rem!important;
+					font-size: .875rem!important;
+          color:#666666;
+          display: inline-block!important;
+					border-radius: .25rem!important;
+					background-color:rgb(242 242 247)!important;
+				}
+        .post-tags-item:hover {
+          color:#38b2ac;
+				}
+        #post-navigator {
+          padding:24px 0px 16px 0px;
+          vertical-align: middle;
+        }
+        #post-navigator>a {
+          display: block;
+          color:#2479cc;
+          text-decoration:none;
+        }
+        #post-navigator-prev {
+          float:left;
+        }
+        #post-navigator-next {
+float:right;
+        }
+        .pages {
+            text-align: center;
+            margin-right: -15px;
+            margin-left: -15px;
+        }
+        .pages>ul {
+            font-weight: lighter;
+        }
+        .pages>.pagination {
+            display: inline-block;
+            padding-left: 0;
+            margin: 20px 0px;
+            border-radius: 4px;
+        }
+        .pages .pagination>li {
+            display:inline;
+        }
+
+.pagination>.active>a, .pagination>.active>span, .pagination>.active>a:hover, .pagination>.active>span:hover, .pagination>.active>a:focus, .pagination>.active>span:focus {
+    z-index: 2;
+    color: #fff;
+    cursor: default;
+    background-color: #428bca;
+    border-color: #428bca;
+}
+
+.pagination>li>a, .pagination>li>span {
+    position: relative;
+    float: left;
+    padding: 6px 12px;
+    margin-left: -1px;
+    line-height: 1.428571429;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+.pagination>li:first-child>a, .pagination>li:first-child>span {
+    margin-left: 0;
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
+}
+.pagination>.disabled>span, .pagination>.disabled>span:hover, .pagination>.disabled>span:focus, .pagination>.disabled>a, .pagination>.disabled>a:hover, .pagination>.disabled>a:focus {
+    color: #999;
+    cursor: not-allowed;
+    background-color: #fff;
+    border-color: #ddd;
+}
+.pagination>li:last-child>a, .pagination>li:last-child>span {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+*, *:before, *:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+    </style>
+</head>
+
+  <body>
+    <div id="scriptHeader">
+    <span class="mobile btn-mobile-menu">
+            <i class="fa fa-bars btn-mobile-menu__icon"></i>
+            <i class="fa fa-times btn-mobile-close__icon hidden"> </i>
+    </span>
+    <header class="
+        
+            panel-cover panel-cover--collapsed
+        " >
+    <div class="panel-main">
+        <div class="panel-main__inner panel-inverted">
+            <div class="panel-main__content"> 
+                <a href="https://alimy.me/"> <img src="https://alimy.me/images/logo.jpg" width="142" height="142" alt="北 野 logo" class="panel-cover__logo logo" /> </a> 
+                <h1 class="panel-cover__title panel-title">
+                    <a href="https://alimy.me/">北 野</a>
+                </h1>
+                <hr class="panel-cover__divider" />
+                <p class="panel-cover__description">  糊涂小栈  </p>
+                <hr class="panel-cover__divider panel-cover__divider--secondary" />
+                <div class="navigation-wrapper">
+                    <nav class="cover-navigation cover-navigation--primary">
+                        <ul class="navigation">
+                            <li class="navigation__item"><a href="https://alimy.me" title="博客首页" class="blog-button">Blog</a> </li> </br></br>
+                            <li class="navigation__item"><a href="https://alimy.me/post/" title="文章列表" class="blog-button">Archive</a> </li>
+                            </br>  </ul>
+                            <nav class="cover-navigation navigation--social">
+</br>
+    <ul class="navigation"> 
+        
+        <li class="navigation__item">
+            <a href="http://twitter.com/bitriory" title="@Twitter"> <i class='fa fa-twitter'></i> <span class="label">Twitter</span> </a>
+        </li>   
+        
+        <li class="navigation__item">
+            <a href="https://github.com/alimy" title="@GitHub"> <i class='fa fa-github'></i> <span class="label">Github</span> </a>
+        </li>  
+        
+        <li class="navigation__item">
+            <a href="http://gitbus.com/alimy" title="@GitBus"> <i class='fa fa-bars'></i> <span class="label">GitBus</span> </a>
+        </li>  </br>    </ul>
+</nav>
+
+                    </nav>  </div>
+            </div>
+        </div>
+        <div class="panel-cover--overlay"></div>
+    </div>
+</header>
+</div>
+<noscript>
+    <style>
+        #scriptHeader {display:none;}
+        .navigation-wrapper{
+            display: block;
+            top: 0;
+        }
+    </style>
+
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url()">
+        <div class="panel-main">
+            <div class="panel-main__inner panel-inverted">
+                <div class="panel-main__content"> 
+                    <a href="https://alimy.me/"> <img src="https://alimy.me/images/logo.jpg" width="80" alt="北 野 logo" class="panel-cover__logo logo" /> </a> 
+                    <h1 class="panel-cover__title panel-title">
+                        <a href="https://alimy.me/">北 野</a>
+                    </h1>
+                    <hr class="panel-cover__divider" />
+                    <p class="panel-cover__description">  糊涂小栈  </p>
+                    <hr class="panel-cover__divider panel-cover__divider--secondary" />
+                    <div class="navigation-wrapper">
+                        <nav class="cover-navigation cover-navigation--primary">
+                            <ul class="navigation">
+                                <li class="navigation__item"><a href="https://alimy.me/" title="博客首页" class="blog-button">Blog</a> </li>
+                                </br>  </ul>
+                        </nav> <nav class="cover-navigation navigation--social">
+</br>
+    <ul class="navigation"> 
+        
+        <li class="navigation__item">
+            <a href="http://twitter.com/bitriory" title="@Twitter"> <i class='fa fa-twitter'></i> <span class="label">Twitter</span> </a>
+        </li>   
+        
+        <li class="navigation__item">
+            <a href="https://github.com/alimy" title="@GitHub"> <i class='fa fa-github'></i> <span class="label">Github</span> </a>
+        </li>  
+        
+        <li class="navigation__item">
+            <a href="http://gitbus.com/alimy" title="@GitBus"> <i class='fa fa-bars'></i> <span class="label">GitBus</span> </a>
+        </li>  </br>    </ul>
+</nav>
+ </div>
+                </div>
+            </div>
+            <div class="panel-cover--overlay"></div>
+        </div>
+    </header>
+</noscript>
+
+    <div class="content-wrapper">
+      <div class="content-wrapper__inner">
+        <div class="post panel-wrapper">
+            <h2>MySQL 8.0直方图</h2>
+          
+          <h3 id="0-什么是直方图">0. 什么是直方图</h3>
+<p>直方图（Histogram）是数据库提供的一种（索引之外的）基础统计信息，用于描述列上的数据分布情况。它最典型的场景是估算查询谓词的选择率，以便选择合适的执行计划。</p>
+<p>也就是说，某个列可以不创建索引但创建直方图，也可以帮助提升查询效率。
+MySQL 8.0开始支持直方图，这是个很大的进步。</p>
+<p>直方图可以针对某个列记录其数据分布统计信息，例如有个列的值是从1到1万，那么可以利用直方图分成100个桶（bucket），每个桶中统计这1万个值是怎么分布的，以及每个桶中的最大值、最小值、占比等信息。</p>
+<p>虽然可以利用索引优化SQL效率，但索引维护的代价更高，索引要保持更新，而直方图可以按需手动更新。</p>
+<p>索引统计信息也有不可靠的时候，例如存在数据倾斜，或者统计延迟等问题。</p>
+<p>另外，在有需要的时候，可以在每个有需要的列上创建直方图，但却不太可能同时创建多个单列索引，那样代价太高了。</p>
+<p>例如下面这个执行计划：</p>
+<pre><code>[root@yejr.run]&gt; explain select * from t1 where seq = 1234;
++------+---------------+------+---------+------+--------+----------+-------------+
+| type | possible_keys | key  | key_len | ref  | rows   | filtered | Extra       |
++------+---------------+------+---------+------+--------+----------+-------------+
+| ALL  | NULL          | NULL | NULL    | NULL | 299876 |    10.00 | Using where |
++------+---------------+------+---------+------+--------+----------+-------------+
+
+[root@yejr.run]&gt; select * from t1 where seq = 1234;
+Empty set (0.097 sec)
+</code></pre><p>在还没创建直方图之前，seq列上同时也没有索引，这时是全表扫描，注意到 filtered 列的值是10%。</p>
+<p>创建完直方图之后，再看这个执行计划：</p>
+<pre><code>[root@yejr.run]&gt; explain select * from t1 where seq = 1234;
++------+---------------+------+---------+------+--------+----------+-------------+
+| type | possible_keys | key  | key_len | ref  | rows   | filtered | Extra       |
++------+---------------+------+---------+------+--------+----------+-------------+
+| ALL  | NULL          | NULL | NULL    | NULL | 299876 |     0.00 | Using where |
++------+---------------+------+---------+------+--------+----------+-------------+
+
+[root@yejr.run]&gt; select * from t1 where seq = 1234;
+Empty set (0.079 sec)
+</code></pre><p>注意到 filtered 列值变成了 0%，并且实际耗时是原来的81%，虽然绝对值也不算小，但相对于原来的全表扫描也还是要节省了将近20%耗时。</p>
+<p>所以说，直方图还是很有意义的，当然了，直方图还是无法代替索引，只在一些特定的场景里比较有用。</p>
+<h3 id="1-直方图怎么工作">1. 直方图怎么工作</h3>
+<p>MySQL支持两种直方图模式：等宽、等高。等宽直方图是每个桶保存一个值以及这个值累积频率，等高直方图每个桶需要保存不同值的个数，上下限以及累积频率等。MySQL会自动选用哪种类型的直方图，无需也不能指定。一般来说，数据数据分布范围比较大的话就采用等高，反之，如果数据分布比较小就采用等宽。</p>
+<p>直方图的统计信息物理表 column_statistics 存储在mysql表空间中，无法直接读写，但可以访问 information_schema.COLUMN_STATISTICS 视图来查看统计结果。</p>
+<pre><code>[root@yejr.run]&gt; show create view column_statistics\G
+*************************** 1. row ***************************
+                View: COLUMN_STATISTICS
+         Create View: CREATE ALGORITHM=UNDEFINED DEFINER=`mysql.infoschema`@`localhost` SQL SECURITY DEFINER VIEW `COLUMN_STATISTICS` AS select `mysql`.`column_statistics`.`schema_name` AS ...
+character_set_client: utf8
+collation_connection: utf8_general_ci
+</code></pre><p>每条记录对应一个直方图统计结果，用JSON格式保存。</p>
+<p>此外，还有个参数 <code>histogram_generation_max_mem_size</code> 用来控制创建直方图时可用的内存，该参数很重要，后面会讲到。</p>
+<p>截止MySQL 8.0.19版本，直方图支持多种数据类型和场景，甚至包括虚拟列。但不支持以下几种情况：</p>
+<p>加密表、临时表。
+JSON数据类型、空间（spatial）数据类型。
+已创建唯一索引的单列。
+来个一个创建失败的例子：</p>
+<pre><code>[root@yejr.run]&gt; analyze table t2 update histogram on nu;
++---------+-----------+----------+-----------------------------------------------------------+
+| Table   | Op        | Msg_type | Msg_text                                                  |
++---------+-----------+----------+-----------------------------------------------------------+
+| yejr.t2 | histogram | Error    | The column 'nu' is covered by a single-part unique index. |
++---------+-----------+----------+-----------------------------------------------------------+
+</code></pre><p>MySQL干脆利落地拒绝了这种反智行为。</p>
+<p>当然了，如果是一个列创建了非唯一辅助索引，就可以创建直方图，不会冲突。</p>
+<p>来创建个正式直方图：</p>
+<pre><code>+---------+-----------+----------+------------------------------------------------+
+| Table   | Op        | Msg_type | Msg_text                                       |
++---------+-----------+----------+------------------------------------------------+
+| yejr.t1 | histogram | status   | Histogram statistics created for column 'seq'. |
++---------+-----------+----------+------------------------------------------------+
+</code></pre><p>再看下 COLUMN_STATISTICS 中存储的统计信息：</p>
+<pre><code>[root@yejr.run]&gt; select SCHEMA_NAME, TABLE_NAME, COLUMN_NAME, JSON_PRETTY(HISTOGRAM) from COLUMN_STATISTICS\G
+*************************** 1. row ***************************
+           SCHEMA_NAME: yejr   --库
+            TABLE_NAME: t1     --表
+           COLUMN_NAME: seq    --列
+JSON_PRETTY(HISTOGRAM): {
+  &quot;buckets&quot;: [
+    [       --第一个桶(bucket)中的统计信息
+      1,    --最小值
+      9710, --最大值
+      0.009996666666666666, --累积占比，0.99%
+      2571  --第一个桶中累积几个值
+    ],
+...
+    [       --第100个桶中的统计信息
+      989875,
+      999994,
+      0.9996666666666667,  --因为该列包含部分NULL值，所以这里不是1.0（100%）
+      2580
+    ]
+  ],
+  &quot;data-type&quot;: &quot;int&quot;,   --该列数据类型，是INT
+  &quot;null-values&quot;: 0.0003333333333333333, --是否包含NULL值，或者NULL值的占比
+  &quot;collation-id&quot;: 8,
+  &quot;last-updated&quot;: &quot;2020-04-21 07:21:53.084054&quot;,  --直方图最后更新时间
+  &quot;sampling-rate&quot;: 1.0,  --采样比例 100%
+  &quot;histogram-type&quot;: &quot;equi-height&quot;,  --等高直方图
+  &quot;number-of-buckets-specified&quot;: 100  --共有100个桶
+}
+</code></pre><p>上面这个等高直方图，共100个桶，每个桶的数据量从2571 ~ 2620不等，总数据量259550，占比99.9667%。此外，还有大约0.033%为NULL的记录。</p>
+<p>再来个等宽的直方图</p>
+<pre><code>  &quot;buckets&quot;: [
+    [
+      5,   --存储每个值
+      0.07692307692307693 ---该值频率
+    ],
+    [
+      25,
+      0.15384615384615385
+    ],
+......
+  ],
+  &quot;data-type&quot;: “int&quot;,
+  &quot;null-values&quot;: 0.0,
+  &quot;collation-id&quot;: 8,
+  &quot;last-updated&quot;: &quot;2019-07-02 06:44:15.134130”,
+  &quot;sampling-rate&quot;: 1.0,   --数据采样比例
+  &quot;histogram-type&quot;: “singleton&quot;, --等宽
+  &quot;number-of-buckets-specified&quot;: 100
+}
+</code></pre><p>等宽直方图里，每个桶里记录是各个值的分布信息。</p>
+<h3 id="2-同时有索引和直方图会怎样">2. 同时有索引和直方图会怎样</h3>
+<p>某天，群里有同学在问，假如有个列同时创建了直方图和索引，优化器会怎么选择呢？</p>
+<p>在回答之前，可以先开通脑筋想几秒钟…</p>
+<p>事实上，真是这样的话，优化器会选择索引而非直方图。因为索引的统计信息相对&quot;更及时&quot;，也可能&quot;更精确&quot;，因为直方图是需要手动更新的，没办法保证&quot;及时性&quot;。当然了，我没去看源码，仅是我猜的，并通过试验确认的。</p>
+<p>假设上面创建直方图的列 seq，同时也创建了索引，在开启 optimizer_trace 之后，可以看到两个执行计划之间的区别（我只选取了部分内容）</p>
+<p>无索引时，走直方图</p>
+<pre><code>&quot;considered_execution_plans&quot;: [
+  {
+    &quot;table&quot;: &quot;`t1`&quot;,
+    &quot;chosen&quot;: true,
+    &quot;plan_prefix&quot;: [],
+    &quot;cost_for_plan&quot;: 35080,
+    &quot;rows_for_plan&quot;: 1,
+    &quot;best_access_path&quot;: {
+      &quot;considered_access_paths&quot;: [
+        {
+          &quot;cost&quot;: 35080,   --cost看起来好高
+          &quot;chosen&quot;: true,  --但还是被选中了
+          &quot;access_type&quot;: &quot;scan&quot;,   --全表扫描
+          &quot;rows_to_scan&quot;: 347352,  --预计需要扫描行数
+          &quot;resulting_rows&quot;: 1,   --预计返回行数
+          &quot;filtering_effect&quot;: [   
+            {
+              &quot;condition&quot;: &quot;(`t1`.`seq` = 1234)&quot;,
+              &quot;histogram_selectivity&quot;: 0.000001   --直方图过滤效果
+            }
+          ],
+          &quot;final_filtering_effect&quot;: 0.0000029
+        }
+      ]
+    },
+    &quot;condition_filtering_pct&quot;: 100
+  }
+</code></pre><p>虽然看起来是要走全表扫描，但因为有了直方图，实际上还是很快就能返回结果的。</p>
+<p>有索引时，优先走索引</p>
+<pre><code>&quot;considered_execution_plans&quot;: [
+ {
+   &quot;table&quot;: &quot;`t1`&quot;,
+   &quot;chosen&quot;: true,
+   &quot;plan_prefix&quot;: [],
+   &quot;cost_for_plan&quot;: 0.35,
+   &quot;rows_for_plan&quot;: 1,
+   &quot;best_access_path&quot;: {
+     &quot;considered_access_paths&quot;: [
+       {
+         &quot;cost&quot;: 0.35,   --相当上面直方图的cost，这个就非常低了，所以毫无悬念的选择索引
+         &quot;rows&quot;: 1,
+         &quot;index&quot;: &quot;k1&quot;,
+         &quot;chosen&quot;: true,
+         &quot;access_type&quot;: &quot;ref&quot;
+       },
+       {
+         &quot;cause&quot;: &quot;heuristic_index_cheaper&quot;,
+         &quot;chosen&quot;: false,
+         &quot;access_type&quot;: &quot;range&quot;,
+         &quot;range_details&quot;: {
+           &quot;used_index&quot;: &quot;k1&quot;
+         }
+       }
+     ]
+   },
+   &quot;condition_filtering_pct&quot;: 100
+}
+</code></pre><p>如果有源码大佬，也请帮忙确认下是不是这样吧。</p>
+<h3 id="3-如何提高直方图的统计精确度">3. 如何提高直方图的统计精确度</h3>
+<p>前文我们提到过参数 histogram_generation_max_mem_size，其作用是控制在创建/更新直方图时所需的内存大小。</p>
+<pre><code>The maximum amount of memory available for generating histogram statistics.
+</code></pre><p>该参数默认值是 20000000（不到20MB），最小值 1000000（约976KB），这是个会话级（session）分配的内存，而且是每次创建/更新直方图都需要分配，执行结束后就释放。</p>
+<p>介绍完前置信息，该说重点了，在直方图里如何提高统计精确度。</p>
+<p>在扫描InnoDB data page进行直方图数据统计时，大致是这样的步骤：</p>
+<p>估算要统计的列数据类型长度，记为 row_size_bytes。
+可用内存除以每条记录长度，得到预计可以采样的数据量 rows_in_memory = histogram_generation_max_mem_size / row_size_bytes。
+计算得到采样比例 sample_percentage = rows_in_memory / rows_in_table。其中 rows_in_table 是表预估总记录数。
+依照采样比例，扫描data page，得到采样结果。例如，采样比例是10%，那么就是扫描1个page后，跳过9个page，然后继续采样。
+这几个步骤是以我的三脚猫源码阅读水平得到的结果，若有出入，还请留言指正。
+上述步骤所对应的代码是 sql/histograms/histogram.cc，约868行附近的 update_histogram 函数。
+MySQL目前对数据长度处理的非常粗粒度，只区分了下面几种情况，这就导致了直方图列实际所需要的内存可能要比它定义的类型长度要更大，也可以看下源码中的定义：</p>
+<pre><code>vim sql/histograms/histogram.cc +113
+
+/**
+  Convert from enum_field_types to Value_map_type.
+  @param field_type the field type
+  @param is_unsigned whether the field type is unsigned or not. This is only
+                     considered if the field type is LONGLONG
+  @return A Value_map_type. May be INVALID if the Value_map does not support
+          the field type.
+*/
+static Value_map_type field_type_to_value_map_type(
+    const enum_field_types field_type, const bool is_unsigned) {
+  switch (field_type) {
+    case MYSQL_TYPE_DECIMAL:
+    case MYSQL_TYPE_NEWDECIMAL:
+      return Value_map_type::DECIMAL;
+    case MYSQL_TYPE_TINY:
+    case MYSQL_TYPE_SHORT:
+    case MYSQL_TYPE_LONG:
+    case MYSQL_TYPE_INT24:
+    case MYSQL_TYPE_YEAR:
+    case MYSQL_TYPE_BIT:
+      return Value_map_type::INT;
+    case MYSQL_TYPE_ENUM:
+      return Value_map_type::ENUM;
+    case MYSQL_TYPE_SET:
+      return Value_map_type::SET;
+    case MYSQL_TYPE_LONGLONG:
+      return is_unsigned ? Value_map_type::UINT : Value_map_type::INT;
+    case MYSQL_TYPE_FLOAT:
+    case MYSQL_TYPE_DOUBLE:
+      return Value_map_type::DOUBLE;
+    case MYSQL_TYPE_TIME:
+    case MYSQL_TYPE_TIME2:
+      return Value_map_type::TIME;
+    case MYSQL_TYPE_DATE:
+    case MYSQL_TYPE_NEWDATE:
+      return Value_map_type::DATE;
+    case MYSQL_TYPE_DATETIME:
+    case MYSQL_TYPE_TIMESTAMP:
+    case MYSQL_TYPE_TIMESTAMP2:
+    case MYSQL_TYPE_DATETIME2:
+      return Value_map_type::DATETIME;
+    case MYSQL_TYPE_TINY_BLOB:
+    case MYSQL_TYPE_MEDIUM_BLOB:
+    case MYSQL_TYPE_LONG_BLOB:
+    case MYSQL_TYPE_BLOB:
+    case MYSQL_TYPE_VAR_STRING:
+    case MYSQL_TYPE_STRING:
+    case MYSQL_TYPE_VARCHAR:
+      return Value_map_type::STRING;
+    case MYSQL_TYPE_JSON:
+    case MYSQL_TYPE_GEOMETRY:
+    case MYSQL_TYPE_NULL:
+    default:
+      return Value_map_type::INVALID;
+  }
+</code></pre><p>可以看到，把TINYINT（1字节）、SMALLINT（2字节）等都统统按 Value_map_type::INT 来处理了，而这个类型实际上是 longlong 的，也就是 16字节。</p>
+<p>另外，每条记录还需要约42字节的额外开销（比大多数据类型长度还要大，尴尬）。</p>
+<pre><code>vim sql/histograms/value_map.h +262
+
+  /// @return the overhead in bytes for each distinct value stored in the
+  ///         Value_map. The value 32 is obtained from both GCC 8.2 and
+  ///         Clang 8.0 (same as sizeof(value_map_type::node_type) in C++17).
+  size_t element_overhead() const override {
+    // TODO: Replace this with sizeof(value_map_type::node_type) when we have
+    // full C++17 support.
+    return sizeof(typename value_map_type::value_type) +
+           sizeof(typename value_map_type::key_type) + 32;
+  }
+</code></pre><p>其他的几个数据类型也是很粗犷的处理了，在以后的版本应该会改进吧。</p>
+<p>如果 histogram_generation_max_mem_size 不够大，则采样比例比较低，就会影响准确度，那么应该设置多少合理呢，可以按照下面这个方法：</p>
+<ol>
+<li>先设置最小值。</li>
+<li>执行一次采样。</li>
+<li>查看采样比例。</li>
+<li>反推出要全部采样所需的内存。
+当然了，如果表数据量特别大，也没必要全部采样，毕竟消耗的内存比较多，而且也需要更多的物理读。</li>
+</ol>
+<p>来个实例演示。</p>
+<p>设置 histogram_generation_max_mem_size 为最小值</p>
+<pre><code>[root@yejr.run]&gt; set session histogram_generation_max_mem_size = 1000000;
+
+# 重置InnoDB Metric计数器
+[root@yejr.run]&gt; SET GLOBAL innodb_monitor_enable = 'sampled%';
+
+# 来一发，创建个直方图
+[root@yejr.run]&gt; analyze table t1 update histogram on seq;
+1 row in set (0.16 sec)   --耗时0.16秒
+
+# 查看采样统计比例
+[root@yejr.run]&gt; SELECT HISTOGRAM-&gt;&gt;'$.&quot;sampling-rate&quot;' FROM INFORMATION_SCHEMA.COLUMN_STATISTICS;
++---------------------------------+
+| HISTOGRAM-&gt;&gt;'$.&quot;sampling-rate&quot;' |
++---------------------------------+
+| 0.059548422871929935            |
++---------------------------------+
+
+# 查看innodb data page扫描统计
+[root@yejr.run]&gt; SELECT NAME, COUNT FROM information_schema.INNODB_METRICS WHERE NAME LIKE 'sampled%';
++-----------------------+-------+
+| NAME                  | COUNT |
++-----------------------+-------+
+| sampled_pages_read    |    51 |  --扫描了51个page
+| sampled_pages_skipped |   760 |  --跳过了760个page
++-----------------------+-------+
+</code></pre><p>与此同时，我在另一个session中，分别在之前和之后查询上面创建直方图的线程内存消耗情况。</p>
+<p>第一次查询</p>
+<pre><code>[root@yejr.run]&gt; select * from sys.x$memory_by_thread_by_current_bytes where thread_id = 286;
++-----------+-------------------------------+--------------------+-------------------+-------------------+-------------------+-----------------+
+| thread_id | user                          | current_count_used | current_allocated | current_avg_alloc | current_max_alloc | total_allocated |
++-----------+-------------------------------+--------------------+-------------------+-------------------+-------------------+-----------------+
+|       286 | thread_pool/tp_one_connection |                163 |            345036 |         2116.7853 |            260280 |       212710814 |
++-----------+-------------------------------+--------------------+-------------------+-------------------+-------------------+-----------------+
+1 row in set (0.07 sec)
+</code></pre><p>第二次查询</p>
+<pre><code>[root@yejr.run]&gt; select * from sys.x$memory_by_thread_by_current_bytes where thread_id = 286;
++-----------+-------------------------------+--------------------+-------------------+-------------------+-------------------+-----------------+
+| thread_id | user                          | current_count_used | current_allocated | current_avg_alloc | current_max_alloc | total_allocated |
++-----------+-------------------------------+--------------------+-------------------+-------------------+-------------------+-----------------+
+|       286 | thread_pool/tp_one_connection |                165 |            346502 |         2100.0121 |            261712 |       213946226 |
++-----------+-------------------------------+--------------------+-------------------+-------------------+-------------------+-----------------+
+</code></pre><p>两次查询 total_allocated 的差值 1235412（1.17MB） 主要就是由于创建直方图所需的内存。</p>
+<p>现在，可以推算所需要的内存大约是</p>
+<pre><code>[root@yejr.run]&gt; select 1235412 / 0.059548422871929935;
++--------------------------------+
+| 1235412 / 0.059548422871929935 |
++--------------------------------+
+|                  20746342.8991 |
++--------------------------------+
+</code></pre><p>现在加大内存设置后，再做一次看看</p>
+<pre><code>[root@yejr.run]&gt; set session histogram_generation_max_mem_size = 1000000;
+[root@yejr.run]&gt; SET GLOBAL innodb_monitor_enable = 'sampled%';
+[root@yejr.run]&gt; analyze table t1 update histogram on seq;
+1 row in set (3.78 sec)   --耗时3.78秒，是上面的23.6倍
+
+[root@yejr.run]&gt; SELECT HISTOGRAM-&gt;&gt;'$.&quot;sampling-rate&quot;' FROM INFORMATION_SCHEMA.COLUMN_STATISTICS;
++---------------------------------+
+| HISTOGRAM-&gt;&gt;'$.&quot;sampling-rate&quot;' |
++---------------------------------+
+| 1.0                             |
++---------------------------------+
+
+[root@yejr.run]&gt; SELECT NAME, COUNT FROM information_schema.INNODB_METRICS WHERE NAME LIKE 'sampled%';
++-----------------------+-------+
+| NAME                  | COUNT |
++-----------------------+-------+
+| sampled_pages_read    |   811 |
+| sampled_pages_skipped |     0 |   --的确，没有被跳过的page了
++-----------------------+-------+
+</code></pre><p>再次提醒，并不是非得所有page都要被采集到，否则代价可能无法承受。。。</p>
+<hr>
+<p>(备注: 转载自 <a href="https://cloud.tencent.com/developer/article/1628479" title="一文读懂MySQL 8.0直方图"><em>这里</em></a>)</p>
+				<div id="post-tags">
+				  
+				  	
+						  <a href="https://alimy.me/tags/development/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;development</a>
+						
+						  <a href="https://alimy.me/tags/mysql/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;mysql</a>
+						
+						  <a href="https://alimy.me/tags/db/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;db</a>
+						
+					
+				</div>
+        </div>
+        <div id="post-navigator">
+          <a id="post-navigator-prev" href="https://alimy.me/post/art_202106031912/" title="上一篇"><i class="fa fa-chevron-left" aria-hidden="true"></i>&nbsp;如果有人追你</a>
+          
+        </div>
+        <div id="post-comments">
+          <h3>Comments</h3>
+          
+
+
+<div id="disqus_thread"></div>
+
+<script type="text/javascript">
+  var disqusUsername = "alimy";
+
+  (function() { 
+  var d = document, s = d.createElement('script');
+
+  s.src = '//' + disqusUsername + '.disqus.com/embed.js';
+
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+          <footer id="copyright"> <p>&copy;2015-2021 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
+
+    </div>
+    <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
+if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
+var s=document.getElementsByTagName('script')[0];sc.src='https://alimy.me/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
+WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
+
+  </body>
+</html>

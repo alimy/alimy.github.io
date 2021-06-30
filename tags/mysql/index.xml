@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>mysql on 北 野</title>
+    <link>https://alimy.me/tags/mysql/</link>
+    <description>Recent content in mysql on 北 野</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
+    <lastBuildDate>Wed, 30 Jun 2021 07:50:00 +0800</lastBuildDate><atom:link href="https://alimy.me/tags/mysql/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>MySQL 8.0直方图</title>
+      <link>https://alimy.me/post/dev_202106300750/</link>
+      <pubDate>Wed, 30 Jun 2021 07:50:00 +0800</pubDate>
+      
+      <guid>https://alimy.me/post/dev_202106300750/</guid>
+      <description>&lt;h3 id=&#34;0-什么是直方图&#34;&gt;0. 什么是直方图&lt;/h3&gt;
+&lt;p&gt;直方图（Histogram）是数据库提供的一种（索引之外的）基础统计信息，用于描述列上的数据分布情况。它最典型的场景是估算查询谓词的选择率，以便选择合适的执行计划。&lt;/p&gt;
+&lt;p&gt;也就是说，某个列可以不创建索引但创建直方图，也可以帮助提升查询效率。
+MySQL 8.0开始支持直方图，这是个很大的进步。&lt;/p&gt;
+&lt;p&gt;直方图可以针对某个列记录其数据分布统计信息，例如有个列的值是从1到1万，那么可以利用直方图分成100个桶（bucket），每个桶中统计这1万个值是怎么分布的，以及每个桶中的最大值、最小值、占比等信息。&lt;/p&gt;
+&lt;p&gt;虽然可以利用索引优化SQL效率，但索引维护的代价更高，索引要保持更新，而直方图可以按需手动更新。&lt;/p&gt;
+&lt;p&gt;索引统计信息也有不可靠的时候，例如存在数据倾斜，或者统计延迟等问题。&lt;/p&gt;
+&lt;p&gt;另外，在有需要的时候，可以在每个有需要的列上创建直方图，但却不太可能同时创建多个单列索引，那样代价太高了。&lt;/p&gt;
+&lt;p&gt;例如下面这个执行计划：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;[root@yejr.run]&amp;gt; explain select * from t1 where seq = 1234;
++------+---------------+------+---------+------+--------+----------+-------------+
+| type | possible_keys | key  | key_len | ref  | rows   | filtered | Extra       |
++------+---------------+------+---------+------+--------+----------+-------------+
+| ALL  | NULL          | NULL | NULL    | NULL | 299876 |    10.00 | Using where |
++------+---------------+------+---------+------+--------+----------+-------------+
+
+[root@yejr.run]&amp;gt; select * from t1 where seq = 1234;
+Empty set (0.097 sec)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;在还没创建直方图之前，seq列上同时也没有索引，这时是全表扫描，注意到 filtered 列的值是10%。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
