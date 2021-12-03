@@ -311,6 +311,21 @@ float:right;
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="https://alimy.me/post/dev_202112031525/" title="阅读全文">Golang SQL实践 </a> </h2>
+
+</header>
+<div class="summary">
+    <h3 id="标准库sql驱动接口-databasesqldriverhttpsgithubcomgolanggotreemastersrcdatabasesqldriver">标准库SQL驱动接口 (<a href="https://github.com/golang/go/tree/master/src/database/sql/driver">database/sql/driver</a>)</h3>
+<p><img src="https://alimy.me/images/post/20211203152500.png" alt=""></p>
+</div>
+<footer id="more">
+<a href='https://alimy.me/post/dev_202112031525/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="https://alimy.me/post/dev_202106300750/" title="阅读全文">MySQL 8.0直方图 </a> </h2>
 
 </header>
@@ -467,44 +482,6 @@ Empty set (0.097 sec)
 </div>
 <footer id="more">
 <a href='https://alimy.me/post/dev_202105220948/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/dev_202104131126/" title="阅读全文">grpc-go: 客户端与服务器之间双向证书验证通信 </a> </h2>
-
-</header>
-<div class="summary">
-    <ul>
-<li>生成根证书(ca.key, ca.crt)</li>
-</ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">%&gt; openssl genrsa -out ca.key <span style="color:#ae81ff">2048</span>
-%&gt; openssl req -new -x509 -days <span style="color:#ae81ff">3650</span> <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>     -subj <span style="color:#e6db74">&#34;/C=CN/L=Shanghai/O=grpc/CN=grpc.me&#34;</span>
-     -key ca.key -out ca.crt
-</code></pre></div><ul>
-<li>生成服务器证书(server.key, server.crt)</li>
-</ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">%&gt; openssl genrsa -out server.key <span style="color:#ae81ff">2048</span>
-
-<span style="color:#75715e"># 未使用CA签名的server.crt</span>
-%&gt; openssl req -new -x509 -days <span style="color:#ae81ff">3650</span> <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>     -subj <span style="color:#e6db74">&#34;/C=CN/L=Shanghai/O=grpc-server/CN=server.grpc.me&#34;</span> <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>     -key server.key -out server.crt
- 
-<span style="color:#75715e"># 使用CA签名的server.crt</span>
-%&gt; openssl req -new <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>     -subj <span style="color:#e6db74">&#34;/C=CN/L=Shanghai/O=grpc-server/CN=server.grpc.me&#34;</span> <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>     -key server.key -out server.csr
-%&gt; openssl x509 -req -sha256 <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>     -CA ca.crt -CAkey ca.key -CAcreateserial -days <span style="color:#ae81ff">3650</span> <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>     -in server.csr -out server.crt
-</code></pre></div>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/dev_202104131126/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
 </footer>
 </article>
 

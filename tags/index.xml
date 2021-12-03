@@ -6,22 +6,49 @@
     <description>Recent content in Tags on 北 野</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Wed, 30 Jun 2021 07:50:00 +0800</lastBuildDate><atom:link href="https://alimy.me/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 03 Dec 2021 15:25:00 +0800</lastBuildDate><atom:link href="https://alimy.me/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>db</title>
-      <link>https://alimy.me/tags/db/</link>
-      <pubDate>Wed, 30 Jun 2021 07:50:00 +0800</pubDate>
+      <title>database</title>
+      <link>https://alimy.me/tags/database/</link>
+      <pubDate>Fri, 03 Dec 2021 15:25:00 +0800</pubDate>
       
-      <guid>https://alimy.me/tags/db/</guid>
+      <guid>https://alimy.me/tags/database/</guid>
       <description></description>
     </item>
     
     <item>
       <title>development</title>
       <link>https://alimy.me/tags/development/</link>
-      <pubDate>Wed, 30 Jun 2021 07:50:00 +0800</pubDate>
+      <pubDate>Fri, 03 Dec 2021 15:25:00 +0800</pubDate>
       
       <guid>https://alimy.me/tags/development/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Golang</title>
+      <link>https://alimy.me/tags/golang/</link>
+      <pubDate>Fri, 03 Dec 2021 15:25:00 +0800</pubDate>
+      
+      <guid>https://alimy.me/tags/golang/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>sql</title>
+      <link>https://alimy.me/tags/sql/</link>
+      <pubDate>Fri, 03 Dec 2021 15:25:00 +0800</pubDate>
+      
+      <guid>https://alimy.me/tags/sql/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>db</title>
+      <link>https://alimy.me/tags/db/</link>
+      <pubDate>Wed, 30 Jun 2021 07:50:00 +0800</pubDate>
+      
+      <guid>https://alimy.me/tags/db/</guid>
       <description></description>
     </item>
     
@@ -58,15 +85,6 @@
       <pubDate>Sat, 22 May 2021 09:48:00 +0800</pubDate>
       
       <guid>https://alimy.me/tags/faqs/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Golang</title>
-      <link>https://alimy.me/tags/golang/</link>
-      <pubDate>Tue, 13 Apr 2021 11:26:00 +0800</pubDate>
-      
-      <guid>https://alimy.me/tags/golang/</guid>
       <description></description>
     </item>
     
@@ -193,15 +211,6 @@
       <pubDate>Thu, 24 Mar 2016 21:35:00 +0800</pubDate>
       
       <guid>https://alimy.me/tags/transport/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>database</title>
-      <link>https://alimy.me/tags/database/</link>
-      <pubDate>Sat, 19 Mar 2016 22:55:00 +0800</pubDate>
-      
-      <guid>https://alimy.me/tags/database/</guid>
       <description></description>
     </item>
     

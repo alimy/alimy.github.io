@@ -311,6 +311,31 @@ float:right;
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="https://alimy.me/post/dev_202012071348/" title="阅读全文">Tg:TL-formal </a> </h2>
+
+</header>
+<div class="summary">
+    <p>See also <a href="https://core.telegram.org/mtproto/TL">TL Language</a>. For the syntax of declaring combinators, see in article <a href="https://core.telegram.org/mtproto/TL-combinators">Formal declaration of TL combinators</a>. For the syntax of patterns, see in article <a href="https://core.telegram.org/mtproto/TL-patterns">Formal declaration of TL patterns</a>.</p>
+<h3 id="tokens">Tokens</h3>
+<p>Comments are the same as in C/C++. They are removed by a lexical parser (for example, being replaced by a single space). Whitespace separates tokens. Except for string constants, tokens cannot contain spaces.</p>
+<p>Character classes:</p>
+<pre><code>lc-letter ::= `a` | `b` | ... | `z`
+uc-letter ::= `A` | `B` | ... | `Z`
+digit ::= `0` | `1` | ... | `9`
+hex-digit ::= digit | `a` | `b` | `c` | `d` | `e` | `f`
+underscore ::= `_`
+letter ::= lc-letter | uc-letter
+ident-char ::= letter | digit | underscore
+</code></pre>
+</div>
+<footer id="more">
+<a href='https://alimy.me/post/dev_202012071348/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="https://alimy.me/post/dev_202012081630/" title="阅读全文">Tg: Current MTProto TL-schema </a> </h2>
 
 </header>
@@ -563,34 +588,6 @@ EndType
 </div>
 <footer id="more">
 <a href='https://alimy.me/post/dev_202011271705/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/dev_202001100425/" title="阅读全文">Rust系统环境变量配置 </a> </h2>
-
-</header>
-<div class="summary">
-    <p>国内有些地区访问Rustup的服务器及registry(@github)不太顺畅，这里介绍配置中科大的Rust镜像。</p>
-<h4 id="科大-rust-crates-镜像">科大 Rust Crates 镜像</h4>
-<p>在 $HOME/.cargo/config 中添加如下内容</p>
-<pre><code>[registry]
-index = &quot;git://mirrors.ustc.edu.cn/crates.io-index&quot;
-</code></pre><p>如果所处的环境中不允许使用 git 协议, 可以把上述地址改为</p>
-<pre><code>index = &quot;http://mirrors.ustc.edu.cn/crates.io-index&quot;
-</code></pre><p>同步频率为每两个小时更新一次.</p>
-<p>如果 cargo 版本为 0.13.0 或以上, 需要更改 $HOME/.cargo/config 为以下内容:</p>
-<pre><code>[source.crates-io]
-registry = &quot;https://github.com/rust-lang/crates.io-index&quot;
-replace-with = 'ustc'
-[source.ustc]
-registry = &quot;git://mirrors.ustc.edu.cn/crates.io-index&quot;
-</code></pre>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/dev_202001100425/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
 </footer>
 </article>
 

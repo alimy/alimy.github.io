@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>sql on 北 野</title>
+    <link>https://alimy.me/tags/sql/</link>
+    <description>Recent content in sql on 北 野</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
+    <lastBuildDate>Fri, 03 Dec 2021 15:25:00 +0800</lastBuildDate><atom:link href="https://alimy.me/tags/sql/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Golang SQL实践</title>
+      <link>https://alimy.me/post/dev_202112031525/</link>
+      <pubDate>Fri, 03 Dec 2021 15:25:00 +0800</pubDate>
+      
+      <guid>https://alimy.me/post/dev_202112031525/</guid>
+      <description>&lt;h3 id=&#34;标准库sql驱动接口-databasesqldriverhttpsgithubcomgolanggotreemastersrcdatabasesqldriver&#34;&gt;标准库SQL驱动接口 (&lt;a href=&#34;https://github.com/golang/go/tree/master/src/database/sql/driver&#34;&gt;database/sql/driver&lt;/a&gt;)&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&#34;https://alimy.me/images/post/20211203152500.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
