@@ -3,8 +3,38 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://alimy.me/tags/art/</loc>
+    <lastmod>2022-01-15T13:35:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://alimy.me/categories/art/</loc>
+    <lastmod>2022-01-15T13:35:00+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://alimy.me/categories/</loc>
-    <lastmod>2021-12-03T15:25:00+08:00</lastmod>
+    <lastmod>2022-01-15T13:35:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://alimy.me/post/</loc>
+    <lastmod>2022-01-15T13:35:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://alimy.me/tags/</loc>
+    <lastmod>2022-01-15T13:35:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://alimy.me/post/art_202201151335/</loc>
+    <lastmod>2022-01-15T13:35:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://alimy.me/</loc>
+    <lastmod>2022-01-15T13:35:00+08:00</lastmod>
   </url>
   
   <url>
@@ -33,22 +63,7 @@
   </url>
   
   <url>
-    <loc>https://alimy.me/post/</loc>
-    <lastmod>2021-12-03T15:25:00+08:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://alimy.me/tags/sql/</loc>
-    <lastmod>2021-12-03T15:25:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://alimy.me/tags/</loc>
-    <lastmod>2021-12-03T15:25:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://alimy.me/</loc>
     <lastmod>2021-12-03T15:25:00+08:00</lastmod>
   </url>
   
@@ -65,16 +80,6 @@
   <url>
     <loc>https://alimy.me/post/dev_202106300750/</loc>
     <lastmod>2021-06-30T07:50:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://alimy.me/tags/art/</loc>
-    <lastmod>2021-06-03T19:12:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://alimy.me/categories/art/</loc>
-    <lastmod>2021-06-03T19:12:00+08:00</lastmod>
   </url>
   
   <url>

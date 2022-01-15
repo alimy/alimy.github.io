@@ -6,7 +6,16 @@
     <description>Recent content in Tags on 北 野</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Fri, 03 Dec 2021 15:25:00 +0800</lastBuildDate><atom:link href="https://alimy.me/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 15 Jan 2022 13:35:00 +0800</lastBuildDate><atom:link href="https://alimy.me/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Art</title>
+      <link>https://alimy.me/tags/art/</link>
+      <pubDate>Sat, 15 Jan 2022 13:35:00 +0800</pubDate>
+      
+      <guid>https://alimy.me/tags/art/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>database</title>
       <link>https://alimy.me/tags/database/</link>
@@ -58,15 +67,6 @@
       <pubDate>Wed, 30 Jun 2021 07:50:00 +0800</pubDate>
       
       <guid>https://alimy.me/tags/mysql/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Art</title>
-      <link>https://alimy.me/tags/art/</link>
-      <pubDate>Thu, 03 Jun 2021 19:12:00 +0800</pubDate>
-      
-      <guid>https://alimy.me/tags/art/</guid>
       <description></description>
     </item>
     
