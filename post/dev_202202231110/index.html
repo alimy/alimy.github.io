@@ -1,11 +1,10 @@
-    <!DOCTYPE html>
+  <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
-	<meta name="generator" content="Hugo 0.79.0-DEV" />
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <title> 北 野 &middot; 北 野 </title>
+    <title> Mac通过brew本地安装Postgresql &middot; 北 野 </title>
     
     <link rel="stylesheet" type="text/css" href="https://alimy.me/css/uno.css" />
     <link rel="stylesheet" type="text/css" href="https://alimy.me/css/lightGallery.css" />
@@ -203,17 +202,15 @@ float:right;
     </style>
 </head>
 
-    <body>
-        <div id="scriptHeader">
+  <body>
+    <div id="scriptHeader">
     <span class="mobile btn-mobile-menu">
             <i class="fa fa-bars btn-mobile-menu__icon"></i>
             <i class="fa fa-times btn-mobile-close__icon hidden"> </i>
     </span>
     <header class="
         
-        
-                panel-cover panel-cover--collapsed
-        
+            panel-cover panel-cover--collapsed
         " >
     <div class="panel-main">
         <div class="panel-main__inner panel-inverted">
@@ -304,222 +301,82 @@ float:right;
     </header>
 </noscript>
 
-        <div class="content-wrapper">
-            <div class="content-wrapper__inner">
-                <section id="main">
-                    <div>
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/day_201601292229/" title="阅读全文">无题 </a> </h2>
+    <div class="content-wrapper">
+      <div class="content-wrapper__inner">
+        <div class="post panel-wrapper">
+            <h2>Mac通过brew本地安装Postgresql</h2>
+          
+          <pre><code>%&gt; brew install postgres
+%&gt; psql -version
+%&gt; # 若之前安装过，请确保/usr/local/var路径下无任何postrges相关文件残留
+%&gt; initdb --locale=C -E UTF-8 /usr/local/var/postgres
 
-</header>
-<div class="summary">
-    <p><em>漫漫人生路，花开无尽天。</em></p>
-<p><em>莲步意随行，风清心亦欢。</em></p>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/day_201601292229/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
+%&gt; ln -sfv /usr/local/opt/postgresql/*.plist ~/Library/LaunchAgents
 
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/day_201601261406/" title="阅读全文">电脑配置单 </a> </h2>
+%&gt; # 检查server状态，并确认已开启
+%&gt; brew services list
+%&gt; brew services start postgresql
 
-</header>
-<div class="summary">
-    <h4 id="配置清单">配置清单</h4>
-<ul>
-<li>CPU : AMD APU系列 A6-7400K 双核 R5核显 FM2+接口 盒装CPU处理器 <a href="http://item.jd.com/1239472.html" title="AMD APU系列 A6-7400K 双核 R5核显 FM2+接口 盒装CPU处理器 ￥399">【京东】</a></li>
-<li>主板 : 微星（MSI)A88XM-E45 V2 <a href="http://item.jd.com/1029497.html" title="微星（MSI)A88XM-E45 V2 ￥449">【京东】</a></li>
-<li>内存 : 金士顿(Kingston)DDR3 1600 4GB 台式机内存 <a href="http://item.jd.com/652351.html" title="金士顿(Kingston)DDR3 1600 4GB 台式机内存 ￥139">【京东】</a></li>
-<li>硬盘 : 希捷(ST1000DM003) 1TB 7200转64M SATA3 台式机硬盘<a href="http://item.jd.com/544026.html" title="希捷（Seagate）1TB 7200转64M SATA3 台式机硬盘(ST1000DM003) ￥359">【京东】</a></li>
-<li>机箱 : 爱国者 魔武者D1 中塔机箱电源套装（标配250W电源/USB3.0）<a href="http://item.jd.com/878583.html" title="爱国者（aigo）魔武者D1 中塔机箱电源套装 黑色（标配250W电源/USB3.0）￥149">【京东】</a></li>
-<li>显示器 : AOC I2260SWD 21.5英寸IPS广视角炫彩硬屏LED背光显示器 <a href="http://item.jd.com/1255209.html" title="AOC I2260SWD 21.5英寸IPS广视角炫彩硬屏LED背光显示器（黑色）￥639">【京东】</a></li>
-<li>键鼠套装 : 罗技（Logitech）MK120 键鼠套装 黑色 <a href="http://item.jd.com/584300.html" title="罗技（Logitech）MK120 键鼠套装 黑色 ￥79">【京东】</a></li>
-</ul>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/day_201601261406/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
+%&gt; # mac上新建用户，设置密码并确认
+%&gt; createuser postgres -P
 
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/art_201601141212/" title="阅读全文">梦里水乡 </a> </h2>
+%&gt; # 删掉默认的postgres库
+%&gt; dropdb postgres
 
-</header>
-<div class="summary">
-    <p><a href="https://alimy.me/images/post/20160125165500.jpg" title="点击查看大图"><img src="https://alimy.me/images/post/20160125165500.webp" alt="图片加载中&hellip;请使用支持Webp的浏览器加速查看"></a></p>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/art_201601141212/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
+%&gt; # 新建postgres库，若客户端连接报错，有时候需要额外创建跟当前用户同名的库
+%&gt; createdb postgres --owner postgres --encoding UTF8 --echo
 
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/dev_201601241856/" title="阅读全文">Make:Makefile </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="sect概述">§概述</h3>
-<p>什么是makefile？或许很多Winodws的程序员都不知道这个东西，因为那些Windows的IDE都为你做了这个工作，但我觉得要作一个好的和professional的程序员，makefile还是要懂。这就好像现在有这么多的HTML的编辑器，但如果你想成为一个专业人士，你还是要了解HTML的标识的含义。特别在Unix下的软件编译，你就不能不自己写makefile了，会不会写makefile，从一个侧面说明了一个人是否具备完成大型工程的能力。</p>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/dev_201601241856/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/dev_201601222145/" title="阅读全文">History of IRC </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="sectabout">§About</h3>
-<p>IRC(Internet Relay Chat) is an application layer protocol that facilitates communication in the form of text.<a href="https://en.wikipedia.org/wiki/Internet_Relay_Chat" title="Internet Relay Chat">[wikipedia]</a></p>
-<h3 id="sectthe-beginning">§The Beginning</h3>
-<p>IRC was born during summer 1988 when Jarkko &ldquo;WiZ&rdquo; Oikarinen wrote the first IRC client and server at the University of Oulu, Finland (where he was working at the Department of Information Processing Science).</p>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/dev_201601222145/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/day_201601201649/" title="阅读全文">我今年，二十七八岁 </a> </h2>
-
-</header>
-<div class="summary">
-    <p><img src="https://alimy.me/images/post/20160120170100.webp" alt=""></p>
-<p>我今年二十七八岁，每天起床的时间从中午12点变成了早上7点，睡觉的时间从凌晨变成了晚上11点。</p>
-<p>我今年二十七八岁，工作中开始接触形形色色的人，见到亲戚朋友，他们不再问你考试考了多少分，而
-是问你工资多少，结婚没有&hellip;</p>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/day_201601201649/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/dev_201601161712/" title="阅读全文">DogeOS,SmartOS,illumos </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="sect这些都是什么">§这些都是什么？</h3>
-<ul>
-<li>都是操作系统</li>
-<li>都是云计算操作系统</li>
-<li>都是先进的云计算操作系统</li>
-<li>都是小众的先进的云计算操作系统</li>
-</ul>
-<p><del>讲完收工</del></p>
-<p>当然不是这么简单 :)</p>
-<p>但是也不希望写的太长。以下就尽量言简意垓的把来龙去脉，历史纠纷，以及革命先进性都说清楚。</p>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/dev_201601161712/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/dev_201601131558/" title="阅读全文">Markdown </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="sect-what-is-markdown">§ What is Markdown?</h3>
-<p>Markdown is a way to style text on the web. You control the display of the
-document; formatting words as bold or italic, adding images, and creating lists
-are just a few of the things we can do with Markdown. Mostly, Markdown is just
-regular text with a few non-alphabetic characters thrown in, like # or *.<br>
-<a href="http://daringfireball.net/projects/markdown/" title="Daring FireBall: Home">[Markdown Reference]</a> <a href="https://guides.github.com/features/mastering-markdown/" title="GitHub's Mastering Markdown">[Mastering Markdown]</a></p>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/dev_201601131558/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/dev_201601121531/" title="阅读全文">Too many open files 的解决方法 </a> </h2>
-
-</header>
-<div class="summary">
-    <h2 id="由来">&gt;由来</h2>
-<p>gogs 打开一个android app库的资源文件夹(/coding/Coding-Android/src/master/app/src/main/res/drawable-xxhdpi)
-返回 500</p>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/dev_201601121531/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                    </div>
-                    </br>
-                    
-                </section>
-                <div class="pages">
-  
-<ul class="pagination">
-  
-  <li class="page-item">
-    <a href="https://alimy.me/page/14/" class="page-link" aria-label="Previous"><span aria-hidden="true"><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;&nbsp;Previous</span></a>
-  </li>
-  <li class="page-item">
-    <a class="page-link" href="https://alimy.me/">1</a>
-  </li>
-  <li class="page-item">
-    <a class="page-link" href="https://alimy.me/page/2/">2</a>
-  </li>
-  <li class="page-item">
-    <a class="page-link" href="https://alimy.me/page/3/">3</a>
-  </li>
-  <li class="page-item disabled">
-    <span aria-hidden="true">&nbsp;&hellip;&nbsp;</span>
-  </li>
-  <li class="page-item">
-    <a class="page-link" href="https://alimy.me/page/14/">14</a>
-  </li>
-  <li class="page-item active">
-    <a class="page-link" href="https://alimy.me/page/15/">15</a>
-  </li>
-  <li class="page-item">
-    <a class="page-link" href="https://alimy.me/page/16/">16</a>
-  </li>
-  <li class="page-item">
-    <a class="page-link" href="https://alimy.me/page/17/">17</a>
-  </li>
-  <li class="page-item">
-    <a href="https://alimy.me/page/16/" class="page-link" aria-label="Next">Next&nbsp;&nbsp;<i class="fa fa-arrow-right" aria-hidden="true"></i></a>
-  </li>
-  
-</ul>
-
-
-</div>
-
-              <footer id="copyright"> <p>&copy;2015-2022 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
-
-            </div>
+%&gt; # 进入交互模式
+%&gt; psql -U username -d dbname -h 127.0.0.1
+</code></pre>
+				<div id="post-tags">
+				  
+				  	
+						  <a href="https://alimy.me/tags/development/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;development</a>
+						
+						  <a href="https://alimy.me/tags/database/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;database</a>
+						
+						  <a href="https://alimy.me/tags/sql/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;sql</a>
+						
+						  <a href="https://alimy.me/tags/postgres/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;postgres</a>
+						
+					
+				</div>
         </div>
-        <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
+        <div id="post-navigator">
+          <a id="post-navigator-prev" href="https://alimy.me/post/art_202201151335/" title="上一篇"><i class="fa fa-chevron-left" aria-hidden="true"></i>&nbsp;一直都很喜欢你</a>
+          
+        </div>
+        <div id="post-comments">
+          <h3>Comments</h3>
+          
+
+
+<div id="disqus_thread"></div>
+
+<script type="text/javascript">
+  var disqusUsername = "alimy";
+
+  (function() { 
+  var d = document, s = d.createElement('script');
+
+  s.src = '//' + disqusUsername + '.disqus.com/embed.js';
+
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+          <footer id="copyright"> <p>&copy;2015-2022 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved. <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258492321'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1258492321' type='text/javascript'%3E%3C/script%3E"));</script></p></footer>
+
+    </div>
+    <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
 if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
 var s=document.getElementsByTagName('script')[0];sc.src='https://alimy.me/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
 WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
 
-    </body>
+  </body>
 </html>

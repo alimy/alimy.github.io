@@ -6,7 +6,38 @@
     <description>Recent content in database on 北 野</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Fri, 03 Dec 2021 15:25:00 +0800</lastBuildDate><atom:link href="https://alimy.me/tags/database/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 23 Feb 2022 11:10:00 +0800</lastBuildDate><atom:link href="https://alimy.me/tags/database/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Mac通过brew本地安装Postgresql</title>
+      <link>https://alimy.me/post/dev_202202231110/</link>
+      <pubDate>Wed, 23 Feb 2022 11:10:00 +0800</pubDate>
+      
+      <guid>https://alimy.me/post/dev_202202231110/</guid>
+      <description>&lt;pre&gt;&lt;code&gt;%&amp;gt; brew install postgres
+%&amp;gt; psql -version
+%&amp;gt; # 若之前安装过，请确保/usr/local/var路径下无任何postrges相关文件残留
+%&amp;gt; initdb --locale=C -E UTF-8 /usr/local/var/postgres
+
+%&amp;gt; ln -sfv /usr/local/opt/postgresql/*.plist ~/Library/LaunchAgents
+
+%&amp;gt; # 检查server状态，并确认已开启
+%&amp;gt; brew services list
+%&amp;gt; brew services start postgresql
+
+%&amp;gt; # mac上新建用户，设置密码并确认
+%&amp;gt; createuser postgres -P
+
+%&amp;gt; # 删掉默认的postgres库
+%&amp;gt; dropdb postgres
+
+%&amp;gt; # 新建postgres库，若客户端连接报错，有时候需要额外创建跟当前用户同名的库
+%&amp;gt; createdb postgres --owner postgres --encoding UTF8 --echo
+
+%&amp;gt; # 进入交互模式
+%&amp;gt; psql -U username -d dbname -h 127.0.0.1
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    
     <item>
       <title>Go - SQL实践</title>
       <link>https://alimy.me/post/dev_202112031525/</link>
