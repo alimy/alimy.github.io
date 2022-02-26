@@ -4,7 +4,42 @@
   
   <url>
     <loc>https://alimy.me/categories/</loc>
-    <lastmod>2022-02-23T11:10:00+08:00</lastmod>
+    <lastmod>2022-02-26T09:52:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://alimy.me/tags/other/</loc>
+    <lastmod>2022-02-26T09:52:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://alimy.me/categories/other/</loc>
+    <lastmod>2022-02-26T09:52:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://alimy.me/post/</loc>
+    <lastmod>2022-02-26T09:52:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://alimy.me/tags/</loc>
+    <lastmod>2022-02-26T09:52:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://alimy.me/</loc>
+    <lastmod>2022-02-26T09:52:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://alimy.me/post/arc_202202260952/</loc>
+    <lastmod>2022-02-26T09:52:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://alimy.me/tags/%E8%AF%97%E8%AF%8D/</loc>
+    <lastmod>2022-02-26T09:52:00+08:00</lastmod>
   </url>
   
   <url>
@@ -33,22 +68,7 @@
   </url>
   
   <url>
-    <loc>https://alimy.me/post/</loc>
-    <lastmod>2022-02-23T11:10:00+08:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://alimy.me/tags/sql/</loc>
-    <lastmod>2022-02-23T11:10:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://alimy.me/tags/</loc>
-    <lastmod>2022-02-23T11:10:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://alimy.me/</loc>
     <lastmod>2022-02-23T11:10:00+08:00</lastmod>
   </url>
   
@@ -389,16 +409,6 @@
   
   <url>
     <loc>https://alimy.me/post/day_201809011942/</loc>
-    <lastmod>2018-09-01T19:42:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://alimy.me/tags/other/</loc>
-    <lastmod>2018-09-01T19:42:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://alimy.me/categories/other/</loc>
     <lastmod>2018-09-01T19:42:00+08:00</lastmod>
   </url>
   
