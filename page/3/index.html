@@ -311,6 +311,35 @@ float:right;
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="https://alimy.me/post/dev_202101191805/" title="阅读全文">MacOS /usr/bin/目录下 Operation not permitted的解决 </a> </h2>
+
+</header>
+<div class="summary">
+    <p>mac系统下的Rootless机制，让我们在root权限下也不能随心所欲的读写所有路径了，特殊情况下我们需要关闭Rootless时，可尝试如下操作：</p>
+<ol>
+<li>
+<p>重启按住 <code>Command+R</code>，进入恢复模式，打开Terminal；</p>
+</li>
+<li>
+<p>键入命令 <code>csrutil disable</code>；</p>
+</li>
+<li>
+<p>再次重启，即可对 usr/bin 目录下文件进行修改；</p>
+</li>
+<li>
+<p>如果要恢复保护机制，重新进入保护模式，输入 <code>csrutil enable</code>;</p>
+</li>
+</ol>
+<p><strong>Rootless机制是对抗恶意程序的最后防线，除非特殊需要时我们才将其关闭，否则保持开启状态</strong></p>
+</div>
+<footer id="more">
+<a href='https://alimy.me/post/dev_202101191805/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="https://alimy.me/post/dev_202101191738/" title="阅读全文">Mac OS包管理软件brew和port介绍 </a> </h2>
 
 </header>
@@ -588,34 +617,6 @@ http_wait#9299359f max_delay:int wait_after:int max_wait:int = HttpWait;
 </div>
 <footer id="more">
 <a href='https://alimy.me/post/dev_202012071330/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/dev_202012071321/" title="阅读全文">Tg: Polymorphism in TL </a> </h2>
-
-</header>
-<div class="summary">
-    <p>It should be noted that in the TL schema of the overwhelming majority of API calls the use of polymorphic types is restricted to the Vector type. Nevertheless, having a view of the big picture is still helpful.</p>
-<h4 id="ordinary-inductive-types">Ordinary inductive types</h4>
-<p>For example, let us consider the IntList, which is defined as follows:</p>
-<pre><code>int_cons hd:int tl:IntList = IntList;
-int_nil = IntList;
-</code></pre><p>The “int_cons” and “int_nil” constructors as well as the “IntList” type itself are expressions of the following types (writing A : X means that A is an expression of type X):</p>
-<pre><code>IntList : Type;
-int_cons : int -&gt; IntList -&gt; IntList;
-int_nil : IntList;
-</code></pre><p>The keyword Type is used to denote the type of all types. Note that Type is not Object (Object is the type of all terms). Here is alternative syntax that could be used in some other functional programming language (but not in TL):</p>
-<pre><code>NewType IntList :=
-| int_cons hd:int tl:IntList
-| int_nil
-EndType
-</code></pre>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/dev_202012071321/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
 </footer>
 </article>
 
