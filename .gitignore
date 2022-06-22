@@ -5,3 +5,4 @@ master
 Thumbs.db
 Thumbs.db:encryptable
 .DS_Store
+.vscode
