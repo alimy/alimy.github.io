@@ -432,6 +432,16 @@ release/paopao-ce --no-default-features --features sqlite3,localoss,loggerfile,r
 <p>初始化cfg</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// file: internal/conf/conf.go
 </span><span style="color:#75715e"></span>
+<span style="color:#f92672">package</span> <span style="color:#a6e22e">conf</span>
+
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;log&#34;</span>
+	<span style="color:#e6db74">&#34;sync&#34;</span>
+	<span style="color:#e6db74">&#34;time&#34;</span>
+
+	<span style="color:#e6db74">&#34;github.com/alimy/cfg&#34;</span>
+)
+
 <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">setupSetting</span>(<span style="color:#a6e22e">suite</span> []<span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">noDefault</span> <span style="color:#66d9ef">bool</span>) <span style="color:#66d9ef">error</span> {
   <span style="color:#f92672">...</span>
   
@@ -447,6 +457,15 @@ release/paopao-ce --no-default-features --features sqlite3,localoss,loggerfile,r
 </code></pre></div><p>cfg的参考使用</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// file: internal/service/service.go
 </span><span style="color:#75715e"></span>
+<span style="color:#f92672">package</span> <span style="color:#a6e22e">service</span>
+
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;log&#34;</span>
+
+	<span style="color:#e6db74">&#34;github.com/alimy/cfg&#34;</span>
+	<span style="color:#e6db74">&#34;github.com/rocboss/paopao-ce/pkg/types&#34;</span>
+)
+
 <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">newService</span>() (<span style="color:#a6e22e">ss</span> []<span style="color:#a6e22e">Service</span>) {
 	<span style="color:#a6e22e">ss</span> = append(<span style="color:#a6e22e">ss</span>, <span style="color:#a6e22e">newWebService</span>())
 
@@ -474,6 +493,21 @@ release/paopao-ce --no-default-features --features sqlite3,localoss,loggerfile,r
 }
 </code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// file: internal/dao/dao.go 
 </span><span style="color:#75715e"></span>
+<span style="color:#f92672">package</span> <span style="color:#a6e22e">dao</span>
+
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;sync&#34;</span>
+
+	<span style="color:#e6db74">&#34;github.com/alimy/cfg&#34;</span>
+	<span style="color:#e6db74">&#34;github.com/rocboss/paopao-ce/internal/core&#34;</span>
+	<span style="color:#e6db74">&#34;github.com/rocboss/paopao-ce/internal/dao/jinzhu&#34;</span>
+	<span style="color:#e6db74">&#34;github.com/rocboss/paopao-ce/internal/dao/sakila&#34;</span>
+	<span style="color:#e6db74">&#34;github.com/rocboss/paopao-ce/internal/dao/search&#34;</span>
+	<span style="color:#e6db74">&#34;github.com/rocboss/paopao-ce/internal/dao/slonik&#34;</span>
+	<span style="color:#e6db74">&#34;github.com/rocboss/paopao-ce/internal/dao/storage&#34;</span>
+	<span style="color:#e6db74">&#34;github.com/sirupsen/logrus&#34;</span>
+)
+
 <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">newAuthorizationManageService</span>() (<span style="color:#a6e22e">s</span> <span style="color:#a6e22e">core</span>.<span style="color:#a6e22e">AuthorizationManageService</span>) {
 	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">cfg</span>.<span style="color:#a6e22e">If</span>(<span style="color:#e6db74">&#34;Gorm&#34;</span>) {
 		<span style="color:#a6e22e">s</span> = <span style="color:#a6e22e">jinzhu</span>.<span style="color:#a6e22e">NewAuthorizationManageService</span>()
