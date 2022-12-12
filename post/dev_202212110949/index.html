@@ -1,12 +1,11 @@
-    <!DOCTYPE html>
+  <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 
 <head>
-	<meta name="generator" content="Hugo 0.79.0-DEV" />
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-  <title> 北 野 &middot; 北 野 </title>
+  <title> Paopao-关于功能项配置解析的设计 &middot; 北 野 </title>
   
   <link rel="stylesheet" type="text/css" href="https://alimy.me/css/uno.css" />
   <link rel="stylesheet" type="text/css" href="https://alimy.me/css/lightGallery.css" />
@@ -237,17 +236,15 @@
     }
   </style>
 </head>
-    <body>
-        <div id="scriptHeader">
+  <body>
+    <div id="scriptHeader">
     <span class="mobile btn-mobile-menu">
             <i class="fa fa-bars btn-mobile-menu__icon"></i>
             <i class="fa fa-times btn-mobile-close__icon hidden"> </i>
     </span>
     <header class="
         
-        
-                panel-cover panel-cover--collapsed
-        
+            panel-cover panel-cover--collapsed
         " >
     <div class="panel-main">
         <div class="panel-main__inner panel-inverted">
@@ -338,18 +335,12 @@
     </header>
 </noscript>
 
-        <div class="content-wrapper">
-            <div class="content-wrapper__inner">
-                <section id="main">
-                    <div>
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/dev_202212110949/" title="阅读全文">Paopao-关于功能项配置解析的设计 </a> </h2>
-
-</header>
-<div class="summary">
-    <p><a href="https://github.com/rocboss/paopao-ce">paopao-ce</a>是使用Golang技术栈打造的一个清新文艺的微社区，编译后的可执行文件外加一个配置文件<code>conf.yml</code>就可以简单部署一个节点实例提供类似Twitter的推文服务。</p>
+    <div class="content-wrapper">
+      <div class="content-wrapper__inner">
+        <div class="post panel-wrapper">
+            <h2>Paopao-关于功能项配置解析的设计</h2>
+          
+          <p><a href="https://github.com/rocboss/paopao-ce">paopao-ce</a>是使用Golang技术栈打造的一个清新文艺的微社区，编译后的可执行文件外加一个配置文件<code>conf.yml</code>就可以简单部署一个节点实例提供类似Twitter的推文服务。</p>
 <p>paopao-ce的配置文件中有一个功能项的配置用于自定义节点实例运行时提供哪些服务，对部署运维非常友好。本文简单解析<code>conf.yml</code>中功能项配置的设计，了解其背后的实现细节。</p>
 <p><code>conf.yml</code>的功能项配置机制是参考<a href="https://github.com/rust-lang/rust">Rust</a>包管理工具Cargo的 <code>Cargo.toml</code> 中 <code>[features]</code> 配置而设计的。如下示例：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-toml" data-lang="toml">[<span style="color:#a6e22e">package</span>]
@@ -379,221 +370,170 @@
     <span style="color:#e6db74">&#34;unic-langid&#34;</span>,
     <span style="color:#e6db74">&#34;intl-memoizer&#34;</span>,
 ]
-</code></pre></div>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/dev_202212110949/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
+</code></pre></div><p>在Rust中，使用<code>features</code>的方式</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">mod</span> endpoint;
+<span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">mod</span> error;
+<span style="color:#75715e">#[cfg(feature = </span><span style="color:#e6db74">&#34;i18n&#34;</span><span style="color:#75715e">)]</span>
+<span style="color:#75715e">#[cfg_attr(docsrs, doc(cfg(feature = </span><span style="color:#e6db74">&#34;i18n&#34;</span><span style="color:#75715e">)))]</span>
+<span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">mod</span> i18n;
+<span style="color:#75715e">#[cfg(feature = </span><span style="color:#e6db74">&#34;server&#34;</span><span style="color:#75715e">)]</span>
+<span style="color:#75715e">#[cfg_attr(docsrs, doc(cfg(feature = </span><span style="color:#e6db74">&#34;server&#34;</span><span style="color:#75715e">)))]</span>
+<span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">mod</span> listener;
+<span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">mod</span> middleware;
+<span style="color:#75715e">#[cfg(feature = </span><span style="color:#e6db74">&#34;session&#34;</span><span style="color:#75715e">)]</span>
+<span style="color:#75715e">#[cfg_attr(docsrs, doc(cfg(feature = </span><span style="color:#e6db74">&#34;session&#34;</span><span style="color:#75715e">)))]</span>
+<span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">mod</span> session;
+<span style="color:#75715e">#[cfg(feature = </span><span style="color:#e6db74">&#34;test&#34;</span><span style="color:#75715e">)]</span>
+<span style="color:#75715e">#[cfg_attr(docsrs, doc(cfg(feature = </span><span style="color:#e6db74">&#34;test&#34;</span><span style="color:#75715e">)))]</span>
+<span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">mod</span> test;
+<span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">mod</span> web;
 
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/dev_202203051410/" title="阅读全文">MySQL和PostgreSQL的常用语法差异 </a> </h2>
+<span style="color:#75715e">#[doc(inline)]</span>
+<span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">use</span> http;
+</code></pre></div><p>没错，很简单，只要在需要feature时使用<code>#[cfg(feature = &quot;some-feature&quot;)]</code>注解即可，Rust编译器会做相应处理。</p>
+<p><a href="https://github.com/rocboss/paopao-ce">paopao-ce</a>使用YAML格式的配置文件<code>conf.yml</code>,在[Features]小节中声明运行时开启哪些功能项/服务:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">...
+<span style="color:#f92672">Features</span>:
+  <span style="color:#f92672">Default</span>: [<span style="color:#e6db74">&#34;Base&#34;</span>, <span style="color:#e6db74">&#34;MySQL&#34;</span>, <span style="color:#e6db74">&#34;Option&#34;</span>, <span style="color:#e6db74">&#34;LocalOSS&#34;</span>, <span style="color:#e6db74">&#34;LoggerFile&#34;</span>]
+  <span style="color:#f92672">Develop</span>: [<span style="color:#e6db74">&#34;Base&#34;</span>, <span style="color:#e6db74">&#34;MySQL&#34;</span>, <span style="color:#e6db74">&#34;Option&#34;</span>, <span style="color:#e6db74">&#34;Sms&#34;</span>, <span style="color:#e6db74">&#34;AliOSS&#34;</span>, <span style="color:#e6db74">&#34;LoggerZinc&#34;</span>]
+  <span style="color:#f92672">Demo</span>: [<span style="color:#e6db74">&#34;Base&#34;</span>, <span style="color:#e6db74">&#34;MySQL&#34;</span>, <span style="color:#e6db74">&#34;Option&#34;</span>, <span style="color:#e6db74">&#34;Sms&#34;</span>, <span style="color:#e6db74">&#34;MinIO&#34;</span>, <span style="color:#e6db74">&#34;LoggerZinc&#34;</span>]
+  <span style="color:#f92672">Slim</span>: [<span style="color:#e6db74">&#34;Base&#34;</span>, <span style="color:#e6db74">&#34;Sqlite3&#34;</span>, <span style="color:#e6db74">&#34;LocalOSS&#34;</span>, <span style="color:#e6db74">&#34;LoggerFile&#34;</span>]
+  <span style="color:#f92672">Base</span>: [<span style="color:#e6db74">&#34;Zinc&#34;</span>, <span style="color:#e6db74">&#34;Redis&#34;</span>, <span style="color:#e6db74">&#34;Alipay&#34;</span>]
+  <span style="color:#f92672">Docs</span>: [<span style="color:#e6db74">&#34;Docs:OpenAPI&#34;</span>]
+  <span style="color:#f92672">Service</span>: [<span style="color:#e6db74">&#34;Admin&#34;</span>, <span style="color:#e6db74">&#34;SpaceX&#34;</span>, <span style="color:#e6db74">&#34;Bot&#34;</span>, <span style="color:#e6db74">&#34;LocalOSS&#34;</span>]
+  <span style="color:#f92672">Deprecated</span>: [<span style="color:#e6db74">&#34;Deprecated:OldWeb&#34;</span>]
+  <span style="color:#f92672">Option</span>: [<span style="color:#e6db74">&#34;SimpleCacheIndex&#34;</span>]
+  <span style="color:#f92672">Sms</span>: <span style="color:#e6db74">&#34;SmsJuhe&#34;</span>
+...
+</code></pre></div><p>如上：
+Default/Develop/Demo/Slim 是不同 功能集套件(Features Suite)， Base/Option 是子功能套件， Sms是关于短信验证码功能的参数选项。</p>
+<p>这里 <code>Default</code>套件 代表的意思是： 使用<code>Base/Option</code> 中的功能，外加 <code>MySQL/LocalOSS/LoggerFile</code>功能，也就是说开启了<code>Zinc/Redis/Alipay/SimpleCacheIndex/MySQL/LocalOSS/LoggerFile</code> 7项功能；
+<code>Develop</code>套件依例类推。</p>
+<p>使用Feautures:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">release/paopao-ce --help
+Usage of release/paopao-ce:
+  -features value
+        use special features
+  -no-default-features
+        whether use default features
 
-</header>
-<div class="summary">
-    <p>MySQL和PostgreSQL的常用语法差异，后续更新中&hellip;</p>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/dev_202203051410/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
+<span style="color:#75715e"># 默认使用 Default 功能套件</span>
+release/paopao-ce 
 
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/arc_202202260952/" title="阅读全文">战城南——李白 </a> </h2>
+<span style="color:#75715e"># 不包含 default 中的功能集，仅仅使用 develop 中声明的功能集</span>
+release/paopao-ce --no-default-features --features develop 
 
-</header>
-<div class="summary">
-    <p>　　<strong>去年战，桑干源，今年战，葱河道。</strong></p>
-<p>　　<strong>洗兵条支海上波，放马天山雪中草。</strong></p>
-<p>　　<strong>万里长征战，三军尽衰老。</strong></p>
-<p>　　<strong>匈奴以杀戮为耕作，古来唯见白骨黄沙田。</strong></p>
-<p>　　<strong>秦家筑城避胡处，汉家还有烽火燃。</strong></p>
-<p>　　<strong>烽火燃不息，征战无已时。</strong></p>
-<p>　　<strong>野战格斗死，败马号鸣向天悲。</strong></p>
-<p>　　<strong>乌鸢啄人肠，衔飞上挂枯树枝。</strong></p>
-<p>　　<strong>士卒涂草莽，将军空尔为。</strong></p>
-<p>　　<strong>乃知兵者是凶器，圣人不得已而用之。</strong></p>
-<p><img src="https://alimy.me/images/post/20220226095200.jpeg" alt=""></p>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/arc_202202260952/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
+<span style="color:#75715e"># 使用 default 中的功能集，外加 sms 功能</span>
+release/paopao-ce --features sms  
 
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/dev_202202231110/" title="阅读全文">Mac通过brew本地安装Postgresql </a> </h2>
-
-</header>
-<div class="summary">
-    <pre><code>%&gt; brew install postgres
-%&gt; psql -version
-%&gt; # 若之前安装过，请确保/usr/local/var路径下无任何postrges相关文件残留
-%&gt; initdb --locale=C -E UTF-8 /usr/local/var/postgres
-
-%&gt; ln -sfv /usr/local/opt/postgresql/*.plist ~/Library/LaunchAgents
-
-%&gt; # 检查server状态，并确认已开启
-%&gt; brew services list
-%&gt; brew services start postgresql
-
-%&gt; # mac上新建用户，设置密码并确认
-%&gt; createuser postgres -P
-
-%&gt; # 删掉默认的postgres库
-%&gt; dropdb postgres
-
-%&gt; # 新建postgres库，若客户端连接报错，有时候需要额外创建跟当前用户同名的库
-%&gt; createdb postgres --owner postgres --encoding UTF8 --echo
-
-%&gt; # 进入交互模式
-%&gt; psql -U username -d dbname -h 127.0.0.1
-</code></pre>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/dev_202202231110/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/art_202201151335/" title="阅读全文">一直都很喜欢你 </a> </h2>
-
-</header>
-<div class="summary">
-    <p><a href="https://alimy.me/images/post/20220115133500.png" title="点击查看大图"><img src="https://alimy.me/images/post/20220115133500.png" alt=""></a></p>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/art_202201151335/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/dev_202112031525/" title="阅读全文">Go - SQL实践 </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="标准库sql驱动接口-databasesqldriverhttpsgithubcomgolanggotreemastersrcdatabasesqldriver">标准库SQL驱动接口 (<a href="https://github.com/golang/go/tree/master/src/database/sql/driver">database/sql/driver</a>)</h3>
-<p><img src="https://alimy.me/images/post/20211203152500.png" alt=""></p>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/dev_202112031525/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/dev_202106300750/" title="阅读全文">MySQL 8.0直方图 </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="0-什么是直方图">0. 什么是直方图</h3>
-<p>直方图（Histogram）是数据库提供的一种（索引之外的）基础统计信息，用于描述列上的数据分布情况。它最典型的场景是估算查询谓词的选择率，以便选择合适的执行计划。</p>
-<p>也就是说，某个列可以不创建索引但创建直方图，也可以帮助提升查询效率。
-MySQL 8.0开始支持直方图，这是个很大的进步。</p>
-<p>直方图可以针对某个列记录其数据分布统计信息，例如有个列的值是从1到1万，那么可以利用直方图分成100个桶（bucket），每个桶中统计这1万个值是怎么分布的，以及每个桶中的最大值、最小值、占比等信息。</p>
-<p>虽然可以利用索引优化SQL效率，但索引维护的代价更高，索引要保持更新，而直方图可以按需手动更新。</p>
-<p>索引统计信息也有不可靠的时候，例如存在数据倾斜，或者统计延迟等问题。</p>
-<p>另外，在有需要的时候，可以在每个有需要的列上创建直方图，但却不太可能同时创建多个单列索引，那样代价太高了。</p>
-<p>例如下面这个执行计划：</p>
-<pre><code>[root@yejr.run]&gt; explain select * from t1 where seq = 1234;
-+------+---------------+------+---------+------+--------+----------+-------------+
-| type | possible_keys | key  | key_len | ref  | rows   | filtered | Extra       |
-+------+---------------+------+---------+------+--------+----------+-------------+
-| ALL  | NULL          | NULL | NULL    | NULL | 299876 |    10.00 | Using where |
-+------+---------------+------+---------+------+--------+----------+-------------+
-
-[root@yejr.run]&gt; select * from t1 where seq = 1234;
-Empty set (0.097 sec)
-</code></pre><p>在还没创建直方图之前，seq列上同时也没有索引，这时是全表扫描，注意到 filtered 列的值是10%。</p>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/dev_202106300750/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/art_202106031912/" title="阅读全文">如果有人追你 </a> </h2>
-
-</header>
-<div class="summary">
-    <p><a href="https://alimy.me/images/post/20210603191201.png" title="点击查看大图"><img src="https://alimy.me/images/post/20210603191200.jpg" alt=""></a></p>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/art_202106031912/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/art_202106031910/" title="阅读全文">我爱你，甚于昨日 </a> </h2>
-
-</header>
-<div class="summary">
-    <p><a href="https://alimy.me/images/post/20210603191001.png" title="点击查看大图"><img src="https://alimy.me/images/post/20210603191001.png" alt=""></a></p>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/art_202106031910/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                    </div>
-                    </br>
-                    
-                </section>
-                <div class="pages">
+<span style="color:#75715e"># 手动指定需要开启的功能集</span>
+release/paopao-ce --no-default-features --features sqlite3,localoss,loggerfile,redis 
+</code></pre></div><p><a href="https://github.com/rocboss/paopao-ce">paopao-ce</a>在代码实现中是通过<a href="https://github.com/alimy/cfg">github.com/alimy/cfg</a>解析Features配置：</p>
+<p>初始化cfg</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// file: internal/conf/conf.go
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">setupSetting</span>(<span style="color:#a6e22e">suite</span> []<span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">noDefault</span> <span style="color:#66d9ef">bool</span>) <span style="color:#66d9ef">error</span> {
+  <span style="color:#f92672">...</span>
   
-<ul class="pagination">
+	<span style="color:#75715e">// initialize features configure
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">ss</span>, <span style="color:#a6e22e">kv</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">setting</span>.<span style="color:#a6e22e">featuresInfoFrom</span>(<span style="color:#e6db74">&#34;Features&#34;</span>)
+	<span style="color:#a6e22e">cfg</span>.<span style="color:#a6e22e">Initial</span>(<span style="color:#a6e22e">ss</span>, <span style="color:#a6e22e">kv</span>)
+	<span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">suite</span>) &gt; <span style="color:#ae81ff">0</span> {
+		<span style="color:#a6e22e">cfg</span>.<span style="color:#a6e22e">Use</span>(<span style="color:#a6e22e">suite</span>, <span style="color:#a6e22e">noDefault</span>)
+	}
   
-  <li class="page-item disabled">
-    <a  class="page-link" aria-label="Previous"><span aria-hidden="true"><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;&nbsp;Previous</span></a>
-  </li>
-  <li class="page-item active">
-    <a class="page-link" href="https://alimy.me/">1</a>
-  </li>
-  <li class="page-item">
-    <a class="page-link" href="https://alimy.me/page/2/">2</a>
-  </li>
-  <li class="page-item">
-    <a class="page-link" href="https://alimy.me/page/3/">3</a>
-  </li>
-  <li class="page-item disabled">
-    <span aria-hidden="true">&nbsp;&hellip;&nbsp;</span>
-  </li>
-  <li class="page-item">
-    <a class="page-link" href="https://alimy.me/page/18/">18</a>
-  </li>
-  <li class="page-item">
-    <a href="https://alimy.me/page/2/" class="page-link" aria-label="Next">Next&nbsp;&nbsp;<i class="fa fa-arrow-right" aria-hidden="true"></i></a>
-  </li>
-  
-</ul>
+  <span style="color:#f92672">...</span>
+}
+</code></pre></div><p>cfg的参考使用</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// file: internal/service/service.go
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">newService</span>() (<span style="color:#a6e22e">ss</span> []<span style="color:#a6e22e">Service</span>) {
+	<span style="color:#a6e22e">ss</span> = append(<span style="color:#a6e22e">ss</span>, <span style="color:#a6e22e">newWebService</span>())
+
+	<span style="color:#75715e">// add oldWebService if not depredcated OldWebService
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">cfg</span>.<span style="color:#a6e22e">Not</span>(<span style="color:#e6db74">&#34;Deprecated:OldWeb&#34;</span>, <span style="color:#66d9ef">func</span>() {
+		<span style="color:#a6e22e">ss</span> = append(<span style="color:#a6e22e">ss</span>, <span style="color:#a6e22e">newOldWebService</span>())
+	})
+
+	<span style="color:#a6e22e">cfg</span>.<span style="color:#a6e22e">In</span>(<span style="color:#a6e22e">cfg</span>.<span style="color:#a6e22e">Actions</span>{
+		<span style="color:#e6db74">&#34;Admin&#34;</span>: <span style="color:#66d9ef">func</span>() {
+			<span style="color:#a6e22e">ss</span> = append(<span style="color:#a6e22e">ss</span>, <span style="color:#a6e22e">newAdminService</span>())
+		},
+		<span style="color:#e6db74">&#34;SpaceX&#34;</span>: <span style="color:#66d9ef">func</span>() {
+			<span style="color:#a6e22e">ss</span> = append(<span style="color:#a6e22e">ss</span>, <span style="color:#a6e22e">newSpaceXService</span>())
+		},
+		<span style="color:#e6db74">&#34;Bot&#34;</span>: <span style="color:#66d9ef">func</span>() {
+			<span style="color:#a6e22e">ss</span> = append(<span style="color:#a6e22e">ss</span>, <span style="color:#a6e22e">newBotService</span>())
+		},
+		<span style="color:#e6db74">&#34;LocalOSS&#34;</span>: <span style="color:#66d9ef">func</span>() {
+			<span style="color:#a6e22e">ss</span> = append(<span style="color:#a6e22e">ss</span>, <span style="color:#a6e22e">newLocalossService</span>())
+		},
+	})
+
+	<span style="color:#66d9ef">return</span>
+}
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// file: internal/dao/dao.go 
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">newAuthorizationManageService</span>() (<span style="color:#a6e22e">s</span> <span style="color:#a6e22e">core</span>.<span style="color:#a6e22e">AuthorizationManageService</span>) {
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">cfg</span>.<span style="color:#a6e22e">If</span>(<span style="color:#e6db74">&#34;Gorm&#34;</span>) {
+		<span style="color:#a6e22e">s</span> = <span style="color:#a6e22e">jinzhu</span>.<span style="color:#a6e22e">NewAuthorizationManageService</span>()
+	} <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">cfg</span>.<span style="color:#a6e22e">If</span>(<span style="color:#e6db74">&#34;Sqlx&#34;</span>) <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">cfg</span>.<span style="color:#a6e22e">If</span>(<span style="color:#e6db74">&#34;MySQL&#34;</span>) {
+		<span style="color:#a6e22e">s</span> = <span style="color:#a6e22e">sakila</span>.<span style="color:#a6e22e">NewAuthorizationManageService</span>()
+	} <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">cfg</span>.<span style="color:#a6e22e">If</span>(<span style="color:#e6db74">&#34;Sqlx&#34;</span>) <span style="color:#f92672">&amp;&amp;</span> (<span style="color:#a6e22e">cfg</span>.<span style="color:#a6e22e">If</span>(<span style="color:#e6db74">&#34;Postgres&#34;</span>) <span style="color:#f92672">||</span> <span style="color:#a6e22e">cfg</span>.<span style="color:#a6e22e">If</span>(<span style="color:#e6db74">&#34;PostgreSQL&#34;</span>)) {
+		<span style="color:#a6e22e">s</span> = <span style="color:#a6e22e">slonik</span>.<span style="color:#a6e22e">NewAuthorizationManageService</span>()
+	} <span style="color:#66d9ef">else</span> {
+		<span style="color:#a6e22e">s</span> = <span style="color:#a6e22e">jinzhu</span>.<span style="color:#a6e22e">NewAuthorizationManageService</span>()
+	}
+	<span style="color:#66d9ef">return</span>
+}
+</code></pre></div><p><a href="https://github.com/alimy/cfg">github.com/alimy/cfg</a>的API文档请参考 <a href="https://pkg.go.dev/github.com/alimy/cfg"><img src="https://godoc.org/github.com/alimy/cfg?status.svg" alt="GoDoc"></a></p>
+				<div id="post-tags">
+				  
+				  	
+						  <a href="https://alimy.me/tags/development/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;development</a>
+						
+						  <a href="https://alimy.me/tags/paopao/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;paopao</a>
+						
+						  <a href="https://alimy.me/tags/go/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;Go</a>
+						
+					
+				</div>
+        </div>
+        <div id="post-navigator">
+          <a id="post-navigator-prev" href="https://alimy.me/post/dev_202203051410/" title="上一篇"><i class="fa fa-chevron-left" aria-hidden="true"></i>&nbsp;MySQL和PostgreSQL的常用语法差异</a>
+          
+        </div>
+        <div id="post-comments">
+          <h3>Comments</h3>
+          
 
 
-</div>
+<div id="disqus_thread"></div>
 
-            <footer id="copyright">
+<script type="text/javascript">
+  var disqusUsername = "alimy";
+
+  (function() { 
+  var d = document, s = d.createElement('script');
+
+  s.src = '//' + disqusUsername + '.disqus.com/embed.js';
+
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+        <footer id="copyright">
   <p>&copy;2015-2022 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved.</p>
 </footer>
-            </div>
-        </div>
-        <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
+    </div>
+    <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
 if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
 var s=document.getElementsByTagName('script')[0];sc.src='https://alimy.me/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
 WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
 
-    </body>
+  </body>
 </html>

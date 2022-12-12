@@ -4,21 +4,51 @@
   
   <url>
     <loc>https://alimy.me/categories/</loc>
-    <lastmod>2022-03-05T14:10:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://alimy.me/tags/database/</loc>
-    <lastmod>2022-03-05T14:10:00+08:00</lastmod>
+    <lastmod>2022-12-11T09:49:00+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://alimy.me/categories/development/</loc>
-    <lastmod>2022-03-05T14:10:00+08:00</lastmod>
+    <lastmod>2022-12-11T09:49:00+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://alimy.me/tags/development/</loc>
+    <lastmod>2022-12-11T09:49:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://alimy.me/tags/go/</loc>
+    <lastmod>2022-12-11T09:49:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://alimy.me/tags/paopao/</loc>
+    <lastmod>2022-12-11T09:49:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://alimy.me/post/dev_202212110949/</loc>
+    <lastmod>2022-12-11T09:49:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://alimy.me/post/</loc>
+    <lastmod>2022-12-11T09:49:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://alimy.me/tags/</loc>
+    <lastmod>2022-12-11T09:49:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://alimy.me/</loc>
+    <lastmod>2022-12-11T09:49:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://alimy.me/tags/database/</loc>
     <lastmod>2022-03-05T14:10:00+08:00</lastmod>
   </url>
   
@@ -38,22 +68,7 @@
   </url>
   
   <url>
-    <loc>https://alimy.me/post/</loc>
-    <lastmod>2022-03-05T14:10:00+08:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://alimy.me/tags/sql/</loc>
-    <lastmod>2022-03-05T14:10:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://alimy.me/tags/</loc>
-    <lastmod>2022-03-05T14:10:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://alimy.me/</loc>
     <lastmod>2022-03-05T14:10:00+08:00</lastmod>
   </url>
   
@@ -639,11 +654,6 @@
   
   <url>
     <loc>https://alimy.me/post/dev_201603182045/</loc>
-    <lastmod>2016-03-18T20:45:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://alimy.me/tags/go/</loc>
     <lastmod>2016-03-18T20:45:00+08:00</lastmod>
   </url>
   

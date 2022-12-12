@@ -345,6 +345,25 @@
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="https://alimy.me/post/dev_202012071330/" title="阅读全文">Tg: Type serialization </a> </h2>
+
+</header>
+<div class="summary">
+    <p>See <a href="https://alimy.me/post/dev_202012071321/">Polymorphism in TL</a> and <a href="https://alimy.me/post/dev_202012071315">TL Language</a>.</p>
+<p>It remains to describe how types, e.g. values of type Type, are transmitted (serialized). In general, there is nothing unexpected going on here: we have type constructors of various arities (for example, List is an arity-1 constructor, but IntList is a 0-arity constructor); and if we know that a 32-bit “name” is assigned to each type constructor, there are no further questions &ndash; values of type Type are serialized exactly like values of any other recursive type with a defined set of constructors of differing arity.</p>
+<p>How can a 32-bit “name” be assigned to a type (a type constructor, to be more exact) such as List or IntList? It is proposed to use the sum of the names of all of its constructors, plus the CRC32 of the string with the designation of the type&rsquo;s name and all of its parameters such as “IntList = Type” or “List X:Type = Type”. This way, the List constructor’s “name” is the sum of the CRC32s of the three strings &ldquo;List X:Type = Type&rdquo;, &ldquo;cons X:Type hd:X tl:List X = List X&rdquo;, and &ldquo;nil X:Type = List X&rdquo;. For “bare” types (which, formally speaking, are subtypes of the corresponding “boxed” type), the situation is somewhat more complicated; the logical negation of the corresponding constructor’s name is used. For built-in bareand boxed types (for example, int and Int), a pseudo-declaration is used (for example, int ? = Int&quot;).</p>
+<ul>
+<li>This description is somewhat outdated and may be updated in the future. Specifically, how to treat the ! modifier has not been explained.*</li>
+</ul>
+</div>
+<footer id="more">
+<a href='https://alimy.me/post/dev_202012071330/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="https://alimy.me/post/dev_202012071321/" title="阅读全文">Tg: Polymorphism in TL </a> </h2>
 
 </header>
@@ -545,33 +564,6 @@ registry = &quot;git://mirrors.ustc.edu.cn/crates.io-index&quot;
 </article>
 
                         
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/dev_201909211556/" title="阅读全文">Tars语言与协议 </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="目录">目录</h3>
-<ul>
-<li><a href="#main-chapter-1">Tars语言</a></li>
-<li><a href="#main-chapter-2">Tars协议</a></li>
-</ul>
-<h2 id="1-tars语言-a-idmain-chapter-1a">1. Tars语言 <!-- raw HTML omitted --><!-- raw HTML omitted --></h2>
-<h3 id="11-接口文件">1.1. 接口文件</h3>
-<ul>
-<li>Tars语言是一种类c++标识符的语言，用于生成具体的服务接口文件</li>
-<li>Tars文件是Tars框架中客户端和服务端的通信接口，通过Tars的映射实现远程对象调用</li>
-<li>Tars文件的扩展名必须以.tars为扩展名</li>
-<li>对于结构定义，可以支持扩展字段，即可以增加字段而不影响原有结构的解析，可以在存储/协议等地方单独使用</li>
-<li>大小写敏感</li>
-</ul>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/dev_201909211556/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
                     </div>
                     </br>
                     
@@ -602,7 +594,7 @@ registry = &quot;git://mirrors.ustc.edu.cn/crates.io-index&quot;
     <span aria-hidden="true">&nbsp;&hellip;&nbsp;</span>
   </li>
   <li class="page-item">
-    <a class="page-link" href="https://alimy.me/page/17/">17</a>
+    <a class="page-link" href="https://alimy.me/page/18/">18</a>
   </li>
   <li class="page-item">
     <a href="https://alimy.me/page/5/" class="page-link" aria-label="Next">Next&nbsp;&nbsp;<i class="fa fa-arrow-right" aria-hidden="true"></i></a>

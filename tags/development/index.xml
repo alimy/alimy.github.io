@@ -6,7 +6,46 @@
     <description>Recent content in development on 北 野</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Sat, 05 Mar 2022 14:10:00 +0800</lastBuildDate><atom:link href="https://alimy.me/tags/development/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 11 Dec 2022 09:49:00 +0800</lastBuildDate><atom:link href="https://alimy.me/tags/development/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Paopao-关于功能项配置解析的设计</title>
+      <link>https://alimy.me/post/dev_202212110949/</link>
+      <pubDate>Sun, 11 Dec 2022 09:49:00 +0800</pubDate>
+      
+      <guid>https://alimy.me/post/dev_202212110949/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/rocboss/paopao-ce&#34;&gt;paopao-ce&lt;/a&gt;是使用Golang技术栈打造的一个清新文艺的微社区，编译后的可执行文件外加一个配置文件&lt;code&gt;conf.yml&lt;/code&gt;就可以简单部署一个节点实例提供类似Twitter的推文服务。&lt;/p&gt;
+&lt;p&gt;paopao-ce的配置文件中有一个功能项的配置用于自定义节点实例运行时提供哪些服务，对部署运维非常友好。本文简单解析&lt;code&gt;conf.yml&lt;/code&gt;中功能项配置的设计，了解其背后的实现细节。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;conf.yml&lt;/code&gt;的功能项配置机制是参考&lt;a href=&#34;https://github.com/rust-lang/rust&#34;&gt;Rust&lt;/a&gt;包管理工具Cargo的 &lt;code&gt;Cargo.toml&lt;/code&gt; 中 &lt;code&gt;[features]&lt;/code&gt; 配置而设计的。如下示例：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-toml&#34; data-lang=&#34;toml&#34;&gt;[&lt;span style=&#34;color:#a6e22e&#34;&gt;package&lt;/span&gt;]
+&lt;span style=&#34;color:#a6e22e&#34;&gt;name&lt;/span&gt; = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;poem&amp;#34;&lt;/span&gt;
+&lt;span style=&#34;color:#a6e22e&#34;&gt;version&lt;/span&gt; = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;1.3.50&amp;#34;&lt;/span&gt;
+&lt;span style=&#34;color:#a6e22e&#34;&gt;authors&lt;/span&gt; = [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;sunli &amp;lt;scott_s829@163.com&amp;gt;&amp;#34;&lt;/span&gt;]
+&lt;span style=&#34;color:#a6e22e&#34;&gt;edition&lt;/span&gt; = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;2021&amp;#34;&lt;/span&gt;
+&lt;span style=&#34;color:#a6e22e&#34;&gt;description&lt;/span&gt; = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Poem is a full-featured and easy-to-use web framework with the Rust programming language.&amp;#34;&lt;/span&gt;
+
+[&lt;span style=&#34;color:#a6e22e&#34;&gt;features&lt;/span&gt;]
+&lt;span style=&#34;color:#a6e22e&#34;&gt;default&lt;/span&gt; = [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;server&amp;#34;&lt;/span&gt;]
+&lt;span style=&#34;color:#a6e22e&#34;&gt;server&lt;/span&gt; = [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;tokio/rt&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;tokio/net&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;hyper/server&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;hyper/runtime&amp;#34;&lt;/span&gt;]
+&lt;span style=&#34;color:#a6e22e&#34;&gt;websocket&lt;/span&gt; = [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;tokio/rt&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;tokio-tungstenite&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;base64&amp;#34;&lt;/span&gt;]
+&lt;span style=&#34;color:#a6e22e&#34;&gt;multipart&lt;/span&gt; = [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;multer&amp;#34;&lt;/span&gt;]
+&lt;span style=&#34;color:#a6e22e&#34;&gt;rustls&lt;/span&gt; = [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;server&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;tokio-rustls&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;rustls-pemfile&amp;#34;&lt;/span&gt;]
+&lt;span style=&#34;color:#a6e22e&#34;&gt;native&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;tls&lt;/span&gt; = [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;server&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;tokio-native-tls&amp;#34;&lt;/span&gt;]
+&lt;span style=&#34;color:#a6e22e&#34;&gt;openssl&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;tls&lt;/span&gt; = [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;server&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;tokio-openssl&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;openssl&amp;#34;&lt;/span&gt;]
+&lt;span style=&#34;color:#a6e22e&#34;&gt;static&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;files&lt;/span&gt; = [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;httpdate&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;mime_guess&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;tokio/io-util&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;tokio/fs&amp;#34;&lt;/span&gt;]
+&lt;span style=&#34;color:#a6e22e&#34;&gt;cookie&lt;/span&gt; = [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;libcookie&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;chrono&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;time&amp;#34;&lt;/span&gt;]
+&lt;span style=&#34;color:#a6e22e&#34;&gt;session&lt;/span&gt; = [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;tokio/rt&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;cookie&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;rand&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;priority-queue&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;base64&amp;#34;&lt;/span&gt;]
+&lt;span style=&#34;color:#a6e22e&#34;&gt;embed&lt;/span&gt; = [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;rust-embed&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;hex&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;mime_guess&amp;#34;&lt;/span&gt;]
+&lt;span style=&#34;color:#a6e22e&#34;&gt;xml&lt;/span&gt; = [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;quick-xml&amp;#34;&lt;/span&gt;]
+&lt;span style=&#34;color:#a6e22e&#34;&gt;i18n&lt;/span&gt; = [
+    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;fluent&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;fluent-langneg&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;fluent-syntax&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;unic-langid&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;intl-memoizer&amp;#34;&lt;/span&gt;,
+]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    
     <item>
       <title>MySQL和PostgreSQL的常用语法差异</title>
       <link>https://alimy.me/post/dev_202203051410/</link>

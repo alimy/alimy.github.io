@@ -345,6 +345,29 @@
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="https://alimy.me/post/dev_201603092051/" title="阅读全文">XStream: Referencing Objects </a> </h2>
+
+</header>
+<div class="summary">
+    <p>XStream allows you to store references while converting a java object to XML. Consider a case where you have an Artist Object. The object contains albums that the artist has released, but you also want to store a reference to a &lsquo;similar artist&rsquo;. People listening to an artist might be interested in listening to a similar artist. When you convert this object to XML, XStream preserves the reference to the similar artist. It also manages circular references, so if there are no similar artist then the &lsquo;similar artist&rsquo; field could store a reference to the Owner Artist.</p>
+<p>XStream has multiple ways to store references. you need to use the setMode(int mode) method to set the mode. XStream allows following modes:</p>
+<ul>
+<li>NO_REFERENCES</li>
+<li>ID_REFERENCES</li>
+<li>XPATH_RELATIVE_REFERENCES</li>
+<li>XPATH_ABSOLUTE_REFERENCES</li>
+<li>SINGLE_NODE_XPATH_RELATIVE_REFERENCES</li>
+<li>SINGLE_NODE_XPATH_ABSOLUTE_REFERENCES</li>
+</ul>
+</div>
+<footer id="more">
+<a href='https://alimy.me/post/dev_201603092051/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="https://alimy.me/post/dev_201603092041/" title="阅读全文">XStream: Handling Attributes in XML </a> </h2>
 
 </header>
@@ -537,20 +560,6 @@ public class Example {
 </article>
 
                         
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/dev_201603032011/" title="阅读全文">SimpleXML: Tutorial </a> </h2>
-
-</header>
-<div class="summary">
-    <p>This page provides a tutorial that will prepare users for using XML serialization. Before this tutorial is attempted it is advisable to have a look at the <a href="http://simple.sourceforge.net/download/stream/doc/javadoc/">Javadoc</a> documentation for the framework. Although there are only several annotations and objects involved in the serialization process the framework itself has many powerful features which this tutorial attempts to describe.</p>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/dev_201603032011/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
                     </div>
                     </br>
                     
@@ -587,7 +596,7 @@ public class Example {
     <span aria-hidden="true">&nbsp;&hellip;&nbsp;</span>
   </li>
   <li class="page-item">
-    <a class="page-link" href="https://alimy.me/page/17/">17</a>
+    <a class="page-link" href="https://alimy.me/page/18/">18</a>
   </li>
   <li class="page-item">
     <a href="https://alimy.me/page/15/" class="page-link" aria-label="Next">Next&nbsp;&nbsp;<i class="fa fa-arrow-right" aria-hidden="true"></i></a>
