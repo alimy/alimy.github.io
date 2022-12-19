@@ -345,6 +345,34 @@
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="https://alimy.me/post/dev_202103151521/" title="阅读全文">部署v1.20版的Kubernetes集群 </a> </h2>
+
+</header>
+<div class="summary">
+    <h3 id="主机环境预设">主机环境预设</h3>
+<p>本示例中的Kubernetes集群部署将基于以下环境进行。</p>
+<ul>
+<li>OS: Ubuntu 20.04.1</li>
+<li>Kubernetes：v1.20</li>
+<li>Container Runtime:  Docker CE 20.10.0</li>
+</ul>
+<h4 id="测试环境说明">测试环境说明</h4>
+<p>测试使用的Kubernetes集群可由一个master主机及一个以上（建议至少两个）node主机组成，这些主机可以是物理服务器，也可以运行于vmware、virtualbox或kvm等虚拟化平台上的虚拟机，甚至是公有云上的VPS主机。</p>
+<p>本测试环境将由master01、node01、node02和node03四个独立的主机组成，它们分别拥有4核心的CPU及4G的内存资源，操作系统环境均为仅小化部署的Ubuntu Server 20.04.1 LTS，启用了SSH服务，域名为magedu.com。此外，各主机需要预设的系统环境如下：</p>
+<p>（1）借助于chronyd服务（程序包名称chrony）设定各节点时间精确同步；</p>
+<p>（2）通过DNS完成各节点的主机名称解析；</p>
+<p>（3）各节点禁用所有的Swap设备；</p>
+<p>（4）各节点禁用默认配置的iptables防火墙服务；</p>
+<p>注意：为了便于操作，后面将在各节点直接以系统管理员root用户进行操作。若用户使用了普通用户，建议将如下各命令以sudo方式运行。</p>
+</div>
+<footer id="more">
+<a href='https://alimy.me/post/dev_202103151521/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="https://alimy.me/post/dev_202101311010/" title="阅读全文">Uber’s Real-Time Push Platform </a> </h2>
 
 </header>
@@ -623,33 +651,6 @@ http_wait#9299359f max_delay:int wait_after:int max_wait:int = HttpWait;
 </div>
 <footer id="more">
 <a href='https://alimy.me/post/dev_202012071337/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/dev_202012071333/" title="阅读全文">Tg: Binary Data Serialization </a> </h2>
-
-</header>
-<div class="summary">
-    <p>MTProto operation requires that elementary and composite data types as well as queries to which such data types are passed as arguments or by which they are returned, be transmitted in binary format (i. e. serialized) . The <a href="https://alimy.me/post/dev_202012071315/">TL language</a> is used to describe the data types to be serialized.</p>
-<h4 id="general-definitions">General Definitions</h4>
-<p>For our purposes, we can identify a type with the set of its (serialized) values understood as strings (finite sequences) of 32-bit numbers (transmitted in little endian order).</p>
-<p>Therefore:</p>
-<ul>
-<li>Alphabet (A), in this case, is a set of 32-bit numbers (normally, signed, i. e. between <code>-2^31</code> and <code>2^31 - 1)</code>.</li>
-<li>Value, in this case, is the same as a string in Alphabet A, i. e. a finite (possibly, empty) sequence of 32-bit numbers. The set of all such sequences is designated as A*.</li>
-<li>Type, for our purposes, is the same as the set of legal values of a type, i. e. some set T which is a subset of A* and is a prefix code (i. e. no element of T may be a prefix for any other element). Therefore, any sequence from A* can contain no more than one prefix that is a member of T.</li>
-<li>Value of Type T is any sequence (value) which is a member of T as a subset of A*.</li>
-<li>Compatible Types are the types T and T’ not intersecting as subsets of A*, such that the union of T and T' is a prefix code.</li>
-<li>Coordinated System of Types is a finite or infinite set of types T_1, &hellip;, T_n, &hellip;, such that any two types from this set are compatible.</li>
-<li>Data Type is the same as type in the sense of the definition above.</li>
-<li>Functional Type is a type describing a function; it is not a type in the sense of the definition above. Initially, we ignore the existence of functional types and describe only the data types; however, in reality, functional types will later be implemented in some extension of this system using the so-called temporary combinators.</li>
-</ul>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/dev_202012071333/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
 </footer>
 </article>
 

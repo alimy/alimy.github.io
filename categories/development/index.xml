@@ -6,14 +6,24 @@
     <description>Recent content in Development on 北 野</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Sun, 11 Dec 2022 09:49:00 +0800</lastBuildDate><atom:link href="https://alimy.me/categories/development/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 19 Dec 2022 10:32:00 +0800</lastBuildDate><atom:link href="https://alimy.me/categories/development/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Paopao-关于功能项配置解析的设计</title>
+      <title>paopao - 关于paopao-ce的设计定位</title>
+      <link>https://alimy.me/post/dev_202212191032/</link>
+      <pubDate>Mon, 19 Dec 2022 10:32:00 +0800</pubDate>
+      
+      <guid>https://alimy.me/post/dev_202212191032/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/rocboss/paopao-ce&#34;&gt;paopao-ce&lt;/a&gt; 是一个清新文艺的微社区，提供类似Twiter/微博的推文分享服务。paopao-ce的运营形态有点类似WordPress，只不过WordPress是使用PHP语言开发的博客平台，提供的是博客服务，而paopao-ce提供的是类似Twitter的推文分享服务。paopao-ce 让 &lt;strong&gt;个人或小组织&lt;/strong&gt; 可以快速、方便的部署一个提供&lt;strong&gt;推文分享服务&lt;/strong&gt;的小站点，在有限范围内形成一个友善的社交小圈子微社区。   &lt;br&gt;
+&lt;img src=&#34;https://alimy.me/images/post/20221219103201.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>paopao - 关于功能项配置解析的设计</title>
       <link>https://alimy.me/post/dev_202212110949/</link>
       <pubDate>Sun, 11 Dec 2022 09:49:00 +0800</pubDate>
       
       <guid>https://alimy.me/post/dev_202212110949/</guid>
-      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/rocboss/paopao-ce&#34;&gt;paopao-ce&lt;/a&gt;是使用Golang技术栈打造的一个清新文艺的微社区，编译后的可执行文件外加一个配置文件&lt;code&gt;conf.yml&lt;/code&gt;就可以简单部署一个节点实例提供类似Twitter的推文服务。&lt;/p&gt;
+      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/rocboss/paopao-ce&#34;&gt;paopao-ce&lt;/a&gt; 是使用Golang技术栈打造的一个清新文艺的微社区，编译后的可执行文件外加一个配置文件&lt;code&gt;conf.yml&lt;/code&gt;就可以简单部署一个节点实例提供类似Twitter的推文服务。&lt;/p&gt;
 &lt;p&gt;paopao-ce的配置文件中有一个功能项的配置用于自定义节点实例运行时提供哪些服务，对部署运维非常友好。本文简单解析&lt;code&gt;conf.yml&lt;/code&gt;中功能项配置的设计，了解其背后的实现细节。&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;conf.yml&lt;/code&gt;的功能项配置机制是参考&lt;a href=&#34;https://github.com/rust-lang/rust&#34;&gt;Rust&lt;/a&gt;包管理工具Cargo的 &lt;code&gt;Cargo.toml&lt;/code&gt; 中 &lt;code&gt;[features]&lt;/code&gt; 配置而设计的。如下示例：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-toml&#34; data-lang=&#34;toml&#34;&gt;[&lt;span style=&#34;color:#a6e22e&#34;&gt;package&lt;/span&gt;]
