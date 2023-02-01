@@ -345,6 +345,72 @@
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="https://alimy.me/post/dev_202104050200/" title="阅读全文">使用Dnsmasq 实现 hosts 泛解析 </a> </h2>
+
+</header>
+<div class="summary">
+    <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$&gt; sudo dnf install dnsmasq -y <span style="color:#75715e"># 安装 Dnsmasq </span>
+$&gt; sudo cp /etc/dnsmasq.conf<span style="color:#f92672">{</span>,bak<span style="color:#f92672">}</span> <span style="color:#75715e"># 先把配置文件备份一份</span>
+$&gt; sudo vim /etc/dnsmasq.conf
+<span style="color:#75715e"># 严格按照 resolv-file 文件中的顺序从上到下进行 DNS 解析, 直到第一个成功解析成功为止</span>
+strict-order
+
+<span style="color:#75715e"># 监听的 IP 地址</span>
+listen-address<span style="color:#f92672">=</span>127.0.0.1
+
+<span style="color:#75715e"># 设置缓存大小</span>
+cache-size<span style="color:#f92672">=</span><span style="color:#ae81ff">10240</span>
+
+<span style="color:#75715e"># 泛域名解析，访问任何 baidu.com 域名都会被解析到 6.6.6.6</span>
+address<span style="color:#f92672">=</span>/baidu.com/6.6.6.6
+</code></pre></div><p>域名解析默认读取 /etc/hosts 文件到本地域名配置文件（不支持泛域名）。</p>
+<p>DNS 配置默认读取 /etc/resolv.conf 上游 DNS 配置文件，如果读取不到 /etc/hosts 的地址解析，就会转发给 resolv.conf 进行解析地址。</p>
+</div>
+<footer id="more">
+<a href='https://alimy.me/post/dev_202104050200/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="https://alimy.me/post/dev_202104042045/" title="阅读全文">如何在Fedora 33命令行模式下禁止睡眠 </a> </h2>
+
+</header>
+<div class="summary">
+    <p>切换启动模式：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">%&gt; systemctl get-default <span style="color:#75715e"># 获取当前启动模式</span>
+%&gt; systemctl set-default multi-user.target <span style="color:#75715e"># 默认命令行模式启动</span>
+%&gt; systemctl set-default graphical.target <span style="color:#75715e"># 默认图形模式启动</span>
+</code></pre></div><p>笔记本进入睡眠状态后，很多服务不能远程连接使用，例如 SSH 会连接不上，需要修改一下配置：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">%&gt; systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target <span style="color:#75715e"># 禁止睡眠</span>
+
+%&gt; systemctl unmask sleep.target suspend.target hibernate.target hybrid-sleep.target <span style="color:#75715e"># 启用睡眠</span>
+ 
+%&gt; vi /etc/systemd/logind.conf <span style="color:#75715e"># 配置盖子（笔记本）</span>
+ 
+找到该行#HandleLidSwitch<span style="color:#f92672">=</span>suspend,将该行更改为以下所需的设置之一：
+<span style="color:#75715e">#关闭盖子时关闭计算机</span>
+HandleLidSwitch<span style="color:#f92672">=</span>poweroff
+<span style="color:#75715e">#在合上盖子时到休眠计算机</span>
+HandleLidSwitch<span style="color:#f92672">=</span>hibernate
+<span style="color:#75715e">#关闭盖子时暂停计算机</span>
+HandleLidSwitch<span style="color:#f92672">=</span>suspend
+<span style="color:#75715e">#不执行任何操作</span>
+HandleLidSwitch<span style="color:#f92672">=</span>ignore
+ 
+%&gt; systemctl restart systemd-logind <span style="color:#75715e"># 保存文件，然后重新启动服务</span>
+%&gt; service systemd-logind restart <span style="color:#75715e"># 同上</span>
+</code></pre></div>
+</div>
+<footer id="more">
+<a href='https://alimy.me/post/dev_202104042045/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="https://alimy.me/post/dev_202103151521/" title="阅读全文">部署v1.20版的Kubernetes集群 </a> </h2>
 
 </header>
@@ -539,118 +605,6 @@ ident-char ::= letter | digit | underscore
 </div>
 <footer id="more">
 <a href='https://alimy.me/post/dev_202012071348/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/dev_202012081630/" title="阅读全文">Tg: Current MTProto TL-schema </a> </h2>
-
-</header>
-<div class="summary">
-    <p>Below you will find the current MTProto TL-schema. More detais on <a href="https://alimy.me/post/dev_202012071315/">TL</a>.</p>
-<pre><code>int ? = Int;
-long ? = Long;
-double ? = Double;
-string ? = String;
-
-vector {t:Type} # [ t ] = Vector t;
-
-int128 4*[ int ] = Int128;
-int256 8*[ int ] = Int256;
-
-resPQ#05162463 nonce:int128 server_nonce:int128 pq:bytes server_public_key_fingerprints:Vector&lt;long&gt; = ResPQ;
-
-p_q_inner_data#83c95aec pq:bytes p:bytes q:bytes nonce:int128 server_nonce:int128 new_nonce:int256 = P_Q_inner_data;
-
-server_DH_params_fail#79cb045d nonce:int128 server_nonce:int128 new_nonce_hash:int128 = Server_DH_Params;
-server_DH_params_ok#d0e8075c nonce:int128 server_nonce:int128 encrypted_answer:bytes = Server_DH_Params;
-
-server_DH_inner_data#b5890dba nonce:int128 server_nonce:int128 g:int dh_prime:bytes g_a:bytes server_time:int = Server_DH_inner_data;
-
-client_DH_inner_data#6643b654 nonce:int128 server_nonce:int128 retry_id:long g_b:bytes = Client_DH_Inner_Data;
-
-dh_gen_ok#3bcbf734 nonce:int128 server_nonce:int128 new_nonce_hash1:int128 = Set_client_DH_params_answer;
-dh_gen_retry#46dc1fb9 nonce:int128 server_nonce:int128 new_nonce_hash2:int128 = Set_client_DH_params_answer;
-dh_gen_fail#a69dae02 nonce:int128 server_nonce:int128 new_nonce_hash3:int128 = Set_client_DH_params_answer;
-
-rpc_result#f35c6d01 req_msg_id:long result:Object = RpcResult;
-rpc_error#2144ca19 error_code:int error_message:string = RpcError;
-
-rpc_answer_unknown#5e2ad36e = RpcDropAnswer;
-rpc_answer_dropped_running#cd78e586 = RpcDropAnswer;
-rpc_answer_dropped#a43ad8b7 msg_id:long seq_no:int bytes:int = RpcDropAnswer;
-
-future_salt#0949d9dc valid_since:int valid_until:int salt:long = FutureSalt;
-future_salts#ae500895 req_msg_id:long now:int salts:vector&lt;future_salt&gt; = FutureSalts;
-
-pong#347773c5 msg_id:long ping_id:long = Pong;
-
-destroy_session_ok#e22045fc session_id:long = DestroySessionRes;
-destroy_session_none#62d350c9 session_id:long = DestroySessionRes;
-
-new_session_created#9ec20908 first_msg_id:long unique_id:long server_salt:long = NewSession;
-
-msg_container#73f1f8dc messages:vector&lt;%Message&gt; = MessageContainer;
-message msg_id:long seqno:int bytes:int body:Object = Message;
-msg_copy#e06046b2 orig_message:Message = MessageCopy;
-
-gzip_packed#3072cfa1 packed_data:bytes = Object;
-
-msgs_ack#62d6b459 msg_ids:Vector&lt;long&gt; = MsgsAck;
-
-bad_msg_notification#a7eff811 bad_msg_id:long bad_msg_seqno:int error_code:int = BadMsgNotification;
-bad_server_salt#edab447b bad_msg_id:long bad_msg_seqno:int error_code:int new_server_salt:long = BadMsgNotification;
-
-msg_resend_req#7d861a08 msg_ids:Vector&lt;long&gt; = MsgResendReq;
-msgs_state_req#da69fb52 msg_ids:Vector&lt;long&gt; = MsgsStateReq;
-msgs_state_info#04deb57d req_msg_id:long info:bytes = MsgsStateInfo;
-msgs_all_info#8cc0d131 msg_ids:Vector&lt;long&gt; info:bytes = MsgsAllInfo;
-msg_detailed_info#276d3ec6 msg_id:long answer_msg_id:long bytes:int status:int = MsgDetailedInfo;
-msg_new_detailed_info#809db6df answer_msg_id:long bytes:int status:int = MsgDetailedInfo;
-
----functions---
-
-req_pq#60469778 nonce:int128 = ResPQ;
-
-req_DH_params#d712e4be nonce:int128 server_nonce:int128 p:bytes q:bytes public_key_fingerprint:long encrypted_data:bytes = Server_DH_Params;
-
-set_client_DH_params#f5045f1f nonce:int128 server_nonce:int128 encrypted_data:bytes = Set_client_DH_params_answer;
-
-rpc_drop_answer#58e4a740 req_msg_id:long = RpcDropAnswer;
-get_future_salts#b921bd04 num:int = FutureSalts;
-ping#7abe77ec ping_id:long = Pong;
-ping_delay_disconnect#f3427b8c ping_id:long disconnect_delay:int = Pong;
-destroy_session#e7512126 session_id:long = DestroySessionRes;
-
-http_wait#9299359f max_delay:int wait_after:int max_wait:int = HttpWait;
-</code></pre>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/dev_202012081630/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/dev_202012071337/" title="阅读全文">Tg: Service Messages </a> </h2>
-
-</header>
-<div class="summary">
-    <h4 id="response-to-an-rpc-query">Response to an RPC query</h4>
-<p>A response to an RPC query is normally wrapped as follows:</p>
-<pre><code>rpc_result#f35c6d01 req_msg_id:long result:Object = RpcResult;
-</code></pre><p>Here req_msg_id is the identifier of the message sent by the other party and containing an RPC query. This way, the recipient knows that the result is a response to the specific RPC query in question. At the same time, this response serves as acknowledgment of the other party’s receipt of the req_msg_id message.</p>
-<p>Note that the response to an RPC query must also be acknowledged. Most frequently, this coincides with the transmission of the next message (which may have a container attached to it carrying a service message with the acknowledgment).</p>
-<h4 id="rpc-error">RPC Error</h4>
-<p>The result field returned in response to any RPC query may also contain an error message in the following format:</p>
-<pre><code>rpc_error#2144ca19 error_code:int error_message:string = RpcError;
-</code></pre>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/dev_202012071337/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
 </footer>
 </article>
 

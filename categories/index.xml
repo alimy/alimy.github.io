@@ -6,11 +6,20 @@
     <description>Recent content in Categories on 北 野</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Mon, 19 Dec 2022 10:32:00 +0800</lastBuildDate><atom:link href="https://alimy.me/categories/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 01 Feb 2023 19:48:00 +0800</lastBuildDate><atom:link href="https://alimy.me/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>FAQs</title>
+      <link>https://alimy.me/categories/faqs/</link>
+      <pubDate>Wed, 01 Feb 2023 19:48:00 +0800</pubDate>
+      
+      <guid>https://alimy.me/categories/faqs/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>Development</title>
       <link>https://alimy.me/categories/development/</link>
-      <pubDate>Mon, 19 Dec 2022 10:32:00 +0800</pubDate>
+      <pubDate>Mon, 16 Jan 2023 09:06:00 +0800</pubDate>
       
       <guid>https://alimy.me/categories/development/</guid>
       <description></description>
