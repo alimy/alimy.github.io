@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Other on 北 野</title>
+    <title>Other on 北野</title>
     <link>https://alimy.me/categories/other/</link>
-    <description>Recent content in Other on 北 野</description>
+    <description>Recent content in Other on 北野</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Sat, 26 Feb 2022 09:52:00 +0800</lastBuildDate><atom:link href="https://alimy.me/categories/other/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 10 Feb 2023 06:16:00 +0800</lastBuildDate><atom:link href="https://alimy.me/categories/other/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>MacBook Pro清灰散热处理</title>
+      <link>https://alimy.me/post/etc_202302100616/</link>
+      <pubDate>Fri, 10 Feb 2023 06:16:00 +0800</pubDate>
+      
+      <guid>https://alimy.me/post/etc_202302100616/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;https://alimy.me/images/post/20230210061600.webp&#34; alt=&#34;&#34;&gt;
+Mac用了几年，明显感觉散热不佳，于是对Mac做了一次彻底的拆机清灰。下面就对详细讲一下拆机清灰的过程。&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>战城南——李白</title>
       <link>https://alimy.me/post/arc_202202260952/</link>

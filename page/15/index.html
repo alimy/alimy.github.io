@@ -6,7 +6,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-  <title> 北 野 &middot; 北 野 </title>
+  <title> 北野 &middot; 糊涂小栈 </title>
   
   <link rel="stylesheet" type="text/css" href="https://alimy.me/css/uno.css" />
   <link rel="stylesheet" type="text/css" href="https://alimy.me/css/lightGallery.css" />
@@ -237,6 +237,7 @@
     }
   </style>
 </head>
+
     <body>
         <div id="scriptHeader">
     <span class="mobile btn-mobile-menu">
@@ -252,9 +253,9 @@
     <div class="panel-main">
         <div class="panel-main__inner panel-inverted">
             <div class="panel-main__content"> 
-                <a href="https://alimy.me/"> <img src="https://alimy.me/images/logo.jpg" width="142" height="142" alt="北 野 logo" class="panel-cover__logo logo" /> </a> 
+                <a href="https://alimy.me/"> <img src="https://alimy.me/images/logo.jpg" width="142" height="142" alt="北野 logo" class="panel-cover__logo logo" /> </a> 
                 <h1 class="panel-cover__title panel-title">
-                    <a href="https://alimy.me/">北 野</a>
+                    <a href="https://alimy.me/">北野</a>
                 </h1>
                 <hr class="panel-cover__divider" />
                 <p class="panel-cover__description">  糊涂小栈  </p>
@@ -302,9 +303,9 @@
         <div class="panel-main">
             <div class="panel-main__inner panel-inverted">
                 <div class="panel-main__content"> 
-                    <a href="https://alimy.me/"> <img src="https://alimy.me/images/logo.jpg" width="80" alt="北 野 logo" class="panel-cover__logo logo" /> </a> 
+                    <a href="https://alimy.me/"> <img src="https://alimy.me/images/logo.jpg" width="80" alt="北野 logo" class="panel-cover__logo logo" /> </a> 
                     <h1 class="panel-cover__title panel-title">
-                        <a href="https://alimy.me/">北 野</a>
+                        <a href="https://alimy.me/">北野</a>
                     </h1>
                     <hr class="panel-cover__divider" />
                     <p class="panel-cover__description">  糊涂小栈  </p>
@@ -342,6 +343,23 @@
             <div class="content-wrapper__inner">
                 <section id="main">
                     <div>
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="https://alimy.me/post/dev_201603081411/" title="阅读全文">XStream: Java to XML and Back </a> </h2>
+
+</header>
+<div class="summary">
+    <h3 id="the-problem-statement">The Problem Statement</h3>
+<p>XStream can be used to convert a Java Object to XML and back. This tutorial aims to create a java representation of the BBC RSS. We will start with a Simple java class and gradually start adding complexity to it so that it can be converted to the BBC RSS. Note that if you are looking at a way to parse an XML, it would be a good idea to first build a java class that XStream can convert to the required XML. XStream can then use the same class to deserialize the XML. First, have a look at the <a href="http://feeds.bbci.co.uk/news/technology/rss.xml?edition=int" title="BBC RSS">BBC RSS</a>. Your browser would have formatted it to html so look at the source to see the XML. The parent element is &lsquo;rss&rsquo;. It has a child element called &lsquo;channel&rsquo;. The &lsquo;channel&rsquo; has some properties (title, link, image etc) and a list of news &lsquo;item&rsquo;(s). Each &lsquo;item&rsquo; has properties set on it (title, description etc). The aim is to create a Java class that XStream can convert to the BBC RSS.</p>
+<h3 id="creating-an-xstream-instance">Creating an XStream Instance</h3>
+<p>The first step is to create an instance of com.thoughtworks.xstream.XStream. This class is a facade to the XStream API and provides all major functionalities. If this class does not solve your problem then you could directly call the API methods. After obtaining the instance of XStream use the fromXML method to convert the XML to a java object. Note that creating an XStream instance is an expensive operation. It is therefore advisable to create a proper instance once and then reuse it for multiple calls (even in parallel). The setup is not threadsafe but any subsequent marshalling/unmarshalling is threadsafe.</p>
+</div>
+<footer id="more">
+<a href='https://alimy.me/post/dev_201603081411/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
                         
                             <article class="post panel-wrapper">
 <header>
@@ -497,20 +515,6 @@ public class Example {
 </article>
 
                         
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/art_201601141212/" title="阅读全文">梦里水乡 </a> </h2>
-
-</header>
-<div class="summary">
-    <p><a href="https://alimy.me/images/post/20160125165500.jpg" title="点击查看大图"><img src="https://alimy.me/images/post/20160125165500.webp" alt="图片加载中&hellip;请使用支持Webp的浏览器加速查看"></a></p>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/art_201601141212/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
                     </div>
                     </br>
                     
@@ -559,8 +563,9 @@ public class Example {
 </div>
 
             <footer id="copyright">
-  <p>&copy;2015-2022 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved.</p>
+  <p>&copy;2015-2023 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">北野 -  Michael Li</a> All rights reserved.</p>
 </footer>
+
             </div>
         </div>
         <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){

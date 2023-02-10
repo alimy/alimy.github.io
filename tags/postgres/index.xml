@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>postgres on 北 野</title>
+    <title>postgres on 北野</title>
     <link>https://alimy.me/tags/postgres/</link>
-    <description>Recent content in postgres on 北 野</description>
+    <description>Recent content in postgres on 北野</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
     <lastBuildDate>Sat, 05 Mar 2022 14:10:00 +0800</lastBuildDate><atom:link href="https://alimy.me/tags/postgres/index.xml" rel="self" type="application/rss+xml" />

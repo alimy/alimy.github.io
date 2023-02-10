@@ -6,7 +6,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-  <title> 北 野 &middot; 北 野 </title>
+  <title> 北野 &middot; 糊涂小栈 </title>
   
   <link rel="stylesheet" type="text/css" href="https://alimy.me/css/uno.css" />
   <link rel="stylesheet" type="text/css" href="https://alimy.me/css/lightGallery.css" />
@@ -237,6 +237,7 @@
     }
   </style>
 </head>
+
     <body>
         <div id="scriptHeader">
     <span class="mobile btn-mobile-menu">
@@ -252,9 +253,9 @@
     <div class="panel-main">
         <div class="panel-main__inner panel-inverted">
             <div class="panel-main__content"> 
-                <a href="https://alimy.me/"> <img src="https://alimy.me/images/logo.jpg" width="142" height="142" alt="北 野 logo" class="panel-cover__logo logo" /> </a> 
+                <a href="https://alimy.me/"> <img src="https://alimy.me/images/logo.jpg" width="142" height="142" alt="北野 logo" class="panel-cover__logo logo" /> </a> 
                 <h1 class="panel-cover__title panel-title">
-                    <a href="https://alimy.me/">北 野</a>
+                    <a href="https://alimy.me/">北野</a>
                 </h1>
                 <hr class="panel-cover__divider" />
                 <p class="panel-cover__description">  糊涂小栈  </p>
@@ -302,9 +303,9 @@
         <div class="panel-main">
             <div class="panel-main__inner panel-inverted">
                 <div class="panel-main__content"> 
-                    <a href="https://alimy.me/"> <img src="https://alimy.me/images/logo.jpg" width="80" alt="北 野 logo" class="panel-cover__logo logo" /> </a> 
+                    <a href="https://alimy.me/"> <img src="https://alimy.me/images/logo.jpg" width="80" alt="北野 logo" class="panel-cover__logo logo" /> </a> 
                     <h1 class="panel-cover__title panel-title">
-                        <a href="https://alimy.me/">北 野</a>
+                        <a href="https://alimy.me/">北野</a>
                     </h1>
                     <hr class="panel-cover__divider" />
                     <p class="panel-cover__description">  糊涂小栈  </p>
@@ -342,6 +343,34 @@
             <div class="content-wrapper__inner">
                 <section id="main">
                     <div>
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="https://alimy.me/post/dev_202001100425/" title="阅读全文">Rust系统环境变量配置 </a> </h2>
+
+</header>
+<div class="summary">
+    <p>国内有些地区访问Rustup的服务器及registry(@github)不太顺畅，这里介绍配置中科大的Rust镜像。</p>
+<h4 id="科大-rust-crates-镜像">科大 Rust Crates 镜像</h4>
+<p>在 $HOME/.cargo/config 中添加如下内容</p>
+<pre><code>[registry]
+index = &quot;git://mirrors.ustc.edu.cn/crates.io-index&quot;
+</code></pre><p>如果所处的环境中不允许使用 git 协议, 可以把上述地址改为</p>
+<pre><code>index = &quot;http://mirrors.ustc.edu.cn/crates.io-index&quot;
+</code></pre><p>同步频率为每两个小时更新一次.</p>
+<p>如果 cargo 版本为 0.13.0 或以上, 需要更改 $HOME/.cargo/config 为以下内容:</p>
+<pre><code>[source.crates-io]
+registry = &quot;https://github.com/rust-lang/crates.io-index&quot;
+replace-with = 'ustc'
+[source.ustc]
+registry = &quot;git://mirrors.ustc.edu.cn/crates.io-index&quot;
+</code></pre>
+</div>
+<footer id="more">
+<a href='https://alimy.me/post/dev_202001100425/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
                         
                             <article class="post panel-wrapper">
 <header>
@@ -618,20 +647,6 @@ implementations (open source or commercial) if you&rsquo;d like to be listed on 
 </article>
 
                         
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/art_201903151200/" title="阅读全文">熊猫人 </a> </h2>
-
-</header>
-<div class="summary">
-    <p><a href="https://alimy.me/images/post/20190315120000.webp" title="点击查看大图"><img src="https://alimy.me/images/post/20190315120000.webp" alt="图片加载中&hellip;请使用支持Webp的浏览器加速查看"></a></p>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/art_201903151200/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
                     </div>
                     </br>
                     
@@ -677,8 +692,9 @@ implementations (open source or commercial) if you&rsquo;d like to be listed on 
 </div>
 
             <footer id="copyright">
-  <p>&copy;2015-2022 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved.</p>
+  <p>&copy;2015-2023 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">北野 -  Michael Li</a> All rights reserved.</p>
 </footer>
+
             </div>
         </div>
         <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){

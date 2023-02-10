@@ -6,7 +6,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-  <title> 北 野 &middot; 北 野 </title>
+  <title> 北野 &middot; 糊涂小栈 </title>
   
   <link rel="stylesheet" type="text/css" href="https://alimy.me/css/uno.css" />
   <link rel="stylesheet" type="text/css" href="https://alimy.me/css/lightGallery.css" />
@@ -237,6 +237,7 @@
     }
   </style>
 </head>
+
     <body>
         <div id="scriptHeader">
     <span class="mobile btn-mobile-menu">
@@ -252,9 +253,9 @@
     <div class="panel-main">
         <div class="panel-main__inner panel-inverted">
             <div class="panel-main__content"> 
-                <a href="https://alimy.me/"> <img src="https://alimy.me/images/logo.jpg" width="142" height="142" alt="北 野 logo" class="panel-cover__logo logo" /> </a> 
+                <a href="https://alimy.me/"> <img src="https://alimy.me/images/logo.jpg" width="142" height="142" alt="北野 logo" class="panel-cover__logo logo" /> </a> 
                 <h1 class="panel-cover__title panel-title">
-                    <a href="https://alimy.me/">北 野</a>
+                    <a href="https://alimy.me/">北野</a>
                 </h1>
                 <hr class="panel-cover__divider" />
                 <p class="panel-cover__description">  糊涂小栈  </p>
@@ -302,9 +303,9 @@
         <div class="panel-main">
             <div class="panel-main__inner panel-inverted">
                 <div class="panel-main__content"> 
-                    <a href="https://alimy.me/"> <img src="https://alimy.me/images/logo.jpg" width="80" alt="北 野 logo" class="panel-cover__logo logo" /> </a> 
+                    <a href="https://alimy.me/"> <img src="https://alimy.me/images/logo.jpg" width="80" alt="北野 logo" class="panel-cover__logo logo" /> </a> 
                     <h1 class="panel-cover__title panel-title">
-                        <a href="https://alimy.me/">北 野</a>
+                        <a href="https://alimy.me/">北野</a>
                     </h1>
                     <hr class="panel-cover__divider" />
                     <p class="panel-cover__description">  糊涂小栈  </p>
@@ -342,6 +343,57 @@
             <div class="content-wrapper__inner">
                 <section id="main">
                     <div>
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="https://alimy.me/post/dev_201603112055/" title="阅读全文">Jackson: Json data binding filters </a> </h2>
+
+</header>
+<div class="summary">
+    <p>Jackson provides an effective an efficient way to bind json to POJOs. However, at times, certain properties may need to be ignored while converting a json to java ojbect and a java object to json string. Jackson provides three ways to filter properties.</p>
+<ol>
+<li>@JsonIgnoreProperties- This annotation can be used at the type level to ignore json properties. In the example below we ignore the &lsquo;tags&rsquo; property from the albums dataset.</li>
+<li>@JsonIgnore - This annotation can be set at property level to ignore certain properties.</li>
+<li>Using Custom filters</li>
+</ol>
+<p>The example below shows method 1 and 2. Also note the use of the @JsonAutoDetect annotation.</p>
+<h3 id="data-binding-filters-example">Data Binding Filters Example</h3>
+<h4 id="databinding">Databinding</h4>
+<pre><code>package com.studytrails.json.jackson;
+
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+// Do not use fields to autodetect. use the public getter methods to autodetect properties
+@JsonAutoDetect(fieldVisibility = Visibility.NONE, getterVisibility = Visibility.PUBLIC_ONLY)
+public class AlbumsFilter {
+
+    private String title;
+    private DatasetFilter[] datasetFilter;
+    public String total_pages;
+
+    protected String getTotal_pages() {
+        return total_pages;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    // this getter method is for the 'dataset' property
+    @JsonProperty(&quot;dataset&quot;)
+    public DatasetFilter[] getDatasetFilter() {
+        return datasetFilter;
+    }
+}
+</code></pre>
+</div>
+<footer id="more">
+<a href='https://alimy.me/post/dev_201603112055/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
                         
                             <article class="post panel-wrapper">
 <header>
@@ -560,21 +612,6 @@ public class XStreamTransformationExample {
 </article>
 
                         
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/dev_201603092115/" title="阅读全文">XStream: Json to Java </a> </h2>
-
-</header>
-<div class="summary">
-    <p>XStream can also be used with JSON. XStream provides two drivers : a JsonHierarchicalStreamDriver and a JettisonMappedXmlDriver. The JsonHierarchicalStreamDriver can be used to write a JSON string but cannot deserialize a JSON. JettisonMappedXmlDriver can be used to deserialize a JSON but it introduces an additional dependency. In this example we deserialize a json string into a java object.</p>
-<p>Note: The mapping from Java to JSON (and back) is limited, since not anything can be expressed in JSON as with XML. It works quite well for simple objects, but one should not expect wonders. Additionally XStream supports only Jettison 1.0.1. Any other version will not work correctly (even newer ones).</p>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/dev_201603092115/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
                     </div>
                     </br>
                     
@@ -623,8 +660,9 @@ public class XStreamTransformationExample {
 </div>
 
             <footer id="copyright">
-  <p>&copy;2015-2022 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">Alimy</a> All rights reserved.</p>
+  <p>&copy;2015-2023 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">北野 -  Michael Li</a> All rights reserved.</p>
 </footer>
+
             </div>
         </div>
         <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
