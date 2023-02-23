@@ -346,6 +346,23 @@
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="https://alimy.me/post/ark_202105221307/" title="阅读全文">袁隆平院士给妈妈的信《妈妈，稻子熟了》 </a> </h2>
+
+</header>
+<div class="summary">
+    <p>稻子熟了，妈妈，我来看您了。</p>
+<p>本来想一个人静静地陪您说会话，安江的乡亲们实在是太热情了，天这么热，他们还一直陪着，谢谢他们了。</p>
+<p>妈妈，您在安江，我在长沙，隔得很远很远。我在梦里总是想着您，想着安江这个地方。</p>
+<p><a href="https://alimy.me/images/post/20210522130700.jpg"><img src="https://alimy.me/images/post/20210522130700.jpg" alt=""></a></p>
+</div>
+<footer id="more">
+<a href='https://alimy.me/post/ark_202105221307/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="https://alimy.me/post/dev_202105220948/" title="阅读全文">解决GitHub官网打不开问题 </a> </h2>
 
 </header>
@@ -581,45 +598,6 @@ HandleLidSwitch<span style="color:#f92672">=</span>ignore
 </div>
 <footer id="more">
 <a href='https://alimy.me/post/dev_202101191738/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/dev_202101181248/" title="阅读全文">Kotlin: 几种设计模式 </a> </h2>
-
-</header>
-<div class="summary">
-    <h4 id="创建型模式">创建型模式</h4>
-<p>原始模型</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Computer</span> {
-	<span style="color:#66d9ef">val</span> cpu: String
-}
-
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PC</span>(<span style="color:#66d9ef">override</span> <span style="color:#66d9ef">val</span> cpu: String = <span style="color:#e6db74">&#34;Core&#34;</span>): Computer
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Server</span>(<span style="color:#66d9ef">override</span> <span style="color:#66d9ef">val</span> cpu: String = <span style="color:#e6db74">&#34;Xeon&#34;</span>): Computer
-
-<span style="color:#66d9ef">enum</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ComputerType</span> {
-	PC, Server
-}
-
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ComputerFactory</span> {
-	<span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">produce</span>(type: ComputerType): Computer {
-		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">when</span>(type) {
-			ComputerType.PC <span style="color:#f92672">-&gt;</span> PC()
-			ComputerType.Server <span style="color:#f92672">-&gt;</span> Server()
-		}
-	}
-}
-
-&gt;&gt;&gt; <span style="color:#66d9ef">val</span> comp = ComputerFactory().produce(ComputerType.PC)
-&gt;&gt;&gt; println(comp.cpu)
-Core
-</code></pre></div>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/dev_202101181248/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
 </footer>
 </article>
 
