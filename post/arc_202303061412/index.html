@@ -1,12 +1,11 @@
-    <!DOCTYPE html>
+  <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 
 <head>
-	<meta name="generator" content="Hugo 0.79.0-DEV" />
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-  <title> 北野 &middot; 糊涂小栈 </title>
+  <title> 醉缘靡梦 (节选) &middot; 糊涂小栈 </title>
   
   <link rel="stylesheet" type="text/css" href="https://alimy.me/css/uno.css" />
   <link rel="stylesheet" type="text/css" href="https://alimy.me/css/lightGallery.css" />
@@ -238,17 +237,15 @@
   </style>
 </head>
 
-    <body>
-        <div id="scriptHeader">
+  <body>
+    <div id="scriptHeader">
     <span class="mobile btn-mobile-menu">
             <i class="fa fa-bars btn-mobile-menu__icon"></i>
             <i class="fa fa-times btn-mobile-close__icon hidden"> </i>
     </span>
     <header class="
         
-        
-                panel-cover panel-cover--collapsed
-        
+            panel-cover panel-cover--collapsed
         " >
     <div class="panel-main">
         <div class="panel-main__inner panel-inverted">
@@ -345,233 +342,83 @@
     </header>
 </noscript>
 
-        <div class="content-wrapper">
-            <div class="content-wrapper__inner">
-                <section id="main">
-                    <div>
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/arc_202202260952/" title="阅读全文">战城南——李白 </a> </h2>
-
-</header>
-<div class="summary">
-    <p>　　<strong>去年战，桑干源，今年战，葱河道。</strong></p>
-<p>　　<strong>洗兵条支海上波，放马天山雪中草。</strong></p>
-<p>　　<strong>万里长征战，三军尽衰老。</strong></p>
-<p>　　<strong>匈奴以杀戮为耕作，古来唯见白骨黄沙田。</strong></p>
-<p>　　<strong>秦家筑城避胡处，汉家还有烽火燃。</strong></p>
-<p>　　<strong>烽火燃不息，征战无已时。</strong></p>
-<p>　　<strong>野战格斗死，败马号鸣向天悲。</strong></p>
-<p>　　<strong>乌鸢啄人肠，衔飞上挂枯树枝。</strong></p>
-<p>　　<strong>士卒涂草莽，将军空尔为。</strong></p>
-<p>　　<strong>乃知兵者是凶器，圣人不得已而用之。</strong></p>
-<p><img src="https://alimy.me/images/post/20220226095200.jpeg" alt=""></p>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/arc_202202260952/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/dev_202202231110/" title="阅读全文">Mac通过brew本地安装Postgresql </a> </h2>
-
-</header>
-<div class="summary">
-    <pre><code>%&gt; brew install postgres
-%&gt; psql -version
-%&gt; # 若之前安装过，请确保/usr/local/var路径下无任何postrges相关文件残留
-%&gt; initdb --locale=C -E UTF-8 /usr/local/var/postgres
-
-%&gt; ln -sfv /usr/local/opt/postgresql/*.plist ~/Library/LaunchAgents
-
-%&gt; # 检查server状态，并确认已开启
-%&gt; brew services list
-%&gt; brew services start postgresql
-
-%&gt; # mac上新建用户，设置密码并确认
-%&gt; createuser postgres -P
-
-%&gt; # 删掉默认的postgres库
-%&gt; dropdb postgres
-
-%&gt; # 新建postgres库，若客户端连接报错，有时候需要额外创建跟当前用户同名的库
-%&gt; createdb postgres --owner postgres --encoding UTF8 --echo
-
-%&gt; # 进入交互模式
-%&gt; psql -U username -d dbname -h 127.0.0.1
-</code></pre>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/dev_202202231110/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/art_202201151335/" title="阅读全文">一直都很喜欢你 </a> </h2>
-
-</header>
-<div class="summary">
-    <p><a href="https://alimy.me/images/post/20220115133500.png" title="点击查看大图"><img src="https://alimy.me/images/post/20220115133500.png" alt=""></a></p>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/art_202201151335/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/dev_202112031525/" title="阅读全文">Go - SQL实践 </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="标准库sql驱动接口-databasesqldriverhttpsgithubcomgolanggotreemastersrcdatabasesqldriver">标准库SQL驱动接口 (<a href="https://github.com/golang/go/tree/master/src/database/sql/driver">database/sql/driver</a>)</h3>
-<p><img src="https://alimy.me/images/post/20211203152500.png" alt=""></p>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/dev_202112031525/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/dev_202106300750/" title="阅读全文">MySQL 8.0直方图 </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="0-什么是直方图">0. 什么是直方图</h3>
-<p>直方图（Histogram）是数据库提供的一种（索引之外的）基础统计信息，用于描述列上的数据分布情况。它最典型的场景是估算查询谓词的选择率，以便选择合适的执行计划。</p>
-<p>也就是说，某个列可以不创建索引但创建直方图，也可以帮助提升查询效率。
-MySQL 8.0开始支持直方图，这是个很大的进步。</p>
-<p>直方图可以针对某个列记录其数据分布统计信息，例如有个列的值是从1到1万，那么可以利用直方图分成100个桶（bucket），每个桶中统计这1万个值是怎么分布的，以及每个桶中的最大值、最小值、占比等信息。</p>
-<p>虽然可以利用索引优化SQL效率，但索引维护的代价更高，索引要保持更新，而直方图可以按需手动更新。</p>
-<p>索引统计信息也有不可靠的时候，例如存在数据倾斜，或者统计延迟等问题。</p>
-<p>另外，在有需要的时候，可以在每个有需要的列上创建直方图，但却不太可能同时创建多个单列索引，那样代价太高了。</p>
-<p>例如下面这个执行计划：</p>
-<pre><code>[root@yejr.run]&gt; explain select * from t1 where seq = 1234;
-+------+---------------+------+---------+------+--------+----------+-------------+
-| type | possible_keys | key  | key_len | ref  | rows   | filtered | Extra       |
-+------+---------------+------+---------+------+--------+----------+-------------+
-| ALL  | NULL          | NULL | NULL    | NULL | 299876 |    10.00 | Using where |
-+------+---------------+------+---------+------+--------+----------+-------------+
-
-[root@yejr.run]&gt; select * from t1 where seq = 1234;
-Empty set (0.097 sec)
-</code></pre><p>在还没创建直方图之前，seq列上同时也没有索引，这时是全表扫描，注意到 filtered 列的值是10%。</p>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/dev_202106300750/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/art_202106031912/" title="阅读全文">如果有人追你 </a> </h2>
-
-</header>
-<div class="summary">
-    <p><a href="https://alimy.me/images/post/20210603191201.png" title="点击查看大图"><img src="https://alimy.me/images/post/20210603191200.jpg" alt=""></a></p>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/art_202106031912/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/art_202106031910/" title="阅读全文">我爱你，甚于昨日 </a> </h2>
-
-</header>
-<div class="summary">
-    <p><a href="https://alimy.me/images/post/20210603191001.png" title="点击查看大图"><img src="https://alimy.me/images/post/20210603191001.png" alt=""></a></p>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/art_202106031910/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/art_202106031908/" title="阅读全文">甚是爱你 </a> </h2>
-
-</header>
-<div class="summary">
-    <p><a href="https://alimy.me/images/post/20210603190801.png" title="点击查看大图"><img src="https://alimy.me/images/post/20210603190801.png" alt=""></a></p>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/art_202106031908/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/art_202106031905/" title="阅读全文">我是要娶你的！ </a> </h2>
-
-</header>
-<div class="summary">
-    <p><a href="https://alimy.me/images/post/20210603190501.png" title="点击查看大图"><img src="https://alimy.me/images/post/20210603190500.jpg" alt=""></a></p>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/art_202106031905/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                    </div>
-                    </br>
-                    
-                </section>
-                <div class="pages">
-  
-<ul class="pagination">
-  
-  <li class="page-item">
-    <a href="https://alimy.me/" class="page-link" aria-label="Previous"><span aria-hidden="true"><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;&nbsp;Previous</span></a>
-  </li>
-  <li class="page-item">
-    <a class="page-link" href="https://alimy.me/">1</a>
-  </li>
-  <li class="page-item active">
-    <a class="page-link" href="https://alimy.me/page/2/">2</a>
-  </li>
-  <li class="page-item">
-    <a class="page-link" href="https://alimy.me/page/3/">3</a>
-  </li>
-  <li class="page-item disabled">
-    <span aria-hidden="true">&nbsp;&hellip;&nbsp;</span>
-  </li>
-  <li class="page-item">
-    <a class="page-link" href="https://alimy.me/page/18/">18</a>
-  </li>
-  <li class="page-item">
-    <a href="https://alimy.me/page/3/" class="page-link" aria-label="Next">Next&nbsp;&nbsp;<i class="fa fa-arrow-right" aria-hidden="true"></i></a>
-  </li>
-  
-</ul>
+    <div class="content-wrapper">
+      <div class="content-wrapper__inner">
+        <div class="post panel-wrapper">
+            <h2>醉缘靡梦 (节选)</h2>
+          
+          <p><a href="https://alimy.me/images/post/20230306141200.png"><img src="https://alimy.me/images/post/20230306141204.jpg" alt=""></a><br>
+　　很多事情似乎表面看来美丽安详，但这一切不过是虚幻的美丽&hellip;<br>
+　　横世国际地产案，牵涉银行，证券交易，受贿等，而张婉儿的父亲更是首要人物被双规。而我由于涉嫌骗贷违规操作被牵扯在其中。事情我当然十分清楚，横世地产是我一手扶持起来，涉嫌金额十几亿。尽管我自知我没有违法，但追究起责任我实在是脱不了干系，我最少也要在监狱中呆二十年不幸运的话也许会是死刑。警察询问我情况的时候，我什么也没说。只是默默的听这他们拍桌子踢椅子。其实我觉得这样很好笑，但我的表情却也依然如旧，并没有太大变化，冷静，彷徨。最后他们虽然对我用尽了方法，但我依然只有一句：我不知道。刚开始我还是有些担心害怕的，而后来连我自己也相信我是真的不知道，他们也只有放弃。案子从发生到今天也许已经一个月也许已经有两个月，但究竟是多久我已经并不在乎，以后在狱中我有很多时间，那是多漫长的结果。我等待的只能是一个我不愿意见到的判决，一些我不愿意见到的人。十一月三日终于开庭，来了很多人。也包括我的父母，我根本不敢抬头，那是多么羞耻的一件事。张婉儿与几个涉案人员坐在我旁边。<br>
+　　张婉儿，你在你的认罪书中，承认你所有的罪行对吗？<br>
+　　是的！张婉儿的声音让我抬起头，她的眼睛温柔的看这我。眼眶中滚滚的眼泪似乎就要崩泻，她苍老了许多。我只能看这她，我用那种哀伤的眼神看这她。<br>
+　　嫌疑人，还有什么要为自己辩护的吗？自公司成立起，孟云与我们不过是雇佣关系而已&hellip;&hellip;我的眼泪倾泻下来，那一刻是我一生也无法面对的时刻。我看这她，她只是摇了摇头。微微一笑，用手轻轻指了指自己的心。<br>
+　　张婉儿罪名成立，判处死刑，剥夺政治权利终身，缓刑一年&hellip;孟云做为协犯人员判处有期徒刑三年&hellip;当离开法庭的时候，我又一次听到那歇斯底里的哭喊声：孟云，我爱你！<br>
+　　今天的床有些潮湿，也许是因为刚下过雨的原因吧。三年来，看了很多书，也明白了很多道理，知道了自己为什么不成熟，也知道了自己为什么被欺骗，似乎跟我的性格太过与急功尽利有关，也或许我这个对感情的事情无法把握有关。事到如今我也只能这样想而已。<br>
+　　孟云，有人来看你。</p>
+<p>来的人正是苏情，她本来曾经清纯的脸上又一次增添了一些成熟。告诉你两个好消息，婉儿现在改判为终身监禁了。苏情的表情有些失落也有几分欢喜。然后将手中削过的苹果递给我。<br>
+　　那另一个呢？我接过苹果淡淡的问。<br>
+　　我要去法国学艺术。你知道我一直都有这个梦想的。她说到这里的时候，我吃苹果的嘴停顿了一会，在也没说什么。<br>
+　　哦，那恭喜你。<br>
+　　其实是我将公司的帐目交给警方的。我先是一楞，然后没有说话，因为这三年我也想通了很多事情。然后我们只有沉默，没有人继续说下去，只是等待时间的到来。依然是她静静的离开，仿佛她以前那样静静的走进我的生活。<br>
+　　十月，我终于踏上了回家的路，父母已经等待我很长时间我知道那段等待并不短暂，最后我们一家选择离开这里去另一个国家。在我临走的时候我去看望了张婉儿。这是三年来第一次见面，当我见到她时她没有表情，只是呆呆的望在那里。头发竟然有些糟乱，没有一点生机。我没有说话一直静静的陪这她，她也静静的一直陪这我。临别的时候她回头看了我一眼，没有表情，依然呆滞，看到这些我哭了出来，但她竟然笑了&hellip;<br>
+　　许多年后，我独自一人漫步在QUENSSTOWN回忆并记录这段难忘的经历时，我见到了一个熟悉的背影，一个让我无法忘记的背影。她的身边跟着一个大约不到十岁的孩子。<br>
+　　晓云，回来。妈妈的鞋坏了&hellip;快回来。我楞楞的看这，而她拎这那双棕色的高跟鞋转了过来，盯住了我，四目交汇时，她再也把持不住自己…<br>
+　　人生不过短短数十个寒暑，真正重要的却只有一个<strong>情</strong>字。<br>
+　　每一段爱情都是在平凡中发生，却都是那样感人&hellip;当爱情在手中的时候请珍惜爱情&hellip;那样会获得永远的幸福。<br>
+　　而我希望我的一生可以重新来过…</p>
+<hr>
+<p>后记：<br>
+　　此文节选自一部网络小说，小说名字比较敏感，不细说了。记不清是什么时候，反正是老久老久之前，大概是大学那会儿？也是无意间听的广播剧才结识了这部微型小说，当时感觉挺有意思的，许久之后也是有很深的印象。前不久书荒的时候，记起这么一部小说，翻遍全网，终于找到一个略微删减版本，重新看了一遍，味道还是那么醇正。要说为什么费老鼻子劲才找到这部小说，其小说名字就比较那个有成人感，带点鬼魅诱惑，但是其实吧，其内容并不如何成年。作为一个成年人，这么点东西远谈不上那么的有诱惑。结合内容，我给起了个俗一点的名字作为小说名，仅略点题而已。<br>
+　　这部小说我相信知道的人可能不多，那都是在那个盗版横行、管制其松的网络时代，才有可能冒出这么一个有点限制级别的广播剧，当下是没的这个环境了。其实吧小说大致框架很简单，就描述一个小伙子与几个小姑凉的迷糊有点乱的关系逐步演进的过程形成的话本。以小伙子的视角来看，经过的这一切，犹如一场稀里糊涂的梦，谈不上美，至少有点迷糊。从几个女主角的视角来看，其言行可比小伙子成熟多了，但是也感性多于理性。这让我想起了一部美国电影《本能》 人啊，最终还是难逃本能的驱使，或许这才是妥协的本心吧。<br>
+　　情，难以琢磨；缘，妙不可言！</p>
+<p><em>声明：本站是个人开设维护的网站，主要用于收集网络美文、技术文章与原创生活记录等，系孤芳自赏、个人用途，内容如有侵权请联系站长删除。</em></p>
+				<div id="post-tags">
+				  
+				  	
+						  <a href="https://alimy.me/tags/other/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;Other</a>
+						
+						  <a href="https://alimy.me/tags/%E7%BE%8E%E6%96%87/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;美文</a>
+						
+					
+				</div>
+        </div>
+        <div id="post-navigator">
+          <a id="post-navigator-prev" href="https://alimy.me/post/arc_202302231607/" title="上一篇"><i class="fa fa-chevron-left" aria-hidden="true"></i>&nbsp;雪中悍刀行 - 恼姜泥青衣相随 (节选)</a>
+          
+        </div>
+        <div id="post-comments">
+          <h3>Comments</h3>
+          
 
 
-</div>
+<div id="disqus_thread"></div>
 
-            <footer id="copyright">
+<script type="text/javascript">
+  var disqusUsername = "alimy";
+
+  (function() { 
+  var d = document, s = d.createElement('script');
+
+  s.src = '//' + disqusUsername + '.disqus.com/embed.js';
+
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+        <footer id="copyright">
   <p>&copy;2015-2023 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">北野 -  Michael Li</a> All rights reserved.</p>
 </footer>
 
-            </div>
-        </div>
-        <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
+    </div>
+    <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
 if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
 var s=document.getElementsByTagName('script')[0];sc.src='https://alimy.me/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
 WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
 
-    </body>
+  </body>
 </html>
