@@ -1,11 +1,11 @@
-    <!DOCTYPE html>
+  <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-  <title> mysql &middot; 糊涂小栈 </title>
+  <title> 乐观锁和悲观锁的区别 &middot; 糊涂小栈 </title>
   
   <link rel="stylesheet" type="text/css" href="https://alimy.me/css/uno.css" />
   <link rel="stylesheet" type="text/css" href="https://alimy.me/css/lightGallery.css" />
@@ -237,17 +237,15 @@
   </style>
 </head>
 
-    <body>
-        <div id="scriptHeader">
+  <body>
+    <div id="scriptHeader">
     <span class="mobile btn-mobile-menu">
             <i class="fa fa-bars btn-mobile-menu__icon"></i>
             <i class="fa fa-times btn-mobile-close__icon hidden"> </i>
     </span>
     <header class="
         
-        
             panel-cover panel-cover--collapsed
-        
         " >
     <div class="panel-main">
         <div class="panel-main__inner panel-inverted">
@@ -344,74 +342,117 @@
     </header>
 </noscript>
 
-        <div class="content-wrapper">
-            <div class="content-wrapper__inner">
-                <h2>文章列表</h2>
-                
-                <div class="panel-wrapper">
-                <div id="caption">
-                <h3>
-                  2022年 03月
-                  
-                  <span id="list-indicator" title="共1篇文章">1 </span>
-                </h3>
-                </div>
-                <ul id="list">
-                    
-                    <li>
-                        <a href="https://alimy.me/post/dev_202203051410/">MySQL和PostgreSQL的常用语法差异 </a>&nbsp;
-                        <span id="list-date">(Sat, Mar 05, 2022)</span>
-                    </li>
-                    
-                </ul>
-                </div>
-                
-                <div class="panel-wrapper">
-                <div id="caption">
-                <h3>
-                  2021年 06月
-                  
-                  <span id="list-indicator" title="共1篇文章">1 </span>
-                </h3>
-                </div>
-                <ul id="list">
-                    
-                    <li>
-                        <a href="https://alimy.me/post/dev_202106300750/">MySQL 8.0直方图 </a>&nbsp;
-                        <span id="list-date">(Wed, Jun 30, 2021)</span>
-                    </li>
-                    
-                </ul>
-                </div>
-                
-                <div class="panel-wrapper">
-                <div id="caption">
-                <h3>
-                  2021年 03月
-                  
-                  <span id="list-indicator" title="共1篇文章">1 </span>
-                </h3>
-                </div>
-                <ul id="list">
-                    
-                    <li>
-                        <a href="https://alimy.me/post/dev_202303152242/">乐观锁和悲观锁的区别 </a>&nbsp;
-                        <span id="list-date">(Mon, Mar 15, 2021)</span>
-                    </li>
-                    
-                </ul>
-                </div>
-                
-                <footer id="copyright">
+    <div class="content-wrapper">
+      <div class="content-wrapper__inner">
+        <div class="post panel-wrapper">
+            <h2>乐观锁和悲观锁的区别</h2>
+          
+          <h3 id="乐观锁">乐观锁</h3>
+<p>在关系数据库管理系统里，乐观并发控制（又名乐观锁，Optimistic Concurrency Control，缩写 OCC）是一种并发控制的方法。它假设多用户并发的事务在处理时不会彼此互相影响，各事务能够在不产生锁的情况下处理各自影响的那部分数据。在提交数据更新之前，每个事务会先检查在该事务读取数据后，有没有其他事务又修改了该数据。如果其他事务有更新的话，正在提交的事务会进行回滚。乐观事务控制最早是由孔祥重（H.T.Kung）教授提出。</p>
+<h3 id="乐观并发控制的阶段">乐观并发控制的阶段</h3>
+<p>乐观并发控制的事务包括以下阶段：</p>
+<ol>
+<li>读取：事务将数据读入缓存，这时系统会给事务分派一个时间戳。</li>
+<li>校验：事务执行完毕后，进行提交。这时同步校验所有事务，如果事务所读取的数据在读取之后又被其他事务修改，则产生冲突，事务被中断回滚。</li>
+<li>写入：通过校验阶段后，将更新的数据写入数据库。</li>
+</ol>
+<p>乐观并发控制多数用于数据争用不大、冲突较少的环境中，这种环境中，偶尔回滚事务的成本会低于读取数据时锁定数据的成本，因此可以获得比其他并发控制方法更高的吞吐量。</p>
+<p>相对于悲观锁，在对数据库进行处理的时候，乐观锁并不会使用数据库提供的锁机制。一般的实现乐观锁的方式就是记录数据版本。</p>
+<p>数据版本,为数据增加的一个版本标识。当读取数据时，将版本标识的值一同读出，数据每更新一次，同时对版本标识进行更新。当我们提交更新的时候，判断数据库表对应记录的当前版本信息与第一次取出来的版本标识进行比对，如果数据库表当前版本号与第一次取出来的版本标识值相等，则予以更新，否则认为是过期数据。</p>
+<p>实现数据版本有两种方式，第一种是使用版本号，第二种是使用时间戳。 使用版本号实现乐观锁</p>
+<p>使用版本号时，可以在数据初始化时指定一个版本号，每次对数据的更新操作都对版本号执行+1操作。并判断当前版本号是不是该数据的最新的版本号。</p>
+<h3 id="使用版本号实现乐观锁">使用版本号实现乐观锁</h3>
+<p>使用版本号时，可以在数据初始化时指定一个版本号，每次对数据的更新操作都对版本号执行+1操作。并判断当前版本号是不是该数据的最新的版本号。</p>
+<ol>
+<li>查询出商品信息</li>
+</ol>
+<pre><code>select (status,status,version) from t_goods where id=#{id}
+</code></pre><ol start="2">
+<li>
+<p>根据商品信息生成订单</p>
+</li>
+<li>
+<p>修改商品 status 为 2</p>
+</li>
+</ol>
+<pre><code>update t_goods
+set status=2,version=version+1
+where id=#{id} and version=#{version};
+</code></pre><h3 id="优点与不足">优点与不足</h3>
+<p>乐观并发控制相信事务之间的数据竞争（data race）的概率是比较小的，因此尽可能直接做下去，直到提交的时候才去锁定，所以不会产生任何锁和死锁。但如果直接简单这么做，还是有可能会遇到不可预期的结果，例如两个事务都读取了数据库的某一行，经过修改以后写回数据库，这时就遇到了问题。</p>
+<h3 id="悲观锁">悲观锁</h3>
+<p>在关系数据库管理系统里，悲观并发控制（又名”悲观锁”，Pessimistic Concurrency Control，缩写”PCC”）是一种并发控制的方法。它可以阻止一个事务以影响其他用户的方式来修改数据。如果一个事务执行的操作读某行数据应用了锁，那只有当这个事务把锁释放，其他事务才能够执行与该锁冲突的操作。
+悲观并发控制主要用于数据争用激烈的环境，以及发生并发冲突时使用锁保护数据的成本要低于回滚事务的成本的环境中。</p>
+<h3 id="使用">使用</h3>
+<p>MySQL InnoDB 中使用悲观锁</p>
+<p>要使用悲观锁，我们必须关闭mysql数据库的自动提交属性，因为MySQL默认使用autocommit模式，也就是说，当你执行一个更新操作后，MySQL会立刻将结果进行提交。set autocommit=0;</p>
+<pre><code># 0. 开始事务
+begin;/begin work;/start transaction; (三者选一就可以)
+# 1. 查询出商品信息
+select status from t_goods where id=1 for update;
+# 2. 根据商品信息生成订单
+insert into t_orders (id,goods_id) values (null,1);
+# 3. 修改商品 status 为 2
+update t_goods set status=2;
+# 4. 提交事务
+commit;/commit work;
+</code></pre><p>上面的查询语句中，我们使用了 <code>select…for update</code> 的方式，这样就通过开启排他锁的方式实现了悲观锁。此时在 <code>t_goods</code> 表中，id 为 1 的那条数据就被我们锁定了，其它的事务必须等本次事务提交之后才能执行。这样我们可以保证当前的数据不会被其它事务修改。</p>
+<p>上面我们提到，使用 <code>select…for update</code> 会把数据给锁住，不过我们需要注意一些锁的级别，MySQL InnoDB 默认行级锁。行级锁都是基于索引的，如果一条 SQL 语句用不到索引是不会使用行级锁的，会使用表级锁把整张表锁住，这点需要注意。</p>
+<h3 id="优点与不足-1">优点与不足</h3>
+<p>悲观并发控制实际上是<strong>先取锁再访问</strong>的保守策略，为数据处理的安全提供了保证。但是在效率方面，处理加锁的机制会让数据库产生额外的开销，还有增加产生死锁的机会；另外，在只读型事务处理中由于不会产生冲突，也没必要使用锁，这样做只能增加系统负载；还有会降低了并行性，一个事务如果锁定了某行数据，其他事务就必须等待该事务处理完才可以处理那行数</p>
+<h3 id="总结">总结</h3>
+<p>乐观锁适用于多读的应用类型，这样可以提高吞吐量，像数据库如果提供类似于 write_condition 机智的其实都是提供的乐观锁。 相反，如果经常发生冲突，上层应用会不断进行 retry，这样反而降低了性能，所以这种情况下用悲观锁比较合适。</p>
+<hr>
+<p>（备注: 转载自<a href="https://www.wenjiangs.com/article/leguan-suo-beiguan-suo-qubie.html" title="乐观锁和悲观锁的区别">网络</a>）</p>
+<p><em>声明：本站是个人开设维护的网站，主要用于收集网络美文、技术文章与原创生活记录等，系孤芳自赏、个人用途，内容如有侵权请联系站长删除。</em></p>
+				<div id="post-tags">
+				  
+				  	
+						  <a href="https://alimy.me/tags/development/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;development</a>
+						
+						  <a href="https://alimy.me/tags/database/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;database</a>
+						
+						  <a href="https://alimy.me/tags/mysql/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;mysql</a>
+						
+					
+				</div>
+        </div>
+        <div id="post-navigator">
+          <a id="post-navigator-prev" href="https://alimy.me/post/dev_202103151521/" title="上一篇"><i class="fa fa-chevron-left" aria-hidden="true"></i>&nbsp;部署v1.20版的Kubernetes集群</a>
+          <a id="post-navigator-next" href="https://alimy.me/post/dev_202104042045/" title="下一篇">如何在Fedora 33命令行模式下禁止睡眠&nbsp;<i class="fa fa-chevron-right" aria-hidden="true"></i></a>
+        </div>
+        <div id="post-comments">
+          <h3>Comments</h3>
+          
+
+
+<div id="disqus_thread"></div>
+
+<script type="text/javascript">
+  var disqusUsername = "alimy";
+
+  (function() { 
+  var d = document, s = d.createElement('script');
+
+  s.src = '//' + disqusUsername + '.disqus.com/embed.js';
+
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+        <footer id="copyright">
   <p>&copy;2015-2023 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">北野 -  Michael Li</a> All rights reserved.</p>
 </footer>
 
-            </div>
-        </div>
-    </body>
+    </div>
     <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
 if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
 var s=document.getElementsByTagName('script')[0];sc.src='https://alimy.me/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
 WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
 
+  </body>
 </html>
