@@ -450,6 +450,7 @@
 
 <span style="color:#f92672">import</span> (
 	<span style="color:#e6db74">&#34;log&#34;</span>
+	<span style="color:#e6db74">&#34;strings&#34;</span>
 
 	<span style="color:#e6db74">&#34;github.com/alimy/yesql&#34;</span>
 )
@@ -457,6 +458,10 @@
 <span style="color:#75715e">//go:generate go run $GOFILE
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
 	<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;[Yesql] generate code start&#34;</span>)
+	<span style="color:#a6e22e">yesql</span>.<span style="color:#a6e22e">SetDefaultQueryHook</span>(<span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">query</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">yesql</span>.<span style="color:#a6e22e">Query</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">yesql</span>.<span style="color:#a6e22e">Query</span>, <span style="color:#66d9ef">error</span>) {
+		<span style="color:#a6e22e">query</span>.<span style="color:#a6e22e">Query</span> = <span style="color:#a6e22e">strings</span>.<span style="color:#a6e22e">TrimRight</span>(<span style="color:#a6e22e">query</span>.<span style="color:#a6e22e">Query</span>, <span style="color:#e6db74">&#34;;&#34;</span>)
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">query</span>, <span style="color:#66d9ef">nil</span>
+	})
 	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">yesql</span>.<span style="color:#a6e22e">Generate</span>(<span style="color:#e6db74">&#34;yesql.sql&#34;</span>, <span style="color:#e6db74">&#34;auto&#34;</span>, <span style="color:#e6db74">&#34;yesql&#34;</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
 		<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Fatalf</span>(<span style="color:#e6db74">&#34;generate code occurs error: %s&#34;</span>, <span style="color:#a6e22e">err</span>)
 	}
