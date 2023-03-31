@@ -352,6 +352,49 @@
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="https://alimy.me/post/dev_202105220948/" title="阅读全文">解决GitHub官网打不开问题 </a> </h2>
+
+</header>
+<div class="summary">
+    <p>GitHub经常打不开，或者打开特别慢，一种解决方案是 找到官网IP地址、CDN域名IP地址、静态资源IP地址，然后配置本机hosts文件，刷新DNS缓存即可。</p>
+<h3 id="查询三个域名的ip">查询三个域名的IP：</h3>
+<ul>
+<li>
+<p><a href="https://github.com">github.com</a>: <a href="https://github.com.ipaddress.com/">https://github.com.ipaddress.com/</a></p>
+</li>
+<li>
+<p>fastly.net.ipaddress.com: <a href="https://fastly.net.ipaddress.com/github.global.ssl.fastly.net">https://fastly.net.ipaddress.com/github.global.ssl.fastly.net</a></p>
+</li>
+<li>
+<p>assets-cdn.github.com: <a href="https://github.com.ipaddress.com/assets-cdn.github.com">https://github.com.ipaddress.com/assets-cdn.github.com</a></p>
+</li>
+</ul>
+<h3 id="添加获取的对应ip地址到本地hosts文件">添加获取的对应IP地址到本地hosts文件</h3>
+<p>MacOS或Linux环境hosts文件路径<code>/etc/hosts</code> ; Windows环境是<code>C:\Windows\System32\drivers\etc</code>。</p>
+<p>以下是在MacOS或Linux环境下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">% sudo cat <span style="color:#e6db74">&lt;&lt;EOF&gt;&gt;/etc/hosts
+</span><span style="color:#e6db74"># github.com
+</span><span style="color:#e6db74">140.82.113.3 github.com
+</span><span style="color:#e6db74">199.232.69.194 github.global.ssl.fastly.net
+</span><span style="color:#e6db74">185.199.108.153 assets-cdn.github.com
+</span><span style="color:#e6db74">185.199.109.153 assets-cdn.github.com
+</span><span style="color:#e6db74">185.199.110.153 assets-cdn.github.com
+</span><span style="color:#e6db74">185.199.111.153 assets-cdn.github.com
+</span><span style="color:#e6db74">EOF</span>
+</code></pre></div><h3 id="刷新dns">刷新DNS</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">% ipconfig /flushdns <span style="color:#75715e"># in windows</span>
+% sudo systemctl restart network-manager <span style="color:#75715e"># in Linux that use systemd as init</span>
+% sudo killall -HUP mDNSResponder <span style="color:#75715e"># in MacOS</span>
+</code></pre></div>
+</div>
+<footer id="more">
+<a href='https://alimy.me/post/dev_202105220948/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="https://alimy.me/post/dev_202104131126/" title="阅读全文">grpc-go: 客户端与服务器之间双向证书验证通信 </a> </h2>
 
 </header>
@@ -578,24 +621,6 @@ HandleLidSwitch<span style="color:#f92672">=</span>ignore
 </article>
 
                         
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/dev_202101311010/" title="阅读全文">Uber’s Real-Time Push Platform </a> </h2>
-
-</header>
-<div class="summary">
-    <p><img src="https://alimy.me/images/post/20210131101000.png" alt=""></p>
-<p>Uber builds multi-sided marketplaces handling millions of trips every day across the globe. We strive to build real-time experiences for all our users.</p>
-<p>The nature of real time marketplaces make them very lively. Over the course of a trip, there are multiple participants that can modify and view the state of an ongoing trip and need real-time updates. This creates the need to keep all active participants and apps synced with real-time information, whether it’s through pickup time, arrival time, and route lines on the screen, or nearby drivers when you open the app.</p>
-<p>A key dimension of growth was feature explosion in critical user screens and the need for developers across the company to build real-time mobile features in a decentralized way on a shared app screen.</p>
-<p>This article describes how we went from polling for refreshing the app to a gRPC-based bi-directional streaming protocol to build our app experience.</p>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/dev_202101311010/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
                     </div>
                     </br>
                     
@@ -623,7 +648,7 @@ HandleLidSwitch<span style="color:#f92672">=</span>ignore
     <span aria-hidden="true">&nbsp;&hellip;&nbsp;</span>
   </li>
   <li class="page-item">
-    <a class="page-link" href="https://alimy.me/page/18/">18</a>
+    <a class="page-link" href="https://alimy.me/page/19/">19</a>
   </li>
   <li class="page-item">
     <a href="https://alimy.me/page/4/" class="page-link" aria-label="Next">Next&nbsp;&nbsp;<i class="fa fa-arrow-right" aria-hidden="true"></i></a>

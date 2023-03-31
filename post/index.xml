@@ -6,7 +6,68 @@
     <description>Recent content in Posts on 北野</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Fri, 10 Feb 2023 06:16:00 +0800</lastBuildDate><atom:link href="https://alimy.me/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 31 Mar 2023 20:32:00 +0800</lastBuildDate><atom:link href="https://alimy.me/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Yesql - Sqlx的好搭挡</title>
+      <link>https://alimy.me/post/dev_202303312032/</link>
+      <pubDate>Fri, 31 Mar 2023 20:32:00 +0800</pubDate>
+      
+      <guid>https://alimy.me/post/dev_202303312032/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/alimy/yesql&#34;&gt;Yesql&lt;/a&gt; 解析一个SQL文件，提取出查询语句，自动生成对应的Go结构体，实现查询语句与代码分离，方便编写数据库查询逻辑。&lt;/p&gt;
+&lt;h3 id=&#34;安装&#34;&gt;安装&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;go get github.com/alimy/yesql
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;使用-godochttpsgodocorggithubcomalimyyesqlstatussvghttpspkggodevgithubcomalimyyesql&#34;&gt;使用 &lt;a href=&#34;https://pkg.go.dev/github.com/alimy/yesql&#34;&gt;&lt;img src=&#34;https://godoc.org/github.com/alimy/yesql?status.svg&#34; alt=&#34;GoDoc&#34;&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;h4 id=&#34;创建sql文件&#34;&gt;创建sql文件&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- sql file yesql.sql
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;-- name: newest_tags@topic
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- get newest tag information
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; t.id id, t.user_id user_id, t.tag tag, t.quote_num quote_num, u.id, u.nickname, u.username, u.status, u.avatar, u.is_admin 
+&lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tag t &lt;span style=&#34;color:#66d9ef&#34;&gt;JOIN&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;user&lt;/span&gt; u &lt;span style=&#34;color:#66d9ef&#34;&gt;ON&lt;/span&gt; t.user_id &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; u.id 
+&lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; t.is_del &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;AND&lt;/span&gt; t.quote_num &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; 
+&lt;span style=&#34;color:#66d9ef&#34;&gt;ORDER&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;BY&lt;/span&gt; t.id &lt;span style=&#34;color:#66d9ef&#34;&gt;DESC&lt;/span&gt; 
+&lt;span style=&#34;color:#66d9ef&#34;&gt;LIMIT&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;OFFSET&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;;
+
+&lt;span style=&#34;color:#75715e&#34;&gt;-- name: hot_tags@topic
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- get get host tag information
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; t.id id, t.user_id user_id, t.tag tag, t.quote_num quote_num, u.id, u.nickname, u.username, u.status, u.avatar, u.is_admin 
+&lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tag t &lt;span style=&#34;color:#66d9ef&#34;&gt;JOIN&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;user&lt;/span&gt; u &lt;span style=&#34;color:#66d9ef&#34;&gt;ON&lt;/span&gt; t.user_id &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; u.id 
+&lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; t.is_del &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;AND&lt;/span&gt; t.quote_num &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; 
+&lt;span style=&#34;color:#66d9ef&#34;&gt;ORDER&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;BY&lt;/span&gt; t.quote_num &lt;span style=&#34;color:#66d9ef&#34;&gt;DESC&lt;/span&gt; 
+&lt;span style=&#34;color:#66d9ef&#34;&gt;LIMIT&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;OFFSET&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;;
+
+&lt;span style=&#34;color:#75715e&#34;&gt;-- name: tags_by_keyword_a@topic
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- get tags by keyword
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; id, user_id, tag, quote_num &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tag &lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; is_del &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;ORDER&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;BY&lt;/span&gt; quote_num &lt;span style=&#34;color:#66d9ef&#34;&gt;DESC&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;LIMIT&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt;;
+
+&lt;span style=&#34;color:#75715e&#34;&gt;-- name: tags_by_keyword_b@topic
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; id, user_id, tag, quote_num &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tag &lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; is_del &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;AND&lt;/span&gt; tag &lt;span style=&#34;color:#66d9ef&#34;&gt;LIKE&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;ORDER&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;BY&lt;/span&gt; quote_num &lt;span style=&#34;color:#66d9ef&#34;&gt;DESC&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;LIMIT&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt;;
+
+&lt;span style=&#34;color:#75715e&#34;&gt;-- name: insert_tag@topic
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;INSERT&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;INTO&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tag (user_id, tag, created_on, modified_on, quote_num) &lt;span style=&#34;color:#66d9ef&#34;&gt;VALUES&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;);
+
+&lt;span style=&#34;color:#75715e&#34;&gt;-- name: tags_by_id_a@topic
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- clause: in
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; id &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tag &lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; id &lt;span style=&#34;color:#66d9ef&#34;&gt;IN&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;AND&lt;/span&gt; is_del &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;AND&lt;/span&gt; quote_num &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+
+&lt;span style=&#34;color:#75715e&#34;&gt;-- name: tags_by_id_b@topic
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- clause: in
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; id, user_id, tag, quote_num &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tag &lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; id &lt;span style=&#34;color:#66d9ef&#34;&gt;IN&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;);
+
+&lt;span style=&#34;color:#75715e&#34;&gt;-- name: decr_tags_by_id@topic
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- clause: in
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;UPDATE&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tag &lt;span style=&#34;color:#66d9ef&#34;&gt;SET&lt;/span&gt; quote_num&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;quote_num&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, modified_on&lt;span style=&#34;color:#f92672&#34;&gt;=?&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; id &lt;span style=&#34;color:#66d9ef&#34;&gt;IN&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;);
+
+&lt;span style=&#34;color:#75715e&#34;&gt;-- name: tags_for_incr@topic
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- clause: in
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; id, user_id, tag, quote_num &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tag &lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; tag &lt;span style=&#34;color:#66d9ef&#34;&gt;IN&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;);
+
+&lt;span style=&#34;color:#75715e&#34;&gt;-- name: incr_tags_by_id@topic
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- clause: in
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;UPDATE&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tag &lt;span style=&#34;color:#66d9ef&#34;&gt;SET&lt;/span&gt; quote_num&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;quote_num&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, is_del&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, modified_on&lt;span style=&#34;color:#f92672&#34;&gt;=?&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; id &lt;span style=&#34;color:#66d9ef&#34;&gt;IN&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    
     <item>
       <title>MacBook Pro清灰散热处理</title>
       <link>https://alimy.me/post/etc_202302100616/</link>

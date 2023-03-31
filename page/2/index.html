@@ -352,6 +352,20 @@
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="https://alimy.me/post/art_202201151335/" title="阅读全文">一直都很喜欢你 </a> </h2>
+
+</header>
+<div class="summary">
+    <p><a href="https://alimy.me/images/post/20220115133500.png" title="点击查看大图"><img src="https://alimy.me/images/post/20220115133500.png" alt=""></a></p>
+</div>
+<footer id="more">
+<a href='https://alimy.me/post/art_202201151335/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="https://alimy.me/post/dev_202112031525/" title="阅读全文">Go - SQL实践 </a> </h2>
 
 </header>
@@ -484,49 +498,6 @@ Empty set (0.097 sec)
 </article>
 
                         
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/dev_202105220948/" title="阅读全文">解决GitHub官网打不开问题 </a> </h2>
-
-</header>
-<div class="summary">
-    <p>GitHub经常打不开，或者打开特别慢，一种解决方案是 找到官网IP地址、CDN域名IP地址、静态资源IP地址，然后配置本机hosts文件，刷新DNS缓存即可。</p>
-<h3 id="查询三个域名的ip">查询三个域名的IP：</h3>
-<ul>
-<li>
-<p><a href="https://github.com">github.com</a>: <a href="https://github.com.ipaddress.com/">https://github.com.ipaddress.com/</a></p>
-</li>
-<li>
-<p>fastly.net.ipaddress.com: <a href="https://fastly.net.ipaddress.com/github.global.ssl.fastly.net">https://fastly.net.ipaddress.com/github.global.ssl.fastly.net</a></p>
-</li>
-<li>
-<p>assets-cdn.github.com: <a href="https://github.com.ipaddress.com/assets-cdn.github.com">https://github.com.ipaddress.com/assets-cdn.github.com</a></p>
-</li>
-</ul>
-<h3 id="添加获取的对应ip地址到本地hosts文件">添加获取的对应IP地址到本地hosts文件</h3>
-<p>MacOS或Linux环境hosts文件路径<code>/etc/hosts</code> ; Windows环境是<code>C:\Windows\System32\drivers\etc</code>。</p>
-<p>以下是在MacOS或Linux环境下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">% sudo cat <span style="color:#e6db74">&lt;&lt;EOF&gt;&gt;/etc/hosts
-</span><span style="color:#e6db74"># github.com
-</span><span style="color:#e6db74">140.82.113.3 github.com
-</span><span style="color:#e6db74">199.232.69.194 github.global.ssl.fastly.net
-</span><span style="color:#e6db74">185.199.108.153 assets-cdn.github.com
-</span><span style="color:#e6db74">185.199.109.153 assets-cdn.github.com
-</span><span style="color:#e6db74">185.199.110.153 assets-cdn.github.com
-</span><span style="color:#e6db74">185.199.111.153 assets-cdn.github.com
-</span><span style="color:#e6db74">EOF</span>
-</code></pre></div><h3 id="刷新dns">刷新DNS</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">% ipconfig /flushdns <span style="color:#75715e"># in windows</span>
-% sudo systemctl restart network-manager <span style="color:#75715e"># in Linux that use systemd as init</span>
-% sudo killall -HUP mDNSResponder <span style="color:#75715e"># in MacOS</span>
-</code></pre></div>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/dev_202105220948/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
                     </div>
                     </br>
                     
@@ -551,7 +522,7 @@ Empty set (0.097 sec)
     <span aria-hidden="true">&nbsp;&hellip;&nbsp;</span>
   </li>
   <li class="page-item">
-    <a class="page-link" href="https://alimy.me/page/18/">18</a>
+    <a class="page-link" href="https://alimy.me/page/19/">19</a>
   </li>
   <li class="page-item">
     <a href="https://alimy.me/page/3/" class="page-link" aria-label="Next">Next&nbsp;&nbsp;<i class="fa fa-arrow-right" aria-hidden="true"></i></a>
