@@ -9,6 +9,7 @@ theme = "uno"
 [params]
     name = "Alimy"
     logo = "/images/logo.jpg"
+    cover = "/images/cover.jpg"
     description = "糊涂小栈"
     github = "alimy"
     # twitter = "bitriory"
