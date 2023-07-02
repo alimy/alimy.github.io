@@ -349,32 +349,32 @@
         <div class="post panel-wrapper">
             <h2>Hello, Rustacean</h2>
           
-          <pre><code>fn main() {
-   let greetings = [&quot;Hello&quot;, &quot;Hola&quot;, &quot;Bonjour&quot;,
-                    &quot;Ciao&quot;, &quot;こんにちは&quot;, &quot;안녕하세요&quot;,
-                    &quot;Cześć&quot;, &quot;Olá&quot;, &quot;Здравствуйте&quot;,
-                    &quot;Chào bạn&quot;, &quot;您好&quot;, &quot;Hallo&quot;,
-                    &quot;Hej&quot;, &quot;Ahoj&quot;, &quot;سلام&quot;,&quot;สวัสดี&quot;];
+          <pre tabindex="0"><code>fn main() {
+   let greetings = [&#34;Hello&#34;, &#34;Hola&#34;, &#34;Bonjour&#34;,
+                    &#34;Ciao&#34;, &#34;こんにちは&#34;, &#34;안녕하세요&#34;,
+                    &#34;Cześć&#34;, &#34;Olá&#34;, &#34;Здравствуйте&#34;,
+                    &#34;Chào bạn&#34;, &#34;您好&#34;, &#34;Hallo&#34;,
+                    &#34;Hej&#34;, &#34;Ahoj&#34;, &#34;سلام&#34;,&#34;สวัสดี&#34;];
 
    for (num, greeting) in greetings.iter().enumerate() {
-       print!(&quot;{} : &quot;, greeting);
+       print!(&#34;{} : &#34;, greeting);
        match num {
-           0 =&gt;  println!(&quot;This code is editable and runnable!&quot;),
-           1 =&gt;  println!(&quot;¡Este código es editable y ejecutable!&quot;),
-           2 =&gt;  println!(&quot;Ce code est modifiable et exécutable !&quot;),
-           3 =&gt;  println!(&quot;Questo codice è modificabile ed eseguibile!&quot;),
-           4 =&gt;  println!(&quot;このコードは編集して実行出来ます！&quot;),
-           5 =&gt;  println!(&quot;여기에서 코드를 수정하고 실행할 수 있습니다!&quot;),
-           6 =&gt;  println!(&quot;Ten kod można edytować oraz uruchomić!&quot;),
-           7 =&gt;  println!(&quot;Este código é editável e executável!&quot;),
-           8 =&gt;  println!(&quot;Этот код можно отредактировать и запустить!&quot;),
-           9 =&gt;  println!(&quot;Bạn có thể edit và run code trực tiếp!&quot;),
-           10 =&gt; println!(&quot;这段代码是可以编辑并且能够运行的！&quot;),
-           11 =&gt; println!(&quot;Dieser Code kann bearbeitet und ausgeführt werden!&quot;),
-           12 =&gt; println!(&quot;Den här koden kan redigeras och köras!&quot;),
-           13 =&gt; println!(&quot;Tento kód můžete upravit a spustit&quot;),
-           14 =&gt; println!(&quot;این کد قابلیت ویرایش و اجرا دارد!&quot;),
-           15 =&gt; println!(&quot;โค้ดนี้สามารถแก้ไขได้และรันได้&quot;),
+           0 =&gt;  println!(&#34;This code is editable and runnable!&#34;),
+           1 =&gt;  println!(&#34;¡Este código es editable y ejecutable!&#34;),
+           2 =&gt;  println!(&#34;Ce code est modifiable et exécutable !&#34;),
+           3 =&gt;  println!(&#34;Questo codice è modificabile ed eseguibile!&#34;),
+           4 =&gt;  println!(&#34;このコードは編集して実行出来ます！&#34;),
+           5 =&gt;  println!(&#34;여기에서 코드를 수정하고 실행할 수 있습니다!&#34;),
+           6 =&gt;  println!(&#34;Ten kod można edytować oraz uruchomić!&#34;),
+           7 =&gt;  println!(&#34;Este código é editável e executável!&#34;),
+           8 =&gt;  println!(&#34;Этот код можно отредактировать и запустить!&#34;),
+           9 =&gt;  println!(&#34;Bạn có thể edit và run code trực tiếp!&#34;),
+           10 =&gt; println!(&#34;这段代码是可以编辑并且能够运行的！&#34;),
+           11 =&gt; println!(&#34;Dieser Code kann bearbeitet und ausgeführt werden!&#34;),
+           12 =&gt; println!(&#34;Den här koden kan redigeras och köras!&#34;),
+           13 =&gt; println!(&#34;Tento kód můžete upravit a spustit&#34;),
+           14 =&gt; println!(&#34;این کد قابلیت ویرایش و اجرا دارد!&#34;),
+           15 =&gt; println!(&#34;โค้ดนี้สามารถแก้ไขได้และรันได้&#34;),
            _ =&gt;  {},
        }
    }

@@ -361,10 +361,10 @@
 <p>Handling attributes is a little tricky. In this example we provide one way to handle attributes, however, we have a dedicated tutorial to explain how attributes can be handled using XStream.</p>
 <h3 id="namespaces">Namespaces</h3>
 <p>Elements within a namespace can be handled by XStream by using aliases. In this example there is a link within the namespace atom. we just use an alias to read that</p>
-<pre><code>xstream.aliasField(&quot;atom:link&quot;, Channel.class, &quot;a_link&quot;);
+<pre tabindex="0"><code>xstream.aliasField(&#34;atom:link&#34;, Channel.class, &#34;a_link&#34;);
 </code></pre><h3 id="example">Example</h3>
 <p>Lets start building the java example. As a first step create a Java class for the root element i.e. RSS</p>
-<pre><code>package com.studytrails.xml.xstream;
+<pre tabindex="0"><code>package com.studytrails.xml.xstream;
 
 import com.thoughtworks.xstream.XStream;
 
@@ -379,76 +379,76 @@ public class BBCRSSExample {
 class Rss {
 }
 </code></pre><p>The output</p>
-<pre><code>&lt;com.studytrails.xml.xstream.Rss/&gt;
+<pre tabindex="0"><code>&lt;com.studytrails.xml.xstream.Rss/&gt;
 </code></pre><p>We dont want the fully qualified name of the class for Rss. Lets use alias to simplify the name. Add this line after creating the Rss instance</p>
-<pre><code>xStream.alias(&quot;rss&quot;, Rss.class);
+<pre tabindex="0"><code>xStream.alias(&#34;rss&#34;, Rss.class);
 </code></pre><p>The output now becomes</p>
-<pre><code>&lt;rss/&gt;
+<pre tabindex="0"><code>&lt;rss/&gt;
 </code></pre><p>The rss elmenent contains a Channel element. Lets create a Channel class. The channel element is a child of rss element. Create a field in the Rss class to hold an object of type Channel. Add these lines to the main method</p>
-<pre><code>Channel channel = new Channel();
+<pre tabindex="0"><code>Channel channel = new Channel();
 bbcRss.channel = channel;
 </code></pre><p>Here&rsquo;s how the Rss and Channel class looks now</p>
-<pre><code>class Rss {
+<pre tabindex="0"><code>class Rss {
     public Channel channel;
 }
 class Channel {
 }
 </code></pre><p>Here&rsquo;s how the XML looks now</p>
-<pre><code>&lt;rss&gt;
+<pre tabindex="0"><code>&lt;rss&gt;
   &lt;channel/&gt;
 &lt;/rss&gt;
 </code></pre><p>Before we start adding fields to the classes lets look at an important field. The channel element contains this :</p>
-<pre><code>&lt;atom:link href=&quot;http://feeds.bbci.co.uk/news/technology/rss.xml&quot; rel=&quot;self&quot; type=&quot;application/rss+xml&quot;&gt;
+<pre tabindex="0"><code>&lt;atom:link href=&#34;http://feeds.bbci.co.uk/news/technology/rss.xml&#34; rel=&#34;self&#34; type=&#34;application/rss+xml&#34;&gt;
 &lt;/atom:link&gt;
 </code></pre><p>the link element belongs to a different namespace. There is a neat little trick to handle this.
 Create a class called AtomLink.</p>
-<pre><code>class AtomLink {
+<pre tabindex="0"><code>class AtomLink {
     public String href;
     public String rel;
     public String type;
 }
 </code></pre><p>Create an instance of AtomLink in the main class and assign it to a field in the Channel class</p>
-<pre><code>AtomLink atomLink = new AtomLink();
-atomLink.href = &quot;http://feeds.bbci.co.uk/news/technology/rss.xml&quot;;
-atomLink.rel = &quot;self&quot;;
-atomLink.type = &quot;application/rss+xml&quot;;
+<pre tabindex="0"><code>AtomLink atomLink = new AtomLink();
+atomLink.href = &#34;http://feeds.bbci.co.uk/news/technology/rss.xml&#34;;
+atomLink.rel = &#34;self&#34;;
+atomLink.type = &#34;application/rss+xml&#34;;
 channel.a_link = atomLink;
 </code></pre><p>Use alias to give the element a namespace prefix</p>
-<pre><code>xStream.aliasField(&quot;atom:link&quot;, Channel.class, &quot;a_link&quot;);
+<pre tabindex="0"><code>xStream.aliasField(&#34;atom:link&#34;, Channel.class, &#34;a_link&#34;);
 </code></pre><p>and now we want href, rel and type to be attributes instead of child elements, this is how we do that</p>
-<pre><code>xstream.aliasAttribute(AtomLink.class, &quot;type&quot;, &quot;type&quot;);
-xstream.aliasAttribute(AtomLink.class, &quot;href&quot;, &quot;href&quot;);
-xstream.aliasAttribute(AtomLink.class, &quot;rel&quot;, &quot;rel&quot;);
+<pre tabindex="0"><code>xstream.aliasAttribute(AtomLink.class, &#34;type&#34;, &#34;type&#34;);
+xstream.aliasAttribute(AtomLink.class, &#34;href&#34;, &#34;href&#34;);
+xstream.aliasAttribute(AtomLink.class, &#34;rel&#34;, &#34;rel&#34;);
 </code></pre><p>Lets see how our XML looks now</p>
-<pre><code>&lt;rss&gt;
+<pre tabindex="0"><code>&lt;rss&gt;
   &lt;channel&gt;
-    &lt;atom:link href=&quot;http://feeds.bbci.co.uk/news/technology/rss.xml&quot; rel=&quot;self&quot; type=&quot;application/rss+xml&quot;&gt;
+    &lt;atom:link href=&#34;http://feeds.bbci.co.uk/news/technology/rss.xml&#34; rel=&#34;self&#34; type=&#34;application/rss+xml&#34;&gt;
   &lt;/atom:link&gt;&lt;/channel&gt;
 &lt;/rss&gt;
 </code></pre><p>Hope you are enjoying the example. It is important that you understand what&rsquo;s happened so far. Go back to the example if you have any doubt since we will start picking up pace now.
 The next important part is the item. The channel contains a list of items but the items are not included in a parent &lsquo;items&rsquo; element. XStream handles this using a concept called Implicit Collection. Lets see how it works, first lets create the Item class</p>
-<pre><code>class Item {
+<pre tabindex="0"><code>class Item {
     public String title;
 }
 </code></pre><p>create a field in channel class to hold the list of items</p>
-<pre><code>class Channel {
+<pre tabindex="0"><code>class Channel {
     public AtomLink a_link;
     public List&lt;Item&gt; items;
 }
 </code></pre><p>In the main class we create an alias for Item and then add an implicit Collection for items. We add two items to the list and see how the XML looks.</p>
-<pre><code>xStream.alias(&quot;item&quot;, Item.class);
-xStream.addImplicitCollection(Channel.class, &quot;items&quot;);
+<pre tabindex="0"><code>xStream.alias(&#34;item&#34;, Item.class);
+xStream.addImplicitCollection(Channel.class, &#34;items&#34;);
 channel.items = new ArrayList&lt;Item&gt;();
 Item item = new Item();
-item.title=&quot;Item1&quot;;
+item.title=&#34;Item1&#34;;
 Item item2 = new Item();
-item2.title=&quot;Item2&quot;;
+item2.title=&#34;Item2&#34;;
 channel.items.add(item);
 channel.items.add(item2);
 </code></pre><p>The resulting XML</p>
-<pre><code>&lt;rss&gt;
+<pre tabindex="0"><code>&lt;rss&gt;
   &lt;channel&gt;
-    &lt;atom:link href=&quot;http://feeds.bbci.co.uk/news/technology/rss.xml&quot; rel=&quot;self&quot; type=&quot;application/rss+xml&quot;&gt;
+    &lt;atom:link href=&#34;http://feeds.bbci.co.uk/news/technology/rss.xml&#34; rel=&#34;self&#34; type=&#34;application/rss+xml&#34;&gt;
     &lt;item&gt;
       &lt;title&gt;Item1&lt;/title&gt;
     &lt;/item&gt;
@@ -458,7 +458,7 @@ channel.items.add(item2);
   &lt;/atom:link&gt;&lt;/channel&gt;
 &lt;/rss&gt;
 </code></pre><p>Next we add class for the Thumbnail which is part of the item element. An item can have multiple thumbnails. Lets use an array now instead of a Collection just to demonstrate how an ImplicitArray works.</p>
-<pre><code>class Item {
+<pre tabindex="0"><code>class Item {
     public String title;
     public MediaThumbnail[] media_thumbnails;
 }
@@ -470,25 +470,25 @@ class MediaThumbnail {
 
 }
 </code></pre><p>The main method creates the array and adds thumbnails to it</p>
-<pre><code>xStream.addImplicitArray(Item.class, &quot;media_thumbnails&quot;, &quot;media:thumbnail&quot;);
-xStream.aliasAttribute(MediaThumbnail.class, &quot;width&quot;,&quot;width&quot;);
-xStream.aliasAttribute(MediaThumbnail.class, &quot;height&quot;,&quot;height&quot;);
-xStream.aliasAttribute(MediaThumbnail.class, &quot;url&quot;,&quot;url&quot;);
+<pre tabindex="0"><code>xStream.addImplicitArray(Item.class, &#34;media_thumbnails&#34;, &#34;media:thumbnail&#34;);
+xStream.aliasAttribute(MediaThumbnail.class, &#34;width&#34;,&#34;width&#34;);
+xStream.aliasAttribute(MediaThumbnail.class, &#34;height&#34;,&#34;height&#34;);
+xStream.aliasAttribute(MediaThumbnail.class, &#34;url&#34;,&#34;url&#34;);
 
 MediaThumbnail thumbnail = new MediaThumbnail();
 thumbnail.height=100;
 thumbnail.width=50;
-thumbnail.url=&quot;thumbnail_link&quot;;
+thumbnail.url=&#34;thumbnail_link&#34;;
 MediaThumbnail thumbnail2 = new MediaThumbnail();
 thumbnail2.height=100;
 thumbnail2.width=50;
-thumbnail2.url=&quot;thumbnail_link2&quot;;
+thumbnail2.url=&#34;thumbnail_link2&#34;;
 
 item.media_thumbnails = new MediaThumbnail[2];
 item.media_thumbnails[0] = thumbnail;
 item.media_thumbnails[1] = thumbnail2;
 </code></pre><p>We have almost built up the whole class. We can further add the Image class that stores the image in a channel. After creating all classes we start adding the other fields to them. Once the Rss class is ready you can then use it to read the BBC RRS! Heres the complete class and the main method that does the reading.</p>
-<pre><code>package com.studytrails.xml.xstream;
+<pre tabindex="0"><code>package com.studytrails.xml.xstream;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -497,7 +497,7 @@ import com.thoughtworks.xstream.XStream;
 
 public class XStreamDeserializerExample1 {
 
-    private String bbcUrl = &quot;http://feeds.bbci.co.uk/news/technology/rss.xml?edition=int&quot;;
+    private String bbcUrl = &#34;http://feeds.bbci.co.uk/news/technology/rss.xml?edition=int&#34;;
 
     public static void main(String[] args) throws MalformedURLException {
         XStreamDeserializerExample1 serializer = new XStreamDeserializerExample1();
@@ -507,26 +507,26 @@ public class XStreamDeserializerExample1 {
     private void basicSerialization() throws MalformedURLException {
 
         XStream xstream = new XStream();
-        xstream.alias(&quot;rss&quot;, Rss.class);
-        xstream.aliasField(&quot;atom:link&quot;, Channel.class, &quot;a_link&quot;);
-        xstream.alias(&quot;item&quot;, Item.class);
+        xstream.alias(&#34;rss&#34;, Rss.class);
+        xstream.aliasField(&#34;atom:link&#34;, Channel.class, &#34;a_link&#34;);
+        xstream.alias(&#34;item&#34;, Item.class);
 
-        xstream.aliasAttribute(AtomLink.class, &quot;type&quot;, &quot;type&quot;);
-        xstream.aliasAttribute(AtomLink.class, &quot;href&quot;, &quot;href&quot;);
-        xstream.aliasAttribute(AtomLink.class, &quot;rel&quot;, &quot;rel&quot;);
+        xstream.aliasAttribute(AtomLink.class, &#34;type&#34;, &#34;type&#34;);
+        xstream.aliasAttribute(AtomLink.class, &#34;href&#34;, &#34;href&#34;);
+        xstream.aliasAttribute(AtomLink.class, &#34;rel&#34;, &#34;rel&#34;);
 
-        xstream.aliasAttribute(MediaThumbnail.class, &quot;width&quot;,&quot;width&quot;);
-        xstream.aliasAttribute(MediaThumbnail.class, &quot;height&quot;,&quot;height&quot;);
-        xstream.aliasAttribute(MediaThumbnail.class, &quot;url&quot;,&quot;url&quot;);
+        xstream.aliasAttribute(MediaThumbnail.class, &#34;width&#34;,&#34;width&#34;);
+        xstream.aliasAttribute(MediaThumbnail.class, &#34;height&#34;,&#34;height&#34;);
+        xstream.aliasAttribute(MediaThumbnail.class, &#34;url&#34;,&#34;url&#34;);
 
-        xstream.addImplicitCollection(Channel.class, &quot;items&quot;);
-        xstream.addImplicitArray(Item.class, &quot;media_thumbnails&quot;, &quot;media:thumbnail&quot;);
+        xstream.addImplicitCollection(Channel.class, &#34;items&#34;);
+        xstream.addImplicitArray(Item.class, &#34;media_thumbnails&#34;, &#34;media:thumbnail&#34;);
         Rss bbcFeed = (Rss) xstream.fromXML(new URL(bbcUrl));
         // bbcFeed now contains the Java representation of the BBC RSS
     }
 }
 </code></pre><p>The classes</p>
-<pre><code>package com.studytrails.xml.xstream;
+<pre tabindex="0"><code>package com.studytrails.xml.xstream;
 
 import java.util.List;
 

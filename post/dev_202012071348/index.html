@@ -353,7 +353,7 @@
 <h3 id="tokens">Tokens</h3>
 <p>Comments are the same as in C/C++. They are removed by a lexical parser (for example, being replaced by a single space). Whitespace separates tokens. Except for string constants, tokens cannot contain spaces.</p>
 <p>Character classes:</p>
-<pre><code>lc-letter ::= `a` | `b` | ... | `z`
+<pre tabindex="0"><code>lc-letter ::= `a` | `b` | ... | `z`
 uc-letter ::= `A` | `B` | ... | `Z`
 digit ::= `0` | `1` | ... | `9`
 hex-digit ::= digit | `a` | `b` | `c` | `d` | `e` | `f`
@@ -361,14 +361,14 @@ underscore ::= `_`
 letter ::= lc-letter | uc-letter
 ident-char ::= letter | digit | underscore
 </code></pre><p>Simple identifiers and keywords:</p>
-<pre><code>lc-ident ::= lc-letter { ident-char }
+<pre tabindex="0"><code>lc-ident ::= lc-letter { ident-char }
 uc-ident ::= uc-letter { ident-char }
 namespace-ident ::= lc-ident
 lc-ident-ns ::= [ namespace-ident `.` ] lc-ident
 uc-ident-ns ::= [ namespace-ident `.` ] uc-ident
 lc-ident-full ::= lc-ident-ns [ `#` hex-digit *8 ]
 </code></pre><p>Tokens:</p>
-<pre><code>underscore ::= `_`
+<pre tabindex="0"><code>underscore ::= `_`
 colon ::= `:`
 semicolon ::= `;`
 open-par ::= `(`
@@ -401,16 +401,16 @@ Empty-kw ::= `Empty`
 <h2 id="syntax">Syntax</h2>
 <h3 id="general-syntax-of-a-tl-program">General syntax of a TL program</h3>
 <p>Syntactically, a TL program consists of a stream of tokens (separated by spaces, which are ignored at this stage). General program structure:</p>
-<pre><code>TL-program ::= constr-declarations { `---` `functions` `---` fun-declarations | `---` `types` `---` constr-declarations }
+<pre tabindex="0"><code>TL-program ::= constr-declarations { `---` `functions` `---` fun-declarations | `---` `types` `---` constr-declarations }
 </code></pre><p>Here the constructor- and function declarations are nearly identical in their syntax (they are both combinators):</p>
-<pre><code>constr-declarations ::= { declaration }
+<pre tabindex="0"><code>constr-declarations ::= { declaration }
 fun-declarations ::= { declaration }
 </code></pre><p>There are various declarations:</p>
-<pre><code>declaration ::= combinator-decl | partial-app-decl | final-decl
+<pre tabindex="0"><code>declaration ::= combinator-decl | partial-app-decl | final-decl
 </code></pre><p>Before explaining how declarations of combinators, partial applications, and type <code>finalization</code> are given, we will introduce additional syntactical categories:</p>
 <h3 id="syntactical-categories-and-constructions">Syntactical categories and constructions</h3>
 <p>The concept of an expression (<em>expr</em>) is important. There are type expressions (<em>type-expr</em>) and numeric expressions (<em>nat-expr</em>). However, they are defined the same way. Their correctness as type- or numeric expressions is checked when the type of the analyzed expression is checked.</p>
-<pre><code>type-expr ::= expr
+<pre tabindex="0"><code>type-expr ::= expr
 nat-expr ::= expr
 expr ::= { subexpr }
 subexpr ::= term | nat-const `+` subexpr | subexpr `+` nat-const
@@ -423,7 +423,7 @@ nat-term ::= term
 </code></pre><p>Note that writing <code>E = E_1 E_2 ... E_n</code> in the expression for <em>expr</em> means applying the function <em>E_1</em> to the argument <em>E_2</em>, applying the result to <em>E_3</em>, etc. Specifically, <code>E_1 E_2 E_3 = (E_1 E_2) E_3</code>. A solitary <code>#</code> is included in <em>type-ident</em>, because it is actually the identifier for a built-in type (<code>#</code> alias <code>nat</code>).</p>
 <p>The expression <code>E&lt;E_1,...,E_n&gt;</code> is syntactic sugar for <code>(E (E_1) ... (E_n))</code>, i.e. both expressions are transformed into the same internal representation.</p>
 <h3 id="combinator-declarations">Combinator declarations</h3>
-<pre><code>combinator-decl ::= full-combinator-id { opt-args } { args } `=` result-type `;`
+<pre tabindex="0"><code>combinator-decl ::= full-combinator-id { opt-args } { args } `=` result-type `;`
 full-combinator-id ::= lc-ident-full | `_`
 combinator-id ::= lc-ident-ns | `_`
 opt-args ::= `{` var-ident { var-ident } : [excl-mark] type-expr `}`
@@ -439,18 +439,18 @@ result-type ::= boxed-type-ident `&lt;` subexpr { `,` subexpr } `&gt;`
 </code></pre><p>See <a href="https://core.telegram.org/mtproto/TL-combinators">Formal declaration of TL combinators</a> for a description of what exactly this means. Here we will only note that when declaring the type of a combinator’s next argument, only the names of previously arranged (more to the left) arguments of the same combinator may be used as variables, but when declaring the result type you can use all of its parameters (of type <code>Type</code> and <code>#</code>).</p>
 <p>Note that the names of combinators declared in this way may be used in TL itself only as the corresponding bare types. The only combinators that appear in declarations are built-in: <code>O : #</code> and <code>S : # -&gt; #</code>.</p>
 <p>There are also “pseudo-declarations” that are allowed only to declare built-in types (such as <code>int ? = Int;</code>):</p>
-<pre><code>builtin-combinator-decl ::= full-combinator-id `?` `=` boxed-type-ident `;`
+<pre tabindex="0"><code>builtin-combinator-decl ::= full-combinator-id `?` `=` boxed-type-ident `;`
 </code></pre><h3 id="partial-applications-patterns">Partial applications (patterns)</h3>
-<pre><code>partial-app-decl ::= partial-type-app-decl | partial-comb-app-decl
+<pre tabindex="0"><code>partial-app-decl ::= partial-type-app-decl | partial-comb-app-decl
 partial-type-app-decl ::= boxed-type-ident subexpr { subexpr } `;` | boxed-type-ident `&lt;` expr { `,` expr } `&gt;` `;`
 partial-comb-app-decl ::= combinator-id subexpr { subexpr } `;`
 </code></pre><p>See <a href="https://core.telegram.org/mtproto/TL-patterns">Formal declaration of TL patterns</a>.</p>
 <h3 id="type-finalization">Type finalization</h3>
-<pre><code>final-decl ::= `New` boxed-type-ident `;` | `Final` boxed-type-ident `;` | `Empty` boxed-type-ident `;`
+<pre tabindex="0"><code>final-decl ::= `New` boxed-type-ident `;` | `Final` boxed-type-ident `;` | `Empty` boxed-type-ident `;`
 </code></pre><p>This type of declaration means that there must not be any constructor for the indicated type: before the declaration for <code>New</code> and after the declaration for <code>Final</code>. The keyword <code>Empty</code> enables both effects.</p>
 <h3 id="predefined-identifiers">Predefined identifiers</h3>
 <p>Nearly all predefined identifiers may be given using the following schema (usually located in <code>common.tl</code>):</p>
-<pre><code>/////
+<pre tabindex="0"><code>/////
 //
 // Common Types
 //
@@ -494,14 +494,14 @@ unit = Unit;
 <li>Predefined identifier <code>Type</code>: This type signifies the type of all types. It is usually used to specify the types of optional parameters in the constructors of polymorphic types. If strongly desired, it can be used in its own right, but this is very rarely needed in practice.</li>
 <li>Identifier <code>#</code>: This type is used to specify a special type of nonnegative integers in the range from 0 to 2^31-1; its main purpose is the same as that of <code>Type</code>. There are two built-in constructors: <code>O</code> : # and <code>S</code> : # -&gt; # (“null” and “next number”, respectively), which work as if <code>#</code> was defined using the schema</li>
 </ul>
-<pre><code>O = #;
+<pre tabindex="0"><code>O = #;
 S # = #;
 </code></pre><ul>
 <li>Identifier <code>Tuple</code>: Type -&gt; # -&gt; Type denotes a set of the specified number of values of the indicated type. In other words, <em>Tuple X n</em> means “a set of <em>n</em> values of type <em>X</em>&quot;.</li>
 <li>The type<code>Bool</code>, with two constructors <code>boolTrue</code> and <code>boolFalse</code>, is used to transmit Boolean values.</li>
 <li>The constructor-less type <code>False</code> may be used instead of undeclared or invalid types in the construction of a TL schema, because any attempt to (de)serialize a value of type <code>False</code> will produce an error. Usage Example:</li>
 </ul>
-<pre><code>user {flags:#} id:flags.0?string first_name:flags.1?string last_name:flags.2?string reserved3:flags.3?False reserved4:flags.4?False = User flags;
+<pre tabindex="0"><code>user {flags:#} id:flags.0?string first_name:flags.1?string last_name:flags.2?string reserved3:flags.3?False reserved4:flags.4?False = User flags;
 user_present {flags:#} info:%(User flags) = UserInfo flags;
 user_absent {flags:#} = UserInfo flags;
 getUser flags:# id:int = !UserInfo flags;
@@ -510,14 +510,14 @@ getUser flags:# id:int = !UserInfo flags;
 <li>The type <code>True</code> with a single null constructor <code>true</code> plays a role similar to the void type in C/C++. It is especially useful as a bare type <code>%True</code>, alias <code>true</code>, because its serialization has zero length. For example, the <code>first_name:flags.1?string</code> constructor used above is in fact shorthand for (the as-yet unsupported) alternative-type general constructor <code>first_name:(flags.1?string:true)</code>.</li>
 </ul>
 <p>When directly used in a <a href="https://core.telegram.org/mtproto/TL-combinators#conditional-fields">conditional field</a> it may simply indicate the presence (absence) of a certain parameter with void type. If the conditional field exists, the associated parameter will not be populated; the conditional field simply exists and the existance value can be used to perform certain operations, example:</p>
-<pre><code>user {flags:#} id:flags.0?string first_name:flags.1?string last_name:flags.2?string bot:flags.3?true reserved4:flags.4?False = User flags;
+<pre tabindex="0"><code>user {flags:#} id:flags.0?string first_name:flags.1?string last_name:flags.2?string bot:flags.3?true reserved4:flags.4?False = User flags;
 </code></pre><p>If bit 3 of the <code>flags</code> parameter isn&rsquo;t set, the user is a normal user. If bit 3 of the <code>flags</code> parameter is set, this indicates that the specified user is a bot: however, during deserialization, the <code>bot</code> parameter must not be assigned any value, since <code>true</code> is actually a <code>void</code> type.</p>
 <ul>
 <li>The type<code>Unit</code> with a single null constructor <code>Unit</code> is similar to the previous type.</li>
 </ul>
 <h4 id="antlr-definition">ANTLR definition</h4>
 <p>An <a href="https://www.antlr.org/">ANLTR</a> definition of TL grammar can be found <a href="https://gitlab.com/telekram/telekram/-/blob/master/generator/src/commonMain/antlr/TL.g4">here »</a>.</p>
-<pre><code>grammar TL;
+<pre tabindex="0"><code>grammar TL;
 
 /* +++ Tokens +++ */
 
@@ -534,32 +534,32 @@ lc_ident_full : lc_ident_ns (HASH hex_const)? ;
 var_ident : LC_IDENT_ | UC_IDENT_ ;
 
 /* === Tokens === */
-UNDERSCORE : '_' ;
-COLON : ':' ;
-SEMICOLON : ';' ;
-OPEN_PAR : '(' ;
-CLOSE_PAR : ')' ;
-OPEN_BRACKET : '[' ;
-CLOSE_BRACKET : ']' ;
-OPEN_BRACE : '{' ;
-CLOSE_BRACE : '}' ;
-TYPES : '---' WS? 'TYPES' WS? '---' ;
-FUNCTIONS : '---' WS? 'functions' WS? '---' ;
+UNDERSCORE : &#39;_&#39; ;
+COLON : &#39;:&#39; ;
+SEMICOLON : &#39;;&#39; ;
+OPEN_PAR : &#39;(&#39; ;
+CLOSE_PAR : &#39;)&#39; ;
+OPEN_BRACKET : &#39;[&#39; ;
+CLOSE_BRACKET : &#39;]&#39; ;
+OPEN_BRACE : &#39;{&#39; ;
+CLOSE_BRACE : &#39;}&#39; ;
+TYPES : &#39;---&#39; WS? &#39;TYPES&#39; WS? &#39;---&#39; ;
+FUNCTIONS : &#39;---&#39; WS? &#39;functions&#39; WS? &#39;---&#39; ;
 nat_const : NUMBER_ ;
-EQUALS : '=' ;
-HASH : '#' ;
-QUESTION_MARK : '?' ;
-PERCENT : '%' ;
-PLUS : '+' ;
-LANGLE : '&lt;' ;
-RANGLE : '&gt;' ;
-COMMA : ',' ;
-DOT : '.' ;
-ASTERISK : '*' ;
-EXCL_MARK : '!' ;
-FINAL_KW : 'Final' WS ;
-NEW_KW : 'New' WS ;
-EMPTY_KW : 'Empty' WS ;
+EQUALS : &#39;=&#39; ;
+HASH : &#39;#&#39; ;
+QUESTION_MARK : &#39;?&#39; ;
+PERCENT : &#39;%&#39; ;
+PLUS : &#39;+&#39; ;
+LANGLE : &#39;&lt;&#39; ;
+RANGLE : &#39;&gt;&#39; ;
+COMMA : &#39;,&#39; ;
+DOT : &#39;.&#39; ;
+ASTERISK : &#39;*&#39; ;
+EXCL_MARK : &#39;!&#39; ;
+FINAL_KW : &#39;Final&#39; WS ;
+NEW_KW : &#39;New&#39; WS ;
+EMPTY_KW : &#39;Empty&#39; WS ;
 /* +++ Syntax +++ */
 /* === General syntax of a TL program === */
 tl_program : constr_declarations ((TYPES WS? constr_declarations) | (FUNCTIONS WS? fun_declarations))* ;
@@ -633,8 +633,8 @@ tl_file : WS? tl_program WS? EOF ;
 WS : [ \r\n\t]+ ;
 
 /* === Comments === */
-LINE_COMMENT : '//' .+? ('\n'|EOF) -&gt; skip ;
-MULTILINE_COMMENT : '/*' .+? '*/' -&gt; skip ;
+LINE_COMMENT : &#39;//&#39; .+? (&#39;\n&#39;|EOF) -&gt; skip ;
+MULTILINE_COMMENT : &#39;/*&#39; .+? &#39;*/&#39; -&gt; skip ;
 </code></pre><hr>
 <p>(Notice: Origin official document is <a href="https://core.telegram.org/mtproto/TL-formal" title=" TL-formal"><em>Here</em></a>)</p>
 				<div id="post-tags">

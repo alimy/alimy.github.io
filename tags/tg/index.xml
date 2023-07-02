@@ -5,6 +5,7 @@
     <link>https://alimy.me/tags/tg/</link>
     <description>Recent content in tg on 北野</description>
     <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
     <lastBuildDate>Mon, 04 Jan 2021 20:02:00 +0800</lastBuildDate><atom:link href="https://alimy.me/tags/tg/index.xml" rel="self" type="application/rss+xml" />
     <item>
@@ -13,7 +14,7 @@
       <pubDate>Mon, 04 Jan 2021 20:02:00 +0800</pubDate>
       
       <guid>https://alimy.me/post/dev_202101042002/</guid>
-      <description>&lt;pre&gt;&lt;code&gt;---types---
+      <description>&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;---types---
 /////
 //
 // Serialized binary TL-schema in vkext format
@@ -54,7 +55,7 @@ tls.typeExpr name:int flags:int children_num:# children:children_num*[tls.Expr] 
 &lt;h3 id=&#34;tokens&#34;&gt;Tokens&lt;/h3&gt;
 &lt;p&gt;Comments are the same as in C/C++. They are removed by a lexical parser (for example, being replaced by a single space). Whitespace separates tokens. Except for string constants, tokens cannot contain spaces.&lt;/p&gt;
 &lt;p&gt;Character classes:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;lc-letter ::= `a` | `b` | ... | `z`
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;lc-letter ::= `a` | `b` | ... | `z`
 uc-letter ::= `A` | `B` | ... | `Z`
 digit ::= `0` | `1` | ... | `9`
 hex-digit ::= digit | `a` | `b` | `c` | `d` | `e` | `f`
@@ -71,7 +72,7 @@ ident-char ::= letter | digit | underscore
       
       <guid>https://alimy.me/post/dev_202012081630/</guid>
       <description>&lt;p&gt;Below you will find the current MTProto TL-schema. More detais on &lt;a href=&#34;https://alimy.me/post/dev_202012071315/&#34;&gt;TL&lt;/a&gt;.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;int ? = Int;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;int ? = Int;
 long ? = Long;
 double ? = Double;
 string ? = String;
@@ -157,12 +158,12 @@ http_wait#9299359f max_delay:int wait_after:int max_wait:int = HttpWait;
       <guid>https://alimy.me/post/dev_202012071337/</guid>
       <description>&lt;h4 id=&#34;response-to-an-rpc-query&#34;&gt;Response to an RPC query&lt;/h4&gt;
 &lt;p&gt;A response to an RPC query is normally wrapped as follows:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;rpc_result#f35c6d01 req_msg_id:long result:Object = RpcResult;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;rpc_result#f35c6d01 req_msg_id:long result:Object = RpcResult;
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Here req_msg_id is the identifier of the message sent by the other party and containing an RPC query. This way, the recipient knows that the result is a response to the specific RPC query in question. At the same time, this response serves as acknowledgment of the other party’s receipt of the req_msg_id message.&lt;/p&gt;
 &lt;p&gt;Note that the response to an RPC query must also be acknowledged. Most frequently, this coincides with the transmission of the next message (which may have a container attached to it carrying a service message with the acknowledgment).&lt;/p&gt;
 &lt;h4 id=&#34;rpc-error&#34;&gt;RPC Error&lt;/h4&gt;
 &lt;p&gt;The result field returned in response to any RPC query may also contain an error message in the following format:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;rpc_error#2144ca19 error_code:int error_message:string = RpcError;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;rpc_error#2144ca19 error_code:int error_message:string = RpcError;
 &lt;/code&gt;&lt;/pre&gt;</description>
     </item>
     
@@ -181,7 +182,7 @@ http_wait#9299359f max_delay:int wait_after:int max_wait:int = HttpWait;
 &lt;li&gt;Value, in this case, is the same as a string in Alphabet A, i. e. a finite (possibly, empty) sequence of 32-bit numbers. The set of all such sequences is designated as A*.&lt;/li&gt;
 &lt;li&gt;Type, for our purposes, is the same as the set of legal values of a type, i. e. some set T which is a subset of A* and is a prefix code (i. e. no element of T may be a prefix for any other element). Therefore, any sequence from A* can contain no more than one prefix that is a member of T.&lt;/li&gt;
 &lt;li&gt;Value of Type T is any sequence (value) which is a member of T as a subset of A*.&lt;/li&gt;
-&lt;li&gt;Compatible Types are the types T and T’ not intersecting as subsets of A*, such that the union of T and T&#39; is a prefix code.&lt;/li&gt;
+&lt;li&gt;Compatible Types are the types T and T’ not intersecting as subsets of A*, such that the union of T and T&amp;rsquo; is a prefix code.&lt;/li&gt;
 &lt;li&gt;Coordinated System of Types is a finite or infinite set of types T_1, &amp;hellip;, T_n, &amp;hellip;, such that any two types from this set are compatible.&lt;/li&gt;
 &lt;li&gt;Data Type is the same as type in the sense of the definition above.&lt;/li&gt;
 &lt;li&gt;Functional Type is a type describing a function; it is not a type in the sense of the definition above. Initially, we ignore the existence of functional types and describe only the data types; however, in reality, functional types will later be implemented in some extension of this system using the so-called temporary combinators.&lt;/li&gt;
@@ -211,14 +212,14 @@ http_wait#9299359f max_delay:int wait_after:int max_wait:int = HttpWait;
       <description>&lt;p&gt;It should be noted that in the TL schema of the overwhelming majority of API calls the use of polymorphic types is restricted to the Vector type. Nevertheless, having a view of the big picture is still helpful.&lt;/p&gt;
 &lt;h4 id=&#34;ordinary-inductive-types&#34;&gt;Ordinary inductive types&lt;/h4&gt;
 &lt;p&gt;For example, let us consider the IntList, which is defined as follows:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;int_cons hd:int tl:IntList = IntList;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;int_cons hd:int tl:IntList = IntList;
 int_nil = IntList;
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The “int_cons” and “int_nil” constructors as well as the “IntList” type itself are expressions of the following types (writing A : X means that A is an expression of type X):&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;IntList : Type;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;IntList : Type;
 int_cons : int -&amp;gt; IntList -&amp;gt; IntList;
 int_nil : IntList;
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The keyword Type is used to denote the type of all types. Note that Type is not Object (Object is the type of all terms). Here is alternative syntax that could be used in some other functional programming language (but not in TL):&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;NewType IntList :=
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;NewType IntList :=
 | int_cons hd:int tl:IntList
 | int_nil
 EndType

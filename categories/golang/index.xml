@@ -5,6 +5,7 @@
     <link>https://alimy.me/categories/golang/</link>
     <description>Recent content in Golang on 北野</description>
     <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
     <lastBuildDate>Sat, 03 Mar 2018 19:34:00 +0800</lastBuildDate><atom:link href="https://alimy.me/categories/golang/index.xml" rel="self" type="application/rss+xml" />
     <item>
@@ -14,28 +15,28 @@
       
       <guid>https://alimy.me/post/dev_201803031932/</guid>
       <description>&lt;p&gt;craete a HTTPS Server use net/http and route handle function by DefaultServeMux, see code below:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;package main
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;package main
 
 import (
-	&amp;quot;net/http&amp;quot;
-	&amp;quot;fmt&amp;quot;
-	&amp;quot;log&amp;quot;
+	&amp;#34;net/http&amp;#34;
+	&amp;#34;fmt&amp;#34;
+	&amp;#34;log&amp;#34;
 )
 
 func hello(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, &amp;quot;[%s]: hello!&amp;quot;, r.Host)
+	fmt.Fprintf(w, &amp;#34;[%s]: hello!&amp;#34;, r.Host)
 }
 
 func world(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, &amp;quot;[%s]: world!&amp;quot;, r.Host)
+	fmt.Fprintf(w, &amp;#34;[%s]: world!&amp;#34;, r.Host)
 }
 
 func main() {
 	server := http.Server{
-		Addr: &amp;quot;127.0.0.1:8080&amp;quot;,
+		Addr: &amp;#34;127.0.0.1:8080&amp;#34;,
 	}
-	http.HandleFunc(&amp;quot;/hello&amp;quot;, hello)
-	http.HandleFunc(&amp;quot;/world&amp;quot;, world)
+	http.HandleFunc(&amp;#34;/hello&amp;#34;, hello)
+	http.HandleFunc(&amp;#34;/world&amp;#34;, world)
 
 	log.Fatal(server.ListenAndServe())
 }
@@ -49,11 +50,11 @@ func main() {
       
       <guid>https://alimy.me/post/dev_201803030946/</guid>
       <description>&lt;p&gt;It is simple to craete a HTTPS Server use net/http, see code below:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;package main
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;package main
 
 import (
-	&amp;quot;net/http&amp;quot;
-	&amp;quot;fmt&amp;quot;
+	&amp;#34;net/http&amp;#34;
+	&amp;#34;fmt&amp;#34;
 )
 
 type SimpleHandler struct {
@@ -61,15 +62,15 @@ type SimpleHandler struct {
 }
 
 func (h *SimpleHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, &amp;quot;%s: Hello World!&amp;quot;, h.Name)
+	fmt.Fprintf(w, &amp;#34;%s: Hello World!&amp;#34;, h.Name)
 }
 
 func main() {
 	server := http.Server{
-		Addr:    &amp;quot;127.0.0.1:8080&amp;quot;,
-		Handler: &amp;amp;SimpleHandler{Name: &amp;quot;SimpleServer&amp;quot;},
+		Addr:    &amp;#34;127.0.0.1:8080&amp;#34;,
+		Handler: &amp;amp;SimpleHandler{Name: &amp;#34;SimpleServer&amp;#34;},
 	}
-	server.ListenAndServeTLS(&amp;quot;cert.pem&amp;quot;, &amp;quot;key.pem&amp;quot;)
+	server.ListenAndServeTLS(&amp;#34;cert.pem&amp;#34;, &amp;#34;key.pem&amp;#34;)
 }
 &lt;/code&gt;&lt;/pre&gt;</description>
     </item>

@@ -364,7 +364,7 @@
 <p>相对来说，为rsync手动指定同步模式的选项更常见一些，只有在有特殊需求时才指定检查模式，因为大多数检查模式选项都可能会影响rsync的性能。</p>
 <h3 id="3-rsync三种工作方式">3 rsync三种工作方式</h3>
 <p>以下是rsync的语法：</p>
-<pre><code>
+<pre tabindex="0"><code>
 Local:  rsync [OPTION...] SRC... [DEST]
 
 Access via remote shell:
@@ -383,7 +383,7 @@ Access via rsync daemon:
 <p>前两者的本质是通过管道通信，即使是远程shell。而方式(3)则是让远程主机上运行rsync服务，使其监听在一个端口上，等待客户端的连接。</p>
 <p>但是，通过远程shell也能临时启动一个rsync daemon，这不同于方式(3)，它不要求远程主机上事先启动rsync服务，而是临时派生出rsync daemon，它是单用途的一次性daemon，仅用于临时读取daemon的配置文件，当此次rsync同步完成，远程shell启动的rsync daemon进程也会自动消逝。此通信方式的命令行语法格式同&quot;Access via rsync daemon&quot;，但要求options部分必须明确指定&quot;&ndash;rsh&quot;选项或其短选项&quot;-e&quot;。</p>
 <p>以下是对rsync语法的简单说明，由于rsync支持一百多个选项，所以此处只介绍几个常用选项。完整的选项说明以及rsync的使用方法见我翻译的&quot;man rsync&quot;。</p>
-<pre><code>Local:  rsync [OPTION...] SRC... [DEST]
+<pre tabindex="0"><code>Local:  rsync [OPTION...] SRC... [DEST]
 
 Access via remote shell:
   Pull: rsync [OPTION...] [USER@]HOST:SRC... [DEST]
@@ -397,67 +397,67 @@ Access via rsync daemon:
 </code></pre><p>其中，第一个路径参数一定是源文件路径，即作为同步基准的一方，可以同时指定多个源文件路径。最后一个路径参数则是目标文件路径，也就是待同步方。路径的格式可以是本地路径，也可以是使用user@host:path或user@host::path的远程路径，如果主机和path路径之间使用单个冒号隔开，表示使用的是远程shell通信方式，而使用双冒号隔开的则表示的是连接rsync daemon。另外，连接rsync daemon时，还提供了URL格式的路径表述方式rsync://user@host/path。</p>
 <p>如果仅有一个SRC或DEST参数，则将以类似于&quot;ls -l&quot;的方式列出源文件列表(只有一个路径参数，总会认为是源文件)，而不是复制文件。</p>
 <p>如果对rsync不熟悉，可暂先只了解本地以及远程shell格式的user@host:path路径格式。例如：</p>
-<pre><code>[root@xuexi ~]# rsync /etc/fstab /tmp                # 在本地同步
+<pre tabindex="0"><code>[root@xuexi ~]# rsync /etc/fstab /tmp                # 在本地同步
 [root@xuexi ~]# rsync -r /etc 172.16.10.5:/tmp       # 将本地/etc目录拷贝到远程主机的/tmp下，以保证远程/tmp目录和本地/etc保持同步
 [root@xuexi ~]# rsync -r 172.16.10.5:/etc /tmp       # 将远程主机的/etc目录拷贝到本地/tmp下，以保证本地/tmp目录和远程/etc保持同步
 [root@xuexi ~]# rsync /etc/                          # 列出本地/etc/目录下的文件列表
 [root@xuexi ~]# rsync 172.16.10.5:/tmp/              # 列出远程主机上/tmp/目录下的文件列表
 </code></pre><p>另外，使用rsync一定要注意的一点是，源路径如果是一个目录的话，带上尾随斜线和不带尾随斜线是不一样的，不带尾随斜线表示的是整个目录包括目录本身，带上尾随斜线表示的是目录中的文件，不包括目录本身。例如：</p>
-<pre><code>[root@xuexi ~]# rsync /etc /tmp
+<pre tabindex="0"><code>[root@xuexi ~]# rsync /etc /tmp
 [root@xuexi ~]# rsync /etc/ /tmp
 </code></pre><p>第一个命令会在/tmp目录下创建etc目录，而第二个命令不会在/tmp目录下创建etc目录，源路径/etc/中的所有文件都直接放在/tmp目录下。</p>
 <h3 id="4-选项说明和示例">4 选项说明和示例</h3>
 <p>接下来是rsync的选项说明。</p>
-<pre><code>-v：显示rsync过程中详细信息。可以使用&quot;-vvvv&quot;获取更详细信息。
--P：显示文件传输的进度信息。(实际上&quot;-P&quot;=&quot;--partial --progress&quot;，其中的&quot;--progress&quot;才是显示进度信息的)。
--n --dry-run  ：仅测试传输，而不实际传输。常和&quot;-vvvv&quot;配合使用来查看rsync是如何工作的。
--a --archive  ：归档模式，表示递归传输并保持文件属性。等同于&quot;-rtopgDl&quot;。
+<pre tabindex="0"><code>-v：显示rsync过程中详细信息。可以使用&#34;-vvvv&#34;获取更详细信息。
+-P：显示文件传输的进度信息。(实际上&#34;-P&#34;=&#34;--partial --progress&#34;，其中的&#34;--progress&#34;才是显示进度信息的)。
+-n --dry-run  ：仅测试传输，而不实际传输。常和&#34;-vvvv&#34;配合使用来查看rsync是如何工作的。
+-a --archive  ：归档模式，表示递归传输并保持文件属性。等同于&#34;-rtopgDl&#34;。
 -r --recursive：递归到目录中去。
--t --times：保持mtime属性。强烈建议任何时候都加上&quot;-t&quot;，否则目标文件mtime会设置为系统时间，导致下次更新
+-t --times：保持mtime属性。强烈建议任何时候都加上&#34;-t&#34;，否则目标文件mtime会设置为系统时间，导致下次更新
           ：检查出mtime不同从而导致增量传输无效。
 -o --owner：保持owner属性(属主)。
 -g --group：保持group属性(属组)。
 -p --perms：保持perms属性(权限，不包括特殊权限)。
--D        ：是&quot;--device --specials&quot;选项的组合，即也拷贝设备文件和特殊文件。
+-D        ：是&#34;--device --specials&#34;选项的组合，即也拷贝设备文件和特殊文件。
 -l --links：如果文件是软链接文件，则拷贝软链接本身而非软链接所指向的对象。
 -z        ：传输时进行压缩提高效率。
 -R --relative：使用相对路径。意味着将命令行中指定的全路径而非路径最尾部的文件名发送给服务端，包括它们的属性。用法见下文示例。
 --size-only ：默认算法是检查文件大小和mtime不同的文件，使用此选项将只检查文件大小。
 -u --update ：仅在源mtime比目标已存在文件的mtime新时才拷贝。注意，该选项是接收端判断的，不会影响删除行为。
--d --dirs   ：以不递归的方式拷贝目录本身。默认递归时，如果源为&quot;dir1/file1&quot;，则不会拷贝dir1目录，使用该选项将拷贝dir1但不拷贝file1。
---max-size  ：限制rsync传输的最大文件大小。可以使用单位后缀，还可以是一个小数值(例如：&quot;--max-size=1.5m&quot;)
+-d --dirs   ：以不递归的方式拷贝目录本身。默认递归时，如果源为&#34;dir1/file1&#34;，则不会拷贝dir1目录，使用该选项将拷贝dir1但不拷贝file1。
+--max-size  ：限制rsync传输的最大文件大小。可以使用单位后缀，还可以是一个小数值(例如：&#34;--max-size=1.5m&#34;)
 --min-size  ：限制rsync传输的最小文件大小。这可以用于禁止传输小文件或那些垃圾文件。
 --exclude   ：指定排除规则来排除不需要传输的文件。
---delete    ：以SRC为主，对DEST进行同步。多则删之，少则补之。注意&quot;--delete&quot;是在接收端执行的，所以它是在
+--delete    ：以SRC为主，对DEST进行同步。多则删之，少则补之。注意&#34;--delete&#34;是在接收端执行的，所以它是在
             ：exclude/include规则生效之后才执行的。
--b --backup ：对目标上已存在的文件做一个备份，备份的文件名后默认使用&quot;~&quot;做后缀。
+-b --backup ：对目标上已存在的文件做一个备份，备份的文件名后默认使用&#34;~&#34;做后缀。
 --backup-dir：指定备份文件的保存路径。不指定时默认和待备份文件保存在同一目录下。
 -e          ：指定所要使用的远程shell程序，默认为ssh。
 --port      ：连接daemon时使用的端口号，默认为873端口。
 --password-file：daemon模式时的密码文件，可以从中读取密码实现非交互式。注意，这不是远程shell认证的密码，而是rsync模块认证的密码。
 -W --whole-file：rsync将不再使用增量传输，而是全量传输。在网络带宽高于磁盘带宽时，该选项比增量传输更高效。
 --existing  ：要求只更新目标端已存在的文件，目标端还不存在的文件不传输。注意，使用相对路径时如果上层目录不存在也不会传输。
---ignore-existing：要求只更新目标端不存在的文件。和&quot;--existing&quot;结合使用有特殊功能，见下文示例。
+--ignore-existing：要求只更新目标端不存在的文件。和&#34;--existing&#34;结合使用有特殊功能，见下文示例。
 --remove-source-files：要求删除源端已经成功传输的文件。
 </code></pre><p>rsync的选项非常多，能够实现非常具有弹性的功能，以上选项仅仅只是很小一部分常用的选项，关于更完整更详细的选项说明，见我的rsync man手册翻译。</p>
 <p>虽然选项非常多，但最常用的选项组合是&quot;avz&quot;，即压缩和显示部分信息，并以归档模式传输。</p>
 <h4 id="41-基础示例">4.1 基础示例</h4>
 <p>以下是几个本地同步示例和通过远程shell实现的同步示例，示例中没有使用&quot;-a&quot;选项，目的是为了更清晰地说明各选项的作用。</p>
 <p>(1).将/etc/fstab拷贝到/tmp目录下。</p>
-<pre><code>[root@xuexi ~]# rsync /etc/fstab /tmp
+<pre tabindex="0"><code>[root@xuexi ~]# rsync /etc/fstab /tmp
 </code></pre><p>(2).将/etc/cron.d目录拷贝到/tmp下。</p>
-<pre><code>[root@xuexi ~]# rsync -r /etc/cron.d /tmp
+<pre tabindex="0"><code>[root@xuexi ~]# rsync -r /etc/cron.d /tmp
 </code></pre><p>该命令会在目标主机上创建/tmp/cron.d目录，并将/etc/cron.d/中的文件放入到/tmp/cron.d/目录中，也就是说默认情况下，是不会在目录路径下创建上层目录/etc的。</p>
 <p>(3).将/etc/cron.d目录拷贝到/tmp下，但要求在/tmp下也生成etc子目录。</p>
-<pre><code>[root@xuexi ~]# rsync -R -r /etc/cron.d /tmp
+<pre tabindex="0"><code>[root@xuexi ~]# rsync -R -r /etc/cron.d /tmp
 </code></pre><p>其中&quot;-R&quot;选项表示使用相对路径，此相对路径是以目标目录为根的。对于上面的示例，表示在目标上的/tmp下创建etc/cron.d目录，即/tmp/etc/cron.d，etc/cron.d的根&quot;/&ldquo;代表的就是目标/tmp。</p>
 <p>如果要拷贝的源路径较长，但只想在目标主机上保留一部分目录结构，例如要拷贝/var/log/anaconda/*到/tmp下，但只想在/tmp下保留从log开始的目录，如何操作？使用一个点代表相对路径的起始位置即可，也就是将长目录进行划分。</p>
-<pre><code>[root@xuexi ~]# rsync -R -r /var/./log/anaconda /tmp
+<pre tabindex="0"><code>[root@xuexi ~]# rsync -R -r /var/./log/anaconda /tmp
 </code></pre><p>这样，从点开始的目录都是相对路径，其相对根目录为目标路径。所以对于上面的示例，将在目标上创建/tmp/log/anaconda/*。</p>
 <p>(4).对远程目录下已存在文件做一个备份。</p>
-<pre><code>[root@xuexi ~]# rsync -R -r --backup /var/./log/anaconda /tmp
+<pre tabindex="0"><code>[root@xuexi ~]# rsync -R -r --backup /var/./log/anaconda /tmp
 </code></pre><p>这样在目标目录下，已存在的文件就被做一个备份，备份文件默认使用&rdquo;~&ldquo;做后缀，可以使用&rdquo;&ndash;suffix&quot;指定备份后缀。</p>
-<pre><code>[root@xuexi tmp]# ll log/anaconda/
+<pre tabindex="0"><code>[root@xuexi tmp]# ll log/anaconda/
 total 3112
 -rw------- 1 root root    6668 Jul 14 12:45 anaconda.log
 -rw------- 1 root root    6668 Jul 14 11:44 anaconda.log~
@@ -478,11 +478,11 @@ total 3112
 -rw------- 1 root root  197961 Jul 14 12:45 syslog
 -rw------- 1 root root  197961 Jul 14 11:44 syslog~
 </code></pre><p>可以使用&quot;&ndash;backup-dir&quot;指定备份文件保存路径，但要求保存路径必须存在。</p>
-<pre><code>[root@xuexi ~]# mkdir /tmp/log_back
+<pre tabindex="0"><code>[root@xuexi ~]# mkdir /tmp/log_back
 
 [root@xuexi ~]# rsync -R -r --backup --backup-dir=/tmp/log_back /var/./log/anaconda /tmp
 </code></pre><p>指定备份路径后，默认将不会加备份后缀，除非使用&quot;&ndash;suffix&quot;显式指定后缀，如&quot;&ndash;suffix=~&quot;。</p>
-<pre><code>[root@xuexi tmp]# tree /tmp/log_back/
+<pre tabindex="0"><code>[root@xuexi tmp]# tree /tmp/log_back/
 /tmp/log_back/
 └── log
     └── anaconda
@@ -496,16 +496,16 @@ total 3112
         ├── storage.log
         └── syslog
 </code></pre><p>(5).指定ssh连接参数，如端口、连接的用户、ssh选项等。</p>
-<pre><code>[root@xuexi tmp]# &gt;~/.ssh/known_hosts   # 先清空host key以便下面的测试
+<pre tabindex="0"><code>[root@xuexi tmp]# &gt;~/.ssh/known_hosts   # 先清空host key以便下面的测试
 
-[root@xuexi tmp]# rsync -e &quot;ssh -p 22 -o StrictHostKeyChecking=no&quot; /etc/fstab 172.16.10.5:/tmp
-Warning: Permanently added '172.16.10.5' (RSA) to the list of known hosts.
-root@172.16.10.5's password:
+[root@xuexi tmp]# rsync -e &#34;ssh -p 22 -o StrictHostKeyChecking=no&#34; /etc/fstab 172.16.10.5:/tmp
+Warning: Permanently added &#39;172.16.10.5&#39; (RSA) to the list of known hosts.
+root@172.16.10.5&#39;s password:
 </code></pre><p>可见直接指定ssh参数是生效的。</p>
 <p>(6).&quot;&ndash;existing&quot;和&quot;&ndash;ignore-existing&quot;</p>
 <p>&ldquo;&ndash;existing&quot;是只更新目标端已存在的文件。</p>
 <p>目前/tmp/{a,b}目录中内容如下，bashrc在a目录中，crontab在b目录中，且a目录中多了一个c子目录。</p>
-<pre><code>[root@xuexi ~]# tree /tmp/{a,b}
+<pre tabindex="0"><code>[root@xuexi ~]# tree /tmp/{a,b}
 /tmp/a
 ├── bashrc
 ├── c
@@ -521,7 +521,7 @@ root@172.16.10.5's password:
 
 1 directory, 9 files
 </code></pre><p>使用&rdquo;&ndash;existing&quot;选项使得只更新目标端已存在的文件。</p>
-<pre><code>[root@xuexi ~]# rsync -r -v --existing /tmp/a/ /tmp/b           
+<pre tabindex="0"><code>[root@xuexi ~]# rsync -r -v --existing /tmp/a/ /tmp/b           
 sending incremental file list
 fstab
 profile
@@ -531,7 +531,7 @@ sent 2972 bytes  received 70 bytes  6084.00 bytes/sec
 total size is 204755  speedup is 67.31
 </code></pre><p>结果只有3个目标上已存在的文件被更新了，由于目标上没有c目录，所以c目录中的文件也没有进行传输。</p>
 <p>而&quot;&ndash;ignore-existing&quot;是更新目标端不存在的文件。</p>
-<pre><code>[root@xuexi ~]# rsync -r -v --ignore-existing /tmp/a/ /tmp/b
+<pre tabindex="0"><code>[root@xuexi ~]# rsync -r -v --ignore-existing /tmp/a/ /tmp/b
 sending incremental file list
 bashrc
 c/
@@ -542,7 +542,7 @@ total size is 204755  speedup is 1.01
 </code></pre><p>(7).&quot;&ndash;remove-source-files&quot;删除源端文件。</p>
 <p>使用该选项后，源端已经更新成功的文件都会被删除，源端所有未传输或未传输成功的文件都不会被移除。未传输成功的原因有多种，如exclude排除了，&ldquo;quick check&quot;未选项该文件，传输中断等等。</p>
 <p>总之，显示在&quot;rsync -v&quot;被传输列表中的文件都会被移除。如下：</p>
-<pre><code>[root@xuexi ~]# rsync -r -v --remove-source-files /tmp/a/anaconda /tmp/a/audit /tmp       
+<pre tabindex="0"><code>[root@xuexi ~]# rsync -r -v --remove-source-files /tmp/a/anaconda /tmp/a/audit /tmp       
 sending incremental file list
 anaconda/anaconda.log
 anaconda/ifcfg.log
@@ -560,7 +560,7 @@ total size is 4805676  speedup is 1.00
 </code></pre><p>上述显示出来的文件在源端全部被删除。</p>
 <h4 id="42---exclude排除规则">4.2 &ldquo;&ndash;exclude&quot;排除规则</h4>
 <p>使用&rdquo;&ndash;exclude&quot;选项指定排除规则，排除那些不需要传输的文件。</p>
-<pre><code>[root@xuexi tmp]# rsync -r -v --exclude=&quot;anaconda/*.log&quot; /var/log/anaconda /var/log/audit /tmp
+<pre tabindex="0"><code>[root@xuexi tmp]# rsync -r -v --exclude=&#34;anaconda/*.log&#34; /var/log/anaconda /var/log/audit /tmp
 sending incremental file list
 anaconda/
 anaconda/syslog
@@ -585,14 +585,14 @@ total size is 3365016  speedup is 1.00
 <h4 id="43---delete解释">4.3 &ldquo;&ndash;delete&quot;解释</h4>
 <p>使用&rdquo;&ndash;delete&quot;选项后，接收端的rsync会先删除目标目录下已经存在，但源端目录不存在的文件。也就是&quot;多则删之，少则补之&quot;。</p>
 <p>例如，先实现一次同步，再向目标目录中拷贝一个新文件，这样目标目录中就比源目录多出一个文件。</p>
-<pre><code>[root@xuexi ~]# rsync -r /etc/cron.d /tmp/
+<pre tabindex="0"><code>[root@xuexi ~]# rsync -r /etc/cron.d /tmp/
 
 [root@xuexi ~]# cp /etc/fstab /tmp/cron.d/
 
 [root@xuexi ~]# ls /tmp/cron.d/
 0hourly  fstab  raid-check  sysstat
 </code></pre><p>再使用&quot;&ndash;delete&quot;选项，这时会将目标端多出的文件给删除掉，然后进行同步。</p>
-<pre><code>[root@xuexi ~]# rsync -r -v /etc/cron.d /tmp --delete
+<pre tabindex="0"><code>[root@xuexi ~]# rsync -r -v /etc/cron.d /tmp --delete
 sending incremental file list
 deleting cron.d/fstab
 cron.d/0hourly
@@ -603,11 +603,11 @@ sent 704 bytes  received 70 bytes  1548.00 bytes/sec
 total size is 471  speedup is 0.61
 </code></pre><p>这样的行为实现了远程删除的功能，对于作用于本地的rsync，也就实现了rm的本地删除功能。而且，如果使用空目录作为源目录，则它的作用是清空目录上的整个目录。</p>
 <p>如果将&quot;&ndash;delete&quot;选项和&quot;&ndash;exlcude&quot;选项一起使用，则被排除的文件不会被删除。例如：</p>
-<pre><code>[root@xuexi ~]# rsync -r /var/log/anaconda /var/log/audit /tmp  # 先进行一次同步以便测试
+<pre tabindex="0"><code>[root@xuexi ~]# rsync -r /var/log/anaconda /var/log/audit /tmp  # 先进行一次同步以便测试
 
 [root@xuexi ~]# cp /etc/fstab /tmp/anaconda/                    # 拷贝一个新文件到目标目录以便测试
 
-[root@xuexi ~]# rsync -r -v --exclude=&quot;anaconda/*.log&quot; /var/log/anaconda /var/log/audit /tmp --delete
+[root@xuexi ~]# rsync -r -v --exclude=&#34;anaconda/*.log&#34; /var/log/anaconda /var/log/audit /tmp --delete
 sending incremental file list
 deleting anaconda/fstab
 anaconda/syslog
@@ -630,7 +630,7 @@ total size is 3405579  speedup is 1.00
 <h4 id="51-简单介绍">5.1 简单介绍</h4>
 <p>既然rsync通过远程shell就能实现两端主机上的文件同步，还要使用rsync的服务干啥？试想下，你有的机器上有一堆文件需要时不时地同步到众多机器上去，比如目录a、b、c是专门传输到web服务器上的，d/e、f、g/h是专门传输到ftp服务器上的，还要对这些目录中的某些文件进行排除，如果通过远程shell连接方式，无论是使用排除规则还是包含规则，甚至一条一条rsync命令地传输，这都没问题，但太过繁琐且每次都要输入同样的命令显得太死板。使用rsync daemon就可以解决这种死板问题。而且，rsync daemon是向外提供服务的，这样只要告诉了别人rsync的url路径，外人就能向ftp服务器一样获取文件列表并进行选择性地下载，所以，你所制定的列表，你的同事也可以获取到并使用。</p>
 <p>举个简单的例子，Linux内核官网www.kernel.org提供rsync的下载方式，官方给出的地址是rsync://rsync.kernel.org/pub，可以根据这个地址找出你想下载的内核版本。例如要找出linux-3.0.15版本的内核相关文件。</p>
-<pre><code>[root@xuexi ~]# rsync --no-motd -r -v -f &quot;+ */&quot; -f &quot;+ linux-3.0.15*&quot; -f &quot;- *&quot; -m rsync://rsync.kernel.org/pub/
+<pre tabindex="0"><code>[root@xuexi ~]# rsync --no-motd -r -v -f &#34;+ */&#34; -f &#34;+ linux-3.0.15*&#34; -f &#34;- *&#34; -m rsync://rsync.kernel.org/pub/
 receiving file list ... done
 drwxr-xr-x         124 2017/07/14 20:27:22 .
 drwxr-xr-x         178 2014/11/12 05:50:10 linux
@@ -645,7 +645,7 @@ sent 59 bytes  received 80.19K bytes  12.35K bytes/sec
 total size is 237.34M  speedup is 2957.66
 </code></pre><p>你无需关注上面的规则代表什么意思，需要关注的重点是通过rsync可以向外提供文件列表并提供相应的下载。</p>
 <p>同样，你还可以根据路径，将rsync daemon上的文件拉取到本地实现下载的功能。</p>
-<pre><code>[root@xuexi ~]# rsync --no-motd -avzP rsync://rsync.kernel.org/pub/linux/kernel/v3.x/linux-3.0.15.tar.bz2 /tmp
+<pre tabindex="0"><code>[root@xuexi ~]# rsync --no-motd -avzP rsync://rsync.kernel.org/pub/linux/kernel/v3.x/linux-3.0.15.tar.bz2 /tmp
 receiving incremental file list
 linux-3.0.15.tar.bz2
      2834426   3%   300.51kB/s    0:40:22
@@ -654,7 +654,7 @@ linux-3.0.15.tar.bz2
 <p>rsync daemon的通信方式和传输通道与远程shell不同。远程shell连接的两端是通过管道完成通信和数据传输的，即使连接的一端是远程主机，当连接到目标端时，将在目标端上根据远程shell进程fork出rsync进程使其成为rsync server。而rsync daemon是事先在server端上运行好的rsync后台进程(根据启动选项，也可以设置为非后台进程)，它监听套接字等待client端的连接，连接建立后所有通信方式都是通过套接字完成的。</p>
 <p>注意，rsync中的server的概念从来就不代表是rsync daemon，server在rsync中只是一种通用称呼，只要不是发起rsync请求的client端，就是server端，你可以认为rsync daemon是一种特殊的server，其实daemon更应该称之为service。(之所以解释这一点，是避免各位初学的朋友在阅读man rsync过程中产生误解)</p>
 <p>以下是rsync client连接rsync daemon时的命令语法：</p>
-<pre><code>Pull: rsync [OPTION...] [USER@]HOST::SRC... [DEST]
+<pre tabindex="0"><code>Pull: rsync [OPTION...] [USER@]HOST::SRC... [DEST]
       rsync [OPTION...] rsync://[USER@]HOST[:PORT]/SRC... [DEST]
 Push: rsync [OPTION...] SRC... [USER@]HOST::DEST
       rsync [OPTION...] SRC... rsync://[USER@]HOST[:PORT]/DEST
@@ -662,7 +662,7 @@ Push: rsync [OPTION...] SRC... [USER@]HOST::DEST
 <p>上述语法中，其中daemon端的路径，如user@host::src，它的src代表的是模块名，而不是真的文件系统中的路径。关于rsync中的模块，相信见了下面的配置文件就会知道是什么意思。</p>
 <h4 id="52-daemon配置文件rsyncdconf">5.2 daemon配置文件rsyncd.conf</h4>
 <p>默认&quot;rsync &ndash;daemon&quot;读取的配置文件为/etc/rsyncd.conf，有些版本的系统上可能该文件默认不存在。rsyncd.conf的配置见man rsyncd.conf。以下是部分内容：</p>
-<pre><code>[root@xuexi ~]# cat /etc/rsyncd.conf
+<pre tabindex="0"><code>[root@xuexi ~]# cat /etc/rsyncd.conf
 # /etc/rsyncd: configuration file for rsync daemon mode
 
 # See rsyncd.conf man page for more options.
@@ -685,7 +685,7 @@ Push: rsync [OPTION...] SRC... [USER@]HOST::DEST
 #        comment = ftp export area
 </code></pre><p>在上述示例配置文件中，先定义了一些全局选项，然后定义了[ftp1]，这个用中括号包围的&quot;[ftp1]&ldquo;就是rsync中所谓的模块，ftp1为模块ID，必须保证唯一，每个模块中必须定义一项&quot;path&rdquo;，path定义的是该模块代表的路径，例如此示例文件中，如果想请求ftp1模块，则在客户端使用&quot;rsync user@host::ftp1&quot;，这表示访问user@host上的/home/ftp目录，如果要访问/home/ftp目录下的子目录www，则&quot;rsync user@host::ftp1/www&quot;。</p>
 <p>以下是常见的配置项，也算是一个配置示例：</p>
-<pre><code>######### 全局配置参数 ##########
+<pre tabindex="0"><code>######### 全局配置参数 ##########
 port=888    # 指定rsync端口。默认873
 uid = rsync # rsync服务的运行用户，默认是nobody，文件传输成功后属主将是这个uid
 gid = rsync # rsync服务的运行组，默认是nobody，文件传输成功后属组将是这个gid
@@ -709,7 +709,7 @@ hosts allow = 10.0.0.0/24 # 指定允许连接到该模块的机器，多个ip�
 hosts deny = 0.0.0.0/32   # 指定不允许连接到该模块的机器
 auth users = rsync_backup # 指定连接到该模块的用户列表，只有列表里的用户才能连接到模块，用户名和对应密码保存在secrts file中，
                           # 这里使用的不是系统用户，而是虚拟用户。不设置时，默认所有用户都能连接，但使用的是匿名连接
-secrets file = /etc/rsyncd.passwd # 保存auth users用户列表的用户名和密码，每行包含一个username:passwd。由于&quot;strict modes&quot;
+secrets file = /etc/rsyncd.passwd # 保存auth users用户列表的用户名和密码，每行包含一个username:passwd。由于&#34;strict modes&#34;
                                   # 默认为true，所以此文件要求非rsync daemon用户不可读写。只有启用了auth users该选项才有效。
 [xiaofang]    # 以下定义的是第二个模块
 path=/xiaofang/
@@ -721,28 +721,28 @@ comment = anyone can access
 <p>(2).auth users和secrets file这两行不是一定需要的，省略它们时将默认使用匿名连接。但是如果使用了它们，则secrets file的权限必须是600。客户端的密码文件也必须是600。</p>
 <p>(3).关于secrets file的权限，实际上并非一定是600，只要满足除了运行rsync daemon的用户可读即可。是否检查权限的设定是通过选项strict mode设置的，如果设置为false，则无需关注文件的权限。但默认是yes，即需要设置权限。</p>
 <p>配置完后，再就是提供模块相关目录、身份验证文件等。</p>
-<pre><code>[root@xuexi ~]# useradd -r -s /sbin/nologin rsync
+<pre tabindex="0"><code>[root@xuexi ~]# useradd -r -s /sbin/nologin rsync
 
 [root@xuexi ~]# mkdir /{longshuai,xiaofang}
 
 [root@xuexi ~]# chown -R rsync.rsync /{longshuai,xiaofang}
 </code></pre><p>提供模块longshuai身份验证文件，由于rsync daemon是以root身份运行的，所以要求身份验证文件对非root用户不可读写，所以设置为600权限。</p>
-<pre><code>[root@xuexi ~]# echo &quot;rsync_backup:123456&quot; &gt;&gt; /etc/rsyncd.passwd
+<pre tabindex="0"><code>[root@xuexi ~]# echo &#34;rsync_backup:123456&#34; &gt;&gt; /etc/rsyncd.passwd
 
 [root@xuexi ~]# chmod 600 /etc/rsyncd.passwd
 </code></pre><p>然后启动rsync daemon，启动方式很简单。</p>
-<pre><code>[root@xuexi ~]# rsync --daemon
+<pre tabindex="0"><code>[root@xuexi ~]# rsync --daemon
 </code></pre><p>如果是CentOS 7，则自带启动脚本。</p>
-<pre><code>[root@xuexi ~]# systemctl start rsyncd
+<pre tabindex="0"><code>[root@xuexi ~]# systemctl start rsyncd
 </code></pre><p>看看该脚本的内容。</p>
-<pre><code>[root@xuexi ~]# cat /usr/lib/systemd/system/rsyncd.service
+<pre tabindex="0"><code>[root@xuexi ~]# cat /usr/lib/systemd/system/rsyncd.service
 [Unit]
 Description=fast remote file copy program daemon
 ConditionPathExists=/etc/rsyncd.conf
 
 [Service]
 EnvironmentFile=/etc/sysconfig/rsyncd
-ExecStart=/usr/bin/rsync --daemon --no-detach &quot;$OPTIONS&quot;
+ExecStart=/usr/bin/rsync --daemon --no-detach &#34;$OPTIONS&#34;
 
 [Install]
 WantedBy=multi-user.target
@@ -750,34 +750,34 @@ WantedBy=multi-user.target
 <p>总之，启动好rysnc daemon后，它就监听在指定的端口上，等待客户端的连接。</p>
 <p>由于上述示例中的模块longshuai配置了身份验证功能，所以客户端连接时会询问密码。如果不想手动输入密码，则可以使用&quot;&ndash;password-file&quot;选项提供密码文件，密码文件中只有第一行才是传递的密码，其余所有的行都会被自动忽略。</p>
 <p>例如在客户端上：</p>
-<pre><code>[root@xuexi ~]# echo &quot;123456&quot; &gt; /tmp/rsync_passwd
+<pre tabindex="0"><code>[root@xuexi ~]# echo &#34;123456&#34; &gt; /tmp/rsync_passwd
 </code></pre><p>然后使用该&quot;&ndash;password-file&quot;连接需要身份验证的longshuai模块。</p>
-<pre><code>[root@xuexi ~]# echo &quot;123456&quot; &gt; /tmp/rsync_passwd
+<pre tabindex="0"><code>[root@xuexi ~]# echo &#34;123456&#34; &gt; /tmp/rsync_passwd
 </code></pre><p>如果需要访问模块中的某个文件，则：</p>
-<pre><code>[root@xuexi ~]# rsync --list-only --port 888 rsync_backup@172.16.l0.6::longshuai/a/b --password-file=/tmp/rsync_passwd
+<pre tabindex="0"><code>[root@xuexi ~]# rsync --list-only --port 888 rsync_backup@172.16.l0.6::longshuai/a/b --password-file=/tmp/rsync_passwd
 </code></pre><p>还可以使用url格式语法：</p>
-<pre><code>[root@xuexi ~]# rsync --list-only rsync://rsync_backup@172.16.l0.6:888/longshuai/a/b --password-file=/tmp/rsync_passwd
+<pre tabindex="0"><code>[root@xuexi ~]# rsync --list-only rsync://rsync_backup@172.16.l0.6:888/longshuai/a/b --password-file=/tmp/rsync_passwd
 </code></pre><h3 id="6-远程shell方式连接使用daemon">6 远程shell方式连接使用daemon</h3>
 <p>在前文说了rsync有三种工作方式：本地同步模式、远程shell模式和rsync daemon模式。前两者是使用管道进行通信和传输数据的，后者是通过网络套接字进行通信和传输数据的，且rsync daemon要求在server端必须已经运行好rsync且监听在指定端口上。</p>
 <p>但rsync支持第4种工作方式：通过远程shell方式连接rsync daemon。也就是将第二种和第三种方式结合起来。虽然这种方式用的不多，但还是有必要稍微解释下，为你阅读rsync的man文档提供一些帮助。</p>
 <p>为了下面称呼的方便，暂且将通过远程shell连接使用daemon的方式成为&quot;远程shell daemon&quot;，当然，官方并没有这样的术语，仅仅只是本人在此为了方便而如此称呼。</p>
 <p>远程shell daemon的方式严格地说是&quot;远程shell通信方式+使用rsync daemon的功能&quot;。所以它的通信方式和远程shell是一样的，在客户端发起远程shell连接，在server端fork远程shell进程以启动rsync进程，但这个rsync进程是临时的rsync daemon，它只读取配置文件中client所请求的模块部分，且只读取模块部分中的path和身份认证相关内容，(也就是说不会将全局配置项和其它模块项加载到内存，该模块下的其他配置也不会生效)，当rsync操作完成，该rsync daemon就消逝并从内存中被清理。而且，远程shell daemon启动的临时daemon不会和已经在server端运行的rsync daemon冲突，它们可以并存。由于远程shell连接的最终目标是rsync模块，所以它只能使用rsync daemon语法。</p>
 <p>以下是语法格式：为了简洁，没有指定src还是dest，且以ssh这个远程shell为例。</p>
-<pre><code>rsync [options] --rsh=ssh auth_user@host::module
+<pre tabindex="0"><code>rsync [options] --rsh=ssh auth_user@host::module
 
-rsync [options] --rsh=&quot;ssh -l ssh_user&quot; auth_user@host::module
+rsync [options] --rsh=&#34;ssh -l ssh_user&#34; auth_user@host::module
 
-rsync [options] -e &quot;ssh -l ssh_user&quot; auth_user@host::module
+rsync [options] -e &#34;ssh -l ssh_user&#34; auth_user@host::module
 
-rsync [options] -e &quot;ssh -l ssh_user&quot; rsync://auth_user@host/module
+rsync [options] -e &#34;ssh -l ssh_user&#34; rsync://auth_user@host/module
 </code></pre><p>涉及了两个用户ssh_user和auth_user，由于使用的是远程shell通信方式，所以client要和server端建立ssh连接，ssh_user就是ssh连接server的用户。auth_user则是模块中的身份认证用户。如果不指定&quot;ssh_user&quot;，则默认将使用auth_user，但很多时候auth_user都只是一个虚拟用户，这样就建立不了ssh连接导致失败，所以建议明确指定ssh_user和auth_user。</p>
 <p>举个例子就能说明上面的一切。以下是server端配置文件/etc/rsyncd.conf中的一个模块配置，稍后将从client端使用远程shell方式请求该模块。</p>
-<pre><code>[tmpdir]
+<pre tabindex="0"><code>[tmpdir]
 path=/tmp
 auth users=lisi
 secrets file=/tmp/lisi_passwd
 </code></pre><p>当前server端是没有rsync daemon在运行的。</p>
-<pre><code>[root@xuexi ~]# netstat -tnl
+<pre tabindex="0"><code>[root@xuexi ~]# netstat -tnl
 Active Internet connections (only servers)
 Proto Recv-Q Send-Q Local Address           Foreign Address         State     
 tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN    
@@ -785,8 +785,8 @@ tcp        0      0 127.0.0.1:25            0.0.0.0:*               LISTEN
 tcp6       0      0 :::22                   :::*                    LISTEN    
 tcp6       0      0 ::1:25                  :::*                    LISTEN
 </code></pre><p>在客户端上使用以下命令：</p>
-<pre><code>[root@xuexi ~]# rsync --list-only -e &quot;ssh -l root&quot; lisi@172.16.10.6::tmpdir
-root@172.16.10.6's password:
+<pre tabindex="0"><code>[root@xuexi ~]# rsync --list-only -e &#34;ssh -l root&#34; lisi@172.16.10.6::tmpdir
+root@172.16.10.6&#39;s password:
 
 Password:
 </code></pre><p>可以看到要求输入两次密码，第一次密码是root@XXX的密码，即建立ssh连接使用的密码，只有建立了ssh连接，才能在server上启动临时rsync daemon。第二次输入的密码Password是&quot;auth users=lisi&quot;对应的密码。</p>

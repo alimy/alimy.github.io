@@ -351,7 +351,7 @@
           
           <p>Annotations are a great way to manage serialization and deserialization in Jackson. However, what do you do if you want to annotate a third party class, or if you dont want to tightly couple your POJOs to jackson annotations. This is where Mix-in comes into play. You define a mix-in abstract class that is kind of a proxy to the actual class. Annotations are then definied over this proxy class</p>
 <h3 id="jackson-mix-in-example">Jackson Mix-In Example</h3>
-<pre><code>package com.studytrails.json.jackson;
+<pre tabindex="0"><code>package com.studytrails.json.jackson;
 
 import java.io.File;
 import java.io.IOException;
@@ -364,16 +364,16 @@ public class SerializeExample3 {
     public static void main(String[] args) throws JsonGenerationException, JsonMappingException, IOException {
         ObjectMapper mapper = new ObjectMapper();
         mapper.addMixInAnnotations(Bird.class, BirdMixIn.class);
-        Bird bird = new Bird(&quot;scarlet Ibis&quot;);
-        bird.setSound(&quot;eee&quot;);
-        bird.setHabitat(&quot;water&quot;);
+        Bird bird = new Bird(&#34;scarlet Ibis&#34;);
+        bird.setSound(&#34;eee&#34;);
+        bird.setHabitat(&#34;water&#34;);
 
-        mapper.writerWithDefaultPrettyPrinter().writeValue(new File(&quot;bird.json&quot;), bird);
+        mapper.writerWithDefaultPrettyPrinter().writeValue(new File(&#34;bird.json&#34;), bird);
     }
 
 }
 </code></pre><h4 id="the-bird-class">The Bird class</h4>
-<pre><code>package com.studytrails.json.jackson;
+<pre tabindex="0"><code>package com.studytrails.json.jackson;
 
 public class Bird {
 
@@ -407,22 +407,22 @@ public class Bird {
 
     @Override
     public String toString() {
-        return &quot;Bird [name=&quot; + name + &quot;, sound=&quot; + sound + &quot;, habitat=&quot; + habitat + &quot;]&quot;;
+        return &#34;Bird [name=&#34; + name + &#34;, sound=&#34; + sound + &#34;, habitat=&#34; + habitat + &#34;]&#34;;
     }
 }
 </code></pre><h4 id="the-mix-in-class">The Mix-in class</h4>
-<pre><code>package com.studytrails.json.jackson;
+<pre tabindex="0"><code>package com.studytrails.json.jackson;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public abstract class BirdMixIn {
-    BirdMixIn(@JsonProperty(&quot;name&quot;) String name) {
+    BirdMixIn(@JsonProperty(&#34;name&#34;) String name) {
     };
 
-    @JsonProperty(&quot;sound&quot;)
+    @JsonProperty(&#34;sound&#34;)
     abstract String getSound();
 
-    @JsonProperty(&quot;habitat&quot;)
+    @JsonProperty(&#34;habitat&#34;)
     abstract String getHabitat();
 }
 </code></pre><hr>

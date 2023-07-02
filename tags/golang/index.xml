@@ -5,6 +5,7 @@
     <link>https://alimy.me/tags/golang/</link>
     <description>Recent content in Golang on 北野</description>
     <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
     <lastBuildDate>Fri, 03 Dec 2021 15:25:00 +0800</lastBuildDate><atom:link href="https://alimy.me/tags/golang/index.xml" rel="self" type="application/rss+xml" />
     <item>
@@ -26,28 +27,28 @@
       <description>&lt;ul&gt;
 &lt;li&gt;生成根证书(ca.key, ca.crt)&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;%&amp;gt; openssl genrsa -out ca.key &lt;span style=&#34;color:#ae81ff&#34;&gt;2048&lt;/span&gt;
-%&amp;gt; openssl req -new -x509 -days &lt;span style=&#34;color:#ae81ff&#34;&gt;3650&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;     -subj &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/C=CN/L=Shanghai/O=grpc/CN=grpc.me&amp;#34;&lt;/span&gt;
-     -key ca.key -out ca.crt
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;%&amp;gt; openssl genrsa -out ca.key &lt;span style=&#34;color:#ae81ff&#34;&gt;2048&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;%&amp;gt; openssl req -new -x509 -days &lt;span style=&#34;color:#ae81ff&#34;&gt;3650&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;     -subj &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/C=CN/L=Shanghai/O=grpc/CN=grpc.me&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;     -key ca.key -out ca.crt
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;生成服务器证书(server.key, server.crt)&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;%&amp;gt; openssl genrsa -out server.key &lt;span style=&#34;color:#ae81ff&#34;&gt;2048&lt;/span&gt;
-
-&lt;span style=&#34;color:#75715e&#34;&gt;# 未使用CA签名的server.crt&lt;/span&gt;
-%&amp;gt; openssl req -new -x509 -days &lt;span style=&#34;color:#ae81ff&#34;&gt;3650&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;     -subj &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/C=CN/L=Shanghai/O=grpc-server/CN=server.grpc.me&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;     -key server.key -out server.crt
- 
-&lt;span style=&#34;color:#75715e&#34;&gt;# 使用CA签名的server.crt&lt;/span&gt;
-%&amp;gt; openssl req -new &lt;span style=&#34;color:#ae81ff&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;     -subj &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/C=CN/L=Shanghai/O=grpc-server/CN=server.grpc.me&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;     -key server.key -out server.csr
-%&amp;gt; openssl x509 -req -sha256 &lt;span style=&#34;color:#ae81ff&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;     -CA ca.crt -CAkey ca.key -CAcreateserial -days &lt;span style=&#34;color:#ae81ff&#34;&gt;3650&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;     -in server.csr -out server.crt
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;%&amp;gt; openssl genrsa -out server.key &lt;span style=&#34;color:#ae81ff&#34;&gt;2048&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 未使用CA签名的server.crt&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;%&amp;gt; openssl req -new -x509 -days &lt;span style=&#34;color:#ae81ff&#34;&gt;3650&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;     -subj &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/C=CN/L=Shanghai/O=grpc-server/CN=server.grpc.me&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;     -key server.key -out server.crt
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 使用CA签名的server.crt&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;%&amp;gt; openssl req -new &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;     -subj &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/C=CN/L=Shanghai/O=grpc-server/CN=server.grpc.me&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;     -key server.key -out server.csr
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;%&amp;gt; openssl x509 -req -sha256 &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;     -CA ca.crt -CAkey ca.key -CAcreateserial -days &lt;span style=&#34;color:#ae81ff&#34;&gt;3650&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;     -in server.csr -out server.crt
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
     </item>
     
     <item>
@@ -57,28 +58,28 @@
       
       <guid>https://alimy.me/post/dev_201803031932/</guid>
       <description>&lt;p&gt;craete a HTTPS Server use net/http and route handle function by DefaultServeMux, see code below:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;package main
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;package main
 
 import (
-	&amp;quot;net/http&amp;quot;
-	&amp;quot;fmt&amp;quot;
-	&amp;quot;log&amp;quot;
+	&amp;#34;net/http&amp;#34;
+	&amp;#34;fmt&amp;#34;
+	&amp;#34;log&amp;#34;
 )
 
 func hello(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, &amp;quot;[%s]: hello!&amp;quot;, r.Host)
+	fmt.Fprintf(w, &amp;#34;[%s]: hello!&amp;#34;, r.Host)
 }
 
 func world(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, &amp;quot;[%s]: world!&amp;quot;, r.Host)
+	fmt.Fprintf(w, &amp;#34;[%s]: world!&amp;#34;, r.Host)
 }
 
 func main() {
 	server := http.Server{
-		Addr: &amp;quot;127.0.0.1:8080&amp;quot;,
+		Addr: &amp;#34;127.0.0.1:8080&amp;#34;,
 	}
-	http.HandleFunc(&amp;quot;/hello&amp;quot;, hello)
-	http.HandleFunc(&amp;quot;/world&amp;quot;, world)
+	http.HandleFunc(&amp;#34;/hello&amp;#34;, hello)
+	http.HandleFunc(&amp;#34;/world&amp;#34;, world)
 
 	log.Fatal(server.ListenAndServe())
 }
@@ -92,11 +93,11 @@ func main() {
       
       <guid>https://alimy.me/post/dev_201803030946/</guid>
       <description>&lt;p&gt;It is simple to craete a HTTPS Server use net/http, see code below:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;package main
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;package main
 
 import (
-	&amp;quot;net/http&amp;quot;
-	&amp;quot;fmt&amp;quot;
+	&amp;#34;net/http&amp;#34;
+	&amp;#34;fmt&amp;#34;
 )
 
 type SimpleHandler struct {
@@ -104,15 +105,15 @@ type SimpleHandler struct {
 }
 
 func (h *SimpleHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, &amp;quot;%s: Hello World!&amp;quot;, h.Name)
+	fmt.Fprintf(w, &amp;#34;%s: Hello World!&amp;#34;, h.Name)
 }
 
 func main() {
 	server := http.Server{
-		Addr:    &amp;quot;127.0.0.1:8080&amp;quot;,
-		Handler: &amp;amp;SimpleHandler{Name: &amp;quot;SimpleServer&amp;quot;},
+		Addr:    &amp;#34;127.0.0.1:8080&amp;#34;,
+		Handler: &amp;amp;SimpleHandler{Name: &amp;#34;SimpleServer&amp;#34;},
 	}
-	server.ListenAndServeTLS(&amp;quot;cert.pem&amp;quot;, &amp;quot;key.pem&amp;quot;)
+	server.ListenAndServeTLS(&amp;#34;cert.pem&amp;#34;, &amp;#34;key.pem&amp;#34;)
 }
 &lt;/code&gt;&lt;/pre&gt;</description>
     </item>
@@ -125,16 +126,16 @@ func main() {
       <guid>https://alimy.me/post/dev_201604101827/</guid>
       <description>&lt;p&gt;It’s often practical to see what packages your app is importing. Unfortunately there isn’t a simple way to do that, however it is doable via the go list tool and using templates.&lt;/p&gt;
 &lt;p&gt;Go to your app and run the following.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ go list -f &#39;{{join .Deps &amp;quot;\n&amp;quot;}}&#39; |  xargs go list -f &#39;{{if not .Standard}}{{.ImportPath}}{{end}}&#39;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ go list -f &amp;#39;{{join .Deps &amp;#34;\n&amp;#34;}}&amp;#39; |  xargs go list -f &amp;#39;{{if not .Standard}}{{.ImportPath}}{{end}}&amp;#39;
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Here is an example with the clirescue refactoring example:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ cd $GOPATH/src/github.com/GoBootcamp/clirescue
-$ go list -f &#39;{{join .Deps &amp;quot;\n&amp;quot;}}&#39; | xargs go list -f &#39;{{if not .Standard}}{{.ImportPath}}{{end}}&#39;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ cd $GOPATH/src/github.com/GoBootcamp/clirescue
+$ go list -f &amp;#39;{{join .Deps &amp;#34;\n&amp;#34;}}&amp;#39; | xargs go list -f &amp;#39;{{if not .Standard}}{{.ImportPath}}{{end}}&amp;#39;
 github.com/GoBootcamp/clirescue/cmdutil
 github.com/GoBootcamp/clirescue/trackerapi
 github.com/GoBootcamp/clirescue/user
 github.com/codegangsta/cli
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If you want the list to also contain standard packages, edit the template and use:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ go list -f &#39;{{join .Deps &amp;quot;\n&amp;quot;}}&#39; |  xargs go list -f &#39;{{.ImportPath}}&#39;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ go list -f &amp;#39;{{join .Deps &amp;#34;\n&amp;#34;}}&amp;#39; |  xargs go list -f &amp;#39;{{.ImportPath}}&amp;#39;
 &lt;/code&gt;&lt;/pre&gt;</description>
     </item>
     
@@ -146,15 +147,15 @@ github.com/codegangsta/cli
       <guid>https://alimy.me/post/dev_201604021445/</guid>
       <description>&lt;h3 id=&#34;notation&#34;&gt;Notation&lt;/h3&gt;
 &lt;p&gt;The syntax is specified using Extended Backus-Naur Form (EBNF):&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;Production  = production_name &amp;quot;=&amp;quot; [ Expression ] &amp;quot;.&amp;quot; .
-Expression  = Alternative { &amp;quot;|&amp;quot; Alternative } .
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Production  = production_name &amp;#34;=&amp;#34; [ Expression ] &amp;#34;.&amp;#34; .
+Expression  = Alternative { &amp;#34;|&amp;#34; Alternative } .
 Alternative = Term { Term } .
-Term        = production_name | token [ &amp;quot;…&amp;quot; token ] | Group | Option | Repetition .
-Group       = &amp;quot;(&amp;quot; Expression &amp;quot;)&amp;quot; .
-Option      = &amp;quot;[&amp;quot; Expression &amp;quot;]&amp;quot; .
-Repetition  = &amp;quot;{&amp;quot; Expression &amp;quot;}&amp;quot; .
+Term        = production_name | token [ &amp;#34;…&amp;#34; token ] | Group | Option | Repetition .
+Group       = &amp;#34;(&amp;#34; Expression &amp;#34;)&amp;#34; .
+Option      = &amp;#34;[&amp;#34; Expression &amp;#34;]&amp;#34; .
+Repetition  = &amp;#34;{&amp;#34; Expression &amp;#34;}&amp;#34; .
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Productions are expressions constructed from terms and the following operators, in increasing precedence:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;|   alternation
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;|   alternation
 ()  grouping
 []  option (0 or 1 times)
 {}  repetition (0 to n times)

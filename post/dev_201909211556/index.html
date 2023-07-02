@@ -366,7 +366,7 @@
 <h3 id="12-词法规则">1.2. 词法规则</h3>
 <h4 id="121-注释">1.2.1. 注释</h4>
 <p>采用c++的注释规范。</p>
-<pre><code>//表示注释一行，/**/表示注释范围中的所有代码。
+<pre tabindex="0"><code>//表示注释一行，/**/表示注释范围中的所有代码。
 </code></pre><h4 id="122-关键字">1.2.2. 关键字</h4>
 <p><code>void</code>  <code>struct</code>  <code>bool</code>  <code>byte</code>  <code>short</code>  <code>int</code> <br>
 <code>double</code>  <code>float</code>  <code>long</code>  <code>string</code>  <code>vector</code> <br>
@@ -391,7 +391,7 @@
 <h3 id="14-复杂类型">1.4. 复杂类型</h3>
 <h4 id="141-枚举">1.4.1. 枚举</h4>
 <p>枚举类型的定义如下：</p>
-<pre><code>enum TE
+<pre tabindex="0"><code>enum TE
 {
     E1,
     E2,
@@ -406,7 +406,7 @@
 </ul>
 <h4 id="142-常量">1.4.2. 常量</h4>
 <p>Tars文件中可以定义常量，例如：</p>
-<pre><code>const int a = 0;
+<pre tabindex="0"><code>const int a = 0;
 
 const string s = “abc”;
 </code></pre><p>说明：</p>
@@ -415,7 +415,7 @@ const string s = “abc”;
 </ul>
 <h4 id="143-结构">1.4.3. 结构</h4>
 <p>结构定义如下：</p>
-<pre><code>struct Test
+<pre tabindex="0"><code>struct Test
 {
     0  require  string s;
     1  optional int  i = 23;
@@ -450,10 +450,10 @@ key[Test, s, i];
 </ul>
 <h4 id="144-序列">1.4.4. 序列</h4>
 <p>序列用vector来定义，如下：</p>
-<pre><code>vector&lt;int&gt; vi;
+<pre tabindex="0"><code>vector&lt;int&gt; vi;
 </code></pre><h4 id="145-字典">1.4.5. 字典</h4>
 <p>字典用map来定义，如下：</p>
-<pre><code>map&lt;int, string&gt; m;
+<pre tabindex="0"><code>map&lt;int, string&gt; m;
 </code></pre><p>说明：</p>
 <ul>
 <li>对于struct，通常不能作为map的key，因此struct没有大小比较符号；</li>
@@ -461,7 +461,7 @@ key[Test, s, i];
 </ul>
 <h4 id="146-数组">1.4.6. 数组</h4>
 <p>结构中可以定义数组类型，数组用[]来定义，如下：</p>
-<pre><code>byte m[5];
+<pre tabindex="0"><code>byte m[5];
 </code></pre><p>说明：</p>
 <ul>
 <li>对数组类型，在C++生成代码中会同时生成数组长度<code>mLen</code></li>
@@ -471,7 +471,7 @@ key[Test, s, i];
 </ul>
 <h4 id="147-指针">1.4.7 指针</h4>
 <p>结构中可以定义byte指针类型，指针用*来定义，如下：</p>
-<pre><code>byte *m;
+<pre tabindex="0"><code>byte *m;
 </code></pre><p>指针类型使用时需要提前预分配内存块，指针需要内存时通过偏移指向预分配内存块，减少解码过程中的内存申请。</p>
 <p>说明：</p>
 <ul>
@@ -484,13 +484,12 @@ key[Test, s, i];
 <p>任何<code>struct</code>，<code>map</code>，<code>vector</code>都可以嵌套；</p>
 <h3 id="15-接口">1.5. 接口</h3>
 <p>接口定义如下，例如：</p>
-<pre><code>interface Demo
+<pre tabindex="0"><code>interface Demo
 {
     int get(out vector&lt;map&lt;int, string&gt;&gt; v);
     
     int set(vector&lt;map&lt;int, string&gt;&gt; v);
 };
-
 </code></pre><p>说明：</p>
 <ul>
 <li>表示输出参数</li>
@@ -498,7 +497,7 @@ key[Test, s, i];
 </ul>
 <h3 id="16-名字空间">1.6. 名字空间</h3>
 <p>所有的struct，interface必须在名字空间中，例如：</p>
-<pre><code>module MemCache
+<pre tabindex="0"><code>module MemCache
 {
     struct Key
     {
@@ -526,9 +525,9 @@ key[Test, s, i];
 <h3 id="21-数据编码">2.1. 数据编码</h3>
 <h4 id="211-基本结构">2.1.1. 基本结构</h4>
 <p>每一个数据由两个部分组成，如下图：</p>
-<pre><code>| 头信息 | 实际数据 |
+<pre tabindex="0"><code>| 头信息 | 实际数据 |
 </code></pre><p>而其中头信息包括以下几个部分：</p>
-<pre><code>| Type(4 bits) | Tag 1(4 bits) | Tag 2(1 byte) |
+<pre tabindex="0"><code>| Type(4 bits) | Tag 1(4 bits) | Tag 2(1 byte) |
 </code></pre><p><code>Tag 2</code>是可选的，当<code>Tag</code>的值不超过14时，只需要用<code>Tag 1</code>就可以表示；当<code>Tag</code>的值超过14而小于256时，<code>Tag 1</code>固定为15，而用<code>Tag 2</code>表示<code>Tag</code>的值。<code>Tag</code>不允许大于255。</p>
 <p><code>Type</code>表示类型，用4个二进制位表示，取值范围是0~15，用来标识该数据的类型。不同类型的数据，其后紧跟着的实际数据的长度和格式都是不一样的，详见一下的类型表。</p>
 <p><code>Tag</code>由<code>Tag 1</code>和<code>Tag 2</code>一起表示。取值范围是0~255，即该数据在结构中的字段ID，用来区分不同的字段。</p>
@@ -635,10 +634,10 @@ key[Test, s, i];
 <h4 id="214-对象持久化">2.1.4 对象持久化</h4>
 <p>对于自定义结构的持久化，由开始标志与结束标志来标识。</p>
 <p>比如如下结构定义：</p>
-<pre><code>struct TestInfo
+<pre tabindex="0"><code>struct TestInfo
 {
     1  require  int    ii  = 34;
-    2  optional string s   = &quot;abc&quot;;
+    2  optional string s   = &#34;abc&#34;;
 };
 
 struct TestInfo2
@@ -646,13 +645,12 @@ struct TestInfo2
     1  require TestInfo  t;
     2  require int       a = 12345;
 };
-
 </code></pre><p>其中，默认的TestInfo2结构编码后结果为：</p>
 <p><img src="https://alimy.me/images/post/20190921155601.png" alt="tars"></p>
 <h3 id="22-消息格式">2.2. 消息格式</h3>
 <p>TUP底层协议完全采用Tars定义，与Tars的底层数据包定义一致，其中<code>require</code>的字段为TUP必须的字段，<code>optional</code>为访问Tars服务时额外需要用到的字段。</p>
 <h4 id="221-请求包">2.2.1. 请求包</h4>
-<pre><code>//请求包体
+<pre tabindex="0"><code>//请求包体
 struct RequestPacket
 {
     1  require short        iVersion;         //版本号
@@ -667,7 +665,7 @@ struct RequestPacket
     10 optional map&lt;string, string&gt; status;   //框架协议上下文
 };
 </code></pre><h4 id="222-响应包">2.2.2. 响应包</h4>
-<pre><code>//响应包体
+<pre tabindex="0"><code>//响应包体
 struct ResponsePacket
 {
     1 require short         iVersion;       //版本号

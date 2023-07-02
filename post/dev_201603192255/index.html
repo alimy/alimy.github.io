@@ -355,7 +355,7 @@
 <p>Bolt is not a relational database. It’s not even a document store, though you can sort of use it that way. It’s really just a key/value store… but don’t worry if you don’t really know what that means or how you’d use that for storage. It’s super simple and it’s incredibly flexible. Let’s take a look.</p>
 <p>Storage in bolt is divided into buckets. A bucket is simply a named collection of key/value pairs, just like Go’s map. The name of the bucket, the keys, and the values are all of type []byte. Buckets can contain other buckets, also keyed by a []byte name.</p>
 <p>… that’s it. No, really, that’s it. Bolt is basically a bunch of nested maps. And this simplicity is what makes it so easy to use. There’s no tables to set up, no schemas, no complex querying language to struggle with. Let’s look at a bolt hello world:</p>
-<pre><code>package main
+<pre tabindex="0"><code>package main
 
 import (
     “fmt”
@@ -430,7 +430,7 @@ func main() {
 <p>The main drawback of bolt is that there are no queries. You can’t say “give me all foo objects with a name that starts with bar”. You could make your own index in the database and keep it up to date manually. This could be as easy as a slice of IDs serialized into an “indices” bucket for a particular query. Obviously, this is where you start getting into the realm of developing your own relational database, but if you don’t go overboard, it can be nice that all this code is just that - code. It’s not queries in some external DSL, it’s just code like you’d write for an in-memory data store.</p>
 <p>Bolt is not for every application. You must understand your application’s needs and if bolt’s key/value style will be sufficient to fulfill those needs. If it is, I think you’ll be very happy to use such a simple data store with so little mental overhead.</p>
 <p>[edited to clarify reader/writer relationship] Bonus Gob vs. Json benchmark for storing structs in Bolt:</p>
-<pre><code>BenchmarkGobEncode  1000000       2191 ns/op
+<pre tabindex="0"><code>BenchmarkGobEncode  1000000       2191 ns/op
 BenchmarkJsonEncode   500000       4738 ns/op
 BenchmarkGobDecode  1000000       2019 ns/op
 BenchmarkJsonDecode   200000      12993 ns/op

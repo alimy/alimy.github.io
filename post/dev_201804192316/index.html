@@ -361,18 +361,18 @@
 <li>StackTrace信息是可以设置打印或不打印</li>
 </ul>
 <h3 id="用例">用例：</h3>
-<pre><code>// file: MainActivity.java
+<pre tabindex="0"><code>// file: MainActivity.java
 @Override
 protected void onResume() {
     super.onResume();
-    Logus.d(&quot;just a message&quot;);
-    Logus.e(&quot;a field message&quot;, &quot;a&quot;, 1);
-    Logus.w(&quot;3 fields but see 2&quot;, &quot;a&quot;, 1, &quot;b&quot;, true, &quot;c&quot;);
-    Logus.V(&quot;Main&quot;, &quot;with prefix just a message&quot;);
-    Logus.E(&quot;Main&quot;, &quot;with prefix 2 fields&quot;, &quot;a&quot;, 10, &quot;b&quot;, false);
-    Logus.E(&quot;Main&quot;, &quot;with prefix 3 fields but log 2&quot;, &quot;a&quot;, 10, &quot;b&quot;, true, &quot;c&quot;);
+    Logus.d(&#34;just a message&#34;);
+    Logus.e(&#34;a field message&#34;, &#34;a&#34;, 1);
+    Logus.w(&#34;3 fields but see 2&#34;, &#34;a&#34;, 1, &#34;b&#34;, true, &#34;c&#34;);
+    Logus.V(&#34;Main&#34;, &#34;with prefix just a message&#34;);
+    Logus.E(&#34;Main&#34;, &#34;with prefix 2 fields&#34;, &#34;a&#34;, 10, &#34;b&#34;, false);
+    Logus.E(&#34;Main&#34;, &#34;with prefix 3 fields but log 2&#34;, &#34;a&#34;, 10, &#34;b&#34;, true, &#34;c&#34;);
     Logus.setStackTrace(false);
-    Logus.E(&quot;Main&quot;, &quot;no stack trace with prefix&quot;);
+    Logus.E(&#34;Main&#34;, &#34;no stack trace with prefix&#34;);
 }
 
 // 输出：
@@ -385,12 +385,12 @@ protected void onResume() {
 04-19 22:12:56.213 3256-3256/net.gility.note  D/Logus: &gt; no stack trace no prefix
 04-19 22:12:56.213 3256-3256/net.gility.note  E/Logus: Main&gt; no stack trace with prefix
 </code></pre><h3 id="具体实现">具体实现：</h3>
-<pre><code>public final class Logus {
+<pre tabindex="0"><code>public final class Logus {
     // 数据域长度调整掩码,用于计算数据域长度；aInt &amp; FIXED_LENGTH_MASK 相当于 aInt % 2 == 0 ? aInt : aInt - 1;
     private static final int FIXED_LENGTH_MASK = ~1;
 
-    private static String sPreTag = &quot;Logus&quot;;        // 预设TAG
-    private static String sPrePrefix = &quot;&quot;;          // 预设消息前缀
+    private static String sPreTag = &#34;Logus&#34;;        // 预设TAG
+    private static String sPrePrefix = &#34;&#34;;          // 预设消息前缀
     private static boolean sIsStackTrace = true;    // 是否打印StackTrace Info
 
     /**
@@ -413,7 +413,7 @@ protected void onResume() {
         if (!TextUtils.isEmpty(prefix)) {
             sPrePrefix = prefix;
         } else {
-            sPrePrefix = &quot;&quot;;
+            sPrePrefix = &#34;&#34;;
         }
     }
 
@@ -546,25 +546,25 @@ protected void onResume() {
             StackTraceElement[] elements = Thread.currentThread().getStackTrace();
             if (elements != null &amp;&amp; elements.length &gt; 4) {
                 sb.append(elements[4].getFileName());
-                sb.append(&quot;(&quot;);
+                sb.append(&#34;(&#34;);
                 sb.append(elements[4].getLineNumber());
-                sb.append(&quot;)#&quot;);
+                sb.append(&#34;)#&#34;);
                 sb.append(elements[4].getMethodName());
-                sb.append(&quot; &quot;);
+                sb.append(&#34; &#34;);
             }
         }
         sb.append(prefix);
-        sb.append(&quot;&gt; &quot;);
+        sb.append(&#34;&gt; &#34;);
         sb.append(message);
         if (fields.length &gt; 1) {
-            sb.append(&quot; { &quot;);
+            sb.append(&#34; { &#34;);
             for (int i = 0, j = fields.length &amp; FIXED_LENGTH_MASK; i &lt; j; ) {
                 sb.append(String.valueOf(fields[i++]));
-                sb.append(&quot;=&quot;);
+                sb.append(&#34;=&#34;);
                 sb.append(String.valueOf(fields[i++]));
-                sb.append(&quot;; &quot;);
+                sb.append(&#34;; &#34;);
             }
-            sb.append(&quot;}&quot;);
+            sb.append(&#34;}&#34;);
         }
         switch (level) {
             case Log.VERBOSE:

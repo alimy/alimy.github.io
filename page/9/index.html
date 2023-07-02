@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 
 <head>
-	<meta name="generator" content="Hugo 0.79.0-DEV" />
+	<meta name="generator" content="Hugo 0.115.0">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
@@ -427,28 +427,28 @@
 </header>
 <div class="summary">
     <p>craete a HTTPS Server use net/http and route handle function by DefaultServeMux, see code below:</p>
-<pre><code>package main
+<pre tabindex="0"><code>package main
 
 import (
-	&quot;net/http&quot;
-	&quot;fmt&quot;
-	&quot;log&quot;
+	&#34;net/http&#34;
+	&#34;fmt&#34;
+	&#34;log&#34;
 )
 
 func hello(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, &quot;[%s]: hello!&quot;, r.Host)
+	fmt.Fprintf(w, &#34;[%s]: hello!&#34;, r.Host)
 }
 
 func world(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, &quot;[%s]: world!&quot;, r.Host)
+	fmt.Fprintf(w, &#34;[%s]: world!&#34;, r.Host)
 }
 
 func main() {
 	server := http.Server{
-		Addr: &quot;127.0.0.1:8080&quot;,
+		Addr: &#34;127.0.0.1:8080&#34;,
 	}
-	http.HandleFunc(&quot;/hello&quot;, hello)
-	http.HandleFunc(&quot;/world&quot;, world)
+	http.HandleFunc(&#34;/hello&#34;, hello)
+	http.HandleFunc(&#34;/world&#34;, world)
 
 	log.Fatal(server.ListenAndServe())
 }
@@ -467,11 +467,11 @@ func main() {
 </header>
 <div class="summary">
     <p>It is simple to craete a HTTPS Server use net/http, see code below:</p>
-<pre><code>package main
+<pre tabindex="0"><code>package main
 
 import (
-	&quot;net/http&quot;
-	&quot;fmt&quot;
+	&#34;net/http&#34;
+	&#34;fmt&#34;
 )
 
 type SimpleHandler struct {
@@ -479,15 +479,15 @@ type SimpleHandler struct {
 }
 
 func (h *SimpleHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, &quot;%s: Hello World!&quot;, h.Name)
+	fmt.Fprintf(w, &#34;%s: Hello World!&#34;, h.Name)
 }
 
 func main() {
 	server := http.Server{
-		Addr:    &quot;127.0.0.1:8080&quot;,
-		Handler: &amp;SimpleHandler{Name: &quot;SimpleServer&quot;},
+		Addr:    &#34;127.0.0.1:8080&#34;,
+		Handler: &amp;SimpleHandler{Name: &#34;SimpleServer&#34;},
 	}
-	server.ListenAndServeTLS(&quot;cert.pem&quot;, &quot;key.pem&quot;)
+	server.ListenAndServeTLS(&#34;cert.pem&#34;, &#34;key.pem&#34;)
 }
 </code></pre>
 </div>
@@ -536,13 +536,13 @@ func main() {
 </header>
 <div class="summary">
     <h4 id="第-一-章">第 一 章</h4>
-<pre><code>道 可 道 ， 非 常 道 。 名 可 名 ， 非 常 名 。  
+<pre tabindex="0"><code>道 可 道 ， 非 常 道 。 名 可 名 ， 非 常 名 。  
 无 名 天 地 之 始 ﹔ 有 名 万 物 之 母 。  
 故 常 无 ， 欲 以 观 其 妙 ﹔ 常 有 ， 欲 以 观 其 徼 。  
 此 两 者 ， 同 出 而 异 名 ， 同 谓 之 玄 。  
 玄 之 又 玄 ， 众 妙 之 门 。  
 </code></pre><h4 id="第-二-章">第 二 章</h4>
-<pre><code>天 下 皆 知 美 之 为 美 ， 斯 恶 已 。  
+<pre tabindex="0"><code>天 下 皆 知 美 之 为 美 ， 斯 恶 已 。  
 皆 知 善 之 为 善 ， 斯 不 善 已 。  
 有 无 相 生 ， 难 易 相 成 ， 长 短 相 形 ，  
 高 下 相 盈 ， 音 声 相 和 ， 前 后 相 随 。  

@@ -351,206 +351,206 @@
           
           <p><a href="https://github.com/alimy/yesql">Yesql</a> 解析一个SQL文件，提取出查询语句，自动生成对应的Go结构体，实现查询语句与代码分离，方便编写数据库查询逻辑。</p>
 <h3 id="安装">安装</h3>
-<pre><code>go get github.com/alimy/yesql
+<pre tabindex="0"><code>go get github.com/alimy/yesql
 </code></pre><h3 id="使用-godochttpsgodocorggithubcomalimyyesqlstatussvghttpspkggodevgithubcomalimyyesql">使用 <a href="https://pkg.go.dev/github.com/alimy/yesql"><img src="https://godoc.org/github.com/alimy/yesql?status.svg" alt="GoDoc"></a></h3>
 <h4 id="创建sql文件">创建sql文件</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#75715e">-- sql file yesql.sql
-</span><span style="color:#75715e"></span>
-<span style="color:#75715e">-- name: newest_tags@topic
-</span><span style="color:#75715e">-- get newest tag information
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">SELECT</span> t.id id, t.user_id user_id, t.tag tag, t.quote_num quote_num, u.id, u.nickname, u.username, u.status, u.avatar, u.is_admin 
-<span style="color:#66d9ef">FROM</span> <span style="color:#f92672">@</span>tag t <span style="color:#66d9ef">JOIN</span> <span style="color:#f92672">@</span><span style="color:#66d9ef">user</span> u <span style="color:#66d9ef">ON</span> t.user_id <span style="color:#f92672">=</span> u.id 
-<span style="color:#66d9ef">WHERE</span> t.is_del <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span> <span style="color:#66d9ef">AND</span> t.quote_num <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> 
-<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> t.id <span style="color:#66d9ef">DESC</span> 
-<span style="color:#66d9ef">LIMIT</span> <span style="color:#f92672">?</span> <span style="color:#66d9ef">OFFSET</span> <span style="color:#f92672">?</span>;
-
-<span style="color:#75715e">-- name: hot_tags@topic
-</span><span style="color:#75715e">-- get get host tag information
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">SELECT</span> t.id id, t.user_id user_id, t.tag tag, t.quote_num quote_num, u.id, u.nickname, u.username, u.status, u.avatar, u.is_admin 
-<span style="color:#66d9ef">FROM</span> <span style="color:#f92672">@</span>tag t <span style="color:#66d9ef">JOIN</span> <span style="color:#f92672">@</span><span style="color:#66d9ef">user</span> u <span style="color:#66d9ef">ON</span> t.user_id <span style="color:#f92672">=</span> u.id 
-<span style="color:#66d9ef">WHERE</span> t.is_del <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span> <span style="color:#66d9ef">AND</span> t.quote_num <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> 
-<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> t.quote_num <span style="color:#66d9ef">DESC</span> 
-<span style="color:#66d9ef">LIMIT</span> <span style="color:#f92672">?</span> <span style="color:#66d9ef">OFFSET</span> <span style="color:#f92672">?</span>;
-
-<span style="color:#75715e">-- name: tags_by_keyword_a@topic
-</span><span style="color:#75715e">-- get tags by keyword
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">SELECT</span> id, user_id, tag, quote_num <span style="color:#66d9ef">FROM</span> <span style="color:#f92672">@</span>tag <span style="color:#66d9ef">WHERE</span> is_del <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span> <span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> quote_num <span style="color:#66d9ef">DESC</span> <span style="color:#66d9ef">LIMIT</span> <span style="color:#ae81ff">6</span>;
-
-<span style="color:#75715e">-- name: tags_by_keyword_b@topic
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">SELECT</span> id, user_id, tag, quote_num <span style="color:#66d9ef">FROM</span> <span style="color:#f92672">@</span>tag <span style="color:#66d9ef">WHERE</span> is_del <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span> <span style="color:#66d9ef">AND</span> tag <span style="color:#66d9ef">LIKE</span> <span style="color:#f92672">?</span> <span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> quote_num <span style="color:#66d9ef">DESC</span> <span style="color:#66d9ef">LIMIT</span> <span style="color:#ae81ff">6</span>;
-
-<span style="color:#75715e">-- name: insert_tag@topic
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> <span style="color:#f92672">@</span>tag (user_id, tag, created_on, modified_on, quote_num) <span style="color:#66d9ef">VALUES</span> (<span style="color:#f92672">?</span>, <span style="color:#f92672">?</span>, <span style="color:#f92672">?</span>, <span style="color:#f92672">?</span>, <span style="color:#ae81ff">1</span>);
-
-<span style="color:#75715e">-- name: tags_by_id_a@topic
-</span><span style="color:#75715e">-- clause: in
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">SELECT</span> id <span style="color:#66d9ef">FROM</span> <span style="color:#f92672">@</span>tag <span style="color:#66d9ef">WHERE</span> id <span style="color:#66d9ef">IN</span> (<span style="color:#f92672">?</span>) <span style="color:#66d9ef">AND</span> is_del <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span> <span style="color:#66d9ef">AND</span> quote_num <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>;
-
-<span style="color:#75715e">-- name: tags_by_id_b@topic
-</span><span style="color:#75715e">-- clause: in
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">SELECT</span> id, user_id, tag, quote_num <span style="color:#66d9ef">FROM</span> <span style="color:#f92672">@</span>tag <span style="color:#66d9ef">WHERE</span> id <span style="color:#66d9ef">IN</span> (<span style="color:#f92672">?</span>);
-
-<span style="color:#75715e">-- name: decr_tags_by_id@topic
-</span><span style="color:#75715e">-- clause: in
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">UPDATE</span> <span style="color:#f92672">@</span>tag <span style="color:#66d9ef">SET</span> quote_num<span style="color:#f92672">=</span>quote_num<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, modified_on<span style="color:#f92672">=?</span> <span style="color:#66d9ef">WHERE</span> id <span style="color:#66d9ef">IN</span> (<span style="color:#f92672">?</span>);
-
-<span style="color:#75715e">-- name: tags_for_incr@topic
-</span><span style="color:#75715e">-- clause: in
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">SELECT</span> id, user_id, tag, quote_num <span style="color:#66d9ef">FROM</span> <span style="color:#f92672">@</span>tag <span style="color:#66d9ef">WHERE</span> tag <span style="color:#66d9ef">IN</span> (<span style="color:#f92672">?</span>);
-
-<span style="color:#75715e">-- name: incr_tags_by_id@topic
-</span><span style="color:#75715e">-- clause: in
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">UPDATE</span> <span style="color:#f92672">@</span>tag <span style="color:#66d9ef">SET</span> quote_num<span style="color:#f92672">=</span>quote_num<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, is_del<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, modified_on<span style="color:#f92672">=?</span> <span style="color:#66d9ef">WHERE</span> id <span style="color:#66d9ef">IN</span> (<span style="color:#f92672">?</span>);
-</code></pre></div><h4 id="使用scan模式方式一">使用Scan模式(方式一)</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// file: topics.go
-</span><span style="color:#75715e"></span>
-<span style="color:#f92672">package</span> <span style="color:#a6e22e">topics</span>
-
-<span style="color:#f92672">import</span> (
-	<span style="color:#e6db74">&#34;context&#34;</span>
-	<span style="color:#a6e22e">_</span> <span style="color:#e6db74">&#34;embed&#34;</span>
-
-	<span style="color:#e6db74">&#34;github.com/alimy/yesql&#34;</span>
-	<span style="color:#e6db74">&#34;github.com/jmoiron/sqlx&#34;</span>
-)
-
-<span style="color:#75715e">//go:embed yesql.sql
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">yesqlBytes</span> []<span style="color:#66d9ef">byte</span>
-
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Topic</span> <span style="color:#66d9ef">struct</span> {
-	<span style="color:#a6e22e">yesql</span>.<span style="color:#a6e22e">Namespace</span> <span style="color:#e6db74">`yesql:&#34;topic&#34;`</span>
-	<span style="color:#a6e22e">DecrTagsById</span>    <span style="color:#66d9ef">string</span>     <span style="color:#e6db74">`yesql:&#34;decr_tags_by_id&#34;`</span>
-	<span style="color:#a6e22e">IncrTagsById</span>    <span style="color:#66d9ef">string</span>     <span style="color:#e6db74">`yesql:&#34;incr_tags_by_id&#34;`</span>
-	<span style="color:#a6e22e">TagsByIdA</span>       <span style="color:#66d9ef">string</span>     <span style="color:#e6db74">`yesql:&#34;tags_by_id_a&#34;`</span>
-	<span style="color:#a6e22e">TagsByIdB</span>       <span style="color:#66d9ef">string</span>     <span style="color:#e6db74">`yesql:&#34;tags_by_id_b&#34;`</span>
-	<span style="color:#a6e22e">TagsForIncr</span>     <span style="color:#66d9ef">string</span>     <span style="color:#e6db74">`yesql:&#34;tags_for_incr&#34;`</span>
-	<span style="color:#a6e22e">HotTags</span>         <span style="color:#f92672">*</span><span style="color:#a6e22e">sqlx</span>.<span style="color:#a6e22e">Stmt</span> <span style="color:#e6db74">`yesql:&#34;hot_tags&#34;`</span>
-	<span style="color:#a6e22e">InsertTag</span>       <span style="color:#f92672">*</span><span style="color:#a6e22e">sqlx</span>.<span style="color:#a6e22e">Stmt</span> <span style="color:#e6db74">`yesql:&#34;insert_tag&#34;`</span>
-	<span style="color:#a6e22e">NewestTags</span>      <span style="color:#f92672">*</span><span style="color:#a6e22e">sqlx</span>.<span style="color:#a6e22e">Stmt</span> <span style="color:#e6db74">`yesql:&#34;newest_tags&#34;`</span>
-	<span style="color:#a6e22e">TagsByKeywordA</span>  <span style="color:#f92672">*</span><span style="color:#a6e22e">sqlx</span>.<span style="color:#a6e22e">Stmt</span> <span style="color:#e6db74">`yesql:&#34;tags_by_keyword_a&#34;`</span>
-	<span style="color:#a6e22e">TagsByKeywordB</span>  <span style="color:#f92672">*</span><span style="color:#a6e22e">sqlx</span>.<span style="color:#a6e22e">Stmt</span> <span style="color:#e6db74">`yesql:&#34;tags_by_keyword_b&#34;`</span>
-}
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">NewTopic</span>(<span style="color:#a6e22e">db</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">sqlx</span>.<span style="color:#a6e22e">DB</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">Topic</span>, <span style="color:#66d9ef">error</span>) {
-	<span style="color:#75715e">// use *sqlx.DB as prepare context
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">yesql</span>.<span style="color:#a6e22e">UseSqlx</span>(<span style="color:#a6e22e">db</span>)
-	<span style="color:#75715e">// get sql query
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">query</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">yesql</span>.<span style="color:#a6e22e">MustParseBytes</span>(<span style="color:#a6e22e">yesqlBytes</span>)
-	<span style="color:#75715e">// scan object from sql query
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">obj</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">Topic</span>{}
-	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">yesql</span>.<span style="color:#a6e22e">Scan</span>(<span style="color:#a6e22e">obj</span>, <span style="color:#a6e22e">query</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">err</span>
-	}
-	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">obj</span>, <span style="color:#66d9ef">nil</span>
-}
-</code></pre></div><h4 id="使用代码生成模式方式二">使用代码生成模式(方式二)</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- sql file yesql.sql
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- name: newest_tags@topic
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">-- get newest tag information
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">SELECT</span> t.id id, t.user_id user_id, t.tag tag, t.quote_num quote_num, u.id, u.nickname, u.username, u.status, u.avatar, u.is_admin 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> <span style="color:#f92672">@</span>tag t <span style="color:#66d9ef">JOIN</span> <span style="color:#f92672">@</span><span style="color:#66d9ef">user</span> u <span style="color:#66d9ef">ON</span> t.user_id <span style="color:#f92672">=</span> u.id 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> t.is_del <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span> <span style="color:#66d9ef">AND</span> t.quote_num <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> t.id <span style="color:#66d9ef">DESC</span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">LIMIT</span> <span style="color:#f92672">?</span> <span style="color:#66d9ef">OFFSET</span> <span style="color:#f92672">?</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- name: hot_tags@topic
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">-- get get host tag information
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">SELECT</span> t.id id, t.user_id user_id, t.tag tag, t.quote_num quote_num, u.id, u.nickname, u.username, u.status, u.avatar, u.is_admin 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> <span style="color:#f92672">@</span>tag t <span style="color:#66d9ef">JOIN</span> <span style="color:#f92672">@</span><span style="color:#66d9ef">user</span> u <span style="color:#66d9ef">ON</span> t.user_id <span style="color:#f92672">=</span> u.id 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> t.is_del <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span> <span style="color:#66d9ef">AND</span> t.quote_num <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> t.quote_num <span style="color:#66d9ef">DESC</span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">LIMIT</span> <span style="color:#f92672">?</span> <span style="color:#66d9ef">OFFSET</span> <span style="color:#f92672">?</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- name: tags_by_keyword_a@topic
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">-- get tags by keyword
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">SELECT</span> id, user_id, tag, quote_num <span style="color:#66d9ef">FROM</span> <span style="color:#f92672">@</span>tag <span style="color:#66d9ef">WHERE</span> is_del <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span> <span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> quote_num <span style="color:#66d9ef">DESC</span> <span style="color:#66d9ef">LIMIT</span> <span style="color:#ae81ff">6</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- name: tags_by_keyword_b@topic
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">SELECT</span> id, user_id, tag, quote_num <span style="color:#66d9ef">FROM</span> <span style="color:#f92672">@</span>tag <span style="color:#66d9ef">WHERE</span> is_del <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span> <span style="color:#66d9ef">AND</span> tag <span style="color:#66d9ef">LIKE</span> <span style="color:#f92672">?</span> <span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> quote_num <span style="color:#66d9ef">DESC</span> <span style="color:#66d9ef">LIMIT</span> <span style="color:#ae81ff">6</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- name: insert_tag@topic
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> <span style="color:#f92672">@</span>tag (user_id, tag, created_on, modified_on, quote_num) <span style="color:#66d9ef">VALUES</span> (<span style="color:#f92672">?</span>, <span style="color:#f92672">?</span>, <span style="color:#f92672">?</span>, <span style="color:#f92672">?</span>, <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- name: tags_by_id_a@topic
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">-- clause: in
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">SELECT</span> id <span style="color:#66d9ef">FROM</span> <span style="color:#f92672">@</span>tag <span style="color:#66d9ef">WHERE</span> id <span style="color:#66d9ef">IN</span> (<span style="color:#f92672">?</span>) <span style="color:#66d9ef">AND</span> is_del <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span> <span style="color:#66d9ef">AND</span> quote_num <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- name: tags_by_id_b@topic
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">-- clause: in
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">SELECT</span> id, user_id, tag, quote_num <span style="color:#66d9ef">FROM</span> <span style="color:#f92672">@</span>tag <span style="color:#66d9ef">WHERE</span> id <span style="color:#66d9ef">IN</span> (<span style="color:#f92672">?</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- name: decr_tags_by_id@topic
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">-- clause: in
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">UPDATE</span> <span style="color:#f92672">@</span>tag <span style="color:#66d9ef">SET</span> quote_num<span style="color:#f92672">=</span>quote_num<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, modified_on<span style="color:#f92672">=?</span> <span style="color:#66d9ef">WHERE</span> id <span style="color:#66d9ef">IN</span> (<span style="color:#f92672">?</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- name: tags_for_incr@topic
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">-- clause: in
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">SELECT</span> id, user_id, tag, quote_num <span style="color:#66d9ef">FROM</span> <span style="color:#f92672">@</span>tag <span style="color:#66d9ef">WHERE</span> tag <span style="color:#66d9ef">IN</span> (<span style="color:#f92672">?</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- name: incr_tags_by_id@topic
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">-- clause: in
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">UPDATE</span> <span style="color:#f92672">@</span>tag <span style="color:#66d9ef">SET</span> quote_num<span style="color:#f92672">=</span>quote_num<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, is_del<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, modified_on<span style="color:#f92672">=?</span> <span style="color:#66d9ef">WHERE</span> id <span style="color:#66d9ef">IN</span> (<span style="color:#f92672">?</span>);
+</span></span></code></pre></div><h4 id="使用scan模式方式一">使用Scan模式(方式一)</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// file: topics.go
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">topics</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;context&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">_</span> <span style="color:#e6db74">&#34;embed&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;github.com/alimy/yesql&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;github.com/jmoiron/sqlx&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//go:embed yesql.sql
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">yesqlBytes</span> []<span style="color:#66d9ef">byte</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Topic</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">yesql</span>.<span style="color:#a6e22e">Namespace</span> <span style="color:#e6db74">`yesql:&#34;topic&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">DecrTagsById</span>    <span style="color:#66d9ef">string</span>     <span style="color:#e6db74">`yesql:&#34;decr_tags_by_id&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">IncrTagsById</span>    <span style="color:#66d9ef">string</span>     <span style="color:#e6db74">`yesql:&#34;incr_tags_by_id&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">TagsByIdA</span>       <span style="color:#66d9ef">string</span>     <span style="color:#e6db74">`yesql:&#34;tags_by_id_a&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">TagsByIdB</span>       <span style="color:#66d9ef">string</span>     <span style="color:#e6db74">`yesql:&#34;tags_by_id_b&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">TagsForIncr</span>     <span style="color:#66d9ef">string</span>     <span style="color:#e6db74">`yesql:&#34;tags_for_incr&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">HotTags</span>         <span style="color:#f92672">*</span><span style="color:#a6e22e">sqlx</span>.<span style="color:#a6e22e">Stmt</span> <span style="color:#e6db74">`yesql:&#34;hot_tags&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">InsertTag</span>       <span style="color:#f92672">*</span><span style="color:#a6e22e">sqlx</span>.<span style="color:#a6e22e">Stmt</span> <span style="color:#e6db74">`yesql:&#34;insert_tag&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">NewestTags</span>      <span style="color:#f92672">*</span><span style="color:#a6e22e">sqlx</span>.<span style="color:#a6e22e">Stmt</span> <span style="color:#e6db74">`yesql:&#34;newest_tags&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">TagsByKeywordA</span>  <span style="color:#f92672">*</span><span style="color:#a6e22e">sqlx</span>.<span style="color:#a6e22e">Stmt</span> <span style="color:#e6db74">`yesql:&#34;tags_by_keyword_a&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">TagsByKeywordB</span>  <span style="color:#f92672">*</span><span style="color:#a6e22e">sqlx</span>.<span style="color:#a6e22e">Stmt</span> <span style="color:#e6db74">`yesql:&#34;tags_by_keyword_b&#34;`</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">NewTopic</span>(<span style="color:#a6e22e">db</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">sqlx</span>.<span style="color:#a6e22e">DB</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">Topic</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// use *sqlx.DB as prepare context
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">yesql</span>.<span style="color:#a6e22e">UseSqlx</span>(<span style="color:#a6e22e">db</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// get sql query
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">query</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">yesql</span>.<span style="color:#a6e22e">MustParseBytes</span>(<span style="color:#a6e22e">yesqlBytes</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// scan object from sql query
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">obj</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">Topic</span>{}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">yesql</span>.<span style="color:#a6e22e">Scan</span>(<span style="color:#a6e22e">obj</span>, <span style="color:#a6e22e">query</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">err</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">obj</span>, <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h4 id="使用代码生成模式方式二">使用代码生成模式(方式二)</h4>
 <ul>
 <li>编写代码生成逻辑</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// file: gen.go
-</span><span style="color:#75715e"></span>
-<span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
-
-<span style="color:#f92672">import</span> (
-	<span style="color:#e6db74">&#34;log&#34;</span>
-	<span style="color:#e6db74">&#34;strings&#34;</span>
-
-	<span style="color:#e6db74">&#34;github.com/alimy/yesql&#34;</span>
-)
-
-<span style="color:#75715e">//go:generate go run $GOFILE
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
-	<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;[Yesql] generate code start&#34;</span>)
-	<span style="color:#a6e22e">yesql</span>.<span style="color:#a6e22e">SetDefaultQueryHook</span>(<span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">query</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">yesql</span>.<span style="color:#a6e22e">Query</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">yesql</span>.<span style="color:#a6e22e">Query</span>, <span style="color:#66d9ef">error</span>) {
-		<span style="color:#a6e22e">query</span>.<span style="color:#a6e22e">Query</span> = <span style="color:#a6e22e">strings</span>.<span style="color:#a6e22e">TrimRight</span>(<span style="color:#a6e22e">query</span>.<span style="color:#a6e22e">Query</span>, <span style="color:#e6db74">&#34;;&#34;</span>)
-		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">query</span>, <span style="color:#66d9ef">nil</span>
-	})
-	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">yesql</span>.<span style="color:#a6e22e">Generate</span>(<span style="color:#e6db74">&#34;yesql.sql&#34;</span>, <span style="color:#e6db74">&#34;auto&#34;</span>, <span style="color:#e6db74">&#34;yesql&#34;</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-		<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Fatalf</span>(<span style="color:#e6db74">&#34;generate code occurs error: %s&#34;</span>, <span style="color:#a6e22e">err</span>)
-	}
-	<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;[Yesql] generate code finish&#34;</span>)
-}
-</code></pre></div><ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// file: gen.go
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;log&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;strings&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;github.com/alimy/yesql&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//go:generate go run $GOFILE
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;[Yesql] generate code start&#34;</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">yesql</span>.<span style="color:#a6e22e">SetDefaultQueryHook</span>(<span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">query</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">yesql</span>.<span style="color:#a6e22e">Query</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">yesql</span>.<span style="color:#a6e22e">Query</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">query</span>.<span style="color:#a6e22e">Query</span> = <span style="color:#a6e22e">strings</span>.<span style="color:#a6e22e">TrimRight</span>(<span style="color:#a6e22e">query</span>.<span style="color:#a6e22e">Query</span>, <span style="color:#e6db74">&#34;;&#34;</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">query</span>, <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>	})
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">yesql</span>.<span style="color:#a6e22e">Generate</span>(<span style="color:#e6db74">&#34;yesql.sql&#34;</span>, <span style="color:#e6db74">&#34;auto&#34;</span>, <span style="color:#e6db74">&#34;yesql&#34;</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Fatalf</span>(<span style="color:#e6db74">&#34;generate code occurs error: %s&#34;</span>, <span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;[Yesql] generate code finish&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
 <li>自动生成Go代码</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">% go generate gen.go
-2023/03/31 19:34:44 <span style="color:#f92672">[</span>Yesql<span style="color:#f92672">]</span> generate code start
-2023/03/31 19:34:44 <span style="color:#f92672">[</span>Yesql<span style="color:#f92672">]</span> generate code finish
-</code></pre></div><ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>% go generate gen.go
+</span></span><span style="display:flex;"><span>2023/03/31 19:34:44 <span style="color:#f92672">[</span>Yesql<span style="color:#f92672">]</span> generate code start
+</span></span><span style="display:flex;"><span>2023/03/31 19:34:44 <span style="color:#f92672">[</span>Yesql<span style="color:#f92672">]</span> generate code finish
+</span></span></code></pre></div><ul>
 <li>生成的代码如下(生成文件路径: auto/yesql.go)</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// Code generated by Yesql. DO NOT EDIT.
-</span><span style="color:#75715e">// versions:
-</span><span style="color:#75715e">// - Yesql v1.1.2
-</span><span style="color:#75715e"></span>
-<span style="color:#f92672">package</span> <span style="color:#a6e22e">yesql</span>
-
-<span style="color:#f92672">import</span> (
-	<span style="color:#e6db74">&#34;context&#34;</span>
-
-	<span style="color:#e6db74">&#34;github.com/alimy/yesql&#34;</span>
-	<span style="color:#e6db74">&#34;github.com/jmoiron/sqlx&#34;</span>
-)
-
-<span style="color:#66d9ef">const</span> (
-	<span style="color:#a6e22e">_TagsByKeywordB_Topic</span> = <span style="color:#e6db74">`SELECT id, user_id, tag, quote_num FROM @tag WHERE is_del = 0 AND tag LIKE ? ORDER BY quote_num DESC LIMIT 6`</span>
-	<span style="color:#a6e22e">_InsertTag_Topic</span>      = <span style="color:#e6db74">`INSERT INTO @tag (user_id, tag, created_on, modified_on, quote_num) VALUES (?, ?, ?, ?, 1)`</span>
-	<span style="color:#a6e22e">_TagsByIdA_Topic</span>      = <span style="color:#e6db74">`SELECT id FROM @tag WHERE id IN (?) AND is_del = 0 AND quote_num &gt; 0`</span>
-	<span style="color:#a6e22e">_TagsByIdB_Topic</span>      = <span style="color:#e6db74">`SELECT id, user_id, tag, quote_num FROM @tag WHERE id IN (?)`</span>
-	<span style="color:#a6e22e">_TagsForIncr_Topic</span>    = <span style="color:#e6db74">`SELECT id, user_id, tag, quote_num FROM @tag WHERE tag IN (?)`</span>
-	<span style="color:#a6e22e">_IncrTagsById_Topic</span>   = <span style="color:#e6db74">`UPDATE @tag SET quote_num=quote_num+1, is_del=0, modified_on=? WHERE id IN (?)`</span>
-	<span style="color:#a6e22e">_NewestTags_Topic</span>     = <span style="color:#e6db74">`SELECT t.id id, t.user_id user_id, t.tag tag, t.quote_num quote_num, u.id, u.nickname, u.username, u.status, u.avatar, u.is_admin FROM @tag t JOIN @user u ON t.user_id = u.id WHERE t.is_del = 0 AND t.quote_num &gt; 0 ORDER BY t.id DESC LIMIT ? OFFSET ?`</span>
-	<span style="color:#a6e22e">_TagsByKeywordA_Topic</span> = <span style="color:#e6db74">`SELECT id, user_id, tag, quote_num FROM @tag WHERE is_del = 0 ORDER BY quote_num DESC LIMIT 6`</span>
-	<span style="color:#a6e22e">_DecrTagsById_Topic</span>   = <span style="color:#e6db74">`UPDATE @tag SET quote_num=quote_num-1, modified_on=? WHERE id IN (?)`</span>
-	<span style="color:#a6e22e">_HotTags_Topic</span>        = <span style="color:#e6db74">`SELECT t.id id, t.user_id user_id, t.tag tag, t.quote_num quote_num, u.id, u.nickname, u.username, u.status, u.avatar, u.is_admin FROM @tag t JOIN @user u ON t.user_id = u.id WHERE t.is_del = 0 AND t.quote_num &gt; 0 ORDER BY t.quote_num DESC LIMIT ? OFFSET ?`</span>
-)
-
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Topic</span> <span style="color:#66d9ef">struct</span> {
-	<span style="color:#a6e22e">yesql</span>.<span style="color:#a6e22e">Namespace</span> <span style="color:#e6db74">`yesql:&#34;topic&#34;`</span>
-	<span style="color:#a6e22e">DecrTagsById</span>    <span style="color:#66d9ef">string</span>     <span style="color:#e6db74">`yesql:&#34;decr_tags_by_id&#34;`</span>
-	<span style="color:#a6e22e">IncrTagsById</span>    <span style="color:#66d9ef">string</span>     <span style="color:#e6db74">`yesql:&#34;incr_tags_by_id&#34;`</span>
-	<span style="color:#a6e22e">TagsByIdA</span>       <span style="color:#66d9ef">string</span>     <span style="color:#e6db74">`yesql:&#34;tags_by_id_a&#34;`</span>
-	<span style="color:#a6e22e">TagsByIdB</span>       <span style="color:#66d9ef">string</span>     <span style="color:#e6db74">`yesql:&#34;tags_by_id_b&#34;`</span>
-	<span style="color:#a6e22e">TagsForIncr</span>     <span style="color:#66d9ef">string</span>     <span style="color:#e6db74">`yesql:&#34;tags_for_incr&#34;`</span>
-	<span style="color:#a6e22e">HotTags</span>         <span style="color:#f92672">*</span><span style="color:#a6e22e">sqlx</span>.<span style="color:#a6e22e">Stmt</span> <span style="color:#e6db74">`yesql:&#34;hot_tags&#34;`</span>
-	<span style="color:#a6e22e">InsertTag</span>       <span style="color:#f92672">*</span><span style="color:#a6e22e">sqlx</span>.<span style="color:#a6e22e">Stmt</span> <span style="color:#e6db74">`yesql:&#34;insert_tag&#34;`</span>
-	<span style="color:#a6e22e">NewestTags</span>      <span style="color:#f92672">*</span><span style="color:#a6e22e">sqlx</span>.<span style="color:#a6e22e">Stmt</span> <span style="color:#e6db74">`yesql:&#34;newest_tags&#34;`</span>
-	<span style="color:#a6e22e">TagsByKeywordA</span>  <span style="color:#f92672">*</span><span style="color:#a6e22e">sqlx</span>.<span style="color:#a6e22e">Stmt</span> <span style="color:#e6db74">`yesql:&#34;tags_by_keyword_a&#34;`</span>
-	<span style="color:#a6e22e">TagsByKeywordB</span>  <span style="color:#f92672">*</span><span style="color:#a6e22e">sqlx</span>.<span style="color:#a6e22e">Stmt</span> <span style="color:#e6db74">`yesql:&#34;tags_by_keyword_b&#34;`</span>
-}
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">BuildTopic</span>(<span style="color:#a6e22e">p</span> <span style="color:#a6e22e">yesql</span>.<span style="color:#a6e22e">PreparexBuilder</span>, <span style="color:#a6e22e">ctx</span> <span style="color:#f92672">...</span><span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>) (<span style="color:#a6e22e">obj</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Topic</span>, <span style="color:#a6e22e">err</span> <span style="color:#66d9ef">error</span>) {
-	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">c</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>
-	<span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">ctx</span>) &gt; <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">ctx</span>[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-		<span style="color:#a6e22e">c</span> = <span style="color:#a6e22e">ctx</span>[<span style="color:#ae81ff">0</span>]
-	} <span style="color:#66d9ef">else</span> {
-		<span style="color:#a6e22e">c</span> = <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Background</span>()
-	}
-	<span style="color:#a6e22e">obj</span> = <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">Topic</span>{
-		<span style="color:#a6e22e">DecrTagsById</span>: <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">QueryHook</span>(<span style="color:#a6e22e">_DecrTagsById_Topic</span>),
-		<span style="color:#a6e22e">IncrTagsById</span>: <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">QueryHook</span>(<span style="color:#a6e22e">_IncrTagsById_Topic</span>),
-		<span style="color:#a6e22e">TagsByIdA</span>:    <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">QueryHook</span>(<span style="color:#a6e22e">_TagsByIdA_Topic</span>),
-		<span style="color:#a6e22e">TagsByIdB</span>:    <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">QueryHook</span>(<span style="color:#a6e22e">_TagsByIdB_Topic</span>),
-		<span style="color:#a6e22e">TagsForIncr</span>:  <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">QueryHook</span>(<span style="color:#a6e22e">_TagsForIncr_Topic</span>),
-	}
-	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">obj</span>.<span style="color:#a6e22e">HotTags</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">PreparexContext</span>(<span style="color:#a6e22e">c</span>, <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">Rebind</span>(<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">QueryHook</span>(<span style="color:#a6e22e">_HotTags_Topic</span>))); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-		<span style="color:#66d9ef">return</span>
-	}
-	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">obj</span>.<span style="color:#a6e22e">InsertTag</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">PreparexContext</span>(<span style="color:#a6e22e">c</span>, <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">Rebind</span>(<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">QueryHook</span>(<span style="color:#a6e22e">_InsertTag_Topic</span>))); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-		<span style="color:#66d9ef">return</span>
-	}
-	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">obj</span>.<span style="color:#a6e22e">NewestTags</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">PreparexContext</span>(<span style="color:#a6e22e">c</span>, <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">Rebind</span>(<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">QueryHook</span>(<span style="color:#a6e22e">_NewestTags_Topic</span>))); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-		<span style="color:#66d9ef">return</span>
-	}
-	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">obj</span>.<span style="color:#a6e22e">TagsByKeywordA</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">PreparexContext</span>(<span style="color:#a6e22e">c</span>, <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">Rebind</span>(<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">QueryHook</span>(<span style="color:#a6e22e">_TagsByKeywordA_Topic</span>))); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-		<span style="color:#66d9ef">return</span>
-	}
-	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">obj</span>.<span style="color:#a6e22e">TagsByKeywordB</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">PreparexContext</span>(<span style="color:#a6e22e">c</span>, <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">Rebind</span>(<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">QueryHook</span>(<span style="color:#a6e22e">_TagsByKeywordB_Topic</span>))); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-		<span style="color:#66d9ef">return</span>
-	}
-	<span style="color:#66d9ef">return</span>
-}
-</code></pre></div><h3 id="使用-yesqlhttpsgithubcomalimyyesql-的项目">使用 <a href="https://github.com/alimy/yesql">Yesql</a> 的项目</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// Code generated by Yesql. DO NOT EDIT.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// versions:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// - Yesql v1.1.2
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">yesql</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;context&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;github.com/alimy/yesql&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;github.com/jmoiron/sqlx&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">_TagsByKeywordB_Topic</span> = <span style="color:#e6db74">`SELECT id, user_id, tag, quote_num FROM @tag WHERE is_del = 0 AND tag LIKE ? ORDER BY quote_num DESC LIMIT 6`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">_InsertTag_Topic</span>      = <span style="color:#e6db74">`INSERT INTO @tag (user_id, tag, created_on, modified_on, quote_num) VALUES (?, ?, ?, ?, 1)`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">_TagsByIdA_Topic</span>      = <span style="color:#e6db74">`SELECT id FROM @tag WHERE id IN (?) AND is_del = 0 AND quote_num &gt; 0`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">_TagsByIdB_Topic</span>      = <span style="color:#e6db74">`SELECT id, user_id, tag, quote_num FROM @tag WHERE id IN (?)`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">_TagsForIncr_Topic</span>    = <span style="color:#e6db74">`SELECT id, user_id, tag, quote_num FROM @tag WHERE tag IN (?)`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">_IncrTagsById_Topic</span>   = <span style="color:#e6db74">`UPDATE @tag SET quote_num=quote_num+1, is_del=0, modified_on=? WHERE id IN (?)`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">_NewestTags_Topic</span>     = <span style="color:#e6db74">`SELECT t.id id, t.user_id user_id, t.tag tag, t.quote_num quote_num, u.id, u.nickname, u.username, u.status, u.avatar, u.is_admin FROM @tag t JOIN @user u ON t.user_id = u.id WHERE t.is_del = 0 AND t.quote_num &gt; 0 ORDER BY t.id DESC LIMIT ? OFFSET ?`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">_TagsByKeywordA_Topic</span> = <span style="color:#e6db74">`SELECT id, user_id, tag, quote_num FROM @tag WHERE is_del = 0 ORDER BY quote_num DESC LIMIT 6`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">_DecrTagsById_Topic</span>   = <span style="color:#e6db74">`UPDATE @tag SET quote_num=quote_num-1, modified_on=? WHERE id IN (?)`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">_HotTags_Topic</span>        = <span style="color:#e6db74">`SELECT t.id id, t.user_id user_id, t.tag tag, t.quote_num quote_num, u.id, u.nickname, u.username, u.status, u.avatar, u.is_admin FROM @tag t JOIN @user u ON t.user_id = u.id WHERE t.is_del = 0 AND t.quote_num &gt; 0 ORDER BY t.quote_num DESC LIMIT ? OFFSET ?`</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Topic</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">yesql</span>.<span style="color:#a6e22e">Namespace</span> <span style="color:#e6db74">`yesql:&#34;topic&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">DecrTagsById</span>    <span style="color:#66d9ef">string</span>     <span style="color:#e6db74">`yesql:&#34;decr_tags_by_id&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">IncrTagsById</span>    <span style="color:#66d9ef">string</span>     <span style="color:#e6db74">`yesql:&#34;incr_tags_by_id&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">TagsByIdA</span>       <span style="color:#66d9ef">string</span>     <span style="color:#e6db74">`yesql:&#34;tags_by_id_a&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">TagsByIdB</span>       <span style="color:#66d9ef">string</span>     <span style="color:#e6db74">`yesql:&#34;tags_by_id_b&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">TagsForIncr</span>     <span style="color:#66d9ef">string</span>     <span style="color:#e6db74">`yesql:&#34;tags_for_incr&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">HotTags</span>         <span style="color:#f92672">*</span><span style="color:#a6e22e">sqlx</span>.<span style="color:#a6e22e">Stmt</span> <span style="color:#e6db74">`yesql:&#34;hot_tags&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">InsertTag</span>       <span style="color:#f92672">*</span><span style="color:#a6e22e">sqlx</span>.<span style="color:#a6e22e">Stmt</span> <span style="color:#e6db74">`yesql:&#34;insert_tag&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">NewestTags</span>      <span style="color:#f92672">*</span><span style="color:#a6e22e">sqlx</span>.<span style="color:#a6e22e">Stmt</span> <span style="color:#e6db74">`yesql:&#34;newest_tags&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">TagsByKeywordA</span>  <span style="color:#f92672">*</span><span style="color:#a6e22e">sqlx</span>.<span style="color:#a6e22e">Stmt</span> <span style="color:#e6db74">`yesql:&#34;tags_by_keyword_a&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">TagsByKeywordB</span>  <span style="color:#f92672">*</span><span style="color:#a6e22e">sqlx</span>.<span style="color:#a6e22e">Stmt</span> <span style="color:#e6db74">`yesql:&#34;tags_by_keyword_b&#34;`</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">BuildTopic</span>(<span style="color:#a6e22e">p</span> <span style="color:#a6e22e">yesql</span>.<span style="color:#a6e22e">PreparexBuilder</span>, <span style="color:#a6e22e">ctx</span> <span style="color:#f92672">...</span><span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>) (<span style="color:#a6e22e">obj</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Topic</span>, <span style="color:#a6e22e">err</span> <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">c</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">ctx</span>) &gt; <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">ctx</span>[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">c</span> = <span style="color:#a6e22e">ctx</span>[<span style="color:#ae81ff">0</span>]
+</span></span><span style="display:flex;"><span>	} <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">c</span> = <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Background</span>()
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">obj</span> = <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">Topic</span>{
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">DecrTagsById</span>: <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">QueryHook</span>(<span style="color:#a6e22e">_DecrTagsById_Topic</span>),
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">IncrTagsById</span>: <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">QueryHook</span>(<span style="color:#a6e22e">_IncrTagsById_Topic</span>),
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">TagsByIdA</span>:    <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">QueryHook</span>(<span style="color:#a6e22e">_TagsByIdA_Topic</span>),
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">TagsByIdB</span>:    <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">QueryHook</span>(<span style="color:#a6e22e">_TagsByIdB_Topic</span>),
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">TagsForIncr</span>:  <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">QueryHook</span>(<span style="color:#a6e22e">_TagsForIncr_Topic</span>),
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">obj</span>.<span style="color:#a6e22e">HotTags</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">PreparexContext</span>(<span style="color:#a6e22e">c</span>, <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">Rebind</span>(<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">QueryHook</span>(<span style="color:#a6e22e">_HotTags_Topic</span>))); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">obj</span>.<span style="color:#a6e22e">InsertTag</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">PreparexContext</span>(<span style="color:#a6e22e">c</span>, <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">Rebind</span>(<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">QueryHook</span>(<span style="color:#a6e22e">_InsertTag_Topic</span>))); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">obj</span>.<span style="color:#a6e22e">NewestTags</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">PreparexContext</span>(<span style="color:#a6e22e">c</span>, <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">Rebind</span>(<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">QueryHook</span>(<span style="color:#a6e22e">_NewestTags_Topic</span>))); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">obj</span>.<span style="color:#a6e22e">TagsByKeywordA</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">PreparexContext</span>(<span style="color:#a6e22e">c</span>, <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">Rebind</span>(<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">QueryHook</span>(<span style="color:#a6e22e">_TagsByKeywordA_Topic</span>))); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">obj</span>.<span style="color:#a6e22e">TagsByKeywordB</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">PreparexContext</span>(<span style="color:#a6e22e">c</span>, <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">Rebind</span>(<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">QueryHook</span>(<span style="color:#a6e22e">_TagsByKeywordB_Topic</span>))); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="使用-yesqlhttpsgithubcomalimyyesql-的项目">使用 <a href="https://github.com/alimy/yesql">Yesql</a> 的项目</h3>
 <ul>
 <li><a href="https://github.com/alimy/yesql/tree/main/examples">examples</a> - 项目自带的Demo</li>
 <li><a href="https://github.com/rocboss/paopao-ce/tree/r/paopao-ce-plus">paopao-ce</a> - 一个清新文艺的微社区</li>

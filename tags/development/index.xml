@@ -5,6 +5,7 @@
     <link>https://alimy.me/tags/development/</link>
     <description>Recent content in development on 北野</description>
     <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
     <lastBuildDate>Fri, 31 Mar 2023 20:32:00 +0800</lastBuildDate><atom:link href="https://alimy.me/tags/development/index.xml" rel="self" type="application/rss+xml" />
     <item>
@@ -15,57 +16,57 @@
       <guid>https://alimy.me/post/dev_202303312032/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://github.com/alimy/yesql&#34;&gt;Yesql&lt;/a&gt; 解析一个SQL文件，提取出查询语句，自动生成对应的Go结构体，实现查询语句与代码分离，方便编写数据库查询逻辑。&lt;/p&gt;
 &lt;h3 id=&#34;安装&#34;&gt;安装&lt;/h3&gt;
-&lt;pre&gt;&lt;code&gt;go get github.com/alimy/yesql
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;go get github.com/alimy/yesql
 &lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;使用-godochttpsgodocorggithubcomalimyyesqlstatussvghttpspkggodevgithubcomalimyyesql&#34;&gt;使用 &lt;a href=&#34;https://pkg.go.dev/github.com/alimy/yesql&#34;&gt;&lt;img src=&#34;https://godoc.org/github.com/alimy/yesql?status.svg&#34; alt=&#34;GoDoc&#34;&gt;&lt;/a&gt;&lt;/h3&gt;
 &lt;h4 id=&#34;创建sql文件&#34;&gt;创建sql文件&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- sql file yesql.sql
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
-&lt;span style=&#34;color:#75715e&#34;&gt;-- name: newest_tags@topic
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- get newest tag information
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; t.id id, t.user_id user_id, t.tag tag, t.quote_num quote_num, u.id, u.nickname, u.username, u.status, u.avatar, u.is_admin 
-&lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tag t &lt;span style=&#34;color:#66d9ef&#34;&gt;JOIN&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;user&lt;/span&gt; u &lt;span style=&#34;color:#66d9ef&#34;&gt;ON&lt;/span&gt; t.user_id &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; u.id 
-&lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; t.is_del &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;AND&lt;/span&gt; t.quote_num &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; 
-&lt;span style=&#34;color:#66d9ef&#34;&gt;ORDER&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;BY&lt;/span&gt; t.id &lt;span style=&#34;color:#66d9ef&#34;&gt;DESC&lt;/span&gt; 
-&lt;span style=&#34;color:#66d9ef&#34;&gt;LIMIT&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;OFFSET&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;;
-
-&lt;span style=&#34;color:#75715e&#34;&gt;-- name: hot_tags@topic
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- get get host tag information
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; t.id id, t.user_id user_id, t.tag tag, t.quote_num quote_num, u.id, u.nickname, u.username, u.status, u.avatar, u.is_admin 
-&lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tag t &lt;span style=&#34;color:#66d9ef&#34;&gt;JOIN&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;user&lt;/span&gt; u &lt;span style=&#34;color:#66d9ef&#34;&gt;ON&lt;/span&gt; t.user_id &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; u.id 
-&lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; t.is_del &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;AND&lt;/span&gt; t.quote_num &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; 
-&lt;span style=&#34;color:#66d9ef&#34;&gt;ORDER&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;BY&lt;/span&gt; t.quote_num &lt;span style=&#34;color:#66d9ef&#34;&gt;DESC&lt;/span&gt; 
-&lt;span style=&#34;color:#66d9ef&#34;&gt;LIMIT&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;OFFSET&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;;
-
-&lt;span style=&#34;color:#75715e&#34;&gt;-- name: tags_by_keyword_a@topic
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- get tags by keyword
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; id, user_id, tag, quote_num &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tag &lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; is_del &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;ORDER&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;BY&lt;/span&gt; quote_num &lt;span style=&#34;color:#66d9ef&#34;&gt;DESC&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;LIMIT&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt;;
-
-&lt;span style=&#34;color:#75715e&#34;&gt;-- name: tags_by_keyword_b@topic
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; id, user_id, tag, quote_num &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tag &lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; is_del &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;AND&lt;/span&gt; tag &lt;span style=&#34;color:#66d9ef&#34;&gt;LIKE&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;ORDER&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;BY&lt;/span&gt; quote_num &lt;span style=&#34;color:#66d9ef&#34;&gt;DESC&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;LIMIT&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt;;
-
-&lt;span style=&#34;color:#75715e&#34;&gt;-- name: insert_tag@topic
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;INSERT&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;INTO&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tag (user_id, tag, created_on, modified_on, quote_num) &lt;span style=&#34;color:#66d9ef&#34;&gt;VALUES&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;);
-
-&lt;span style=&#34;color:#75715e&#34;&gt;-- name: tags_by_id_a@topic
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- clause: in
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; id &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tag &lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; id &lt;span style=&#34;color:#66d9ef&#34;&gt;IN&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;AND&lt;/span&gt; is_del &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;AND&lt;/span&gt; quote_num &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
-
-&lt;span style=&#34;color:#75715e&#34;&gt;-- name: tags_by_id_b@topic
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- clause: in
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; id, user_id, tag, quote_num &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tag &lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; id &lt;span style=&#34;color:#66d9ef&#34;&gt;IN&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;);
-
-&lt;span style=&#34;color:#75715e&#34;&gt;-- name: decr_tags_by_id@topic
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- clause: in
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;UPDATE&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tag &lt;span style=&#34;color:#66d9ef&#34;&gt;SET&lt;/span&gt; quote_num&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;quote_num&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, modified_on&lt;span style=&#34;color:#f92672&#34;&gt;=?&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; id &lt;span style=&#34;color:#66d9ef&#34;&gt;IN&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;);
-
-&lt;span style=&#34;color:#75715e&#34;&gt;-- name: tags_for_incr@topic
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- clause: in
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; id, user_id, tag, quote_num &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tag &lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; tag &lt;span style=&#34;color:#66d9ef&#34;&gt;IN&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;);
-
-&lt;span style=&#34;color:#75715e&#34;&gt;-- name: incr_tags_by_id@topic
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- clause: in
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;UPDATE&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tag &lt;span style=&#34;color:#66d9ef&#34;&gt;SET&lt;/span&gt; quote_num&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;quote_num&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, is_del&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, modified_on&lt;span style=&#34;color:#f92672&#34;&gt;=?&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; id &lt;span style=&#34;color:#66d9ef&#34;&gt;IN&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;);
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- sql file yesql.sql
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- name: newest_tags@topic
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- get newest tag information
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; t.id id, t.user_id user_id, t.tag tag, t.quote_num quote_num, u.id, u.nickname, u.username, u.status, u.avatar, u.is_admin 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tag t &lt;span style=&#34;color:#66d9ef&#34;&gt;JOIN&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;user&lt;/span&gt; u &lt;span style=&#34;color:#66d9ef&#34;&gt;ON&lt;/span&gt; t.user_id &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; u.id 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; t.is_del &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;AND&lt;/span&gt; t.quote_num &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;ORDER&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;BY&lt;/span&gt; t.id &lt;span style=&#34;color:#66d9ef&#34;&gt;DESC&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;LIMIT&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;OFFSET&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- name: hot_tags@topic
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- get get host tag information
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; t.id id, t.user_id user_id, t.tag tag, t.quote_num quote_num, u.id, u.nickname, u.username, u.status, u.avatar, u.is_admin 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tag t &lt;span style=&#34;color:#66d9ef&#34;&gt;JOIN&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;user&lt;/span&gt; u &lt;span style=&#34;color:#66d9ef&#34;&gt;ON&lt;/span&gt; t.user_id &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; u.id 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; t.is_del &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;AND&lt;/span&gt; t.quote_num &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;ORDER&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;BY&lt;/span&gt; t.quote_num &lt;span style=&#34;color:#66d9ef&#34;&gt;DESC&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;LIMIT&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;OFFSET&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- name: tags_by_keyword_a@topic
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- get tags by keyword
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; id, user_id, tag, quote_num &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tag &lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; is_del &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;ORDER&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;BY&lt;/span&gt; quote_num &lt;span style=&#34;color:#66d9ef&#34;&gt;DESC&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;LIMIT&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- name: tags_by_keyword_b@topic
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; id, user_id, tag, quote_num &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tag &lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; is_del &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;AND&lt;/span&gt; tag &lt;span style=&#34;color:#66d9ef&#34;&gt;LIKE&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;ORDER&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;BY&lt;/span&gt; quote_num &lt;span style=&#34;color:#66d9ef&#34;&gt;DESC&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;LIMIT&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- name: insert_tag@topic
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;INSERT&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;INTO&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tag (user_id, tag, created_on, modified_on, quote_num) &lt;span style=&#34;color:#66d9ef&#34;&gt;VALUES&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- name: tags_by_id_a@topic
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- clause: in
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; id &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tag &lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; id &lt;span style=&#34;color:#66d9ef&#34;&gt;IN&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;AND&lt;/span&gt; is_del &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;AND&lt;/span&gt; quote_num &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- name: tags_by_id_b@topic
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- clause: in
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; id, user_id, tag, quote_num &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tag &lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; id &lt;span style=&#34;color:#66d9ef&#34;&gt;IN&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- name: decr_tags_by_id@topic
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- clause: in
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;UPDATE&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tag &lt;span style=&#34;color:#66d9ef&#34;&gt;SET&lt;/span&gt; quote_num&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;quote_num&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, modified_on&lt;span style=&#34;color:#f92672&#34;&gt;=?&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; id &lt;span style=&#34;color:#66d9ef&#34;&gt;IN&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- name: tags_for_incr@topic
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- clause: in
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; id, user_id, tag, quote_num &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tag &lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; tag &lt;span style=&#34;color:#66d9ef&#34;&gt;IN&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- name: incr_tags_by_id@topic
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- clause: in
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;UPDATE&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tag &lt;span style=&#34;color:#66d9ef&#34;&gt;SET&lt;/span&gt; quote_num&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;quote_num&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, is_del&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, modified_on&lt;span style=&#34;color:#f92672&#34;&gt;=?&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; id &lt;span style=&#34;color:#66d9ef&#34;&gt;IN&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
     </item>
     
     <item>
@@ -97,34 +98,34 @@
       <description>&lt;p&gt;&lt;a href=&#34;https://github.com/rocboss/paopao-ce&#34;&gt;paopao-ce&lt;/a&gt; 是使用Golang技术栈打造的一个清新文艺的微社区，编译后的可执行文件外加一个配置文件&lt;code&gt;conf.yml&lt;/code&gt;就可以简单部署一个节点实例提供类似Twitter的推文服务。&lt;/p&gt;
 &lt;p&gt;paopao-ce的配置文件中有一个功能项的配置用于自定义节点实例运行时提供哪些服务，对部署运维非常友好。本文简单解析&lt;code&gt;conf.yml&lt;/code&gt;中功能项配置的设计，了解其背后的实现细节。&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;conf.yml&lt;/code&gt;的功能项配置机制是参考&lt;a href=&#34;https://github.com/rust-lang/rust&#34;&gt;Rust&lt;/a&gt;包管理工具Cargo的 &lt;code&gt;Cargo.toml&lt;/code&gt; 中 &lt;code&gt;[features]&lt;/code&gt; 配置而设计的。如下示例：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-toml&#34; data-lang=&#34;toml&#34;&gt;[&lt;span style=&#34;color:#a6e22e&#34;&gt;package&lt;/span&gt;]
-&lt;span style=&#34;color:#a6e22e&#34;&gt;name&lt;/span&gt; = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;poem&amp;#34;&lt;/span&gt;
-&lt;span style=&#34;color:#a6e22e&#34;&gt;version&lt;/span&gt; = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;1.3.50&amp;#34;&lt;/span&gt;
-&lt;span style=&#34;color:#a6e22e&#34;&gt;authors&lt;/span&gt; = [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;sunli &amp;lt;scott_s829@163.com&amp;gt;&amp;#34;&lt;/span&gt;]
-&lt;span style=&#34;color:#a6e22e&#34;&gt;edition&lt;/span&gt; = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;2021&amp;#34;&lt;/span&gt;
-&lt;span style=&#34;color:#a6e22e&#34;&gt;description&lt;/span&gt; = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Poem is a full-featured and easy-to-use web framework with the Rust programming language.&amp;#34;&lt;/span&gt;
-
-[&lt;span style=&#34;color:#a6e22e&#34;&gt;features&lt;/span&gt;]
-&lt;span style=&#34;color:#a6e22e&#34;&gt;default&lt;/span&gt; = [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;server&amp;#34;&lt;/span&gt;]
-&lt;span style=&#34;color:#a6e22e&#34;&gt;server&lt;/span&gt; = [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;tokio/rt&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;tokio/net&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;hyper/server&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;hyper/runtime&amp;#34;&lt;/span&gt;]
-&lt;span style=&#34;color:#a6e22e&#34;&gt;websocket&lt;/span&gt; = [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;tokio/rt&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;tokio-tungstenite&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;base64&amp;#34;&lt;/span&gt;]
-&lt;span style=&#34;color:#a6e22e&#34;&gt;multipart&lt;/span&gt; = [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;multer&amp;#34;&lt;/span&gt;]
-&lt;span style=&#34;color:#a6e22e&#34;&gt;rustls&lt;/span&gt; = [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;server&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;tokio-rustls&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;rustls-pemfile&amp;#34;&lt;/span&gt;]
-&lt;span style=&#34;color:#a6e22e&#34;&gt;native&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;tls&lt;/span&gt; = [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;server&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;tokio-native-tls&amp;#34;&lt;/span&gt;]
-&lt;span style=&#34;color:#a6e22e&#34;&gt;openssl&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;tls&lt;/span&gt; = [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;server&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;tokio-openssl&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;openssl&amp;#34;&lt;/span&gt;]
-&lt;span style=&#34;color:#a6e22e&#34;&gt;static&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;files&lt;/span&gt; = [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;httpdate&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;mime_guess&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;tokio/io-util&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;tokio/fs&amp;#34;&lt;/span&gt;]
-&lt;span style=&#34;color:#a6e22e&#34;&gt;cookie&lt;/span&gt; = [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;libcookie&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;chrono&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;time&amp;#34;&lt;/span&gt;]
-&lt;span style=&#34;color:#a6e22e&#34;&gt;session&lt;/span&gt; = [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;tokio/rt&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;cookie&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;rand&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;priority-queue&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;base64&amp;#34;&lt;/span&gt;]
-&lt;span style=&#34;color:#a6e22e&#34;&gt;embed&lt;/span&gt; = [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;rust-embed&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;hex&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;mime_guess&amp;#34;&lt;/span&gt;]
-&lt;span style=&#34;color:#a6e22e&#34;&gt;xml&lt;/span&gt; = [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;quick-xml&amp;#34;&lt;/span&gt;]
-&lt;span style=&#34;color:#a6e22e&#34;&gt;i18n&lt;/span&gt; = [
-    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;fluent&amp;#34;&lt;/span&gt;,
-    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;fluent-langneg&amp;#34;&lt;/span&gt;,
-    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;fluent-syntax&amp;#34;&lt;/span&gt;,
-    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;unic-langid&amp;#34;&lt;/span&gt;,
-    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;intl-memoizer&amp;#34;&lt;/span&gt;,
-]
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-toml&#34; data-lang=&#34;toml&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;[&lt;span style=&#34;color:#a6e22e&#34;&gt;package&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;name&lt;/span&gt; = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;poem&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;version&lt;/span&gt; = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;1.3.50&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;authors&lt;/span&gt; = [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;sunli &amp;lt;scott_s829@163.com&amp;gt;&amp;#34;&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;edition&lt;/span&gt; = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;2021&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;description&lt;/span&gt; = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Poem is a full-featured and easy-to-use web framework with the Rust programming language.&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;[&lt;span style=&#34;color:#a6e22e&#34;&gt;features&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;default&lt;/span&gt; = [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;server&amp;#34;&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;server&lt;/span&gt; = [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;tokio/rt&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;tokio/net&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;hyper/server&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;hyper/runtime&amp;#34;&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;websocket&lt;/span&gt; = [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;tokio/rt&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;tokio-tungstenite&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;base64&amp;#34;&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;multipart&lt;/span&gt; = [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;multer&amp;#34;&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;rustls&lt;/span&gt; = [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;server&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;tokio-rustls&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;rustls-pemfile&amp;#34;&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;native-tls&lt;/span&gt; = [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;server&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;tokio-native-tls&amp;#34;&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;openssl-tls&lt;/span&gt; = [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;server&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;tokio-openssl&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;openssl&amp;#34;&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;static-files&lt;/span&gt; = [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;httpdate&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;mime_guess&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;tokio/io-util&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;tokio/fs&amp;#34;&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;cookie&lt;/span&gt; = [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;libcookie&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;chrono&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;time&amp;#34;&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;session&lt;/span&gt; = [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;tokio/rt&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;cookie&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;rand&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;priority-queue&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;base64&amp;#34;&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;embed&lt;/span&gt; = [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;rust-embed&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;hex&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;mime_guess&amp;#34;&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;xml&lt;/span&gt; = [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;quick-xml&amp;#34;&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;i18n&lt;/span&gt; = [
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;fluent&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;fluent-langneg&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;fluent-syntax&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;unic-langid&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;intl-memoizer&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
     </item>
     
     <item>
@@ -142,7 +143,7 @@
       <pubDate>Wed, 23 Feb 2022 11:10:00 +0800</pubDate>
       
       <guid>https://alimy.me/post/dev_202202231110/</guid>
-      <description>&lt;pre&gt;&lt;code&gt;%&amp;gt; brew install postgres
+      <description>&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;%&amp;gt; brew install postgres
 %&amp;gt; psql -version
 %&amp;gt; # 若之前安装过，请确保/usr/local/var路径下无任何postrges相关文件残留
 %&amp;gt; initdb --locale=C -E UTF-8 /usr/local/var/postgres
@@ -192,7 +193,7 @@ MySQL 8.0开始支持直方图，这是个很大的进步。&lt;/p&gt;
 &lt;p&gt;索引统计信息也有不可靠的时候，例如存在数据倾斜，或者统计延迟等问题。&lt;/p&gt;
 &lt;p&gt;另外，在有需要的时候，可以在每个有需要的列上创建直方图，但却不太可能同时创建多个单列索引，那样代价太高了。&lt;/p&gt;
 &lt;p&gt;例如下面这个执行计划：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;[root@yejr.run]&amp;gt; explain select * from t1 where seq = 1234;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;[root@yejr.run]&amp;gt; explain select * from t1 where seq = 1234;
 +------+---------------+------+---------+------+--------+----------+-------------+
 | type | possible_keys | key  | key_len | ref  | rows   | filtered | Extra       |
 +------+---------------+------+---------+------+--------+----------+-------------+
@@ -226,20 +227,20 @@ Empty set (0.097 sec)
 &lt;h3 id=&#34;添加获取的对应ip地址到本地hosts文件&#34;&gt;添加获取的对应IP地址到本地hosts文件&lt;/h3&gt;
 &lt;p&gt;MacOS或Linux环境hosts文件路径&lt;code&gt;/etc/hosts&lt;/code&gt; ; Windows环境是&lt;code&gt;C:\Windows\System32\drivers\etc&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;以下是在MacOS或Linux环境下：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;% sudo cat &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;lt;&amp;lt;EOF&amp;gt;&amp;gt;/etc/hosts
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;# github.com
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;140.82.113.3 github.com
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;199.232.69.194 github.global.ssl.fastly.net
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;185.199.108.153 assets-cdn.github.com
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;185.199.109.153 assets-cdn.github.com
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;185.199.110.153 assets-cdn.github.com
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;185.199.111.153 assets-cdn.github.com
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;EOF&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;刷新dns&#34;&gt;刷新DNS&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;% ipconfig /flushdns &lt;span style=&#34;color:#75715e&#34;&gt;# in windows&lt;/span&gt;
-% sudo systemctl restart network-manager &lt;span style=&#34;color:#75715e&#34;&gt;# in Linux that use systemd as init&lt;/span&gt;
-% sudo killall -HUP mDNSResponder &lt;span style=&#34;color:#75715e&#34;&gt;# in MacOS&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;% sudo cat &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;lt;&amp;lt;EOF&amp;gt;&amp;gt;/etc/hosts
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;# github.com
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;140.82.113.3 github.com
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;199.232.69.194 github.global.ssl.fastly.net
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;185.199.108.153 assets-cdn.github.com
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;185.199.109.153 assets-cdn.github.com
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;185.199.110.153 assets-cdn.github.com
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;185.199.111.153 assets-cdn.github.com
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;EOF&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;刷新dns&#34;&gt;刷新DNS&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;% ipconfig /flushdns &lt;span style=&#34;color:#75715e&#34;&gt;# in windows&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;% sudo systemctl restart network-manager &lt;span style=&#34;color:#75715e&#34;&gt;# in Linux that use systemd as init&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;% sudo killall -HUP mDNSResponder &lt;span style=&#34;color:#75715e&#34;&gt;# in MacOS&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
     </item>
     
     <item>
@@ -251,28 +252,28 @@ Empty set (0.097 sec)
       <description>&lt;ul&gt;
 &lt;li&gt;生成根证书(ca.key, ca.crt)&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;%&amp;gt; openssl genrsa -out ca.key &lt;span style=&#34;color:#ae81ff&#34;&gt;2048&lt;/span&gt;
-%&amp;gt; openssl req -new -x509 -days &lt;span style=&#34;color:#ae81ff&#34;&gt;3650&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;     -subj &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/C=CN/L=Shanghai/O=grpc/CN=grpc.me&amp;#34;&lt;/span&gt;
-     -key ca.key -out ca.crt
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;%&amp;gt; openssl genrsa -out ca.key &lt;span style=&#34;color:#ae81ff&#34;&gt;2048&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;%&amp;gt; openssl req -new -x509 -days &lt;span style=&#34;color:#ae81ff&#34;&gt;3650&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;     -subj &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/C=CN/L=Shanghai/O=grpc/CN=grpc.me&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;     -key ca.key -out ca.crt
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;生成服务器证书(server.key, server.crt)&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;%&amp;gt; openssl genrsa -out server.key &lt;span style=&#34;color:#ae81ff&#34;&gt;2048&lt;/span&gt;
-
-&lt;span style=&#34;color:#75715e&#34;&gt;# 未使用CA签名的server.crt&lt;/span&gt;
-%&amp;gt; openssl req -new -x509 -days &lt;span style=&#34;color:#ae81ff&#34;&gt;3650&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;     -subj &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/C=CN/L=Shanghai/O=grpc-server/CN=server.grpc.me&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;     -key server.key -out server.crt
- 
-&lt;span style=&#34;color:#75715e&#34;&gt;# 使用CA签名的server.crt&lt;/span&gt;
-%&amp;gt; openssl req -new &lt;span style=&#34;color:#ae81ff&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;     -subj &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/C=CN/L=Shanghai/O=grpc-server/CN=server.grpc.me&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;     -key server.key -out server.csr
-%&amp;gt; openssl x509 -req -sha256 &lt;span style=&#34;color:#ae81ff&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;     -CA ca.crt -CAkey ca.key -CAcreateserial -days &lt;span style=&#34;color:#ae81ff&#34;&gt;3650&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;     -in server.csr -out server.crt
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;%&amp;gt; openssl genrsa -out server.key &lt;span style=&#34;color:#ae81ff&#34;&gt;2048&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 未使用CA签名的server.crt&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;%&amp;gt; openssl req -new -x509 -days &lt;span style=&#34;color:#ae81ff&#34;&gt;3650&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;     -subj &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/C=CN/L=Shanghai/O=grpc-server/CN=server.grpc.me&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;     -key server.key -out server.crt
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 使用CA签名的server.crt&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;%&amp;gt; openssl req -new &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;     -subj &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/C=CN/L=Shanghai/O=grpc-server/CN=server.grpc.me&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;     -key server.key -out server.csr
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;%&amp;gt; openssl x509 -req -sha256 &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;     -CA ca.crt -CAkey ca.key -CAcreateserial -days &lt;span style=&#34;color:#ae81ff&#34;&gt;3650&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;     -in server.csr -out server.crt
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
     </item>
     
     <item>
@@ -281,21 +282,21 @@ Empty set (0.097 sec)
       <pubDate>Mon, 05 Apr 2021 01:20:00 +0800</pubDate>
       
       <guid>https://alimy.me/post/dev_202104050200/</guid>
-      <description>&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$&amp;gt; sudo dnf install dnsmasq -y &lt;span style=&#34;color:#75715e&#34;&gt;# 安装 Dnsmasq &lt;/span&gt;
-$&amp;gt; sudo cp /etc/dnsmasq.conf&lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;,bak&lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;# 先把配置文件备份一份&lt;/span&gt;
-$&amp;gt; sudo vim /etc/dnsmasq.conf
-&lt;span style=&#34;color:#75715e&#34;&gt;# 严格按照 resolv-file 文件中的顺序从上到下进行 DNS 解析, 直到第一个成功解析成功为止&lt;/span&gt;
-strict-order
-
-&lt;span style=&#34;color:#75715e&#34;&gt;# 监听的 IP 地址&lt;/span&gt;
-listen-address&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;127.0.0.1
-
-&lt;span style=&#34;color:#75715e&#34;&gt;# 设置缓存大小&lt;/span&gt;
-cache-size&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;10240&lt;/span&gt;
-
-&lt;span style=&#34;color:#75715e&#34;&gt;# 泛域名解析，访问任何 baidu.com 域名都会被解析到 6.6.6.6&lt;/span&gt;
-address&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;/baidu.com/6.6.6.6
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;域名解析默认读取 /etc/hosts 文件到本地域名配置文件（不支持泛域名）。&lt;/p&gt;
+      <description>&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$&amp;gt; sudo dnf install dnsmasq -y &lt;span style=&#34;color:#75715e&#34;&gt;# 安装 Dnsmasq &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$&amp;gt; sudo cp /etc/dnsmasq.conf&lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;,bak&lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;# 先把配置文件备份一份&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$&amp;gt; sudo vim /etc/dnsmasq.conf
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 严格按照 resolv-file 文件中的顺序从上到下进行 DNS 解析, 直到第一个成功解析成功为止&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;strict-order
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 监听的 IP 地址&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;listen-address&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;127.0.0.1
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 设置缓存大小&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;cache-size&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;10240&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 泛域名解析，访问任何 baidu.com 域名都会被解析到 6.6.6.6&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;address&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;/baidu.com/6.6.6.6
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;域名解析默认读取 /etc/hosts 文件到本地域名配置文件（不支持泛域名）。&lt;/p&gt;
 &lt;p&gt;DNS 配置默认读取 /etc/resolv.conf 上游 DNS 配置文件，如果读取不到 /etc/hosts 的地址解析，就会转发给 resolv.conf 进行解析地址。&lt;/p&gt;</description>
     </item>
     
@@ -403,30 +404,30 @@ address&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;/baidu.com/6.6.6.
       <guid>https://alimy.me/post/dev_202101181248/</guid>
       <description>&lt;h4 id=&#34;创建型模式&#34;&gt;创建型模式&lt;/h4&gt;
 &lt;p&gt;原始模型&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-kotlin&#34; data-lang=&#34;kotlin&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;interface&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Computer&lt;/span&gt; {
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;val&lt;/span&gt; cpu: String
-}
-
-&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;PC&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;override&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;val&lt;/span&gt; cpu: String = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Core&amp;#34;&lt;/span&gt;): Computer
-&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Server&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;override&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;val&lt;/span&gt; cpu: String = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Xeon&amp;#34;&lt;/span&gt;): Computer
-
-&lt;span style=&#34;color:#66d9ef&#34;&gt;enum&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;ComputerType&lt;/span&gt; {
-	PC, Server
-}
-
-&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;ComputerFactory&lt;/span&gt; {
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;fun&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;produce&lt;/span&gt;(type: ComputerType): Computer {
-		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;when&lt;/span&gt;(type) {
-			ComputerType.PC &lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt; PC()
-			ComputerType.Server &lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt; Server()
-		}
-	}
-}
-
-&amp;gt;&amp;gt;&amp;gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;val&lt;/span&gt; comp = ComputerFactory().produce(ComputerType.PC)
-&amp;gt;&amp;gt;&amp;gt; println(comp.cpu)
-Core
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-kotlin&#34; data-lang=&#34;kotlin&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;interface&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Computer&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;val&lt;/span&gt; cpu: String
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;PC&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;override&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;val&lt;/span&gt; cpu: String = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Core&amp;#34;&lt;/span&gt;): Computer
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Server&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;override&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;val&lt;/span&gt; cpu: String = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Xeon&amp;#34;&lt;/span&gt;): Computer
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;enum&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;ComputerType&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	PC, Server
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;ComputerFactory&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;fun&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;produce&lt;/span&gt;(type: ComputerType): Computer {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;when&lt;/span&gt;(type) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#a6e22e&#34;&gt;ComputerType&lt;/span&gt;.PC &lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt; PC()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#a6e22e&#34;&gt;ComputerType&lt;/span&gt;.Server &lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt; Server()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;gt;&amp;gt;&amp;gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;val&lt;/span&gt; comp = ComputerFactory().produce(&lt;span style=&#34;color:#a6e22e&#34;&gt;ComputerType&lt;/span&gt;.PC)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;gt;&amp;gt;&amp;gt; println(comp.cpu)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Core
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
     </item>
     
     <item>
@@ -435,7 +436,7 @@ Core
       <pubDate>Mon, 04 Jan 2021 20:02:00 +0800</pubDate>
       
       <guid>https://alimy.me/post/dev_202101042002/</guid>
-      <description>&lt;pre&gt;&lt;code&gt;---types---
+      <description>&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;---types---
 /////
 //
 // Serialized binary TL-schema in vkext format
@@ -476,7 +477,7 @@ tls.typeExpr name:int flags:int children_num:# children:children_num*[tls.Expr] 
 &lt;h3 id=&#34;tokens&#34;&gt;Tokens&lt;/h3&gt;
 &lt;p&gt;Comments are the same as in C/C++. They are removed by a lexical parser (for example, being replaced by a single space). Whitespace separates tokens. Except for string constants, tokens cannot contain spaces.&lt;/p&gt;
 &lt;p&gt;Character classes:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;lc-letter ::= `a` | `b` | ... | `z`
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;lc-letter ::= `a` | `b` | ... | `z`
 uc-letter ::= `A` | `B` | ... | `Z`
 digit ::= `0` | `1` | ... | `9`
 hex-digit ::= digit | `a` | `b` | `c` | `d` | `e` | `f`
@@ -493,7 +494,7 @@ ident-char ::= letter | digit | underscore
       
       <guid>https://alimy.me/post/dev_202012081630/</guid>
       <description>&lt;p&gt;Below you will find the current MTProto TL-schema. More detais on &lt;a href=&#34;https://alimy.me/post/dev_202012071315/&#34;&gt;TL&lt;/a&gt;.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;int ? = Int;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;int ? = Int;
 long ? = Long;
 double ? = Double;
 string ? = String;
@@ -579,12 +580,12 @@ http_wait#9299359f max_delay:int wait_after:int max_wait:int = HttpWait;
       <guid>https://alimy.me/post/dev_202012071337/</guid>
       <description>&lt;h4 id=&#34;response-to-an-rpc-query&#34;&gt;Response to an RPC query&lt;/h4&gt;
 &lt;p&gt;A response to an RPC query is normally wrapped as follows:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;rpc_result#f35c6d01 req_msg_id:long result:Object = RpcResult;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;rpc_result#f35c6d01 req_msg_id:long result:Object = RpcResult;
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Here req_msg_id is the identifier of the message sent by the other party and containing an RPC query. This way, the recipient knows that the result is a response to the specific RPC query in question. At the same time, this response serves as acknowledgment of the other party’s receipt of the req_msg_id message.&lt;/p&gt;
 &lt;p&gt;Note that the response to an RPC query must also be acknowledged. Most frequently, this coincides with the transmission of the next message (which may have a container attached to it carrying a service message with the acknowledgment).&lt;/p&gt;
 &lt;h4 id=&#34;rpc-error&#34;&gt;RPC Error&lt;/h4&gt;
 &lt;p&gt;The result field returned in response to any RPC query may also contain an error message in the following format:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;rpc_error#2144ca19 error_code:int error_message:string = RpcError;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;rpc_error#2144ca19 error_code:int error_message:string = RpcError;
 &lt;/code&gt;&lt;/pre&gt;</description>
     </item>
     
@@ -603,7 +604,7 @@ http_wait#9299359f max_delay:int wait_after:int max_wait:int = HttpWait;
 &lt;li&gt;Value, in this case, is the same as a string in Alphabet A, i. e. a finite (possibly, empty) sequence of 32-bit numbers. The set of all such sequences is designated as A*.&lt;/li&gt;
 &lt;li&gt;Type, for our purposes, is the same as the set of legal values of a type, i. e. some set T which is a subset of A* and is a prefix code (i. e. no element of T may be a prefix for any other element). Therefore, any sequence from A* can contain no more than one prefix that is a member of T.&lt;/li&gt;
 &lt;li&gt;Value of Type T is any sequence (value) which is a member of T as a subset of A*.&lt;/li&gt;
-&lt;li&gt;Compatible Types are the types T and T’ not intersecting as subsets of A*, such that the union of T and T&#39; is a prefix code.&lt;/li&gt;
+&lt;li&gt;Compatible Types are the types T and T’ not intersecting as subsets of A*, such that the union of T and T&amp;rsquo; is a prefix code.&lt;/li&gt;
 &lt;li&gt;Coordinated System of Types is a finite or infinite set of types T_1, &amp;hellip;, T_n, &amp;hellip;, such that any two types from this set are compatible.&lt;/li&gt;
 &lt;li&gt;Data Type is the same as type in the sense of the definition above.&lt;/li&gt;
 &lt;li&gt;Functional Type is a type describing a function; it is not a type in the sense of the definition above. Initially, we ignore the existence of functional types and describe only the data types; however, in reality, functional types will later be implemented in some extension of this system using the so-called temporary combinators.&lt;/li&gt;
@@ -633,14 +634,14 @@ http_wait#9299359f max_delay:int wait_after:int max_wait:int = HttpWait;
       <description>&lt;p&gt;It should be noted that in the TL schema of the overwhelming majority of API calls the use of polymorphic types is restricted to the Vector type. Nevertheless, having a view of the big picture is still helpful.&lt;/p&gt;
 &lt;h4 id=&#34;ordinary-inductive-types&#34;&gt;Ordinary inductive types&lt;/h4&gt;
 &lt;p&gt;For example, let us consider the IntList, which is defined as follows:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;int_cons hd:int tl:IntList = IntList;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;int_cons hd:int tl:IntList = IntList;
 int_nil = IntList;
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The “int_cons” and “int_nil” constructors as well as the “IntList” type itself are expressions of the following types (writing A : X means that A is an expression of type X):&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;IntList : Type;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;IntList : Type;
 int_cons : int -&amp;gt; IntList -&amp;gt; IntList;
 int_nil : IntList;
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The keyword Type is used to denote the type of all types. Note that Type is not Object (Object is the type of all terms). Here is alternative syntax that could be used in some other functional programming language (but not in TL):&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;NewType IntList :=
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;NewType IntList :=
 | int_cons hd:int tl:IntList
 | int_nil
 EndType
@@ -713,17 +714,17 @@ EndType
       <description>&lt;p&gt;国内有些地区访问Rustup的服务器及registry(@github)不太顺畅，这里介绍配置中科大的Rust镜像。&lt;/p&gt;
 &lt;h4 id=&#34;科大-rust-crates-镜像&#34;&gt;科大 Rust Crates 镜像&lt;/h4&gt;
 &lt;p&gt;在 $HOME/.cargo/config 中添加如下内容&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;[registry]
-index = &amp;quot;git://mirrors.ustc.edu.cn/crates.io-index&amp;quot;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;[registry]
+index = &amp;#34;git://mirrors.ustc.edu.cn/crates.io-index&amp;#34;
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;如果所处的环境中不允许使用 git 协议, 可以把上述地址改为&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;index = &amp;quot;http://mirrors.ustc.edu.cn/crates.io-index&amp;quot;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;index = &amp;#34;http://mirrors.ustc.edu.cn/crates.io-index&amp;#34;
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;同步频率为每两个小时更新一次.&lt;/p&gt;
 &lt;p&gt;如果 cargo 版本为 0.13.0 或以上, 需要更改 $HOME/.cargo/config 为以下内容:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;[source.crates-io]
-registry = &amp;quot;https://github.com/rust-lang/crates.io-index&amp;quot;
-replace-with = &#39;ustc&#39;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;[source.crates-io]
+registry = &amp;#34;https://github.com/rust-lang/crates.io-index&amp;#34;
+replace-with = &amp;#39;ustc&amp;#39;
 [source.ustc]
-registry = &amp;quot;git://mirrors.ustc.edu.cn/crates.io-index&amp;quot;
+registry = &amp;#34;git://mirrors.ustc.edu.cn/crates.io-index&amp;#34;
 &lt;/code&gt;&lt;/pre&gt;</description>
     </item>
     
@@ -743,14 +744,14 @@ registry = &amp;quot;git://mirrors.ustc.edu.cn/crates.io-index&amp;quot;
 &lt;/ul&gt;
 &lt;h4 id=&#34;docker安装&#34;&gt;Docker安装&lt;/h4&gt;
 &lt;p&gt;安装CentOS官方版本：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;% sudo yum install -y docker
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;% sudo yum install -y docker
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;或者 安装Docker官方版本：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;% sudo su
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;% sudo su
 % yum install -y yum-utils device-mapper-persistent-data lvm2
 % yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 % yum install -y docker-ce 
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;启动Docker服务：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;% sudo systemctl enable docker
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;% sudo systemctl enable docker
 % sudo systemctl start docker
 &lt;/code&gt;&lt;/pre&gt;</description>
     </item>
@@ -764,11 +765,11 @@ registry = &amp;quot;git://mirrors.ustc.edu.cn/crates.io-index&amp;quot;
       <description>&lt;p&gt;This document describes the binary wire format for protocol buffer messages. You don&amp;rsquo;t need to understand this to use protocol buffers in your applications, but it can be very useful to know how different protocol buffer formats affect the size of your encoded messages.&lt;/p&gt;
 &lt;h3 id=&#34;a-simple-message&#34;&gt;A Simple Message&lt;/h3&gt;
 &lt;p&gt;Let&amp;rsquo;s say you have the following very simple message definition:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;message Test1 {
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;message Test1 {
   optional int32 a = 1;
 }
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In an application, you create a &lt;code&gt;Test1&lt;/code&gt; message and set &lt;code&gt;a&lt;/code&gt; to 150. You then serialize the message to an output stream. If you were able to examine the encoded message, you&amp;rsquo;d see three bytes:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;08 96 01
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;08 96 01
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;So far, so small and numeric – but what does it mean? Read on&amp;hellip;&lt;/p&gt;</description>
     </item>
     
@@ -815,17 +816,17 @@ registry = &amp;quot;git://mirrors.ustc.edu.cn/crates.io-index&amp;quot;
       
       <guid>https://alimy.me/post/dev_201909211536/</guid>
       <description>&lt;p&gt;This is a language specification reference for version 3 of the Protocol Buffers language (proto3). The syntax is specified using Extended &lt;a href=&#34;https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_Form&#34; title=&#34;EBNF in WIKI&#34;&gt;Backus-Naur Form (EBNF)&lt;/a&gt;:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;|   alternation
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;|   alternation
 ()  grouping
 []  option (zero or one time)
 {}  repetition (any number of times)
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For more information about using proto3, see the language guide.&lt;/p&gt;
 &lt;h3 id=&#34;lexical-elements&#34;&gt;Lexical elements&lt;/h3&gt;
 &lt;h4 id=&#34;letters-and-digits&#34;&gt;Letters and digits&lt;/h4&gt;
-&lt;pre&gt;&lt;code&gt;letter = &amp;quot;A&amp;quot; … &amp;quot;Z&amp;quot; | &amp;quot;a&amp;quot; … &amp;quot;z&amp;quot;
-decimalDigit = &amp;quot;0&amp;quot; … &amp;quot;9&amp;quot;
-octalDigit   = &amp;quot;0&amp;quot; … &amp;quot;7&amp;quot;
-hexDigit     = &amp;quot;0&amp;quot; … &amp;quot;9&amp;quot; | &amp;quot;A&amp;quot; … &amp;quot;F&amp;quot; | &amp;quot;a&amp;quot; … &amp;quot;f&amp;quot;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;letter = &amp;#34;A&amp;#34; … &amp;#34;Z&amp;#34; | &amp;#34;a&amp;#34; … &amp;#34;z&amp;#34;
+decimalDigit = &amp;#34;0&amp;#34; … &amp;#34;9&amp;#34;
+octalDigit   = &amp;#34;0&amp;#34; … &amp;#34;7&amp;#34;
+hexDigit     = &amp;#34;0&amp;#34; … &amp;#34;9&amp;#34; | &amp;#34;A&amp;#34; … &amp;#34;F&amp;#34; | &amp;#34;a&amp;#34; … &amp;#34;f&amp;#34;
 &lt;/code&gt;&lt;/pre&gt;</description>
     </item>
     
@@ -836,18 +837,18 @@ hexDigit     = &amp;quot;0&amp;quot; … &amp;quot;9&amp;quot; | &amp;quot;A&amp
       
       <guid>https://alimy.me/post/dev_201909211516/</guid>
       <description>&lt;p&gt;This is a language specification reference for version 2 of the Protocol Buffers language (proto2). The syntax is specified using Extended &lt;a href=&#34;https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_Form&#34; title=&#34;EBNF in WIKI&#34;&gt;Backus-Naur Form (EBNF)&lt;/a&gt;:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;|   alternation
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;|   alternation
 ()  grouping
 []  option (zero or one time)
 {}  repetition (any number of times)
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For more information about using proto2, see the language guide.&lt;/p&gt;
 &lt;h3 id=&#34;lexical-elements&#34;&gt;Lexical elements&lt;/h3&gt;
 &lt;h4 id=&#34;letters-and-digits&#34;&gt;Letters and digits&lt;/h4&gt;
-&lt;pre&gt;&lt;code&gt;letter = &amp;quot;A&amp;quot; … &amp;quot;Z&amp;quot; | &amp;quot;a&amp;quot; … &amp;quot;z&amp;quot;
-capitalLetter =  &amp;quot;A&amp;quot; … &amp;quot;Z&amp;quot;
-decimalDigit = &amp;quot;0&amp;quot; … &amp;quot;9&amp;quot;
-octalDigit   = &amp;quot;0&amp;quot; … &amp;quot;7&amp;quot;
-hexDigit     = &amp;quot;0&amp;quot; … &amp;quot;9&amp;quot; | &amp;quot;A&amp;quot; … &amp;quot;F&amp;quot; | &amp;quot;a&amp;quot; … &amp;quot;f&amp;quot;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;letter = &amp;#34;A&amp;#34; … &amp;#34;Z&amp;#34; | &amp;#34;a&amp;#34; … &amp;#34;z&amp;#34;
+capitalLetter =  &amp;#34;A&amp;#34; … &amp;#34;Z&amp;#34;
+decimalDigit = &amp;#34;0&amp;#34; … &amp;#34;9&amp;#34;
+octalDigit   = &amp;#34;0&amp;#34; … &amp;#34;7&amp;#34;
+hexDigit     = &amp;#34;0&amp;#34; … &amp;#34;9&amp;#34; | &amp;#34;A&amp;#34; … &amp;#34;F&amp;#34; | &amp;#34;a&amp;#34; … &amp;#34;f&amp;#34;
 &lt;/code&gt;&lt;/pre&gt;</description>
     </item>
     
@@ -860,7 +861,7 @@ hexDigit     = &amp;quot;0&amp;quot; … &amp;quot;9&amp;quot; | &amp;quot;A&amp
       <description>&lt;h2 id=&#34;schema-language&#34;&gt;Schema Language&lt;/h2&gt;
 &lt;p&gt;Like Protocol Buffers and Thrift (but unlike JSON or MessagePack), Cap’n Proto messages are strongly-typed and not self-describing. You must define your message structure in a special language, then invoke the Cap’n Proto compiler (&lt;code&gt;capnp compile&lt;/code&gt;) to generate source code to manipulate that message type in your desired language.&lt;/p&gt;
 &lt;h4 id=&#34;for-example&#34;&gt;For example:&lt;/h4&gt;
-&lt;pre&gt;&lt;code&gt;@0xdbb9ad1f14bf0b36;  # unique file ID, generated by `capnp id`
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;@0xdbb9ad1f14bf0b36;  # unique file ID, generated by `capnp id`
 
 struct Person {
   name @0 :Text;
@@ -994,7 +995,7 @@ implementations (open source or commercial) if you&amp;rsquo;d like to be listed
 &lt;li&gt;散列表的键值可以用问号 ( ? )起始，用来明确的表示多个词汇组成的键值。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;li&gt;字符串平常并不使用引号，但必要的时候可以用双引号 ( &amp;quot; )或单引号 ( &#39; )框住。
+&lt;li&gt;字符串平常并不使用引号，但必要的时候可以用双引号 ( &amp;quot; )或单引号 ( &amp;rsquo; )框住。
 &lt;ul&gt;
 &lt;li&gt;使用双引号表示字符串时，可用倒斜线（ \ ）开始的转义字符（这跟C语言类似）表示特殊字符。&lt;/li&gt;
 &lt;/ul&gt;
@@ -1038,9 +1039,9 @@ YAML在使用逗号及冒号时，后面都必须接一个空白字符，所以�
 在该目录创建config文件&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;pre&gt;&lt;code&gt;$ vi /root/.ssh/config
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ vi /root/.ssh/config
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;加入下面一句：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;ServerAliveInterval 60
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;ServerAliveInterval 60
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;保存退出，重新开启root用户的shell，则ssh远程服务器的时候，
 不会因为长时间操作断开。应该是加入这句之后，ssh客户端会每隔一
 段时间自动与ssh服务器通信一次，所以长时间操作不会断开。&lt;/p&gt;
@@ -1048,7 +1049,7 @@ YAML在使用逗号及冒号时，后面都必须接一个空白字符，所以�
 &lt;li&gt;方法三、
 修改/etc/profile配置文件&lt;/li&gt;
 &lt;/ul&gt;
-&lt;pre&gt;&lt;code&gt;$ vi /etc/profile
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ vi /etc/profile
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;增加：TMOUT=1800
 这样30分钟没操作就自动LOGOUT&lt;/p&gt;</description>
     </item>
@@ -1061,7 +1062,7 @@ YAML在使用逗号及冒号时，后面都必须接一个空白字符，所以�
       <guid>https://alimy.me/post/dev_201811250757/</guid>
       <description>&lt;p&gt;sshuttle 被其作者称为 “穷人的 VPN”（A poor man’s instant VPN），甚至不需要远端服务器的 root 权限就可以用（只需要一个普通 SSH 帐号），和在 Mac/Linux 客户端直接用 ssh -D 的方式有点类似。如果不想花钱买 VPN，又懒得自己在 VPS 上安装和设置复杂的 VPN 服务，又不想用 ssh -D 这么朴素的技巧的话可以试一下这个 sshuttle，按照作者的说法 sshuttle 比 sshd -D 的方式快一点，因为 It’s just data-over-TCP，而不是 TCP-over-TCP，TCP-over-TCP 的方式会带来不必要的性能问题，因为 TCP 本身就是可靠传输协议，保证了包的有序性和无差错，并确保包被接受，如果有包丢失的话 TCP 协议可以自己立即重传弥补，所以没必要两层都 TCP，一层 TCP 就比较安全了。&lt;/p&gt;
 &lt;p&gt;sshuttle 的用法很简单，在客户端下载和运行就可以了（需要有 Python 的支持），无需在服务器端做任何配置（但是需要一个 ssh 帐号和 Python 支持）：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ git clone https://github.com/sshuttle/sshuttle
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ git clone https://github.com/sshuttle/sshuttle
 $ cd sshuttle
 $ sudo ./setup.py install
 $ sshuttle -r username@sshserver 0.0.0.0/0 -vv
@@ -1074,7 +1075,7 @@ UDP enabled: False
 DNS enabled: False
 User enabled: False
 Binding redirector: 12300 12299
-TCP redirector listening on (&#39;127.0.0.1&#39;, 12299).
+TCP redirector listening on (&amp;#39;127.0.0.1&amp;#39;, 12299).
 TCP redirector listening with &amp;lt;socket._socketobject object at 0x7f5eb68b1c90&amp;gt;.
 Starting client with Python version 2.7.15
 c : connecting to server...
@@ -1124,7 +1125,7 @@ c : connecting to server...
 &lt;p&gt;The big goal of Athens is to provide a new place where dependencies — not code — live. Dependencies are immutable blobs of code and associated metadata that come from Github. They live in storage that Athens controls.&lt;/p&gt;
 &lt;h4 id=&#34;docker部署&#34;&gt;Docker部署&lt;/h4&gt;
 &lt;p&gt;使用Docker进行部署,官方镜像[gomods/proxy:latest](&lt;a href=&#34;https://hub.docker.com/r/gomods/proxy/&#34;&gt;https://hub.docker.com/r/gomods/proxy/&lt;/a&gt; &amp;lsquo;Athens&amp;rsquo;s docker image&amp;rsquo;)&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ docker volume create data-athens
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ docker volume create data-athens
 $ docker run -d --name athens-proxy --restart always -p 3000:3000 \
     -v data-athens:/var/lib/athens \
     -e ATHENS_DISK_STORAGE_ROOT=/var/lib/athens \ 
@@ -1143,7 +1144,7 @@ $ docker run -d --name athens-proxy --restart always -p 3000:3000 \
 &lt;p&gt;闲置几台屌丝版腾讯云服务器（2 core &lt;code&gt;CPU&lt;/code&gt; 4GB &lt;code&gt;Memory&lt;/code&gt; 40GB &lt;code&gt;Disk&lt;/code&gt;)，难得清闲，用其中的3台部署一套TiKV用于测试功能和代码研究。&lt;/p&gt;
 &lt;h4 id=&#34;节点分布&#34;&gt;节点分布&lt;/h4&gt;
 &lt;p&gt;使用Docker进行部署,官方镜像pingcap/pd:v2.0.6、pingcap/tikv:v2.0.6&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;|    Name   |   Host IP   |  Services  |  Docker Volume  |  Data Path  |
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;|    Name   |   Host IP   |  Services  |  Docker Volume  |  Data Path  |
 | Node1(TB) | 172.22.0.6  |    PD1     |     pd-data     |    /data    |
 | Node2(TD) | 172.22.0.10 |    PD2     |     pd-data     |    /data    |
 | Node3(TE) | 172.22.0.15 |    PD3     |     pd-data     |    /data    |
@@ -1181,22 +1182,22 @@ is run.&lt;/li&gt;
 &lt;p&gt;A module is a tree of Go source files to which is added a file named &lt;em&gt;go.mod&lt;/em&gt;.
 It contains the module import name, and the declaration of dependency
 requirements, exclusions and replacements. Its content would look like this:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;module my/thing
-  
-require (
-        one/thing v1.3.2
-        other/thing v2.5.0 // indirect
-        ...
-)
-
-exclude (
-        bad/thing v0.7.3
-)
-
-replace (
-        src/thing 1.0.2 =&amp;gt; dst/thing v1.1.0
-)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;module my/thing
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;require (
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        one/thing v1.3.2
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        other/thing v2.5.0 // indirect
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        ...
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;exclude (
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        bad/thing v0.7.3
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;replace (
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        src/thing 1.0.2 =&amp;gt; dst/thing v1.1.0
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
     </item>
     
     <item>
@@ -1223,13 +1224,13 @@ or other conditions. The main features are:&lt;/p&gt;
   standard http.ServeMux.
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Let&amp;rsquo;s start registering a couple of URL paths and handlers:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;func main() {
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;func main() {
   r := mux.NewRouter()
-  r.HandleFunc(&amp;quot;/&amp;quot;, HomeHandler)
-  r.HandleFunc(&amp;quot;/products&amp;quot;, ProductsHandler)
-  r.HandleFunc(&amp;quot;/articles&amp;quot;, ArticlesHandler)
-  http.Handle(&amp;quot;/&amp;quot;, r)
-  log.Fatal(http.ListenAndServe(&amp;quot;:12345&amp;quot;, nil))
+  r.HandleFunc(&amp;#34;/&amp;#34;, HomeHandler)
+  r.HandleFunc(&amp;#34;/products&amp;#34;, ProductsHandler)
+  r.HandleFunc(&amp;#34;/articles&amp;#34;, ArticlesHandler)
+  http.Handle(&amp;#34;/&amp;#34;, r)
+  log.Fatal(http.ListenAndServe(&amp;#34;:12345&amp;#34;, nil))
 }
 &lt;/code&gt;&lt;/pre&gt;</description>
     </item>
@@ -1243,7 +1244,7 @@ or other conditions. The main features are:&lt;/p&gt;
       <description>&lt;ul&gt;
 &lt;li&gt;建立证书授权中心&lt;/li&gt;
 &lt;/ul&gt;
-&lt;pre&gt;&lt;code&gt;$ sudo mkdir /etc/docker
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ sudo mkdir /etc/docker
 $ cd /etc/docker
 $ echo 01 | sudo tee ca.csl
 $ sudo openssl genrsa -des3 -out ca-key.pem
@@ -1251,7 +1252,7 @@ $ sudo openssl req -new -x509 -days 365 -key ca-key.pem -out ca.pem
 &lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
 &lt;li&gt;创建服务器的证书签名请求和密钥&lt;/li&gt;
 &lt;/ul&gt;
-&lt;pre&gt;&lt;code&gt;$ sudo openssl genrsa -des3 -out server-key.pem
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ sudo openssl genrsa -des3 -out server-key.pem
 $ sudo openssl req -new -key server-key.pem -out server.csr
 $ sudo openssl x509 -req -days 365 -in server.csr -CA ca.pem -CAkey ca-key.pem -out server-cert.pem
 $ sudo openssl rsa -in server-key.pem -out server-key.pem
@@ -1259,13 +1260,13 @@ $ sudo chmod 0600 /etc/docker/server-key.pem /etc/docker/server-cert.pem /etc/do
 &lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
 &lt;li&gt;配置Docker守护进程 (/etc/docker/daemon.json on Linux systems, or C:\ProgramData\docker\config\daemon.json on Windows.)&lt;/li&gt;
 &lt;/ul&gt;
-&lt;pre&gt;&lt;code&gt;{
-  &amp;quot;debug&amp;quot;: true,
-  &amp;quot;tls&amp;quot;: true,
-  &amp;quot;tlscacert&amp;quot;: &amp;quot;/etc/docker/ca.pem&amp;quot;,
-  &amp;quot;tlscert&amp;quot;: &amp;quot;/etc/docker/server-cert.pem&amp;quot;,
-  &amp;quot;tlskey&amp;quot;: &amp;quot;/etc/docker/server-key.pem&amp;quot;,
-  &amp;quot;hosts&amp;quot;: [&amp;quot;tcp://&amp;lt;config of CN&amp;gt;:2376&amp;quot;]
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;{
+  &amp;#34;debug&amp;#34;: true,
+  &amp;#34;tls&amp;#34;: true,
+  &amp;#34;tlscacert&amp;#34;: &amp;#34;/etc/docker/ca.pem&amp;#34;,
+  &amp;#34;tlscert&amp;#34;: &amp;#34;/etc/docker/server-cert.pem&amp;#34;,
+  &amp;#34;tlskey&amp;#34;: &amp;#34;/etc/docker/server-key.pem&amp;#34;,
+  &amp;#34;hosts&amp;#34;: [&amp;#34;tcp://&amp;lt;config of CN&amp;gt;:2376&amp;#34;]
 }
 &lt;/code&gt;&lt;/pre&gt;</description>
     </item>
@@ -1291,11 +1292,11 @@ $ sudo chmod 0600 /etc/docker/server-key.pem /etc/docker/server-cert.pem /etc/do
       <description>&lt;h3 id=&#34;add-new-dockerfiledocker-ce-for-docker-cev1706-to-build-gogss-docker-image&#34;&gt;Add new Dockerfile.docker-ce for docker-ce(&amp;gt;=v17.06) to build Gogs&amp;rsquo;s docker image&lt;/h3&gt;
 &lt;p&gt;Docker-CE can be given to a new build stage by adding &lt;code&gt;AS&lt;/code&gt; name to the&lt;code&gt; FROM&lt;/code&gt; instruction sine release version of v17.06. The Dockerfile&amp;rsquo;s &lt;code&gt;FROM&lt;/code&gt; instruction like below:&lt;/p&gt;
 &lt;h4 id=&#34;from&#34;&gt;FROM&lt;/h4&gt;
-&lt;pre&gt;&lt;code&gt;FROM &amp;lt;image&amp;gt; [AS &amp;lt;name&amp;gt;]
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;FROM &amp;lt;image&amp;gt; [AS &amp;lt;name&amp;gt;]
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Or&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;FROM &amp;lt;image&amp;gt;[:&amp;lt;tag&amp;gt;] [AS &amp;lt;name&amp;gt;]
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;FROM &amp;lt;image&amp;gt;[:&amp;lt;tag&amp;gt;] [AS &amp;lt;name&amp;gt;]
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Or&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;FROM &amp;lt;image&amp;gt;[@&amp;lt;digest&amp;gt;] [AS &amp;lt;name&amp;gt;]
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;FROM &amp;lt;image&amp;gt;[@&amp;lt;digest&amp;gt;] [AS &amp;lt;name&amp;gt;]
 &lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
 &lt;li&gt;Optionally a name can be given to a new build stage by adding &lt;code&gt;AS&lt;/code&gt; name to the &lt;code&gt;FROM&lt;/code&gt; instruction. The name can be used in subsequent &lt;code&gt;FROM&lt;/code&gt; and &lt;code&gt;COPY --from=&amp;lt;name|index&amp;gt;&lt;/code&gt; instructions to refer to the image built in this stage.&lt;/li&gt;
 &lt;/ul&gt;
@@ -1309,19 +1310,19 @@ $ sudo chmod 0600 /etc/docker/server-key.pem /etc/docker/server-cert.pem /etc/do
       
       <guid>https://alimy.me/post/dev_201806040842/</guid>
       <description>&lt;h3 id=&#34;fix-make-build-failure-when-enviroment-of-gopath-have-multiple-items&#34;&gt;Fix make build failure when enviroment of &lt;code&gt;GOPATH&lt;/code&gt; have multiple items&lt;/h3&gt;
-&lt;pre&gt;&lt;code&gt;[alimy@rover gogs]$ pwd
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;[alimy@rover gogs]$ pwd
 /home/alimy/art/arg/src/github.com/gogs/gogs
 [alimy@rover gogs]$ echo $GOPATH
 /home/alimy/art/ago:/home/alimy/art/arg
 [alimy@rover gogs]$ make
-go install &amp;quot;-v&amp;quot; -ldflags &#39;-X &amp;quot;github.com/gogs/gogs/pkg/setting.BuildTime=2018-06-04 06:17:19 UTC&amp;quot; -X &amp;quot;github.com/gogs/gogs/pkg/setting.BuildGitHash=c08aab90ec696b7fcc56b8da0a468e74d266b89e&amp;quot;&#39; -tags &#39;&amp;quot;&amp;quot;&#39;
-cp &#39;/home/alimy/art/ago:/home/alimy/art/arg/bin/gogs&#39; .
-cp: cannot stat &#39;/home/alimy/art/ago:/home/alimy/art/arg/bin/gogs&#39;: No such file or directory
-Makefile:36: recipe for target &#39;build&#39; failed
+go install &amp;#34;-v&amp;#34; -ldflags &amp;#39;-X &amp;#34;github.com/gogs/gogs/pkg/setting.BuildTime=2018-06-04 06:17:19 UTC&amp;#34; -X &amp;#34;github.com/gogs/gogs/pkg/setting.BuildGitHash=c08aab90ec696b7fcc56b8da0a468e74d266b89e&amp;#34;&amp;#39; -tags &amp;#39;&amp;#34;&amp;#34;&amp;#39;
+cp &amp;#39;/home/alimy/art/ago:/home/alimy/art/arg/bin/gogs&amp;#39; .
+cp: cannot stat &amp;#39;/home/alimy/art/ago:/home/alimy/art/arg/bin/gogs&amp;#39;: No such file or directory
+Makefile:36: recipe for target &amp;#39;build&amp;#39; failed
 make: *** [build] Error 1
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In this scene &lt;code&gt;GOPATH&lt;/code&gt; have two item (/home/alimy/art/ago and /home/alimy/art/arg) and gogs source is not in first &lt;code&gt;GOPATH&lt;/code&gt; items, when excecute &lt;code&gt;go install ...&lt;/code&gt; will install to path that contain the source of gogs&amp;rsquo;s &lt;code&gt;GOPATH&lt;/code&gt; items. when cp gogs file back will occur error like above.
 this patch fixed this problem.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;[alimy@rover gogs]$ echo $GOPATH
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;[alimy@rover gogs]$ echo $GOPATH
 /home/alimy/art/ago:/home/alimy/art/arg
 [alimy@rover gogs]$ pwd
 /home/alimy/art/arg/src/github.com/gogs/gogs
@@ -1362,18 +1363,18 @@ CockroachDB适用于应用对数据要求精确、可靠、完全正确的场景
 &lt;li&gt;StackTrace信息是可以设置打印或不打印&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id=&#34;用例&#34;&gt;用例：&lt;/h3&gt;
-&lt;pre&gt;&lt;code&gt;// file: MainActivity.java
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;// file: MainActivity.java
 @Override
 protected void onResume() {
     super.onResume();
-    Logus.d(&amp;quot;just a message&amp;quot;);
-    Logus.e(&amp;quot;a field message&amp;quot;, &amp;quot;a&amp;quot;, 1);
-    Logus.w(&amp;quot;3 fields but see 2&amp;quot;, &amp;quot;a&amp;quot;, 1, &amp;quot;b&amp;quot;, true, &amp;quot;c&amp;quot;);
-    Logus.V(&amp;quot;Main&amp;quot;, &amp;quot;with prefix just a message&amp;quot;);
-    Logus.E(&amp;quot;Main&amp;quot;, &amp;quot;with prefix 2 fields&amp;quot;, &amp;quot;a&amp;quot;, 10, &amp;quot;b&amp;quot;, false);
-    Logus.E(&amp;quot;Main&amp;quot;, &amp;quot;with prefix 3 fields but log 2&amp;quot;, &amp;quot;a&amp;quot;, 10, &amp;quot;b&amp;quot;, true, &amp;quot;c&amp;quot;);
+    Logus.d(&amp;#34;just a message&amp;#34;);
+    Logus.e(&amp;#34;a field message&amp;#34;, &amp;#34;a&amp;#34;, 1);
+    Logus.w(&amp;#34;3 fields but see 2&amp;#34;, &amp;#34;a&amp;#34;, 1, &amp;#34;b&amp;#34;, true, &amp;#34;c&amp;#34;);
+    Logus.V(&amp;#34;Main&amp;#34;, &amp;#34;with prefix just a message&amp;#34;);
+    Logus.E(&amp;#34;Main&amp;#34;, &amp;#34;with prefix 2 fields&amp;#34;, &amp;#34;a&amp;#34;, 10, &amp;#34;b&amp;#34;, false);
+    Logus.E(&amp;#34;Main&amp;#34;, &amp;#34;with prefix 3 fields but log 2&amp;#34;, &amp;#34;a&amp;#34;, 10, &amp;#34;b&amp;#34;, true, &amp;#34;c&amp;#34;);
     Logus.setStackTrace(false);
-    Logus.E(&amp;quot;Main&amp;quot;, &amp;quot;no stack trace with prefix&amp;quot;);
+    Logus.E(&amp;#34;Main&amp;#34;, &amp;#34;no stack trace with prefix&amp;#34;);
 }
 
 // 输出：
@@ -1493,28 +1494,28 @@ Local:  rsync [OPTION&amp;hellip;] SRC&amp;hellip; [DEST]&lt;/p&gt;
       
       <guid>https://alimy.me/post/dev_201803031932/</guid>
       <description>&lt;p&gt;craete a HTTPS Server use net/http and route handle function by DefaultServeMux, see code below:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;package main
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;package main
 
 import (
-	&amp;quot;net/http&amp;quot;
-	&amp;quot;fmt&amp;quot;
-	&amp;quot;log&amp;quot;
+	&amp;#34;net/http&amp;#34;
+	&amp;#34;fmt&amp;#34;
+	&amp;#34;log&amp;#34;
 )
 
 func hello(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, &amp;quot;[%s]: hello!&amp;quot;, r.Host)
+	fmt.Fprintf(w, &amp;#34;[%s]: hello!&amp;#34;, r.Host)
 }
 
 func world(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, &amp;quot;[%s]: world!&amp;quot;, r.Host)
+	fmt.Fprintf(w, &amp;#34;[%s]: world!&amp;#34;, r.Host)
 }
 
 func main() {
 	server := http.Server{
-		Addr: &amp;quot;127.0.0.1:8080&amp;quot;,
+		Addr: &amp;#34;127.0.0.1:8080&amp;#34;,
 	}
-	http.HandleFunc(&amp;quot;/hello&amp;quot;, hello)
-	http.HandleFunc(&amp;quot;/world&amp;quot;, world)
+	http.HandleFunc(&amp;#34;/hello&amp;#34;, hello)
+	http.HandleFunc(&amp;#34;/world&amp;#34;, world)
 
 	log.Fatal(server.ListenAndServe())
 }
@@ -1528,11 +1529,11 @@ func main() {
       
       <guid>https://alimy.me/post/dev_201803030946/</guid>
       <description>&lt;p&gt;It is simple to craete a HTTPS Server use net/http, see code below:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;package main
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;package main
 
 import (
-	&amp;quot;net/http&amp;quot;
-	&amp;quot;fmt&amp;quot;
+	&amp;#34;net/http&amp;#34;
+	&amp;#34;fmt&amp;#34;
 )
 
 type SimpleHandler struct {
@@ -1540,15 +1541,15 @@ type SimpleHandler struct {
 }
 
 func (h *SimpleHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, &amp;quot;%s: Hello World!&amp;quot;, h.Name)
+	fmt.Fprintf(w, &amp;#34;%s: Hello World!&amp;#34;, h.Name)
 }
 
 func main() {
 	server := http.Server{
-		Addr:    &amp;quot;127.0.0.1:8080&amp;quot;,
-		Handler: &amp;amp;SimpleHandler{Name: &amp;quot;SimpleServer&amp;quot;},
+		Addr:    &amp;#34;127.0.0.1:8080&amp;#34;,
+		Handler: &amp;amp;SimpleHandler{Name: &amp;#34;SimpleServer&amp;#34;},
 	}
-	server.ListenAndServeTLS(&amp;quot;cert.pem&amp;quot;, &amp;quot;key.pem&amp;quot;)
+	server.ListenAndServeTLS(&amp;#34;cert.pem&amp;#34;, &amp;#34;key.pem&amp;#34;)
 }
 &lt;/code&gt;&lt;/pre&gt;</description>
     </item>
@@ -1561,16 +1562,16 @@ func main() {
       <guid>https://alimy.me/post/dev_201604101827/</guid>
       <description>&lt;p&gt;It’s often practical to see what packages your app is importing. Unfortunately there isn’t a simple way to do that, however it is doable via the go list tool and using templates.&lt;/p&gt;
 &lt;p&gt;Go to your app and run the following.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ go list -f &#39;{{join .Deps &amp;quot;\n&amp;quot;}}&#39; |  xargs go list -f &#39;{{if not .Standard}}{{.ImportPath}}{{end}}&#39;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ go list -f &amp;#39;{{join .Deps &amp;#34;\n&amp;#34;}}&amp;#39; |  xargs go list -f &amp;#39;{{if not .Standard}}{{.ImportPath}}{{end}}&amp;#39;
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Here is an example with the clirescue refactoring example:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ cd $GOPATH/src/github.com/GoBootcamp/clirescue
-$ go list -f &#39;{{join .Deps &amp;quot;\n&amp;quot;}}&#39; | xargs go list -f &#39;{{if not .Standard}}{{.ImportPath}}{{end}}&#39;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ cd $GOPATH/src/github.com/GoBootcamp/clirescue
+$ go list -f &amp;#39;{{join .Deps &amp;#34;\n&amp;#34;}}&amp;#39; | xargs go list -f &amp;#39;{{if not .Standard}}{{.ImportPath}}{{end}}&amp;#39;
 github.com/GoBootcamp/clirescue/cmdutil
 github.com/GoBootcamp/clirescue/trackerapi
 github.com/GoBootcamp/clirescue/user
 github.com/codegangsta/cli
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If you want the list to also contain standard packages, edit the template and use:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ go list -f &#39;{{join .Deps &amp;quot;\n&amp;quot;}}&#39; |  xargs go list -f &#39;{{.ImportPath}}&#39;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ go list -f &amp;#39;{{join .Deps &amp;#34;\n&amp;#34;}}&amp;#39; |  xargs go list -f &amp;#39;{{.ImportPath}}&amp;#39;
 &lt;/code&gt;&lt;/pre&gt;</description>
     </item>
     
@@ -1582,15 +1583,15 @@ github.com/codegangsta/cli
       <guid>https://alimy.me/post/dev_201604021445/</guid>
       <description>&lt;h3 id=&#34;notation&#34;&gt;Notation&lt;/h3&gt;
 &lt;p&gt;The syntax is specified using Extended Backus-Naur Form (EBNF):&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;Production  = production_name &amp;quot;=&amp;quot; [ Expression ] &amp;quot;.&amp;quot; .
-Expression  = Alternative { &amp;quot;|&amp;quot; Alternative } .
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Production  = production_name &amp;#34;=&amp;#34; [ Expression ] &amp;#34;.&amp;#34; .
+Expression  = Alternative { &amp;#34;|&amp;#34; Alternative } .
 Alternative = Term { Term } .
-Term        = production_name | token [ &amp;quot;…&amp;quot; token ] | Group | Option | Repetition .
-Group       = &amp;quot;(&amp;quot; Expression &amp;quot;)&amp;quot; .
-Option      = &amp;quot;[&amp;quot; Expression &amp;quot;]&amp;quot; .
-Repetition  = &amp;quot;{&amp;quot; Expression &amp;quot;}&amp;quot; .
+Term        = production_name | token [ &amp;#34;…&amp;#34; token ] | Group | Option | Repetition .
+Group       = &amp;#34;(&amp;#34; Expression &amp;#34;)&amp;#34; .
+Option      = &amp;#34;[&amp;#34; Expression &amp;#34;]&amp;#34; .
+Repetition  = &amp;#34;{&amp;#34; Expression &amp;#34;}&amp;#34; .
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Productions are expressions constructed from terms and the following operators, in increasing precedence:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;|   alternation
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;|   alternation
 ()  grouping
 []  option (0 or 1 times)
 {}  repetition (0 to n times)
@@ -1605,11 +1606,11 @@ Repetition  = &amp;quot;{&amp;quot; Expression &amp;quot;}&amp;quot; .
       <guid>https://alimy.me/post/dev_201603242255/</guid>
       <description>&lt;p&gt;Make 可以简化编译过程，如果有一个近百个源文件的项目，如果有个文件更改后工程需要重新编译，那么一直用gcc -c a.c这些个命令敲来敲去会屎人的。运行make时候，他会寻找指定目录下（默认是 .）的 Makefile 文件并且分析依赖关系进行必要的编译。&lt;/p&gt;
 &lt;h3 id=&#34;makefile文件的基本格式很简单&#34;&gt;Makefile文件的基本格式很简单：&lt;/h3&gt;
-&lt;pre&gt;&lt;code&gt;目标文件： 依赖文件1 依赖文件2 依赖文件3 。。。。
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;目标文件： 依赖文件1 依赖文件2 依赖文件3 。。。。
 [tab]编译命令
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;他的意思是目标文件是依赖于冒号后面几个文件的，如果这些依赖文件有更新的，那么其目标文件也需要更新。&lt;/p&gt;
 &lt;p&gt;Makefile 中可能有很多以上条目，他们共同组成了一个有向无回路图（DAG图），这样可以传递依赖。make 命令会把 Makefile 文件的第一个目标文件作为默认目标，当执行 make 命令时，make 会考察这个目标文件的依赖关系，进行编译。也可以指定，比如这个 Makefile：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;main: a.o b.o
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;main: a.o b.o
 [tab]gcc -o main a.o b.o
 a.o : a.c c.h
 [tab]gcc -c a.c -o a.o
@@ -1822,7 +1823,7 @@ Lets see some examples&lt;/li&gt;
       <guid>https://alimy.me/post/dev_201603122030/</guid>
       <description>&lt;p&gt;In the earlier tutorials we have seen how gson can serialize and deserialize java classes with or without hierarchies. By default, it introspects the classes and comes with with a strategy for serializing and deserializing it. However, in some cases, you want to specify your own conversion strategy. That is, you want to control how the java object is converted to json string and the other way round. Gson provides a capability to specify a custom type adapter. You tell Gson that for a particular class, use the conversion strategy specified by your custom adapter. Lets look at how to write the type adapter :
 To write a custom adapter extend the com.google.gson.TypeAdapter abstract class. Implement the public abstract T read(JsonReader in) throws IOException; and public abstract void write(JsonWriter out, T value) throws IOException; methods. The adapter should also handle nulls. Create the Type adapter instance and then register it with the GsonBuilder. Create the Gson object from the GsonBuilder and then use that to serialize and deserialize. Lets look at an example&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;package com.studytrails.json.gson;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;package com.studytrails.json.gson;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -1836,7 +1837,7 @@ import com.google.gson.GsonBuilder;
 public class DatasetTypeAdapterExample8 {
 
 	public static void main(String[] args) throws MalformedURLException, IOException {
-		String url = &amp;quot;http://freemusicarchive.org/api/get/albums.json?api_key=60BLHNQCAOUFPIBZ&amp;amp;limit=5&amp;quot;;
+		String url = &amp;#34;http://freemusicarchive.org/api/get/albums.json?api_key=60BLHNQCAOUFPIBZ&amp;amp;limit=5&amp;#34;;
 		String json = IOUtils.toString(new URL(url));
 		// Create the custom type adapter and register it with the GsonBuilder
 		// class.
@@ -1880,7 +1881,7 @@ public class DatasetTypeAdapterExample8 {
       <guid>https://alimy.me/post/dev_201603122025/</guid>
       <description>&lt;h3 id=&#34;serializing-list&#34;&gt;Serializing list&lt;/h3&gt;
 &lt;p&gt;As we saw in the previous tutorial serializing and deserializing classes with generic types is non trivial since generic type information is lost while serializing. Gson provides a class called com.google.gson.reflect.TypeToken to store generic types. The example below shows how to use the TypeToken class to serialize and deserialize Classes with generic types.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;package com.studytrails.json.gson;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;package com.studytrails.json.gson;
 
 import java.lang.reflect.Type;
 
@@ -1892,7 +1893,7 @@ public class GenericTypesExample8 {
 		// create an animal class that is of type dog.
 		Animal animal = new Animal&amp;lt;Dog&amp;gt;();
 		// Create a Dog instance
-		Dog dog = new Dog(&amp;quot;I am a dog&amp;quot;);
+		Dog dog = new Dog(&amp;#34;I am a dog&amp;#34;);
 
 		animal.setAnimal(dog);
 		Gson gson = new Gson();
@@ -1927,7 +1928,7 @@ public class GenericTypesExample8 {
       <guid>https://alimy.me/post/dev_201603122022/</guid>
       <description>&lt;h3 id=&#34;serializing-list&#34;&gt;Serializing list&lt;/h3&gt;
 &lt;p&gt;Serializing Collections should have been similar to serializing other objects. However, the problem is that Collections are generic and the generic type information is not maintained in the json. We therefore pass the type while deserializing list. Note that if the Collection has different types of objects then there is no way to serialize it.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;package com.studytrails.json.gson;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;package com.studytrails.json.gson;
 
 import java.lang.reflect.Type;
 import java.util.Collection;
@@ -1938,7 +1939,7 @@ import com.google.gson.reflect.TypeToken;
 
 public class DeSerializeListExample5 {
 	public static void main(String[] args) {
-		String json = &amp;quot;[{album_id:1,album_title:&#39;album1&#39;},{album_id:2,album_title:&#39;album2&#39;}]&amp;quot;;
+		String json = &amp;#34;[{album_id:1,album_title:&amp;#39;album1&amp;#39;},{album_id:2,album_title:&amp;#39;album2&amp;#39;}]&amp;#34;;
 
 		Gson gson = new Gson();
 		// create the type for the collection. In this case define that the collection is of type Dataset
@@ -1989,14 +1990,14 @@ public class DeSerializeListExample5 {
 &lt;li&gt;The other way is to use the com.google.gson.GsonBuilder class. This class allows setting up certain features, such as - allowing null serialization or setting up custom serializing policies. Create a GsonBuilder, apply the features and then obtain the Gson class from the builder.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;In this tutorial we look at the Gson class to de-serialize json from &lt;a href=&#34;http://freemusicarchive.org/api/get/albums.json?api_key=60BLHNQCAOUFPIBZ&amp;amp;limit=5&#34; title=&#34;free music archive&#34;&gt;free music archive&lt;/a&gt;. The main class is the Albums class and it contains the list of Datasets. Each Dataset is one album. The way to approach the problem of deserialization is to build a java class such that the when Gson converts the Java class to JSON, the resultant JSON resembles the one we are trying to parse. Lets see this in action. If you look at the JSON, it starts with a root object that has properties such as title, message, errors, etc.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;{
-title: &amp;quot;Free Music Archive - Albums&amp;quot;,
-message: &amp;quot;&amp;quot;,
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;{
+title: &amp;#34;Free Music Archive - Albums&amp;#34;,
+message: &amp;#34;&amp;#34;,
 errors: [ ],
-total: &amp;quot;11259&amp;quot;,
+total: &amp;#34;11259&amp;#34;,
 total_pages: 2252,
 page: 1,
-limit: &amp;quot;5&amp;quot;,
+limit: &amp;#34;5&amp;#34;,
 dataset: [
 {
 ......
@@ -2014,7 +2015,7 @@ dataset: [
 latest additions in Gson 2.3 (TypeAdapter Annotation, JsonPath support and new methods in JsonArray)&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
-&lt;p&gt;&lt;a href=&#34;https://alimy.me/post/dev_201603122010&#34; title=&#34;Java to JSON and Back - Data Binding&#34;&gt;Java to JSON and Back - Data Binding&lt;/a&gt; - In this example we look at how to bind a Json to a java object. Gson is quite powerful when it comes to binding a json to Java since it has a lot of built in serializers and deserializers. A serializer has code that helps in converting a Json string to corresponding java type. For example if you have an array in JSON (elements enclosed in &amp;lsquo;[&amp;rsquo; and &amp;lsquo;]&#39;) and you want to convert that to a Java array then Gson would internally use an ArrayTypeAdapter to convert the Json Array to Java Array and back. If you are looking at Gson primarily to parse JSON then we would suggest that you start with a simple Java class, convert that to JSON and make sure it looks like the JSON that you want to parse. You can then gradually start adding complexities to the java class and at each step convert it to a JSON and ensure that the JSON is similar to the one that you are trying to parse. It is good to think of parsing a JSON as creating a java class that can give you the JSON that you want to parse. Also note that you have certain flexibility while creating the java object. You could represent a Json Array as a Java array or a Java List. The choice may be driven more by how you want to use the class. If you map a Json property to a java array Gson would use an Array adapter but if you map it to a List it would use the collection adapter and you, the user, does not have to worry about that. Gson also handles null gracefully&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://alimy.me/post/dev_201603122010&#34; title=&#34;Java to JSON and Back - Data Binding&#34;&gt;Java to JSON and Back - Data Binding&lt;/a&gt; - In this example we look at how to bind a Json to a java object. Gson is quite powerful when it comes to binding a json to Java since it has a lot of built in serializers and deserializers. A serializer has code that helps in converting a Json string to corresponding java type. For example if you have an array in JSON (elements enclosed in &amp;lsquo;[&amp;rsquo; and &amp;lsquo;]&amp;rsquo;) and you want to convert that to a Java array then Gson would internally use an ArrayTypeAdapter to convert the Json Array to Java Array and back. If you are looking at Gson primarily to parse JSON then we would suggest that you start with a simple Java class, convert that to JSON and make sure it looks like the JSON that you want to parse. You can then gradually start adding complexities to the java class and at each step convert it to a JSON and ensure that the JSON is similar to the one that you are trying to parse. It is good to think of parsing a JSON as creating a java class that can give you the JSON that you want to parse. Also note that you have certain flexibility while creating the java object. You could represent a Json Array as a Java array or a Java List. The choice may be driven more by how you want to use the class. If you map a Json property to a java array Gson would use an Array adapter but if you map it to a List it would use the collection adapter and you, the user, does not have to worry about that. Gson also handles null gracefully&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;a href=&#34;https://alimy.me/post/dev_201603122015&#34; title=&#34;Java to JSON and Back - Streaming&#34;&gt;Java to JSON and Back - Streaming&lt;/a&gt; - At certain times you want more control on the way the parsing is done. Also there may be times when Gson automated conversion does not give you the result that you are looking for. For example, if you have a List that contains multiple kinds of Object then Gson may not be able to deserialize or parse the Json for you. In such cases Gson provides a streaming API. You can use the Streaming API and handle a token at a time. The token may be start and end of Json Object, start and end of json array, the key of a property and the String or Number value of a property.&lt;/p&gt;
@@ -2030,7 +2031,7 @@ latest additions in Gson 2.3 (TypeAdapter Annotation, JsonPath support and new m
       <guid>https://alimy.me/post/dev_201603112105/</guid>
       <description>&lt;p&gt;Jackson provides a way to maintain sub type information while serializing java objects. It is possible to recreate the exact sub type. The type information can be embedded into the json as a property. In the example below we create a zoo, that has a list of animals. The animal may be an elephant or a lion, and they both extend the Animal abstract class. While deserializing we want to create the exact animal type. We also demonstrate the use of @JsonTypeInfo and @JsonSubTypes annotations.&lt;/p&gt;
 &lt;h3 id=&#34;data-serialization-and-polymorphism-example&#34;&gt;Data Serialization and Polymorphism Example&lt;/h3&gt;
-&lt;pre&gt;&lt;code&gt;package com.studytrails.json.jackson;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;package com.studytrails.json.jackson;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -2043,13 +2044,13 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class SerializeExample1 {
-    private static String outputFile = &amp;quot;zoo.json&amp;quot;;
+    private static String outputFile = &amp;#34;zoo.json&amp;#34;;
 
     public static void main(String[] args) throws JsonGenerationException, JsonMappingException, IOException {
         // let start creating the zoo
-        Zoo zoo = new Zoo(&amp;quot;Samba Wild Park&amp;quot;, &amp;quot;Paz&amp;quot;);
-        Lion lion = new Lion(&amp;quot;Simba&amp;quot;);
-        Elephant elephant = new Elephant(&amp;quot;Manny&amp;quot;);
+        Zoo zoo = new Zoo(&amp;#34;Samba Wild Park&amp;#34;, &amp;#34;Paz&amp;#34;);
+        Lion lion = new Lion(&amp;#34;Simba&amp;#34;);
+        Elephant elephant = new Elephant(&amp;#34;Manny&amp;#34;);
         List&amp;lt;Animal&amp;gt; animals = new ArrayList&amp;lt;&amp;gt;();
         animals.add(lion);
         animals.add(elephant);
@@ -2070,7 +2071,7 @@ public class SerializeExample1 {
       <guid>https://alimy.me/post/dev_201603112100/</guid>
       <description>&lt;p&gt;Annotations are a great way to manage serialization and deserialization in Jackson. However, what do you do if you want to annotate a third party class, or if you dont want to tightly couple your POJOs to jackson annotations. This is where Mix-in comes into play. You define a mix-in abstract class that is kind of a proxy to the actual class. Annotations are then definied over this proxy class&lt;/p&gt;
 &lt;h3 id=&#34;jackson-mix-in-example&#34;&gt;Jackson Mix-In Example&lt;/h3&gt;
-&lt;pre&gt;&lt;code&gt;package com.studytrails.json.jackson;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;package com.studytrails.json.jackson;
 
 import java.io.File;
 import java.io.IOException;
@@ -2083,11 +2084,11 @@ public class SerializeExample3 {
     public static void main(String[] args) throws JsonGenerationException, JsonMappingException, IOException {
         ObjectMapper mapper = new ObjectMapper();
         mapper.addMixInAnnotations(Bird.class, BirdMixIn.class);
-        Bird bird = new Bird(&amp;quot;scarlet Ibis&amp;quot;);
-        bird.setSound(&amp;quot;eee&amp;quot;);
-        bird.setHabitat(&amp;quot;water&amp;quot;);
+        Bird bird = new Bird(&amp;#34;scarlet Ibis&amp;#34;);
+        bird.setSound(&amp;#34;eee&amp;#34;);
+        bird.setHabitat(&amp;#34;water&amp;#34;);
 
-        mapper.writerWithDefaultPrettyPrinter().writeValue(new File(&amp;quot;bird.json&amp;quot;), bird);
+        mapper.writerWithDefaultPrettyPrinter().writeValue(new File(&amp;#34;bird.json&amp;#34;), bird);
     }
 
 }
@@ -2102,14 +2103,14 @@ public class SerializeExample3 {
       <guid>https://alimy.me/post/dev_201603112055/</guid>
       <description>&lt;p&gt;Jackson provides an effective an efficient way to bind json to POJOs. However, at times, certain properties may need to be ignored while converting a json to java ojbect and a java object to json string. Jackson provides three ways to filter properties.&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;@JsonIgnoreProperties- This annotation can be used at the type level to ignore json properties. In the example below we ignore the &amp;lsquo;tags&amp;rsquo; property from the albums dataset.&lt;/li&gt;
+&lt;li&gt;@JsonIgnoreProperties- This annotation can be used at the type level to ignore json properties. In the example below we ignore the &amp;rsquo;tags&amp;rsquo; property from the albums dataset.&lt;/li&gt;
 &lt;li&gt;@JsonIgnore - This annotation can be set at property level to ignore certain properties.&lt;/li&gt;
 &lt;li&gt;Using Custom filters&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;The example below shows method 1 and 2. Also note the use of the @JsonAutoDetect annotation.&lt;/p&gt;
 &lt;h3 id=&#34;data-binding-filters-example&#34;&gt;Data Binding Filters Example&lt;/h3&gt;
 &lt;h4 id=&#34;databinding&#34;&gt;Databinding&lt;/h4&gt;
-&lt;pre&gt;&lt;code&gt;package com.studytrails.json.jackson;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;package com.studytrails.json.jackson;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
@@ -2131,8 +2132,8 @@ public class AlbumsFilter {
         return title;
     }
 
-    // this getter method is for the &#39;dataset&#39; property
-    @JsonProperty(&amp;quot;dataset&amp;quot;)
+    // this getter method is for the &amp;#39;dataset&amp;#39; property
+    @JsonProperty(&amp;#34;dataset&amp;#34;)
     public DatasetFilter[] getDatasetFilter() {
         return datasetFilter;
     }
@@ -2163,13 +2164,13 @@ public class AlbumsFilter {
       <description>&lt;p&gt;In this tutorial we will see how to convert a java List to JSON. Serializing list is a little tricky since by default the type info is not stored while serializing and deserializing lists. In this tutorial we look at two examples. In the first example we serialize an Object that has a java List as one of its properties. In the second example we try and serialize the List directly. In both examples we use special configuration to preserve type info.&lt;/p&gt;
 &lt;h3 id=&#34;example-1--serializing-object-containing-a-list&#34;&gt;Example 1 : Serializing Object containing a list&lt;/h3&gt;
 &lt;p&gt;The example converts a Zoo class to json. the zoo class contains the name of zoo, its city and a list of animals. The list is of type &amp;lsquo;Animal&amp;rsquo;, i.e. the list contains elements that are subclass of the Abstract class Animal. Lets see what happens when we try to serialize zoo. First we create the Zoo class. Notice how the constructor looks. When we try to get the Zoo Object back from the JSON, Jackson has to know that it should create the Zoo Object using the constructor that takes in the name and city properties.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;class Zoo {
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;class Zoo {
     public String name;
     public String city;
 
 
     @JsonCreator
-    public Zoo(@JsonProperty(&amp;quot;name&amp;quot;) String name,@JsonProperty(&amp;quot;city&amp;quot;) String city) {
+    public Zoo(@JsonProperty(&amp;#34;name&amp;#34;) String name,@JsonProperty(&amp;#34;city&amp;#34;) String city) {
         this.name = name;
         this.city = city;
     }
@@ -2228,7 +2229,7 @@ public class AlbumsFilter {
       <guid>https://alimy.me/post/dev_201603112025/</guid>
       <description>&lt;h3 id=&#34;creating-json-from-java&#34;&gt;Creating JSON from Java&lt;/h3&gt;
 &lt;p&gt;Jackson provides classes that can be used to convert a Java Object to JSON and back. In this example we look at how to build a JSON construct from a Java Object. We will start with a simple class and gradually start adding complexities to it. Lets say that we are a music company and we want to publish an api where users can query for Album. We first build an Album class with a single property title.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;class Album {
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;class Album {
     private String title;
 
     public Album(String title) {
@@ -2267,7 +2268,7 @@ public class AlbumsFilter {
       
       <guid>https://alimy.me/post/dev_201603092120/</guid>
       <description>&lt;p&gt;XStream provides a TraxSource (extends SAXSource) that can be used as an input to XSLT transformation. The TraxSource uses a java Object and the corresponding XStream Object. The java object can then be directly converted to XSLT target without actually converting to XML. Lets look at an example&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;package com.studytrails.xml.xstream;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;package com.studytrails.xml.xstream;
 
 import java.util.ArrayList;
 
@@ -2289,23 +2290,23 @@ public class XStreamTransformationExample {
 
 	private void runTransformation() throws TransformerFactoryConfigurationError, TransformerException {
 		XStream xstream = new XStream();
-		xstream.alias(&amp;quot;rss&amp;quot;, Rss2.class);
-		xstream.alias(&amp;quot;item&amp;quot;, Item2.class);
+		xstream.alias(&amp;#34;rss&amp;#34;, Rss2.class);
+		xstream.alias(&amp;#34;item&amp;#34;, Item2.class);
 		Rss2 rss = new Rss2();
 		Channel2 channel = new Channel2();
 		rss.channel = channel;
-		channel.title = &amp;quot;Title&amp;quot;;
-		channel.link = &amp;quot;link&amp;quot;;
+		channel.title = &amp;#34;Title&amp;#34;;
+		channel.link = &amp;#34;link&amp;#34;;
 		channel.image = new Image2();
-		channel.image.link = &amp;quot;image link&amp;quot;;
+		channel.image.link = &amp;#34;image link&amp;#34;;
 		Item2 item1 = new Item2();
-		item1.link = &amp;quot;item link&amp;quot;;
-		item1.title = &amp;quot;Item Title&amp;quot;;
+		item1.link = &amp;#34;item link&amp;#34;;
+		item1.title = &amp;#34;Item Title&amp;#34;;
 		channel.items = new ArrayList&amp;lt;Item2&amp;gt;();
 		channel.items.add(item1);
 		System.out.println(xstream.toXML(rss));
 
-		Transformer transformer = TransformerFactory.newInstance().newTransformer(new StreamSource(&amp;quot;bbc.xsl&amp;quot;));
+		Transformer transformer = TransformerFactory.newInstance().newTransformer(new StreamSource(&amp;#34;bbc.xsl&amp;#34;));
 		TraxSource traxSource = new TraxSource(rss, xstream);
 		StreamResult result = new StreamResult(System.out);
 		transformer.transform(traxSource, result);
@@ -2392,10 +2393,10 @@ public class XStreamTransformationExample {
       
       <guid>https://alimy.me/post/dev_201603092041/</guid>
       <description>&lt;p&gt;In the previous tutorial we saw &lt;a href=&#34;https://alimy.me/post/dev_201603081411&#34; title=&#34;Parsing An XML&#34;&gt;how to convert Java to XML and back&lt;/a&gt;. In this tutorial we look at different ways to handle XML attributes using XStream. However note that the attributes are only safe if you know that the written String values are not affected by the XML parser&amp;rsquo;s white space normalization. The XML specification requires that a parser does this and it means that an attribute value of:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;&amp;lt;element attr=&amp;quot;  foo\t\n   bar    &amp;quot;&amp;gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;&amp;lt;element attr=&amp;#34;  foo\t\n   bar    &amp;#34;&amp;gt;
 &amp;lt;/element&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;will always be normalized and passed this assertion:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;assertEquals(&amp;quot;foo bar&amp;quot;, element.getAttr());
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;assertEquals(&amp;#34;foo bar&amp;#34;, element.getAttr());
 XStream has no influence about this behavior.
 &lt;/code&gt;&lt;/pre&gt;</description>
     </item>
@@ -2423,7 +2424,7 @@ XStream has no influence about this behavior.
       
       <guid>https://alimy.me/post/dev_201603081433/</guid>
       <description>&lt;p&gt;In the &lt;a href=&#34;https://alimy.me/post/dev_201603081411&#34;&gt;previous&lt;/a&gt; example we saw how to convert a Java Object to XML and back. In this example we look at another example of Java Object to XML Conversion. The example uses an object called a &amp;lsquo;JazzArtist&amp;rsquo;. This object has a list of &amp;lsquo;Album&amp;rsquo; objects besides some other properties. We see here another example of Alias and implicit collection. (To understand alias and implicit collections look at this tutorial) We divide the example in three parts. In the first part we do not use aliases or implicit collections. In the second part we use aliases and in the third part we use an implicit Collection. Note the output from the three parts and observe how aliases and implicit collection change the way the output xml looks.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;package com.studytrails.xml.xstream;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;package com.studytrails.xml.xstream;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -2448,14 +2449,14 @@ public class CreateXMLFromMusicArtistObject {
       
       <guid>https://alimy.me/post/dev_201603081427/</guid>
       <description>&lt;p&gt;In the earlier tutorial we looked at a way to &lt;a href=&#34;https://alimy.me/post/dev_201603081411&#34; title=&#34;Parsing an XML&#34;&gt;convert Java to XML and back&lt;/a&gt;. In this tutorial we look at some more examples of XML To Java Conversion. XStream can convert XML elements to multiple types depending on the type specified in the Java class. For example a series for similarly named elements can be converted to an array of String, a List of String or an enum. XStream uses an appropriate Converter based on type specified in the java class. Lets look at some examples.&lt;/p&gt;
-&lt;p&gt;In this first example we have an XML that has a parent element called &amp;lsquo;Music&amp;rsquo;. It has a child element called type. We populate a Music object that has a &amp;lsquo;type&amp;rsquo; field which is an enum.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;package com.studytrails.xml.xstream;
+&lt;p&gt;In this first example we have an XML that has a parent element called &amp;lsquo;Music&amp;rsquo;. It has a child element called type. We populate a Music object that has a &amp;rsquo;type&amp;rsquo; field which is an enum.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;package com.studytrails.xml.xstream;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 public class ConverterExample3 {
-    static String xml1 = &amp;quot;&amp;lt;Music&amp;gt;&amp;lt;type&amp;gt;rock&amp;lt;/type&amp;gt;&amp;lt;/Music&amp;gt;&amp;quot;;
+    static String xml1 = &amp;#34;&amp;lt;Music&amp;gt;&amp;lt;type&amp;gt;rock&amp;lt;/type&amp;gt;&amp;lt;/Music&amp;gt;&amp;#34;;
 
     public static void main(String[] args) {
         XStream xStream = new XStream();
@@ -2467,7 +2468,7 @@ public class ConverterExample3 {
 
 }
 
-@XStreamAlias(&amp;quot;Music&amp;quot;)
+@XStreamAlias(&amp;#34;Music&amp;#34;)
 class Music {
     public enum genre {
         ROCK, JAZZ
@@ -2477,7 +2478,7 @@ class Music {
 
     @Override
     public String toString() {
-        return &amp;quot;Music [type=&amp;quot; + type + &amp;quot;]&amp;quot;;
+        return &amp;#34;Music [type=&amp;#34; + type + &amp;#34;]&amp;#34;;
     }
 
 }     
@@ -2516,14 +2517,14 @@ class Music {
       <description>&lt;p&gt;This page provides a series of examples illustrating how a class can be annotated. It acts as a quick and dirty overview of how the framework can be used and also acts as a reference page. All examples can be downloaded for convenience. For further information take a look at the &lt;a href=&#34;https://alimy.me/post/dev_201603032011&#34; title=&#34;SimpleXML Tutorial&#34;&gt;Tutorial&lt;/a&gt;.&lt;/p&gt;
 &lt;h3 id=&#34;sectcreating-nested-path-elements&#34;&gt;§Creating nested path elements&lt;/h3&gt;
 &lt;p&gt;Here an example of how to use the &lt;a href=&#34;http://simple.sourceforge.net/download/stream/doc/javadoc/org/simpleframework/xml/Path.html&#34;&gt;Path&lt;/a&gt; annotation to create nested elements and attributes using a single annotated class. Below is an example showing two elements nested within a XPath expression.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;@Root
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;@Root
 public class Example {
 
-   @Path(&amp;quot;a/b[1]&amp;quot;)
+   @Path(&amp;#34;a/b[1]&amp;#34;)
    @Element
    private String x;
 
-   @Path(&amp;quot;a/b[2]&amp;quot;)
+   @Path(&amp;#34;a/b[2]&amp;#34;)
    @Element
    private String y;
 }

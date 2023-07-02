@@ -351,16 +351,16 @@
           
           <p>It’s often practical to see what packages your app is importing. Unfortunately there isn’t a simple way to do that, however it is doable via the go list tool and using templates.</p>
 <p>Go to your app and run the following.</p>
-<pre><code>$ go list -f '{{join .Deps &quot;\n&quot;}}' |  xargs go list -f '{{if not .Standard}}{{.ImportPath}}{{end}}'
+<pre tabindex="0"><code>$ go list -f &#39;{{join .Deps &#34;\n&#34;}}&#39; |  xargs go list -f &#39;{{if not .Standard}}{{.ImportPath}}{{end}}&#39;
 </code></pre><p>Here is an example with the clirescue refactoring example:</p>
-<pre><code>$ cd $GOPATH/src/github.com/GoBootcamp/clirescue
-$ go list -f '{{join .Deps &quot;\n&quot;}}' | xargs go list -f '{{if not .Standard}}{{.ImportPath}}{{end}}'
+<pre tabindex="0"><code>$ cd $GOPATH/src/github.com/GoBootcamp/clirescue
+$ go list -f &#39;{{join .Deps &#34;\n&#34;}}&#39; | xargs go list -f &#39;{{if not .Standard}}{{.ImportPath}}{{end}}&#39;
 github.com/GoBootcamp/clirescue/cmdutil
 github.com/GoBootcamp/clirescue/trackerapi
 github.com/GoBootcamp/clirescue/user
 github.com/codegangsta/cli
 </code></pre><p>If you want the list to also contain standard packages, edit the template and use:</p>
-<pre><code>$ go list -f '{{join .Deps &quot;\n&quot;}}' |  xargs go list -f '{{.ImportPath}}'
+<pre tabindex="0"><code>$ go list -f &#39;{{join .Deps &#34;\n&#34;}}&#39; |  xargs go list -f &#39;{{.ImportPath}}&#39;
 </code></pre>
 				<div id="post-tags">
 				  

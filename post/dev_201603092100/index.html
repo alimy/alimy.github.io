@@ -369,7 +369,7 @@
 <li>UUID</li>
 </ul>
 <p>In the next tutorial we look at examples of arrays and Collections.</p>
-<pre><code>package com.studytrails.xml.xstream;
+<pre tabindex="0"><code>package com.studytrails.xml.xstream;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -399,9 +399,9 @@ public class ConverterExample1 {
 
 		XStream xStream = new XStream();
 
-		xStream.registerLocalConverter(BasicConverterFields.class, &quot;flag&quot;, BooleanConverter.BINARY);
+		xStream.registerLocalConverter(BasicConverterFields.class, &#34;flag&#34;, BooleanConverter.BINARY);
 
-		DateConverter dateConverter = new DateConverter(&quot;yyyy-MM-dd HH:mm:ss&quot;, new String[] {}, TimeZone.getTimeZone(&quot;UTC&quot;));
+		DateConverter dateConverter = new DateConverter(&#34;yyyy-MM-dd HH:mm:ss&#34;, new String[] {}, TimeZone.getTimeZone(&#34;UTC&#34;));
 		xStream.registerConverter(dateConverter);
 
 		String xml = xStream.toXML(basicConverterExample);
@@ -415,10 +415,10 @@ public class ConverterExample1 {
 
 	class BasicConverterFields {
 		BigDecimal bigDecimal = new BigDecimal(10000000000.0);
-		BigInteger bigInteger = new BigInteger(&quot;1000000000&quot;);
+		BigInteger bigInteger = new BigInteger(&#34;1000000000&#34;);
 		boolean flag = true;
-		byte byteA = 'a';
-		char charA = 'a';
+		byte byteA = &#39;a&#39;;
+		char charA = &#39;a&#39;;
 		Date date = new Date();
 		Double doubleA = new Double(1000000000000.0);
 		Float floatA = new Float(10000000000000f);
@@ -426,30 +426,30 @@ public class ConverterExample1 {
 		Long longA = new Long(100000);
 		Object nullA = null;
 		Short shortA = new Short((short) 1);
-		StringBuffer stringBufferA = new StringBuffer(&quot;test&quot;);
-		StringBuilder stringBuilderA = new StringBuilder().append(&quot;test&quot;);
+		StringBuffer stringBufferA = new StringBuffer(&#34;test&#34;);
+		StringBuilder stringBuilderA = new StringBuilder().append(&#34;test&#34;);
 		URI UriA = null;
 		URL urlA = null;
-		UUID uuidA = UUID.fromString(&quot;0000000a-000b-000c-000d-00000000000e&quot;);
+		UUID uuidA = UUID.fromString(&#34;0000000a-000b-000c-000d-00000000000e&#34;);
 
 		public void initialize() throws URISyntaxException, MalformedURLException {
-			UriA = new URI(&quot;file://C/work/fileA&quot;);
-			urlA = new URL(&quot;http://www.google.com&quot;);
+			UriA = new URI(&#34;file://C/work/fileA&#34;);
+			urlA = new URL(&#34;http://www.google.com&#34;);
 		}
 
 		@Override
 		public String toString() {
-			return &quot;BasicConverterFields [bigDecimal=&quot; + bigDecimal + &quot;, bigInteger=&quot; + bigInteger + &quot;, flag=&quot; + flag + &quot;, byteA=&quot; + byteA
-					+ &quot;, charA=&quot; + charA + &quot;, date=&quot; + date + &quot;, doubleA=&quot; + doubleA + &quot;, floatA=&quot; + floatA + &quot;, intA=&quot; + intA + &quot;, longA=&quot; + longA
-					+ &quot;, nullA=&quot; + nullA + &quot;, shortA=&quot; + shortA + &quot;, stringBufferA=&quot; + stringBufferA + &quot;, stringBuilderA=&quot; + stringBuilderA
-					+ &quot;, UriA=&quot; + UriA + &quot;, urlA=&quot; + urlA + &quot;, uuidA=&quot; + uuidA + &quot;]&quot;;
+			return &#34;BasicConverterFields [bigDecimal=&#34; + bigDecimal + &#34;, bigInteger=&#34; + bigInteger + &#34;, flag=&#34; + flag + &#34;, byteA=&#34; + byteA
+					+ &#34;, charA=&#34; + charA + &#34;, date=&#34; + date + &#34;, doubleA=&#34; + doubleA + &#34;, floatA=&#34; + floatA + &#34;, intA=&#34; + intA + &#34;, longA=&#34; + longA
+					+ &#34;, nullA=&#34; + nullA + &#34;, shortA=&#34; + shortA + &#34;, stringBufferA=&#34; + stringBufferA + &#34;, stringBuilderA=&#34; + stringBuilderA
+					+ &#34;, UriA=&#34; + UriA + &#34;, urlA=&#34; + urlA + &#34;, uuidA=&#34; + uuidA + &#34;]&#34;;
 		}
 
 	}
 
 }
 </code></pre><p>The toXML method prints this</p>
-<pre><code>10000000000
+<pre tabindex="0"><code>10000000000
 1000000000
 1
 97
@@ -466,7 +466,7 @@ file://C/work/fileA
 http://www.google.com
 0000000a-000b-000c-000d-00000000000e
 </code></pre><p>The fromXML method prints this</p>
-<pre><code>BasicConverterFields [bigDecimal=10000000000, bigInteger=1000000000, flag=true, byteA=97, charA=a,
+<pre tabindex="0"><code>BasicConverterFields [bigDecimal=10000000000, bigInteger=1000000000, flag=true, byteA=97, charA=a,
 date=Sat Apr 26 09:44:38 IST 2014, doubleA=1.0E12, floatA=9.9999998E12, intA=100, longA=100000,
 nullA=null, shortA=1, stringBufferA=test, stringBuilderA=test, UriA=file://C/work/fileA,
 urlA=http://www.google.com, uuidA=0000000a-000b-000c-000d-00000000000e]

@@ -433,16 +433,16 @@ continued.</p>
 <p>The example below shows the continuation of a 100 byte upload that was
 interrupted after 70 bytes were transferred.</p>
 <p><strong>Request:</strong></p>
-<pre><code>HEAD /files/24e533e02ec3bc40c387f1a0e460e216 HTTP/1.1
+<pre tabindex="0"><code>HEAD /files/24e533e02ec3bc40c387f1a0e460e216 HTTP/1.1
 Host: tus.example.org
 Tus-Resumable: 1.0.0
 </code></pre><p><strong>Response:</strong></p>
-<pre><code>HTTP/1.1 200 OK
+<pre tabindex="0"><code>HTTP/1.1 200 OK
 Upload-Offset: 70
 Tus-Resumable: 1.0.0
 </code></pre><p>Given the offset, the Client uses the <code>PATCH</code> method to resume the upload:</p>
 <p><strong>Request:</strong></p>
-<pre><code>PATCH /files/24e533e02ec3bc40c387f1a0e460e216 HTTP/1.1
+<pre tabindex="0"><code>PATCH /files/24e533e02ec3bc40c387f1a0e460e216 HTTP/1.1
 Host: tus.example.org
 Content-Type: application/offset+octet-stream
 Content-Length: 30
@@ -451,7 +451,7 @@ Tus-Resumable: 1.0.0
 
 [remaining 30 bytes]
 </code></pre><p><strong>Response:</strong></p>
-<pre><code>HTTP/1.1 204 No Content
+<pre tabindex="0"><code>HTTP/1.1 204 No Content
 Tus-Resumable: 1.0.0
 Upload-Offset: 100
 </code></pre><h3 id="headers">Headers</h3>
@@ -536,10 +536,10 @@ handling <code>0.2.2</code> and <code>0.2.1</code>. Uploads with a total size of
 allowed and the extensions for <a href="#creation">Creation</a> and
 <a href="#expiration">Expiration</a> are enabled.</p>
 <p><strong>Request:</strong></p>
-<pre><code>OPTIONS /files HTTP/1.1
+<pre tabindex="0"><code>OPTIONS /files HTTP/1.1
 Host: tus.example.org
 </code></pre><p><strong>Response:</strong></p>
-<pre><code>HTTP/1.1 204 No Content
+<pre tabindex="0"><code>HTTP/1.1 204 No Content
 Tus-Resumable: 1.0.0
 Tus-Version: 1.0.0,0.2.2,0.2.1
 Tus-Max-Size: 1073741824
@@ -556,14 +556,14 @@ header.</p>
 <p>An empty <code>POST</code> request is used to create a new upload resource. The
 <code>Upload-Length</code> header indicates the size of entire upload in bytes.</p>
 <p><strong>Request:</strong></p>
-<pre><code>POST /files HTTP/1.1
+<pre tabindex="0"><code>POST /files HTTP/1.1
 Host: tus.example.org
 Content-Length: 0
 Upload-Length: 100
 Tus-Resumable: 1.0.0
 Upload-Metadata: filename d29ybGRfZG9taW5hdGlvbl9wbGFuLnBkZg==
 </code></pre><p><strong>Response:</strong></p>
-<pre><code>HTTP/1.1 201 Created
+<pre tabindex="0"><code>HTTP/1.1 201 Created
 Location: https://tus.example.org/files/24e533e02ec3bc40c387f1a0e460e216
 Tus-Resumable: 1.0.0
 </code></pre><p>The new resource has an implicit offset of <code>0</code> allowing the Client to use the
@@ -611,7 +611,7 @@ this behavior to the Client, the Server MUST add <code>expiration</code> to the
 <p>The unfinished upload is available until the time specified in <code>Upload-Expires</code>.
 After this date the upload can not be resumed.</p>
 <p><strong>Request:</strong></p>
-<pre><code>PATCH /files/24e533e02ec3bc40c387f1a0e460e216 HTTP/1.1
+<pre tabindex="0"><code>PATCH /files/24e533e02ec3bc40c387f1a0e460e216 HTTP/1.1
 Host: tus.example.org
 Content-Type: application/offset+octet-stream
 Content-Length: 30
@@ -620,7 +620,7 @@ Tus-Resumable: 1.0.0
 
 [remaining 30 bytes]
 </code></pre><p><strong>Response:</strong></p>
-<pre><code>HTTP/1.1 204 No Content
+<pre tabindex="0"><code>HTTP/1.1 204 No Content
 Upload-Expires: Wed, 25 Jun 2014 16:00:00 GMT
 Tus-Resumable: 1.0.0
 Upload-Offset: 100
@@ -680,17 +680,17 @@ the current body payload. The header MUST consist of the name of the used
 checksum algorithm and the Base64 encoded checksum separated by a space.</p>
 <h4 id="example-4">Example</h4>
 <p><strong>Request</strong>:</p>
-<pre><code>OPTIONS /files HTTP/1.1
+<pre tabindex="0"><code>OPTIONS /files HTTP/1.1
 Host: tus.example.org
 Tus-Resumable: 1.0.0
 </code></pre><p><strong>Response</strong>:</p>
-<pre><code>HTTP/1.1 204 No Content
+<pre tabindex="0"><code>HTTP/1.1 204 No Content
 Tus-Resumable: 1.0.0
 Tus-Version: 1.0.0
 Tus-Extension: checksum
 Tus-Checksum-Algorithm: md5,sha1,crc32
 </code></pre><p><strong>Request</strong>:</p>
-<pre><code>PATCH /files/17f44dbe1c4bace0e18ab850cf2b3a83 HTTP/1.1
+<pre tabindex="0"><code>PATCH /files/17f44dbe1c4bace0e18ab850cf2b3a83 HTTP/1.1
 Content-Length: 11
 Upload-Offset: 0
 Tus-Resumable: 1.0.0
@@ -698,7 +698,7 @@ Upload-Checksum: sha1 Kq5sNclPz7QV2+lfQIuc6R7oRu0=
 
 hello world
 </code></pre><p><strong>Response</strong>:</p>
-<pre><code>HTTP/1.1 204 No Content
+<pre tabindex="0"><code>HTTP/1.1 204 No Content
 Tus-Resumable: 1.0.0
 Upload-Offset: 11
 </code></pre><h3 id="termination">Termination</h3>
@@ -714,12 +714,12 @@ confirming that the upload was terminated. For all future requests to this URL
 the Server SHOULD respond with the <code>404 Not Found</code> or <code>410 Gone</code> status.</p>
 <h4 id="example-5">Example</h4>
 <p><strong>Request:</strong></p>
-<pre><code>DELETE /files/24e533e02ec3bc40c387f1a0e460e216 HTTP/1.1
+<pre tabindex="0"><code>DELETE /files/24e533e02ec3bc40c387f1a0e460e216 HTTP/1.1
 Host: tus.example.org
 Content-Length: 0
 Tus-Resumable: 1.0.0
 </code></pre><p><strong>Response:</strong></p>
-<pre><code>HTTP/1.1 204 No Content
+<pre tabindex="0"><code>HTTP/1.1 204 No Content
 Tus-Resumable: 1.0.0
 </code></pre><h3 id="concatenation">Concatenation</h3>
 <p>This extension can be used to concatenate multiple uploads into a single one enabling
@@ -742,7 +742,7 @@ upload creation.</p>
 <p>The Client MAY send the concatenation request while the partial uploads are still
 in progress. This feature MUST be explicitly announced by the Server by adding
 <code>concatenation-unfinished</code> to the <code>Tus-Extension</code> header.</p>
-<p>When creating a new final upload the partial uploads' metadata SHALL NOT be
+<p>When creating a new final upload the partial uploads&rsquo; metadata SHALL NOT be
 transferred to the new final upload. All metadata SHOULD be included in the
 concatenation request using the <code>Upload-Metadata</code> header.</p>
 <p>The Server MAY delete partial uploads after concatenation. They MAY however be
@@ -772,13 +772,13 @@ spaces as defined in <a href="https://tools.ietf.org/html/rfc3986">RFC 3986</a>.
 <p>In the following example the <code>Host</code> and <code>Tus-Resumable</code> headers are omitted for
 readability although they are required by the specification.
 In the beginning two partial uploads are created:</p>
-<pre><code>POST /files HTTP/1.1
+<pre tabindex="0"><code>POST /files HTTP/1.1
 Upload-Concat: partial
 Upload-Length: 5
 
 HTTP/1.1 201 Created
 Location: https://tus.example.org/files/a
-</code></pre><pre><code>POST /files HTTP/1.1
+</code></pre><pre tabindex="0"><code>POST /files HTTP/1.1
 Upload-Concat: partial
 Upload-Length: 6
 
@@ -786,14 +786,14 @@ HTTP/1.1 201 Created
 Location: https://tus.example.org/files/b
 </code></pre><p>You are now able to upload data to the two partial resources using <code>PATCH</code>
 requests:</p>
-<pre><code>PATCH /files/a HTTP/1.1
+<pre tabindex="0"><code>PATCH /files/a HTTP/1.1
 Upload-Offset: 0
 Content-Length: 5
 
 hello
 
 HTTP/1.1 204 No Content
-</code></pre><pre><code>PATCH /files/b HTTP/1.1
+</code></pre><pre tabindex="0"><code>PATCH /files/b HTTP/1.1
 Upload-Offset: 0
 Content-Length: 6
 
@@ -805,14 +805,14 @@ contains <code> world</code> with a leading space.</p>
 <p>The next step is to create the final upload consisting of the two earlier
 generated partial uploads. In following request no <code>Upload-Length</code> header is
 presented.</p>
-<pre><code>POST /files HTTP/1.1
+<pre tabindex="0"><code>POST /files HTTP/1.1
 Upload-Concat: final;/files/a /files/b
 
 HTTP/1.1 201 Created
 Location: https://tus.example.org/files/ab
 </code></pre><p>The length of the final resource is now 11 bytes consisting of the string
 <code>hello world</code>.</p>
-<pre><code>HEAD /files/ab HTTP/1.1
+<pre tabindex="0"><code>HEAD /files/ab HTTP/1.1
 
 HTTP/1.1 200 OK
 Upload-Length: 11

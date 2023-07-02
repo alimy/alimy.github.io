@@ -358,7 +358,7 @@
 <li>Value, in this case, is the same as a string in Alphabet A, i. e. a finite (possibly, empty) sequence of 32-bit numbers. The set of all such sequences is designated as A*.</li>
 <li>Type, for our purposes, is the same as the set of legal values of a type, i. e. some set T which is a subset of A* and is a prefix code (i. e. no element of T may be a prefix for any other element). Therefore, any sequence from A* can contain no more than one prefix that is a member of T.</li>
 <li>Value of Type T is any sequence (value) which is a member of T as a subset of A*.</li>
-<li>Compatible Types are the types T and T’ not intersecting as subsets of A*, such that the union of T and T' is a prefix code.</li>
+<li>Compatible Types are the types T and T’ not intersecting as subsets of A*, such that the union of T and T&rsquo; is a prefix code.</li>
 <li>Coordinated System of Types is a finite or infinite set of types T_1, &hellip;, T_n, &hellip;, such that any two types from this set are compatible.</li>
 <li>Data Type is the same as type in the sense of the definition above.</li>
 <li>Functional Type is a type describing a function; it is not a type in the sense of the definition above. Initially, we ignore the existence of functional types and describe only the data types; however, in reality, functional types will later be implemented in some extension of this system using the so-called temporary combinators.</li>
@@ -399,14 +399,14 @@
 <p>Description of (composite) Type T is a collection of the descriptions of all constructors that take on Type T values. This is normally written as text with each string containing the description of a single constructor. Here is a description of Type ‘IntTree’, for example:</p>
 </li>
 </ul>
-<pre><code>int_tree IntTree int IntTree = IntTree; empty_tree = IntTree;
+<pre tabindex="0"><code>int_tree IntTree int IntTree = IntTree; empty_tree = IntTree;
 </code></pre><ul>
 <li>Polymorphic type is a type whose description contains parameters (type variables) in lieu of actual types; approximately, what would be a template in C++. Here is a description of Type List alpha where List is a polymorphic type of arity 1 (i. e., dependent on a single argument), and alpha is a type variable which appears as the constructor’s optional parameter (in curly braces):</li>
 </ul>
-<pre><code>cons {alpha:Type} alpha (List alpha) = List alpha; nil {alpha:Type} = List alpha;
+<pre tabindex="0"><code>cons {alpha:Type} alpha (List alpha) = List alpha; nil {alpha:Type} = List alpha;
 </code></pre><ul>
 <li>
-<p>Value of (composite) Type T is any sequence from A* in the format <code>constr_num arg1 ... argN</code>, where <code>constr_num</code> is the index number of some Constructor C which takes on values of Type T, and arg_i is a value of Type T_i which is the type of the i-th argument to Constructor C. For example, let Combinator int_tree have the index number 17, whereas Combinator empty_tree has the index number 239. Then, the value of Type IntTree is, for example, 17 17 239 1 239 2 239 which is more conveniently written as &lsquo;int_tree&rsquo; &lsquo;int_tree&rsquo; &lsquo;empty_tree&rsquo; 1 &lsquo;empty_tree&rsquo; 2 ‘empty_tree’. From the standpoint of a high-level language, this is int_tree (int_tree (empty_tree) 1 (empty_tree)) 2 (empty_tree): IntTree.</p>
+<p>Value of (composite) Type T is any sequence from A* in the format <code>constr_num arg1 ... argN</code>, where <code>constr_num</code> is the index number of some Constructor C which takes on values of Type T, and arg_i is a value of Type T_i which is the type of the i-th argument to Constructor C. For example, let Combinator int_tree have the index number 17, whereas Combinator empty_tree has the index number 239. Then, the value of Type IntTree is, for example, 17 17 239 1 239 2 239 which is more conveniently written as &lsquo;int_tree&rsquo; &lsquo;int_tree&rsquo; &rsquo;empty_tree&rsquo; 1 &rsquo;empty_tree&rsquo; 2 ‘empty_tree’. From the standpoint of a high-level language, this is int_tree (int_tree (empty_tree) 1 (empty_tree)) 2 (empty_tree): IntTree.</p>
 </li>
 <li>
 <p>Schema is a collection of all the (composite) data type descriptions. This is used to define some agreed-to system of types.</p>
@@ -427,7 +427,7 @@
 <li>Base Types
 Base types exist both as bare (int, long, double, string) and as boxed (Int, Long, Double, String) versions. Their constructor identifiers coincide with the names of the relevant bare types. Their pseudodescriptions have the following appearance:</li>
 </ul>
-<pre><code>int ? = Int;
+<pre tabindex="0"><code>int ? = Int;
 long ? = Long;
 double ? = Double;
 string ? = String;
@@ -444,28 +444,28 @@ string ? = String;
 <h4 id="object-pseudotype">Object Pseudotype</h4>
 <p>The Object pseudotype is a “type” which can take on values that belong to any boxed type in the schema. This helps quickly define such types as list of random items without using polymorphic types. It is best not to abuse this capability since it results in the use of dynamic typing. Nonetheless, it is hard to imagine the data structures that we know from PHP and JSON without using the Object pseudotype.</p>
 <p>It is recommended to use TypedObject instead whenever possible:</p>
-<pre><code>object X:Type value:X = TypedObject;
+<pre tabindex="0"><code>object X:Type value:X = TypedObject;
 </code></pre><h4 id="built-in-composite-types-vectors-and-associative-arrays">Built-In Composite Types: Vectors and Associative Arrays</h4>
 <p>The Vector t polymorphic pseudotype is a “type” whose value is a sequence of values of any type t, either boxed or bare.</p>
-<pre><code>vector {t:Type} # [ t ] = Vector t;
+<pre tabindex="0"><code>vector {t:Type} # [ t ] = Vector t;
 </code></pre><p>Serialization always uses the same constructor “vector” (const 0x1cb5c415 = crc32(&ldquo;vector t:Type # [ t ] = Vector t”) that is not dependent on the specific value of the variable of type t. The value of the Vector t type is the index number of the relevant constructor number followed by N, the number of elements in the vector, and then by N values of type t. The value of the optional parameter t is not involved in the serialization since it is derived from the result type (always known prior to deserialization).</p>
 <p>Polymorphic pseudotypes IntHash t and StrHash t are associative arrays mapping integer and string keys to values of type t. They are, in fact, vectors containing bare 2-tuples (int, t) or (string, t):</p>
-<pre><code>coupleInt {t:Type} int t = CoupleInt t;
+<pre tabindex="0"><code>coupleInt {t:Type} int t = CoupleInt t;
 intHash {t:Type} (vector %(CoupleInt t)) = IntHash t;
 coupleStr {t:Type} string t = CoupleStr t;
 strHash {t:Type} (vector %(CoupleStr t)) = StrHash t;
 </code></pre><p>The percentage sign, in this case, means that a bare type that corresponds to the boxed type in parentheses is taken; the boxed type in question must have no more than a single constructor, whatever the values of the parameters.</p>
 <p>The keys may be sorted or be in some other order (as in PHP arrays). For associative arrays with sorted keys, the IntSortedHash or StrSortedHash alias is used:</p>
-<pre><code>intSortedHash {t:Type} (intHash t) = IntSortedHash t;
+<pre tabindex="0"><code>intSortedHash {t:Type} (intHash t) = IntSortedHash t;
 strSortedHash {t:Type} (strHash t) = StrSortedHash t;
 </code></pre><h4 id="polymorphic-type-constructors">Polymorphic Type Constructors</h4>
 <p>The constructor of a polymorphic type does not depend on the specific types to which the polymorphic type is applied. When it is computed, optional parameters (normally containing type variables and placed in curly braces) cease to be optional (the curly braces are removed), and, in addition to that, all parenthesis are also removed. Therefore,</p>
-<pre><code>vector {t:Type} # [ t ] = Vector t;
+<pre tabindex="0"><code>vector {t:Type} # [ t ] = Vector t;
 </code></pre><p>corresponds to the constructor number <code>crc32(&quot;vector t:Type # [ t ] = Vector t&quot;) = 0x1cb5c415</code>. During (de)serialization, the specific values of the optional variable t are derived from the result type (i. e. the object being serialized or deserialized) that is always known, and are never serialized explicitly.</p>
 <p>Previously, it had to be known which specific variable types each polymorphic type will apply to. To accomplish this, the type system used strings of the form</p>
-<pre><code>polymorphic_type_name type_1 ... type_N;
+<pre tabindex="0"><code>polymorphic_type_name type_1 ... type_N;
 </code></pre><p>For example,</p>
-<pre><code>Vector int;
+<pre tabindex="0"><code>Vector int;
 Vector string;
 Vector Object;
 </code></pre><p>Now they are ignored.</p>
@@ -473,14 +473,14 @@ Vector Object;
 <p>In this case, the Object pseudotype permits using Vector Object to store lists of anything (the values of any boxed types). Since bare types are efficient when short, in practice it is unlikely that cases more complex than the ones cited above will be required.</p>
 <h4 id="field-names">Field Names</h4>
 <p>Let us say that we need to represent users as triplets containing one integer (user ID) and two strings (first and last names). The requisite data structure is the triplet int, string, string which may be declared as follows:</p>
-<pre><code>user int string string = User;
+<pre tabindex="0"><code>user int string string = User;
 </code></pre><p>On the other hand, a group may be described by a similar triplet consisting of a group ID, its name, and description:</p>
-<pre><code>group int string string = Group;
+<pre tabindex="0"><code>group int string string = Group;
 </code></pre><p>For the difference between User and Group to be clear, it is convenient to assign names to some or all of the fields:</p>
-<pre><code>user id:int first_name:string last_name:string = User;
+<pre tabindex="0"><code>user id:int first_name:string last_name:string = User;
 group id:int title:string description:string = Group;
 </code></pre><p>If the User type needs to be extended at a later time by having records with some additional field added to it, it could be accomplished as follows:</p>
-<pre><code>userv2 id:int unread_messages:int first_name:string last_name:string in_groups:vector int = User;
+<pre tabindex="0"><code>userv2 id:int unread_messages:int first_name:string last_name:string in_groups:vector int = User;
 </code></pre><p>Aside from other things, this approach helps define correct mappings between fields that belong to different constructors of the same type, convert between them as well as convert type values into an associative array with string keys (field names, if defined, are natural choices for such keys).</p>
 <h4 id="tl-language">TL Language</h4>
 <p>See <a href="post/dev_202012071315/">TL Language</a>.</p>

@@ -351,7 +351,7 @@
           
           <p>Jackson provides a way to maintain sub type information while serializing java objects. It is possible to recreate the exact sub type. The type information can be embedded into the json as a property. In the example below we create a zoo, that has a list of animals. The animal may be an elephant or a lion, and they both extend the Animal abstract class. While deserializing we want to create the exact animal type. We also demonstrate the use of @JsonTypeInfo and @JsonSubTypes annotations.</p>
 <h3 id="data-serialization-and-polymorphism-example">Data Serialization and Polymorphism Example</h3>
-<pre><code>package com.studytrails.json.jackson;
+<pre tabindex="0"><code>package com.studytrails.json.jackson;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -364,13 +364,13 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class SerializeExample1 {
-    private static String outputFile = &quot;zoo.json&quot;;
+    private static String outputFile = &#34;zoo.json&#34;;
 
     public static void main(String[] args) throws JsonGenerationException, JsonMappingException, IOException {
         // let start creating the zoo
-        Zoo zoo = new Zoo(&quot;Samba Wild Park&quot;, &quot;Paz&quot;);
-        Lion lion = new Lion(&quot;Simba&quot;);
-        Elephant elephant = new Elephant(&quot;Manny&quot;);
+        Zoo zoo = new Zoo(&#34;Samba Wild Park&#34;, &#34;Paz&#34;);
+        Lion lion = new Lion(&#34;Simba&#34;);
+        Elephant elephant = new Elephant(&#34;Manny&#34;);
         List&lt;Animal&gt; animals = new ArrayList&lt;&gt;();
         animals.add(lion);
         animals.add(elephant);
@@ -381,7 +381,7 @@ public class SerializeExample1 {
     }
 }
 </code></pre><p>Before we look at the various classes, lets also see how to deserialize this</p>
-<pre><code>package com.studytrails.json.jackson;
+<pre tabindex="0"><code>package com.studytrails.json.jackson;
 
 import java.io.File;
 import java.io.IOException;
@@ -396,12 +396,12 @@ public class DeSerializeExample1 {
 
     public static void main(String[] args) throws JsonParseException, JsonMappingException, IOException {
         ObjectMapper mapper = new ObjectMapper();
-        Zoo zoo = mapper.readValue(FileUtils.readFileToByteArray(new File(&quot;zoo.json&quot;)), Zoo.class);
+        Zoo zoo = mapper.readValue(FileUtils.readFileToByteArray(new File(&#34;zoo.json&#34;)), Zoo.class);
         System.out.println(zoo);
     }
 }
 </code></pre><h4 id="zoo-class">Zoo class</h4>
-<pre><code>package com.studytrails.json.jackson;
+<pre tabindex="0"><code>package com.studytrails.json.jackson;
 
 import java.util.List;
 
@@ -410,7 +410,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 
-@JsonTypeInfo(use = JsonTypeInfo.Id.MINIMAL_CLASS, include = As.PROPERTY, property = &quot;@class&quot;)
+@JsonTypeInfo(use = JsonTypeInfo.Id.MINIMAL_CLASS, include = As.PROPERTY, property = &#34;@class&#34;)
 public class Zoo {
 
     public String name;
@@ -418,7 +418,7 @@ public class Zoo {
     public List&lt;Animal&gt; animals;
 
     @JsonCreator
-    public Zoo(@JsonProperty(&quot;name&quot;) String name, @JsonProperty(&quot;city&quot;) String city) {
+    public Zoo(@JsonProperty(&#34;name&#34;) String name, @JsonProperty(&#34;city&#34;) String city) {
         this.name = name;
         this.city = city;
     }
@@ -429,12 +429,12 @@ public class Zoo {
 
     @Override
     public String toString() {
-        return &quot;Zoo [name=&quot; + name + &quot;, city=&quot; + city + &quot;, animals=&quot; + animals + &quot;]&quot;;
+        return &#34;Zoo [name=&#34; + name + &#34;, city=&#34; + city + &#34;, animals=&#34; + animals + &#34;]&#34;;
     }
 
 }
 </code></pre><h4 id="animal-abstract-class">Animal Abstract class</h4>
-<pre><code>package com.studytrails.json.jackson;
+<pre tabindex="0"><code>package com.studytrails.json.jackson;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
@@ -442,21 +442,21 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 
-@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = As.PROPERTY, property = &quot;@class&quot;)
-@JsonSubTypes({ @Type(value = Lion.class, name = &quot;lion&quot;), @Type(value = Elephant.class, name = &quot;elephant&quot;) })
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = As.PROPERTY, property = &#34;@class&#34;)
+@JsonSubTypes({ @Type(value = Lion.class, name = &#34;lion&#34;), @Type(value = Elephant.class, name = &#34;elephant&#34;) })
 public abstract class Animal {
-    @JsonProperty(&quot;name&quot;)
+    @JsonProperty(&#34;name&#34;)
     String name;
-    @JsonProperty(&quot;sound&quot;)
+    @JsonProperty(&#34;sound&#34;)
     String sound;
-    @JsonProperty(&quot;type&quot;)
+    @JsonProperty(&#34;type&#34;)
     String type;
-    @JsonProperty(&quot;endangered&quot;)
+    @JsonProperty(&#34;endangered&#34;)
     boolean endangered;
 
 }
 </code></pre><h4 id="lion-class">Lion class</h4>
-<pre><code>package com.studytrails.json.jackson;
+<pre tabindex="0"><code>package com.studytrails.json.jackson;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -466,7 +466,7 @@ public class Lion extends Animal {
     private String name;
 
     @JsonCreator
-    public Lion(@JsonProperty(&quot;name&quot;) String name) {
+    public Lion(@JsonProperty(&#34;name&#34;) String name) {
         this.name = name;
     }
 
@@ -475,11 +475,11 @@ public class Lion extends Animal {
     }
 
     public String getSound() {
-        return &quot;Roar&quot;;
+        return &#34;Roar&#34;;
     }
 
     public String getType() {
-        return &quot;carnivorous&quot;;
+        return &#34;carnivorous&#34;;
     }
 
     public boolean isEndangered() {
@@ -488,13 +488,13 @@ public class Lion extends Animal {
 
     @Override
     public String toString() {
-        return &quot;Lion [name=&quot; + name + &quot;, getName()=&quot; + getName() + &quot;, getSound()=&quot; + getSound() + &quot;, getType()=&quot; + getType() + &quot;, isEndangered()=&quot;
-                + isEndangered() + &quot;]&quot;;
+        return &#34;Lion [name=&#34; + name + &#34;, getName()=&#34; + getName() + &#34;, getSound()=&#34; + getSound() + &#34;, getType()=&#34; + getType() + &#34;, isEndangered()=&#34;
+                + isEndangered() + &#34;]&#34;;
     }
 
 }
 </code></pre><h4 id="elephant-class">Elephant class</h4>
-<pre><code>package com.studytrails.json.jackson;
+<pre tabindex="0"><code>package com.studytrails.json.jackson;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -505,7 +505,7 @@ public class Elephant extends Animal {
     private String name;
 
     @JsonCreator
-    public Elephant(@JsonProperty(&quot;name&quot;) String name) {
+    public Elephant(@JsonProperty(&#34;name&#34;) String name) {
         this.name = name;
     }
 
@@ -514,11 +514,11 @@ public class Elephant extends Animal {
     }
 
     public String getSound() {
-        return &quot;trumpet&quot;;
+        return &#34;trumpet&#34;;
     }
 
     public String getType() {
-        return &quot;herbivorous&quot;;
+        return &#34;herbivorous&#34;;
     }
 
     public boolean isEndangered() {
@@ -527,8 +527,8 @@ public class Elephant extends Animal {
 
     @Override
     public String toString() {
-        return &quot;Elephant [name=&quot; + name + &quot;, getName()=&quot; + getName() + &quot;, getSound()=&quot; + getSound() + &quot;, getType()=&quot; + getType()
-                + &quot;, isEndangered()=&quot; + isEndangered() + &quot;]&quot;;
+        return &#34;Elephant [name=&#34; + name + &#34;, getName()=&#34; + getName() + &#34;, getSound()=&#34; + getSound() + &#34;, getType()=&#34; + getType()
+                + &#34;, isEndangered()=&#34; + isEndangered() + &#34;]&#34;;
     }
 
 }

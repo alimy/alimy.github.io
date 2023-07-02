@@ -352,7 +352,7 @@
           <p>Just as we saw in the <a href="https://alimy.me/post/dev_201603122030">previous</a> tutorial, Gson provides way to specify custom serializers and deserializers. Register a custom serializer with the GsonBuilder if you need you own way to convert a java object to json and you a custom deserializer if you dont like Gson&rsquo;s way of converting json to the java object. The first example below shows a custom serializer and the second example shows a custom deserializer.</p>
 <h3 id="custom-serializer">Custom Serializer</h3>
 <p>Create a custom serializer by implementing a com.studytrails.json.gson.JsonSerializer and implementing the public JsonElement serialize(T src, Type typeOfSrc, JsonSerializationContext context); method. src is the source object and Type is the type of the source object. The example below demonstrates a custom Serializer.</p>
-<pre><code>package com.studytrails.json.gson;
+<pre tabindex="0"><code>package com.studytrails.json.gson;
 
 import java.lang.reflect.Type;
 
@@ -370,8 +370,8 @@ public class DogSerializer implements JsonSerializer {
 		// This method gets involved whenever the parser encounters the Dog
 		// object (for which this serializer is registered)
 		JsonObject object = new JsonObject();
-		String name = src.getName().replaceAll(&quot; &quot;, &quot;_&quot;);
-		object.addProperty(&quot;name&quot;, name);
+		String name = src.getName().replaceAll(&#34; &#34;, &#34;_&#34;);
+		object.addProperty(&#34;name&#34;, name);
 		// we create the json object for the dog and send it back to the
 		// Gson serializer
 		return object;
@@ -379,7 +379,7 @@ public class DogSerializer implements JsonSerializer {
 
 	public static void main(String[] args) {
 		Animall&lt;Dog&gt; animal = new Animall&lt;Dog&gt;();
-		Dog dog = new Dog(&quot;I am a dog&quot;);
+		Dog dog = new Dog(&#34;I am a dog&#34;);
 		animal.setAnimal(dog);
 		// Create the GsonBuilder and register a serializer for the Dog class.
 		// Whenever the Dog class is encountered Gson calls the DogSerializer
@@ -393,7 +393,7 @@ public class DogSerializer implements JsonSerializer {
 	}
 }
 </code></pre><p>The Animal class</p>
-<pre><code>package com.studytrails.json.gson;
+<pre tabindex="0"><code>package com.studytrails.json.gson;
 
 public class Animal {
 
@@ -409,7 +409,7 @@ public class Animal {
 
 }
 </code></pre><p>The Dog class</p>
-<pre><code>package com.studytrails.json.gson;
+<pre tabindex="0"><code>package com.studytrails.json.gson;
 
 public class Dog {
 	private String name;
@@ -425,7 +425,7 @@ public class Dog {
 }
 </code></pre><h4 id="custom-deserializer">Custom DeSerializer</h4>
 <p>Use a custome De serializer to create a Dog Object from the json. To create a deserializer implement the public T deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException; method.</p>
-<pre><code>package com.studytrails.json.gson;
+<pre tabindex="0"><code>package com.studytrails.json.gson;
 
 import java.lang.reflect.Type;
 
@@ -440,15 +440,15 @@ import com.google.gson.reflect.TypeToken;
 public class DogDeserialiser implements JsonDeserializer&lt;Dog&gt; {
 	@Override
 	public Dog deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-		String name = json.getAsJsonObject().get(&quot;name&quot;).getAsString();
-		name = name.replace(&quot; &quot;, &quot;_&quot;);
+		String name = json.getAsJsonObject().get(&#34;name&#34;).getAsString();
+		name = name.replace(&#34; &#34;, &#34;_&#34;);
 		Dog dog = new Dog(name);
 
 		return dog;
 	}
 
 	public static void main(String[] args) {
-		String json = &quot;{\&quot;animal\&quot;:{\&quot;name\&quot;:\&quot;I am a dog\&quot;}}&quot;;
+		String json = &#34;{\&#34;animal\&#34;:{\&#34;name\&#34;:\&#34;I am a dog\&#34;}}&#34;;
 		Gson gson = new GsonBuilder().registerTypeAdapter(Dog.class, new DogDeserialiser()).create();
 		Type animalType = new TypeToken&lt;Animal&lt;Dog&gt;&gt;() {
 		}.getType();

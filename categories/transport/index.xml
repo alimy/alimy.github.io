@@ -5,6 +5,7 @@
     <link>https://alimy.me/categories/transport/</link>
     <description>Recent content in Transport on 北野</description>
     <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
     <lastBuildDate>Thu, 24 Mar 2016 22:55:00 +0800</lastBuildDate><atom:link href="https://alimy.me/categories/transport/index.xml" rel="self" type="application/rss+xml" />
     <item>
@@ -15,11 +16,11 @@
       <guid>https://alimy.me/post/dev_201603242255/</guid>
       <description>&lt;p&gt;Make 可以简化编译过程，如果有一个近百个源文件的项目，如果有个文件更改后工程需要重新编译，那么一直用gcc -c a.c这些个命令敲来敲去会屎人的。运行make时候，他会寻找指定目录下（默认是 .）的 Makefile 文件并且分析依赖关系进行必要的编译。&lt;/p&gt;
 &lt;h3 id=&#34;makefile文件的基本格式很简单&#34;&gt;Makefile文件的基本格式很简单：&lt;/h3&gt;
-&lt;pre&gt;&lt;code&gt;目标文件： 依赖文件1 依赖文件2 依赖文件3 。。。。
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;目标文件： 依赖文件1 依赖文件2 依赖文件3 。。。。
 [tab]编译命令
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;他的意思是目标文件是依赖于冒号后面几个文件的，如果这些依赖文件有更新的，那么其目标文件也需要更新。&lt;/p&gt;
 &lt;p&gt;Makefile 中可能有很多以上条目，他们共同组成了一个有向无回路图（DAG图），这样可以传递依赖。make 命令会把 Makefile 文件的第一个目标文件作为默认目标，当执行 make 命令时，make 会考察这个目标文件的依赖关系，进行编译。也可以指定，比如这个 Makefile：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;main: a.o b.o
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;main: a.o b.o
 [tab]gcc -o main a.o b.o
 a.o : a.c c.h
 [tab]gcc -c a.c -o a.o
@@ -232,7 +233,7 @@ Lets see some examples&lt;/li&gt;
       <guid>https://alimy.me/post/dev_201603122030/</guid>
       <description>&lt;p&gt;In the earlier tutorials we have seen how gson can serialize and deserialize java classes with or without hierarchies. By default, it introspects the classes and comes with with a strategy for serializing and deserializing it. However, in some cases, you want to specify your own conversion strategy. That is, you want to control how the java object is converted to json string and the other way round. Gson provides a capability to specify a custom type adapter. You tell Gson that for a particular class, use the conversion strategy specified by your custom adapter. Lets look at how to write the type adapter :
 To write a custom adapter extend the com.google.gson.TypeAdapter abstract class. Implement the public abstract T read(JsonReader in) throws IOException; and public abstract void write(JsonWriter out, T value) throws IOException; methods. The adapter should also handle nulls. Create the Type adapter instance and then register it with the GsonBuilder. Create the Gson object from the GsonBuilder and then use that to serialize and deserialize. Lets look at an example&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;package com.studytrails.json.gson;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;package com.studytrails.json.gson;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -246,7 +247,7 @@ import com.google.gson.GsonBuilder;
 public class DatasetTypeAdapterExample8 {
 
 	public static void main(String[] args) throws MalformedURLException, IOException {
-		String url = &amp;quot;http://freemusicarchive.org/api/get/albums.json?api_key=60BLHNQCAOUFPIBZ&amp;amp;limit=5&amp;quot;;
+		String url = &amp;#34;http://freemusicarchive.org/api/get/albums.json?api_key=60BLHNQCAOUFPIBZ&amp;amp;limit=5&amp;#34;;
 		String json = IOUtils.toString(new URL(url));
 		// Create the custom type adapter and register it with the GsonBuilder
 		// class.
@@ -290,7 +291,7 @@ public class DatasetTypeAdapterExample8 {
       <guid>https://alimy.me/post/dev_201603122025/</guid>
       <description>&lt;h3 id=&#34;serializing-list&#34;&gt;Serializing list&lt;/h3&gt;
 &lt;p&gt;As we saw in the previous tutorial serializing and deserializing classes with generic types is non trivial since generic type information is lost while serializing. Gson provides a class called com.google.gson.reflect.TypeToken to store generic types. The example below shows how to use the TypeToken class to serialize and deserialize Classes with generic types.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;package com.studytrails.json.gson;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;package com.studytrails.json.gson;
 
 import java.lang.reflect.Type;
 
@@ -302,7 +303,7 @@ public class GenericTypesExample8 {
 		// create an animal class that is of type dog.
 		Animal animal = new Animal&amp;lt;Dog&amp;gt;();
 		// Create a Dog instance
-		Dog dog = new Dog(&amp;quot;I am a dog&amp;quot;);
+		Dog dog = new Dog(&amp;#34;I am a dog&amp;#34;);
 
 		animal.setAnimal(dog);
 		Gson gson = new Gson();
@@ -337,7 +338,7 @@ public class GenericTypesExample8 {
       <guid>https://alimy.me/post/dev_201603122022/</guid>
       <description>&lt;h3 id=&#34;serializing-list&#34;&gt;Serializing list&lt;/h3&gt;
 &lt;p&gt;Serializing Collections should have been similar to serializing other objects. However, the problem is that Collections are generic and the generic type information is not maintained in the json. We therefore pass the type while deserializing list. Note that if the Collection has different types of objects then there is no way to serialize it.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;package com.studytrails.json.gson;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;package com.studytrails.json.gson;
 
 import java.lang.reflect.Type;
 import java.util.Collection;
@@ -348,7 +349,7 @@ import com.google.gson.reflect.TypeToken;
 
 public class DeSerializeListExample5 {
 	public static void main(String[] args) {
-		String json = &amp;quot;[{album_id:1,album_title:&#39;album1&#39;},{album_id:2,album_title:&#39;album2&#39;}]&amp;quot;;
+		String json = &amp;#34;[{album_id:1,album_title:&amp;#39;album1&amp;#39;},{album_id:2,album_title:&amp;#39;album2&amp;#39;}]&amp;#34;;
 
 		Gson gson = new Gson();
 		// create the type for the collection. In this case define that the collection is of type Dataset
@@ -399,14 +400,14 @@ public class DeSerializeListExample5 {
 &lt;li&gt;The other way is to use the com.google.gson.GsonBuilder class. This class allows setting up certain features, such as - allowing null serialization or setting up custom serializing policies. Create a GsonBuilder, apply the features and then obtain the Gson class from the builder.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;In this tutorial we look at the Gson class to de-serialize json from &lt;a href=&#34;http://freemusicarchive.org/api/get/albums.json?api_key=60BLHNQCAOUFPIBZ&amp;amp;limit=5&#34; title=&#34;free music archive&#34;&gt;free music archive&lt;/a&gt;. The main class is the Albums class and it contains the list of Datasets. Each Dataset is one album. The way to approach the problem of deserialization is to build a java class such that the when Gson converts the Java class to JSON, the resultant JSON resembles the one we are trying to parse. Lets see this in action. If you look at the JSON, it starts with a root object that has properties such as title, message, errors, etc.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;{
-title: &amp;quot;Free Music Archive - Albums&amp;quot;,
-message: &amp;quot;&amp;quot;,
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;{
+title: &amp;#34;Free Music Archive - Albums&amp;#34;,
+message: &amp;#34;&amp;#34;,
 errors: [ ],
-total: &amp;quot;11259&amp;quot;,
+total: &amp;#34;11259&amp;#34;,
 total_pages: 2252,
 page: 1,
-limit: &amp;quot;5&amp;quot;,
+limit: &amp;#34;5&amp;#34;,
 dataset: [
 {
 ......
@@ -424,7 +425,7 @@ dataset: [
 latest additions in Gson 2.3 (TypeAdapter Annotation, JsonPath support and new methods in JsonArray)&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
-&lt;p&gt;&lt;a href=&#34;https://alimy.me/post/dev_201603122010&#34; title=&#34;Java to JSON and Back - Data Binding&#34;&gt;Java to JSON and Back - Data Binding&lt;/a&gt; - In this example we look at how to bind a Json to a java object. Gson is quite powerful when it comes to binding a json to Java since it has a lot of built in serializers and deserializers. A serializer has code that helps in converting a Json string to corresponding java type. For example if you have an array in JSON (elements enclosed in &amp;lsquo;[&amp;rsquo; and &amp;lsquo;]&#39;) and you want to convert that to a Java array then Gson would internally use an ArrayTypeAdapter to convert the Json Array to Java Array and back. If you are looking at Gson primarily to parse JSON then we would suggest that you start with a simple Java class, convert that to JSON and make sure it looks like the JSON that you want to parse. You can then gradually start adding complexities to the java class and at each step convert it to a JSON and ensure that the JSON is similar to the one that you are trying to parse. It is good to think of parsing a JSON as creating a java class that can give you the JSON that you want to parse. Also note that you have certain flexibility while creating the java object. You could represent a Json Array as a Java array or a Java List. The choice may be driven more by how you want to use the class. If you map a Json property to a java array Gson would use an Array adapter but if you map it to a List it would use the collection adapter and you, the user, does not have to worry about that. Gson also handles null gracefully&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://alimy.me/post/dev_201603122010&#34; title=&#34;Java to JSON and Back - Data Binding&#34;&gt;Java to JSON and Back - Data Binding&lt;/a&gt; - In this example we look at how to bind a Json to a java object. Gson is quite powerful when it comes to binding a json to Java since it has a lot of built in serializers and deserializers. A serializer has code that helps in converting a Json string to corresponding java type. For example if you have an array in JSON (elements enclosed in &amp;lsquo;[&amp;rsquo; and &amp;lsquo;]&amp;rsquo;) and you want to convert that to a Java array then Gson would internally use an ArrayTypeAdapter to convert the Json Array to Java Array and back. If you are looking at Gson primarily to parse JSON then we would suggest that you start with a simple Java class, convert that to JSON and make sure it looks like the JSON that you want to parse. You can then gradually start adding complexities to the java class and at each step convert it to a JSON and ensure that the JSON is similar to the one that you are trying to parse. It is good to think of parsing a JSON as creating a java class that can give you the JSON that you want to parse. Also note that you have certain flexibility while creating the java object. You could represent a Json Array as a Java array or a Java List. The choice may be driven more by how you want to use the class. If you map a Json property to a java array Gson would use an Array adapter but if you map it to a List it would use the collection adapter and you, the user, does not have to worry about that. Gson also handles null gracefully&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;a href=&#34;https://alimy.me/post/dev_201603122015&#34; title=&#34;Java to JSON and Back - Streaming&#34;&gt;Java to JSON and Back - Streaming&lt;/a&gt; - At certain times you want more control on the way the parsing is done. Also there may be times when Gson automated conversion does not give you the result that you are looking for. For example, if you have a List that contains multiple kinds of Object then Gson may not be able to deserialize or parse the Json for you. In such cases Gson provides a streaming API. You can use the Streaming API and handle a token at a time. The token may be start and end of Json Object, start and end of json array, the key of a property and the String or Number value of a property.&lt;/p&gt;
@@ -440,7 +441,7 @@ latest additions in Gson 2.3 (TypeAdapter Annotation, JsonPath support and new m
       <guid>https://alimy.me/post/dev_201603112105/</guid>
       <description>&lt;p&gt;Jackson provides a way to maintain sub type information while serializing java objects. It is possible to recreate the exact sub type. The type information can be embedded into the json as a property. In the example below we create a zoo, that has a list of animals. The animal may be an elephant or a lion, and they both extend the Animal abstract class. While deserializing we want to create the exact animal type. We also demonstrate the use of @JsonTypeInfo and @JsonSubTypes annotations.&lt;/p&gt;
 &lt;h3 id=&#34;data-serialization-and-polymorphism-example&#34;&gt;Data Serialization and Polymorphism Example&lt;/h3&gt;
-&lt;pre&gt;&lt;code&gt;package com.studytrails.json.jackson;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;package com.studytrails.json.jackson;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -453,13 +454,13 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class SerializeExample1 {
-    private static String outputFile = &amp;quot;zoo.json&amp;quot;;
+    private static String outputFile = &amp;#34;zoo.json&amp;#34;;
 
     public static void main(String[] args) throws JsonGenerationException, JsonMappingException, IOException {
         // let start creating the zoo
-        Zoo zoo = new Zoo(&amp;quot;Samba Wild Park&amp;quot;, &amp;quot;Paz&amp;quot;);
-        Lion lion = new Lion(&amp;quot;Simba&amp;quot;);
-        Elephant elephant = new Elephant(&amp;quot;Manny&amp;quot;);
+        Zoo zoo = new Zoo(&amp;#34;Samba Wild Park&amp;#34;, &amp;#34;Paz&amp;#34;);
+        Lion lion = new Lion(&amp;#34;Simba&amp;#34;);
+        Elephant elephant = new Elephant(&amp;#34;Manny&amp;#34;);
         List&amp;lt;Animal&amp;gt; animals = new ArrayList&amp;lt;&amp;gt;();
         animals.add(lion);
         animals.add(elephant);
@@ -480,7 +481,7 @@ public class SerializeExample1 {
       <guid>https://alimy.me/post/dev_201603112100/</guid>
       <description>&lt;p&gt;Annotations are a great way to manage serialization and deserialization in Jackson. However, what do you do if you want to annotate a third party class, or if you dont want to tightly couple your POJOs to jackson annotations. This is where Mix-in comes into play. You define a mix-in abstract class that is kind of a proxy to the actual class. Annotations are then definied over this proxy class&lt;/p&gt;
 &lt;h3 id=&#34;jackson-mix-in-example&#34;&gt;Jackson Mix-In Example&lt;/h3&gt;
-&lt;pre&gt;&lt;code&gt;package com.studytrails.json.jackson;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;package com.studytrails.json.jackson;
 
 import java.io.File;
 import java.io.IOException;
@@ -493,11 +494,11 @@ public class SerializeExample3 {
     public static void main(String[] args) throws JsonGenerationException, JsonMappingException, IOException {
         ObjectMapper mapper = new ObjectMapper();
         mapper.addMixInAnnotations(Bird.class, BirdMixIn.class);
-        Bird bird = new Bird(&amp;quot;scarlet Ibis&amp;quot;);
-        bird.setSound(&amp;quot;eee&amp;quot;);
-        bird.setHabitat(&amp;quot;water&amp;quot;);
+        Bird bird = new Bird(&amp;#34;scarlet Ibis&amp;#34;);
+        bird.setSound(&amp;#34;eee&amp;#34;);
+        bird.setHabitat(&amp;#34;water&amp;#34;);
 
-        mapper.writerWithDefaultPrettyPrinter().writeValue(new File(&amp;quot;bird.json&amp;quot;), bird);
+        mapper.writerWithDefaultPrettyPrinter().writeValue(new File(&amp;#34;bird.json&amp;#34;), bird);
     }
 
 }
@@ -512,14 +513,14 @@ public class SerializeExample3 {
       <guid>https://alimy.me/post/dev_201603112055/</guid>
       <description>&lt;p&gt;Jackson provides an effective an efficient way to bind json to POJOs. However, at times, certain properties may need to be ignored while converting a json to java ojbect and a java object to json string. Jackson provides three ways to filter properties.&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;@JsonIgnoreProperties- This annotation can be used at the type level to ignore json properties. In the example below we ignore the &amp;lsquo;tags&amp;rsquo; property from the albums dataset.&lt;/li&gt;
+&lt;li&gt;@JsonIgnoreProperties- This annotation can be used at the type level to ignore json properties. In the example below we ignore the &amp;rsquo;tags&amp;rsquo; property from the albums dataset.&lt;/li&gt;
 &lt;li&gt;@JsonIgnore - This annotation can be set at property level to ignore certain properties.&lt;/li&gt;
 &lt;li&gt;Using Custom filters&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;The example below shows method 1 and 2. Also note the use of the @JsonAutoDetect annotation.&lt;/p&gt;
 &lt;h3 id=&#34;data-binding-filters-example&#34;&gt;Data Binding Filters Example&lt;/h3&gt;
 &lt;h4 id=&#34;databinding&#34;&gt;Databinding&lt;/h4&gt;
-&lt;pre&gt;&lt;code&gt;package com.studytrails.json.jackson;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;package com.studytrails.json.jackson;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
@@ -541,8 +542,8 @@ public class AlbumsFilter {
         return title;
     }
 
-    // this getter method is for the &#39;dataset&#39; property
-    @JsonProperty(&amp;quot;dataset&amp;quot;)
+    // this getter method is for the &amp;#39;dataset&amp;#39; property
+    @JsonProperty(&amp;#34;dataset&amp;#34;)
     public DatasetFilter[] getDatasetFilter() {
         return datasetFilter;
     }
@@ -573,13 +574,13 @@ public class AlbumsFilter {
       <description>&lt;p&gt;In this tutorial we will see how to convert a java List to JSON. Serializing list is a little tricky since by default the type info is not stored while serializing and deserializing lists. In this tutorial we look at two examples. In the first example we serialize an Object that has a java List as one of its properties. In the second example we try and serialize the List directly. In both examples we use special configuration to preserve type info.&lt;/p&gt;
 &lt;h3 id=&#34;example-1--serializing-object-containing-a-list&#34;&gt;Example 1 : Serializing Object containing a list&lt;/h3&gt;
 &lt;p&gt;The example converts a Zoo class to json. the zoo class contains the name of zoo, its city and a list of animals. The list is of type &amp;lsquo;Animal&amp;rsquo;, i.e. the list contains elements that are subclass of the Abstract class Animal. Lets see what happens when we try to serialize zoo. First we create the Zoo class. Notice how the constructor looks. When we try to get the Zoo Object back from the JSON, Jackson has to know that it should create the Zoo Object using the constructor that takes in the name and city properties.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;class Zoo {
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;class Zoo {
     public String name;
     public String city;
 
 
     @JsonCreator
-    public Zoo(@JsonProperty(&amp;quot;name&amp;quot;) String name,@JsonProperty(&amp;quot;city&amp;quot;) String city) {
+    public Zoo(@JsonProperty(&amp;#34;name&amp;#34;) String name,@JsonProperty(&amp;#34;city&amp;#34;) String city) {
         this.name = name;
         this.city = city;
     }
@@ -638,7 +639,7 @@ public class AlbumsFilter {
       <guid>https://alimy.me/post/dev_201603112025/</guid>
       <description>&lt;h3 id=&#34;creating-json-from-java&#34;&gt;Creating JSON from Java&lt;/h3&gt;
 &lt;p&gt;Jackson provides classes that can be used to convert a Java Object to JSON and back. In this example we look at how to build a JSON construct from a Java Object. We will start with a simple class and gradually start adding complexities to it. Lets say that we are a music company and we want to publish an api where users can query for Album. We first build an Album class with a single property title.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;class Album {
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;class Album {
     private String title;
 
     public Album(String title) {
@@ -677,7 +678,7 @@ public class AlbumsFilter {
       
       <guid>https://alimy.me/post/dev_201603092120/</guid>
       <description>&lt;p&gt;XStream provides a TraxSource (extends SAXSource) that can be used as an input to XSLT transformation. The TraxSource uses a java Object and the corresponding XStream Object. The java object can then be directly converted to XSLT target without actually converting to XML. Lets look at an example&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;package com.studytrails.xml.xstream;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;package com.studytrails.xml.xstream;
 
 import java.util.ArrayList;
 
@@ -699,23 +700,23 @@ public class XStreamTransformationExample {
 
 	private void runTransformation() throws TransformerFactoryConfigurationError, TransformerException {
 		XStream xstream = new XStream();
-		xstream.alias(&amp;quot;rss&amp;quot;, Rss2.class);
-		xstream.alias(&amp;quot;item&amp;quot;, Item2.class);
+		xstream.alias(&amp;#34;rss&amp;#34;, Rss2.class);
+		xstream.alias(&amp;#34;item&amp;#34;, Item2.class);
 		Rss2 rss = new Rss2();
 		Channel2 channel = new Channel2();
 		rss.channel = channel;
-		channel.title = &amp;quot;Title&amp;quot;;
-		channel.link = &amp;quot;link&amp;quot;;
+		channel.title = &amp;#34;Title&amp;#34;;
+		channel.link = &amp;#34;link&amp;#34;;
 		channel.image = new Image2();
-		channel.image.link = &amp;quot;image link&amp;quot;;
+		channel.image.link = &amp;#34;image link&amp;#34;;
 		Item2 item1 = new Item2();
-		item1.link = &amp;quot;item link&amp;quot;;
-		item1.title = &amp;quot;Item Title&amp;quot;;
+		item1.link = &amp;#34;item link&amp;#34;;
+		item1.title = &amp;#34;Item Title&amp;#34;;
 		channel.items = new ArrayList&amp;lt;Item2&amp;gt;();
 		channel.items.add(item1);
 		System.out.println(xstream.toXML(rss));
 
-		Transformer transformer = TransformerFactory.newInstance().newTransformer(new StreamSource(&amp;quot;bbc.xsl&amp;quot;));
+		Transformer transformer = TransformerFactory.newInstance().newTransformer(new StreamSource(&amp;#34;bbc.xsl&amp;#34;));
 		TraxSource traxSource = new TraxSource(rss, xstream);
 		StreamResult result = new StreamResult(System.out);
 		transformer.transform(traxSource, result);
@@ -802,10 +803,10 @@ public class XStreamTransformationExample {
       
       <guid>https://alimy.me/post/dev_201603092041/</guid>
       <description>&lt;p&gt;In the previous tutorial we saw &lt;a href=&#34;https://alimy.me/post/dev_201603081411&#34; title=&#34;Parsing An XML&#34;&gt;how to convert Java to XML and back&lt;/a&gt;. In this tutorial we look at different ways to handle XML attributes using XStream. However note that the attributes are only safe if you know that the written String values are not affected by the XML parser&amp;rsquo;s white space normalization. The XML specification requires that a parser does this and it means that an attribute value of:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;&amp;lt;element attr=&amp;quot;  foo\t\n   bar    &amp;quot;&amp;gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;&amp;lt;element attr=&amp;#34;  foo\t\n   bar    &amp;#34;&amp;gt;
 &amp;lt;/element&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;will always be normalized and passed this assertion:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;assertEquals(&amp;quot;foo bar&amp;quot;, element.getAttr());
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;assertEquals(&amp;#34;foo bar&amp;#34;, element.getAttr());
 XStream has no influence about this behavior.
 &lt;/code&gt;&lt;/pre&gt;</description>
     </item>
@@ -833,7 +834,7 @@ XStream has no influence about this behavior.
       
       <guid>https://alimy.me/post/dev_201603081433/</guid>
       <description>&lt;p&gt;In the &lt;a href=&#34;https://alimy.me/post/dev_201603081411&#34;&gt;previous&lt;/a&gt; example we saw how to convert a Java Object to XML and back. In this example we look at another example of Java Object to XML Conversion. The example uses an object called a &amp;lsquo;JazzArtist&amp;rsquo;. This object has a list of &amp;lsquo;Album&amp;rsquo; objects besides some other properties. We see here another example of Alias and implicit collection. (To understand alias and implicit collections look at this tutorial) We divide the example in three parts. In the first part we do not use aliases or implicit collections. In the second part we use aliases and in the third part we use an implicit Collection. Note the output from the three parts and observe how aliases and implicit collection change the way the output xml looks.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;package com.studytrails.xml.xstream;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;package com.studytrails.xml.xstream;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -858,14 +859,14 @@ public class CreateXMLFromMusicArtistObject {
       
       <guid>https://alimy.me/post/dev_201603081427/</guid>
       <description>&lt;p&gt;In the earlier tutorial we looked at a way to &lt;a href=&#34;https://alimy.me/post/dev_201603081411&#34; title=&#34;Parsing an XML&#34;&gt;convert Java to XML and back&lt;/a&gt;. In this tutorial we look at some more examples of XML To Java Conversion. XStream can convert XML elements to multiple types depending on the type specified in the Java class. For example a series for similarly named elements can be converted to an array of String, a List of String or an enum. XStream uses an appropriate Converter based on type specified in the java class. Lets look at some examples.&lt;/p&gt;
-&lt;p&gt;In this first example we have an XML that has a parent element called &amp;lsquo;Music&amp;rsquo;. It has a child element called type. We populate a Music object that has a &amp;lsquo;type&amp;rsquo; field which is an enum.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;package com.studytrails.xml.xstream;
+&lt;p&gt;In this first example we have an XML that has a parent element called &amp;lsquo;Music&amp;rsquo;. It has a child element called type. We populate a Music object that has a &amp;rsquo;type&amp;rsquo; field which is an enum.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;package com.studytrails.xml.xstream;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 public class ConverterExample3 {
-    static String xml1 = &amp;quot;&amp;lt;Music&amp;gt;&amp;lt;type&amp;gt;rock&amp;lt;/type&amp;gt;&amp;lt;/Music&amp;gt;&amp;quot;;
+    static String xml1 = &amp;#34;&amp;lt;Music&amp;gt;&amp;lt;type&amp;gt;rock&amp;lt;/type&amp;gt;&amp;lt;/Music&amp;gt;&amp;#34;;
 
     public static void main(String[] args) {
         XStream xStream = new XStream();
@@ -877,7 +878,7 @@ public class ConverterExample3 {
 
 }
 
-@XStreamAlias(&amp;quot;Music&amp;quot;)
+@XStreamAlias(&amp;#34;Music&amp;#34;)
 class Music {
     public enum genre {
         ROCK, JAZZ
@@ -887,7 +888,7 @@ class Music {
 
     @Override
     public String toString() {
-        return &amp;quot;Music [type=&amp;quot; + type + &amp;quot;]&amp;quot;;
+        return &amp;#34;Music [type=&amp;#34; + type + &amp;#34;]&amp;#34;;
     }
 
 }     
@@ -926,14 +927,14 @@ class Music {
       <description>&lt;p&gt;This page provides a series of examples illustrating how a class can be annotated. It acts as a quick and dirty overview of how the framework can be used and also acts as a reference page. All examples can be downloaded for convenience. For further information take a look at the &lt;a href=&#34;https://alimy.me/post/dev_201603032011&#34; title=&#34;SimpleXML Tutorial&#34;&gt;Tutorial&lt;/a&gt;.&lt;/p&gt;
 &lt;h3 id=&#34;sectcreating-nested-path-elements&#34;&gt;§Creating nested path elements&lt;/h3&gt;
 &lt;p&gt;Here an example of how to use the &lt;a href=&#34;http://simple.sourceforge.net/download/stream/doc/javadoc/org/simpleframework/xml/Path.html&#34;&gt;Path&lt;/a&gt; annotation to create nested elements and attributes using a single annotated class. Below is an example showing two elements nested within a XPath expression.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;@Root
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;@Root
 public class Example {
 
-   @Path(&amp;quot;a/b[1]&amp;quot;)
+   @Path(&amp;#34;a/b[1]&amp;#34;)
    @Element
    private String x;
 
-   @Path(&amp;quot;a/b[2]&amp;quot;)
+   @Path(&amp;#34;a/b[2]&amp;#34;)
    @Element
    private String y;
 }

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 
 <head>
-	<meta name="generator" content="Hugo 0.79.0-DEV" />
+	<meta name="generator" content="Hugo 0.115.0">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
@@ -380,14 +380,14 @@
     <p>It should be noted that in the TL schema of the overwhelming majority of API calls the use of polymorphic types is restricted to the Vector type. Nevertheless, having a view of the big picture is still helpful.</p>
 <h4 id="ordinary-inductive-types">Ordinary inductive types</h4>
 <p>For example, let us consider the IntList, which is defined as follows:</p>
-<pre><code>int_cons hd:int tl:IntList = IntList;
+<pre tabindex="0"><code>int_cons hd:int tl:IntList = IntList;
 int_nil = IntList;
 </code></pre><p>The “int_cons” and “int_nil” constructors as well as the “IntList” type itself are expressions of the following types (writing A : X means that A is an expression of type X):</p>
-<pre><code>IntList : Type;
+<pre tabindex="0"><code>IntList : Type;
 int_cons : int -&gt; IntList -&gt; IntList;
 int_nil : IntList;
 </code></pre><p>The keyword Type is used to denote the type of all types. Note that Type is not Object (Object is the type of all terms). Here is alternative syntax that could be used in some other functional programming language (but not in TL):</p>
-<pre><code>NewType IntList :=
+<pre tabindex="0"><code>NewType IntList :=
 | int_cons hd:int tl:IntList
 | int_nil
 EndType
@@ -480,17 +480,17 @@ EndType
     <p>国内有些地区访问Rustup的服务器及registry(@github)不太顺畅，这里介绍配置中科大的Rust镜像。</p>
 <h4 id="科大-rust-crates-镜像">科大 Rust Crates 镜像</h4>
 <p>在 $HOME/.cargo/config 中添加如下内容</p>
-<pre><code>[registry]
-index = &quot;git://mirrors.ustc.edu.cn/crates.io-index&quot;
+<pre tabindex="0"><code>[registry]
+index = &#34;git://mirrors.ustc.edu.cn/crates.io-index&#34;
 </code></pre><p>如果所处的环境中不允许使用 git 协议, 可以把上述地址改为</p>
-<pre><code>index = &quot;http://mirrors.ustc.edu.cn/crates.io-index&quot;
+<pre tabindex="0"><code>index = &#34;http://mirrors.ustc.edu.cn/crates.io-index&#34;
 </code></pre><p>同步频率为每两个小时更新一次.</p>
 <p>如果 cargo 版本为 0.13.0 或以上, 需要更改 $HOME/.cargo/config 为以下内容:</p>
-<pre><code>[source.crates-io]
-registry = &quot;https://github.com/rust-lang/crates.io-index&quot;
-replace-with = 'ustc'
+<pre tabindex="0"><code>[source.crates-io]
+registry = &#34;https://github.com/rust-lang/crates.io-index&#34;
+replace-with = &#39;ustc&#39;
 [source.ustc]
-registry = &quot;git://mirrors.ustc.edu.cn/crates.io-index&quot;
+registry = &#34;git://mirrors.ustc.edu.cn/crates.io-index&#34;
 </code></pre>
 </div>
 <footer id="more">
@@ -515,14 +515,14 @@ registry = &quot;git://mirrors.ustc.edu.cn/crates.io-index&quot;
 </ul>
 <h4 id="docker安装">Docker安装</h4>
 <p>安装CentOS官方版本：</p>
-<pre><code>% sudo yum install -y docker
+<pre tabindex="0"><code>% sudo yum install -y docker
 </code></pre><p>或者 安装Docker官方版本：</p>
-<pre><code>% sudo su
+<pre tabindex="0"><code>% sudo su
 % yum install -y yum-utils device-mapper-persistent-data lvm2
 % yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 % yum install -y docker-ce 
 </code></pre><p>启动Docker服务：</p>
-<pre><code>% sudo systemctl enable docker
+<pre tabindex="0"><code>% sudo systemctl enable docker
 % sudo systemctl start docker
 </code></pre>
 </div>
@@ -541,11 +541,11 @@ registry = &quot;git://mirrors.ustc.edu.cn/crates.io-index&quot;
     <p>This document describes the binary wire format for protocol buffer messages. You don&rsquo;t need to understand this to use protocol buffers in your applications, but it can be very useful to know how different protocol buffer formats affect the size of your encoded messages.</p>
 <h3 id="a-simple-message">A Simple Message</h3>
 <p>Let&rsquo;s say you have the following very simple message definition:</p>
-<pre><code>message Test1 {
+<pre tabindex="0"><code>message Test1 {
   optional int32 a = 1;
 }
 </code></pre><p>In an application, you create a <code>Test1</code> message and set <code>a</code> to 150. You then serialize the message to an output stream. If you were able to examine the encoded message, you&rsquo;d see three bytes:</p>
-<pre><code>08 96 01
+<pre tabindex="0"><code>08 96 01
 </code></pre><p>So far, so small and numeric – but what does it mean? Read on&hellip;</p>
 </div>
 <footer id="more">

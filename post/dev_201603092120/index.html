@@ -350,7 +350,7 @@
             <h2>XStream: XML Transformation</h2>
           
           <p>XStream provides a TraxSource (extends SAXSource) that can be used as an input to XSLT transformation. The TraxSource uses a java Object and the corresponding XStream Object. The java object can then be directly converted to XSLT target without actually converting to XML. Lets look at an example</p>
-<pre><code>package com.studytrails.xml.xstream;
+<pre tabindex="0"><code>package com.studytrails.xml.xstream;
 
 import java.util.ArrayList;
 
@@ -372,23 +372,23 @@ public class XStreamTransformationExample {
 
 	private void runTransformation() throws TransformerFactoryConfigurationError, TransformerException {
 		XStream xstream = new XStream();
-		xstream.alias(&quot;rss&quot;, Rss2.class);
-		xstream.alias(&quot;item&quot;, Item2.class);
+		xstream.alias(&#34;rss&#34;, Rss2.class);
+		xstream.alias(&#34;item&#34;, Item2.class);
 		Rss2 rss = new Rss2();
 		Channel2 channel = new Channel2();
 		rss.channel = channel;
-		channel.title = &quot;Title&quot;;
-		channel.link = &quot;link&quot;;
+		channel.title = &#34;Title&#34;;
+		channel.link = &#34;link&#34;;
 		channel.image = new Image2();
-		channel.image.link = &quot;image link&quot;;
+		channel.image.link = &#34;image link&#34;;
 		Item2 item1 = new Item2();
-		item1.link = &quot;item link&quot;;
-		item1.title = &quot;Item Title&quot;;
+		item1.link = &#34;item link&#34;;
+		item1.title = &#34;Item Title&#34;;
 		channel.items = new ArrayList&lt;Item2&gt;();
 		channel.items.add(item1);
 		System.out.println(xstream.toXML(rss));
 
-		Transformer transformer = TransformerFactory.newInstance().newTransformer(new StreamSource(&quot;bbc.xsl&quot;));
+		Transformer transformer = TransformerFactory.newInstance().newTransformer(new StreamSource(&#34;bbc.xsl&#34;));
 		TraxSource traxSource = new TraxSource(rss, xstream);
 		StreamResult result = new StreamResult(System.out);
 		transformer.transform(traxSource, result);
@@ -398,7 +398,7 @@ public class XStreamTransformationExample {
 	}
 }
 </code></pre><p>The XML.</p>
-<pre><code>
+<pre tabindex="0"><code>
 
 			link
 
@@ -408,9 +408,8 @@ public class XStreamTransformationExample {
 
 
 					item link
-
 </code></pre><p>The Rss2 and other classes</p>
-<pre><code>package com.studytrails.xml.xstream;
+<pre tabindex="0"><code>package com.studytrails.xml.xstream;
 
 import java.util.Arrays;
 import java.util.List;
@@ -420,7 +419,7 @@ public class Rss2 {
 
 	@Override
 	public String toString() {
-		return &quot;Rss [channel=&quot; + channel + &quot;]&quot;;
+		return &#34;Rss [channel=&#34; + channel + &#34;]&#34;;
 	}
 
 }
@@ -444,15 +443,15 @@ class Channel2 {
 
 		@Override
 		public String toString() {
-			return &quot;AtomLink [href=&quot; + href + &quot;, rel=&quot; + rel + &quot;, type=&quot; + type + &quot;]&quot;;
+			return &#34;AtomLink [href=&#34; + href + &#34;, rel=&#34; + rel + &#34;, type=&#34; + type + &#34;]&#34;;
 		}
 
 	}
 
 	@Override
 	public String toString() {
-		return &quot;Channel [title=&quot; + title + &quot;, link=&quot; + link + &quot;, description=&quot; + description + &quot;, language=&quot; + language + &quot;, lastBuildDate=&quot;
-				+ lastBuildDate + &quot;, copyright=&quot; + copyright + &quot;, image=&quot; + image + &quot;, ttl=&quot; + ttl + &quot;, a_link=&quot; + a_link + &quot;, items=&quot; + items + &quot;]&quot;;
+		return &#34;Channel [title=&#34; + title + &#34;, link=&#34; + link + &#34;, description=&#34; + description + &#34;, language=&#34; + language + &#34;, lastBuildDate=&#34;
+				+ lastBuildDate + &#34;, copyright=&#34; + copyright + &#34;, image=&#34; + image + &#34;, ttl=&#34; + ttl + &#34;, a_link=&#34; + a_link + &#34;, items=&#34; + items + &#34;]&#34;;
 	}
 
 }
@@ -467,8 +466,8 @@ class Item2 {
 
 	@Override
 	public String toString() {
-		return &quot;Item [title=&quot; + title + &quot;, link=&quot; + link + &quot;, guid=&quot; + guid + &quot;, pubDate=&quot; + pubDate + &quot;, media_thumbnails=&quot;
-				+ Arrays.toString(media_thumbnails) + &quot;]&quot;;
+		return &#34;Item [title=&#34; + title + &#34;, link=&#34; + link + &#34;, guid=&#34; + guid + &#34;, pubDate=&#34; + pubDate + &#34;, media_thumbnails=&#34;
+				+ Arrays.toString(media_thumbnails) + &#34;]&#34;;
 	}
 
 	public class MediaThumbnail {
@@ -478,7 +477,7 @@ class Item2 {
 
 		@Override
 		public String toString() {
-			return &quot;MediaThumbnail [width=&quot; + width + &quot;, height=&quot; + height + &quot;, url=&quot; + url + &quot;]&quot;;
+			return &#34;MediaThumbnail [width=&#34; + width + &#34;, height=&#34; + height + &#34;, url=&#34; + url + &#34;]&#34;;
 		}
 
 	}
@@ -494,7 +493,7 @@ class Image2 {
 
 	@Override
 	public String toString() {
-		return &quot;Image [url=&quot; + url + &quot;, title=&quot; + title + &quot;, link=&quot; + link + &quot;, width=&quot; + width + &quot;, height=&quot; + height + &quot;]&quot;;
+		return &#34;Image [url=&#34; + url + &#34;, title=&#34; + title + &#34;, link=&#34; + link + &#34;, width=&#34; + width + &#34;, height=&#34; + height + &#34;]&#34;;
 	}
 
 }

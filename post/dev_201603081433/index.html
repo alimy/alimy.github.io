@@ -350,7 +350,7 @@
             <h2>XStream: Java to XML</h2>
           
           <p>In the <a href="https://alimy.me/post/dev_201603081411">previous</a> example we saw how to convert a Java Object to XML and back. In this example we look at another example of Java Object to XML Conversion. The example uses an object called a &lsquo;JazzArtist&rsquo;. This object has a list of &lsquo;Album&rsquo; objects besides some other properties. We see here another example of Alias and implicit collection. (To understand alias and implicit collections look at this tutorial) We divide the example in three parts. In the first part we do not use aliases or implicit collections. In the second part we use aliases and in the third part we use an implicit Collection. Note the output from the three parts and observe how aliases and implicit collection change the way the output xml looks.</p>
-<pre><code>package com.studytrails.xml.xstream;
+<pre tabindex="0"><code>package com.studytrails.xml.xstream;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -366,7 +366,7 @@ public class CreateXMLFromMusicArtistObject {
         marshaller.createXMLFromObjectUsingAliasAndImplicitCollection();
     }
 </code></pre><p>The JazzArtist and Album classes</p>
-<pre><code>class JazzArtist {
+<pre tabindex="0"><code>class JazzArtist {
     public String name;
     public boolean isAlive;
     public String url;
@@ -396,17 +396,17 @@ class Album {
     }
 }
 </code></pre><p>The first method - without alias and Implicit Collection</p>
-<pre><code>private void createXMlFromObject() {
- JazzArtist artist = new JazzArtist(&quot;Bix Beiderbecke&quot;, false, null);
- Album album1 = new Album(&quot;Bix Beiderbecke with the Paul Whiteman Orchestra&quot;, 5, 1928);
- Album album2 = new Album(&quot;Bix Beiderbecke and His Gang&quot;, 6, 1927);
+<pre tabindex="0"><code>private void createXMlFromObject() {
+ JazzArtist artist = new JazzArtist(&#34;Bix Beiderbecke&#34;, false, null);
+ Album album1 = new Album(&#34;Bix Beiderbecke with the Paul Whiteman Orchestra&#34;, 5, 1928);
+ Album album2 = new Album(&#34;Bix Beiderbecke and His Gang&#34;, 6, 1927);
  artist.addAlbum(album1);
  artist.addAlbum(album2);
  XStream xStream = new XStream();
  System.out.println(xStream.toXML(artist));
 }
 </code></pre><p>The output from the first method</p>
-<pre><code>&lt;com.studytrails.xml.xstream.jazzartist&gt;
+<pre tabindex="0"><code>&lt;com.studytrails.xml.xstream.jazzartist&gt;
   &lt;name&gt;Bix Beiderbecke&lt;/name&gt;
   &lt;isalive&gt;false&lt;/isalive&gt;
   &lt;albums&gt;
@@ -423,20 +423,20 @@ class Album {
   &lt;/albums&gt;
 &lt;/com.studytrails.xml.xstream.jazzartist&gt;
 </code></pre><p>The second method - with aliases</p>
-<pre><code>private void createXMLFromObjectUsingAliasAndImplicitCollection() {
- JazzArtist artist2 = new JazzArtist(&quot;Benny Goodman&quot;, false, null);
- Album album3 = new Album(&quot;In Stockholm&quot;, 5, 1959);
- Album album4 = new Album(&quot;A Jazz Holiday&quot;, 3, 1928);
+<pre tabindex="0"><code>private void createXMLFromObjectUsingAliasAndImplicitCollection() {
+ JazzArtist artist2 = new JazzArtist(&#34;Benny Goodman&#34;, false, null);
+ Album album3 = new Album(&#34;In Stockholm&#34;, 5, 1959);
+ Album album4 = new Album(&#34;A Jazz Holiday&#34;, 3, 1928);
  artist2.addAlbum(album3);
  artist2.addAlbum(album4);
  XStream xStream2 = new XStream();
- xStream2.alias(&quot;artist&quot;, JazzArtist.class);
- xStream2.alias(&quot;album&quot;, Album.class);
- xStream2.addImplicitCollection(JazzArtist.class, &quot;albums&quot;);
+ xStream2.alias(&#34;artist&#34;, JazzArtist.class);
+ xStream2.alias(&#34;album&#34;, Album.class);
+ xStream2.addImplicitCollection(JazzArtist.class, &#34;albums&#34;);
  System.out.println(xStream2.toXML(artist2));
 }
 </code></pre><p>Output from the second method, the long class names are replaced by the alias.</p>
-<pre><code>&lt;artist&gt;
+<pre tabindex="0"><code>&lt;artist&gt;
   &lt;name&gt;Benny Goodman&lt;/name&gt;
   &lt;isalive&gt;false&lt;/isalive&gt;
   &lt;albums&gt;
@@ -453,19 +453,19 @@ class Album {
   &lt;/albums&gt;
 &lt;/artist&gt;
 </code></pre><p>The third method - with alias and implicit collection</p>
-<pre><code>private void createXMLFromObjectUsingAlias() {
- JazzArtist artist2 = new JazzArtist(&quot;Benny Goodman&quot;, false, null);
- Album album3 = new Album(&quot;In Stockholm&quot;, 5, 1959);
- Album album4 = new Album(&quot;A Jazz Holiday&quot;, 3, 1928);
+<pre tabindex="0"><code>private void createXMLFromObjectUsingAlias() {
+ JazzArtist artist2 = new JazzArtist(&#34;Benny Goodman&#34;, false, null);
+ Album album3 = new Album(&#34;In Stockholm&#34;, 5, 1959);
+ Album album4 = new Album(&#34;A Jazz Holiday&#34;, 3, 1928);
  artist2.addAlbum(album3);
  artist2.addAlbum(album4);
  XStream xStream2 = new XStream();
- xStream2.alias(&quot;artist&quot;, JazzArtist.class);
- xStream2.alias(&quot;album&quot;, Album.class);
+ xStream2.alias(&#34;artist&#34;, JazzArtist.class);
+ xStream2.alias(&#34;album&#34;, Album.class);
  System.out.println(xStream2.toXML(artist2));
 }
 </code></pre><p>output from the third method, the &lsquo;albums&rsquo; element is not required and all the &lsquo;album&rsquo; elements are now directly children of the artist.</p>
-<pre><code>&lt;artist&gt;
+<pre tabindex="0"><code>&lt;artist&gt;
   &lt;name&gt;Benny Goodman&lt;/name&gt;
   &lt;isalive&gt;false&lt;/isalive&gt;
   &lt;album&gt;

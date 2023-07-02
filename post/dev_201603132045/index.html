@@ -366,16 +366,16 @@
 <p>Let’s dive in.</p>
 <h3 id="the-basics">The Basics</h3>
 <p>The basic form is key = value</p>
-<pre><code># Comments start with hash
-foo = &quot;strings are in quotes and are always UTF8 with escape codes: \n \u00E9&quot;
+<pre tabindex="0"><code># Comments start with hash
+foo = &#34;strings are in quotes and are always UTF8 with escape codes: \n \u00E9&#34;
 
-bar = &quot;&quot;&quot;multi-line strings
-use three quotes&quot;&quot;&quot;
+bar = &#34;&#34;&#34;multi-line strings
+use three quotes&#34;&#34;&#34;
 
-baz = 'literal\strings\use\single\quotes'
+baz = &#39;literal\strings\use\single\quotes&#39;
 
-bat = '''multiline\literals\use
-three\quotes'''
+bat = &#39;&#39;&#39;multiline\literals\use
+three\quotes&#39;&#39;&#39;
 
 int = 5 # integers are just numbers
 float = 5.0 # floats have a decimal point with numbers on both sides
@@ -384,26 +384,26 @@ date = 2006-05-27T07:32:00Z # dates are ISO 8601 full zulu form
 
 bool = true # good old true and false
 </code></pre><p>One cool point: If the first line of a multiline string (either literal or not) is a line return, it will be trimmed. So you can make your big blocks of text start on the line after the name of the value and not need to worry about the extraneous newline at the beginning of your text:</p>
-<pre><code>preabmle = &quot;&quot;&quot;
+<pre tabindex="0"><code>preabmle = &#34;&#34;&#34;
 We the people of the United States, in order to form a more perfect union,
 establish justice, insure domestic tranquility, provide for the common defense,
 promote the general welfare, and secure the blessings of liberty to ourselves
 and our posterity, do ordain and establish this Constitution for the United
-States of America.&quot;&quot;&quot;
+States of America.&#34;&#34;&#34;
 </code></pre><h3 id="lists">Lists</h3>
 <p>Lists (arrays) are signified with brackets and delimited with commas. Only primitives are allowed in this form, though you may have nested lists. The format is forgiving, ignoring whitespace and newlines, and yes, the last comma is optional (thank you!):</p>
-<pre><code>foo = [ &quot;bar&quot;, &quot;baz&quot;
-        &quot;bat&quot;
+<pre tabindex="0"><code>foo = [ &#34;bar&#34;, &#34;baz&#34;
+        &#34;bat&#34;
 ]
 
 nums = [ 1, 2, ]
 
-nested = [[ &quot;a&quot;, &quot;b&quot;], [1, 2]]
+nested = [[ &#34;a&#34;, &#34;b&#34;], [1, 2]]
 </code></pre><p>I love that the format is forgiving of whitespace and that last comma. I like that the arrays are all of a single type, but allowing mixed types of sub-arrays bugs the heck out of me.</p>
 <h3 id="now-we-get-crazy">Now we get crazy</h3>
 <p>What’s left? In JSON there are objects, in YAML there are associative arrays… in common parlance they are maps or dictionaries or hash tables. Named collections of key/value pairs.</p>
 <p>In TOML they are called tables and look like this:</p>
-<pre><code># some config above
+<pre tabindex="0"><code># some config above
 [table_name]
 foo = 1
 bar = 2
@@ -419,78 +419,78 @@ bar = 2
 	baz = 2
 </code></pre><p>The declaration of table2 defines where table1 ends. Note that you can indent the values if you want, or not. TOML doesn’t care.</p>
 <p>If you want nested tables, you can do that, too. It looks like this:</p>
-<pre><code>[table1]
-	foo = &quot;bar&quot;
+<pre tabindex="0"><code>[table1]
+	foo = &#34;bar&#34;
 
 [table1.nested_table]
-	baz = &quot;bat&quot;
+	baz = &#34;bat&#34;
 </code></pre><p><code>nested_table</code> is defined as a value in <code>table1</code> because its name starts with <code>table1..</code> Again, the table goes until the next table definition, so <code>baz=&quot;bat&quot;</code> is a value in <code>table1.nested_table</code>. You can indent the nested table to make it more obvious, but again, all whitespace is optional:</p>
-<pre><code>[table1]
-	foo = &quot;bar&quot;
+<pre tabindex="0"><code>[table1]
+	foo = &#34;bar&#34;
 
 	[table1.nested_table]
-		baz = &quot;bat&quot;
+		baz = &#34;bat&#34;
 </code></pre><p>This is equivalent to the JSON:</p>
-<pre><code>{
-	&quot;table1&quot; : {
-		&quot;foo&quot; : &quot;bar&quot;,
-		&quot;nested_table&quot; : {
-			&quot;baz&quot; : &quot;bat&quot;
+<pre tabindex="0"><code>{
+	&#34;table1&#34; : {
+		&#34;foo&#34; : &#34;bar&#34;,
+		&#34;nested_table&#34; : {
+			&#34;baz&#34; : &#34;bat&#34;
 		}
 	}
 }
 </code></pre><p>Having to retype the parent table name for each sub-table is kind of annoying, but I do like that it is very explicit. It also means that ordering and indenting and delimiters don’t matter. You don’t have to declare parent tables if they’re empty, so you can do something like this:</p>
-<pre><code>[foo.bar.baz]
-bat = &quot;hi&quot;
+<pre tabindex="0"><code>[foo.bar.baz]
+bat = &#34;hi&#34;
 Which is the equivalent to this JSON:
 
 {
-	&quot;foo&quot; : {
-		&quot;bar&quot; : {
-			&quot;baz&quot; : {
-				&quot;bat&quot; : &quot;hi&quot;
+	&#34;foo&#34; : {
+		&#34;bar&#34; : {
+			&#34;baz&#34; : {
+				&#34;bat&#34; : &#34;hi&#34;
 			}
 		}
 	}
 }
 </code></pre><h3 id="last-but-not-least">Last but not least</h3>
 <p>The last thing is arrays of tables, which are declared with double brackets thusly:</p>
-<pre><code>[[comments]]
-author = &quot;Nate&quot;
-text = &quot;Great Article!&quot;
+<pre tabindex="0"><code>[[comments]]
+author = &#34;Nate&#34;
+text = &#34;Great Article!&#34;
 
 [[comments]]
-author = &quot;Anonymous&quot;
-text = &quot;Love it!&quot;
+author = &#34;Anonymous&#34;
+text = &#34;Love it!&#34;
 This is equivalent to the JSON:
 
 {
-	&quot;comments&quot; : [
+	&#34;comments&#34; : [
 		{
-			&quot;author&quot; : &quot;Nate&quot;,
-			&quot;text&quot; : Great Article!&quot;
+			&#34;author&#34; : &#34;Nate&#34;,
+			&#34;text&#34; : Great Article!&#34;
 		},
 		{
-			&quot;author&quot; : &quot;Anonymous&quot;,
-			&quot;text&quot; : Love It!&quot;
+			&#34;author&#34; : &#34;Anonymous&#34;,
+			&#34;text&#34; : Love It!&#34;
 		}
 	]
 }
 </code></pre><p>Arrays of tables inside another table get combined in the way you’d expect, like [[table1.array]].</p>
 <p>TOML is very permissive here. Because all tables have very explicitly defined parentage, the order they’re defined in doesn’t matter. You can have tables (and entries in an array of tables) in whatever order you want. This is totally acceptable:</p>
-<pre><code>[[comments]]
-author = &quot;Anonymous&quot;
-text = &quot;Love it!&quot;
+<pre tabindex="0"><code>[[comments]]
+author = &#34;Anonymous&#34;
+text = &#34;Love it!&#34;
 
 [foo.bar.baz]
-bat = &quot;hi&quot;
+bat = &#34;hi&#34;
 
 [foo.bar]
-howdy = &quot;neighbor&quot;
+howdy = &#34;neighbor&#34;
 
 [[comments]]
-author = &quot;Anonymous&quot;
-text = &quot;Love it!&quot;
+author = &#34;Anonymous&#34;
+text = &#34;Love it!&#34;
 </code></pre><p>Of course, it generally makes sense to actually order things in a more organized fashion, but it’s nice that you can’t shoot yourself in the foot if you reorder things “incorrectly”.</p>
 <h3 id="conclusion">Conclusion</h3>
 <p>That’s TOML. It’s pretty awesome.</p>

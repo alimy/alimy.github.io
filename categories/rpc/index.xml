@@ -5,6 +5,7 @@
     <link>https://alimy.me/categories/rpc/</link>
     <description>Recent content in RPC on 北野</description>
     <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
     <lastBuildDate>Sun, 05 Jan 2020 00:47:00 +0800</lastBuildDate><atom:link href="https://alimy.me/categories/rpc/index.xml" rel="self" type="application/rss+xml" />
     <item>
@@ -23,14 +24,14 @@
 &lt;/ul&gt;
 &lt;h4 id=&#34;docker安装&#34;&gt;Docker安装&lt;/h4&gt;
 &lt;p&gt;安装CentOS官方版本：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;% sudo yum install -y docker
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;% sudo yum install -y docker
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;或者 安装Docker官方版本：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;% sudo su
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;% sudo su
 % yum install -y yum-utils device-mapper-persistent-data lvm2
 % yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 % yum install -y docker-ce 
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;启动Docker服务：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;% sudo systemctl enable docker
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;% sudo systemctl enable docker
 % sudo systemctl start docker
 &lt;/code&gt;&lt;/pre&gt;</description>
     </item>
@@ -44,11 +45,11 @@
       <description>&lt;p&gt;This document describes the binary wire format for protocol buffer messages. You don&amp;rsquo;t need to understand this to use protocol buffers in your applications, but it can be very useful to know how different protocol buffer formats affect the size of your encoded messages.&lt;/p&gt;
 &lt;h3 id=&#34;a-simple-message&#34;&gt;A Simple Message&lt;/h3&gt;
 &lt;p&gt;Let&amp;rsquo;s say you have the following very simple message definition:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;message Test1 {
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;message Test1 {
   optional int32 a = 1;
 }
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In an application, you create a &lt;code&gt;Test1&lt;/code&gt; message and set &lt;code&gt;a&lt;/code&gt; to 150. You then serialize the message to an output stream. If you were able to examine the encoded message, you&amp;rsquo;d see three bytes:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;08 96 01
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;08 96 01
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;So far, so small and numeric – but what does it mean? Read on&amp;hellip;&lt;/p&gt;</description>
     </item>
     
@@ -95,17 +96,17 @@
       
       <guid>https://alimy.me/post/dev_201909211536/</guid>
       <description>&lt;p&gt;This is a language specification reference for version 3 of the Protocol Buffers language (proto3). The syntax is specified using Extended &lt;a href=&#34;https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_Form&#34; title=&#34;EBNF in WIKI&#34;&gt;Backus-Naur Form (EBNF)&lt;/a&gt;:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;|   alternation
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;|   alternation
 ()  grouping
 []  option (zero or one time)
 {}  repetition (any number of times)
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For more information about using proto3, see the language guide.&lt;/p&gt;
 &lt;h3 id=&#34;lexical-elements&#34;&gt;Lexical elements&lt;/h3&gt;
 &lt;h4 id=&#34;letters-and-digits&#34;&gt;Letters and digits&lt;/h4&gt;
-&lt;pre&gt;&lt;code&gt;letter = &amp;quot;A&amp;quot; … &amp;quot;Z&amp;quot; | &amp;quot;a&amp;quot; … &amp;quot;z&amp;quot;
-decimalDigit = &amp;quot;0&amp;quot; … &amp;quot;9&amp;quot;
-octalDigit   = &amp;quot;0&amp;quot; … &amp;quot;7&amp;quot;
-hexDigit     = &amp;quot;0&amp;quot; … &amp;quot;9&amp;quot; | &amp;quot;A&amp;quot; … &amp;quot;F&amp;quot; | &amp;quot;a&amp;quot; … &amp;quot;f&amp;quot;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;letter = &amp;#34;A&amp;#34; … &amp;#34;Z&amp;#34; | &amp;#34;a&amp;#34; … &amp;#34;z&amp;#34;
+decimalDigit = &amp;#34;0&amp;#34; … &amp;#34;9&amp;#34;
+octalDigit   = &amp;#34;0&amp;#34; … &amp;#34;7&amp;#34;
+hexDigit     = &amp;#34;0&amp;#34; … &amp;#34;9&amp;#34; | &amp;#34;A&amp;#34; … &amp;#34;F&amp;#34; | &amp;#34;a&amp;#34; … &amp;#34;f&amp;#34;
 &lt;/code&gt;&lt;/pre&gt;</description>
     </item>
     
@@ -116,18 +117,18 @@ hexDigit     = &amp;quot;0&amp;quot; … &amp;quot;9&amp;quot; | &amp;quot;A&amp
       
       <guid>https://alimy.me/post/dev_201909211516/</guid>
       <description>&lt;p&gt;This is a language specification reference for version 2 of the Protocol Buffers language (proto2). The syntax is specified using Extended &lt;a href=&#34;https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_Form&#34; title=&#34;EBNF in WIKI&#34;&gt;Backus-Naur Form (EBNF)&lt;/a&gt;:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;|   alternation
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;|   alternation
 ()  grouping
 []  option (zero or one time)
 {}  repetition (any number of times)
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For more information about using proto2, see the language guide.&lt;/p&gt;
 &lt;h3 id=&#34;lexical-elements&#34;&gt;Lexical elements&lt;/h3&gt;
 &lt;h4 id=&#34;letters-and-digits&#34;&gt;Letters and digits&lt;/h4&gt;
-&lt;pre&gt;&lt;code&gt;letter = &amp;quot;A&amp;quot; … &amp;quot;Z&amp;quot; | &amp;quot;a&amp;quot; … &amp;quot;z&amp;quot;
-capitalLetter =  &amp;quot;A&amp;quot; … &amp;quot;Z&amp;quot;
-decimalDigit = &amp;quot;0&amp;quot; … &amp;quot;9&amp;quot;
-octalDigit   = &amp;quot;0&amp;quot; … &amp;quot;7&amp;quot;
-hexDigit     = &amp;quot;0&amp;quot; … &amp;quot;9&amp;quot; | &amp;quot;A&amp;quot; … &amp;quot;F&amp;quot; | &amp;quot;a&amp;quot; … &amp;quot;f&amp;quot;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;letter = &amp;#34;A&amp;#34; … &amp;#34;Z&amp;#34; | &amp;#34;a&amp;#34; … &amp;#34;z&amp;#34;
+capitalLetter =  &amp;#34;A&amp;#34; … &amp;#34;Z&amp;#34;
+decimalDigit = &amp;#34;0&amp;#34; … &amp;#34;9&amp;#34;
+octalDigit   = &amp;#34;0&amp;#34; … &amp;#34;7&amp;#34;
+hexDigit     = &amp;#34;0&amp;#34; … &amp;#34;9&amp;#34; | &amp;#34;A&amp;#34; … &amp;#34;F&amp;#34; | &amp;#34;a&amp;#34; … &amp;#34;f&amp;#34;
 &lt;/code&gt;&lt;/pre&gt;</description>
     </item>
     
@@ -140,7 +141,7 @@ hexDigit     = &amp;quot;0&amp;quot; … &amp;quot;9&amp;quot; | &amp;quot;A&amp
       <description>&lt;h2 id=&#34;schema-language&#34;&gt;Schema Language&lt;/h2&gt;
 &lt;p&gt;Like Protocol Buffers and Thrift (but unlike JSON or MessagePack), Cap’n Proto messages are strongly-typed and not self-describing. You must define your message structure in a special language, then invoke the Cap’n Proto compiler (&lt;code&gt;capnp compile&lt;/code&gt;) to generate source code to manipulate that message type in your desired language.&lt;/p&gt;
 &lt;h4 id=&#34;for-example&#34;&gt;For example:&lt;/h4&gt;
-&lt;pre&gt;&lt;code&gt;@0xdbb9ad1f14bf0b36;  # unique file ID, generated by `capnp id`
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;@0xdbb9ad1f14bf0b36;  # unique file ID, generated by `capnp id`
 
 struct Person {
   name @0 :Text;

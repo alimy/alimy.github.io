@@ -360,7 +360,7 @@
 <li>SINGLE_NODE_XPATH_ABSOLUTE_REFERENCES</li>
 </ul>
 <p>In the example below we see how each of the above looks We first create the XStream object instance, the Artist Class and the Album class. We also add appropriate aliases to make the XML more readable.</p>
-<pre><code>package com.studytrails.xml.xstream;
+<pre tabindex="0"><code>package com.studytrails.xml.xstream;
 
 import com.thoughtworks.xstream.XStream;
 
@@ -371,10 +371,10 @@ public class ReferencingObjectsExample {
         AnotherAlbum album = new AnotherAlbum();
         artist.setAlbum(album);
         XStream xStream = new XStream();
-        xStream.alias(&quot;artist&quot;, Artist.class);
-        xStream.alias(&quot;anotherAlbum&quot;, AnotherAlbum.class);
+        xStream.alias(&#34;artist&#34;, Artist.class);
+        xStream.alias(&#34;anotherAlbum&#34;, AnotherAlbum.class);
 </code></pre><p>Here are the classes. An Artist contains an album. It also contains object of type &lsquo;Top10Album&rsquo; which is a child of the class &lsquo;Album&rsquo; and contains the top10 songs of the Artist. We also store a reference to another artist which is similar to this artist. The aim is to see how the reference to the various objects are stored in the XML. The reference to Top10Album is a reference to a derived class. The reference to Artist is a reference to the Object&rsquo;s own type.</p>
-<pre><code>class Artist {
+<pre tabindex="0"><code>class Artist {
     Top10Album album;
     Album album2;
     Artist similarArtist;
@@ -395,48 +395,48 @@ class Album {
 class Top10Album extends Album {
 }
 </code></pre><p>case 1: ID_REFERENCES</p>
-<pre><code>xStream.setMode(XStream.ID_REFERENCES);
+<pre tabindex="0"><code>xStream.setMode(XStream.ID_REFERENCES);
 </code></pre><p>The output XML</p>
-<pre><code>&lt;artist id=&quot;1&quot;&gt;
-  &lt;album id=&quot;2&quot;&gt;
-    &lt;album2 class=&quot;anotherAlbum&quot; reference=&quot;2&quot;&gt;
+<pre tabindex="0"><code>&lt;artist id=&#34;1&#34;&gt;
+  &lt;album id=&#34;2&#34;&gt;
+    &lt;album2 class=&#34;anotherAlbum&#34; reference=&#34;2&#34;&gt;
     &lt;/album2&gt;
   &lt;/album&gt;
 &lt;/artist&gt;
 </code></pre><p>case 2: NO_REFERENCES</p>
-<pre><code>xStream.setMode(XStream.NO_REFERENCES);
+<pre tabindex="0"><code>xStream.setMode(XStream.NO_REFERENCES);
 </code></pre><p>The output XML</p>
-<pre><code>&lt;artist&gt;
+<pre tabindex="0"><code>&lt;artist&gt;
   &lt;album&gt;
-  &lt;album2 class=&quot;anotherAlbum&quot;&gt;
+  &lt;album2 class=&#34;anotherAlbum&#34;&gt;
 &lt;/album2&gt;&lt;/album&gt;&lt;/artist&gt;
 </code></pre><p>case 3: SINGLE_NODE_XPATH_ABSOLUTE_REFERENCES</p>
-<pre><code>xStream.setMode(XStream.SINGLE_NODE_XPATH_ABSOLUTE_REFERENCES);
+<pre tabindex="0"><code>xStream.setMode(XStream.SINGLE_NODE_XPATH_ABSOLUTE_REFERENCES);
 </code></pre><p>The output XML</p>
-<pre><code>&lt;artist&gt;
+<pre tabindex="0"><code>&lt;artist&gt;
   &lt;album&gt;
-  &lt;album2 class=&quot;anotherAlbum&quot; reference=&quot;/artist[1]/album[1]&quot;&gt;
+  &lt;album2 class=&#34;anotherAlbum&#34; reference=&#34;/artist[1]/album[1]&#34;&gt;
 &lt;/album2&gt;&lt;/album&gt;&lt;/artist&gt;
 </code></pre><p>case 4: SINGLE_NODE_XPATH_RELATIVE_REFERENCES</p>
-<pre><code>xStream.setMode(XStream.SINGLE_NODE_XPATH_RELATIVE_REFERENCES);
+<pre tabindex="0"><code>xStream.setMode(XStream.SINGLE_NODE_XPATH_RELATIVE_REFERENCES);
 </code></pre><p>The output XML</p>
-<pre><code>&lt;artist&gt;
+<pre tabindex="0"><code>&lt;artist&gt;
   &lt;album&gt;
-  &lt;album2 class=&quot;anotherAlbum&quot; reference=&quot;../album[1]&quot;&gt;
+  &lt;album2 class=&#34;anotherAlbum&#34; reference=&#34;../album[1]&#34;&gt;
 &lt;/album2&gt;&lt;/album&gt;&lt;/artist&gt;
 </code></pre><p>case 5: XPATH_ABSOLUTE_REFERENCES</p>
-<pre><code>xStream.setMode(XStream.XPATH_ABSOLUTE_REFERENCES);
+<pre tabindex="0"><code>xStream.setMode(XStream.XPATH_ABSOLUTE_REFERENCES);
 </code></pre><p>The output XML</p>
-<pre><code>&lt;artist&gt;
+<pre tabindex="0"><code>&lt;artist&gt;
   &lt;album&gt;
-  &lt;album2 class=&quot;anotherAlbum&quot; reference=&quot;/artist/album&quot;&gt;
+  &lt;album2 class=&#34;anotherAlbum&#34; reference=&#34;/artist/album&#34;&gt;
 &lt;/album2&gt;&lt;/album&gt;&lt;/artist&gt;
 </code></pre><p>case 6: XPATH_RELATIVE_REFERENCES</p>
-<pre><code>xStream.setMode(XStream.XPATH_RELATIVE_REFERENCES);
+<pre tabindex="0"><code>xStream.setMode(XStream.XPATH_RELATIVE_REFERENCES);
 </code></pre><p>The output XML</p>
-<pre><code>&lt;artist&gt;
+<pre tabindex="0"><code>&lt;artist&gt;
   &lt;album&gt;
-  &lt;album2 class=&quot;anotherAlbum&quot; reference=&quot;../album&quot;&gt;
+  &lt;album2 class=&#34;anotherAlbum&#34; reference=&#34;../album&#34;&gt;
 &lt;/album2&gt;&lt;/album&gt;&lt;/artist&gt;
 </code></pre><hr>
 <p>(Note: This article’s original links is <a href="http://www.studytrails.com/java/xml/xstream/xstream-java-to-xml-referencing-Objects.jsp" title="Referencing Objects"><em>here</em></a> )</p>

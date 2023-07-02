@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 
 <head>
-	<meta name="generator" content="Hugo 0.79.0-DEV" />
+	<meta name="generator" content="Hugo 0.115.0">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
@@ -382,10 +382,10 @@
 </header>
 <div class="summary">
     <p>In the previous tutorial we saw <a href="https://alimy.me/post/dev_201603081411" title="Parsing An XML">how to convert Java to XML and back</a>. In this tutorial we look at different ways to handle XML attributes using XStream. However note that the attributes are only safe if you know that the written String values are not affected by the XML parser&rsquo;s white space normalization. The XML specification requires that a parser does this and it means that an attribute value of:</p>
-<pre><code>&lt;element attr=&quot;  foo\t\n   bar    &quot;&gt;
+<pre tabindex="0"><code>&lt;element attr=&#34;  foo\t\n   bar    &#34;&gt;
 &lt;/element&gt;
 </code></pre><p>will always be normalized and passed this assertion:</p>
-<pre><code>assertEquals(&quot;foo bar&quot;, element.getAttr());
+<pre tabindex="0"><code>assertEquals(&#34;foo bar&#34;, element.getAttr());
 XStream has no influence about this behavior.
 </code></pre>
 </div>
@@ -423,7 +423,7 @@ XStream has no influence about this behavior.
 </header>
 <div class="summary">
     <p>In the <a href="https://alimy.me/post/dev_201603081411">previous</a> example we saw how to convert a Java Object to XML and back. In this example we look at another example of Java Object to XML Conversion. The example uses an object called a &lsquo;JazzArtist&rsquo;. This object has a list of &lsquo;Album&rsquo; objects besides some other properties. We see here another example of Alias and implicit collection. (To understand alias and implicit collections look at this tutorial) We divide the example in three parts. In the first part we do not use aliases or implicit collections. In the second part we use aliases and in the third part we use an implicit Collection. Note the output from the three parts and observe how aliases and implicit collection change the way the output xml looks.</p>
-<pre><code>package com.studytrails.xml.xstream;
+<pre tabindex="0"><code>package com.studytrails.xml.xstream;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -453,14 +453,14 @@ public class CreateXMLFromMusicArtistObject {
 </header>
 <div class="summary">
     <p>In the earlier tutorial we looked at a way to <a href="https://alimy.me/post/dev_201603081411" title="Parsing an XML">convert Java to XML and back</a>. In this tutorial we look at some more examples of XML To Java Conversion. XStream can convert XML elements to multiple types depending on the type specified in the Java class. For example a series for similarly named elements can be converted to an array of String, a List of String or an enum. XStream uses an appropriate Converter based on type specified in the java class. Lets look at some examples.</p>
-<p>In this first example we have an XML that has a parent element called &lsquo;Music&rsquo;. It has a child element called type. We populate a Music object that has a &lsquo;type&rsquo; field which is an enum.</p>
-<pre><code>package com.studytrails.xml.xstream;
+<p>In this first example we have an XML that has a parent element called &lsquo;Music&rsquo;. It has a child element called type. We populate a Music object that has a &rsquo;type&rsquo; field which is an enum.</p>
+<pre tabindex="0"><code>package com.studytrails.xml.xstream;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 public class ConverterExample3 {
-    static String xml1 = &quot;&lt;Music&gt;&lt;type&gt;rock&lt;/type&gt;&lt;/Music&gt;&quot;;
+    static String xml1 = &#34;&lt;Music&gt;&lt;type&gt;rock&lt;/type&gt;&lt;/Music&gt;&#34;;
 
     public static void main(String[] args) {
         XStream xStream = new XStream();
@@ -472,7 +472,7 @@ public class ConverterExample3 {
 
 }
 
-@XStreamAlias(&quot;Music&quot;)
+@XStreamAlias(&#34;Music&#34;)
 class Music {
     public enum genre {
         ROCK, JAZZ
@@ -482,7 +482,7 @@ class Music {
 
     @Override
     public String toString() {
-        return &quot;Music [type=&quot; + type + &quot;]&quot;;
+        return &#34;Music [type=&#34; + type + &#34;]&#34;;
     }
 
 }     
@@ -536,14 +536,14 @@ class Music {
     <p>This page provides a series of examples illustrating how a class can be annotated. It acts as a quick and dirty overview of how the framework can be used and also acts as a reference page. All examples can be downloaded for convenience. For further information take a look at the <a href="https://alimy.me/post/dev_201603032011" title="SimpleXML Tutorial">Tutorial</a>.</p>
 <h3 id="sectcreating-nested-path-elements">§Creating nested path elements</h3>
 <p>Here an example of how to use the <a href="http://simple.sourceforge.net/download/stream/doc/javadoc/org/simpleframework/xml/Path.html">Path</a> annotation to create nested elements and attributes using a single annotated class. Below is an example showing two elements nested within a XPath expression.</p>
-<pre><code>@Root
+<pre tabindex="0"><code>@Root
 public class Example {
 
-   @Path(&quot;a/b[1]&quot;)
+   @Path(&#34;a/b[1]&#34;)
    @Element
    private String x;
 
-   @Path(&quot;a/b[2]&quot;)
+   @Path(&#34;a/b[2]&#34;)
    @Element
    private String y;
 }

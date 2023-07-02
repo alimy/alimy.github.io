@@ -5,6 +5,7 @@
     <link>https://alimy.me/categories/other/</link>
     <description>Recent content in Other on 北野</description>
     <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
     <lastBuildDate>Thu, 16 Feb 2023 15:55:00 +0800</lastBuildDate><atom:link href="https://alimy.me/categories/other/index.xml" rel="self" type="application/rss+xml" />
     <item>
@@ -21,7 +22,7 @@
 &lt;p&gt;六祖惠能俗姓卢，南海新兴人。年少失父，母且寡居，家亦屡空，业无腴产。所以他从小做了樵夫，养家活口。有一天他偶闻肆间诵金刚般若经，心有所感，於是询问邻人何处学佛，遂安置母亲，至河北黄梅山礼拜五祖。&lt;/p&gt;
 &lt;h3 id=&#34;五祖弘忍&#34;&gt;五祖弘忍&lt;/h3&gt;
 &lt;p&gt;五祖弘忍见惠能谈吐甚有根性，不动声色地让他到後院碓米。八个月後有一天，弘忍告诉众弟子说，每一个人写一首偈，谁能悟道，我便传他衣钵。当时人人以为五祖座下第一大弟子神秀必得衣钵，所以也没有人去作这首偈。神秀在这种情况下，一来「责无旁贷」，二来也想让师父看看自己心中的见解，便在三更时候於南廊壁上写下心偈一首：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;身是菩提树，心如明镜台；时时勤拂拭，莫使惹尘埃。
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;身是菩提树，心如明镜台；时时勤拂拭，莫使惹尘埃。
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;第二天五祖弘忍见到了这首偈，把神秀叫到座前询问。并谓：「汝作此偈，见即未到，只到门前，尚未得入&amp;hellip;」。要神秀回去再作一偈。过了数天，神秀却作不出来。&lt;/p&gt;</description>
     </item>
     
@@ -96,32 +97,32 @@ Mac用了几年，明显感觉散热不佳，于是对Mac做了一次彻底的�
       <pubDate>Sat, 01 Sep 2018 19:42:00 +0800</pubDate>
       
       <guid>https://alimy.me/post/day_201809011942/</guid>
-      <description>&lt;pre&gt;&lt;code&gt;fn main() {
-   let greetings = [&amp;quot;Hello&amp;quot;, &amp;quot;Hola&amp;quot;, &amp;quot;Bonjour&amp;quot;,
-                    &amp;quot;Ciao&amp;quot;, &amp;quot;こんにちは&amp;quot;, &amp;quot;안녕하세요&amp;quot;,
-                    &amp;quot;Cześć&amp;quot;, &amp;quot;Olá&amp;quot;, &amp;quot;Здравствуйте&amp;quot;,
-                    &amp;quot;Chào bạn&amp;quot;, &amp;quot;您好&amp;quot;, &amp;quot;Hallo&amp;quot;,
-                    &amp;quot;Hej&amp;quot;, &amp;quot;Ahoj&amp;quot;, &amp;quot;سلام&amp;quot;,&amp;quot;สวัสดี&amp;quot;];
+      <description>&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;fn main() {
+   let greetings = [&amp;#34;Hello&amp;#34;, &amp;#34;Hola&amp;#34;, &amp;#34;Bonjour&amp;#34;,
+                    &amp;#34;Ciao&amp;#34;, &amp;#34;こんにちは&amp;#34;, &amp;#34;안녕하세요&amp;#34;,
+                    &amp;#34;Cześć&amp;#34;, &amp;#34;Olá&amp;#34;, &amp;#34;Здравствуйте&amp;#34;,
+                    &amp;#34;Chào bạn&amp;#34;, &amp;#34;您好&amp;#34;, &amp;#34;Hallo&amp;#34;,
+                    &amp;#34;Hej&amp;#34;, &amp;#34;Ahoj&amp;#34;, &amp;#34;سلام&amp;#34;,&amp;#34;สวัสดี&amp;#34;];
 
    for (num, greeting) in greetings.iter().enumerate() {
-       print!(&amp;quot;{} : &amp;quot;, greeting);
+       print!(&amp;#34;{} : &amp;#34;, greeting);
        match num {
-           0 =&amp;gt;  println!(&amp;quot;This code is editable and runnable!&amp;quot;),
-           1 =&amp;gt;  println!(&amp;quot;¡Este código es editable y ejecutable!&amp;quot;),
-           2 =&amp;gt;  println!(&amp;quot;Ce code est modifiable et exécutable !&amp;quot;),
-           3 =&amp;gt;  println!(&amp;quot;Questo codice è modificabile ed eseguibile!&amp;quot;),
-           4 =&amp;gt;  println!(&amp;quot;このコードは編集して実行出来ます！&amp;quot;),
-           5 =&amp;gt;  println!(&amp;quot;여기에서 코드를 수정하고 실행할 수 있습니다!&amp;quot;),
-           6 =&amp;gt;  println!(&amp;quot;Ten kod można edytować oraz uruchomić!&amp;quot;),
-           7 =&amp;gt;  println!(&amp;quot;Este código é editável e executável!&amp;quot;),
-           8 =&amp;gt;  println!(&amp;quot;Этот код можно отредактировать и запустить!&amp;quot;),
-           9 =&amp;gt;  println!(&amp;quot;Bạn có thể edit và run code trực tiếp!&amp;quot;),
-           10 =&amp;gt; println!(&amp;quot;这段代码是可以编辑并且能够运行的！&amp;quot;),
-           11 =&amp;gt; println!(&amp;quot;Dieser Code kann bearbeitet und ausgeführt werden!&amp;quot;),
-           12 =&amp;gt; println!(&amp;quot;Den här koden kan redigeras och köras!&amp;quot;),
-           13 =&amp;gt; println!(&amp;quot;Tento kód můžete upravit a spustit&amp;quot;),
-           14 =&amp;gt; println!(&amp;quot;این کد قابلیت ویرایش و اجرا دارد!&amp;quot;),
-           15 =&amp;gt; println!(&amp;quot;โค้ดนี้สามารถแก้ไขได้และรันได้&amp;quot;),
+           0 =&amp;gt;  println!(&amp;#34;This code is editable and runnable!&amp;#34;),
+           1 =&amp;gt;  println!(&amp;#34;¡Este código es editable y ejecutable!&amp;#34;),
+           2 =&amp;gt;  println!(&amp;#34;Ce code est modifiable et exécutable !&amp;#34;),
+           3 =&amp;gt;  println!(&amp;#34;Questo codice è modificabile ed eseguibile!&amp;#34;),
+           4 =&amp;gt;  println!(&amp;#34;このコードは編集して実行出来ます！&amp;#34;),
+           5 =&amp;gt;  println!(&amp;#34;여기에서 코드를 수정하고 실행할 수 있습니다!&amp;#34;),
+           6 =&amp;gt;  println!(&amp;#34;Ten kod można edytować oraz uruchomić!&amp;#34;),
+           7 =&amp;gt;  println!(&amp;#34;Este código é editável e executável!&amp;#34;),
+           8 =&amp;gt;  println!(&amp;#34;Этот код можно отредактировать и запустить!&amp;#34;),
+           9 =&amp;gt;  println!(&amp;#34;Bạn có thể edit và run code trực tiếp!&amp;#34;),
+           10 =&amp;gt; println!(&amp;#34;这段代码是可以编辑并且能够运行的！&amp;#34;),
+           11 =&amp;gt; println!(&amp;#34;Dieser Code kann bearbeitet und ausgeführt werden!&amp;#34;),
+           12 =&amp;gt; println!(&amp;#34;Den här koden kan redigeras och köras!&amp;#34;),
+           13 =&amp;gt; println!(&amp;#34;Tento kód můžete upravit a spustit&amp;#34;),
+           14 =&amp;gt; println!(&amp;#34;این کد قابلیت ویرایش و اجرا دارد!&amp;#34;),
+           15 =&amp;gt; println!(&amp;#34;โค้ดนี้สามารถแก้ไขได้และรันได้&amp;#34;),
            _ =&amp;gt;  {},
        }
    }
@@ -151,13 +152,13 @@ Mac用了几年，明显感觉散热不佳，于是对Mac做了一次彻底的�
       
       <guid>https://alimy.me/post/arc_201604150952/</guid>
       <description>&lt;h4 id=&#34;第-一-章&#34;&gt;第 一 章&lt;/h4&gt;
-&lt;pre&gt;&lt;code&gt;道 可 道 ， 非 常 道 。 名 可 名 ， 非 常 名 。  
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;道 可 道 ， 非 常 道 。 名 可 名 ， 非 常 名 。  
 无 名 天 地 之 始 ﹔ 有 名 万 物 之 母 。  
 故 常 无 ， 欲 以 观 其 妙 ﹔ 常 有 ， 欲 以 观 其 徼 。  
 此 两 者 ， 同 出 而 异 名 ， 同 谓 之 玄 。  
 玄 之 又 玄 ， 众 妙 之 门 。  
 &lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;第-二-章&#34;&gt;第 二 章&lt;/h4&gt;
-&lt;pre&gt;&lt;code&gt;天 下 皆 知 美 之 为 美 ， 斯 恶 已 。  
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;天 下 皆 知 美 之 为 美 ， 斯 恶 已 。  
 皆 知 善 之 为 善 ， 斯 不 善 已 。  
 有 无 相 生 ， 难 易 相 成 ， 长 短 相 形 ，  
 高 下 相 盈 ， 音 声 相 和 ， 前 后 相 随 。  

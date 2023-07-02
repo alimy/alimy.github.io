@@ -352,13 +352,13 @@
           <p>In this tutorial we will see how to convert a java List to JSON. Serializing list is a little tricky since by default the type info is not stored while serializing and deserializing lists. In this tutorial we look at two examples. In the first example we serialize an Object that has a java List as one of its properties. In the second example we try and serialize the List directly. In both examples we use special configuration to preserve type info.</p>
 <h3 id="example-1--serializing-object-containing-a-list">Example 1 : Serializing Object containing a list</h3>
 <p>The example converts a Zoo class to json. the zoo class contains the name of zoo, its city and a list of animals. The list is of type &lsquo;Animal&rsquo;, i.e. the list contains elements that are subclass of the Abstract class Animal. Lets see what happens when we try to serialize zoo. First we create the Zoo class. Notice how the constructor looks. When we try to get the Zoo Object back from the JSON, Jackson has to know that it should create the Zoo Object using the constructor that takes in the name and city properties.</p>
-<pre><code>class Zoo {
+<pre tabindex="0"><code>class Zoo {
     public String name;
     public String city;
 
 
     @JsonCreator
-    public Zoo(@JsonProperty(&quot;name&quot;) String name,@JsonProperty(&quot;city&quot;) String city) {
+    public Zoo(@JsonProperty(&#34;name&#34;) String name,@JsonProperty(&#34;city&#34;) String city) {
         this.name = name;
         this.city = city;
     }
@@ -372,33 +372,33 @@
 
 }
 </code></pre><p>The Animal is an abstract class. It is further extended to create the Elephant and the Lion class.</p>
-<pre><code>class Elephant extends Animal {
+<pre tabindex="0"><code>class Elephant extends Animal {
 
     @JsonCreator
-    public Elephant(@JsonProperty(&quot;name&quot;) String name) {
+    public Elephant(@JsonProperty(&#34;name&#34;) String name) {
         super.name = name;
     }
 
     @Override
     public String toString() {
-        return &quot;Elephant : &quot; + name;
+        return &#34;Elephant : &#34; + name;
     }
 }
 
 class Lion extends Animal {
     @JsonCreator
-    public Lion(@JsonProperty(&quot;name&quot;) String name) {
+    public Lion(@JsonProperty(&#34;name&#34;) String name) {
         this.name = name;
     }
 
     @Override
     public String toString() {
-        return &quot;Lion: &quot; + name;
+        return &#34;Lion: &#34; + name;
     }
 }
 </code></pre><p>Lets now create a serializer for Zoo. Imagine that the London zoo needs to shift to a larger area. We will have to serialize the zoo from its current location and deserialize it at the target location. (a teleportation machine)</p>
 <p>We use the ObjectMapper class to do the serialization and print the json to console. You could also print it to a file</p>
-<pre><code>package com.studytrails.json.jackson;
+<pre tabindex="0"><code>package com.studytrails.json.jackson;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -410,18 +410,18 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class SerializeZoo {
     public static void main(String[] args) throws JsonGenerationException, JsonMappingException, IOException {
-         Zoo zoo = new Zoo(&quot;London Zoo&quot;, &quot;London&quot;);
-         Lion lion = new Lion(&quot;Simba&quot;);
-         Elephant elephant = new Elephant(&quot;Manny&quot;);
+         Zoo zoo = new Zoo(&#34;London Zoo&#34;, &#34;London&#34;);
+         Lion lion = new Lion(&#34;Simba&#34;);
+         Elephant elephant = new Elephant(&#34;Manny&#34;);
          zoo.addAnimal(elephant).add(lion);
          ObjectMapper mapper = new ObjectMapper();
          mapper.writeValue(System.out, zoo);
     }
 }
 </code></pre><p>Ok so lets see how our zoo looks like. Remember, we should be able to re create the zoo (along with all its animals) when we deserialize it</p>
-<pre><code>{&quot;name&quot;:&quot;London Zoo&quot;,&quot;city&quot;:&quot;London&quot;,&quot;animals&quot;:[{&quot;name&quot;:&quot;Manny&quot;},{&quot;name&quot;:&quot;Simba&quot;}]}
+<pre tabindex="0"><code>{&#34;name&#34;:&#34;London Zoo&#34;,&#34;city&#34;:&#34;London&#34;,&#34;animals&#34;:[{&#34;name&#34;:&#34;Manny&#34;},{&#34;name&#34;:&#34;Simba&#34;}]}
 </code></pre><p>Clearly our teleporter is not ready. Manny and Simba are in there, but there is nothing in the json that says that Manny is an elephant and Simba is a lion. Lets see what happens when we try to deserialize the zoo</p>
-<pre><code>package com.studytrails.json.jackson;
+<pre tabindex="0"><code>package com.studytrails.json.jackson;
 
 import java.io.IOException;
 
@@ -432,7 +432,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class DeserializeZoo {
 
     public static void main(String[] args) throws JsonParseException, JsonMappingException, IOException {
-        String json = &quot;{\&quot;name\&quot;:\&quot;London Zoo\&quot;,\&quot;city\&quot;:\&quot;London\&quot;,&quot; + &quot;\&quot;animals\&quot;:[{\&quot;name\&quot;:\&quot;Manny\&quot;},{\&quot;name\&quot;:\&quot;Simba\&quot;}]}&quot;;
+        String json = &#34;{\&#34;name\&#34;:\&#34;London Zoo\&#34;,\&#34;city\&#34;:\&#34;London\&#34;,&#34; + &#34;\&#34;animals\&#34;:[{\&#34;name\&#34;:\&#34;Manny\&#34;},{\&#34;name\&#34;:\&#34;Simba\&#34;}]}&#34;;
         ObjectMapper mapper = new ObjectMapper();
         mapper.readValue(json, Zoo.class);
     }
@@ -442,23 +442,23 @@ to do this</p>
 <ol>
 <li>Tell Jackson that we need to include the type info for Animal class.</li>
 </ol>
-<pre><code>@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = As.PROPERTY, property = &quot;@class&quot;)
+<pre tabindex="0"><code>@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = As.PROPERTY, property = &#34;@class&#34;)
 </code></pre><ol start="2">
 <li>Tell Jackson that Animal can have subclasses Elephant and Lion</li>
 </ol>
-<pre><code>@JsonSubTypes({ @Type(value = Lion.class, name = &quot;lion&quot;), @Type(value = Elephant.class, name = &quot;elephant&quot;) })
+<pre tabindex="0"><code>@JsonSubTypes({ @Type(value = Lion.class, name = &#34;lion&#34;), @Type(value = Elephant.class, name = &#34;elephant&#34;) })
 </code></pre><p>Lets see how our json looks now</p>
-<pre><code>{&quot;name&quot;:&quot;London Zoo&quot;,&quot;city&quot;:&quot;London&quot;,
-&quot;animals&quot;:[{&quot;@class&quot;:&quot;com.studytrails.json.jackson.Elephant&quot;,&quot;name&quot;:&quot;Manny&quot;},
-           {&quot;@class&quot;:&quot;com.studytrails.json.jackson.Lion&quot;,&quot;name&quot;:&quot;Simba&quot;}]}
+<pre tabindex="0"><code>{&#34;name&#34;:&#34;London Zoo&#34;,&#34;city&#34;:&#34;London&#34;,
+&#34;animals&#34;:[{&#34;@class&#34;:&#34;com.studytrails.json.jackson.Elephant&#34;,&#34;name&#34;:&#34;Manny&#34;},
+           {&#34;@class&#34;:&#34;com.studytrails.json.jackson.Lion&#34;,&#34;name&#34;:&#34;Simba&#34;}]}
 </code></pre><p>This looks much better. Now, if you read the json back using the Zoo class then it works well and the Zoo class would have a list of animals.</p>
 <h3 id="example-2--serializing-a-list">Example 2 : Serializing a list</h3>
 <p>In the previous example we saw how to serialize a class that has a List. In this example lets see how to serialize a list directly. We will use the same Animal, Lion and Elephant classes. Lets see what happens when we try to serialize the list directly (note that we have added the typeinfo annotations to the Animal class)</p>
-<pre><code>public class SerializeAnimals {
+<pre tabindex="0"><code>public class SerializeAnimals {
     public static void main(String[] args) throws JsonGenerationException, JsonMappingException, IOException {
         List&lt;animal&gt; animals = new ArrayList&lt;animal&gt;();
-        Lion lion = new Lion(&quot;Samba&quot;);
-        Elephant elephant = new Elephant(&quot;Manny&quot;);
+        Lion lion = new Lion(&#34;Samba&#34;);
+        Elephant elephant = new Elephant(&#34;Manny&#34;);
         animals.add(lion);
         animals.add(elephant);
         ObjectMapper mapper = new ObjectMapper();
@@ -471,14 +471,14 @@ to do this</p>
 
 &lt;/animal&gt;&lt;/animal&gt;
 </code></pre><p>This gives the following json</p>
-<pre><code>[{&quot;name&quot;:&quot;Samba&quot;},{&quot;name&quot;:&quot;Manny&quot;}]
+<pre tabindex="0"><code>[{&#34;name&#34;:&#34;Samba&#34;},{&#34;name&#34;:&#34;Manny&#34;}]
 </code></pre><p>No type info! To add type info while serializing Lists directly you need to configure the mapper in this way</p>
-<pre><code>mapper.writerWithType(new TypeReference&lt;List
+<pre tabindex="0"><code>mapper.writerWithType(new TypeReference&lt;List
         &lt;Animal&gt;&gt;() {
         }).writeValue(System.out, animals);
 </code></pre><p>This now produces the correct json</p>
-<pre><code>[{&quot;@class&quot;:&quot;com.studytrails.json.jackson.Lion&quot;,&quot;name&quot;:&quot;Samba&quot;},
-{&quot;@class&quot;:&quot;com.studytrails.json.jackson.Elephant&quot;,&quot;name&quot;:&quot;Manny&quot;}]
+<pre tabindex="0"><code>[{&#34;@class&#34;:&#34;com.studytrails.json.jackson.Lion&#34;,&#34;name&#34;:&#34;Samba&#34;},
+{&#34;@class&#34;:&#34;com.studytrails.json.jackson.Elephant&#34;,&#34;name&#34;:&#34;Manny&#34;}]
 </code></pre><p>So to recap, in this tutorial we saw how to i. serialize a Java object containing a List and ii. serialize a list (root object)</p>
 <hr>
 <p>(Note: This article’s original links is <a href="http://www.studytrails.com/java/json/java-jackson-Serialization-list.jsp" title="jackson List serialization"><em>here</em></a> )</p>

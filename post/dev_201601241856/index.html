@@ -370,7 +370,7 @@
 <p>只要我们的Makefile写得够好，所有的这一切，我们只用一个make命令就可以完成，make命令会自动智能地根据当前的文件修改的情况来确定哪些文件需要重编译，从而自己编译所需要的文件和链接目标程序。</p>
 <h4 id="makefile的规则">&gt;Makefile的规则</h4>
 <p>在讲述这个Makefile之前，还是让我们先来粗略地看一看Makefile的规则。</p>
-<pre><code>    target ... : prerequisites ...
+<pre tabindex="0"><code>    target ... : prerequisites ...
             command
             ...
             ...
@@ -785,7 +785,7 @@ main.o: main.c defs.h
          $(CC) -M $(CPPFLAGS) $&lt; &gt; $@.
 </code></pre>
 <p>; /
-sed &rsquo;s,/($<em>/)/.o[ :]</em>,/1.o $@ : ,g' &lt; $@.</p>
+sed &rsquo;s,/($<em>/)/.o[ :]</em>,/1.o $@ : ,g&rsquo; &lt; $@.</p>
 <blockquote>
 <p>$@; /
 rm -f $@.</p>
@@ -1848,14 +1848,14 @@ Yacc文法分析器参数。</p>
 <p>在“隐含规则链”中，禁止同一个目标出现两次或两次以上，这样一来，就可防止在make自动推导时出现无限递归的情况。</p>
 <p>Make会优化一些特殊的隐含规则，而不生成中间文件。如，从文件“foo.c”生成目标程序“foo”，按道理，make会编译生成中间文件“foo.o”，然后链接成“foo”，但在实际情况下，这一动作可以被一条“cc”的命令完成（cc –o foo foo.c），于是优化过的规则就不会生成中间文件。</p>
 <h4 id="定义模式规则">&gt;定义模式规则</h4>
-<p>你可以使用模式规则来定义一个隐含规则。一个模式规则就好像一个一般的规则，只是在规则中，目标的定义需要有&quot;%&ldquo;字符。&quot;%&ldquo;的意思是表示一个或多个任意字符。在依赖目标中同样可以使用&rdquo;%&quot;，只是依赖目标中的&rdquo;%&ldquo;的取值，取决于其目标。</p>
-<p>有一点需要注意的是，&quot;%&ldquo;的展开发生在变量和函数的展开之后，变量和函数的展开发生在make载入Makefile时，而模式规则中的&rdquo;%&ldquo;则发生在运行时。</p>
+<p>你可以使用模式规则来定义一个隐含规则。一个模式规则就好像一个一般的规则，只是在规则中，目标的定义需要有&quot;%&ldquo;字符。&rdquo;%&ldquo;的意思是表示一个或多个任意字符。在依赖目标中同样可以使用&rdquo;%&quot;，只是依赖目标中的&quot;%&ldquo;的取值，取决于其目标。</p>
+<p>有一点需要注意的是，&rdquo;%&ldquo;的展开发生在变量和函数的展开之后，变量和函数的展开发生在make载入Makefile时，而模式规则中的&rdquo;%&ldquo;则发生在运行时。</p>
 <p>1、模式规则介绍</p>
-<p>模式规则中，至少在规则的目标定义中要包含&rdquo;%&quot;，否则，就是一般的规则。目标中的&rdquo;%&ldquo;定义表示对文件名的匹配，&quot;%&ldquo;表示长度任意的非空字符串。例如：&quot;%.c&quot;表示以&rdquo;.c&quot;结尾的文件名（文件名的长度至少为3），而&quot;s.%.c&quot;则表示以&quot;s.&ldquo;开头，&quot;.c&quot;结尾的文件名（文件名的长度至少为5）。</p>
+<p>模式规则中，至少在规则的目标定义中要包含&rdquo;%&quot;，否则，就是一般的规则。目标中的&quot;%&ldquo;定义表示对文件名的匹配，&rdquo;%&ldquo;表示长度任意的非空字符串。例如：&rdquo;%.c&quot;表示以&quot;.c&quot;结尾的文件名（文件名的长度至少为3），而&quot;s.%.c&quot;则表示以&quot;s.&ldquo;开头，&quot;.c&quot;结尾的文件名（文件名的长度至少为5）。</p>
 <p>如果&rdquo;%&ldquo;定义在目标中，那么，目标中的&rdquo;%&ldquo;的值决定了依赖目标中的&rdquo;%&ldquo;的值，也就是说，目标中的模式的&rdquo;%&ldquo;决定了依赖目标中&rdquo;%&ldquo;的样子。例如有一个模式规则如下：</p>
 <pre><code>%.o : %.c ; &lt;command ......&gt;
 </code></pre>
-<p>其含义是，指出了怎么从所有的[.c]文件生成相应的[.o]文件的规则。如果要生成的目标是&quot;a.o b.o&rdquo;，那么&rdquo;%c&quot;就是&quot;a.c b.c&quot;。</p>
+<p>其含义是，指出了怎么从所有的[.c]文件生成相应的[.o]文件的规则。如果要生成的目标是&quot;a.o b.o&rdquo;，那么&quot;%c&quot;就是&quot;a.c b.c&quot;。</p>
 <p>一旦依赖目标中的&quot;%&ldquo;模式被确定，那么，make会被要求去匹配当前目录下所有的文件名，一旦找到，make就会规则下的命令，所以，在模式规则中，目标可能会是多个的，如果有模式匹配出多个目标，make就会产生所有的模式目标，此时，make关心的是依赖的文件名和生成目标的命令这两件事。</p>
 <p>2、模式规则示例</p>
 <p>下面这个例子表示了,把所有的[.c]文件都编译成[.o]文件.</p>
@@ -1885,7 +1885,7 @@ Yacc文法分析器参数。</p>
 <p>$+
 这个变量很像&rdquo;$^&quot;，也是所有依赖目标的集合。只是它不去除重复的依赖目标。</p>
 <p>$*
-这个变量表示目标模式中&rdquo;%&ldquo;及其之前的部分。如果目标是&quot;dir/a.foo.b&rdquo;，并且目标的模式是&quot;a.%.b&rdquo;，那么，&quot;$*&ldquo;的值就是&quot;dir/a.foo&rdquo;。这个变量对于构造有关联的文件名是比较有较。如果目标中没有模式的定义，那么&quot;$*&ldquo;也就不能被推导出，但是，如果目标文件的后缀是make所识别的，那么&rdquo;$*&ldquo;就是除了后缀的那一部分。例如：如果目标是&quot;foo.c&rdquo;，因为&quot;.c&quot;是make所能识别的后缀名，所以，&quot;$*&ldquo;的值就是&quot;foo&rdquo;。这个特性是GNU make的，很有可能不兼容于其它版本的make，所以，你应该尽量避免使用&quot;$*&quot;，除非是在隐含规则或是静态模式中。如果目标中的后缀是make所不能识别的，那么&quot;$*&ldquo;就是空值。</p>
+这个变量表示目标模式中&rdquo;%&ldquo;及其之前的部分。如果目标是&quot;dir/a.foo.b&rdquo;，并且目标的模式是&quot;a.%.b&rdquo;，那么，&quot;$<em>&ldquo;的值就是&quot;dir/a.foo&rdquo;。这个变量对于构造有关联的文件名是比较有较。如果目标中没有模式的定义，那么&quot;$</em>&ldquo;也就不能被推导出，但是，如果目标文件的后缀是make所识别的，那么&rdquo;$<em>&ldquo;就是除了后缀的那一部分。例如：如果目标是&quot;foo.c&rdquo;，因为&quot;.c&quot;是make所能识别的后缀名，所以，&quot;$</em>&ldquo;的值就是&quot;foo&rdquo;。这个特性是GNU make的，很有可能不兼容于其它版本的make，所以，你应该尽量避免使用&quot;$<em>&quot;，除非是在隐含规则或是静态模式中。如果目标中的后缀是make所不能识别的，那么&quot;$</em>&ldquo;就是空值。</p>
 <p>当你希望只对更新过的依赖文件进行操作时，&quot;$?&ldquo;在显式规则中很有用，例如，假设有一个函数库文件叫&quot;lib&rdquo;，其由其它几个object文件更新。那么把object文件打包的比较有效率的Makefile规则是：</p>
 <pre><code>lib : foo.o bar.o lose.o win.o
         ar r lib $?

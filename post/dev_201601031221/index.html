@@ -358,16 +358,16 @@ Tom Preston-Werner 于2013年创建的语言。</p>
 <p>TOML的目标是成为一个小规模的易于使用的语义化配置文件格式。TOML被设计为可以无二义性的转换
 为一个哈希表(Hash table)，从而被多种语言解析。</p>
 <h3 id="例子">例子</h3>
-<pre><code>title = &quot;TOML 例子&quot;
+<pre tabindex="0"><code>title = &#34;TOML 例子&#34;
 
 [owner]
-name = &quot;Tom Preston-Werner&quot;
-organization = &quot;GitHub&quot;
-bio = &quot;GitHub Cofounder &amp; CEO\nLikes tater tots and beer.&quot;
+name = &#34;Tom Preston-Werner&#34;
+organization = &#34;GitHub&#34;
+bio = &#34;GitHub Cofounder &amp; CEO\nLikes tater tots and beer.&#34;
 dob = 1979-05-27T07:32:00Z # 日期时间是一等公民。为什么不呢？
 
 [database]
-server = &quot;192.168.1.1&quot;
+server = &#34;192.168.1.1&#34;
 ports = [ 8001, 8001, 8002 ]
 connection_max = 5000
 enabled = true
@@ -376,103 +376,103 @@ enabled = true
 
   # 你可以依照你的意愿缩进。使用空格或Tab。TOML不会在意。
   [servers.alpha]
-  ip = &quot;10.0.0.1&quot;
-  dc = &quot;eqdc10&quot;
+  ip = &#34;10.0.0.1&#34;
+  dc = &#34;eqdc10&#34;
 
   [servers.beta]
-  ip = &quot;10.0.0.2&quot;
-  dc = &quot;eqdc10&quot;
+  ip = &#34;10.0.0.2&#34;
+  dc = &#34;eqdc10&#34;
 
 [clients]
-data = [ [&quot;gamma&quot;, &quot;delta&quot;], [1, 2] ]
+data = [ [&#34;gamma&#34;, &#34;delta&#34;], [1, 2] ]
 
 # 在数组里换行没有关系。
 hosts = [
-  &quot;alpha&quot;,
-  &quot;omega&quot;
+  &#34;alpha&#34;,
+  &#34;omega&#34;
 ]
 </code></pre><p>TOML是大小写敏感的。</p>
 <h3 id="注释">注释</h3>
 <p>使用 # 表示注释：</p>
-<pre><code># I am a comment. Hear me roar. Roar.
-key = &quot;value&quot; # Yeah, you can do this.
+<pre tabindex="0"><code># I am a comment. Hear me roar. Roar.
+key = &#34;value&#34; # Yeah, you can do this.
 </code></pre><h3 id="字符串">字符串</h3>
 <p>字符串和 JSON 的定义一致，只有一点除外：　TOML 要求使用　UTF-8 编码。</p>
 <p>注释以引号包裹，里面的字符必须是　UTF-8 格式。引号、反斜杠和控制字符（U+0000 到 U+001F）
 需要转义。</p>
-<pre><code>&quot;I'm a string. \&quot;You can quote me\&quot;. Name\tJos\u00E9\nLocation\tSF.&quot;
+<pre tabindex="0"><code>&#34;I&#39;m a string. \&#34;You can quote me\&#34;. Name\tJos\u00E9\nLocation\tSF.&#34;
 </code></pre><p>常用的转义序列：</p>
-<pre><code>\b     - backspace       (U+0008)
+<pre tabindex="0"><code>\b     - backspace       (U+0008)
 \t     - tab             (U+0009)
 \n     - linefeed        (U+000A)
 \f     - form feed       (U+000C)
 \r     - carriage return (U+000D)
-\&quot;     - quote           (U+0022)
+\&#34;     - quote           (U+0022)
 \/     - slash           (U+002F)
 \\     - backslash       (U+005C)
 \uXXXX - unicode         (U+XXXX)
 </code></pre><p>使用保留的特殊字符，TOML　会抛出错误。例如，在　Windows 平台上，应该使用两个反斜杠来表示
 路径：</p>
-<pre><code>wrong = &quot;C:\Users\nodejs\templates&quot; # 注意：这不会生成合法的路径。
-right = &quot;C:\\Users\\nodejs\\templates&quot;
+<pre tabindex="0"><code>wrong = &#34;C:\Users\nodejs\templates&#34; # 注意：这不会生成合法的路径。
+right = &#34;C:\\Users\\nodejs\\templates&#34;
 </code></pre><p>二进制数据建议使用　Base64　或其他合适的编码。具体的处理取决于特定的应用。</p>
 <h3 id="整数">整数</h3>
 <p>整数就是一些没有小数点的数字。想用负数？按直觉来就行。整数的尺寸最小为64位。</p>
 <h3 id="浮点数">浮点数</h3>
 <p>浮点数带小数点。小数点两边都有数字。64位精度。</p>
-<pre><code>3.1415
+<pre tabindex="0"><code>3.1415
 -0.01
 </code></pre><h3 id="布尔值">布尔值</h3>
 <p>布尔值永远是小写。</p>
-<pre><code>true
+<pre tabindex="0"><code>true
 false
 </code></pre><h3 id="日期时间">日期时间</h3>
 <p>使用　ISO 8601　完整格式。</p>
-<pre><code>1979-05-27T07:32:00Z
+<pre tabindex="0"><code>1979-05-27T07:32:00Z
 </code></pre><h3 id="数组">数组</h3>
 <p>数组使用方括号包裹。空格会被忽略。元素使用逗号分隔。注意，不允许混用数据类型。</p>
-<pre><code>[ 1, 2, 3 ]
-[ &quot;red&quot;, &quot;yellow&quot;, &quot;green&quot; ]
+<pre tabindex="0"><code>[ 1, 2, 3 ]
+[ &#34;red&#34;, &#34;yellow&#34;, &#34;green&#34; ]
 [ [ 1, 2 ], [3, 4, 5] ]
-[ [ 1, 2 ], [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;] ] # 这是可以的。
+[ [ 1, 2 ], [&#34;a&#34;, &#34;b&#34;, &#34;c&#34;] ] # 这是可以的。
 [ 1, 2.0 ] # 注意：这是不行的。
 </code></pre><p>数组可以多行。也就是说，除了空格之外，方括号间的换行也会被忽略。在关闭方括号前的最终项后的
 逗号是允许的。</p>
 <h3 id="表格">表格</h3>
 <p>表格（也叫哈希表或字典）是键值对的集合。它们在方括号内，自成一行。注意和数组相区分，数组只
 有值。</p>
-<pre><code>[table]
+<pre tabindex="0"><code>[table]
 </code></pre><p>在此之下，直到下一个　table 或　EOF 之前，是这个表格的键值对。键在左，值在右，等号在中间。
 键以非空字符开始，以等号前的非空字符为结尾。键值对是无序的。</p>
-<pre><code>[table]
-key = &quot;value&quot;
+<pre tabindex="0"><code>[table]
+key = &#34;value&#34;
 </code></pre><p>你可以随意缩进，使用 Tab 或空格。为什么要缩进呢？因为你可以嵌套表格。</p>
 <p>嵌套表格的表格名称中使用.。你可以任意命名你的表格，只是不要用点，点是保留的。</p>
-<pre><code>[dog.tater]
-type = &quot;pug&quot;
+<pre tabindex="0"><code>[dog.tater]
+type = &#34;pug&#34;
 </code></pre><p>以上等价于如下的 JSON 结构：</p>
-<pre><code>{ &quot;dog&quot;: { &quot;tater&quot;: { &quot;type&quot;: &quot;pug&quot; } } }
+<pre tabindex="0"><code>{ &#34;dog&#34;: { &#34;tater&#34;: { &#34;type&#34;: &#34;pug&#34; } } }
 </code></pre><p>如果你不想的话，你不用声明所有的父表。TOML　知道该如何处理。</p>
-<pre><code># [x] 你
+<pre tabindex="0"><code># [x] 你
 # [x.y] 不需要
 # [x.y.z] 这些
 [x.y.z.w] # 可以直接写
 </code></pre><p>空表是允许的，其中没有键值对。</p>
 <p>只要父表没有被直接定义，而且没有定义一个特定的键，你可以继续写入：</p>
-<pre><code>[a.b]
+<pre tabindex="0"><code>[a.b]
 c = 1
 
 [a]
 d = 2
 </code></pre><p>然而你不能多次定义键和表格。这么做是不合法的。</p>
-<pre><code># 别这么干！
+<pre tabindex="0"><code># 别这么干！
 
 [a]
 b = 1
 
 [a]
 c = 2
-</code></pre><pre><code># 也别这个干
+</code></pre><pre tabindex="0"><code># 也别这个干
 
 [a]
 b = 1
@@ -483,78 +483,78 @@ c = 2
 <p>最后要介绍的类型是表格数组。表格数组可以通过包裹在双方括号内的表格名来表达。使用相同的双方
 括号名称的表格是同一个数组的元素。表格按照书写的顺序插入。双方括号表格如果没有键值对，会被
 当成空表。</p>
-<pre><code>[[products]]
-name = &quot;Hammer&quot;
+<pre tabindex="0"><code>[[products]]
+name = &#34;Hammer&#34;
 sku = 738594937
 
 [[products]]
 
 [[products]]
-name = &quot;Nail&quot;
+name = &#34;Nail&#34;
 sku = 284758393
-color = &quot;gray&quot;
+color = &#34;gray&#34;
 </code></pre><p>等价于以下的　JSON 结构：</p>
-<pre><code>{
-  &quot;products&quot;: [
-    { &quot;name&quot;: &quot;Hammer&quot;, &quot;sku&quot;: 738594937 },
+<pre tabindex="0"><code>{
+  &#34;products&#34;: [
+    { &#34;name&#34;: &#34;Hammer&#34;, &#34;sku&#34;: 738594937 },
     { },
-    { &quot;name&quot;: &quot;Nail&quot;, &quot;sku&quot;: 284758393, &quot;color&quot;: &quot;gray&quot; }
+    { &#34;name&#34;: &#34;Nail&#34;, &#34;sku&#34;: 284758393, &#34;color&#34;: &#34;gray&#34; }
   ]
 }
 </code></pre><p>表格数组同样可以嵌套。只需在子表格上使用相同的双方括号语法。每一个双方括号子表格回从属于最
 近定义的上层表格元素。</p>
-<pre><code>[[fruit]]
-  name = &quot;apple&quot;
+<pre tabindex="0"><code>[[fruit]]
+  name = &#34;apple&#34;
 
   [fruit.physical]
-    color = &quot;red&quot;
-    shape = &quot;round&quot;
+    color = &#34;red&#34;
+    shape = &#34;round&#34;
 
   [[fruit.variety]]
-    name = &quot;red delicious&quot;
+    name = &#34;red delicious&#34;
 
   [[fruit.variety]]
-    name = &quot;granny smith&quot;
+    name = &#34;granny smith&#34;
 
 [[fruit]]
-  name = &quot;banana&quot;
+  name = &#34;banana&#34;
 
   [[fruit.variety]]
-    name = &quot;plantain&quot;
+    name = &#34;plantain&#34;
 </code></pre><p>等价于如下的　JSON 结构：</p>
-<pre><code>{
-  &quot;fruit&quot;: [
+<pre tabindex="0"><code>{
+  &#34;fruit&#34;: [
     {
-      &quot;name&quot;: &quot;apple&quot;,
-      &quot;physical&quot;: {
-        &quot;color&quot;: &quot;red&quot;,
-        &quot;shape&quot;: &quot;round&quot;
+      &#34;name&#34;: &#34;apple&#34;,
+      &#34;physical&#34;: {
+        &#34;color&#34;: &#34;red&#34;,
+        &#34;shape&#34;: &#34;round&#34;
       },
-      &quot;variety&quot;: [
-        { &quot;name&quot;: &quot;red delicious&quot; },
-        { &quot;name&quot;: &quot;granny smith&quot; }
+      &#34;variety&#34;: [
+        { &#34;name&#34;: &#34;red delicious&#34; },
+        { &#34;name&#34;: &#34;granny smith&#34; }
       ]
     },
     {
-      &quot;name&quot;: &quot;banana&quot;,
-      &quot;variety&quot;: [
-        { &quot;name&quot;: &quot;plantain&quot; }
+      &#34;name&#34;: &#34;banana&#34;,
+      &#34;variety&#34;: [
+        { &#34;name&#34;: &#34;plantain&#34; }
       ]
     }
   ]
 }
 </code></pre><p>尝试定义一个普通的表格，使用已经定义的数组的名称，将抛出一个解析错误：</p>
-<pre><code># 不合法的　TOML
+<pre tabindex="0"><code># 不合法的　TOML
 
 [[fruit]]
-  name = &quot;apple&quot;
+  name = &#34;apple&#34;
 
   [[fruit.variety]]
-    name = &quot;red delicious&quot;
+    name = &#34;red delicious&#34;
 
   # 和上面冲突了
   [fruit.variety]
-    name = &quot;granny smith&quot;
+    name = &#34;granny smith&#34;
 </code></pre>
 				<div id="post-tags">
 				  

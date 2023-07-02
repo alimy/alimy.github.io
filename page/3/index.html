@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 
 <head>
-	<meta name="generator" content="Hugo 0.79.0-DEV" />
+	<meta name="generator" content="Hugo 0.115.0">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
@@ -391,20 +391,20 @@
 <h3 id="添加获取的对应ip地址到本地hosts文件">添加获取的对应IP地址到本地hosts文件</h3>
 <p>MacOS或Linux环境hosts文件路径<code>/etc/hosts</code> ; Windows环境是<code>C:\Windows\System32\drivers\etc</code>。</p>
 <p>以下是在MacOS或Linux环境下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">% sudo cat <span style="color:#e6db74">&lt;&lt;EOF&gt;&gt;/etc/hosts
-</span><span style="color:#e6db74"># github.com
-</span><span style="color:#e6db74">140.82.113.3 github.com
-</span><span style="color:#e6db74">199.232.69.194 github.global.ssl.fastly.net
-</span><span style="color:#e6db74">185.199.108.153 assets-cdn.github.com
-</span><span style="color:#e6db74">185.199.109.153 assets-cdn.github.com
-</span><span style="color:#e6db74">185.199.110.153 assets-cdn.github.com
-</span><span style="color:#e6db74">185.199.111.153 assets-cdn.github.com
-</span><span style="color:#e6db74">EOF</span>
-</code></pre></div><h3 id="刷新dns">刷新DNS</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">% ipconfig /flushdns <span style="color:#75715e"># in windows</span>
-% sudo systemctl restart network-manager <span style="color:#75715e"># in Linux that use systemd as init</span>
-% sudo killall -HUP mDNSResponder <span style="color:#75715e"># in MacOS</span>
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>% sudo cat <span style="color:#e6db74">&lt;&lt;EOF&gt;&gt;/etc/hosts
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"># github.com
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">140.82.113.3 github.com
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">199.232.69.194 github.global.ssl.fastly.net
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">185.199.108.153 assets-cdn.github.com
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">185.199.109.153 assets-cdn.github.com
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">185.199.110.153 assets-cdn.github.com
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">185.199.111.153 assets-cdn.github.com
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
+</span></span></code></pre></div><h3 id="刷新dns">刷新DNS</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>% ipconfig /flushdns <span style="color:#75715e"># in windows</span>
+</span></span><span style="display:flex;"><span>% sudo systemctl restart network-manager <span style="color:#75715e"># in Linux that use systemd as init</span>
+</span></span><span style="display:flex;"><span>% sudo killall -HUP mDNSResponder <span style="color:#75715e"># in MacOS</span>
+</span></span></code></pre></div>
 </div>
 <footer id="more">
 <a href='https://alimy.me/post/dev_202105220948/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
@@ -421,28 +421,28 @@
     <ul>
 <li>生成根证书(ca.key, ca.crt)</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">%&gt; openssl genrsa -out ca.key <span style="color:#ae81ff">2048</span>
-%&gt; openssl req -new -x509 -days <span style="color:#ae81ff">3650</span> <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>     -subj <span style="color:#e6db74">&#34;/C=CN/L=Shanghai/O=grpc/CN=grpc.me&#34;</span>
-     -key ca.key -out ca.crt
-</code></pre></div><ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>%&gt; openssl genrsa -out ca.key <span style="color:#ae81ff">2048</span>
+</span></span><span style="display:flex;"><span>%&gt; openssl req -new -x509 -days <span style="color:#ae81ff">3650</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>     -subj <span style="color:#e6db74">&#34;/C=CN/L=Shanghai/O=grpc/CN=grpc.me&#34;</span>
+</span></span><span style="display:flex;"><span>     -key ca.key -out ca.crt
+</span></span></code></pre></div><ul>
 <li>生成服务器证书(server.key, server.crt)</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">%&gt; openssl genrsa -out server.key <span style="color:#ae81ff">2048</span>
-
-<span style="color:#75715e"># 未使用CA签名的server.crt</span>
-%&gt; openssl req -new -x509 -days <span style="color:#ae81ff">3650</span> <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>     -subj <span style="color:#e6db74">&#34;/C=CN/L=Shanghai/O=grpc-server/CN=server.grpc.me&#34;</span> <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>     -key server.key -out server.crt
- 
-<span style="color:#75715e"># 使用CA签名的server.crt</span>
-%&gt; openssl req -new <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>     -subj <span style="color:#e6db74">&#34;/C=CN/L=Shanghai/O=grpc-server/CN=server.grpc.me&#34;</span> <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>     -key server.key -out server.csr
-%&gt; openssl x509 -req -sha256 <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>     -CA ca.crt -CAkey ca.key -CAcreateserial -days <span style="color:#ae81ff">3650</span> <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>     -in server.csr -out server.crt
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>%&gt; openssl genrsa -out server.key <span style="color:#ae81ff">2048</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 未使用CA签名的server.crt</span>
+</span></span><span style="display:flex;"><span>%&gt; openssl req -new -x509 -days <span style="color:#ae81ff">3650</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>     -subj <span style="color:#e6db74">&#34;/C=CN/L=Shanghai/O=grpc-server/CN=server.grpc.me&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>     -key server.key -out server.crt
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用CA签名的server.crt</span>
+</span></span><span style="display:flex;"><span>%&gt; openssl req -new <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>     -subj <span style="color:#e6db74">&#34;/C=CN/L=Shanghai/O=grpc-server/CN=server.grpc.me&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>     -key server.key -out server.csr
+</span></span><span style="display:flex;"><span>%&gt; openssl x509 -req -sha256 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>     -CA ca.crt -CAkey ca.key -CAcreateserial -days <span style="color:#ae81ff">3650</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>     -in server.csr -out server.crt
+</span></span></code></pre></div>
 </div>
 <footer id="more">
 <a href='https://alimy.me/post/dev_202104131126/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
@@ -456,21 +456,21 @@
 
 </header>
 <div class="summary">
-    <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$&gt; sudo dnf install dnsmasq -y <span style="color:#75715e"># 安装 Dnsmasq </span>
-$&gt; sudo cp /etc/dnsmasq.conf<span style="color:#f92672">{</span>,bak<span style="color:#f92672">}</span> <span style="color:#75715e"># 先把配置文件备份一份</span>
-$&gt; sudo vim /etc/dnsmasq.conf
-<span style="color:#75715e"># 严格按照 resolv-file 文件中的顺序从上到下进行 DNS 解析, 直到第一个成功解析成功为止</span>
-strict-order
-
-<span style="color:#75715e"># 监听的 IP 地址</span>
-listen-address<span style="color:#f92672">=</span>127.0.0.1
-
-<span style="color:#75715e"># 设置缓存大小</span>
-cache-size<span style="color:#f92672">=</span><span style="color:#ae81ff">10240</span>
-
-<span style="color:#75715e"># 泛域名解析，访问任何 baidu.com 域名都会被解析到 6.6.6.6</span>
-address<span style="color:#f92672">=</span>/baidu.com/6.6.6.6
-</code></pre></div><p>域名解析默认读取 /etc/hosts 文件到本地域名配置文件（不支持泛域名）。</p>
+    <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$&gt; sudo dnf install dnsmasq -y <span style="color:#75715e"># 安装 Dnsmasq </span>
+</span></span><span style="display:flex;"><span>$&gt; sudo cp /etc/dnsmasq.conf<span style="color:#f92672">{</span>,bak<span style="color:#f92672">}</span> <span style="color:#75715e"># 先把配置文件备份一份</span>
+</span></span><span style="display:flex;"><span>$&gt; sudo vim /etc/dnsmasq.conf
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 严格按照 resolv-file 文件中的顺序从上到下进行 DNS 解析, 直到第一个成功解析成功为止</span>
+</span></span><span style="display:flex;"><span>strict-order
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 监听的 IP 地址</span>
+</span></span><span style="display:flex;"><span>listen-address<span style="color:#f92672">=</span>127.0.0.1
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 设置缓存大小</span>
+</span></span><span style="display:flex;"><span>cache-size<span style="color:#f92672">=</span><span style="color:#ae81ff">10240</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 泛域名解析，访问任何 baidu.com 域名都会被解析到 6.6.6.6</span>
+</span></span><span style="display:flex;"><span>address<span style="color:#f92672">=</span>/baidu.com/6.6.6.6
+</span></span></code></pre></div><p>域名解析默认读取 /etc/hosts 文件到本地域名配置文件（不支持泛域名）。</p>
 <p>DNS 配置默认读取 /etc/resolv.conf 上游 DNS 配置文件，如果读取不到 /etc/hosts 的地址解析，就会转发给 resolv.conf 进行解析地址。</p>
 </div>
 <footer id="more">
@@ -486,29 +486,29 @@ address<span style="color:#f92672">=</span>/baidu.com/6.6.6.6
 </header>
 <div class="summary">
     <p>切换启动模式：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">%&gt; systemctl get-default <span style="color:#75715e"># 获取当前启动模式</span>
-%&gt; systemctl set-default multi-user.target <span style="color:#75715e"># 默认命令行模式启动</span>
-%&gt; systemctl set-default graphical.target <span style="color:#75715e"># 默认图形模式启动</span>
-</code></pre></div><p>笔记本进入睡眠状态后，很多服务不能远程连接使用，例如 SSH 会连接不上，需要修改一下配置：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">%&gt; systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target <span style="color:#75715e"># 禁止睡眠</span>
-
-%&gt; systemctl unmask sleep.target suspend.target hibernate.target hybrid-sleep.target <span style="color:#75715e"># 启用睡眠</span>
- 
-%&gt; vi /etc/systemd/logind.conf <span style="color:#75715e"># 配置盖子（笔记本）</span>
- 
-找到该行#HandleLidSwitch<span style="color:#f92672">=</span>suspend,将该行更改为以下所需的设置之一：
-<span style="color:#75715e">#关闭盖子时关闭计算机</span>
-HandleLidSwitch<span style="color:#f92672">=</span>poweroff
-<span style="color:#75715e">#在合上盖子时到休眠计算机</span>
-HandleLidSwitch<span style="color:#f92672">=</span>hibernate
-<span style="color:#75715e">#关闭盖子时暂停计算机</span>
-HandleLidSwitch<span style="color:#f92672">=</span>suspend
-<span style="color:#75715e">#不执行任何操作</span>
-HandleLidSwitch<span style="color:#f92672">=</span>ignore
- 
-%&gt; systemctl restart systemd-logind <span style="color:#75715e"># 保存文件，然后重新启动服务</span>
-%&gt; service systemd-logind restart <span style="color:#75715e"># 同上</span>
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>%&gt; systemctl get-default <span style="color:#75715e"># 获取当前启动模式</span>
+</span></span><span style="display:flex;"><span>%&gt; systemctl set-default multi-user.target <span style="color:#75715e"># 默认命令行模式启动</span>
+</span></span><span style="display:flex;"><span>%&gt; systemctl set-default graphical.target <span style="color:#75715e"># 默认图形模式启动</span>
+</span></span></code></pre></div><p>笔记本进入睡眠状态后，很多服务不能远程连接使用，例如 SSH 会连接不上，需要修改一下配置：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>%&gt; systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target <span style="color:#75715e"># 禁止睡眠</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>%&gt; systemctl unmask sleep.target suspend.target hibernate.target hybrid-sleep.target <span style="color:#75715e"># 启用睡眠</span>
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>%&gt; vi /etc/systemd/logind.conf <span style="color:#75715e"># 配置盖子（笔记本）</span>
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>找到该行#HandleLidSwitch<span style="color:#f92672">=</span>suspend,将该行更改为以下所需的设置之一：
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#关闭盖子时关闭计算机</span>
+</span></span><span style="display:flex;"><span>HandleLidSwitch<span style="color:#f92672">=</span>poweroff
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#在合上盖子时到休眠计算机</span>
+</span></span><span style="display:flex;"><span>HandleLidSwitch<span style="color:#f92672">=</span>hibernate
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#关闭盖子时暂停计算机</span>
+</span></span><span style="display:flex;"><span>HandleLidSwitch<span style="color:#f92672">=</span>suspend
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#不执行任何操作</span>
+</span></span><span style="display:flex;"><span>HandleLidSwitch<span style="color:#f92672">=</span>ignore
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>%&gt; systemctl restart systemd-logind <span style="color:#75715e"># 保存文件，然后重新启动服务</span>
+</span></span><span style="display:flex;"><span>%&gt; service systemd-logind restart <span style="color:#75715e"># 同上</span>
+</span></span></code></pre></div>
 </div>
 <footer id="more">
 <a href='https://alimy.me/post/dev_202104042045/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>

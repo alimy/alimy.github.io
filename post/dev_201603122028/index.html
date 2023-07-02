@@ -361,7 +361,7 @@
 <li>De-serializing json to a non static nested class (without the enclosing type)</li>
 </ol>
 <h4 id="the-example">The Example</h4>
-<pre><code>package com.studytrails.json.gson;
+<pre tabindex="0"><code>package com.studytrails.json.gson;
 
 import java.lang.reflect.Modifier;
 
@@ -375,19 +375,19 @@ public class SerializeInnerClassExample4 {
         // create an Albums class with a static nested class and a non static
         // nested class
         AlbumsWithInnerClass albums = new AlbumsWithInnerClass();
-        albums.setName(&quot;SerializeInnerClass&quot;);
+        albums.setName(&#34;SerializeInnerClass&#34;);
         // create a dataset. we need the enclosing type since this is a non
         // static nested class (inner class)
         Dataset dataset = albums.new Dataset();
-        dataset.setAlbum_id(&quot;1&quot;);
-        dataset.setAlbum_name(&quot;albums1&quot;);
+        dataset.setAlbum_id(&#34;1&#34;);
+        dataset.setAlbum_name(&#34;albums1&#34;);
         // assign the datasets to albums
         albums.setDatasetsInner(new Dataset[] { dataset });
 
         // static inner class can be created without the enclosing type
         Dataset2 dataset2 = new Dataset2();
-        dataset2.setAlbum_id(&quot;2&quot;);
-        dataset2.setAlbum_name(&quot;albums2&quot;);
+        dataset2.setAlbum_id(&#34;2&#34;);
+        dataset2.setAlbum_name(&#34;albums2&#34;);
         albums.setDatasetsStatic(new Dataset2[] { dataset2 });
 
         // create the GsonBuilder
@@ -400,8 +400,8 @@ public class SerializeInnerClassExample4 {
         String json = gson.toJson(albums);
         System.out.println(json);
         // prints
-        // {&quot;name&quot;:&quot;SerializeInnerClass&quot;,&quot;datasetsInner&quot;:[{&quot;album_name&quot;:&quot;SerializeInnerClass_albums1&quot;,&quot;album_id&quot;:&quot;1&quot;}],
-        // &quot;datasetsStatic&quot;:[{&quot;album_name&quot;:&quot;albums2&quot;,&quot;album_id&quot;:&quot;2&quot;}]}
+        // {&#34;name&#34;:&#34;SerializeInnerClass&#34;,&#34;datasetsInner&#34;:[{&#34;album_name&#34;:&#34;SerializeInnerClass_albums1&#34;,&#34;album_id&#34;:&#34;1&#34;}],
+        // &#34;datasetsStatic&#34;:[{&#34;album_name&#34;:&#34;albums2&#34;,&#34;album_id&#34;:&#34;2&#34;}]}
 
         // We read the json string now and recreate the AlbumsWithInnerClass class
         Gson gson3 = new Gson();
@@ -415,12 +415,12 @@ public class SerializeInnerClassExample4 {
         Gson gson2 = new Gson();
         String json2 = gson2.toJson(dataset);
         System.out.println(json2);
-        // prints {&quot;album_name&quot;:&quot;SerializeInnerClass_albums1&quot;,&quot;album_id&quot;:&quot;1&quot;}
+        // prints {&#34;album_name&#34;:&#34;SerializeInnerClass_albums1&#34;,&#34;album_id&#34;:&#34;1&#34;}
 
         // serialize nested static class
         String json3 = gson2.toJson(dataset2);
         System.out.println(json3);
-        // prints {&quot;album_name&quot;:&quot;albums2&quot;,&quot;album_id&quot;:&quot;2&quot;}
+        // prints {&#34;album_name&#34;:&#34;albums2&#34;,&#34;album_id&#34;:&#34;2&#34;}
 
         // let us now create the inner class from the json string
         Gson gson4 = new Gson();
@@ -440,7 +440,7 @@ public class SerializeInnerClassExample4 {
     }
 }
 </code></pre><h4 id="the-albumswithinnerclass">The AlbumsWithInnerClass</h4>
-<pre><code>package com.studytrails.json.gson;
+<pre tabindex="0"><code>package com.studytrails.json.gson;
 
 public class AlbumsWithInnerClass {
     public String name;
@@ -473,7 +473,7 @@ public class AlbumsWithInnerClass {
         }
 
         public void setAlbum_name(String album_name) {
-            this.album_name = name + &quot;_&quot; + album_name;
+            this.album_name = name + &#34;_&#34; + album_name;
         }
     }
 

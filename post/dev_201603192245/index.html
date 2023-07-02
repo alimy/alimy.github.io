@@ -365,7 +365,7 @@
 </ul>
 <p>因此使用 OkHttp 作为替代是好的选择.</p>
 <p>首先用 OkHttp 实现一个新的 <code>HurlStack</code> 用于构建 Volley 的 requestQueue.</p>
-<pre><code>public class OkHttpStack extends HurlStack {
+<pre tabindex="0"><code>public class OkHttpStack extends HurlStack {
 
     private OkHttpClient okHttpClient;
 
@@ -391,7 +391,7 @@
     }
 }
 </code></pre><p>然后使用 OkHttpStack 创建新的 Volley requestQueue.</p>
-<pre><code>requestQueue = Volley.newRequestQueue(getContext(), new OkHttpStack());
+<pre tabindex="0"><code>requestQueue = Volley.newRequestQueue(getContext(), new OkHttpStack());
 requestQueue.start();
 </code></pre><p>这样就行了.</p>
 <h3 id="使用-https">使用 Https</h3>
@@ -411,12 +411,12 @@ requestQueue.start();
 <ol>
 <li>
 <p>导出证书</p>
-<pre><code> echo | openssl s_client -connect kyfw.12306.cn:443 2&gt;&amp;1 |  sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' &gt; kyfw.12306.cn.pem
+<pre tabindex="0"><code> echo | openssl s_client -connect kyfw.12306.cn:443 2&gt;&amp;1 |  sed -ne &#39;/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p&#39; &gt; kyfw.12306.cn.pem
 </code></pre></li>
 <li>
 <p>将证书转为 bks 格式
 下载最新的bcprov-jdk, 执行下面的命令. storepass 是导出密钥文件的密码.</p>
-<pre><code>keytool -importcert -v \
+<pre tabindex="0"><code>keytool -importcert -v \
     -trustcacerts \
     -alias 0 \
     -file &lt;(openssl x509 -in kyfw.12306.cn.pem) \
@@ -430,7 +430,7 @@ requestQueue.start();
 </li>
 <li>
 <p>创建  <code>SelfSignSslOkHttpStack</code></p>
-<pre><code> // A HttpStack implement witch can verify specified self-signed certification.
+<pre tabindex="0"><code> // A HttpStack implement witch can verify specified self-signed certification.
 public class SelfSignSslOkHttpStack extends HurlStack {
 
   private OkHttpClient okHttpClient;
@@ -453,7 +453,7 @@ public class SelfSignSslOkHttpStack extends HurlStack {
 
   @Override
   protected HttpURLConnection createConnection(URL url) throws IOException {
-    if (&quot;https&quot;.equals(url.getProtocol()) &amp;&amp; socketFactoryMap.containsKey(url.getHost())) {
+    if (&#34;https&#34;.equals(url.getProtocol()) &amp;&amp; socketFactoryMap.containsKey(url.getHost())) {
         HttpsURLConnection connection = (HttpsURLConnection) new OkUrlFactory(okHttpClient).open(url);
         connection.setSSLSocketFactory(socketFactoryMap.get(url.getHost()));
         return connection;
@@ -465,9 +465,9 @@ public class SelfSignSslOkHttpStack extends HurlStack {
 </code></pre></li>
 <li>
 <p>然后用 <code>SelfSignSslOkHttpStack</code> 创建 Volley 的 RequestQueue.</p>
-<pre><code>String[] hosts = {&quot;kyfw.12306.cn&quot;};
+<pre tabindex="0"><code>String[] hosts = {&#34;kyfw.12306.cn&#34;};
 int[] certRes = {R.raw.kyfw};
-String[] certPass = {&quot;asdfqaz&quot;};
+String[] certPass = {&#34;asdfqaz&#34;};
 socketFactoryMap = new Hashtable&lt;&gt;(hosts.length);
 
 for (int i = 0; i &lt; certRes.length; i++) {

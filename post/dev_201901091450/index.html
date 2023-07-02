@@ -361,7 +361,7 @@
 <li>散列表的键值可以用问号 ( ? )起始，用来明确的表示多个词汇组成的键值。</li>
 </ul>
 </li>
-<li>字符串平常并不使用引号，但必要的时候可以用双引号 ( &quot; )或单引号 ( ' )框住。
+<li>字符串平常并不使用引号，但必要的时候可以用双引号 ( &quot; )或单引号 ( &rsquo; )框住。
 <ul>
 <li>使用双引号表示字符串时，可用倒斜线（ \ ）开始的转义字符（这跟C语言类似）表示特殊字符。</li>
 </ul>
@@ -384,51 +384,51 @@ YAML在使用逗号及冒号时，后面都必须接一个空白字符，所以�
 </ul>
 <p>另外还有两个特殊符号在YAML中被保留，有可能在未来的版本被使用&ndash;（ @ ）和（ ` ）。</p>
 <h3 id="sect参考小抄">§参考小抄</h3>
-<pre><code>%YAML 1.1   # Reference card
+<pre tabindex="0"><code>%YAML 1.1   # Reference card
 ---
 Collection indicators:
-    '? ' : Key indicator.
-    ': ' : Value indicator.
-    '- ' : Nested series entry indicator.
-    ', ' : Separate in-line branch entries.
-    '[]' : Surround in-line series branch.
-    '{}' : Surround in-line keyed branch.
+    &#39;? &#39; : Key indicator.
+    &#39;: &#39; : Value indicator.
+    &#39;- &#39; : Nested series entry indicator.
+    &#39;, &#39; : Separate in-line branch entries.
+    &#39;[]&#39; : Surround in-line series branch.
+    &#39;{}&#39; : Surround in-line keyed branch.
 Scalar indicators:
-    '''' : Surround in-line unescaped scalar ('' escaped ').
-    '&quot;'  : Surround in-line escaped scalar (see escape codes below).
-    '|'  : Block scalar indicator.
-    '&gt;'  : Folded scalar indicator.
-    '-'  : Strip chomp modifier ('|-' or '&gt;-').
-    '+'  : Keep chomp modifier ('|+' or '&gt;+').
-    1-9  : Explicit indentation modifier ('|1' or '&gt;2').
-           # Modifiers can be combined ('|2-', '&gt;+1').
+    &#39;&#39;&#39;&#39; : Surround in-line unescaped scalar (&#39;&#39; escaped &#39;).
+    &#39;&#34;&#39;  : Surround in-line escaped scalar (see escape codes below).
+    &#39;|&#39;  : Block scalar indicator.
+    &#39;&gt;&#39;  : Folded scalar indicator.
+    &#39;-&#39;  : Strip chomp modifier (&#39;|-&#39; or &#39;&gt;-&#39;).
+    &#39;+&#39;  : Keep chomp modifier (&#39;|+&#39; or &#39;&gt;+&#39;).
+    1-9  : Explicit indentation modifier (&#39;|1&#39; or &#39;&gt;2&#39;).
+           # Modifiers can be combined (&#39;|2-&#39;, &#39;&gt;+1&#39;).
 Alias indicators:
-    '&amp;'  : Anchor property.
-    '*'  : Alias indicator.
+    &#39;&amp;&#39;  : Anchor property.
+    &#39;*&#39;  : Alias indicator.
 Tag property: # Usually unspecified.
     none    : Unspecified tag (automatically resolved by application).
-    '!'     : Non-specific tag (by default, &quot;!!map&quot;/&quot;!!seq&quot;/&quot;!!str&quot;).
-    '!foo'  : Primary (by convention, means a local &quot;!foo&quot; tag).
-    '!!foo' : Secondary (by convention, means &quot;tag:yaml.org,2002:foo&quot;).
-    '!h!foo': Requires &quot;%TAG !h! &lt;prefix&gt;&quot; (and then means &quot;&lt;prefix&gt;foo&quot;).
-    '!&lt;foo&gt;': Verbatim tag (always means &quot;foo&quot;).
+    &#39;!&#39;     : Non-specific tag (by default, &#34;!!map&#34;/&#34;!!seq&#34;/&#34;!!str&#34;).
+    &#39;!foo&#39;  : Primary (by convention, means a local &#34;!foo&#34; tag).
+    &#39;!!foo&#39; : Secondary (by convention, means &#34;tag:yaml.org,2002:foo&#34;).
+    &#39;!h!foo&#39;: Requires &#34;%TAG !h! &lt;prefix&gt;&#34; (and then means &#34;&lt;prefix&gt;foo&#34;).
+    &#39;!&lt;foo&gt;&#39;: Verbatim tag (always means &#34;foo&#34;).
 Document indicators:
-    '%'  : Directive indicator.
-    '---': Document header.
-    '...': Document terminator.
+    &#39;%&#39;  : Directive indicator.
+    &#39;---&#39;: Document header.
+    &#39;...&#39;: Document terminator.
 Misc indicators:
-    ' #' : Throwaway comment indicator.
-    '`@' : Both reserved for future use.
+    &#39; #&#39; : Throwaway comment indicator.
+    &#39;`@&#39; : Both reserved for future use.
 Special keys:
-    '='  : Default &quot;value&quot; mapping key.
-    '&lt;&lt;' : Merge keys from another mapping.
+    &#39;=&#39;  : Default &#34;value&#34; mapping key.
+    &#39;&lt;&lt;&#39; : Merge keys from another mapping.
 Core types: # Default automatic tags.
-    '!!map' : { Hash table, dictionary, mapping }
-    '!!seq' : { List, array, tuple, vector, sequence }
-    '!!str' : Unicode string
+    &#39;!!map&#39; : { Hash table, dictionary, mapping }
+    &#39;!!seq&#39; : { List, array, tuple, vector, sequence }
+    &#39;!!str&#39; : Unicode string
 More types:
-    '!!set' : { cherries, plums, apples }
-    '!!omap': [ one: 1, two: 2 ]
+    &#39;!!set&#39; : { cherries, plums, apples }
+    &#39;!!omap&#39;: [ one: 1, two: 2 ]
 Language Independent Scalar types:
     { ~, null }              : Null (no value).
     [ 1234, 0x4D2, 02333 ]   : [ Decimal int, Hexadecimal int, Octal int ]
@@ -441,11 +441,11 @@ Language Independent Scalar types:
     : &gt;-
         Base 64 binary value.
 Escape codes:
- Numeric   : { &quot;\x12&quot;: 8-bit, &quot;\u1234&quot;: 16-bit, &quot;\U00102030&quot;: 32-bit }
- Protective: { &quot;\\&quot;: '\', &quot;\&quot;&quot;: '&quot;', &quot;\ &quot;: ' ', &quot;\&lt;TAB&gt;&quot;: TAB }
- C         : { &quot;\0&quot;: NUL, &quot;\a&quot;: BEL, &quot;\b&quot;: BS, &quot;\f&quot;: FF, &quot;\n&quot;: LF, &quot;\r&quot;: CR,
-               &quot;\t&quot;: TAB, &quot;\v&quot;: VTAB }
- Additional: { &quot;\e&quot;: ESC, &quot;\_&quot;: NBSP, &quot;\N&quot;: NEL, &quot;\L&quot;: LS, &quot;\P&quot;: PS }
+ Numeric   : { &#34;\x12&#34;: 8-bit, &#34;\u1234&#34;: 16-bit, &#34;\U00102030&#34;: 32-bit }
+ Protective: { &#34;\\&#34;: &#39;\&#39;, &#34;\&#34;&#34;: &#39;&#34;&#39;, &#34;\ &#34;: &#39; &#39;, &#34;\&lt;TAB&gt;&#34;: TAB }
+ C         : { &#34;\0&#34;: NUL, &#34;\a&#34;: BEL, &#34;\b&#34;: BS, &#34;\f&#34;: FF, &#34;\n&#34;: LF, &#34;\r&#34;: CR,
+               &#34;\t&#34;: TAB, &#34;\v&#34;: VTAB }
+ Additional: { &#34;\e&#34;: ESC, &#34;\_&#34;: NBSP, &#34;\N&#34;: NEL, &#34;\L&#34;: LS, &#34;\P&#34;: PS }
 ...
 </code></pre><hr>
 <p>(备注: YAML参考链接在 <a href="https://yaml.org/refcard.html" title="YAML Reference card"><em>这里</em></a> )</p>

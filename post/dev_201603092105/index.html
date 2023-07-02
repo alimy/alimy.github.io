@@ -364,7 +364,7 @@
 <li>EnumSet<!-- raw HTML omitted --> testEnum is an enum</li>
 </ol>
 <p>Here&rsquo;s the complete example</p>
-<pre><code>package com.studytrails.xml.xstream;
+<pre tabindex="0"><code>package com.studytrails.xml.xstream;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -396,8 +396,8 @@ public class ConverterExample2 {
 
 class CollectionConverterExample {
 
-	String[] stringArray = new String[] { &quot;StringA&quot;, &quot;StringB&quot;, &quot;StringC&quot; };
-	char[] charArray = new char[] { 'a', 'b', 'c', 'd', 'e' };
+	String[] stringArray = new String[] { &#34;StringA&#34;, &#34;StringB&#34;, &#34;StringC&#34; };
+	char[] charArray = new char[] { &#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;, &#39;e&#39; };
 	List&lt;String&gt; listA = new ArrayList&lt;String&gt;();
 	Map&lt;String, String&gt; mapA = new HashMap&lt;String, String&gt;();
 	Properties properties = new Properties();
@@ -412,23 +412,23 @@ class CollectionConverterExample {
 	EnumSet&lt;testEnum&gt; testEnumSet = EnumSet.range(testEnum.testA, testEnum.testB);
 
 	public void initialize() {
-		listA.add(&quot;testA&quot;);
-		mapA.put(&quot;keyA&quot;, &quot;ValueA&quot;);
-		properties.put(&quot;propertyA&quot;, &quot;valueA&quot;);
-		treeMap.put(&quot;treeA&quot;, &quot;valueA&quot;);
-		treeMap.put(&quot;treeB&quot;, &quot;valueB&quot;);
-		treeSet.add(&quot;treeB&quot;);
-		treeSet.add(&quot;treeA&quot;);
-		singletonList = Collections.singletonList(&quot;singletonListA&quot;);
-		singletonMap = Collections.singletonMap(&quot;key1&quot;, &quot;value1&quot;);
+		listA.add(&#34;testA&#34;);
+		mapA.put(&#34;keyA&#34;, &#34;ValueA&#34;);
+		properties.put(&#34;propertyA&#34;, &#34;valueA&#34;);
+		treeMap.put(&#34;treeA&#34;, &#34;valueA&#34;);
+		treeMap.put(&#34;treeB&#34;, &#34;valueB&#34;);
+		treeSet.add(&#34;treeB&#34;);
+		treeSet.add(&#34;treeA&#34;);
+		singletonList = Collections.singletonList(&#34;singletonListA&#34;);
+		singletonMap = Collections.singletonMap(&#34;key1&#34;, &#34;value1&#34;);
 
-		testEnumMap.put(testEnum.testA, &quot;testEnumMapValue1&quot;);
-		testEnumMap.put(testEnum.testB, &quot;testEnumMapValue2&quot;);
+		testEnumMap.put(testEnum.testA, &#34;testEnumMapValue1&#34;);
+		testEnumMap.put(testEnum.testB, &#34;testEnumMapValue2&#34;);
 
 	}
 }
 </code></pre><p>The resultant XML looks like this</p>
-<pre><code>
+<pre tabindex="0"><code>
 		StringA
 		StringB
 		StringC

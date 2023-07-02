@@ -350,20 +350,20 @@
             <h2>Protocol Buffers Version 3 Language Specification</h2>
           
           <p>This is a language specification reference for version 3 of the Protocol Buffers language (proto3). The syntax is specified using Extended <a href="https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_Form" title="EBNF in WIKI">Backus-Naur Form (EBNF)</a>:</p>
-<pre><code>|   alternation
+<pre tabindex="0"><code>|   alternation
 ()  grouping
 []  option (zero or one time)
 {}  repetition (any number of times)
 </code></pre><p>For more information about using proto3, see the language guide.</p>
 <h3 id="lexical-elements">Lexical elements</h3>
 <h4 id="letters-and-digits">Letters and digits</h4>
-<pre><code>letter = &quot;A&quot; … &quot;Z&quot; | &quot;a&quot; … &quot;z&quot;
-decimalDigit = &quot;0&quot; … &quot;9&quot;
-octalDigit   = &quot;0&quot; … &quot;7&quot;
-hexDigit     = &quot;0&quot; … &quot;9&quot; | &quot;A&quot; … &quot;F&quot; | &quot;a&quot; … &quot;f&quot;
+<pre tabindex="0"><code>letter = &#34;A&#34; … &#34;Z&#34; | &#34;a&#34; … &#34;z&#34;
+decimalDigit = &#34;0&#34; … &#34;9&#34;
+octalDigit   = &#34;0&#34; … &#34;7&#34;
+hexDigit     = &#34;0&#34; … &#34;9&#34; | &#34;A&#34; … &#34;F&#34; | &#34;a&#34; … &#34;f&#34;
 </code></pre><h4 id="identifiers">Identifiers</h4>
-<pre><code>ident = letter { letter | decimalDigit | &quot;_&quot; }
-fullIdent = ident { &quot;.&quot; ident }
+<pre tabindex="0"><code>ident = letter { letter | decimalDigit | &#34;_&#34; }
+fullIdent = ident { &#34;.&#34; ident }
 messageName = ident
 enumName = ident
 fieldName = ident
@@ -371,111 +371,111 @@ oneofName = ident
 mapName = ident
 serviceName = ident
 rpcName = ident
-messageType = [ &quot;.&quot; ] { ident &quot;.&quot; } messageName
-enumType = [ &quot;.&quot; ] { ident &quot;.&quot; } enumName
+messageType = [ &#34;.&#34; ] { ident &#34;.&#34; } messageName
+enumType = [ &#34;.&#34; ] { ident &#34;.&#34; } enumName
 </code></pre><h4 id="integer-literals">Integer literals</h4>
-<pre><code>intLit     = decimalLit | octalLit | hexLit
-decimalLit = ( &quot;1&quot; … &quot;9&quot; ) { decimalDigit }
-octalLit   = &quot;0&quot; { octalDigit }
-hexLit     = &quot;0&quot; ( &quot;x&quot; | &quot;X&quot; ) hexDigit { hexDigit } 
+<pre tabindex="0"><code>intLit     = decimalLit | octalLit | hexLit
+decimalLit = ( &#34;1&#34; … &#34;9&#34; ) { decimalDigit }
+octalLit   = &#34;0&#34; { octalDigit }
+hexLit     = &#34;0&#34; ( &#34;x&#34; | &#34;X&#34; ) hexDigit { hexDigit } 
 </code></pre><h4 id="floating-point-literals">Floating-point literals</h4>
-<pre><code>floatLit = ( decimals &quot;.&quot; [ decimals ] [ exponent ] | decimals exponent | &quot;.&quot;decimals [ exponent ] ) | &quot;inf&quot; | &quot;nan&quot;
+<pre tabindex="0"><code>floatLit = ( decimals &#34;.&#34; [ decimals ] [ exponent ] | decimals exponent | &#34;.&#34;decimals [ exponent ] ) | &#34;inf&#34; | &#34;nan&#34;
 decimals  = decimalDigit { decimalDigit }
-exponent  = ( &quot;e&quot; | &quot;E&quot; ) [ &quot;+&quot; | &quot;-&quot; ] decimals 
+exponent  = ( &#34;e&#34; | &#34;E&#34; ) [ &#34;+&#34; | &#34;-&#34; ] decimals 
 </code></pre><h4 id="boolean">Boolean</h4>
-<pre><code>boolLit = &quot;true&quot; | &quot;false&quot; 
+<pre tabindex="0"><code>boolLit = &#34;true&#34; | &#34;false&#34; 
 </code></pre><h4 id="string-literals">String literals</h4>
-<pre><code>strLit = ( &quot;'&quot; { charValue } &quot;'&quot; ) |  ( '&quot;' { charValue } '&quot;' )
+<pre tabindex="0"><code>strLit = ( &#34;&#39;&#34; { charValue } &#34;&#39;&#34; ) |  ( &#39;&#34;&#39; { charValue } &#39;&#34;&#39; )
 charValue = hexEscape | octEscape | charEscape | /[^\0\n\\]/
-hexEscape = '\' ( &quot;x&quot; | &quot;X&quot; ) hexDigit hexDigit
-octEscape = '\' octalDigit octalDigit octalDigit
-charEscape = '\' ( &quot;a&quot; | &quot;b&quot; | &quot;f&quot; | &quot;n&quot; | &quot;r&quot; | &quot;t&quot; | &quot;v&quot; | '\' | &quot;'&quot; | '&quot;' )
-quote = &quot;'&quot; | '&quot;'
+hexEscape = &#39;\&#39; ( &#34;x&#34; | &#34;X&#34; ) hexDigit hexDigit
+octEscape = &#39;\&#39; octalDigit octalDigit octalDigit
+charEscape = &#39;\&#39; ( &#34;a&#34; | &#34;b&#34; | &#34;f&#34; | &#34;n&#34; | &#34;r&#34; | &#34;t&#34; | &#34;v&#34; | &#39;\&#39; | &#34;&#39;&#34; | &#39;&#34;&#39; )
+quote = &#34;&#39;&#34; | &#39;&#34;&#39;
 </code></pre><h4 id="emptystatement">EmptyStatement</h4>
-<pre><code>emptyStatement = &quot;;&quot;
+<pre tabindex="0"><code>emptyStatement = &#34;;&#34;
 </code></pre><h4 id="constant">Constant</h4>
-<pre><code>constant = fullIdent | ( [ &quot;-&quot; | &quot;+&quot; ] intLit ) | ( [ &quot;-&quot; | &quot;+&quot; ] floatLit ) | strLit | boolLit 
+<pre tabindex="0"><code>constant = fullIdent | ( [ &#34;-&#34; | &#34;+&#34; ] intLit ) | ( [ &#34;-&#34; | &#34;+&#34; ] floatLit ) | strLit | boolLit 
 </code></pre><h4 id="syntax">Syntax</h4>
 <p>The syntax statement is used to define the protobuf version.</p>
-<pre><code>syntax = &quot;syntax&quot; &quot;=&quot; quote &quot;proto3&quot; quote &quot;;&quot;
+<pre tabindex="0"><code>syntax = &#34;syntax&#34; &#34;=&#34; quote &#34;proto3&#34; quote &#34;;&#34;
 </code></pre><p>Example:</p>
-<pre><code>syntax = &quot;proto3&quot;;
+<pre tabindex="0"><code>syntax = &#34;proto3&#34;;
 </code></pre><h4 id="import-statement">Import Statement</h4>
 <p>The import statement is used to import another .proto&rsquo;s definitions.</p>
-<pre><code>import = &quot;import&quot; [ &quot;weak&quot; | &quot;public&quot; ] strLit &quot;;&quot; 
+<pre tabindex="0"><code>import = &#34;import&#34; [ &#34;weak&#34; | &#34;public&#34; ] strLit &#34;;&#34; 
 </code></pre><p>Example:</p>
-<pre><code>import public &quot;other.proto&quot;;
+<pre tabindex="0"><code>import public &#34;other.proto&#34;;
 </code></pre><h4 id="package">Package</h4>
 <p>The package specifier can be used to prevent name clashes between protocol message types.</p>
-<pre><code>package = &quot;package&quot; fullIdent &quot;;&quot;
+<pre tabindex="0"><code>package = &#34;package&#34; fullIdent &#34;;&#34;
 </code></pre><p>Example:</p>
-<pre><code>package foo.bar;
+<pre tabindex="0"><code>package foo.bar;
 </code></pre><h4 id="option">Option</h4>
 <p>Options can be used in proto files, messages, enums and services. An option can be a protobuf defined option or a custom option. For more information, see Options in the language guide.</p>
-<pre><code>option = &quot;option&quot; optionName  &quot;=&quot; constant &quot;;&quot;
-optionName = ( ident | &quot;(&quot; fullIdent &quot;)&quot; ) { &quot;.&quot; ident }
+<pre tabindex="0"><code>option = &#34;option&#34; optionName  &#34;=&#34; constant &#34;;&#34;
+optionName = ( ident | &#34;(&#34; fullIdent &#34;)&#34; ) { &#34;.&#34; ident }
 </code></pre><p>Example:</p>
-<pre><code>option java_package = &quot;com.example.foo&quot;;
+<pre tabindex="0"><code>option java_package = &#34;com.example.foo&#34;;
 </code></pre><h4 id="fields">Fields</h4>
 <p>Fields are the basic elements of a protocol buffer message. Fields can be normal fields, oneof fields, or map fields. A field has a type and field number.</p>
-<pre><code>type = &quot;double&quot; | &quot;float&quot; | &quot;int32&quot; | &quot;int64&quot; | &quot;uint32&quot; | &quot;uint64&quot;
-      | &quot;sint32&quot; | &quot;sint64&quot; | &quot;fixed32&quot; | &quot;fixed64&quot; | &quot;sfixed32&quot; | &quot;sfixed64&quot;
-      | &quot;bool&quot; | &quot;string&quot; | &quot;bytes&quot; | messageType | enumType
+<pre tabindex="0"><code>type = &#34;double&#34; | &#34;float&#34; | &#34;int32&#34; | &#34;int64&#34; | &#34;uint32&#34; | &#34;uint64&#34;
+      | &#34;sint32&#34; | &#34;sint64&#34; | &#34;fixed32&#34; | &#34;fixed64&#34; | &#34;sfixed32&#34; | &#34;sfixed64&#34;
+      | &#34;bool&#34; | &#34;string&#34; | &#34;bytes&#34; | messageType | enumType
 fieldNumber = intLit;
 </code></pre><h4 id="normal-field">Normal field</h4>
 <p>Each field has type, name and field number. It may have field options.</p>
-<pre><code>field = [ &quot;repeated&quot; ] type fieldName &quot;=&quot; fieldNumber [ &quot;[&quot; fieldOptions &quot;]&quot; ] &quot;;&quot;
-fieldOptions = fieldOption { &quot;,&quot;  fieldOption }
-fieldOption = optionName &quot;=&quot; constant
+<pre tabindex="0"><code>field = [ &#34;repeated&#34; ] type fieldName &#34;=&#34; fieldNumber [ &#34;[&#34; fieldOptions &#34;]&#34; ] &#34;;&#34;
+fieldOptions = fieldOption { &#34;,&#34;  fieldOption }
+fieldOption = optionName &#34;=&#34; constant
 </code></pre><p>Examples:</p>
-<pre><code>foo.bar nested_message = 2;
+<pre tabindex="0"><code>foo.bar nested_message = 2;
 repeated int32 samples = 4 [packed=true];
 </code></pre><h4 id="oneof-and-oneof-field">Oneof and oneof field</h4>
 <p>A oneof consists of oneof fields and a oneof name.</p>
-<pre><code>oneof = &quot;oneof&quot; oneofName &quot;{&quot; { oneofField | emptyStatement } &quot;}&quot;
-oneofField = type fieldName &quot;=&quot; fieldNumber [ &quot;[&quot; fieldOptions &quot;]&quot; ] &quot;;&quot;
+<pre tabindex="0"><code>oneof = &#34;oneof&#34; oneofName &#34;{&#34; { oneofField | emptyStatement } &#34;}&#34;
+oneofField = type fieldName &#34;=&#34; fieldNumber [ &#34;[&#34; fieldOptions &#34;]&#34; ] &#34;;&#34;
 </code></pre><p>Example:</p>
-<pre><code>oneof foo {
+<pre tabindex="0"><code>oneof foo {
     string name = 4;
     SubMessage sub_message = 9;
 }
 </code></pre><h4 id="map-field">Map field</h4>
 <p>A map field has a key type, value type, name, and field number. The key type can be any integral or string type.</p>
-<pre><code>mapField = &quot;map&quot; &quot;&lt;&quot; keyType &quot;,&quot; type &quot;&gt;&quot; mapName &quot;=&quot; fieldNumber [ &quot;[&quot; fieldOptions &quot;]&quot; ] &quot;;&quot;
-keyType = &quot;int32&quot; | &quot;int64&quot; | &quot;uint32&quot; | &quot;uint64&quot; | &quot;sint32&quot; | &quot;sint64&quot; |
-          &quot;fixed32&quot; | &quot;fixed64&quot; | &quot;sfixed32&quot; | &quot;sfixed64&quot; | &quot;bool&quot; | &quot;string&quot;
+<pre tabindex="0"><code>mapField = &#34;map&#34; &#34;&lt;&#34; keyType &#34;,&#34; type &#34;&gt;&#34; mapName &#34;=&#34; fieldNumber [ &#34;[&#34; fieldOptions &#34;]&#34; ] &#34;;&#34;
+keyType = &#34;int32&#34; | &#34;int64&#34; | &#34;uint32&#34; | &#34;uint64&#34; | &#34;sint32&#34; | &#34;sint64&#34; |
+          &#34;fixed32&#34; | &#34;fixed64&#34; | &#34;sfixed32&#34; | &#34;sfixed64&#34; | &#34;bool&#34; | &#34;string&#34;
 </code></pre><p>Example:</p>
-<pre><code>map&lt;string, Project&gt; projects = 3;
+<pre tabindex="0"><code>map&lt;string, Project&gt; projects = 3;
 </code></pre><h4 id="reserved">Reserved</h4>
 <p>Reserved statements declare a range of field numbers or field names that cannot be used in this message.</p>
-<pre><code>reserved = &quot;reserved&quot; ( ranges | fieldNames ) &quot;;&quot;
-ranges = range { &quot;,&quot; range }
-range =  intLit [ &quot;to&quot; ( intLit | &quot;max&quot; ) ]
-fieldNames = fieldName { &quot;,&quot; fieldName }
+<pre tabindex="0"><code>reserved = &#34;reserved&#34; ( ranges | fieldNames ) &#34;;&#34;
+ranges = range { &#34;,&#34; range }
+range =  intLit [ &#34;to&#34; ( intLit | &#34;max&#34; ) ]
+fieldNames = fieldName { &#34;,&#34; fieldName }
 </code></pre><p>Examples:</p>
-<pre><code>reserved 2, 15, 9 to 11;
-reserved &quot;foo&quot;, &quot;bar&quot;;
+<pre tabindex="0"><code>reserved 2, 15, 9 to 11;
+reserved &#34;foo&#34;, &#34;bar&#34;;
 </code></pre><h3 id="top-level-definitions">Top Level definitions</h3>
 <h4 id="enum-definition">Enum definition</h4>
 <p>The enum definition consists of a name and an enum body. The enum body can have options and enum fields. Enum definitions must start with enum value zero.</p>
-<pre><code>enum = &quot;enum&quot; enumName enumBody
-enumBody = &quot;{&quot; { option | enumField | emptyStatement } &quot;}&quot;
-enumField = ident &quot;=&quot; intLit [ &quot;[&quot; enumValueOption { &quot;,&quot;  enumValueOption } &quot;]&quot; ]&quot;;&quot;
-enumValueOption = optionName &quot;=&quot; constant
+<pre tabindex="0"><code>enum = &#34;enum&#34; enumName enumBody
+enumBody = &#34;{&#34; { option | enumField | emptyStatement } &#34;}&#34;
+enumField = ident &#34;=&#34; intLit [ &#34;[&#34; enumValueOption { &#34;,&#34;  enumValueOption } &#34;]&#34; ]&#34;;&#34;
+enumValueOption = optionName &#34;=&#34; constant
 </code></pre><p>Example:</p>
-<pre><code>enum EnumAllowingAlias {
+<pre tabindex="0"><code>enum EnumAllowingAlias {
   option allow_alias = true;
   UNKNOWN = 0;
   STARTED = 1;
-  RUNNING = 2 [(custom_option) = &quot;hello world&quot;];
+  RUNNING = 2 [(custom_option) = &#34;hello world&#34;];
 }
 </code></pre><h4 id="message-definition">Message definition</h4>
 <p>A message consists of a message name and a message body. The message body can have fields, nested enum definitions, nested message definitions, options, oneofs, map fields, and reserved statements.</p>
-<pre><code>message = &quot;message&quot; messageName messageBody
-messageBody = &quot;{&quot; { field | enum | message | option | oneof | mapField |
-reserved | emptyStatement } &quot;}&quot;
+<pre tabindex="0"><code>message = &#34;message&#34; messageName messageBody
+messageBody = &#34;{&#34; { field | enum | message | option | oneof | mapField |
+reserved | emptyStatement } &#34;}&#34;
 </code></pre><p>Example:</p>
-<pre><code>message Outer {
+<pre tabindex="0"><code>message Outer {
   option (my_option).a = true;
   message Inner {   // Level 2
     int64 ival = 1;
@@ -483,27 +483,27 @@ reserved | emptyStatement } &quot;}&quot;
   map&lt;int32, string&gt; my_map = 2;
 }
 </code></pre><h4 id="service-definition">Service definition</h4>
-<pre><code>service = &quot;service&quot; serviceName &quot;{&quot; { option | rpc | emptyStatement } &quot;}&quot;
-rpc = &quot;rpc&quot; rpcName &quot;(&quot; [ &quot;stream&quot; ] messageType &quot;)&quot; &quot;returns&quot; &quot;(&quot; [ &quot;stream&quot; ]
-messageType &quot;)&quot; (( &quot;{&quot; {option | emptyStatement } &quot;}&quot; ) | &quot;;&quot;)
+<pre tabindex="0"><code>service = &#34;service&#34; serviceName &#34;{&#34; { option | rpc | emptyStatement } &#34;}&#34;
+rpc = &#34;rpc&#34; rpcName &#34;(&#34; [ &#34;stream&#34; ] messageType &#34;)&#34; &#34;returns&#34; &#34;(&#34; [ &#34;stream&#34; ]
+messageType &#34;)&#34; (( &#34;{&#34; {option | emptyStatement } &#34;}&#34; ) | &#34;;&#34;)
 </code></pre><p>Example:</p>
-<pre><code>service SearchService {
+<pre tabindex="0"><code>service SearchService {
   rpc Search (SearchRequest) returns (SearchResponse);
 }
 </code></pre><h4 id="proto-file">Proto file</h4>
-<pre><code>proto = syntax { import | package | option | topLevelDef | emptyStatement }
+<pre tabindex="0"><code>proto = syntax { import | package | option | topLevelDef | emptyStatement }
 topLevelDef = message | enum | service
 </code></pre><p>An example .proto file:</p>
-<pre><code>syntax = &quot;proto3&quot;;
+<pre tabindex="0"><code>syntax = &#34;proto3&#34;;
 
-import public &quot;other.proto&quot;;
-option java_package = &quot;com.example.foo&quot;;
+import public &#34;other.proto&#34;;
+option java_package = &#34;com.example.foo&#34;;
 
 enum EnumAllowingAlias {
   option allow_alias = true;
   UNKNOWN = 0;
   STARTED = 1;
-  RUNNING = 2 [(custom_option) = &quot;hello world&quot;];
+  RUNNING = 2 [(custom_option) = &#34;hello world&#34;];
 }
 
 message outer {

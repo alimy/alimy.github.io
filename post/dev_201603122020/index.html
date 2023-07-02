@@ -350,7 +350,7 @@
             <h2>Gson: Convert json to a java object tree</h2>
           
           <p>In the <a href="https://alimy.me/post/dev_201603122010" title="Convert json to a java object">Earlier</a> tutorial we saw how to convert json to a java object. In this tutorial, we build a tree of com.google.gson.JsonElement from the json string. The tree can then be traversed to build java objects. JsonElement has methods such as isJsonObject(), isJsonNull(), etc that can be used to figure out the type of JsonElement. Then to get the actual object use the getAsJsonObject(), getAsJsonPrimitive() etc methods. We parse the response from the free music archive json API. Here&rsquo;s the class</p>
-<pre><code>package com.studytrails.json.gson;
+<pre tabindex="0"><code>package com.studytrails.json.gson;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -365,7 +365,7 @@ import com.google.gson.JsonParser;
 
 public class ParseTreeExample6 {
 	public static void main(String[] args) throws MalformedURLException, IOException {
-		String url = &quot;http://freemusicarchive.org/api/get/albums.json?api_key=60BLHNQCAOUFPIBZ&amp;limit=5&quot;;
+		String url = &#34;http://freemusicarchive.org/api/get/albums.json?api_key=60BLHNQCAOUFPIBZ&amp;limit=5&#34;;
 		String json = IOUtils.toString(new URL(url));
 		JsonParser parser = new JsonParser();
 		// The JsonElement is the root node. It can be an object, array, null or
@@ -376,11 +376,11 @@ public class ParseTreeExample6 {
 		// contains an array of dataset objects
 		if (element.isJsonObject()) {
 			JsonObject albums = element.getAsJsonObject();
-			System.out.println(albums.get(&quot;title&quot;).getAsString());
-			JsonArray datasets = albums.getAsJsonArray(&quot;dataset&quot;);
+			System.out.println(albums.get(&#34;title&#34;).getAsString());
+			JsonArray datasets = albums.getAsJsonArray(&#34;dataset&#34;);
 			for (int i = 0; i &lt; datasets.size(); i++) {
 				JsonObject dataset = datasets.get(i).getAsJsonObject();
-				System.out.println(dataset.get(&quot;album_title&quot;).getAsString());
+				System.out.println(dataset.get(&#34;album_title&#34;).getAsString());
 			}
 		}
 

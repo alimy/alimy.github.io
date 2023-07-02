@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 
 <head>
-	<meta name="generator" content="Hugo 0.79.0-DEV" />
+	<meta name="generator" content="Hugo 0.115.0">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
@@ -360,16 +360,16 @@
 <div class="summary">
     <p>It’s often practical to see what packages your app is importing. Unfortunately there isn’t a simple way to do that, however it is doable via the go list tool and using templates.</p>
 <p>Go to your app and run the following.</p>
-<pre><code>$ go list -f '{{join .Deps &quot;\n&quot;}}' |  xargs go list -f '{{if not .Standard}}{{.ImportPath}}{{end}}'
+<pre tabindex="0"><code>$ go list -f &#39;{{join .Deps &#34;\n&#34;}}&#39; |  xargs go list -f &#39;{{if not .Standard}}{{.ImportPath}}{{end}}&#39;
 </code></pre><p>Here is an example with the clirescue refactoring example:</p>
-<pre><code>$ cd $GOPATH/src/github.com/GoBootcamp/clirescue
-$ go list -f '{{join .Deps &quot;\n&quot;}}' | xargs go list -f '{{if not .Standard}}{{.ImportPath}}{{end}}'
+<pre tabindex="0"><code>$ cd $GOPATH/src/github.com/GoBootcamp/clirescue
+$ go list -f &#39;{{join .Deps &#34;\n&#34;}}&#39; | xargs go list -f &#39;{{if not .Standard}}{{.ImportPath}}{{end}}&#39;
 github.com/GoBootcamp/clirescue/cmdutil
 github.com/GoBootcamp/clirescue/trackerapi
 github.com/GoBootcamp/clirescue/user
 github.com/codegangsta/cli
 </code></pre><p>If you want the list to also contain standard packages, edit the template and use:</p>
-<pre><code>$ go list -f '{{join .Deps &quot;\n&quot;}}' |  xargs go list -f '{{.ImportPath}}'
+<pre tabindex="0"><code>$ go list -f &#39;{{join .Deps &#34;\n&#34;}}&#39; |  xargs go list -f &#39;{{.ImportPath}}&#39;
 </code></pre>
 </div>
 <footer id="more">
@@ -400,15 +400,15 @@ github.com/codegangsta/cli
 <div class="summary">
     <h3 id="notation">Notation</h3>
 <p>The syntax is specified using Extended Backus-Naur Form (EBNF):</p>
-<pre><code>Production  = production_name &quot;=&quot; [ Expression ] &quot;.&quot; .
-Expression  = Alternative { &quot;|&quot; Alternative } .
+<pre tabindex="0"><code>Production  = production_name &#34;=&#34; [ Expression ] &#34;.&#34; .
+Expression  = Alternative { &#34;|&#34; Alternative } .
 Alternative = Term { Term } .
-Term        = production_name | token [ &quot;…&quot; token ] | Group | Option | Repetition .
-Group       = &quot;(&quot; Expression &quot;)&quot; .
-Option      = &quot;[&quot; Expression &quot;]&quot; .
-Repetition  = &quot;{&quot; Expression &quot;}&quot; .
+Term        = production_name | token [ &#34;…&#34; token ] | Group | Option | Repetition .
+Group       = &#34;(&#34; Expression &#34;)&#34; .
+Option      = &#34;[&#34; Expression &#34;]&#34; .
+Repetition  = &#34;{&#34; Expression &#34;}&#34; .
 </code></pre><p>Productions are expressions constructed from terms and the following operators, in increasing precedence:</p>
-<pre><code>|   alternation
+<pre tabindex="0"><code>|   alternation
 ()  grouping
 []  option (0 or 1 times)
 {}  repetition (0 to n times)
@@ -428,11 +428,11 @@ Repetition  = &quot;{&quot; Expression &quot;}&quot; .
 <div class="summary">
     <p>Make 可以简化编译过程，如果有一个近百个源文件的项目，如果有个文件更改后工程需要重新编译，那么一直用gcc -c a.c这些个命令敲来敲去会屎人的。运行make时候，他会寻找指定目录下（默认是 .）的 Makefile 文件并且分析依赖关系进行必要的编译。</p>
 <h3 id="makefile文件的基本格式很简单">Makefile文件的基本格式很简单：</h3>
-<pre><code>目标文件： 依赖文件1 依赖文件2 依赖文件3 。。。。
+<pre tabindex="0"><code>目标文件： 依赖文件1 依赖文件2 依赖文件3 。。。。
 [tab]编译命令
 </code></pre><p>他的意思是目标文件是依赖于冒号后面几个文件的，如果这些依赖文件有更新的，那么其目标文件也需要更新。</p>
 <p>Makefile 中可能有很多以上条目，他们共同组成了一个有向无回路图（DAG图），这样可以传递依赖。make 命令会把 Makefile 文件的第一个目标文件作为默认目标，当执行 make 命令时，make 会考察这个目标文件的依赖关系，进行编译。也可以指定，比如这个 Makefile：</p>
-<pre><code>main: a.o b.o
+<pre tabindex="0"><code>main: a.o b.o
 [tab]gcc -o main a.o b.o
 a.o : a.c c.h
 [tab]gcc -c a.c -o a.o

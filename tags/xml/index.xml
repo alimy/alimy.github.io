@@ -5,6 +5,7 @@
     <link>https://alimy.me/tags/xml/</link>
     <description>Recent content in XML on 北野</description>
     <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
     <lastBuildDate>Wed, 09 Mar 2016 21:20:00 +0800</lastBuildDate><atom:link href="https://alimy.me/tags/xml/index.xml" rel="self" type="application/rss+xml" />
     <item>
@@ -14,7 +15,7 @@
       
       <guid>https://alimy.me/post/dev_201603092120/</guid>
       <description>&lt;p&gt;XStream provides a TraxSource (extends SAXSource) that can be used as an input to XSLT transformation. The TraxSource uses a java Object and the corresponding XStream Object. The java object can then be directly converted to XSLT target without actually converting to XML. Lets look at an example&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;package com.studytrails.xml.xstream;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;package com.studytrails.xml.xstream;
 
 import java.util.ArrayList;
 
@@ -36,23 +37,23 @@ public class XStreamTransformationExample {
 
 	private void runTransformation() throws TransformerFactoryConfigurationError, TransformerException {
 		XStream xstream = new XStream();
-		xstream.alias(&amp;quot;rss&amp;quot;, Rss2.class);
-		xstream.alias(&amp;quot;item&amp;quot;, Item2.class);
+		xstream.alias(&amp;#34;rss&amp;#34;, Rss2.class);
+		xstream.alias(&amp;#34;item&amp;#34;, Item2.class);
 		Rss2 rss = new Rss2();
 		Channel2 channel = new Channel2();
 		rss.channel = channel;
-		channel.title = &amp;quot;Title&amp;quot;;
-		channel.link = &amp;quot;link&amp;quot;;
+		channel.title = &amp;#34;Title&amp;#34;;
+		channel.link = &amp;#34;link&amp;#34;;
 		channel.image = new Image2();
-		channel.image.link = &amp;quot;image link&amp;quot;;
+		channel.image.link = &amp;#34;image link&amp;#34;;
 		Item2 item1 = new Item2();
-		item1.link = &amp;quot;item link&amp;quot;;
-		item1.title = &amp;quot;Item Title&amp;quot;;
+		item1.link = &amp;#34;item link&amp;#34;;
+		item1.title = &amp;#34;Item Title&amp;#34;;
 		channel.items = new ArrayList&amp;lt;Item2&amp;gt;();
 		channel.items.add(item1);
 		System.out.println(xstream.toXML(rss));
 
-		Transformer transformer = TransformerFactory.newInstance().newTransformer(new StreamSource(&amp;quot;bbc.xsl&amp;quot;));
+		Transformer transformer = TransformerFactory.newInstance().newTransformer(new StreamSource(&amp;#34;bbc.xsl&amp;#34;));
 		TraxSource traxSource = new TraxSource(rss, xstream);
 		StreamResult result = new StreamResult(System.out);
 		transformer.transform(traxSource, result);
@@ -139,10 +140,10 @@ public class XStreamTransformationExample {
       
       <guid>https://alimy.me/post/dev_201603092041/</guid>
       <description>&lt;p&gt;In the previous tutorial we saw &lt;a href=&#34;https://alimy.me/post/dev_201603081411&#34; title=&#34;Parsing An XML&#34;&gt;how to convert Java to XML and back&lt;/a&gt;. In this tutorial we look at different ways to handle XML attributes using XStream. However note that the attributes are only safe if you know that the written String values are not affected by the XML parser&amp;rsquo;s white space normalization. The XML specification requires that a parser does this and it means that an attribute value of:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;&amp;lt;element attr=&amp;quot;  foo\t\n   bar    &amp;quot;&amp;gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;&amp;lt;element attr=&amp;#34;  foo\t\n   bar    &amp;#34;&amp;gt;
 &amp;lt;/element&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;will always be normalized and passed this assertion:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;assertEquals(&amp;quot;foo bar&amp;quot;, element.getAttr());
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;assertEquals(&amp;#34;foo bar&amp;#34;, element.getAttr());
 XStream has no influence about this behavior.
 &lt;/code&gt;&lt;/pre&gt;</description>
     </item>
@@ -170,7 +171,7 @@ XStream has no influence about this behavior.
       
       <guid>https://alimy.me/post/dev_201603081433/</guid>
       <description>&lt;p&gt;In the &lt;a href=&#34;https://alimy.me/post/dev_201603081411&#34;&gt;previous&lt;/a&gt; example we saw how to convert a Java Object to XML and back. In this example we look at another example of Java Object to XML Conversion. The example uses an object called a &amp;lsquo;JazzArtist&amp;rsquo;. This object has a list of &amp;lsquo;Album&amp;rsquo; objects besides some other properties. We see here another example of Alias and implicit collection. (To understand alias and implicit collections look at this tutorial) We divide the example in three parts. In the first part we do not use aliases or implicit collections. In the second part we use aliases and in the third part we use an implicit Collection. Note the output from the three parts and observe how aliases and implicit collection change the way the output xml looks.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;package com.studytrails.xml.xstream;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;package com.studytrails.xml.xstream;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -195,14 +196,14 @@ public class CreateXMLFromMusicArtistObject {
       
       <guid>https://alimy.me/post/dev_201603081427/</guid>
       <description>&lt;p&gt;In the earlier tutorial we looked at a way to &lt;a href=&#34;https://alimy.me/post/dev_201603081411&#34; title=&#34;Parsing an XML&#34;&gt;convert Java to XML and back&lt;/a&gt;. In this tutorial we look at some more examples of XML To Java Conversion. XStream can convert XML elements to multiple types depending on the type specified in the Java class. For example a series for similarly named elements can be converted to an array of String, a List of String or an enum. XStream uses an appropriate Converter based on type specified in the java class. Lets look at some examples.&lt;/p&gt;
-&lt;p&gt;In this first example we have an XML that has a parent element called &amp;lsquo;Music&amp;rsquo;. It has a child element called type. We populate a Music object that has a &amp;lsquo;type&amp;rsquo; field which is an enum.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;package com.studytrails.xml.xstream;
+&lt;p&gt;In this first example we have an XML that has a parent element called &amp;lsquo;Music&amp;rsquo;. It has a child element called type. We populate a Music object that has a &amp;rsquo;type&amp;rsquo; field which is an enum.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;package com.studytrails.xml.xstream;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 public class ConverterExample3 {
-    static String xml1 = &amp;quot;&amp;lt;Music&amp;gt;&amp;lt;type&amp;gt;rock&amp;lt;/type&amp;gt;&amp;lt;/Music&amp;gt;&amp;quot;;
+    static String xml1 = &amp;#34;&amp;lt;Music&amp;gt;&amp;lt;type&amp;gt;rock&amp;lt;/type&amp;gt;&amp;lt;/Music&amp;gt;&amp;#34;;
 
     public static void main(String[] args) {
         XStream xStream = new XStream();
@@ -214,7 +215,7 @@ public class ConverterExample3 {
 
 }
 
-@XStreamAlias(&amp;quot;Music&amp;quot;)
+@XStreamAlias(&amp;#34;Music&amp;#34;)
 class Music {
     public enum genre {
         ROCK, JAZZ
@@ -224,7 +225,7 @@ class Music {
 
     @Override
     public String toString() {
-        return &amp;quot;Music [type=&amp;quot; + type + &amp;quot;]&amp;quot;;
+        return &amp;#34;Music [type=&amp;#34; + type + &amp;#34;]&amp;#34;;
     }
 
 }     
@@ -263,14 +264,14 @@ class Music {
       <description>&lt;p&gt;This page provides a series of examples illustrating how a class can be annotated. It acts as a quick and dirty overview of how the framework can be used and also acts as a reference page. All examples can be downloaded for convenience. For further information take a look at the &lt;a href=&#34;https://alimy.me/post/dev_201603032011&#34; title=&#34;SimpleXML Tutorial&#34;&gt;Tutorial&lt;/a&gt;.&lt;/p&gt;
 &lt;h3 id=&#34;sectcreating-nested-path-elements&#34;&gt;§Creating nested path elements&lt;/h3&gt;
 &lt;p&gt;Here an example of how to use the &lt;a href=&#34;http://simple.sourceforge.net/download/stream/doc/javadoc/org/simpleframework/xml/Path.html&#34;&gt;Path&lt;/a&gt; annotation to create nested elements and attributes using a single annotated class. Below is an example showing two elements nested within a XPath expression.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;@Root
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;@Root
 public class Example {
 
-   @Path(&amp;quot;a/b[1]&amp;quot;)
+   @Path(&amp;#34;a/b[1]&amp;#34;)
    @Element
    private String x;
 
-   @Path(&amp;quot;a/b[2]&amp;quot;)
+   @Path(&amp;#34;a/b[2]&amp;#34;)
    @Element
    private String y;
 }

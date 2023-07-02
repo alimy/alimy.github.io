@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 
 <head>
-	<meta name="generator" content="Hugo 0.79.0-DEV" />
+	<meta name="generator" content="Hugo 0.115.0">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
@@ -389,7 +389,7 @@
 <div class="summary">
     <h3 id="creating-json-from-java">Creating JSON from Java</h3>
 <p>Jackson provides classes that can be used to convert a Java Object to JSON and back. In this example we look at how to build a JSON construct from a Java Object. We will start with a simple class and gradually start adding complexities to it. Lets say that we are a music company and we want to publish an api where users can query for Album. We first build an Album class with a single property title.</p>
-<pre><code>class Album {
+<pre tabindex="0"><code>class Album {
     private String title;
 
     public Album(String title) {
@@ -438,7 +438,7 @@
 </header>
 <div class="summary">
     <p>XStream provides a TraxSource (extends SAXSource) that can be used as an input to XSLT transformation. The TraxSource uses a java Object and the corresponding XStream Object. The java object can then be directly converted to XSLT target without actually converting to XML. Lets look at an example</p>
-<pre><code>package com.studytrails.xml.xstream;
+<pre tabindex="0"><code>package com.studytrails.xml.xstream;
 
 import java.util.ArrayList;
 
@@ -460,23 +460,23 @@ public class XStreamTransformationExample {
 
 	private void runTransformation() throws TransformerFactoryConfigurationError, TransformerException {
 		XStream xstream = new XStream();
-		xstream.alias(&quot;rss&quot;, Rss2.class);
-		xstream.alias(&quot;item&quot;, Item2.class);
+		xstream.alias(&#34;rss&#34;, Rss2.class);
+		xstream.alias(&#34;item&#34;, Item2.class);
 		Rss2 rss = new Rss2();
 		Channel2 channel = new Channel2();
 		rss.channel = channel;
-		channel.title = &quot;Title&quot;;
-		channel.link = &quot;link&quot;;
+		channel.title = &#34;Title&#34;;
+		channel.link = &#34;link&#34;;
 		channel.image = new Image2();
-		channel.image.link = &quot;image link&quot;;
+		channel.image.link = &#34;image link&#34;;
 		Item2 item1 = new Item2();
-		item1.link = &quot;item link&quot;;
-		item1.title = &quot;Item Title&quot;;
+		item1.link = &#34;item link&#34;;
+		item1.title = &#34;Item Title&#34;;
 		channel.items = new ArrayList&lt;Item2&gt;();
 		channel.items.add(item1);
 		System.out.println(xstream.toXML(rss));
 
-		Transformer transformer = TransformerFactory.newInstance().newTransformer(new StreamSource(&quot;bbc.xsl&quot;));
+		Transformer transformer = TransformerFactory.newInstance().newTransformer(new StreamSource(&#34;bbc.xsl&#34;));
 		TraxSource traxSource = new TraxSource(rss, xstream);
 		StreamResult result = new StreamResult(System.out);
 		transformer.transform(traxSource, result);

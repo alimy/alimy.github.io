@@ -351,14 +351,14 @@
           
           <p>Jackson provides an effective an efficient way to bind json to POJOs. However, at times, certain properties may need to be ignored while converting a json to java ojbect and a java object to json string. Jackson provides three ways to filter properties.</p>
 <ol>
-<li>@JsonIgnoreProperties- This annotation can be used at the type level to ignore json properties. In the example below we ignore the &lsquo;tags&rsquo; property from the albums dataset.</li>
+<li>@JsonIgnoreProperties- This annotation can be used at the type level to ignore json properties. In the example below we ignore the &rsquo;tags&rsquo; property from the albums dataset.</li>
 <li>@JsonIgnore - This annotation can be set at property level to ignore certain properties.</li>
 <li>Using Custom filters</li>
 </ol>
 <p>The example below shows method 1 and 2. Also note the use of the @JsonAutoDetect annotation.</p>
 <h3 id="data-binding-filters-example">Data Binding Filters Example</h3>
 <h4 id="databinding">Databinding</h4>
-<pre><code>package com.studytrails.json.jackson;
+<pre tabindex="0"><code>package com.studytrails.json.jackson;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
@@ -380,14 +380,14 @@ public class AlbumsFilter {
         return title;
     }
 
-    // this getter method is for the 'dataset' property
-    @JsonProperty(&quot;dataset&quot;)
+    // this getter method is for the &#39;dataset&#39; property
+    @JsonProperty(&#34;dataset&#34;)
     public DatasetFilter[] getDatasetFilter() {
         return datasetFilter;
     }
 }
 </code></pre><h4 id="datasetfilter-class">DatasetFilter class</h4>
-<pre><code>package com.studytrails.json.jackson;
+<pre tabindex="0"><code>package com.studytrails.json.jackson;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -399,8 +399,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-// ignore the property with name 'tags'.
-@JsonIgnoreProperties({ &quot;tags&quot; })
+// ignore the property with name &#39;tags&#39;.
+@JsonIgnoreProperties({ &#34;tags&#34; })
 public class DatasetFilter {
     private String album_id;
     private String album_title;
@@ -408,7 +408,7 @@ public class DatasetFilter {
     private String album_comments;
 
     @JsonCreator
-    public DatasetFilter(@JsonProperty(&quot;album_id&quot;) String album_id, @JsonProperty(&quot;album_title&quot;) String album_title) {
+    public DatasetFilter(@JsonProperty(&#34;album_id&#34;) String album_id, @JsonProperty(&#34;album_title&#34;) String album_title) {
         this.album_id = album_id;
         this.album_title = album_title;
     }

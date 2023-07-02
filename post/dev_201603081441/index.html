@@ -361,11 +361,11 @@
 <ul>
 <li>We use annotation to first use an alias of &lsquo;artist&rsquo; for JazzArtist2. Each Jazz Artist has a list of albums.</li>
 <li>In the resulting XML we dont want the albums to appear under the element &lsquo;albums&rsquo;, rather we want each album to be the child of the artist element. We therefore mark &lsquo;albums&rsquo; as an implicit collection using the @XStreamImplicit annotation.</li>
-<li>We don&rsquo;t want to include the &lsquo;noOfRecords&rsquo; in the resulting XML, we therefore use the @XStreamOmitField to omit that field.</li>
+<li>We don&rsquo;t want to include the &rsquo;noOfRecords&rsquo; in the resulting XML, we therefore use the @XStreamOmitField to omit that field.</li>
 <li>We want genre to be an attribute of the album instead of a child. we use @XStreamAsAttribute to mark genre as an attribute.</li>
-<li>In this example we also use an annotation for a Converter. There is a boolean field in the JazzArtist2 class called isAlive. We dont want the   XML to have values &lsquo;true&rsquo; or &lsquo;false&rsquo; but values &lsquo;yes&rsquo; or &lsquo;no&rsquo; since they are more human friendly. The @XStreamConverter can be used to specify a Converter and pass values to its constructor.</li>
+<li>In this example we also use an annotation for a Converter. There is a boolean field in the JazzArtist2 class called isAlive. We dont want the   XML to have values &rsquo;true&rsquo; or &lsquo;false&rsquo; but values &lsquo;yes&rsquo; or &rsquo;no&rsquo; since they are more human friendly. The @XStreamConverter can be used to specify a Converter and pass values to its constructor.</li>
 </ul>
-<pre><code>package com.studytrails.xml.xstream;
+<pre tabindex="0"><code>package com.studytrails.xml.xstream;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -389,10 +389,10 @@ public class CreateXMLFromMusicArtistObjectAnnotated {
     }
 
     private void createXMlFromObject() throws MalformedURLException {
-        JazzArtist2 artist2 = new JazzArtist2(&quot;Benny Goodman&quot;,
-                false, new URL(&quot;http://www.bennygoodman.com/&quot;));
-        Album2 album3 = new Album2(&quot;In Stockholm&quot;, 5, 1959,&quot;swing&quot;);
-        Album2 album4 = new Album2(&quot;A Jazz Holiday&quot;, 3, 1928,&quot;swing&quot;);
+        JazzArtist2 artist2 = new JazzArtist2(&#34;Benny Goodman&#34;,
+                false, new URL(&#34;http://www.bennygoodman.com/&#34;));
+        Album2 album3 = new Album2(&#34;In Stockholm&#34;, 5, 1959,&#34;swing&#34;);
+        Album2 album4 = new Album2(&#34;A Jazz Holiday&#34;, 3, 1928,&#34;swing&#34;);
         artist2.addAlbum(album3);
         artist2.addAlbum(album4);
         XStream xStream2 = new XStream();
@@ -401,12 +401,12 @@ public class CreateXMLFromMusicArtistObjectAnnotated {
     }
 }
 
-@XStreamAlias(&quot;artist&quot;)
+@XStreamAlias(&#34;artist&#34;)
 class JazzArtist2 {
     public String name;
     @XStreamConverter(value = BooleanConverter.class,
             booleans = { true }/*is case sensitive*/,
-            strings = { &quot;Yes&quot;, &quot;No&quot; })
+            strings = { &#34;Yes&#34;, &#34;No&#34; })
     public boolean isAlive;
     public URL url;
     @XStreamImplicit
@@ -424,7 +424,7 @@ class JazzArtist2 {
 
 }
 
-@XStreamAlias(&quot;album&quot;)
+@XStreamAlias(&#34;album&#34;)
 class Album2 {
     public String title;
     @XStreamOmitField
@@ -441,15 +441,15 @@ class Album2 {
     }
 }
 </code></pre><p>The resulting XML</p>
-<pre><code>&lt;artist&gt;
+<pre tabindex="0"><code>&lt;artist&gt;
   &lt;name&gt;Benny Goodman&lt;/name&gt;
   &lt;isalive&gt;No&lt;/isalive&gt;
   &lt;url&gt;http://www.bennygoodman.com/&lt;/url&gt;
-  &lt;album genre=&quot;swing&quot;&gt;
+  &lt;album genre=&#34;swing&#34;&gt;
     &lt;title&gt;In Stockholm&lt;/title&gt;
     &lt;year&gt;1959&lt;/year&gt;
   &lt;/album&gt;
-  &lt;album genre=&quot;swing&quot;&gt;
+  &lt;album genre=&#34;swing&#34;&gt;
     &lt;title&gt;A Jazz Holiday&lt;/title&gt;
     &lt;year&gt;1928&lt;/year&gt;
   &lt;/album&gt;

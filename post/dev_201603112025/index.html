@@ -351,7 +351,7 @@
           
           <h3 id="creating-json-from-java">Creating JSON from Java</h3>
 <p>Jackson provides classes that can be used to convert a Java Object to JSON and back. In this example we look at how to build a JSON construct from a Java Object. We will start with a simple class and gradually start adding complexities to it. Lets say that we are a music company and we want to publish an api where users can query for Album. We first build an Album class with a single property title.</p>
-<pre><code>class Album {
+<pre tabindex="0"><code>class Album {
     private String title;
 
     public Album(String title) {
@@ -363,53 +363,53 @@
     }
 }
 </code></pre><p>we use the ObjectMapper to convert the Object to JSON. By Default Jackson would use BeanSerializer to serialize the POJO. Here&rsquo;s how our serializer Example looks so far. Note that the bean should have getters for private properties or the property should be public Here&rsquo;s how the JSON looks</p>
-<pre><code>{&quot;title&quot;:&quot;Kind Of Blue&quot;}
+<pre tabindex="0"><code>{&#34;title&#34;:&#34;Kind Of Blue&#34;}
 </code></pre><p>Lets add an array of links to the album (along with their getters and setters) These could be links to the press releases or album reviews.</p>
-<pre><code>private String[] links;
+<pre tabindex="0"><code>private String[] links;
 </code></pre><p>In the main method add this:</p>
-<pre><code>album.setLinks(new String[] { &quot;link1&quot;, &quot;link2&quot; });
-</code></pre><p>This is how the JSON looks now. Note that the array is converted to a JSON array. (enclosed within &lsquo;[&rsquo; and &lsquo;]')</p>
-<pre><code>{&quot;title&quot;:&quot;Kind Of Blue&quot;,&quot;links&quot;:[&quot;link1&quot;,&quot;link2&quot;]}
+<pre tabindex="0"><code>album.setLinks(new String[] { &#34;link1&#34;, &#34;link2&#34; });
+</code></pre><p>This is how the JSON looks now. Note that the array is converted to a JSON array. (enclosed within &lsquo;[&rsquo; and &lsquo;]&rsquo;)</p>
+<pre tabindex="0"><code>{&#34;title&#34;:&#34;Kind Of Blue&#34;,&#34;links&#34;:[&#34;link1&#34;,&#34;link2&#34;]}
 </code></pre><p>Next we add a List of Songs to the Album.</p>
-<pre><code>List&lt;String&gt;&gt; Songs = new ArrayList&lt;String&gt;();
+<pre tabindex="0"><code>List&lt;String&gt;&gt; Songs = new ArrayList&lt;String&gt;();
 </code></pre><p>Add the list to the Albums Object</p>
-<pre><code>List&lt;String&gt; songs = new ArrayList&lt;String&gt;();
-songs.add(&quot;So What&quot;);
-songs.add(&quot;Flamenco Sketches&quot;);
-songs.add(&quot;Freddie Freeloader&quot;);
+<pre tabindex="0"><code>List&lt;String&gt; songs = new ArrayList&lt;String&gt;();
+songs.add(&#34;So What&#34;);
+songs.add(&#34;Flamenco Sketches&#34;);
+songs.add(&#34;Freddie Freeloader&#34;);
 album.setSongs(songs);
 </code></pre><p>The resulting json looks like this. Note that the List is also converted to an array. You can learn more about List Serialization in this tutorial.</p>
-<pre><code>{&quot;title&quot;:&quot;Kind Of Blue&quot;,&quot;links&quot;:[&quot;link1&quot;,&quot;link2&quot;],
-&quot;songs&quot;:[&quot;So What&quot;,&quot;Flamenco Sketches&quot;,&quot;Freddie Freeloader&quot;]}
+<pre tabindex="0"><code>{&#34;title&#34;:&#34;Kind Of Blue&#34;,&#34;links&#34;:[&#34;link1&#34;,&#34;link2&#34;],
+&#34;songs&#34;:[&#34;So What&#34;,&#34;Flamenco Sketches&#34;,&#34;Freddie Freeloader&#34;]}
 </code></pre><p>Next, lets add an artist to the Album. Artist is a class that contains the artist name and his birthdate represented by a Date instance. Note that Artist is an object and hence is enclosed in JSON by &lsquo;{&rsquo; and &lsquo;}&rsquo;. These brackers are JSON representation of objects and contains key value pairs. For brevity we declare the Artist properties as public.</p>
-<pre><code>class Artist {
+<pre tabindex="0"><code>class Artist {
     public String name;
     public Date birthDate;
 }
 </code></pre><p>Lets add an Artist to the album</p>
-<pre><code>Artist artist = new Artist();
-artist.name = &quot;Miles Davis&quot;;
-SimpleDateFormat format = new SimpleDateFormat(&quot;dd-MM-yyyy&quot;);
-artist.birthDate = format.parse(&quot;26-05-1926&quot;);
+<pre tabindex="0"><code>Artist artist = new Artist();
+artist.name = &#34;Miles Davis&#34;;
+SimpleDateFormat format = new SimpleDateFormat(&#34;dd-MM-yyyy&#34;);
+artist.birthDate = format.parse(&#34;26-05-1926&#34;);
 album.setArtist(artist);
 </code></pre><p>The JSON</p>
-<pre><code>{&quot;title&quot;:&quot;Kind Of Blue&quot;,&quot;links&quot;:[&quot;link1&quot;,&quot;link2&quot;],
-&quot;songs&quot;:[&quot;So What&quot;,&quot;Flamenco Sketches&quot;,&quot;Freddie Freeloader&quot;],
-&quot;artist&quot;:{&quot;name&quot;:&quot;Miles Davis&quot;,&quot;birthDate&quot;:-1376027600000}}
+<pre tabindex="0"><code>{&#34;title&#34;:&#34;Kind Of Blue&#34;,&#34;links&#34;:[&#34;link1&#34;,&#34;link2&#34;],
+&#34;songs&#34;:[&#34;So What&#34;,&#34;Flamenco Sketches&#34;,&#34;Freddie Freeloader&#34;],
+&#34;artist&#34;:{&#34;name&#34;:&#34;Miles Davis&#34;,&#34;birthDate&#34;:-1376027600000}}
 </code></pre><p>To make JSON visually more readable we add this line. Note that this should not be done for production systems, but only during testing or development since this would increase the size of the json.</p>
-<pre><code>mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
+<pre tabindex="0"><code>mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
 </code></pre><p>The JSON now looks well formatted</p>
-<pre><code>{
-  &quot;title&quot; : &quot;Kind Of Blue&quot;,
-  &quot;links&quot; : [ &quot;link1&quot; , &quot;link2&quot; ],
-  &quot;songs&quot; : [ &quot;So What&quot;, &quot;Flamenco Sketches&quot;, &quot;Freddie Freeloader&quot; ],
-  &quot;artist&quot; : {
-    &quot;name&quot; : &quot;Miles Davis&quot;,
-    &quot;birthDate&quot; : -1376027600000
+<pre tabindex="0"><code>{
+  &#34;title&#34; : &#34;Kind Of Blue&#34;,
+  &#34;links&#34; : [ &#34;link1&#34; , &#34;link2&#34; ],
+  &#34;songs&#34; : [ &#34;So What&#34;, &#34;Flamenco Sketches&#34;, &#34;Freddie Freeloader&#34; ],
+  &#34;artist&#34; : {
+    &#34;name&#34; : &#34;Miles Davis&#34;,
+    &#34;birthDate&#34; : -1376027600000
   }
 }
 </code></pre><p>we now add a map of musicians and the instrument they play in the album.</p>
-<pre><code>private Map&lt;String,String&gt; musicians = new HashMap&lt;String, String&gt;();
+<pre tabindex="0"><code>private Map&lt;String,String&gt; musicians = new HashMap&lt;String, String&gt;();
 public Map&lt;String, String&gt; getMusicians() {
         return Collections.unmodifiableMap(musicians);
 }
@@ -417,72 +417,72 @@ public void addMusician(String key, String value){
         musicians.put(key, value);
 }
 </code></pre><p>and in the main class</p>
-<pre><code>album.addMusician(&quot;Miles Davis&quot;, &quot;Trumpet, Band leader&quot;);
-album.addMusician(&quot;Julian Adderley&quot;, &quot;Alto Saxophone&quot;);
-album.addMusician(&quot;Paul Chambers&quot;, &quot;double bass&quot;);
+<pre tabindex="0"><code>album.addMusician(&#34;Miles Davis&#34;, &#34;Trumpet, Band leader&#34;);
+album.addMusician(&#34;Julian Adderley&#34;, &#34;Alto Saxophone&#34;);
+album.addMusician(&#34;Paul Chambers&#34;, &#34;double bass&#34;);
 </code></pre><p>The json</p>
-<pre><code>{
-  &quot;title&quot; : &quot;Kind Of Blue&quot;,
-  &quot;links&quot; : [ &quot;link1&quot;, &quot;link2&quot; ],
-  &quot;songs&quot; : [ &quot;So What&quot;, &quot;Flamenco Sketches&quot;, &quot;Freddie Freeloader&quot; ],
-  &quot;artist&quot; : {
-    &quot;name&quot; : &quot;Miles Davis&quot;,
-    &quot;birthDate&quot; : -1376027600000
+<pre tabindex="0"><code>{
+  &#34;title&#34; : &#34;Kind Of Blue&#34;,
+  &#34;links&#34; : [ &#34;link1&#34;, &#34;link2&#34; ],
+  &#34;songs&#34; : [ &#34;So What&#34;, &#34;Flamenco Sketches&#34;, &#34;Freddie Freeloader&#34; ],
+  &#34;artist&#34; : {
+    &#34;name&#34; : &#34;Miles Davis&#34;,
+    &#34;birthDate&#34; : -1376027600000
   },
-  &quot;musicians&quot; : {
-    &quot;Julian Adderley&quot; : &quot;Alto Saxophone&quot;,
-    &quot;Paul Chambers&quot; : &quot;double bass&quot;,
-    &quot;Miles Davis&quot; : &quot;Trumpet, Band leader&quot;
+  &#34;musicians&#34; : {
+    &#34;Julian Adderley&#34; : &#34;Alto Saxophone&#34;,
+    &#34;Paul Chambers&#34; : &#34;double bass&#34;,
+    &#34;Miles Davis&#34; : &#34;Trumpet, Band leader&#34;
   }
 }
 </code></pre><p>Lets add some more features to the conversion. we first tell the mapper to arrange the Map by keys using it natural order</p>
-<pre><code>mapper.configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true);
+<pre tabindex="0"><code>mapper.configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true);
 </code></pre><p>The date has been formatted as the epoch time. Lets format it into a more human readable format</p>
-<pre><code>SimpleDateFormat outputFormat = new SimpleDateFormat(&quot;dd MMM yyyy&quot;);
+<pre tabindex="0"><code>SimpleDateFormat outputFormat = new SimpleDateFormat(&#34;dd MMM yyyy&#34;);
 mapper.setDateFormat(outputFormat);
-</code></pre><p>By default, jackson uses the name of the java field as the name of the json property. You can change that by using annotations as explained in this tutorial. However at times you may not have access to the java bean or you do not want to bind the java bean to a Jackson annotation. In this case jackson provides a way to change the default field name. Use the setPropertyNamingStrategy method on the mapper to set the naming strategy for the field. You need to override either the the nameForField method or the nameForGetterMethod depending on whether you have public field in the bean or a getter in the bean. In our example lets change the &lsquo;title&rsquo; of the album to &lsquo;Album-Title&rsquo; and the &lsquo;name&rsquo; of the artist to &lsquo;Artist-Name&rsquo;. Make this changes to the main method</p>
-<pre><code>mapper.setPropertyNamingStrategy(new PropertyNamingStrategy() {
+</code></pre><p>By default, jackson uses the name of the java field as the name of the json property. You can change that by using annotations as explained in this tutorial. However at times you may not have access to the java bean or you do not want to bind the java bean to a Jackson annotation. In this case jackson provides a way to change the default field name. Use the setPropertyNamingStrategy method on the mapper to set the naming strategy for the field. You need to override either the the nameForField method or the nameForGetterMethod depending on whether you have public field in the bean or a getter in the bean. In our example lets change the &rsquo;title&rsquo; of the album to &lsquo;Album-Title&rsquo; and the &rsquo;name&rsquo; of the artist to &lsquo;Artist-Name&rsquo;. Make this changes to the main method</p>
+<pre tabindex="0"><code>mapper.setPropertyNamingStrategy(new PropertyNamingStrategy() {
 @Override
 public String nameForField(MapperConfig&lt;?&gt; config, AnnotatedField field, String defaultName) {
-   if (field.getFullName().equals(&quot;com.studytrails.json.jackson.Artist#name&quot;))
-        return &quot;Artist-Name&quot;;
+   if (field.getFullName().equals(&#34;com.studytrails.json.jackson.Artist#name&#34;))
+        return &#34;Artist-Name&#34;;
         return super.nameForField(config, field, defaultName);
 }
 
 @Override
 public String nameForGetterMethod(MapperConfig&lt;?&gt; config, AnnotatedMethod method, String defaultName) {
-  if (method.getAnnotated().getDeclaringClass().equals(Album.class) &amp;&amp; defaultName.equals(&quot;title&quot;))
-        return &quot;Album-Title&quot;;
+  if (method.getAnnotated().getDeclaringClass().equals(Album.class) &amp;&amp; defaultName.equals(&#34;title&#34;))
+        return &#34;Album-Title&#34;;
         return super.nameForGetterMethod(config, method, defaultName);
   }
 });
 </code></pre><p>The json now looks like this</p>
-<pre><code>{
-  &quot;Album-Title&quot; : &quot;Kind Of Blue&quot;,
-  &quot;links&quot; : [ &quot;link1&quot;, &quot;link2&quot; ],
-  &quot;songs&quot; : [ &quot;So What&quot;, &quot;Flamenco Sketches&quot;, &quot;Freddie Freeloader&quot; ],
-  &quot;artist&quot; : {
-    &quot;Artist-Name&quot; : &quot;Miles Davis&quot;,
-    &quot;birthDate&quot; : &quot;26 May 1926&quot;
+<pre tabindex="0"><code>{
+  &#34;Album-Title&#34; : &#34;Kind Of Blue&#34;,
+  &#34;links&#34; : [ &#34;link1&#34;, &#34;link2&#34; ],
+  &#34;songs&#34; : [ &#34;So What&#34;, &#34;Flamenco Sketches&#34;, &#34;Freddie Freeloader&#34; ],
+  &#34;artist&#34; : {
+    &#34;Artist-Name&#34; : &#34;Miles Davis&#34;,
+    &#34;birthDate&#34; : &#34;26 May 1926&#34;
   },
-  &quot;musicians&quot; : {
-    &quot;Julian Adderley&quot; : &quot;Alto Saxophone&quot;,
-    &quot;Miles Davis&quot; : &quot;Trumpet, Band leader&quot;,
-    &quot;Paul Chambers&quot; : &quot;double bass&quot;
+  &#34;musicians&#34; : {
+    &#34;Julian Adderley&#34; : &#34;Alto Saxophone&#34;,
+    &#34;Miles Davis&#34; : &#34;Trumpet, Band leader&#34;,
+    &#34;Paul Chambers&#34; : &#34;double bass&#34;
   }
 }
 </code></pre><p>Let us now see how Jackson handles null. we add three new properties to the Artist class and do not assign values to them. we add age(int), homeTown(String) and awardsWon (String[])</p>
-<pre><code>public int age;
+<pre tabindex="0"><code>public int age;
 public String homeTown;
 public List&lt;String&gt; awardsWon = new ArrayList&lt;String&gt;();
 </code></pre><p>Here&rsquo;s how they look after converting to json</p>
-<pre><code>&quot;age&quot; : 0,
- &quot;homeTown&quot; : null,
- &quot;awardsWon&quot; : [ ]
+<pre tabindex="0"><code>&#34;age&#34; : 0,
+ &#34;homeTown&#34; : null,
+ &#34;awardsWon&#34; : [ ]
 </code></pre><p>we use this configuration to ignore properties that are empty</p>
-<pre><code>mapper.setSerializationInclusion(Include.NON_EMPTY);
+<pre tabindex="0"><code>mapper.setSerializationInclusion(Include.NON_EMPTY);
 </code></pre><p>To explicitely ignore a field use filters are described in this tutorial. Here&rsquo;s the complete example</p>
-<pre><code>package com.studytrails.json.jackson;
+<pre tabindex="0"><code>package com.studytrails.json.jackson;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -506,37 +506,37 @@ public class SerializationExample {
 
     public static void main(String[] args) throws IOException, ParseException {
         ObjectMapper mapper = new ObjectMapper();
-        Album album = new Album(&quot;Kind Of Blue&quot;);
-        album.setLinks(new String[] { &quot;link1&quot;, &quot;link2&quot; });
+        Album album = new Album(&#34;Kind Of Blue&#34;);
+        album.setLinks(new String[] { &#34;link1&#34;, &#34;link2&#34; });
         List&lt;string&gt; songs = new ArrayList&lt;string&gt;();
-        songs.add(&quot;So What&quot;);
-        songs.add(&quot;Flamenco Sketches&quot;);
-        songs.add(&quot;Freddie Freeloader&quot;);
+        songs.add(&#34;So What&#34;);
+        songs.add(&#34;Flamenco Sketches&#34;);
+        songs.add(&#34;Freddie Freeloader&#34;);
         album.setSongs(songs);
         Artist artist = new Artist();
-        artist.name = &quot;Miles Davis&quot;;
-        SimpleDateFormat format = new SimpleDateFormat(&quot;dd-MM-yyyy&quot;);
-        artist.birthDate = format.parse(&quot;26-05-1926&quot;);
+        artist.name = &#34;Miles Davis&#34;;
+        SimpleDateFormat format = new SimpleDateFormat(&#34;dd-MM-yyyy&#34;);
+        artist.birthDate = format.parse(&#34;26-05-1926&#34;);
         album.setArtist(artist);
-        album.addMusician(&quot;Miles Davis&quot;, &quot;Trumpet, Band leader&quot;);
-        album.addMusician(&quot;Julian Adderley&quot;, &quot;Alto Saxophone&quot;);
-        album.addMusician(&quot;Paul Chambers&quot;, &quot;double bass&quot;);
+        album.addMusician(&#34;Miles Davis&#34;, &#34;Trumpet, Band leader&#34;);
+        album.addMusician(&#34;Julian Adderley&#34;, &#34;Alto Saxophone&#34;);
+        album.addMusician(&#34;Paul Chambers&#34;, &#34;double bass&#34;);
         mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
         mapper.configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true);
-        SimpleDateFormat outputFormat = new SimpleDateFormat(&quot;dd MMM yyyy&quot;);
+        SimpleDateFormat outputFormat = new SimpleDateFormat(&#34;dd MMM yyyy&#34;);
         mapper.setDateFormat(outputFormat);
         mapper.setPropertyNamingStrategy(new PropertyNamingStrategy() {
             @Override
             public String nameForField(MapperConfig&lt;!--?--&gt; config, AnnotatedField field, String defaultName) {
-                if (field.getFullName().equals(&quot;com.studytrails.json.jackson.Artist#name&quot;))
-                    return &quot;Artist-Name&quot;;
+                if (field.getFullName().equals(&#34;com.studytrails.json.jackson.Artist#name&#34;))
+                    return &#34;Artist-Name&#34;;
                 return super.nameForField(config, field, defaultName);
             }
 
             @Override
             public String nameForGetterMethod(MapperConfig&lt;!--?--&gt; config, AnnotatedMethod method, String defaultName) {
-                if (method.getAnnotated().getDeclaringClass().equals(Album.class) &amp;&amp; defaultName.equals(&quot;title&quot;))
-                    return &quot;Album-Title&quot;;
+                if (method.getAnnotated().getDeclaringClass().equals(Album.class) &amp;&amp; defaultName.equals(&#34;title&#34;))
+                    return &#34;Album-Title&#34;;
                 return super.nameForGetterMethod(config, method, defaultName);
             }
         });
@@ -550,7 +550,7 @@ class Album {
     private String[] links;
     private List&lt;string&gt; songs = new ArrayList&lt;string&gt;();
     private Artist artist;
-    private Map&lt;string ,=&quot;&quot; string=&quot;&quot;&gt; musicians = new HashMap&lt;string ,=&quot;&quot; string=&quot;&quot;&gt;();
+    private Map&lt;string ,=&#34;&#34; string=&#34;&#34;&gt; musicians = new HashMap&lt;string ,=&#34;&#34; string=&#34;&#34;&gt;();
 
     public Album(String title) {
         this.title = title;
@@ -584,7 +584,7 @@ class Album {
         return artist;
     }
 
-    public Map&lt;string ,=&quot;&quot; string=&quot;&quot;&gt; getMusicians() {
+    public Map&lt;string ,=&#34;&#34; string=&#34;&#34;&gt; getMusicians() {
         return Collections.unmodifiableMap(musicians);
     }
 
@@ -611,7 +611,7 @@ class Artist {
 <li>Create an ObjectMapper that will use the jsonGenerator and the root node to create the JSON.</li>
 </ul>
 <p>After setting it all up we create a single root node for album. Note that by default the object mapper does not name the root node.</p>
-<pre><code>package com.studytrails.json.jackson;
+<pre tabindex="0"><code>package com.studytrails.json.jackson;
 
 import java.io.IOException;
 
@@ -640,34 +640,34 @@ public class SerializationExampleTreeModel {
 
 }
 </code></pre><p>This prints</p>
-<pre><code>{}
+<pre tabindex="0"><code>{}
 </code></pre><p>A lot of lines of code to print two brackets! but lets see how it is to build our json now. We first add the first property of the album i.e. &lsquo;Album-Title&rsquo;.</p>
-<pre><code>album.put(&quot;Album-Title&quot;, &quot;Kind Of Blue&quot;);
+<pre tabindex="0"><code>album.put(&#34;Album-Title&#34;, &#34;Kind Of Blue&#34;);
 </code></pre><p>This is how our JSON looks now</p>
-<pre><code>{&quot;Album-Title&quot;:&quot;Kind Of Blue&quot;}
+<pre tabindex="0"><code>{&#34;Album-Title&#34;:&#34;Kind Of Blue&#34;}
 </code></pre><p>We now add the links array</p>
-<pre><code>ArrayNode links = factory.arrayNode();
-links.add(&quot;link1&quot;).add(&quot;link2&quot;);
-album.put(&quot;links&quot;, links);
+<pre tabindex="0"><code>ArrayNode links = factory.arrayNode();
+links.add(&#34;link1&#34;).add(&#34;link2&#34;);
+album.put(&#34;links&#34;, links);
 </code></pre><p>The JSON</p>
-<pre><code>{&quot;Album-Title&quot;:&quot;Kind Of Blue&quot;,&quot;links&quot;:[&quot;link1&quot;,&quot;link2&quot;]}
+<pre tabindex="0"><code>{&#34;Album-Title&#34;:&#34;Kind Of Blue&#34;,&#34;links&#34;:[&#34;link1&#34;,&#34;link2&#34;]}
 </code></pre><p>Next we add the artist object. Note that artist by itself is a JsonObject. we add that to the album.</p>
-<pre><code>ObjectNode artist = factory.objectNode();
-artist.put(&quot;Artist-Name&quot;, &quot;Miles Davis&quot;);
-artist.put(&quot;birthDate&quot;, &quot;26 May 1926&quot;);
-album.put(&quot;artist&quot;, artist);
+<pre tabindex="0"><code>ObjectNode artist = factory.objectNode();
+artist.put(&#34;Artist-Name&#34;, &#34;Miles Davis&#34;);
+artist.put(&#34;birthDate&#34;, &#34;26 May 1926&#34;);
+album.put(&#34;artist&#34;, artist);
 </code></pre><p>The JSON</p>
-<pre><code>{&quot;Album-Title&quot;:&quot;Kind Of Blue&quot;,&quot;links&quot;:[&quot;link1&quot;,&quot;link2&quot;],
-&quot;artist&quot;:{&quot;Artist-Name&quot;:&quot;Miles Davis&quot;,&quot;birthDate&quot;:&quot;26 May 1926&quot;}}
+<pre tabindex="0"><code>{&#34;Album-Title&#34;:&#34;Kind Of Blue&#34;,&#34;links&#34;:[&#34;link1&#34;,&#34;link2&#34;],
+&#34;artist&#34;:{&#34;Artist-Name&#34;:&#34;Miles Davis&#34;,&#34;birthDate&#34;:&#34;26 May 1926&#34;}}
 </code></pre><p>We not add the musicians. The musicians are not in an array but there is an object of type musicians. We therefore create an object.</p>
-<pre><code>ObjectNode musicians = factory.objectNode();
-musicians.put(&quot;Julian Adderley&quot;, &quot;Alto Saxophone&quot;);
-musicians.put(&quot;Miles Davis&quot;, &quot;Trumpet, Band leader&quot;);
-album.put(&quot;musicians&quot;, musicians);
+<pre tabindex="0"><code>ObjectNode musicians = factory.objectNode();
+musicians.put(&#34;Julian Adderley&#34;, &#34;Alto Saxophone&#34;);
+musicians.put(&#34;Miles Davis&#34;, &#34;Trumpet, Band leader&#34;);
+album.put(&#34;musicians&#34;, musicians);
 </code></pre><p>The JSON</p>
-<pre><code>{&quot;Album-Title&quot;:&quot;Kind Of Blue&quot;,&quot;links&quot;:[&quot;link1&quot;,&quot;link2&quot;],
-&quot;artist&quot;:{&quot;Artist-Name&quot;:&quot;Miles Davis&quot;,&quot;birthDate&quot;:&quot;26 May 1926&quot;},
-&quot;musicians&quot;:{&quot;Julian Adderley&quot;:&quot;Alto Saxophone&quot;,&quot;Miles Davis&quot;:&quot;Trumpet, Band leader&quot;}}
+<pre tabindex="0"><code>{&#34;Album-Title&#34;:&#34;Kind Of Blue&#34;,&#34;links&#34;:[&#34;link1&#34;,&#34;link2&#34;],
+&#34;artist&#34;:{&#34;Artist-Name&#34;:&#34;Miles Davis&#34;,&#34;birthDate&#34;:&#34;26 May 1926&#34;},
+&#34;musicians&#34;:{&#34;Julian Adderley&#34;:&#34;Alto Saxophone&#34;,&#34;Miles Davis&#34;:&#34;Trumpet, Band leader&#34;}}
 </code></pre><p>You can similarly add other elements. If you have multiple albums then you would probably generate an array in a for loop. It would typically be faster to generate JSON from a Java Object.</p>
 <h3 id="creating-json-stream">Creating JSON Stream</h3>
 <p>Look at <a href="http://www.studytrails.com/java/json/java-jackson-json-streaming.jsp" title="json and java - Streaming">this tutorial</a> to see an example of generating a JSON stream.</p>

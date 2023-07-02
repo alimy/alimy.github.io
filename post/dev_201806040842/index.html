@@ -350,43 +350,43 @@
             <h2>Gogs: PR-5262</h2>
           
           <h3 id="fix-make-build-failure-when-enviroment-of-gopath-have-multiple-items">Fix make build failure when enviroment of <code>GOPATH</code> have multiple items</h3>
-<pre><code>[alimy@rover gogs]$ pwd
+<pre tabindex="0"><code>[alimy@rover gogs]$ pwd
 /home/alimy/art/arg/src/github.com/gogs/gogs
 [alimy@rover gogs]$ echo $GOPATH
 /home/alimy/art/ago:/home/alimy/art/arg
 [alimy@rover gogs]$ make
-go install &quot;-v&quot; -ldflags '-X &quot;github.com/gogs/gogs/pkg/setting.BuildTime=2018-06-04 06:17:19 UTC&quot; -X &quot;github.com/gogs/gogs/pkg/setting.BuildGitHash=c08aab90ec696b7fcc56b8da0a468e74d266b89e&quot;' -tags '&quot;&quot;'
-cp '/home/alimy/art/ago:/home/alimy/art/arg/bin/gogs' .
-cp: cannot stat '/home/alimy/art/ago:/home/alimy/art/arg/bin/gogs': No such file or directory
-Makefile:36: recipe for target 'build' failed
+go install &#34;-v&#34; -ldflags &#39;-X &#34;github.com/gogs/gogs/pkg/setting.BuildTime=2018-06-04 06:17:19 UTC&#34; -X &#34;github.com/gogs/gogs/pkg/setting.BuildGitHash=c08aab90ec696b7fcc56b8da0a468e74d266b89e&#34;&#39; -tags &#39;&#34;&#34;&#39;
+cp &#39;/home/alimy/art/ago:/home/alimy/art/arg/bin/gogs&#39; .
+cp: cannot stat &#39;/home/alimy/art/ago:/home/alimy/art/arg/bin/gogs&#39;: No such file or directory
+Makefile:36: recipe for target &#39;build&#39; failed
 make: *** [build] Error 1
 </code></pre><p>In this scene <code>GOPATH</code> have two item (/home/alimy/art/ago and /home/alimy/art/arg) and gogs source is not in first <code>GOPATH</code> items, when excecute <code>go install ...</code> will install to path that contain the source of gogs&rsquo;s <code>GOPATH</code> items. when cp gogs file back will occur error like above.
 this patch fixed this problem.</p>
-<pre><code>[alimy@rover gogs]$ echo $GOPATH
+<pre tabindex="0"><code>[alimy@rover gogs]$ echo $GOPATH
 /home/alimy/art/ago:/home/alimy/art/arg
 [alimy@rover gogs]$ pwd
 /home/alimy/art/arg/src/github.com/gogs/gogs
 [alimy@rover gogs]$ echo ${PWD%%src*}
 /home/alimy/art/arg/
 </code></pre><p>Also when have multiple item in <code>GOPATH</code> env you should do this:</p>
-<pre><code>export GOPATH=$HOME/art/ago:$HOME/art/arg
+<pre tabindex="0"><code>export GOPATH=$HOME/art/ago:$HOME/art/arg
 export PATH=$GOROOT/bin:${GOPATH//://bin:}/bin
 </code></pre><p>Gogs&rsquo;s Makefile:</p>
-<pre><code>LDFLAGS += -X &quot;github.com/gogs/gogs/pkg/setting.BuildTime=$(shell date -u '+%Y-%m-%d %I:%M:%S %Z')&quot;
-LDFLAGS += -X &quot;github.com/gogs/gogs/pkg/setting.BuildGitHash=$(shell git rev-parse HEAD)&quot;
+<pre tabindex="0"><code>LDFLAGS += -X &#34;github.com/gogs/gogs/pkg/setting.BuildTime=$(shell date -u &#39;+%Y-%m-%d %I:%M:%S %Z&#39;)&#34;
+LDFLAGS += -X &#34;github.com/gogs/gogs/pkg/setting.BuildGitHash=$(shell git rev-parse HEAD)&#34;
 
-DATA_FILES := $(shell find conf | sed 's/ /\\ /g')
+DATA_FILES := $(shell find conf | sed &#39;s/ /\\ /g&#39;)
 LESS_FILES := $(wildcard public/less/gogs.less public/less/_*.less)
 GENERATED  := pkg/bindata/bindata.go public/css/gogs.css
 
 OS := $(shell uname)
 
-TAGS = &quot;&quot;
-BUILD_FLAGS = &quot;-v&quot;
+TAGS = &#34;&#34;
+BUILD_FLAGS = &#34;-v&#34;
 
-RELEASE_ROOT = &quot;release&quot;
-RELEASE_GOGS = &quot;release/gogs&quot;
-NOW = $(shell date -u '+%Y%m%d%I%M%S')
+RELEASE_ROOT = &#34;release&#34;
+RELEASE_GOGS = &#34;release/gogs&#34;
+NOW = $(shell date -u &#39;+%Y%m%d%I%M%S&#39;)
 GOVET = go tool vet -composites=false -methods=false -structtags=false
 GOPATH = $(shell echo $${PWD%%src*})
 
@@ -408,54 +408,54 @@ govet:
 	$(GOVET) models pkg routes
 
 build: $(GENERATED)
-	go install $(BUILD_FLAGS) -ldflags '$(LDFLAGS)' -tags '$(TAGS)'
-	cp '$(GOPATH)/bin/gogs' .
+	go install $(BUILD_FLAGS) -ldflags &#39;$(LDFLAGS)&#39; -tags &#39;$(TAGS)&#39;
+	cp &#39;$(GOPATH)/bin/gogs&#39; .
 
 build-dev: $(GENERATED) govet
-	go install $(BUILD_FLAGS) -tags '$(TAGS)'
-	cp '$(GOPATH)/bin/gogs' .
+	go install $(BUILD_FLAGS) -tags &#39;$(TAGS)&#39;
+	cp &#39;$(GOPATH)/bin/gogs&#39; .
 
 build-dev-race: $(GENERATED) govet
-	go install $(BUILD_FLAGS) -race -tags '$(TAGS)'
-	cp '$(GOPATH)/bin/gogs' .
+	go install $(BUILD_FLAGS) -race -tags &#39;$(TAGS)&#39;
+	cp &#39;$(GOPATH)/bin/gogs&#39; .
 
 pack:
 	rm -rf $(RELEASE_GOGS)
 	mkdir -p $(RELEASE_GOGS)
 	cp -r gogs LICENSE README.md README_ZH.md templates public scripts $(RELEASE_GOGS)
 	rm -rf $(RELEASE_GOGS)/public/config.codekit $(RELEASE_GOGS)/public/less
-	cd $(RELEASE_ROOT) &amp;&amp; zip -r gogs.$(NOW).zip &quot;gogs&quot;
+	cd $(RELEASE_ROOT) &amp;&amp; zip -r gogs.$(NOW).zip &#34;gogs&#34;
 
 release: build pack
 
 bindata: pkg/bindata/bindata.go
 
 pkg/bindata/bindata.go: $(DATA_FILES)
-	go-bindata -o=$@ -ignore=&quot;\\.DS_Store|README.md|TRANSLATORS|auth.d&quot; -pkg=bindata conf/...
+	go-bindata -o=$@ -ignore=&#34;\\.DS_Store|README.md|TRANSLATORS|auth.d&#34; -pkg=bindata conf/...
 
 less: public/css/gogs.css
 
 public/css/gogs.css: $(LESS_FILES)
-	@type lessc &gt;/dev/null 2&gt;&amp;1 &amp;&amp; lessc $&lt; &gt;$@ || echo &quot;lessc command not found, skipped.&quot;
+	@type lessc &gt;/dev/null 2&gt;&amp;1 &amp;&amp; lessc $&lt; &gt;$@ || echo &#34;lessc command not found, skipped.&#34;
 
 clean:
 	go clean -i ./...
 
 clean-mac: clean
-	find . -name &quot;.DS_Store&quot; -print0 | xargs -0 rm
+	find . -name &#34;.DS_Store&#34; -print0 | xargs -0 rm
 
 test:
 	go test -cover -race ./...
 
 fixme:
-	grep -rnw &quot;FIXME&quot; cmd routers models pkg
+	grep -rnw &#34;FIXME&#34; cmd routers models pkg
 
 todo:
-	grep -rnw &quot;TODO&quot; cmd routers models pkg
+	grep -rnw &#34;TODO&#34; cmd routers models pkg
 
 # Legacy code should be remove by the time of release
 legacy:
-	grep -rnw &quot;LEGACY&quot; cmd routes models pkg
+	grep -rnw &#34;LEGACY&#34; cmd routes models pkg
 </code></pre><p><a href="https://github.com/gogs/gogs/pull/5262" title="Gogs PR-5262">Note a PR-5322 for Gogs.</a></p>
 				<div id="post-tags">
 				  

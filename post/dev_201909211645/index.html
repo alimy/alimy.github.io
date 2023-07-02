@@ -352,24 +352,24 @@
           <p>This document describes the binary wire format for protocol buffer messages. You don&rsquo;t need to understand this to use protocol buffers in your applications, but it can be very useful to know how different protocol buffer formats affect the size of your encoded messages.</p>
 <h3 id="a-simple-message">A Simple Message</h3>
 <p>Let&rsquo;s say you have the following very simple message definition:</p>
-<pre><code>message Test1 {
+<pre tabindex="0"><code>message Test1 {
   optional int32 a = 1;
 }
 </code></pre><p>In an application, you create a <code>Test1</code> message and set <code>a</code> to 150. You then serialize the message to an output stream. If you were able to examine the encoded message, you&rsquo;d see three bytes:</p>
-<pre><code>08 96 01
+<pre tabindex="0"><code>08 96 01
 </code></pre><p>So far, so small and numeric – but what does it mean? Read on&hellip;</p>
 <h3 id="base-128-varints">Base 128 Varints</h3>
 <p>To understand your simple protocol buffer encoding, you first need to understand varints. Varints are a method of serializing integers using one or more bytes. Smaller numbers take a smaller number of bytes.</p>
 <p>Each byte in a varint, except the last byte, has the most significant bit (msb) set – this indicates that there are further bytes to come. The lower 7 bits of each byte are used to store the two&rsquo;s complement representation of the number in groups of 7 bits, <strong>least significant group first</strong>.</p>
 <p>So, for example, here is the number 1 – it&rsquo;s a single byte, so the msb is not set:</p>
-<pre><code>0000 0001
+<pre tabindex="0"><code>0000 0001
 </code></pre><p>And here is 300 – this is a bit more complicated:</p>
-<pre><code>1010 1100 0000 0010
+<pre tabindex="0"><code>1010 1100 0000 0010
 </code></pre><p>How do you figure out that this is 300? First you drop the msb from each byte, as this is just there to tell us whether we&rsquo;ve reached the end of the number (as you can see, it&rsquo;s set in the first byte as there is more than one byte in the varint):</p>
-<pre><code> 1010 1100 0000 0010
+<pre tabindex="0"><code> 1010 1100 0000 0010
 → 010 1100  000 0010
 </code></pre><p>You reverse the two groups of 7 bits because, as you remember, varints store numbers with the least significant group first. Then you concatenate them to get your final value:</p>
-<pre><code>000 0010  010 1100
+<pre tabindex="0"><code>000 0010  010 1100
 →  000 0010 ++ 010 1100
 →  100101100
 →  256 + 32 + 8 + 4 = 300
@@ -420,9 +420,9 @@
 </table>
 <p>Each key in the streamed message is a varint with the value <code>(field_number &lt;&lt; 3) | wire_type</code> – in other words, the last three bits of the number store the wire type.</p>
 <p>Now let&rsquo;s look at our simple example again. You now know that the first number in the stream is always a varint key, and here it&rsquo;s 08, or (dropping the msb):</p>
-<pre><code>000 1000
+<pre tabindex="0"><code>000 1000
 </code></pre><p>You take the last three bits to get the wire type (0) and then right-shift by three to get the field number (1). So you now know that the field number is 1 and the following value is a varint. Using your varint-decoding knowledge from the previous section, you can see that the next two bytes store the value 150.</p>
-<pre><code>96 01 = 1001 0110  0000 0001
+<pre tabindex="0"><code>96 01 = 1001 0110  0000 0001
        → 000 0001  ++  001 0110 (drop the msb and reverse the groups of 7 bits)
        → 10010110
        → 128 + 16 + 4 + 2 = 150
@@ -465,9 +465,9 @@
 </tbody>
 </table>
 <p>In other words, each value <code>n</code> is encoded using</p>
-<pre><code>(n &lt;&lt; 1) ^ (n &gt;&gt; 31)
+<pre tabindex="0"><code>(n &lt;&lt; 1) ^ (n &gt;&gt; 31)
 </code></pre><p>for <code>sint32s</code>, or</p>
-<pre><code>(n &lt;&lt; 1) ^ (n &gt;&gt; 63)
+<pre tabindex="0"><code>(n &lt;&lt; 1) ^ (n &gt;&gt; 63)
 </code></pre><p>for the 64-bit version.</p>
 <p>Note that the second shift – the <code>(n &gt;&gt; 31)</code> part – is an arithmetic shift. So, in other words, the result of the shift is either a number that is all zero bits (if <code>n</code> is positive) or all one bits (if <code>n</code> is negative).</p>
 <p>When the <code>sint32</code> or <code>sint64</code> is parsed, its value is decoded back to the original, signed version.</p>
@@ -475,28 +475,28 @@
 <p>Non-varint numeric types are simple – double and fixed64 have wire type 1, which tells the parser to expect a fixed 64-bit lump of data; similarly float and fixed32 have wire type 5, which tells it to expect 32 bits. In both cases the values are stored in little-endian byte order.</p>
 <h3 id="strings">Strings</h3>
 <p>A wire type of 2 (length-delimited) means that the value is a varint encoded length followed by the specified number of bytes of data.</p>
-<pre><code>message Test2 {
+<pre tabindex="0"><code>message Test2 {
   optional string b = 2;
 }
 </code></pre><p>Setting the value of b to &ldquo;testing&rdquo; gives you:</p>
-<pre><code>12 07 74 65 73 74 69 6e 67
+<pre tabindex="0"><code>12 07 74 65 73 74 69 6e 67
 </code></pre><p>The red bytes are the UTF8 of &ldquo;testing&rdquo;. The key here is 0x12 → field number = 2, type = 2. The length varint in the value is 7 and lo and behold, we find seven bytes following it – our string.</p>
 <h3 id="embedded-messages">Embedded Messages</h3>
 <p>Here&rsquo;s a message definition with an embedded message of our example type, Test1:</p>
-<pre><code>message Test3 {
+<pre tabindex="0"><code>message Test3 {
   optional Test1 c = 3;
 }
 </code></pre><p>And here&rsquo;s the encoded version, again with the Test1&rsquo;s a field set to 150:</p>
-<pre><code> 1a 03 08 96 01
+<pre tabindex="0"><code> 1a 03 08 96 01
 </code></pre><p>As you can see, the last three bytes are exactly the same as our first example (08 96 01), and they&rsquo;re preceded by the number 3 – embedded messages are treated in exactly the same way as strings (wire type = 2).</p>
 <h3 id="optional-and-repeated-elements">Optional And Repeated Elements</h3>
 <p>If a proto2 message definition has repeated elements (without the [packed=true] option), the encoded message has zero or more key-value pairs with the same field number. These repeated values do not have to appear consecutively; they may be interleaved with other fields. The order of the elements with respect to each other is preserved when parsing, though the ordering with respect to other fields is lost. In proto3, repeated fields use <strong>packed encoding</strong>, which you can read about below.</p>
 <p>For any non-repeated fields in proto3, or optional fields in proto2, the encoded message may or may not have a key-value pair with that field number.</p>
 <p>Normally, an encoded message would never have more than one instance of a non-repeated field. However, parsers are expected to handle the case in which they do. For numeric types and strings, if the same field appears multiple times, the parser accepts the last value it sees. For embedded message fields, the parser merges multiple instances of the same field, as if with the Message::MergeFrom method – that is, all singular scalar fields in the latter instance replace those in the former, singular embedded messages are merged, and repeated fields are concatenated. The effect of these rules is that parsing the concatenation of two encoded messages produces exactly the same result as if you had parsed the two messages separately and merged the resulting objects. That is, this:</p>
-<pre><code>MyMessage message;
+<pre tabindex="0"><code>MyMessage message;
 message.ParseFromString(str1 + str2);
 </code></pre><p>is equivalent to this:</p>
-<pre><code>MyMessage message, message2;
+<pre tabindex="0"><code>MyMessage message, message2;
 message.ParseFromString(str1);
 message2.ParseFromString(str2);
 message.MergeFrom(message2);
@@ -504,11 +504,11 @@ message.MergeFrom(message2);
 <h3 id="packed-repeated-fields">Packed Repeated Fields</h3>
 <p>Version 2.1.0 introduced packed repeated fields, which in proto2 are declared like repeated fields but with the special <code>[packed=true]</code> option. In proto3, repeated fields of scalar numeric types are packed by default. These function like repeated fields, but are encoded differently. A packed repeated field containing zero elements does not appear in the encoded message. Otherwise, all of the elements of the field are packed into a single key-value pair with wire type 2 (length-delimited). Each element is encoded the same way it would be normally, except without a key preceding it.</p>
 <p>For example, imagine you have the message type:</p>
-<pre><code>message Test4 {
+<pre tabindex="0"><code>message Test4 {
   repeated int32 d = 4 [packed=true];
 }
 </code></pre><p>Now let&rsquo;s say you construct a Test4, providing the values 3, 270, and 86942 for the repeated field d. Then, the encoded form would be:</p>
-<pre><code>22        // key (field number 4, wire type 2)
+<pre tabindex="0"><code>22        // key (field number 4, wire type 2)
 06        // payload size (6 bytes)
 03        // first element (varint 3)
 8E 02     // second element (varint 270)

@@ -351,7 +351,7 @@
           
           <h3 id="serializing-list">Serializing list</h3>
 <p>Serializing Collections should have been similar to serializing other objects. However, the problem is that Collections are generic and the generic type information is not maintained in the json. We therefore pass the type while deserializing list. Note that if the Collection has different types of objects then there is no way to serialize it.</p>
-<pre><code>package com.studytrails.json.gson;
+<pre tabindex="0"><code>package com.studytrails.json.gson;
 
 import java.lang.reflect.Type;
 import java.util.Collection;
@@ -362,7 +362,7 @@ import com.google.gson.reflect.TypeToken;
 
 public class DeSerializeListExample5 {
 	public static void main(String[] args) {
-		String json = &quot;[{album_id:1,album_title:'album1'},{album_id:2,album_title:'album2'}]&quot;;
+		String json = &#34;[{album_id:1,album_title:&#39;album1&#39;},{album_id:2,album_title:&#39;album2&#39;}]&#34;;
 
 		Gson gson = new Gson();
 		// create the type for the collection. In this case define that the collection is of type Dataset
@@ -381,7 +381,7 @@ public class DeSerializeListExample5 {
 	}
 }
 </code></pre><h4 id="the-dataset-class">The Dataset Class</h4>
-<pre><code>package com.studytrails.json.gson;
+<pre tabindex="0"><code>package com.studytrails.json.gson;
 
 import java.util.HashMap;
 import java.util.Map;

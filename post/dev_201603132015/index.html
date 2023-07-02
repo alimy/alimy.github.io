@@ -360,7 +360,7 @@ Lets see some examples</li>
 </ul>
 <h3 id="parse-json">Parse JSON</h3>
 <p>This examples shows how to parse a JSON string. The JSON string in this example is a list of genres (limited to 2) from freemusicarchive.org</p>
-<pre><code>import java.io.IOException;
+<pre tabindex="0"><code>import java.io.IOException;
 import java.net.URL;
 
 import org.apache.commons.io.IOUtils;
@@ -372,23 +372,23 @@ import org.json.simple.parser.ParseException;
 public class ParseJson1 {
 
     public static void main(String[] args) {
-        String url = &quot;http://freemusicarchive.org/api/get/genres.json?api_key=60BLHNQCAOUFPIBZ&amp;limit=2&quot;;
+        String url = &#34;http://freemusicarchive.org/api/get/genres.json?api_key=60BLHNQCAOUFPIBZ&amp;limit=2&#34;;
         /*
-         * {&quot;title&quot;:&quot;Free Music Archive - Genres&quot;,&quot;message&quot;:&quot;&quot;,&quot;errors&quot;:[],&quot;total&quot; : &quot;161&quot;,&quot;total_pages&quot;:81,&quot;page&quot;:1,&quot;limit&quot;:&quot;2&quot;,
-         * &quot;dataset&quot;:
-         * [{&quot;genre_id&quot;: &quot;1&quot;,&quot;genre_parent_id&quot;:&quot;38&quot;,&quot;genre_title&quot;:&quot;Avant-Garde&quot; ,&quot;genre_handle&quot;: &quot;Avant-Garde&quot;,&quot;genre_color&quot;:&quot;#006666&quot;},
-         * {&quot;genre_id&quot;:&quot;2&quot;,&quot;genre_parent_id&quot; :null,&quot;genre_title&quot;:&quot;International&quot;,&quot;genre_handle&quot;:&quot;International&quot;,&quot;genre_color&quot;:&quot;#CC3300&quot;}]}
+         * {&#34;title&#34;:&#34;Free Music Archive - Genres&#34;,&#34;message&#34;:&#34;&#34;,&#34;errors&#34;:[],&#34;total&#34; : &#34;161&#34;,&#34;total_pages&#34;:81,&#34;page&#34;:1,&#34;limit&#34;:&#34;2&#34;,
+         * &#34;dataset&#34;:
+         * [{&#34;genre_id&#34;: &#34;1&#34;,&#34;genre_parent_id&#34;:&#34;38&#34;,&#34;genre_title&#34;:&#34;Avant-Garde&#34; ,&#34;genre_handle&#34;: &#34;Avant-Garde&#34;,&#34;genre_color&#34;:&#34;#006666&#34;},
+         * {&#34;genre_id&#34;:&#34;2&#34;,&#34;genre_parent_id&#34; :null,&#34;genre_title&#34;:&#34;International&#34;,&#34;genre_handle&#34;:&#34;International&#34;,&#34;genre_color&#34;:&#34;#CC3300&#34;}]}
          */
         try {
             String genreJson = IOUtils.toString(new URL(url));
             JSONObject genreJsonObject = (JSONObject) JSONValue.parseWithException(genreJson);
             // get the title
-            System.out.println(genreJsonObject.get(&quot;title&quot;));
+            System.out.println(genreJsonObject.get(&#34;title&#34;));
             // get the data
-            JSONArray genreArray = (JSONArray) genreJsonObject.get(&quot;dataset&quot;);
+            JSONArray genreArray = (JSONArray) genreJsonObject.get(&#34;dataset&#34;);
             // get the first genre
             JSONObject firstGenre = (JSONObject) genreArray.get(0);
-            System.out.println(firstGenre.get(&quot;genre_title&quot;));
+            System.out.println(firstGenre.get(&#34;genre_title&#34;));
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
@@ -396,7 +396,7 @@ public class ParseJson1 {
 }
 </code></pre><h3 id="build-json">Build JSON</h3>
 <p>We now build a json string for a genre</p>
-<pre><code>import java.util.HashMap;
+<pre tabindex="0"><code>import java.util.HashMap;
 import java.util.Map;
 
 import org.json.simple.JSONAware;
@@ -408,9 +408,9 @@ public class BuildJson2 {
     public static void main(String[] args) {
         BuildJson2 json2 = new BuildJson2();
         GenreBean bean = json2.new GenreBean();
-        bean.setGenre_title(&quot;International&quot;);
-        bean.setGenre_color(&quot;#CC3300&quot;);
-        bean.setGenre_handle(&quot;International&quot;);
+        bean.setGenre_title(&#34;International&#34;);
+        bean.setGenre_color(&#34;#CC3300&#34;);
+        bean.setGenre_handle(&#34;International&#34;);
         bean.setGenre_id(1);
         System.out.println(JSONValue.toJSONString(bean));
     }
@@ -426,11 +426,11 @@ public class BuildJson2 {
         @Override
         public String toJSONString() {
             Map&lt;Object , Object&gt; genreBeanJsonMap = new HashMap&lt;Object , Object&gt;();
-            genreBeanJsonMap.put(&quot;genre_id&quot;, getGenre_id());
-            genreBeanJsonMap.put(&quot;genre_parent_id&quot;, getGenre_parent_id());
-            genreBeanJsonMap.put(&quot;genre_handle&quot;, getGenre_handle());
-            genreBeanJsonMap.put(&quot;genre_title&quot;, getGenre_handle());
-            genreBeanJsonMap.put(&quot;genre_color&quot;, getGenre_color());
+            genreBeanJsonMap.put(&#34;genre_id&#34;, getGenre_id());
+            genreBeanJsonMap.put(&#34;genre_parent_id&#34;, getGenre_parent_id());
+            genreBeanJsonMap.put(&#34;genre_handle&#34;, getGenre_handle());
+            genreBeanJsonMap.put(&#34;genre_title&#34;, getGenre_handle());
+            genreBeanJsonMap.put(&#34;genre_color&#34;, getGenre_color());
             return JSONObject.toJSONString(genreBeanJsonMap);
         }
 

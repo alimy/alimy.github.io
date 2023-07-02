@@ -352,17 +352,17 @@
           <h3 id="add-new-dockerfiledocker-ce-for-docker-cev1706-to-build-gogss-docker-image">Add new Dockerfile.docker-ce for docker-ce(&gt;=v17.06) to build Gogs&rsquo;s docker image</h3>
 <p>Docker-CE can be given to a new build stage by adding <code>AS</code> name to the<code> FROM</code> instruction sine release version of v17.06. The Dockerfile&rsquo;s <code>FROM</code> instruction like below:</p>
 <h4 id="from">FROM</h4>
-<pre><code>FROM &lt;image&gt; [AS &lt;name&gt;]
+<pre tabindex="0"><code>FROM &lt;image&gt; [AS &lt;name&gt;]
 </code></pre><p>Or</p>
-<pre><code>FROM &lt;image&gt;[:&lt;tag&gt;] [AS &lt;name&gt;]
+<pre tabindex="0"><code>FROM &lt;image&gt;[:&lt;tag&gt;] [AS &lt;name&gt;]
 </code></pre><p>Or</p>
-<pre><code>FROM &lt;image&gt;[@&lt;digest&gt;] [AS &lt;name&gt;]
+<pre tabindex="0"><code>FROM &lt;image&gt;[@&lt;digest&gt;] [AS &lt;name&gt;]
 </code></pre><ul>
 <li>Optionally a name can be given to a new build stage by adding <code>AS</code> name to the <code>FROM</code> instruction. The name can be used in subsequent <code>FROM</code> and <code>COPY --from=&lt;name|index&gt;</code> instructions to refer to the image built in this stage.</li>
 </ul>
 <p>Find Docker-ce official document <a href="https://docs.docker.com/v17.06/engine/reference/builder/#from" title="Docker official Document">here</a>.</p>
 <p>You can use this patch to build docker image if  docker-ce that version &gt;=v17.06 is installed:</p>
-<pre><code>&gt;docker version
+<pre tabindex="0"><code>&gt;docker version
 Client:
  Version:      18.03.1-ce
  API version:  1.37
@@ -385,15 +385,15 @@ Server:
 </code></pre><ul>
 <li>Build docker image</li>
 </ul>
-<pre><code>&gt; cd $GOPATH/src/github.com/gogs/gogs
+<pre tabindex="0"><code>&gt; cd $GOPATH/src/github.com/gogs/gogs
 &gt; docker build -t &lt;your/image-tag&gt; -f Dockerfile.docker-ce .
 </code></pre><p>Dockerfile.docker-ce</p>
-<pre><code>FROM golang:1.10.3-alpine AS binarybuilder
+<pre tabindex="0"><code>FROM golang:1.10.3-alpine AS binarybuilder
 # Install build deps
 RUN apk --no-cache --no-progress add --virtual build-deps build-base git linux-pam-dev
 WORKDIR /go/src/github.com/gogs/gogs
 COPY . .
-RUN make build TAGS=&quot;sqlite cert pam&quot;
+RUN make build TAGS=&#34;sqlite cert pam&#34;
 
 FROM alpine:3.7
 # Install system utils &amp; Gogs runtime dependencies
@@ -426,10 +426,10 @@ COPY --from=binarybuilder /go/src/github.com/gogs/gogs/gogs .
 RUN ./docker/finalize-docker-ce.sh
 
 # Configure Docker Container
-VOLUME [&quot;/data&quot;]
+VOLUME [&#34;/data&#34;]
 EXPOSE 22 3000
-ENTRYPOINT [&quot;/app/gogs/docker/start.sh&quot;]
-CMD [&quot;/bin/s6-svscan&quot;, &quot;/app/gogs/docker/s6/&quot;]
+ENTRYPOINT [&#34;/app/gogs/docker/start.sh&#34;]
+CMD [&#34;/bin/s6-svscan&#34;, &#34;/app/gogs/docker/s6/&#34;]
 </code></pre><p><a href="https://github.com/gogs/gogs/pull/5322" title="Gogs PR-5322">Note a PR-5322 for Gogs.</a></p>
 				<div id="post-tags">
 				  

@@ -356,7 +356,7 @@
 <li>By using the @Expose annotations and then using the excludeFieldsWithoutExposeAnnotation() method on the GsonBuilder. This will ignore all fields except the ones that have been exposed using the @Expose annotation.</li>
 </ol>
 <h4 id="the-example-below-demonstrates-all-three">The example below demonstrates all three</h4>
-<pre><code>package com.studytrails.json.gson;
+<pre tabindex="0"><code>package com.studytrails.json.gson;
 
 import java.awt.Color;
 
@@ -367,10 +367,10 @@ public class ExclusionExample {
 	public static void main(String[] args) {
 		// We create an instance of type CAT.
 		Cat cat = new Cat();
-		cat.setName(&quot;Cat&quot;);
+		cat.setName(&#34;Cat&#34;);
 		cat.setAge(1);
 		cat.setColor(Color.BLACK);
-		cat.setCountry(&quot;US&quot;);
+		cat.setCountry(&#34;US&#34;);
 		// we allow serializing null. therefore although the fields lazy is
 		// null, it will be serialized. We add a CustomExclusionStrategy that
 		// will exclude the Color class. We also allow only those fields that
@@ -378,12 +378,12 @@ public class ExclusionExample {
 		Gson gson = new GsonBuilder().serializeNulls().setExclusionStrategies(new CustomExclusionStrategy(Color.class))
 				.excludeFieldsWithoutExposeAnnotation().create();
 		System.out.println(gson.toJson(cat));
-		// prints {&quot;name&quot;:&quot;Cat&quot;,&quot;lazy&quot;:null}
+		// prints {&#34;name&#34;:&#34;Cat&#34;,&#34;lazy&#34;:null}
 
 	}
 }
 </code></pre><h4 id="the-cat-class">The Cat class</h4>
-<pre><code>package com.studytrails.json.gson;
+<pre tabindex="0"><code>package com.studytrails.json.gson;
 
 import java.awt.Color;
 
@@ -441,7 +441,7 @@ public class Cat {
 	}
 }
 </code></pre><h4 id="the-exclusion-strategy">The Exclusion Strategy</h4>
-<pre><code>package com.studytrails.json.gson;
+<pre tabindex="0"><code>package com.studytrails.json.gson;
 
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;

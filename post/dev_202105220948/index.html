@@ -365,23 +365,23 @@
 <h3 id="添加获取的对应ip地址到本地hosts文件">添加获取的对应IP地址到本地hosts文件</h3>
 <p>MacOS或Linux环境hosts文件路径<code>/etc/hosts</code> ; Windows环境是<code>C:\Windows\System32\drivers\etc</code>。</p>
 <p>以下是在MacOS或Linux环境下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">% sudo cat <span style="color:#e6db74">&lt;&lt;EOF&gt;&gt;/etc/hosts
-</span><span style="color:#e6db74"># github.com
-</span><span style="color:#e6db74">140.82.113.3 github.com
-</span><span style="color:#e6db74">199.232.69.194 github.global.ssl.fastly.net
-</span><span style="color:#e6db74">185.199.108.153 assets-cdn.github.com
-</span><span style="color:#e6db74">185.199.109.153 assets-cdn.github.com
-</span><span style="color:#e6db74">185.199.110.153 assets-cdn.github.com
-</span><span style="color:#e6db74">185.199.111.153 assets-cdn.github.com
-</span><span style="color:#e6db74">EOF</span>
-</code></pre></div><h3 id="刷新dns">刷新DNS</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">% ipconfig /flushdns <span style="color:#75715e"># in windows</span>
-% sudo systemctl restart network-manager <span style="color:#75715e"># in Linux that use systemd as init</span>
-% sudo killall -HUP mDNSResponder <span style="color:#75715e"># in MacOS</span>
-</code></pre></div><p>注意：如果使用了dnsmasq作为本地代理DNS服务器，还需要重启dnsmasq服务：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">% sudo systemctl restart dnsmasq <span style="color:#75715e"># in Linux that use systemd as init</span>
-% sudo brew services restart dnsmasq <span style="color:#75715e"># in MacOS</span>
-</code></pre></div><hr>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>% sudo cat <span style="color:#e6db74">&lt;&lt;EOF&gt;&gt;/etc/hosts
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"># github.com
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">140.82.113.3 github.com
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">199.232.69.194 github.global.ssl.fastly.net
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">185.199.108.153 assets-cdn.github.com
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">185.199.109.153 assets-cdn.github.com
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">185.199.110.153 assets-cdn.github.com
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">185.199.111.153 assets-cdn.github.com
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
+</span></span></code></pre></div><h3 id="刷新dns">刷新DNS</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>% ipconfig /flushdns <span style="color:#75715e"># in windows</span>
+</span></span><span style="display:flex;"><span>% sudo systemctl restart network-manager <span style="color:#75715e"># in Linux that use systemd as init</span>
+</span></span><span style="display:flex;"><span>% sudo killall -HUP mDNSResponder <span style="color:#75715e"># in MacOS</span>
+</span></span></code></pre></div><p>注意：如果使用了dnsmasq作为本地代理DNS服务器，还需要重启dnsmasq服务：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>% sudo systemctl restart dnsmasq <span style="color:#75715e"># in Linux that use systemd as init</span>
+</span></span><span style="display:flex;"><span>% sudo brew services restart dnsmasq <span style="color:#75715e"># in MacOS</span>
+</span></span></code></pre></div><hr>
 <p>后记：亲测，不是特别有用，时灵时不灵，关键是GitHub资源拉取受阻不一定是DNS污染所致，可能是对应的IP地址访问受阻，这就有点蛋疼了 :(</p>
 				<div id="post-tags">
 				  

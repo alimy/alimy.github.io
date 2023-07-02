@@ -351,7 +351,7 @@
           
           <h3 id="serializing-list">Serializing list</h3>
 <p>As we saw in the previous tutorial serializing and deserializing classes with generic types is non trivial since generic type information is lost while serializing. Gson provides a class called com.google.gson.reflect.TypeToken to store generic types. The example below shows how to use the TypeToken class to serialize and deserialize Classes with generic types.</p>
-<pre><code>package com.studytrails.json.gson;
+<pre tabindex="0"><code>package com.studytrails.json.gson;
 
 import java.lang.reflect.Type;
 
@@ -363,7 +363,7 @@ public class GenericTypesExample8 {
 		// create an animal class that is of type dog.
 		Animal animal = new Animal&lt;Dog&gt;();
 		// Create a Dog instance
-		Dog dog = new Dog(&quot;I am a dog&quot;);
+		Dog dog = new Dog(&#34;I am a dog&#34;);
 
 		animal.setAnimal(dog);
 		Gson gson = new Gson();
@@ -388,7 +388,7 @@ public class GenericTypesExample8 {
 	}
 }
 </code></pre><h4 id="animal-class">Animal class</h4>
-<pre><code>package com.studytrails.json.gson;
+<pre tabindex="0"><code>package com.studytrails.json.gson;
 
 public class Animal {
 
@@ -404,7 +404,7 @@ public class Animal {
 
 }
 </code></pre><h4 id="dog-class">Dog Class</h4>
-<pre><code>package com.studytrails.json.gson;
+<pre tabindex="0"><code>package com.studytrails.json.gson;
 
 public class Dog {
 	private String name;

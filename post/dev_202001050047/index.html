@@ -359,27 +359,27 @@
 </ul>
 <h4 id="docker安装">Docker安装</h4>
 <p>安装CentOS官方版本：</p>
-<pre><code>% sudo yum install -y docker
+<pre tabindex="0"><code>% sudo yum install -y docker
 </code></pre><p>或者 安装Docker官方版本：</p>
-<pre><code>% sudo su
+<pre tabindex="0"><code>% sudo su
 % yum install -y yum-utils device-mapper-persistent-data lvm2
 % yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 % yum install -y docker-ce 
 </code></pre><p>启动Docker服务：</p>
-<pre><code>% sudo systemctl enable docker
+<pre tabindex="0"><code>% sudo systemctl enable docker
 % sudo systemctl start docker
 </code></pre><h4 id="docker启动mysql-57">Docker启动MySQL 5.7</h4>
-<pre><code>% mkdir mysql-data
+<pre tabindex="0"><code>% mkdir mysql-data
 % sudo docker pull mysql:5.7
 % sudo docker run -d --restart always --name tars-mysql \
             --net=host \
-            -e MYSQL_ROOT_PASSWORD='root@appinside' \
+            -e MYSQL_ROOT_PASSWORD=&#39;root@appinside&#39; \
             -v ${PWD}/mysql-data:/var/lib/mysql  \
             -v /etc/localtime:/etc/localtime:ro \
             mysql:5.7
 </code></pre><p>这里<code>--net=host</code>让docker使用本地网络。</p>
 <h4 id="docker启动tars-master">Docker启动Tars master</h4>
-<pre><code>% sudo docker pull bitbus/tars:latest
+<pre tabindex="0"><code>% sudo docker pull bitbus/tars:latest
 % sudo docker run -d --restart always --name tars-master \
         --net=host \
         -e INET=eth0 \

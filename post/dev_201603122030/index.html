@@ -351,7 +351,7 @@
           
           <p>In the earlier tutorials we have seen how gson can serialize and deserialize java classes with or without hierarchies. By default, it introspects the classes and comes with with a strategy for serializing and deserializing it. However, in some cases, you want to specify your own conversion strategy. That is, you want to control how the java object is converted to json string and the other way round. Gson provides a capability to specify a custom type adapter. You tell Gson that for a particular class, use the conversion strategy specified by your custom adapter. Lets look at how to write the type adapter :
 To write a custom adapter extend the com.google.gson.TypeAdapter abstract class. Implement the public abstract T read(JsonReader in) throws IOException; and public abstract void write(JsonWriter out, T value) throws IOException; methods. The adapter should also handle nulls. Create the Type adapter instance and then register it with the GsonBuilder. Create the Gson object from the GsonBuilder and then use that to serialize and deserialize. Lets look at an example</p>
-<pre><code>package com.studytrails.json.gson;
+<pre tabindex="0"><code>package com.studytrails.json.gson;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -365,7 +365,7 @@ import com.google.gson.GsonBuilder;
 public class DatasetTypeAdapterExample8 {
 
 	public static void main(String[] args) throws MalformedURLException, IOException {
-		String url = &quot;http://freemusicarchive.org/api/get/albums.json?api_key=60BLHNQCAOUFPIBZ&amp;limit=5&quot;;
+		String url = &#34;http://freemusicarchive.org/api/get/albums.json?api_key=60BLHNQCAOUFPIBZ&amp;limit=5&#34;;
 		String json = IOUtils.toString(new URL(url));
 		// Create the custom type adapter and register it with the GsonBuilder
 		// class.
@@ -380,7 +380,7 @@ public class DatasetTypeAdapterExample8 {
 	}
 }
 </code></pre><p>The Adapter</p>
-<pre><code>package com.studytrails.json.gson;
+<pre tabindex="0"><code>package com.studytrails.json.gson;
 
 import java.io.IOException;
 
@@ -411,7 +411,7 @@ public class DatasetTypeAdapter extends TypeAdapter&lt;Dataset&gt; {
 			reader.beginObject();
 			while (!reader.peek().equals(JsonToken.END_OBJECT)) {
 				if (reader.peek().equals(JsonToken.NAME)) {
-					if (reader.nextName().equals(&quot;album_url&quot;))
+					if (reader.nextName().equals(&#34;album_url&#34;))
 						dataset.setAlbum_title(reader.nextString());
 					else
 						reader.skipValue();
@@ -431,7 +431,7 @@ public class DatasetTypeAdapter extends TypeAdapter&lt;Dataset&gt; {
 
 }
 </code></pre><p>The Albums class</p>
-<pre><code>package com.studytrails.json.gson;
+<pre tabindex="0"><code>package com.studytrails.json.gson;
 
 
 public class Albums {
@@ -456,7 +456,7 @@ public class Albums {
 	}
 }
 </code></pre><p>The Dataset class</p>
-<pre><code>package com.studytrails.json.gson;
+<pre tabindex="0"><code>package com.studytrails.json.gson;
 
 import java.util.HashMap;
 import java.util.Map;

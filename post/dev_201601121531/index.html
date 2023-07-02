@@ -353,7 +353,7 @@
 <p>gogs 打开一个android app库的资源文件夹(/coding/Coding-Android/src/master/app/src/main/res/drawable-xxhdpi)
 返回 500</p>
 <h2 id="源头">&gt;源头</h2>
-<pre><code>[git@linux gogs]$ ./gogs web
+<pre tabindex="0"><code>[git@linux gogs]$ ./gogs web
 2016/01/12 15:35:31 [T] Custom path: /home/git/opt/gogs/custom
 2016/01/12 15:35:31 [T] Log path: /home/git/opt/gogs/log
 2016/01/12 15:35:31 [I] Gogs 0.8.19.0111
@@ -369,10 +369,9 @@
 2016/01/12 15:35:36 [D] Session ID: bd615aa3d0616740
 2016/01/12 15:35:36 [D] CSRF Token: Ff7aL72oaVjpxMgcOS0fqcVokWE6MTQ1MjU2NzkxMjM0NTE3Njg2MA==
 2016/01/12 15:35:37 [...routers/repo/view.go:134 Home()] [E] GetCommitsInfo: GetCommitByPath (app/src/main/res/drawable-xxhdpi//ic_location_list_check.png): pipe2: too many open files
-
 </code></pre><p>• 原来是<code>pipe2: too many open files</code></p>
 <h2 id="ulimit">&gt;ulimit</h2>
-<pre><code>[git@linux gogs]$ ulimit -a
+<pre tabindex="0"><code>[git@linux gogs]$ ulimit -a
 core file size          (blocks, -c) 0
 data seg size           (kbytes, -d) unlimited
 scheduling priority             (-e) 0
@@ -391,7 +390,7 @@ virtual memory          (kbytes, -v) unlimited
 file locks                      (-x) unlimited
 </code></pre><p>• 嗯，(open files)=4096，那也不小啊，gogs君，这是Bug吗？好吧，我改&hellip;</p>
 <h2 id="解决方案">&gt;解决方案</h2>
-<pre><code>[root@linux gogs]# cat /proc/sys/fs/file-max
+<pre tabindex="0"><code>[root@linux gogs]# cat /proc/sys/fs/file-max
 813396
 
 [root@linux gogs]# ulimit -n 32768
@@ -420,7 +419,7 @@ max user processes              (-u) 32768
 virtual memory          (kbytes, -v) unlimited
 file locks                      (-x) unlimited
 </code></pre><h2 id="终极方案">&gt;终极方案</h2>
-<pre><code>[root@linux gogs]# cat /etc/security/limits.conf
+<pre tabindex="0"><code>[root@linux gogs]# cat /etc/security/limits.conf
 # /etc/security/limits.conf
 #
 #This file sets the resource limits for the users logged in via PAM.
@@ -447,8 +446,8 @@ file locks                      (-x) unlimited
 #                 for maxlogin limit
 #
 #&lt;type&gt; can have the two values:
-#        - &quot;soft&quot; for enforcing the soft limits
-#        - &quot;hard&quot; for enforcing hard limits
+#        - &#34;soft&#34; for enforcing the soft limits
+#        - &#34;hard&#34; for enforcing hard limits
 #
 #&lt;item&gt; can be one of the following:
 #        - core - limits the core file size (KB)
@@ -483,7 +482,7 @@ file locks                      (-x) unlimited
 
 # End of file
 </code></pre><p>• 编辑这个配置文件修改limits</p>
-<pre><code>[root@linux gogs]# vi /etc/security/limits.conf
+<pre tabindex="0"><code>[root@linux gogs]# vi /etc/security/limits.conf
 
 [root@linux gogs]# cat /etc/security/limits.conf
 # /etc/security/limits.conf
@@ -527,7 +526,7 @@ systemd忽略通过ulimit配置的limits（是否理会/etc/security/limits.conf
 何响应就不得而知了，没有深究）对systemd不是特别了解，有时间再深入研究。</li>
 <li>下面是我的gogs.service</li>
 </ul>
-<pre><code>[git@linux gogs]$ cat /usr/lib/systemd/system/gogs.service
+<pre tabindex="0"><code>[git@linux gogs]$ cat /usr/lib/systemd/system/gogs.service
 [Unit]
 Description=Gogs (Go Git Service)
 After=syslog.target

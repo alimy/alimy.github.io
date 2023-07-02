@@ -351,7 +351,7 @@
           
           <p>XStream can also be used with JSON. XStream provides two drivers : a JsonHierarchicalStreamDriver and a JettisonMappedXmlDriver. The JsonHierarchicalStreamDriver can be used to write a JSON string but cannot deserialize a JSON. JettisonMappedXmlDriver can be used to deserialize a JSON but it introduces an additional dependency. In this example we deserialize a json string into a java object.</p>
 <p>Note: The mapping from Java to JSON (and back) is limited, since not anything can be expressed in JSON as with XML. It works quite well for simple objects, but one should not expect wonders. Additionally XStream supports only Jettison 1.0.1. Any other version will not work correctly (even newer ones).</p>
-<pre><code>package com.studytrails.xml.xstream;
+<pre tabindex="0"><code>package com.studytrails.xml.xstream;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -363,7 +363,7 @@ import com.thoughtworks.xstream.io.json.JettisonMappedXmlDriver;
 
 public class XStreamJsonExample {
 
-	private String json = &quot;{Music:{albums:[{name:name1,year:1980}]}}&quot;;
+	private String json = &#34;{Music:{albums:[{name:name1,year:1980}]}}&#34;;
 
 	public static void main(String[] args) {
 		XStreamJsonExample example = new XStreamJsonExample();
@@ -378,37 +378,37 @@ public class XStreamJsonExample {
 		System.out.println(music7);
 		Music7 music = new Music7();
 		Album7 album1 = new Album7();
-		album1.name = &quot;name1&quot;;
+		album1.name = &#34;name1&#34;;
 		album1.year = 1980;
 		music.albums.add(album1);
 		Album7 album2 = new Album7();
-		album2.name = &quot;name2&quot;;
+		album2.name = &#34;name2&#34;;
 		album2.year = 1981;
 		music.albums.add(album2);
 		System.out.println(xStream.toXML(music));
 	}
 }
 
-@XStreamAlias(&quot;Music&quot;)
+@XStreamAlias(&#34;Music&#34;)
 class Music7 {
 	@XStreamImplicit
 	List&lt;Album7&gt; albums = new ArrayList&lt;Album7&gt;();
 
 	@Override
 	public String toString() {
-		return &quot;Music7 [albums=&quot; + albums + &quot;]&quot;;
+		return &#34;Music7 [albums=&#34; + albums + &#34;]&#34;;
 	}
 
 }
 
-@XStreamAlias(&quot;Album&quot;)
+@XStreamAlias(&#34;Album&#34;)
 class Album7 {
 	String name;
 	int year;
 
 	@Override
 	public String toString() {
-		return &quot;Album7 [name=&quot; + name + &quot;, year=&quot; + year + &quot;]&quot;;
+		return &#34;Album7 [name=&#34; + name + &#34;, year=&#34; + year + &#34;]&#34;;
 	}
 }
 </code></pre><hr>

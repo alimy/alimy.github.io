@@ -351,15 +351,15 @@
           
           <h3 id="notation">Notation</h3>
 <p>The syntax is specified using Extended Backus-Naur Form (EBNF):</p>
-<pre><code>Production  = production_name &quot;=&quot; [ Expression ] &quot;.&quot; .
-Expression  = Alternative { &quot;|&quot; Alternative } .
+<pre tabindex="0"><code>Production  = production_name &#34;=&#34; [ Expression ] &#34;.&#34; .
+Expression  = Alternative { &#34;|&#34; Alternative } .
 Alternative = Term { Term } .
-Term        = production_name | token [ &quot;…&quot; token ] | Group | Option | Repetition .
-Group       = &quot;(&quot; Expression &quot;)&quot; .
-Option      = &quot;[&quot; Expression &quot;]&quot; .
-Repetition  = &quot;{&quot; Expression &quot;}&quot; .
+Term        = production_name | token [ &#34;…&#34; token ] | Group | Option | Repetition .
+Group       = &#34;(&#34; Expression &#34;)&#34; .
+Option      = &#34;[&#34; Expression &#34;]&#34; .
+Repetition  = &#34;{&#34; Expression &#34;}&#34; .
 </code></pre><p>Productions are expressions constructed from terms and the following operators, in increasing precedence:</p>
-<pre><code>|   alternation
+<pre tabindex="0"><code>|   alternation
 ()  grouping
 []  option (0 or 1 times)
 {}  repetition (0 to n times)
@@ -369,69 +369,61 @@ Repetition  = &quot;{&quot; Expression &quot;}&quot; .
 <ul>
 <li>
 <p>Characters</p>
-<pre><code>newline        = /* the Unicode code point U+000A */ .
+<pre tabindex="0"><code>newline        = /* the Unicode code point U+000A */ .
 unicode_char   = /* an arbitrary Unicode code point except newline */ .
-unicode_letter = /* a Unicode code point classified as &quot;Letter&quot; */ .
-unicode_digit  = /* a Unicode code point classified as &quot;Number, decimal digit&quot; */ .
-</code></pre><pre><code>
+unicode_letter = /* a Unicode code point classified as &#34;Letter&#34; */ .
+unicode_digit  = /* a Unicode code point classified as &#34;Number, decimal digit&#34; */ .
 </code></pre></li>
 <li>
 <p>Letters and digits</p>
-<pre><code>letter        = unicode_letter | &quot;_&quot; .
-decimal_digit = &quot;0&quot; … &quot;9&quot; .
-octal_digit   = &quot;0&quot; … &quot;7&quot; .
-hex_digit     = &quot;0&quot; … &quot;9&quot; | &quot;A&quot; … &quot;F&quot; | &quot;a&quot; … &quot;f&quot; .
-</code></pre><pre><code>
+<pre tabindex="0"><code>letter        = unicode_letter | &#34;_&#34; .
+decimal_digit = &#34;0&#34; … &#34;9&#34; .
+octal_digit   = &#34;0&#34; … &#34;7&#34; .
+hex_digit     = &#34;0&#34; … &#34;9&#34; | &#34;A&#34; … &#34;F&#34; | &#34;a&#34; … &#34;f&#34; .
 </code></pre></li>
 <li>
 <p>Identifiers</p>
-<pre><code>identifier = letter { letter | unicode_digit } .
-</code></pre><pre><code>
+<pre tabindex="0"><code>identifier = letter { letter | unicode_digit } .
 </code></pre></li>
 <li>
 <p>Keywords</p>
-<pre><code>break        default      func         interface    select
+<pre tabindex="0"><code>break        default      func         interface    select
 case         defer        go           map          struct
 chan         else         goto         package      switch
 const        fallthrough  if           range        type
 continue     for          import       return       var
-</code></pre><pre><code>
 </code></pre></li>
 <li>
 <p>Operators and Delimiters</p>
-<pre><code>&amp;     +=    &amp;=     &amp;&amp;    ==    !=    (    )	   +
+<pre tabindex="0"><code>&amp;     +=    &amp;=     &amp;&amp;    ==    !=    (    )	   +
 |     -=    |=     ||    &lt;     &lt;=    [    ]	   -
 ^     *=    ^=     &lt;-    &gt;     &gt;=    {    }    *
 /    &lt;&lt;    /=    &lt;&lt;=    ++    =     :=    ,    ;
 %    &gt;&gt;    %=    &gt;&gt;=    --    !     ...   .    :
-     &amp;^          &amp;^=
-</code></pre><pre><code>
+	 &amp;^          &amp;^=
 </code></pre></li>
 <li>
 <p>Integer literals</p>
-<pre><code>int_lit     = decimal_lit | octal_lit | hex_lit .
-decimal_lit = ( &quot;1&quot; … &quot;9&quot; ) { decimal_digit } .
-octal_lit   = &quot;0&quot; { octal_digit } .
-hex_lit     = &quot;0&quot; ( &quot;x&quot; | &quot;X&quot; ) hex_digit { hex_digit } .
-</code></pre><pre><code>
+<pre tabindex="0"><code>int_lit     = decimal_lit | octal_lit | hex_lit .
+decimal_lit = ( &#34;1&#34; … &#34;9&#34; ) { decimal_digit } .
+octal_lit   = &#34;0&#34; { octal_digit } .
+hex_lit     = &#34;0&#34; ( &#34;x&#34; | &#34;X&#34; ) hex_digit { hex_digit } .
 </code></pre></li>
 <li>
 <p>Floating-point literals</p>
-<pre><code>float_lit = decimals &quot;.&quot; [ decimals ] [ exponent ] |
-            decimals exponent |
-            &quot;.&quot; decimals [ exponent ] .
+<pre tabindex="0"><code>float_lit = decimals &#34;.&#34; [ decimals ] [ exponent ] |
+	        decimals exponent |
+    	    &#34;.&#34; decimals [ exponent ] .
 decimals  = decimal_digit { decimal_digit } .
-exponent  = ( &quot;e&quot; | &quot;E&quot; ) [ &quot;+&quot; | &quot;-&quot; ] decimals .
-</code></pre><pre><code>
+exponent  = ( &#34;e&#34; | &#34;E&#34; ) [ &#34;+&#34; | &#34;-&#34; ] decimals .
 </code></pre></li>
 <li>
 <p>Imaginary literals</p>
-<pre><code>imaginary_lit = (decimals | float_lit) &quot;i&quot; .
-</code></pre><pre><code>
+<pre tabindex="0"><code>imaginary_lit = (decimals | float_lit) &#34;i&#34; .
 </code></pre></li>
 <li>
 <p>Rune literals</p>
-<pre><code>\a   U+0007 alert or bell
+<pre tabindex="0"><code>\a   U+0007 alert or bell
 \b   U+0008 backspace
 \f   U+000C form feed
 \n   U+000A line feed or newline
@@ -439,36 +431,34 @@ exponent  = ( &quot;e&quot; | &quot;E&quot; ) [ &quot;+&quot; | &quot;-&quot; ] 
 \t   U+0009 horizontal tab
 \v   U+000b vertical tab
 \\   U+005c backslash
-\'   U+0027 single quote  (valid escape only within rune literals)
-\&quot;   U+0022 double quote  (valid escape only within string literals)
-</code></pre><pre><code></code></pre><pre><code> rune_lit         = &quot;'&quot; ( unicode_value | byte_value ) &quot;'&quot; .
- unicode_value    = unicode_char | little_u_value | big_u_value | escaped_char .
- byte_value       = octal_byte_value | hex_byte_value .
- octal_byte_value = `\` octal_digit octal_digit octal_digit .
- hex_byte_value   = `\` &quot;x&quot; hex_digit hex_digit .
- little_u_value   = `\` &quot;u&quot; hex_digit hex_digit hex_digit hex_digit .
- big_u_value      = `\` &quot;U&quot; hex_digit hex_digit hex_digit hex_digit
-                            hex_digit hex_digit hex_digit hex_digit .
- escaped_char     = `\` ( &quot;a&quot; | &quot;b&quot; | &quot;f&quot; | &quot;n&quot; | &quot;r&quot; | &quot;t&quot; | &quot;v&quot; | `\` | &quot;'&quot; | `&quot;` ) .
-</code></pre><pre><code></code></pre></li>
+\&#39;   U+0027 single quote  (valid escape only within rune literals)
+\&#34;   U+0022 double quote  (valid escape only within string literals)
+</code></pre><pre tabindex="0"><code>rune_lit         = &#34;&#39;&#34; ( unicode_value | byte_value ) &#34;&#39;&#34; .
+unicode_value    = unicode_char | little_u_value | big_u_value | escaped_char .
+byte_value       = octal_byte_value | hex_byte_value .
+octal_byte_value = `\` octal_digit octal_digit octal_digit .
+hex_byte_value   = `\` &#34;x&#34; hex_digit hex_digit .
+little_u_value   = `\` &#34;u&#34; hex_digit hex_digit hex_digit hex_digit .
+big_u_value      = `\` &#34;U&#34; hex_digit hex_digit hex_digit hex_digit
+	                       hex_digit hex_digit hex_digit hex_digit .
+escaped_char     = `\` ( &#34;a&#34; | &#34;b&#34; | &#34;f&#34; | &#34;n&#34; | &#34;r&#34; | &#34;t&#34; | &#34;v&#34; | `\` | &#34;&#39;&#34; | `&#34;` ) .
+</code></pre></li>
 <li>
 <p>String literals</p>
-<pre><code>string_lit             = raw_string_lit | interpreted_string_lit .
-raw_string_lit         = &quot;`&quot; { unicode_char | newline } &quot;`&quot; .
-interpreted_string_lit = `&quot;` { unicode_value | byte_value } `&quot;` .
-</code></pre><pre><code>
+<pre tabindex="0"><code>string_lit             = raw_string_lit | interpreted_string_lit .
+raw_string_lit         = &#34;`&#34; { unicode_char | newline } &#34;`&#34; .
+interpreted_string_lit = `&#34;` { unicode_value | byte_value } `&#34;` .
 </code></pre></li>
 <li>
 <p>Types</p>
-<pre><code>Type      = TypeName | TypeLit | &quot;(&quot; Type &quot;)&quot; .
+<pre tabindex="0"><code>Type      = TypeName | TypeLit | &#34;(&#34; Type &#34;)&#34; .
 TypeName  = identifier | QualifiedIdent .
 TypeLit   = ArrayType | StructType | PointerType | FunctionType | InterfaceType |
-            SliceType | MapType | ChannelType .
-</code></pre><pre><code>
+		    SliceType | MapType | ChannelType .
 </code></pre></li>
 <li>
 <p>Numeric types</p>
-<pre><code>uint8       the set of all unsigned  8-bit integers (0 to 255)
+<pre tabindex="0"><code>uint8       the set of all unsigned  8-bit integers (0 to 255)
 uint16      the set of all unsigned 16-bit integers (0 to 65535)
 uint32      the set of all unsigned 32-bit integers (0 to 4294967295)
 uint64      the set of all unsigned 64-bit integers (0 to 18446744073709551615)
@@ -490,75 +480,66 @@ rune        alias for int32
 uint     either 32 or 64 bits
 int      same size as uint
 uintptr  an unsigned integer large enough to store the uninterpreted bits of a pointer value
-</code></pre><pre><code>
 </code></pre></li>
 <li>
 <p>Array types</p>
-<pre><code>ArrayType   = &quot;[&quot; ArrayLength &quot;]&quot; ElementType .
+<pre tabindex="0"><code>ArrayType   = &#34;[&#34; ArrayLength &#34;]&#34; ElementType .
 ArrayLength = Expression .
 ElementType = Type .
-</code></pre><pre><code>
 </code></pre></li>
 <li>
 <p>Slice types</p>
-<pre><code>SliceType = &quot;[&quot; &quot;]&quot; ElementType .
-</code></pre><pre><code></code></pre><pre><code> make([]T, length, capacity)
- make([]int, 50, 100)
- new([100]int)[0:50]
-</code></pre><pre><code>
+<pre tabindex="0"><code>SliceType = &#34;[&#34; &#34;]&#34; ElementType .
+</code></pre><pre tabindex="0"><code>make([]T, length, capacity)
+make([]int, 50, 100)
+new([100]int)[0:50]
 </code></pre></li>
 <li>
 <p>Struct types</p>
-<pre><code>StructType     = &quot;struct&quot; &quot;{&quot; { FieldDecl &quot;;&quot; } &quot;}&quot; .
+<pre tabindex="0"><code>StructType     = &#34;struct&#34; &#34;{&#34; { FieldDecl &#34;;&#34; } &#34;}&#34; .
 FieldDecl      = (IdentifierList Type | AnonymousField) [ Tag ] .
-AnonymousField = [ &quot;*&quot; ] TypeName .
+AnonymousField = [ &#34;*&#34; ] TypeName .
 Tag            = string_lit .
-</code></pre><pre><code>
 </code></pre></li>
 <li>
 <p>Pointer types</p>
-<pre><code>PointerType = &quot;*&quot; BaseType .
+<pre tabindex="0"><code>PointerType = &#34;*&#34; BaseType .
 BaseType    = Type .
-</code></pre><pre><code>
 </code></pre></li>
 <li>
 <p>Function types</p>
-<pre><code>FunctionType   = &quot;func&quot; Signature .
+<pre tabindex="0"><code>FunctionType   = &#34;func&#34; Signature .
 Signature      = Parameters [ Result ] .
 Result         = Parameters | Type .
-Parameters     = &quot;(&quot; [ ParameterList [ &quot;,&quot; ] ] &quot;)&quot; .
-ParameterList  = ParameterDecl { &quot;,&quot; ParameterDecl } .
-ParameterDecl  = [ IdentifierList ] [ &quot;...&quot; ] Type .
-</code></pre><pre><code>
+Parameters     = &#34;(&#34; [ ParameterList [ &#34;,&#34; ] ] &#34;)&#34; .
+ParameterList  = ParameterDecl { &#34;,&#34; ParameterDecl } .
+ParameterDecl  = [ IdentifierList ] [ &#34;...&#34; ] Type .
 </code></pre></li>
 <li>
 <p>Interface types</p>
-<pre><code>InterfaceType      = &quot;interface&quot; &quot;{&quot; { MethodSpec &quot;;&quot; } &quot;}&quot; .
+<pre tabindex="0"><code>InterfaceType      = &#34;interface&#34; &#34;{&#34; { MethodSpec &#34;;&#34; } &#34;}&#34; .
 MethodSpec         = MethodName Signature | InterfaceTypeName .
 MethodName         = identifier .
 InterfaceTypeName  = TypeName .
-</code></pre><pre><code>
 </code></pre></li>
 <li>
 <p>Map types</p>
-<pre><code>MapType     = &quot;map&quot; &quot;[&quot; KeyType &quot;]&quot; ElementType .
+<pre tabindex="0"><code>MapType     = &#34;map&#34; &#34;[&#34; KeyType &#34;]&#34; ElementType .
 KeyType     = Type .
-</code></pre><pre><code>
 </code></pre></li>
 <li>
 <p>Channel types</p>
-<pre><code>ChannelType = ( &quot;chan&quot; | &quot;chan&quot; &quot;&lt;-&quot; | &quot;&lt;-&quot; &quot;chan&quot; ) ElementType .
-</code></pre><pre><code></code></pre><pre><code> chan T          // can be used to send and receive values of type T
- chan&lt;- float64  // can only be used to send float64s
- &lt;-chan int      // can only be used to receive ints
+<pre tabindex="0"><code>ChannelType = ( &#34;chan&#34; | &#34;chan&#34; &#34;&lt;-&#34; | &#34;&lt;-&#34; &#34;chan&#34; ) ElementType .
+</code></pre><pre tabindex="0"><code>chan T          // can be used to send and receive values of type T
+chan&lt;- float64  // can only be used to send float64s
+&lt;-chan int      // can only be used to receive ints
 
- chan&lt;- chan int    // same as chan&lt;- (chan int)
- chan&lt;- &lt;-chan int  // same as chan&lt;- (&lt;-chan int)
- &lt;-chan &lt;-chan int  // same as &lt;-chan (&lt;-chan int)
- chan (&lt;-chan int)
+chan&lt;- chan int    // same as chan&lt;- (chan int)
+chan&lt;- &lt;-chan int  // same as chan&lt;- (&lt;-chan int)
+&lt;-chan &lt;-chan int  // same as &lt;-chan (&lt;-chan int)
+chan (&lt;-chan int)
 
- make(chan int, 100)
-</code></pre><pre><code>
+make(chan int, 100)
 </code></pre></li>
 <li>
 <p>Type identity</p>
@@ -589,34 +570,30 @@ KeyType     = Type .
 </li>
 <li>
 <p>Blocks</p>
-<pre><code>Block = &quot;{&quot; StatementList &quot;}&quot; .
-StatementList = { Statement &quot;;&quot; } .
-</code></pre><pre><code>
+<pre tabindex="0"><code>Block = &#34;{&#34; StatementList &#34;}&#34; .
+StatementList = { Statement &#34;;&#34; } .
 </code></pre></li>
 <li>
 <p>Declarations and scope</p>
-<pre><code>Declaration   = ConstDecl | TypeDecl | VarDecl .
+<pre tabindex="0"><code>Declaration   = ConstDecl | TypeDecl | VarDecl .
 TopLevelDecl  = Declaration | FunctionDecl | MethodDecl .
-</code></pre><pre><code>
 </code></pre></li>
 <li>
 <p>Predeclared identifiers</p>
-<pre><code>Types:
-    bool byte complex64 complex128 error float32 float64
-    int int8 int16 int32 int64 rune string
-    uint uint8 uint16 uint32 uint64 uintptr
+<pre tabindex="0"><code>Types:
+	bool byte complex64 complex128 error float32 float64
+	int int8 int16 int32 int64 rune string
+	uint uint8 uint16 uint32 uint64 uintptr
 
 Constants:
-    true false iota
+	true false iota
 
 Zero value:
-    nil
+	nil
 
 Functions:
-    append cap close complex copy delete imag len
-    make new panic print println real recover
-</code></pre><pre><code>
-
+	append cap close complex copy delete imag len
+	make new panic print println real recover
 </code></pre></li>
 <li>
 <p>Exported identifiers</p>
@@ -633,282 +610,252 @@ All other identifiers are not exported.</li>
 </li>
 <li>
 <p>Constant declarations</p>
-<pre><code>ConstDecl      = &quot;const&quot; ( ConstSpec | &quot;(&quot; { ConstSpec &quot;;&quot; } &quot;)&quot; ) .
-ConstSpec      = IdentifierList [ [ Type ] &quot;=&quot; ExpressionList ] .
+<pre tabindex="0"><code>ConstDecl      = &#34;const&#34; ( ConstSpec | &#34;(&#34; { ConstSpec &#34;;&#34; } &#34;)&#34; ) .
+ConstSpec      = IdentifierList [ [ Type ] &#34;=&#34; ExpressionList ] .
 
-IdentifierList = identifier { &quot;,&quot; identifier } .
-ExpressionList = Expression { &quot;,&quot; Expression } .
-</code></pre><pre><code>
+IdentifierList = identifier { &#34;,&#34; identifier } .
+ExpressionList = Expression { &#34;,&#34; Expression } .
 </code></pre></li>
 <li>
 <p>Iota
 Within a constant declaration, the predeclared identifier iota represents successive untyped integer constants. It is reset to 0 whenever the reserved word const appears in the source and increments after each ConstSpec. It can be used to construct a set of related constants:</p>
-<pre><code>const ( // iota is reset to 0
-    c0 = iota  // c0 == 0
-    c1 = iota  // c1 == 1
-    c2 = iota  // c2 == 2
+<pre tabindex="0"><code>const ( // iota is reset to 0
+	c0 = iota  // c0 == 0
+	c1 = iota  // c1 == 1
+	c2 = iota  // c2 == 2
 )
 
 const ( // iota is reset to 0
-    a = 1 &lt;&lt; iota  // a == 1
-    b = 1 &lt;&lt; iota  // b == 2
-    c = 3          // c == 3  (iota is not used but still incremented)
-    d = 1 &lt;&lt; iota  // d == 8
+	a = 1 &lt;&lt; iota  // a == 1
+	b = 1 &lt;&lt; iota  // b == 2
+	c = 3          // c == 3  (iota is not used but still incremented)
+	d = 1 &lt;&lt; iota  // d == 8
 )
 
 const ( // iota is reset to 0
-    u         = iota * 42  // u == 0     (untyped integer constant)
-    v float64 = iota * 42  // v == 42.0  (float64 constant)
-    w         = iota * 42  // w == 84    (untyped integer constant)
+	u         = iota * 42  // u == 0     (untyped integer constant)
+	v float64 = iota * 42  // v == 42.0  (float64 constant)
+	w         = iota * 42  // w == 84    (untyped integer constant)
 )
 
 const x = iota  // x == 0  (iota has been reset)
 const y = iota  // y == 0  (iota has been reset)
 
 const (
-    bit0, mask0 = 1 &lt;&lt; iota, 1&lt;&lt;iota - 1  // bit0 == 1, mask0 == 0
-    bit1, mask1                           // bit1 == 2, mask1 == 1
-    _, _                                  // skips iota == 2
-    bit3, mask3                           // bit3 == 8, mask3 == 7
+	bit0, mask0 = 1 &lt;&lt; iota, 1&lt;&lt;iota - 1  // bit0 == 1, mask0 == 0
+	bit1, mask1                           // bit1 == 2, mask1 == 1
+	_, _                                  // skips iota == 2
+	bit3, mask3                           // bit3 == 8, mask3 == 7
 )
-</code></pre><pre><code>
 </code></pre></li>
 <li>
 <p>Type declarations</p>
-<pre><code>TypeDecl     = &quot;type&quot; ( TypeSpec | &quot;(&quot; { TypeSpec &quot;;&quot; } &quot;)&quot; ) .
+<pre tabindex="0"><code>TypeDecl     = &#34;type&#34; ( TypeSpec | &#34;(&#34; { TypeSpec &#34;;&#34; } &#34;)&#34; ) .
 TypeSpec     = identifier Type .
-</code></pre><pre><code></code></pre><pre><code> type IntArray [16]int
+</code></pre><pre tabindex="0"><code>type IntArray [16]int
 
- type (
-     Point struct{ x, y float64 }
-     Polar Point
- )
+type (
+	Point struct{ x, y float64 }
+	Polar Point
+)
 
- type TreeNode struct {
-     left, right *TreeNode
-     value *Comparable
- }
+type TreeNode struct {
+	left, right *TreeNode
+	value *Comparable
+}
 
- type Block interface {
-     BlockSize() int
-     Encrypt(src, dst []byte)
-     Decrypt(src, dst []byte)
- }
-</code></pre><pre><code> The declared type does not inherit any methods bound to the existing type, but the method set of an interface type or of elements of a composite type remains unchanged:
-</code></pre><pre><code> // A Mutex is a data type with two methods, Lock and Unlock.
- type Mutex struct         { /* Mutex fields */ }
- func (m *Mutex) Lock()    { /* Lock implementation */ }
- func (m *Mutex) Unlock()  { /* Unlock implementation */ }
+type Block interface {
+	BlockSize() int
+	Encrypt(src, dst []byte)
+	Decrypt(src, dst []byte)
+}
+</code></pre><p>The declared type does not inherit any methods bound to the existing type, but the method set of an interface type or of elements of a composite type remains unchanged:</p>
+<pre tabindex="0"><code>// A Mutex is a data type with two methods, Lock and Unlock.
+type Mutex struct         { /* Mutex fields */ }
+func (m *Mutex) Lock()    { /* Lock implementation */ }
+func (m *Mutex) Unlock()  { /* Unlock implementation */ }
 
- // NewMutex has the same composition as Mutex but its method set is empty.
- type NewMutex Mutex
+// NewMutex has the same composition as Mutex but its method set is empty.
+type NewMutex Mutex
 
- // The method set of the base type of PtrMutex remains unchanged,
- // but the method set of PtrMutex is empty.
- type PtrMutex *Mutex
+// The method set of the base type of PtrMutex remains unchanged,
+// but the method set of PtrMutex is empty.
+type PtrMutex *Mutex
 
- // The method set of *PrintableMutex contains the methods
- // Lock and Unlock bound to its anonymous field Mutex.
- type PrintableMutex struct {
-     Mutex
- }
+// The method set of *PrintableMutex contains the methods
+// Lock and Unlock bound to its anonymous field Mutex.
+type PrintableMutex struct {
+	Mutex
+}
 
- // MyBlock is an interface type that has the same method set as Block.
- type MyBlock Block
-</code></pre><pre><code> A type declaration may be used to define a different boolean, numeric, or string type and attach methods to it:
+// MyBlock is an interface type that has the same method set as Block.
+type MyBlock Block
+</code></pre><p>A type declaration may be used to define a different boolean, numeric, or string type and attach methods to it:</p>
+<pre tabindex="0"><code>type TimeZone int
 
-</code></pre><pre><code> type TimeZone int
+const (
+	EST TimeZone = -(5 + iota)
+	CST
+	MST
+	PST
+)
 
- const (
-     EST TimeZone = -(5 + iota)
-     CST
-     MST
-     PST
- )
-
- func (tz TimeZone) String() string {
-     return fmt.Sprintf(&quot;GMT%+dh&quot;, tz)
- }
-</code></pre><pre><code>
+func (tz TimeZone) String() string {
+	return fmt.Sprintf(&#34;GMT%+dh&#34;, tz)
+}
 </code></pre></li>
 <li>
 <p>Variable declarations</p>
-<pre><code>VarDecl     = &quot;var&quot; ( VarSpec | &quot;(&quot; { VarSpec &quot;;&quot; } &quot;)&quot; ) .
-VarSpec     = IdentifierList ( Type [ &quot;=&quot; ExpressionList ] | &quot;=&quot; ExpressionList ) .
-</code></pre><pre><code>
+<pre tabindex="0"><code>VarDecl     = &#34;var&#34; ( VarSpec | &#34;(&#34; { VarSpec &#34;;&#34; } &#34;)&#34; ) .
+VarSpec     = IdentifierList ( Type [ &#34;=&#34; ExpressionList ] | &#34;=&#34; ExpressionList ) .
 </code></pre></li>
 <li>
 <p>Short variable declarations</p>
-<pre><code>ShortVarDecl = IdentifierList &quot;:=&quot; ExpressionList .
-</code></pre><pre><code>
- It is shorthand for a regular variable declaration with initializer expressions but no types:
-
-</code></pre><pre><code> &quot;var&quot; IdentifierList = ExpressionList .
-</code></pre><pre><code></code></pre><pre><code> i, j := 0, 10
- f := func() int { return 7 }
- ch := make(chan int)
- r, w := os.Pipe(fd)  // os.Pipe() returns two values
- _, y, _ := coord(p)  // coord() returns three values; only interested in y coordinate
-</code></pre><pre><code>   
- Unlike regular variable declarations, a short variable declaration may redeclare variables provided they were originally declared earlier in the same block (or the parameter lists if the block is the function body) with the same type, and at least one of the non-blank variables is new. As a consequence, redeclaration can only appear in a multi-variable short declaration. Redeclaration does not introduce a new variable; it just assigns a new value to the original.
-
-</code></pre><pre><code> field1, offset := nextField(str, 0)
- field2, offset := nextField(str, offset)  // redeclares offset
- a, a := 1, 2       // illegal: double declaration of a or no new variable if a was declared elsewhere
-</code></pre><pre><code> Short variable declarations may appear only inside functions. In some contexts such as the initializers for &quot;if&quot;, &quot;for&quot;, or &quot;switch&quot; statements, they can be used to declare local temporary variables.
-
-</code></pre></li>
+<pre tabindex="0"><code>ShortVarDecl = IdentifierList &#34;:=&#34; ExpressionList .
+</code></pre><p>It is shorthand for a regular variable declaration with initializer expressions but no types:</p>
+<pre tabindex="0"><code>&#34;var&#34; IdentifierList = ExpressionList .
+</code></pre><pre tabindex="0"><code>i, j := 0, 10
+f := func() int { return 7 }
+ch := make(chan int)
+r, w := os.Pipe(fd)  // os.Pipe() returns two values
+_, y, _ := coord(p)  // coord() returns three values; only interested in y coordinate
+</code></pre><p>Unlike regular variable declarations, a short variable declaration may redeclare variables provided they were originally declared earlier in the same block (or the parameter lists if the block is the function body) with the same type, and at least one of the non-blank variables is new. As a consequence, redeclaration can only appear in a multi-variable short declaration. Redeclaration does not introduce a new variable; it just assigns a new value to the original.</p>
+<pre tabindex="0"><code>field1, offset := nextField(str, 0)
+field2, offset := nextField(str, offset)  // redeclares offset
+a, a := 1, 2       // illegal: double declaration of a or no new variable if a was declared elsewhere
+</code></pre><p>Short variable declarations may appear only inside functions. In some contexts such as the initializers for &ldquo;if&rdquo;, &ldquo;for&rdquo;, or &ldquo;switch&rdquo; statements, they can be used to declare local temporary variables.</p>
+</li>
 <li>
 <p>Function declarations</p>
-<pre><code>FunctionDecl = &quot;func&quot; FunctionName ( Function | Signature ) .
+<pre tabindex="0"><code>FunctionDecl = &#34;func&#34; FunctionName ( Function | Signature ) .
 FunctionName = identifier .
 Function     = Signature FunctionBody .
 FunctionBody = Block .
-</code></pre><pre><code>
 </code></pre></li>
 <li>
 <p>Method declarations</p>
-<pre><code>MethodDecl   = &quot;func&quot; Receiver MethodName ( Function | Signature ) .
+<pre tabindex="0"><code>MethodDecl   = &#34;func&#34; Receiver MethodName ( Function | Signature ) .
 Receiver     = Parameters .
-</code></pre><pre><code>
 </code></pre></li>
 <li>
 <p>Operands</p>
-<pre><code>Operand     = Literal | OperandName | MethodExpr | &quot;(&quot; Expression &quot;)&quot; .
+<pre tabindex="0"><code>Operand     = Literal | OperandName | MethodExpr | &#34;(&#34; Expression &#34;)&#34; .
 Literal     = BasicLit | CompositeLit | FunctionLit .
 BasicLit    = int_lit | float_lit | imaginary_lit | rune_lit | string_lit .
 OperandName = identifier | QualifiedIdent.
-</code></pre><pre><code>
 </code></pre></li>
 <li>
 <p>Qualified identifiers</p>
-<pre><code>QualifiedIdent = PackageName &quot;.&quot; identifier .
-</code></pre><pre><code>
+<pre tabindex="0"><code>QualifiedIdent = PackageName &#34;.&#34; identifier .
 </code></pre></li>
 <li>
 <p>Composite literals</p>
-<pre><code>CompositeLit  = LiteralType LiteralValue .
-LiteralType   = StructType | ArrayType | &quot;[&quot; &quot;...&quot; &quot;]&quot; ElementType |
-                SliceType | MapType | TypeName .
-LiteralValue  = &quot;{&quot; [ ElementList [ &quot;,&quot; ] ] &quot;}&quot; .
-ElementList   = KeyedElement { &quot;,&quot; KeyedElement } .
-KeyedElement  = [ Key &quot;:&quot; ] Element .
+<pre tabindex="0"><code>CompositeLit  = LiteralType LiteralValue .
+LiteralType   = StructType | ArrayType | &#34;[&#34; &#34;...&#34; &#34;]&#34; ElementType |
+	            SliceType | MapType | TypeName .
+LiteralValue  = &#34;{&#34; [ ElementList [ &#34;,&#34; ] ] &#34;}&#34; .
+ElementList   = KeyedElement { &#34;,&#34; KeyedElement } .
+KeyedElement  = [ Key &#34;:&#34; ] Element .
 Key           = FieldName | Expression | LiteralValue .
 FieldName     = identifier .
 Element       = Expression | LiteralValue .
-</code></pre><pre><code>
 </code></pre></li>
 <li>
 <p>Function literals</p>
-<pre><code>FunctionLit = &quot;func&quot; Function .
-</code></pre><pre><code>
+<pre tabindex="0"><code>FunctionLit = &#34;func&#34; Function .
 </code></pre></li>
 <li>
 <p>Primary expressions</p>
-<pre><code>PrimaryExpr =
-    Operand |
-    Conversion |
-    PrimaryExpr Selector |
-    PrimaryExpr Index |
-    PrimaryExpr Slice |
-    PrimaryExpr TypeAssertion |
-    PrimaryExpr Arguments .
+<pre tabindex="0"><code>PrimaryExpr =
+	Operand |
+	Conversion |
+	PrimaryExpr Selector |
+	PrimaryExpr Index |
+	PrimaryExpr Slice |
+	PrimaryExpr TypeAssertion |
+	PrimaryExpr Arguments .
 
-Selector       = &quot;.&quot; identifier .
-Index          = &quot;[&quot; Expression &quot;]&quot; .
-Slice          = &quot;[&quot; ( [ Expression ] &quot;:&quot; [ Expression ] ) |
-                  ( [ Expression ] &quot;:&quot; Expression &quot;:&quot; Expression )
-                 &quot;]&quot; .
-TypeAssertion  = &quot;.&quot; &quot;(&quot; Type &quot;)&quot; .
-Arguments      = &quot;(&quot; [ ( ExpressionList | Type [ &quot;,&quot; ExpressionList ] ) [ &quot;...&quot; ] [ &quot;,&quot; ] ] &quot;)&quot; .
-</code></pre><pre><code></code></pre></li>
+Selector       = &#34;.&#34; identifier .
+Index          = &#34;[&#34; Expression &#34;]&#34; .
+Slice          = &#34;[&#34; ( [ Expression ] &#34;:&#34; [ Expression ] ) |
+                  ( [ Expression ] &#34;:&#34; Expression &#34;:&#34; Expression )
+	             &#34;]&#34; .
+TypeAssertion  = &#34;.&#34; &#34;(&#34; Type &#34;)&#34; .
+Arguments      = &#34;(&#34; [ ( ExpressionList | Type [ &#34;,&#34; ExpressionList ] ) [ &#34;...&#34; ] [ &#34;,&#34; ] ] &#34;)&#34; .
+</code></pre></li>
 <li>
 <p>Selectors</p>
 <p>For a primary expression x that is not a package name, the selector expression</p>
-<pre><code>x.f
-</code></pre><pre><code>
- denotes the field or method f of the value x (or sometimes *x; see below). The identifier f is called the (field or method) selector; it must not be the blank identifier. The type of the selector expression is the type of f. If x is a package name, see the section on qualified identifiers.
-
- A selector f may denote a field or method f of a type T, or it may refer to a field or method f of a nested anonymous field of T. The number of anonymous fields traversed to reach f is called its depth in T. The depth of a field or method f declared in T is zero. The depth of a field or method f declared in an anonymous field A in T is the depth of f in A plus one.
-
- The following rules apply to selectors:
-
- 1. For a value x of type T or *T where T is not a pointer or interface type, x.f denotes the field or method at the shallowest depth in T where there is such an f. If there is not exactly one f with shallowest depth, the selector expression is illegal.
- 2. For a value x of type I where I is an interface type, x.f denotes the actual method with name f of the dynamic value of x. If there is no method with name f in the method set of I, the selector expression is illegal.
- 3. As an exception, if the type of x is a named pointer type and (*x).f is a valid selector expression denoting a field (but not a method), x.f is shorthand for (*x).f.
- 4. In all other cases, x.f is illegal.
- 5. If x is of pointer type and has the value nil and x.f denotes a struct field, assigning to or evaluating x.f causes a run-time panic.
- 6. If x is of interface type and has the value nil, calling or evaluating the method x.f causes a run-time panic.
-   
-
-</code></pre></li>
+<pre tabindex="0"><code>x.f
+</code></pre><p>denotes the field or method f of the value x (or sometimes *x; see below). The identifier f is called the (field or method) selector; it must not be the blank identifier. The type of the selector expression is the type of f. If x is a package name, see the section on qualified identifiers.</p>
+<p>A selector f may denote a field or method f of a type T, or it may refer to a field or method f of a nested anonymous field of T. The number of anonymous fields traversed to reach f is called its depth in T. The depth of a field or method f declared in T is zero. The depth of a field or method f declared in an anonymous field A in T is the depth of f in A plus one.</p>
+<p>The following rules apply to selectors:</p>
+<ol>
+<li>For a value x of type T or *T where T is not a pointer or interface type, x.f denotes the field or method at the shallowest depth in T where there is such an f. If there is not exactly one f with shallowest depth, the selector expression is illegal.</li>
+<li>For a value x of type I where I is an interface type, x.f denotes the actual method with name f of the dynamic value of x. If there is no method with name f in the method set of I, the selector expression is illegal.</li>
+<li>As an exception, if the type of x is a named pointer type and (*x).f is a valid selector expression denoting a field (but not a method), x.f is shorthand for (*x).f.</li>
+<li>In all other cases, x.f is illegal.</li>
+<li>If x is of pointer type and has the value nil and x.f denotes a struct field, assigning to or evaluating x.f causes a run-time panic.</li>
+<li>If x is of interface type and has the value nil, calling or evaluating the method x.f causes a run-time panic.</li>
+</ol>
+</li>
 <li>
 <p>Method expressions</p>
-<pre><code>MethodExpr    = ReceiverType &quot;.&quot; MethodName .
-ReceiverType  = TypeName | &quot;(&quot; &quot;*&quot; TypeName &quot;)&quot; | &quot;(&quot; ReceiverType &quot;)&quot; .
-</code></pre><pre><code>
+<pre tabindex="0"><code>MethodExpr    = ReceiverType &#34;.&#34; MethodName .
+ReceiverType  = TypeName | &#34;(&#34; &#34;*&#34; TypeName &#34;)&#34; | &#34;(&#34; ReceiverType &#34;)&#34; .
 </code></pre></li>
 <li>
 <p>Index expressions</p>
-<pre><code>a[x]
-</code></pre><pre><code>
+<pre tabindex="0"><code>a[x]
 </code></pre></li>
 <li>
 <p>Slice expressions</p>
-<pre><code>a[low : high]
+<pre tabindex="0"><code>a[low : high]
 
 a[low : high : max]
-</code></pre><pre><code>
 </code></pre></li>
 <li>
 <p>Type assertions</p>
-<pre><code>x.(T)
-</code></pre><pre><code>
+<pre tabindex="0"><code>x.(T)
 </code></pre></li>
 <li>
 <p>Calls</p>
-<pre><code>f(a1, a2, … an)
-</code></pre><pre><code>
+<pre tabindex="0"><code>f(a1, a2, … an)
 </code></pre></li>
 <li>
 <p>Passing arguments to &hellip; parameters</p>
 <p>Given the function and calls</p>
-<pre><code>func Greeting(prefix string, who ...string)
-Greeting(&quot;nobody&quot;)
-Greeting(&quot;hello:&quot;, &quot;Joe&quot;, &quot;Anna&quot;, &quot;Eileen&quot;)
-</code></pre><pre><code>
- Given the slice s and call
-
-</code></pre><pre><code> s := []string{&quot;James&quot;, &quot;Jasmine&quot;}
- Greeting(&quot;goodbye:&quot;, s...)
-</code></pre><pre><code>
+<pre tabindex="0"><code>func Greeting(prefix string, who ...string)
+Greeting(&#34;nobody&#34;)
+Greeting(&#34;hello:&#34;, &#34;Joe&#34;, &#34;Anna&#34;, &#34;Eileen&#34;)
+</code></pre><p>Given the slice s and call</p>
+<pre tabindex="0"><code>s := []string{&#34;James&#34;, &#34;Jasmine&#34;}
+Greeting(&#34;goodbye:&#34;, s...)
 </code></pre></li>
 <li>
 <p>Operators</p>
-<pre><code>Expression = UnaryExpr | Expression binary_op Expression .
+<pre tabindex="0"><code>Expression = UnaryExpr | Expression binary_op Expression .
 UnaryExpr  = PrimaryExpr | unary_op UnaryExpr .
 
-binary_op  = &quot;||&quot; | &quot;&amp;&amp;&quot; | rel_op | add_op | mul_op .
-rel_op     = &quot;==&quot; | &quot;!=&quot; | &quot;&lt;&quot; | &quot;&lt;=&quot; | &quot;&gt;&quot; | &quot;&gt;=&quot; .
-add_op     = &quot;+&quot; | &quot;-&quot; | &quot;|&quot; | &quot;^&quot; .
-mul_op     = &quot;*&quot; | &quot;/&quot; | &quot;%&quot; | &quot;&lt;&lt;&quot; | &quot;&gt;&gt;&quot; | &quot;&amp;&quot; | &quot;&amp;^&quot; .
+binary_op  = &#34;||&#34; | &#34;&amp;&amp;&#34; | rel_op | add_op | mul_op .
+rel_op     = &#34;==&#34; | &#34;!=&#34; | &#34;&lt;&#34; | &#34;&lt;=&#34; | &#34;&gt;&#34; | &#34;&gt;=&#34; .
+add_op     = &#34;+&#34; | &#34;-&#34; | &#34;|&#34; | &#34;^&#34; .
+mul_op     = &#34;*&#34; | &#34;/&#34; | &#34;%&#34; | &#34;&lt;&lt;&#34; | &#34;&gt;&gt;&#34; | &#34;&amp;&#34; | &#34;&amp;^&#34; .
 
-unary_op   = &quot;+&quot; | &quot;-&quot; | &quot;!&quot; | &quot;^&quot; | &quot;*&quot; | &quot;&amp;&quot; | &quot;&lt;-&quot; .
-</code></pre><pre><code>
+unary_op   = &#34;+&#34; | &#34;-&#34; | &#34;!&#34; | &#34;^&#34; | &#34;*&#34; | &#34;&amp;&#34; | &#34;&lt;-&#34; .
 </code></pre></li>
 <li>
 <p>Operator precedence</p>
-<pre><code>Precedence    Operator
+<pre tabindex="0"><code>Precedence    Operator
 5             *  /  %  &lt;&lt;  &gt;&gt;  &amp;  &amp;^
 4             +  -  |  ^
 3             ==  !=  &lt;  &lt;=  &gt;  &gt;=
 2             &amp;&amp;
 1             ||
-</code></pre><pre><code>
 </code></pre></li>
 <li>
 <p>Arithmetic operators</p>
-<pre><code>+    sum                    integers, floats, complex values, strings
+<pre tabindex="0"><code>+    sum                    integers, floats, complex values, strings
 -    difference             integers, floats, complex values
 *    product                integers, floats, complex values
 /    quotient               integers, floats, complex values
@@ -921,28 +868,25 @@ unary_op   = &quot;+&quot; | &quot;-&quot; | &quot;!&quot; | &quot;^&quot; | &qu
 
 &lt;&lt;   left shift             integer &lt;&lt; unsigned integer
 &gt;&gt;   right shift            integer &gt;&gt; unsigned integer
-</code></pre><pre><code>
 </code></pre></li>
 <li>
 <p>Comparison operators</p>
-<pre><code>==    equal
+<pre tabindex="0"><code>==    equal
 !=    not equal
 &lt;     less
 &lt;=    less or equal
 &gt;     greater
 &gt;=    greater or equal
-</code></pre><pre><code>
 </code></pre></li>
 <li>
 <p>Logical operators</p>
-<pre><code>&amp;&amp;    conditional AND    p &amp;&amp; q  is  &quot;if p then q else false&quot;
-||    conditional OR     p || q  is  &quot;if p then true else q&quot;
-!     NOT                !p      is  &quot;not p&quot;
-</code></pre><pre><code>
+<pre tabindex="0"><code>&amp;&amp;    conditional AND    p &amp;&amp; q  is  &#34;if p then q else false&#34;
+||    conditional OR     p || q  is  &#34;if p then true else q&#34;
+!     NOT                !p      is  &#34;not p&#34;
 </code></pre></li>
 <li>
 <p>Address operators</p>
-<pre><code>&amp;x
+<pre tabindex="0"><code>&amp;x
 &amp;a[f(2)]
 &amp;Point{2, 3}
 *p
@@ -951,11 +895,10 @@ unary_op   = &quot;+&quot; | &quot;-&quot; | &quot;!&quot; | &quot;^&quot; | &qu
 var x *int = nil
 *x   // causes a run-time panic
 &amp;*x  // causes a run-time panic
-</code></pre><pre><code>
 </code></pre></li>
 <li>
 <p>Receive operator</p>
-<pre><code>v1 := &lt;-ch
+<pre tabindex="0"><code>v1 := &lt;-ch
 v2 = &lt;-ch
 f(&lt;-ch)
 &lt;-strobe  // wait until clock pulse and discard received value
@@ -963,200 +906,168 @@ f(&lt;-ch)
 x, ok = &lt;-ch
 x, ok := &lt;-ch
 var x, ok = &lt;-ch
-</code></pre><pre><code>
 </code></pre></li>
 <li>
 <p>Conversions</p>
-<pre><code>Conversion = Type &quot;(&quot; Expression [ &quot;,&quot; ] &quot;)&quot; .
-</code></pre><pre><code>
+<pre tabindex="0"><code>Conversion = Type &#34;(&#34; Expression [ &#34;,&#34; ] &#34;)&#34; .
 </code></pre></li>
 <li>
 <p>Statements</p>
-<pre><code>Statement =
-    Declaration | LabeledStmt | SimpleStmt |
-    GoStmt | ReturnStmt | BreakStmt | ContinueStmt | GotoStmt |
-    FallthroughStmt | Block | IfStmt | SwitchStmt | SelectStmt | ForStmt |
-    DeferStmt .
+<pre tabindex="0"><code>Statement =
+	Declaration | LabeledStmt | SimpleStmt |
+	GoStmt | ReturnStmt | BreakStmt | ContinueStmt | GotoStmt |
+	FallthroughStmt | Block | IfStmt | SwitchStmt | SelectStmt | ForStmt |
+	DeferStmt .
 
 SimpleStmt = EmptyStmt | ExpressionStmt | SendStmt | IncDecStmt | Assignment | ShortVarDecl .
-</code></pre><pre><code>
 </code></pre></li>
 <li>
 <p>Empty statements</p>
-<pre><code>EmptyStmt = .
-</code></pre><pre><code>
+<pre tabindex="0"><code>EmptyStmt = .
 </code></pre></li>
 <li>
 <p>Labeled statements</p>
-<pre><code>LabeledStmt = Label &quot;:&quot; Statement .
+<pre tabindex="0"><code>LabeledStmt = Label &#34;:&#34; Statement .
 Label       = identifier .
-</code></pre><pre><code>
 </code></pre></li>
 <li>
 <p>Expression statements</p>
-<pre><code>ExpressionStmt = Expression .
-</code></pre><pre><code>
- The following built-in functions are not permitted in statement context:
-
-</code></pre><pre><code> append cap complex imag len make new real
- unsafe.Alignof unsafe.Offsetof unsafe.Sizeof
-</code></pre><pre><code>
+<pre tabindex="0"><code>ExpressionStmt = Expression .
+</code></pre><p>The following built-in functions are not permitted in statement context:</p>
+<pre tabindex="0"><code>append cap complex imag len make new real
+unsafe.Alignof unsafe.Offsetof unsafe.Sizeof
 </code></pre></li>
 <li>
 <p>Send statements</p>
-<pre><code>SendStmt = Channel &quot;&lt;-&quot; Expression .
+<pre tabindex="0"><code>SendStmt = Channel &#34;&lt;-&#34; Expression .
 Channel  = Expression .
-</code></pre><pre><code>
 </code></pre></li>
 <li>
 <p>IncDec statements</p>
-<pre><code>IncDecStmt = Expression ( &quot;++&quot; | &quot;--&quot; ) .
-</code></pre><pre><code>
+<pre tabindex="0"><code>IncDecStmt = Expression ( &#34;++&#34; | &#34;--&#34; ) .
 </code></pre></li>
 <li>
 <p>Assignments</p>
-<pre><code>Assignment = ExpressionList assign_op ExpressionList .
+<pre tabindex="0"><code>Assignment = ExpressionList assign_op ExpressionList .
 
-assign_op = [ add_op | mul_op ] &quot;=&quot; .
-
-</code></pre><pre><code>
+assign_op = [ add_op | mul_op ] &#34;=&#34; .
 </code></pre></li>
 <li>
 <p>If statements</p>
-<pre><code>IfStmt = &quot;if&quot; [ SimpleStmt &quot;;&quot; ] Expression Block [ &quot;else&quot; ( IfStmt | Block ) ] .
-</code></pre><pre><code>
+<pre tabindex="0"><code>IfStmt = &#34;if&#34; [ SimpleStmt &#34;;&#34; ] Expression Block [ &#34;else&#34; ( IfStmt | Block ) ] .
 </code></pre></li>
 <li>
 <p>Switch statements</p>
-<pre><code>SwitchStmt = ExprSwitchStmt | TypeSwitchStmt .
-</code></pre><pre><code>
+<pre tabindex="0"><code>SwitchStmt = ExprSwitchStmt | TypeSwitchStmt .
 </code></pre></li>
 <li>
 <p>Expression switches</p>
-<pre><code>ExprSwitchStmt = &quot;switch&quot; [ SimpleStmt &quot;;&quot; ] [ Expression ] &quot;{&quot; { ExprCaseClause } &quot;}&quot; .
-ExprCaseClause = ExprSwitchCase &quot;:&quot; StatementList .
-ExprSwitchCase = &quot;case&quot; ExpressionList | &quot;default&quot; .
-</code></pre><pre><code>
+<pre tabindex="0"><code>ExprSwitchStmt = &#34;switch&#34; [ SimpleStmt &#34;;&#34; ] [ Expression ] &#34;{&#34; { ExprCaseClause } &#34;}&#34; .
+ExprCaseClause = ExprSwitchCase &#34;:&#34; StatementList .
+ExprSwitchCase = &#34;case&#34; ExpressionList | &#34;default&#34; .
 </code></pre></li>
 <li>
 <p>Type switches</p>
-<pre><code>switch x.(type) {
+<pre tabindex="0"><code>switch x.(type) {
 // cases
 }
-</code></pre><pre><code></code></pre><pre><code> TypeSwitchStmt  = &quot;switch&quot; [ SimpleStmt &quot;;&quot; ] TypeSwitchGuard &quot;{&quot; { TypeCaseClause } &quot;}&quot; .
- TypeSwitchGuard = [ identifier &quot;:=&quot; ] PrimaryExpr &quot;.&quot; &quot;(&quot; &quot;type&quot; &quot;)&quot; .
- TypeCaseClause  = TypeSwitchCase &quot;:&quot; StatementList .
- TypeSwitchCase  = &quot;case&quot; TypeList | &quot;default&quot; .
- TypeList        = Type { &quot;,&quot; Type } .
-</code></pre><pre><code>
+</code></pre><pre tabindex="0"><code>TypeSwitchStmt  = &#34;switch&#34; [ SimpleStmt &#34;;&#34; ] TypeSwitchGuard &#34;{&#34; { TypeCaseClause } &#34;}&#34; .
+TypeSwitchGuard = [ identifier &#34;:=&#34; ] PrimaryExpr &#34;.&#34; &#34;(&#34; &#34;type&#34; &#34;)&#34; .
+TypeCaseClause  = TypeSwitchCase &#34;:&#34; StatementList .
+TypeSwitchCase  = &#34;case&#34; TypeList | &#34;default&#34; .
+TypeList        = Type { &#34;,&#34; Type } .
 </code></pre></li>
 <li>
 <p>For statements</p>
-<pre><code>ForStmt = &quot;for&quot; [ Condition | ForClause | RangeClause ] Block .
+<pre tabindex="0"><code>ForStmt = &#34;for&#34; [ Condition | ForClause | RangeClause ] Block .
 Condition = Expression .
-</code></pre><pre><code>
-</code></pre><pre><code> ForClause = [ InitStmt ] &quot;;&quot; [ Condition ] &quot;;&quot; [ PostStmt ] .
- InitStmt = SimpleStmt .
- PostStmt = SimpleStmt .
-</code></pre><pre><code></code></pre><pre><code> RangeClause = [ ExpressionList &quot;=&quot; | IdentifierList &quot;:=&quot; ] &quot;range&quot; Expression .
-</code></pre><pre><code></code></pre><pre><code> Range expression                          1st value          2nd value
+</code></pre><pre tabindex="0"><code>ForClause = [ InitStmt ] &#34;;&#34; [ Condition ] &#34;;&#34; [ PostStmt ] .
+InitStmt = SimpleStmt .
+PostStmt = SimpleStmt .
+</code></pre><pre tabindex="0"><code>RangeClause = [ ExpressionList &#34;=&#34; | IdentifierList &#34;:=&#34; ] &#34;range&#34; Expression .
+</code></pre><pre tabindex="0"><code>Range expression                          1st value          2nd value
 
- array or slice  a  [n]E, *[n]E, or []E    index    i  int    a[i]       E
- string          s  string type            index    i  int    see below  rune
- map             m  map[K]V                key      k  K      m[k]       V
- channel         c  chan E, &lt;-chan E       element  e  E
-</code></pre><pre><code>
+array or slice  a  [n]E, *[n]E, or []E    index    i  int    a[i]       E
+string          s  string type            index    i  int    see below  rune
+map             m  map[K]V                key      k  K      m[k]       V
+channel         c  chan E, &lt;-chan E       element  e  E
 </code></pre></li>
 <li>
 <p>Go statements</p>
-<pre><code>GoStmt = &quot;go&quot; Expression .
-</code></pre><pre><code>
+<pre tabindex="0"><code>GoStmt = &#34;go&#34; Expression .
 </code></pre></li>
 <li>
 <p>Select statements</p>
-<pre><code>SelectStmt = &quot;select&quot; &quot;{&quot; { CommClause } &quot;}&quot; .
-CommClause = CommCase &quot;:&quot; StatementList .
-CommCase   = &quot;case&quot; ( SendStmt | RecvStmt ) | &quot;default&quot; .
-RecvStmt   = [ ExpressionList &quot;=&quot; | IdentifierList &quot;:=&quot; ] RecvExpr .
+<pre tabindex="0"><code>SelectStmt = &#34;select&#34; &#34;{&#34; { CommClause } &#34;}&#34; .
+CommClause = CommCase &#34;:&#34; StatementList .
+CommCase   = &#34;case&#34; ( SendStmt | RecvStmt ) | &#34;default&#34; .
+RecvStmt   = [ ExpressionList &#34;=&#34; | IdentifierList &#34;:=&#34; ] RecvExpr .
 RecvExpr   = Expression .
-</code></pre><pre><code>
 </code></pre></li>
 <li>
 <p>Return statements</p>
-<pre><code>ReturnStmt = &quot;return&quot; [ ExpressionList ] .
-</code></pre><pre><code>
+<pre tabindex="0"><code>ReturnStmt = &#34;return&#34; [ ExpressionList ] .
 </code></pre></li>
 <li>
 <p>Break statements</p>
-<pre><code>BreakStmt = &quot;break&quot; [ Label ] .
-</code></pre><pre><code>
+<pre tabindex="0"><code>BreakStmt = &#34;break&#34; [ Label ] .
 </code></pre></li>
 <li>
 <p>Continue statements</p>
-<pre><code>ContinueStmt = &quot;continue&quot; [ Label ] .
-</code></pre><pre><code>
+<pre tabindex="0"><code>ContinueStmt = &#34;continue&#34; [ Label ] .
 </code></pre></li>
 <li>
 <p>Goto statements</p>
-<pre><code>GotoStmt = &quot;goto&quot; Label .
-</code></pre><pre><code>
+<pre tabindex="0"><code>GotoStmt = &#34;goto&#34; Label .
 </code></pre></li>
 <li>
 <p>Fallthrough statements</p>
-<pre><code>FallthroughStmt = &quot;fallthrough&quot; .
-</code></pre><pre><code>
+<pre tabindex="0"><code>FallthroughStmt = &#34;fallthrough&#34; .
 </code></pre></li>
 <li>
 <p>Defer statements</p>
-<pre><code>DeferStmt = &quot;defer&quot; Expression .
-</code></pre><pre><code>
+<pre tabindex="0"><code>DeferStmt = &#34;defer&#34; Expression .
 </code></pre></li>
 <li>
 <p>Source file organization</p>
-<pre><code>SourceFile       = PackageClause &quot;;&quot; { ImportDecl &quot;;&quot; } { TopLevelDecl &quot;;&quot; } .
-</code></pre><pre><code>
+<pre tabindex="0"><code>SourceFile       = PackageClause &#34;;&#34; { ImportDecl &#34;;&#34; } { TopLevelDecl &#34;;&#34; } .
 </code></pre></li>
 <li>
 <p>Package clause</p>
-<pre><code>PackageClause  = &quot;package&quot; PackageName .
+<pre tabindex="0"><code>PackageClause  = &#34;package&#34; PackageName .
 PackageName    = identifier .
-</code></pre><pre><code>
 </code></pre></li>
 <li>
 <p>Import declarations</p>
-<pre><code>ImportDecl       = &quot;import&quot; ( ImportSpec | &quot;(&quot; { ImportSpec &quot;;&quot; } &quot;)&quot; ) .
-ImportSpec       = [ &quot;.&quot; | PackageName ] ImportPath .
+<pre tabindex="0"><code>ImportDecl       = &#34;import&#34; ( ImportSpec | &#34;(&#34; { ImportSpec &#34;;&#34; } &#34;)&#34; ) .
+ImportSpec       = [ &#34;.&#34; | PackageName ] ImportPath .
 ImportPath       = string_lit .
-</code></pre><pre><code>
-</code></pre><pre><code> Import declaration          Local name of Sin
+</code></pre><pre tabindex="0"><code>Import declaration          Local name of Sin
 
- import   &quot;lib/math&quot;         math.Sin
- import m &quot;lib/math&quot;         m.Sin
- import . &quot;lib/math&quot;         Sin
+import   &#34;lib/math&#34;         math.Sin
+import m &#34;lib/math&#34;         m.Sin
+import . &#34;lib/math&#34;         Sin
 
- import _ &quot;lib/math&quot;
-</code></pre><pre><code>
+import _ &#34;lib/math&#34;
 </code></pre></li>
 <li>
 <p>Size and alignment guarantees</p>
 <p>For the numeric types, the following sizes are guaranteed:</p>
-<pre><code>type                                 size in bytes
+<pre tabindex="0"><code>type                                 size in bytes
 
 byte, uint8, int8                     1
 uint16, int16                         2
 uint32, int32, float32                4
 uint64, int64, float64, complex64     8
 complex128                           16
-</code></pre><pre><code>   
- The following minimal alignment properties are guaranteed:
-
- * For a variable x of any type: unsafe.Alignof(x) is at least 1.
- * For a variable x of struct type: unsafe.Alignof(x) is the largest of all the values unsafe.Alignof(x.f) for each field f of x, but at least 1.
- * For a variable x of array type: unsafe.Alignof(x) is the same as unsafe.Alignof(x[0]), but at least 1.
-   
- A struct or array type has size zero if it contains no fields (or elements, respectively) that have a size greater than zero. Two distinct zero-size variables may have the same address in memory.
-
-</code></pre></li>
+</code></pre><p>The following minimal alignment properties are guaranteed:</p>
+<ul>
+<li>For a variable x of any type: unsafe.Alignof(x) is at least 1.</li>
+<li>For a variable x of struct type: unsafe.Alignof(x) is the largest of all the values unsafe.Alignof(x.f) for each field f of x, but at least 1.</li>
+<li>For a variable x of array type: unsafe.Alignof(x) is the same as unsafe.Alignof(x[0]), but at least 1.</li>
+</ul>
+<p>A struct or array type has size zero if it contains no fields (or elements, respectively) that have a size greater than zero. Two distinct zero-size variables may have the same address in memory.</p>
+</li>
 </ul>
 <hr>
 <p>(Note: The Go Programming Language Specification is <a href="https://golang.org/ref/spec" title="The Go Programming Language Specification"><em>here</em></a> )</p>

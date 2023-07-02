@@ -350,33 +350,33 @@
             <h2>Golang Tutorial: What&#39;s DefaultServeMux in net/http</h2>
           
           <p>craete a HTTPS Server use net/http and route handle function by DefaultServeMux, see code below:</p>
-<pre><code>package main
+<pre tabindex="0"><code>package main
 
 import (
-	&quot;net/http&quot;
-	&quot;fmt&quot;
-	&quot;log&quot;
+	&#34;net/http&#34;
+	&#34;fmt&#34;
+	&#34;log&#34;
 )
 
 func hello(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, &quot;[%s]: hello!&quot;, r.Host)
+	fmt.Fprintf(w, &#34;[%s]: hello!&#34;, r.Host)
 }
 
 func world(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, &quot;[%s]: world!&quot;, r.Host)
+	fmt.Fprintf(w, &#34;[%s]: world!&#34;, r.Host)
 }
 
 func main() {
 	server := http.Server{
-		Addr: &quot;127.0.0.1:8080&quot;,
+		Addr: &#34;127.0.0.1:8080&#34;,
 	}
-	http.HandleFunc(&quot;/hello&quot;, hello)
-	http.HandleFunc(&quot;/world&quot;, world)
+	http.HandleFunc(&#34;/hello&#34;, hello)
+	http.HandleFunc(&#34;/world&#34;, world)
 
 	log.Fatal(server.ListenAndServe())
 }
 </code></pre><p>the http.HandleFunc is defined below:</p>
-<pre><code>package http
+<pre tabindex="0"><code>package http
 
 // HandleFunc registers the handler function for the given pattern
 // in the DefaultServeMux.
@@ -385,12 +385,12 @@ func HandleFunc(pattern string, handler func(ResponseWriter, *Request)) {
 	DefaultServeMux.HandleFunc(pattern, handler)
 }
 </code></pre><p>DefaultServeMux is a ref var of &amp;ServeMux</p>
-<pre><code>// DefaultServeMux is the default ServeMux used by Serve.
+<pre tabindex="0"><code>// DefaultServeMux is the default ServeMux used by Serve.
 var DefaultServeMux = &amp;defaultServeMux
 
 var defaultServeMux ServeMux
 </code></pre><p>And the method of HandleFunc is defined below:</p>
-<pre><code>package Server
+<pre tabindex="0"><code>package Server
 
 // HandleFunc registers the handler function for the given pattern.
 func (mux *ServeMux) HandleFunc(pattern string, handler func(ResponseWriter, *Request)) {

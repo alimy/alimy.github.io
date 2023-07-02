@@ -368,7 +368,7 @@
 <ol>
 <li>查询出商品信息</li>
 </ol>
-<pre><code>select (status,status,version) from t_goods where id=#{id}
+<pre tabindex="0"><code>select (status,status,version) from t_goods where id=#{id}
 </code></pre><ol start="2">
 <li>
 <p>根据商品信息生成订单</p>
@@ -377,7 +377,7 @@
 <p>修改商品 status 为 2</p>
 </li>
 </ol>
-<pre><code>update t_goods
+<pre tabindex="0"><code>update t_goods
 set status=2,version=version+1
 where id=#{id} and version=#{version};
 </code></pre><h3 id="优点与不足">优点与不足</h3>
@@ -388,7 +388,7 @@ where id=#{id} and version=#{version};
 <h3 id="使用">使用</h3>
 <p>MySQL InnoDB 中使用悲观锁</p>
 <p>要使用悲观锁，我们必须关闭mysql数据库的自动提交属性，因为MySQL默认使用autocommit模式，也就是说，当你执行一个更新操作后，MySQL会立刻将结果进行提交。set autocommit=0;</p>
-<pre><code># 0. 开始事务
+<pre tabindex="0"><code># 0. 开始事务
 begin;/begin work;/start transaction; (三者选一就可以)
 # 1. 查询出商品信息
 select status from t_goods where id=1 for update;

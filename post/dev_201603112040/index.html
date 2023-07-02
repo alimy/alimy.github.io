@@ -360,7 +360,7 @@
 <p>If you have an InputStream then pass it to Jackson as such and do not wrap it in InputStreamReader for performance reasons.</p>
 <h3 id="data-binding-example">Data Binding Example</h3>
 <h4 id="databinding">Databinding</h4>
-<pre><code>package com.studytrails.json.jackson;
+<pre tabindex="0"><code>package com.studytrails.json.jackson;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -373,7 +373,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class DataBinding1 {
 	public static void main(String[] args) throws JsonParseException, JsonMappingException, MalformedURLException, IOException {
-		String url = &quot;http://freemusicarchive.org/api/get/albums.json?api_key=60BLHNQCAOUFPIBZ&amp;limit=2&quot;;
+		String url = &#34;http://freemusicarchive.org/api/get/albums.json?api_key=60BLHNQCAOUFPIBZ&amp;limit=2&#34;;
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 		Albums albums = mapper.readValue(new URL(url), Albums.class);
@@ -386,7 +386,7 @@ public class DataBinding1 {
 }
 </code></pre><p>We have disabled the feature that causes the mapper to break if it encounters an unknown property. Therefore, if the json has 10 properties and you define only two in your bean, then the other 8 will be ignored.</p>
 <h4 id="the-albums-class">The Albums class</h4>
-<pre><code>package com.studytrails.json.jackson;
+<pre tabindex="0"><code>package com.studytrails.json.jackson;
 
 
 public class Albums {
@@ -411,7 +411,7 @@ public class Albums {
 	}
 }
 </code></pre><h4 id="dataset-class">Dataset class</h4>
-<pre><code>package com.studytrails.json.jackson;
+<pre tabindex="0"><code>package com.studytrails.json.jackson;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -367,13 +367,13 @@ or other conditions. The main features are:</p>
   standard http.ServeMux.
 </code></pre>
 <p>Let&rsquo;s start registering a couple of URL paths and handlers:</p>
-<pre><code>func main() {
+<pre tabindex="0"><code>func main() {
   r := mux.NewRouter()
-  r.HandleFunc(&quot;/&quot;, HomeHandler)
-  r.HandleFunc(&quot;/products&quot;, ProductsHandler)
-  r.HandleFunc(&quot;/articles&quot;, ArticlesHandler)
-  http.Handle(&quot;/&quot;, r)
-  log.Fatal(http.ListenAndServe(&quot;:12345&quot;, nil))
+  r.HandleFunc(&#34;/&#34;, HomeHandler)
+  r.HandleFunc(&#34;/products&#34;, ProductsHandler)
+  r.HandleFunc(&#34;/articles&#34;, ArticlesHandler)
+  http.Handle(&#34;/&#34;, r)
+  log.Fatal(http.ListenAndServe(&#34;:12345&#34;, nil))
 }
 </code></pre><p>Here we register three routes mapping URL paths to handlers. This is
 equivalent to how <code>http.HandleFunc()</code> works: if an incoming request URL matches
@@ -426,7 +426,7 @@ r.Host(&quot;{subdomain:[a-z]+}.domain.com&quot;)
 </code></pre>
 <p>&hellip;or to use a custom matcher function:</p>
 <pre><code>r.MatcherFunc(func(r *http.Request, rm *RouteMatch) bool {
-    return r.ProtoMajor == 0
+	return r.ProtoMajor == 0
 })
 </code></pre>
 <p>&hellip;and finally, it is possible to combine several matchers in a single route:</p>
@@ -471,24 +471,24 @@ s.HandleFunc(&quot;/{key}/details&quot;, ProductDetailsHandler)
 <code>PathPrefix(&quot;/static/&quot;).Handler(...) </code>means that the handler will be passed any
 request that matches<code> &quot;/static/*&quot;</code>. This makes it easy to serve static files with mux:</p>
 <pre><code>func main() {
-    var dir string
+	var dir string
 
-    flag.StringVar(&amp;dir, &quot;dir&quot;, &quot;.&quot;, &quot;the directory to serve files from. Defaults to the current dir&quot;)
-    flag.Parse()
-    r := mux.NewRouter()
+	flag.StringVar(&amp;dir, &quot;dir&quot;, &quot;.&quot;, &quot;the directory to serve files from. Defaults to the current dir&quot;)
+	flag.Parse()
+	r := mux.NewRouter()
 
-    // This will serve files under http://localhost:8000/static/&lt;filename&gt;
-    r.PathPrefix(&quot;/static/&quot;).Handler(http.StripPrefix(&quot;/static/&quot;, http.FileServer(http.Dir(dir))))
+	// This will serve files under http://localhost:8000/static/&lt;filename&gt;
+	r.PathPrefix(&quot;/static/&quot;).Handler(http.StripPrefix(&quot;/static/&quot;, http.FileServer(http.Dir(dir))))
 
-    srv := &amp;http.Server{
-        Handler:      r,
-        Addr:         &quot;127.0.0.1:8000&quot;,
-        // Good practice: enforce timeouts for servers you create!
-        WriteTimeout: 15 * time.Second,
-        ReadTimeout:  15 * time.Second,
-    }
+	srv := &amp;http.Server{
+		Handler:      r,
+		Addr:         &quot;127.0.0.1:8000&quot;,
+		// Good practice: enforce timeouts for servers you create!
+		WriteTimeout: 15 * time.Second,
+		ReadTimeout:  15 * time.Second,
+	}
 
-    log.Fatal(srv.ListenAndServe())
+	log.Fatal(srv.ListenAndServe())
 }
 </code></pre>
 <p>Now let&rsquo;s see how to build registered URLs.</p>
@@ -556,12 +556,12 @@ url, err := r.Get(&quot;article&quot;).URL(&quot;subdomain&quot;, &quot;news&quo
 <p>Typically, the returned handler is a closure which does something with the http.ResponseWriter and http.Request passed to it, and then calls the handler passed as parameter to the MiddlewareFunc (closures can access variables from the context where they are created).</p>
 <p>A very basic middleware which logs the URI of the request being handled could be written as:</p>
 <pre><code>func simpleMw(next http.Handler) http.Handler {
-    return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-        // Do stuff here
-        log.Println(r.RequestURI)
-        // Call the next handler, which can be another middleware in the chain, or the final handler.
-        next.ServeHTTP(w, r)
-    })
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// Do stuff here
+		log.Println(r.RequestURI)
+		// Call the next handler, which can be another middleware in the chain, or the final handler.
+		next.ServeHTTP(w, r)
+	})
 }
 </code></pre>
 <p>Middlewares can be added to a router using <code>Router.Use()</code>:</p>
@@ -572,30 +572,30 @@ r.Use(simpleMw)
 <p>A more complex authentication middleware, which maps session token to users, could be written as:</p>
 <pre><code>// Define our struct
 type authenticationMiddleware struct {
-    tokenUsers map[string]string
+	tokenUsers map[string]string
 }
 
 // Initialize it somewhere
 func (amw *authenticationMiddleware) Populate() {
-    amw.tokenUsers[&quot;00000000&quot;] = &quot;user0&quot;
-    amw.tokenUsers[&quot;aaaaaaaa&quot;] = &quot;userA&quot;
-    amw.tokenUsers[&quot;05f717e5&quot;] = &quot;randomUser&quot;
-    amw.tokenUsers[&quot;deadbeef&quot;] = &quot;user0&quot;
+	amw.tokenUsers[&quot;00000000&quot;] = &quot;user0&quot;
+	amw.tokenUsers[&quot;aaaaaaaa&quot;] = &quot;userA&quot;
+	amw.tokenUsers[&quot;05f717e5&quot;] = &quot;randomUser&quot;
+	amw.tokenUsers[&quot;deadbeef&quot;] = &quot;user0&quot;
 }
 
 // Middleware function, which will be called for each request
 func (amw *authenticationMiddleware) Middleware(next http.Handler) http.Handler {
-    return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-        token := r.Header.Get(&quot;X-Session-Token&quot;)
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		token := r.Header.Get(&quot;X-Session-Token&quot;)
 
-        if user, found := amw.tokenUsers[token]; found {
-            // We found the token in our map
-            log.Printf(&quot;Authenticated user %s\n&quot;, user)
-            next.ServeHTTP(w, r)
-        } else {
-            http.Error(w, &quot;Forbidden&quot;, http.StatusForbidden)
-        }
-    })
+		if user, found := amw.tokenUsers[token]; found {
+			// We found the token in our map
+			log.Printf(&quot;Authenticated user %s\n&quot;, user)
+			next.ServeHTTP(w, r)
+		} else {
+			http.Error(w, &quot;Forbidden&quot;, http.StatusForbidden)
+		}
+	})
 }
 
 r := mux.NewRouter()

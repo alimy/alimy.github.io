@@ -350,7 +350,7 @@
             <h2>Gson: parsing json to java token by token</h2>
           
           <p>In the earlier tutorials we saw how to <a href="https://alimy.me/post/dev_201603122010" title="Convert json to a java object">convert json to a java object</a>. In This tutorial we see how to parse json and obtain individual tokens. Although this may seem like a cumbersome way to build java object from json, however it is extremely powerful and may be a good choice if you need a very high level of control over the parsing. We use the JsonReader class to read the json as a stream of tokens. The beginning of an object or an array is also a token. Here&rsquo;s a detailed example.</p>
-<pre><code>package com.studytrails.json.gson;
+<pre tabindex="0"><code>package com.studytrails.json.gson;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -366,7 +366,7 @@ public class ParseTokenExample7
 {
 	public static void main(String[] args) throws MalformedURLException, IOException
 	{
-		String url = &quot;http://freemusicarchive.org/api/get/albums.json?api_key=60BLHNQCAOUFPIBZ&amp;limit=1&quot;;
+		String url = &#34;http://freemusicarchive.org/api/get/albums.json?api_key=60BLHNQCAOUFPIBZ&amp;limit=1&#34;;
 		String json = IOUtils.toString(new URL(url));
 		// use the reader to read the json to a stream of tokens
 		JsonReader reader = new JsonReader(new StringReader(json));

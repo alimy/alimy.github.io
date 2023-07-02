@@ -353,7 +353,7 @@
 <p>闲置几台屌丝版腾讯云服务器（2 core <code>CPU</code> 4GB <code>Memory</code> 40GB <code>Disk</code>)，难得清闲，用其中的3台部署一套TiKV用于测试功能和代码研究。</p>
 <h4 id="节点分布">节点分布</h4>
 <p>使用Docker进行部署,官方镜像pingcap/pd:v2.0.6、pingcap/tikv:v2.0.6</p>
-<pre><code>|    Name   |   Host IP   |  Services  |  Docker Volume  |  Data Path  |
+<pre tabindex="0"><code>|    Name   |   Host IP   |  Services  |  Docker Volume  |  Data Path  |
 | Node1(TB) | 172.22.0.6  |    PD1     |     pd-data     |    /data    |
 | Node2(TD) | 172.22.0.10 |    PD2     |     pd-data     |    /data    |
 | Node3(TE) | 172.22.0.15 |    PD3     |     pd-data     |    /data    |
@@ -362,159 +362,159 @@
 | Node3(TE) | 172.22.0.15 |   TiKV3    |     tikv-data   |    /data    |
 </code></pre><h4 id="准备工作">准备工作</h4>
 <p>三节点（Node1/Node2/Node3)都执行</p>
-<pre><code>sudo docker pull pingcap/pd:v2.0.6  
+<pre tabindex="0"><code>sudo docker pull pingcap/pd:v2.0.6  
 sudo docker pull pingcap/tikv:v2.0.6  
 sudo docker volume create pd-data  
 sudo docker volume create tikv-data
 
-export TBIP=&quot;172.21.0.6&quot;
-export TDIP=&quot;172.21.0.10&quot;
-export TEIP=&quot;172.21.0.15&quot;
+export TBIP=&#34;172.21.0.6&#34;
+export TDIP=&#34;172.21.0.10&#34;
+export TEIP=&#34;172.21.0.15&#34;
 </code></pre><h4 id="部署pd">部署PD</h4>
 <ul>
 <li>In Node1(TB)&gt;：</li>
 </ul>
-<pre><code>sudo docker run -d --restart=always --name pd1 \
+<pre tabindex="0"><code>sudo docker run -d --restart=always --name pd1 \
 -p 2379:2379 \
 -p 2380:2380 \
 -v pd-data:/data \
 pingcap/pd:v2.0.6 \
---name=&quot;pd1&quot; \
---data-dir=&quot;/data/pd1&quot; \
---client-urls=&quot;http://0.0.0.0:2379&quot; \
---advertise-client-urls=&quot;http://${TBIP}:2379&quot; \
---peer-urls=&quot;http://0.0.0.0:2380&quot; \
---advertise-peer-urls=&quot;http://${TBIP}:2380&quot; \
---initial-cluster=&quot;pd1=http://${TBIP}:2380,pd2=http://${TDIP}:2380,pd3=http://${TEIP}:2380&quot;
+--name=&#34;pd1&#34; \
+--data-dir=&#34;/data/pd1&#34; \
+--client-urls=&#34;http://0.0.0.0:2379&#34; \
+--advertise-client-urls=&#34;http://${TBIP}:2379&#34; \
+--peer-urls=&#34;http://0.0.0.0:2380&#34; \
+--advertise-peer-urls=&#34;http://${TBIP}:2380&#34; \
+--initial-cluster=&#34;pd1=http://${TBIP}:2380,pd2=http://${TDIP}:2380,pd3=http://${TEIP}:2380&#34;
 </code></pre><ul>
 <li>In Node2(TD)&gt;:</li>
 </ul>
-<pre><code>sudo docker run -d --restart=always --name pd2 \
+<pre tabindex="0"><code>sudo docker run -d --restart=always --name pd2 \
 -p 2379:2379 \
 -p 2380:2380 \
 -v pd-data:/data \
 pingcap/pd:v2.0.6 \
---name=&quot;pd2&quot; \
---data-dir=&quot;/data/pd2&quot; \
---client-urls=&quot;http://0.0.0.0:2379&quot; \
---advertise-client-urls=&quot;http://${TDIP}:2379&quot; \
---peer-urls=&quot;http://0.0.0.0:2380&quot; \
---advertise-peer-urls=&quot;http://${TDIP}:2380&quot; \
---initial-cluster=&quot;pd1=http://${TBIP}:2380,pd2=http://${TDIP}:2380,pd3=http://${TEIP}:2380&quot;
+--name=&#34;pd2&#34; \
+--data-dir=&#34;/data/pd2&#34; \
+--client-urls=&#34;http://0.0.0.0:2379&#34; \
+--advertise-client-urls=&#34;http://${TDIP}:2379&#34; \
+--peer-urls=&#34;http://0.0.0.0:2380&#34; \
+--advertise-peer-urls=&#34;http://${TDIP}:2380&#34; \
+--initial-cluster=&#34;pd1=http://${TBIP}:2380,pd2=http://${TDIP}:2380,pd3=http://${TEIP}:2380&#34;
 </code></pre><ul>
 <li>In Node3(TE)&gt;:</li>
 </ul>
-<pre><code>sudo docker run -d --restart=always --name pd3 \
+<pre tabindex="0"><code>sudo docker run -d --restart=always --name pd3 \
 -p 2379:2379 \
 -p 2380:2380 \
 -v pd-data:/data \
 pingcap/pd:v2.0.6 \
---name=&quot;pd3&quot; \
---data-dir=&quot;/data/pd3&quot; \
---client-urls=&quot;http://0.0.0.0:2379&quot; \
---advertise-client-urls=&quot;http://${TEIP}:2379&quot; \
---peer-urls=&quot;http://0.0.0.0:2380&quot; \
---advertise-peer-urls=&quot;http://${TEIP}:2380&quot; \
---initial-cluster=&quot;pd1=http://${TBIP}:2380,pd2=http://${TDIP}:2380,pd3=http://${TEIP}:2380&quot;
+--name=&#34;pd3&#34; \
+--data-dir=&#34;/data/pd3&#34; \
+--client-urls=&#34;http://0.0.0.0:2379&#34; \
+--advertise-client-urls=&#34;http://${TEIP}:2379&#34; \
+--peer-urls=&#34;http://0.0.0.0:2380&#34; \
+--advertise-peer-urls=&#34;http://${TEIP}:2380&#34; \
+--initial-cluster=&#34;pd1=http://${TBIP}:2380,pd2=http://${TDIP}:2380,pd3=http://${TEIP}:2380&#34;
 </code></pre><h4 id="部署tikv">部署TiKV</h4>
 <ul>
 <li>In Node1(TB)&gt;:</li>
 </ul>
-<pre><code>sudo docker run -d --restart=always --name tikv1 \
+<pre tabindex="0"><code>sudo docker run -d --restart=always --name tikv1 \
 --ulimit nofile=82920:82920 \
 -p 20160:20160 \
 -v tikv-data:/data \
 pingcap/tikv:v2.0.6 \
---addr=&quot;0.0.0.0:20160&quot; \
---advertise-addr=&quot;${TBIP}:20160&quot; \
---data-dir=&quot;/data/tikv1&quot; \
---pd=&quot;${TBIP}:2379,${TDIP}:2379,${TEIP}:2379&quot;
+--addr=&#34;0.0.0.0:20160&#34; \
+--advertise-addr=&#34;${TBIP}:20160&#34; \
+--data-dir=&#34;/data/tikv1&#34; \
+--pd=&#34;${TBIP}:2379,${TDIP}:2379,${TEIP}:2379&#34;
 </code></pre><ul>
 <li>In Node2(TD)&gt;:</li>
 </ul>
-<pre><code>sudo docker run -d --restart=always --name tikv2 \
+<pre tabindex="0"><code>sudo docker run -d --restart=always --name tikv2 \
 --ulimit nofile=82920:82920 \
 -p 20160:20160 \
 -v tikv-data:/data \
 pingcap/tikv:v2.0.6 \
---addr=&quot;0.0.0.0:20160&quot; \
---advertise-addr=&quot;${TDIP}:20160&quot; \
---data-dir=&quot;/data/tikv2&quot; \
---pd=&quot;${TBIP}:2379,${TDIP}:2379,${TEIP}:2379&quot;
+--addr=&#34;0.0.0.0:20160&#34; \
+--advertise-addr=&#34;${TDIP}:20160&#34; \
+--data-dir=&#34;/data/tikv2&#34; \
+--pd=&#34;${TBIP}:2379,${TDIP}:2379,${TEIP}:2379&#34;
 </code></pre><ul>
 <li>In Node3(TE)&gt;:</li>
 </ul>
-<pre><code>sudo docker run -d --restart=always --name tikv3 \
+<pre tabindex="0"><code>sudo docker run -d --restart=always --name tikv3 \
 --ulimit nofile=82920:82920 \
 -p 20160:20160 \
 -v tikv-data:/data \
 pingcap/tikv:v2.0.6 \
---addr=&quot;0.0.0.0:20160&quot; \
---advertise-addr=&quot;${TEIP}:20160&quot; \
---data-dir=&quot;/data/tikv3&quot; \
---pd=&quot;${TBIP}:2379,${TDIP}:2379,${TEIP}:2379&quot;
+--addr=&#34;0.0.0.0:20160&#34; \
+--advertise-addr=&#34;${TEIP}:20160&#34; \
+--data-dir=&#34;/data/tikv3&#34; \
+--pd=&#34;${TBIP}:2379,${TDIP}:2379,${TEIP}:2379&#34;
 </code></pre><h4 id="检验是否部署完成">检验是否部署完成</h4>
 <ul>
 <li>查看PD的成员 (任意节点中执行)</li>
 </ul>
-<pre><code>curl ${TAIP}:2379/v2/members
+<pre tabindex="0"><code>curl ${TAIP}:2379/v2/members
 或（使用httpie）
 http ${TAIP}:2379/v2/members
 </code></pre><ul>
 <li>查看TiKV节点 (任意节点中执行)</li>
 </ul>
-<pre><code>curl ${TAIP}:2379/pd/api/v1/stores
+<pre tabindex="0"><code>curl ${TAIP}:2379/pd/api/v1/stores
 或（使用httpie）
 http ${TAIP}:2379/pd/api/v1/stores
 </code></pre><h4 id="tikv-api-简单使用">TiKV API 简单使用</h4>
-<pre><code>package main
+<pre tabindex="0"><code>package main
 
 import (
-    &quot;fmt&quot;
+    &#34;fmt&#34;
 
-    &quot;github.com/pingcap/tidb/config&quot;
-    &quot;github.com/pingcap/tidb/store/tikv&quot;
+    &#34;github.com/pingcap/tidb/config&#34;
+    &#34;github.com/pingcap/tidb/store/tikv&#34;
 )
 
 func main() {
-    cli, err := tikv.NewRawKVClient([]string{&quot;:2379&quot;}, config.Security{})
+    cli, err := tikv.NewRawKVClient([]string{&#34;:2379&#34;}, config.Security{})
     if err != nil {
         panic(err)
     }
     defer cli.Close()
 
-    fmt.Printf(&quot;cluster ID: %d\n&quot;, cli.ClusterID())
+    fmt.Printf(&#34;cluster ID: %d\n&#34;, cli.ClusterID())
 
-    key := []byte(&quot;Company&quot;)
-    val := []byte(&quot;PingCAP&quot;)
+    key := []byte(&#34;Company&#34;)
+    val := []byte(&#34;PingCAP&#34;)
 
     // put key into tikv
     err = cli.Put(key, val)
     if err != nil {
         panic(err)
     }
-    fmt.Printf(&quot;Successfully put %s:%s to tikv\n&quot;, key, val)
+    fmt.Printf(&#34;Successfully put %s:%s to tikv\n&#34;, key, val)
 
     // get key from tikv
     val, err = cli.Get(key)
     if err != nil {
         panic(err)
     }
-    fmt.Printf(&quot;found val: %s for key: %s\n&quot;, val, key)
+    fmt.Printf(&#34;found val: %s for key: %s\n&#34;, val, key)
 
     // delete key from tikv
     err = cli.Delete(key)
     if err != nil {
         panic(err)
     }
-    fmt.Printf(&quot;key: %s deleted\n&quot;, key)
+    fmt.Printf(&#34;key: %s deleted\n&#34;, key)
 
     // get key again from tikv
     val, err = cli.Get(key)
     if err != nil {
         panic(err)
     }
-    fmt.Printf(&quot;found val: %s for key: %s\n&quot;, val, key)
+    fmt.Printf(&#34;found val: %s for key: %s\n&#34;, val, key)
 }
 
 // output:

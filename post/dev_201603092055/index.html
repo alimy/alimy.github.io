@@ -350,7 +350,7 @@
             <h2>XStream: Custom Converter for BufferedImage</h2>
           
           <p>In the previous tutorials we saw an example of how to convert a <a href="https://alimy.me/post/dev_201603081411" title="parsing an xml">java object to XML and back</a>. That tutorial also explained the concept of aliases and implicit collection. While serializing a Java object to XML XStream uses custom converters. These converters specify how to create XML from a Java Object or how to create a Java Object from XML elements. In most cases the provided converters should suffice, however, in certain cases you may want to create your own converters. To do so create a class that implements com.thoughtworks.xstream.converters.Converter and implement the void marshal(Object source, HierarchicalStreamWriter writer, MarshallingContext context); and Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context); The example below demonstrates a CustomConverter. To make the example more interesting we will write a converter to serialize a BufferedImage. The image for the example can be downloaded from here</p>
-<pre><code>package com.studytrails.xml.xstream;
+<pre tabindex="0"><code>package com.studytrails.xml.xstream;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -381,8 +381,8 @@ public class CustomConverterExample {
 
     private void showCustomConversionForBufferedImage() throws IOException {
         Company company = new Company();
-        company.setName(&quot;Study Trails&quot;);
-        BufferedImage in = ImageIO.read(new File(&quot;st1_200.jpg&quot;));
+        company.setName(&#34;Study Trails&#34;);
+        BufferedImage in = ImageIO.read(new File(&#34;st1_200.jpg&#34;));
         BufferedImage newImage = new BufferedImage(in.getWidth(), in.getHeight(), BufferedImage.TYPE_INT_RGB);
         Graphics2D g = newImage.createGraphics();
         g.drawImage(in, 0, 0, null);
@@ -393,8 +393,8 @@ public class CustomConverterExample {
         String xml = xStream.toXML(company);
 
         Company company2 = (Company) xStream.fromXML(xml);
-        File outputfile = new File(&quot;st2_200.jpg&quot;);
-        ImageIO.write(company2.image, &quot;jpg&quot;, outputfile);
+        File outputfile = new File(&#34;st2_200.jpg&#34;);
+        ImageIO.write(company2.image, &#34;jpg&#34;, outputfile);
 
     }
 
@@ -426,7 +426,7 @@ class CustomBufferedImageConverter implements Converter {
         try {
             ByteArrayOutputStream outStream = new ByteArrayOutputStream();
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(outStream);
-            ImageIO.write(bufferedImage, &quot;jpg&quot;, objectOutputStream);
+            ImageIO.write(bufferedImage, &#34;jpg&#34;, objectOutputStream);
             outStream.flush();
             Base64Encoder encorder = new Base64Encoder();
             String imageString = encorder.encode(outStream.toByteArray());

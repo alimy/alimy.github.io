@@ -350,11 +350,11 @@
             <h2>Golang Tutorial: Create HTTPS Server use net/http</h2>
           
           <p>It is simple to craete a HTTPS Server use net/http, see code below:</p>
-<pre><code>package main
+<pre tabindex="0"><code>package main
 
 import (
-	&quot;net/http&quot;
-	&quot;fmt&quot;
+	&#34;net/http&#34;
+	&#34;fmt&#34;
 )
 
 type SimpleHandler struct {
@@ -362,43 +362,43 @@ type SimpleHandler struct {
 }
 
 func (h *SimpleHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, &quot;%s: Hello World!&quot;, h.Name)
+	fmt.Fprintf(w, &#34;%s: Hello World!&#34;, h.Name)
 }
 
 func main() {
 	server := http.Server{
-		Addr:    &quot;127.0.0.1:8080&quot;,
-		Handler: &amp;SimpleHandler{Name: &quot;SimpleServer&quot;},
+		Addr:    &#34;127.0.0.1:8080&#34;,
+		Handler: &amp;SimpleHandler{Name: &#34;SimpleServer&#34;},
 	}
-	server.ListenAndServeTLS(&quot;cert.pem&quot;, &quot;key.pem&quot;)
+	server.ListenAndServeTLS(&#34;cert.pem&#34;, &#34;key.pem&#34;)
 }
 </code></pre><p>We can use golang&rsquo;s crypto libraries to create SSL certificates that used in simple https server above. see code below:</p>
-<pre><code>package main
+<pre tabindex="0"><code>package main
 
 import (
-	&quot;crypto/rand&quot;
-	&quot;crypto/x509/pkix&quot;
-	&quot;math/big&quot;
-	&quot;crypto/x509&quot;
-	&quot;encoding/pem&quot;
-	&quot;net&quot;
-	&quot;os&quot;
-	&quot;time&quot;
-	&quot;crypto/rsa&quot;
+	&#34;crypto/rand&#34;
+	&#34;crypto/x509/pkix&#34;
+	&#34;math/big&#34;
+	&#34;crypto/x509&#34;
+	&#34;encoding/pem&#34;
+	&#34;net&#34;
+	&#34;os&#34;
+	&#34;time&#34;
+	&#34;crypto/rsa&#34;
 )
 
 const (
-	certFileName = &quot;cert.pem&quot;
-	keyFileName  = &quot;key.pem&quot;
+	certFileName = &#34;cert.pem&#34;
+	keyFileName  = &#34;key.pem&#34;
 )
 
 func main() {
 	max := new(big.Int).Lsh(big.NewInt(1), 128)
 	serialNumber, _ := rand.Int(rand.Reader, max)
 	subject := pkix.Name{
-		Organization:       []string{&quot;Manning Publications Co.&quot;},
-		OrganizationalUnit: []string{&quot;Books&quot;},
-		CommonName:         &quot;Go Web Programming&quot;,
+		Organization:       []string{&#34;Manning Publications Co.&#34;},
+		OrganizationalUnit: []string{&#34;Books&#34;},
+		CommonName:         &#34;Go Web Programming&#34;,
 	}
 
 	template := x509.Certificate{
@@ -408,18 +408,18 @@ func main() {
 		NotAfter:     time.Now().Add(365 * 24 * time.Hour),
 		KeyUsage:     x509.KeyUsageKeyEncipherment | x509.KeyUsageDigitalSignature,
 		ExtKeyUsage:  []x509.ExtKeyUsage{x509.ExtKeyUsageServerAuth},
-		IPAddresses:  []net.IP{net.ParseIP(&quot;127.0.0.1&quot;)},
+		IPAddresses:  []net.IP{net.ParseIP(&#34;127.0.0.1&#34;)},
 	}
 
 	pk, _ := rsa.GenerateKey(rand.Reader, 2048)
 
 	derBytes, _ := x509.CreateCertificate(rand.Reader, &amp;template, &amp;template, &amp;pk.PublicKey, pk)
 	certOut, _ := os.Create(certFileName)
-	pem.Encode(certOut, &amp;pem.Block{Type: &quot;CERTIFICATE&quot;, Bytes: derBytes})
+	pem.Encode(certOut, &amp;pem.Block{Type: &#34;CERTIFICATE&#34;, Bytes: derBytes})
 	certOut.Close()
 
 	keyOut, _ := os.Create(keyFileName)
-	pem.Encode(keyOut, &amp;pem.Block{Type: &quot;RSA PRIVATE KEY&quot;, Bytes: x509.MarshalPKCS1PrivateKey(pk)})
+	pem.Encode(keyOut, &amp;pem.Block{Type: &#34;RSA PRIVATE KEY&#34;, Bytes: x509.MarshalPKCS1PrivateKey(pk)})
 	keyOut.Close()
 }
 </code></pre><hr>

@@ -363,9 +363,9 @@
 在该目录创建config文件</p>
 </li>
 </ul>
-<pre><code>$ vi /root/.ssh/config
+<pre tabindex="0"><code>$ vi /root/.ssh/config
 </code></pre><p>加入下面一句：</p>
-<pre><code>ServerAliveInterval 60
+<pre tabindex="0"><code>ServerAliveInterval 60
 </code></pre><p>保存退出，重新开启root用户的shell，则ssh远程服务器的时候，
 不会因为长时间操作断开。应该是加入这句之后，ssh客户端会每隔一
 段时间自动与ssh服务器通信一次，所以长时间操作不会断开。</p>
@@ -373,18 +373,18 @@
 <li>方法三、
 修改/etc/profile配置文件</li>
 </ul>
-<pre><code>$ vi /etc/profile
+<pre tabindex="0"><code>$ vi /etc/profile
 </code></pre><p>增加：TMOUT=1800
 这样30分钟没操作就自动LOGOUT</p>
 <ul>
 <li>方法四、
 利用expect 模拟键盘动作，在闲置时间之内模拟地给个键盘响应,将下列代码保存为xxx，然后用expect执行</li>
 </ul>
-<pre><code>#!/usr/bin/expect  
+<pre tabindex="0"><code>#!/usr/bin/expect  
 set timeout 60  
 spawn ssh user@host   
       interact {          
-            timeout 300 {send &quot;\x20&quot;}  
+            timeout 300 {send &#34;\x20&#34;}  
       } 
 expect xxx
 </code></pre><p>接着按提示输入密码就可以了，这样每隔300秒就会自动打一个空格(\x20)，具体的时间间隔可以根据具体情况设置。</p>
@@ -400,35 +400,35 @@ putty：putty -&gt; Connection -&gt; Seconds between keepalives ( 0 to turn off 
 </li>
 </ul>
 <p>服务端配置</p>
-<pre><code>sudo vi /etc/ssh/sshd_config
+<pre tabindex="0"><code>sudo vi /etc/ssh/sshd_config
 ClientAliveInterval 60     #服务端主动向客户端请求响应的间隔
 ClientAliveCountMax 10    #服务器发出请求后客户端没有响应的次数达到一定值就自动断开
 sudo restart ssh
 </code></pre><p>客户端配置 </p>
-<pre><code>sudo vi /etc/ssh/ssh_config  #或~/.ssh/config
+<pre tabindex="0"><code>sudo vi /etc/ssh/ssh_config  #或~/.ssh/config
 
 TCPKeepAlive=yes
 ServerAliveInterval 60   #客户端主动向服务端请求响应的间隔
 </code></pre><p>或</p>
-<pre><code>ssh -i &lt;key-file&gt; -o StrictHostKeyChecking=no -o TCPKeepAlive=yes -o ServerAliveInterval=30 ubuntu@&lt;ip&gt;
+<pre tabindex="0"><code>ssh -i &lt;key-file&gt; -o StrictHostKeyChecking=no -o TCPKeepAlive=yes -o ServerAliveInterval=30 ubuntu@&lt;ip&gt;
 </code></pre><h4 id="sect重用">§重用</h4>
 <p>如果你用mac本的话，很不方便的是没有clone功能，新窗口时需要重新输入繁琐的用户名和密码，对于经常排查线上问题的程序猿来说是一件很悲催的事 情，同样幸运的是ssh提供了连接重用功能，这个功能的原理很简单，开一个ssh连接放在后台，以后再需要用ssh到同样的远程主机时，ssh会直接用这 个连接的socket文件，不再创建新的连接了，同理，也不需要进行用户身份验证了，是不是很happy，只需要新建文件~/.ssh/config并输 入如下命令即可：</p>
-<pre><code>Host *
+<pre tabindex="0"><code>Host *
 ControlMaster auto
 ControlPath ~/.ssh/master-%r@%h:%p
 </code></pre><h4 id="sectbad-owner-or-permissions-on-homesshconfig">§Bad owner or permissions on $HOME/.ssh/config</h4>
 <p>The ssh with RHEL 4 is a lot more anal about security checking. In my case, it was the fact that $HOME/.ssh/config was group-writable which was causing it to barf. To fix:</p>
-<pre><code>$ cd ~/.ssh
+<pre tabindex="0"><code>$ cd ~/.ssh
 $ chmod 600 *
 </code></pre><p>Note that this error message is kind of stupid, since $HOME/.ssh had permissions 700 on it, and $HOME had 750 permissions on it. If any process managed to evade those permissions, changing the permissions on the config file would be similarly defeated.</p>
 <h4 id="sect在那些没退出的-ssh-会话里用--优雅-的断开连接">§在那些没退出的 ssh 会话里用 ~. “优雅” 的断开连接</h4>
-<pre><code>$ ~.
+<pre tabindex="0"><code>$ ~.
 $ man ssh
 ...
 ESCAPE CHARACTERS
      ...
 
-     The supported escapes (assuming the default `~') are:
+     The supported escapes (assuming the default `~&#39;) are:
 
      ~.      Disconnect.
 </code></pre>

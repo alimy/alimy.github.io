@@ -357,7 +357,7 @@
 </ol>
 <h3 id="data-binding-example">Data Binding Example</h3>
 <h4 id="databinding">Databinding</h4>
-<pre><code>package com.studytrails.json.jackson;
+<pre tabindex="0"><code>package com.studytrails.json.jackson;
 
 public class AlbumsDynamic {
 
@@ -381,7 +381,7 @@ public class AlbumsDynamic {
     }
 }
 </code></pre><h4 id="dataset-class">Dataset class</h4>
-<pre><code>package com.studytrails.json.jackson;
+<pre tabindex="0"><code>package com.studytrails.json.jackson;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -397,7 +397,7 @@ public class DatasetDynamic {
     private Map&lt;String , Object&gt; otherProperties = new HashMap&lt;String , Object&gt;();
 
     @JsonCreator
-    public DatasetDynamic(@JsonProperty(&quot;album_id&quot;) String album_id, @JsonProperty(&quot;album_title&quot;) String album_title) {
+    public DatasetDynamic(@JsonProperty(&#34;album_id&#34;) String album_id, @JsonProperty(&#34;album_title&#34;) String album_title) {
         this.album_id = album_id;
         this.album_title = album_title;
     }

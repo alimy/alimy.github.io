@@ -352,184 +352,184 @@
           <p><a href="https://github.com/rocboss/paopao-ce">paopao-ce</a> 是使用Golang技术栈打造的一个清新文艺的微社区，编译后的可执行文件外加一个配置文件<code>conf.yml</code>就可以简单部署一个节点实例提供类似Twitter的推文服务。</p>
 <p>paopao-ce的配置文件中有一个功能项的配置用于自定义节点实例运行时提供哪些服务，对部署运维非常友好。本文简单解析<code>conf.yml</code>中功能项配置的设计，了解其背后的实现细节。</p>
 <p><code>conf.yml</code>的功能项配置机制是参考<a href="https://github.com/rust-lang/rust">Rust</a>包管理工具Cargo的 <code>Cargo.toml</code> 中 <code>[features]</code> 配置而设计的。如下示例：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-toml" data-lang="toml">[<span style="color:#a6e22e">package</span>]
-<span style="color:#a6e22e">name</span> = <span style="color:#e6db74">&#34;poem&#34;</span>
-<span style="color:#a6e22e">version</span> = <span style="color:#e6db74">&#34;1.3.50&#34;</span>
-<span style="color:#a6e22e">authors</span> = [<span style="color:#e6db74">&#34;sunli &lt;scott_s829@163.com&gt;&#34;</span>]
-<span style="color:#a6e22e">edition</span> = <span style="color:#e6db74">&#34;2021&#34;</span>
-<span style="color:#a6e22e">description</span> = <span style="color:#e6db74">&#34;Poem is a full-featured and easy-to-use web framework with the Rust programming language.&#34;</span>
-
-[<span style="color:#a6e22e">features</span>]
-<span style="color:#a6e22e">default</span> = [<span style="color:#e6db74">&#34;server&#34;</span>]
-<span style="color:#a6e22e">server</span> = [<span style="color:#e6db74">&#34;tokio/rt&#34;</span>, <span style="color:#e6db74">&#34;tokio/net&#34;</span>, <span style="color:#e6db74">&#34;hyper/server&#34;</span>, <span style="color:#e6db74">&#34;hyper/runtime&#34;</span>]
-<span style="color:#a6e22e">websocket</span> = [<span style="color:#e6db74">&#34;tokio/rt&#34;</span>, <span style="color:#e6db74">&#34;tokio-tungstenite&#34;</span>, <span style="color:#e6db74">&#34;base64&#34;</span>]
-<span style="color:#a6e22e">multipart</span> = [<span style="color:#e6db74">&#34;multer&#34;</span>]
-<span style="color:#a6e22e">rustls</span> = [<span style="color:#e6db74">&#34;server&#34;</span>, <span style="color:#e6db74">&#34;tokio-rustls&#34;</span>, <span style="color:#e6db74">&#34;rustls-pemfile&#34;</span>]
-<span style="color:#a6e22e">native</span><span style="color:#960050;background-color:#1e0010">-</span><span style="color:#a6e22e">tls</span> = [<span style="color:#e6db74">&#34;server&#34;</span>, <span style="color:#e6db74">&#34;tokio-native-tls&#34;</span>]
-<span style="color:#a6e22e">openssl</span><span style="color:#960050;background-color:#1e0010">-</span><span style="color:#a6e22e">tls</span> = [<span style="color:#e6db74">&#34;server&#34;</span>, <span style="color:#e6db74">&#34;tokio-openssl&#34;</span>, <span style="color:#e6db74">&#34;openssl&#34;</span>]
-<span style="color:#a6e22e">static</span><span style="color:#960050;background-color:#1e0010">-</span><span style="color:#a6e22e">files</span> = [<span style="color:#e6db74">&#34;httpdate&#34;</span>, <span style="color:#e6db74">&#34;mime_guess&#34;</span>, <span style="color:#e6db74">&#34;tokio/io-util&#34;</span>, <span style="color:#e6db74">&#34;tokio/fs&#34;</span>]
-<span style="color:#a6e22e">cookie</span> = [<span style="color:#e6db74">&#34;libcookie&#34;</span>, <span style="color:#e6db74">&#34;chrono&#34;</span>, <span style="color:#e6db74">&#34;time&#34;</span>]
-<span style="color:#a6e22e">session</span> = [<span style="color:#e6db74">&#34;tokio/rt&#34;</span>, <span style="color:#e6db74">&#34;cookie&#34;</span>, <span style="color:#e6db74">&#34;rand&#34;</span>, <span style="color:#e6db74">&#34;priority-queue&#34;</span>, <span style="color:#e6db74">&#34;base64&#34;</span>]
-<span style="color:#a6e22e">embed</span> = [<span style="color:#e6db74">&#34;rust-embed&#34;</span>, <span style="color:#e6db74">&#34;hex&#34;</span>, <span style="color:#e6db74">&#34;mime_guess&#34;</span>]
-<span style="color:#a6e22e">xml</span> = [<span style="color:#e6db74">&#34;quick-xml&#34;</span>]
-<span style="color:#a6e22e">i18n</span> = [
-    <span style="color:#e6db74">&#34;fluent&#34;</span>,
-    <span style="color:#e6db74">&#34;fluent-langneg&#34;</span>,
-    <span style="color:#e6db74">&#34;fluent-syntax&#34;</span>,
-    <span style="color:#e6db74">&#34;unic-langid&#34;</span>,
-    <span style="color:#e6db74">&#34;intl-memoizer&#34;</span>,
-]
-</code></pre></div><p>在Rust中，使用<code>features</code>的方式</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">mod</span> endpoint;
-<span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">mod</span> error;
-<span style="color:#75715e">#[cfg(feature = </span><span style="color:#e6db74">&#34;i18n&#34;</span><span style="color:#75715e">)]</span>
-<span style="color:#75715e">#[cfg_attr(docsrs, doc(cfg(feature = </span><span style="color:#e6db74">&#34;i18n&#34;</span><span style="color:#75715e">)))]</span>
-<span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">mod</span> i18n;
-<span style="color:#75715e">#[cfg(feature = </span><span style="color:#e6db74">&#34;server&#34;</span><span style="color:#75715e">)]</span>
-<span style="color:#75715e">#[cfg_attr(docsrs, doc(cfg(feature = </span><span style="color:#e6db74">&#34;server&#34;</span><span style="color:#75715e">)))]</span>
-<span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">mod</span> listener;
-<span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">mod</span> middleware;
-<span style="color:#75715e">#[cfg(feature = </span><span style="color:#e6db74">&#34;session&#34;</span><span style="color:#75715e">)]</span>
-<span style="color:#75715e">#[cfg_attr(docsrs, doc(cfg(feature = </span><span style="color:#e6db74">&#34;session&#34;</span><span style="color:#75715e">)))]</span>
-<span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">mod</span> session;
-<span style="color:#75715e">#[cfg(feature = </span><span style="color:#e6db74">&#34;test&#34;</span><span style="color:#75715e">)]</span>
-<span style="color:#75715e">#[cfg_attr(docsrs, doc(cfg(feature = </span><span style="color:#e6db74">&#34;test&#34;</span><span style="color:#75715e">)))]</span>
-<span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">mod</span> test;
-<span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">mod</span> web;
-
-<span style="color:#75715e">#[doc(inline)]</span>
-<span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">use</span> http;
-</code></pre></div><p>没错，很简单，只要在需要feature时使用<code>#[cfg(feature = &quot;some-feature&quot;)]</code>注解即可，Rust编译器会做相应处理。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span>[<span style="color:#a6e22e">package</span>]
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">name</span> = <span style="color:#e6db74">&#34;poem&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">version</span> = <span style="color:#e6db74">&#34;1.3.50&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">authors</span> = [<span style="color:#e6db74">&#34;sunli &lt;scott_s829@163.com&gt;&#34;</span>]
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">edition</span> = <span style="color:#e6db74">&#34;2021&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">description</span> = <span style="color:#e6db74">&#34;Poem is a full-featured and easy-to-use web framework with the Rust programming language.&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>[<span style="color:#a6e22e">features</span>]
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">default</span> = [<span style="color:#e6db74">&#34;server&#34;</span>]
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">server</span> = [<span style="color:#e6db74">&#34;tokio/rt&#34;</span>, <span style="color:#e6db74">&#34;tokio/net&#34;</span>, <span style="color:#e6db74">&#34;hyper/server&#34;</span>, <span style="color:#e6db74">&#34;hyper/runtime&#34;</span>]
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">websocket</span> = [<span style="color:#e6db74">&#34;tokio/rt&#34;</span>, <span style="color:#e6db74">&#34;tokio-tungstenite&#34;</span>, <span style="color:#e6db74">&#34;base64&#34;</span>]
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">multipart</span> = [<span style="color:#e6db74">&#34;multer&#34;</span>]
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">rustls</span> = [<span style="color:#e6db74">&#34;server&#34;</span>, <span style="color:#e6db74">&#34;tokio-rustls&#34;</span>, <span style="color:#e6db74">&#34;rustls-pemfile&#34;</span>]
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">native-tls</span> = [<span style="color:#e6db74">&#34;server&#34;</span>, <span style="color:#e6db74">&#34;tokio-native-tls&#34;</span>]
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">openssl-tls</span> = [<span style="color:#e6db74">&#34;server&#34;</span>, <span style="color:#e6db74">&#34;tokio-openssl&#34;</span>, <span style="color:#e6db74">&#34;openssl&#34;</span>]
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">static-files</span> = [<span style="color:#e6db74">&#34;httpdate&#34;</span>, <span style="color:#e6db74">&#34;mime_guess&#34;</span>, <span style="color:#e6db74">&#34;tokio/io-util&#34;</span>, <span style="color:#e6db74">&#34;tokio/fs&#34;</span>]
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">cookie</span> = [<span style="color:#e6db74">&#34;libcookie&#34;</span>, <span style="color:#e6db74">&#34;chrono&#34;</span>, <span style="color:#e6db74">&#34;time&#34;</span>]
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">session</span> = [<span style="color:#e6db74">&#34;tokio/rt&#34;</span>, <span style="color:#e6db74">&#34;cookie&#34;</span>, <span style="color:#e6db74">&#34;rand&#34;</span>, <span style="color:#e6db74">&#34;priority-queue&#34;</span>, <span style="color:#e6db74">&#34;base64&#34;</span>]
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">embed</span> = [<span style="color:#e6db74">&#34;rust-embed&#34;</span>, <span style="color:#e6db74">&#34;hex&#34;</span>, <span style="color:#e6db74">&#34;mime_guess&#34;</span>]
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">xml</span> = [<span style="color:#e6db74">&#34;quick-xml&#34;</span>]
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">i18n</span> = [
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;fluent&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;fluent-langneg&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;fluent-syntax&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;unic-langid&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;intl-memoizer&#34;</span>,
+</span></span><span style="display:flex;"><span>]
+</span></span></code></pre></div><p>在Rust中，使用<code>features</code>的方式</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">mod</span> endpoint;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">mod</span> error;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#[cfg(feature = </span><span style="color:#e6db74">&#34;i18n&#34;</span><span style="color:#75715e">)]</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#[cfg_attr(docsrs, doc(cfg(feature = </span><span style="color:#e6db74">&#34;i18n&#34;</span><span style="color:#75715e">)))]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">mod</span> i18n;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#[cfg(feature = </span><span style="color:#e6db74">&#34;server&#34;</span><span style="color:#75715e">)]</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#[cfg_attr(docsrs, doc(cfg(feature = </span><span style="color:#e6db74">&#34;server&#34;</span><span style="color:#75715e">)))]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">mod</span> listener;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">mod</span> middleware;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#[cfg(feature = </span><span style="color:#e6db74">&#34;session&#34;</span><span style="color:#75715e">)]</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#[cfg_attr(docsrs, doc(cfg(feature = </span><span style="color:#e6db74">&#34;session&#34;</span><span style="color:#75715e">)))]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">mod</span> session;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#[cfg(feature = </span><span style="color:#e6db74">&#34;test&#34;</span><span style="color:#75715e">)]</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#[cfg_attr(docsrs, doc(cfg(feature = </span><span style="color:#e6db74">&#34;test&#34;</span><span style="color:#75715e">)))]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">mod</span> test;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">mod</span> web;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#[doc(inline)]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">use</span> http;
+</span></span></code></pre></div><p>没错，很简单，只要在需要feature时使用<code>#[cfg(feature = &quot;some-feature&quot;)]</code>注解即可，Rust编译器会做相应处理。</p>
 <p><a href="https://github.com/rocboss/paopao-ce">paopao-ce</a>使用YAML格式的配置文件<code>conf.yml</code>,在[Features]小节中声明运行时开启哪些功能项/服务:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">...
-<span style="color:#f92672">Features</span>:
-  <span style="color:#f92672">Default</span>: [<span style="color:#e6db74">&#34;Base&#34;</span>, <span style="color:#e6db74">&#34;MySQL&#34;</span>, <span style="color:#e6db74">&#34;Option&#34;</span>, <span style="color:#e6db74">&#34;LocalOSS&#34;</span>, <span style="color:#e6db74">&#34;LoggerFile&#34;</span>]
-  <span style="color:#f92672">Develop</span>: [<span style="color:#e6db74">&#34;Base&#34;</span>, <span style="color:#e6db74">&#34;MySQL&#34;</span>, <span style="color:#e6db74">&#34;Option&#34;</span>, <span style="color:#e6db74">&#34;Sms&#34;</span>, <span style="color:#e6db74">&#34;AliOSS&#34;</span>, <span style="color:#e6db74">&#34;LoggerZinc&#34;</span>]
-  <span style="color:#f92672">Demo</span>: [<span style="color:#e6db74">&#34;Base&#34;</span>, <span style="color:#e6db74">&#34;MySQL&#34;</span>, <span style="color:#e6db74">&#34;Option&#34;</span>, <span style="color:#e6db74">&#34;Sms&#34;</span>, <span style="color:#e6db74">&#34;MinIO&#34;</span>, <span style="color:#e6db74">&#34;LoggerZinc&#34;</span>]
-  <span style="color:#f92672">Slim</span>: [<span style="color:#e6db74">&#34;Base&#34;</span>, <span style="color:#e6db74">&#34;Sqlite3&#34;</span>, <span style="color:#e6db74">&#34;LocalOSS&#34;</span>, <span style="color:#e6db74">&#34;LoggerFile&#34;</span>]
-  <span style="color:#f92672">Base</span>: [<span style="color:#e6db74">&#34;Zinc&#34;</span>, <span style="color:#e6db74">&#34;Redis&#34;</span>, <span style="color:#e6db74">&#34;Alipay&#34;</span>]
-  <span style="color:#f92672">Docs</span>: [<span style="color:#e6db74">&#34;Docs:OpenAPI&#34;</span>]
-  <span style="color:#f92672">Service</span>: [<span style="color:#e6db74">&#34;Admin&#34;</span>, <span style="color:#e6db74">&#34;SpaceX&#34;</span>, <span style="color:#e6db74">&#34;Bot&#34;</span>, <span style="color:#e6db74">&#34;LocalOSS&#34;</span>]
-  <span style="color:#f92672">Deprecated</span>: [<span style="color:#e6db74">&#34;Deprecated:OldWeb&#34;</span>]
-  <span style="color:#f92672">Option</span>: [<span style="color:#e6db74">&#34;SimpleCacheIndex&#34;</span>]
-  <span style="color:#f92672">Sms</span>: <span style="color:#e6db74">&#34;SmsJuhe&#34;</span>
-...
-</code></pre></div><p>如上：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span><span style="color:#f92672">Features</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">Default</span>: [<span style="color:#e6db74">&#34;Base&#34;</span>, <span style="color:#e6db74">&#34;MySQL&#34;</span>, <span style="color:#e6db74">&#34;Option&#34;</span>, <span style="color:#e6db74">&#34;LocalOSS&#34;</span>, <span style="color:#e6db74">&#34;LoggerFile&#34;</span>]
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">Develop</span>: [<span style="color:#e6db74">&#34;Base&#34;</span>, <span style="color:#e6db74">&#34;MySQL&#34;</span>, <span style="color:#e6db74">&#34;Option&#34;</span>, <span style="color:#e6db74">&#34;Sms&#34;</span>, <span style="color:#e6db74">&#34;AliOSS&#34;</span>, <span style="color:#e6db74">&#34;LoggerZinc&#34;</span>]
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">Demo</span>: [<span style="color:#e6db74">&#34;Base&#34;</span>, <span style="color:#e6db74">&#34;MySQL&#34;</span>, <span style="color:#e6db74">&#34;Option&#34;</span>, <span style="color:#e6db74">&#34;Sms&#34;</span>, <span style="color:#e6db74">&#34;MinIO&#34;</span>, <span style="color:#e6db74">&#34;LoggerZinc&#34;</span>]
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">Slim</span>: [<span style="color:#e6db74">&#34;Base&#34;</span>, <span style="color:#e6db74">&#34;Sqlite3&#34;</span>, <span style="color:#e6db74">&#34;LocalOSS&#34;</span>, <span style="color:#e6db74">&#34;LoggerFile&#34;</span>]
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">Base</span>: [<span style="color:#e6db74">&#34;Zinc&#34;</span>, <span style="color:#e6db74">&#34;Redis&#34;</span>, <span style="color:#e6db74">&#34;Alipay&#34;</span>]
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">Docs</span>: [<span style="color:#e6db74">&#34;Docs:OpenAPI&#34;</span>]
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">Service</span>: [<span style="color:#e6db74">&#34;Admin&#34;</span>, <span style="color:#e6db74">&#34;SpaceX&#34;</span>, <span style="color:#e6db74">&#34;Bot&#34;</span>, <span style="color:#e6db74">&#34;LocalOSS&#34;</span>]
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">Deprecated</span>: [<span style="color:#e6db74">&#34;Deprecated:OldWeb&#34;</span>]
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">Option</span>: [<span style="color:#e6db74">&#34;SimpleCacheIndex&#34;</span>]
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">Sms</span>: <span style="color:#e6db74">&#34;SmsJuhe&#34;</span>
+</span></span><span style="display:flex;"><span>...
+</span></span></code></pre></div><p>如上：
 Default/Develop/Demo/Slim 是不同 功能集套件(Features Suite)， Base/Option 是子功能套件， Sms是关于短信验证码功能的参数选项。</p>
 <p>这里 <code>Default</code>套件 代表的意思是： 使用<code>Base/Option</code> 中的功能，外加 <code>MySQL/LocalOSS/LoggerFile</code>功能，也就是说开启了<code>Zinc/Redis/Alipay/SimpleCacheIndex/MySQL/LocalOSS/LoggerFile</code> 7项功能；
 <code>Develop</code>套件依例类推。</p>
 <p>使用Features:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">release/paopao-ce --help
-Usage of release/paopao-ce:
-  -features value
-        use special features
-  -no-default-features
-        whether use default features
-
-<span style="color:#75715e"># 默认使用 Default 功能套件</span>
-release/paopao-ce 
-
-<span style="color:#75715e"># 不包含 default 中的功能集，仅仅使用 develop 中声明的功能集</span>
-release/paopao-ce --no-default-features --features develop 
-
-<span style="color:#75715e"># 使用 default 中的功能集，外加 sms 功能</span>
-release/paopao-ce --features sms  
-
-<span style="color:#75715e"># 手动指定需要开启的功能集</span>
-release/paopao-ce --no-default-features --features sqlite3,localoss,loggerfile,redis 
-</code></pre></div><p><a href="https://github.com/rocboss/paopao-ce">paopao-ce</a>在代码实现中是通过<a href="https://github.com/alimy/cfg">github.com/alimy/cfg</a>解析Features配置：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>release/paopao-ce --help
+</span></span><span style="display:flex;"><span>Usage of release/paopao-ce:
+</span></span><span style="display:flex;"><span>  -features value
+</span></span><span style="display:flex;"><span>        use special features
+</span></span><span style="display:flex;"><span>  -no-default-features
+</span></span><span style="display:flex;"><span>        whether use default features
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 默认使用 Default 功能套件</span>
+</span></span><span style="display:flex;"><span>release/paopao-ce 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 不包含 default 中的功能集，仅仅使用 develop 中声明的功能集</span>
+</span></span><span style="display:flex;"><span>release/paopao-ce --no-default-features --features develop 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用 default 中的功能集，外加 sms 功能</span>
+</span></span><span style="display:flex;"><span>release/paopao-ce --features sms  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 手动指定需要开启的功能集</span>
+</span></span><span style="display:flex;"><span>release/paopao-ce --no-default-features --features sqlite3,localoss,loggerfile,redis 
+</span></span></code></pre></div><p><a href="https://github.com/rocboss/paopao-ce">paopao-ce</a>在代码实现中是通过<a href="https://github.com/alimy/cfg">github.com/alimy/cfg</a>解析Features配置：</p>
 <p>初始化cfg</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// file: internal/conf/conf.go
-</span><span style="color:#75715e"></span>
-<span style="color:#f92672">package</span> <span style="color:#a6e22e">conf</span>
-
-<span style="color:#f92672">import</span> (
-	<span style="color:#e6db74">&#34;log&#34;</span>
-	<span style="color:#e6db74">&#34;sync&#34;</span>
-	<span style="color:#e6db74">&#34;time&#34;</span>
-
-	<span style="color:#e6db74">&#34;github.com/alimy/cfg&#34;</span>
-)
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">setupSetting</span>(<span style="color:#a6e22e">suite</span> []<span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">noDefault</span> <span style="color:#66d9ef">bool</span>) <span style="color:#66d9ef">error</span> {
-  <span style="color:#f92672">...</span>
-  
-	<span style="color:#75715e">// initialize features configure
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">ss</span>, <span style="color:#a6e22e">kv</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">setting</span>.<span style="color:#a6e22e">featuresInfoFrom</span>(<span style="color:#e6db74">&#34;Features&#34;</span>)
-	<span style="color:#a6e22e">cfg</span>.<span style="color:#a6e22e">Initial</span>(<span style="color:#a6e22e">ss</span>, <span style="color:#a6e22e">kv</span>)
-	<span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">suite</span>) &gt; <span style="color:#ae81ff">0</span> {
-		<span style="color:#a6e22e">cfg</span>.<span style="color:#a6e22e">Use</span>(<span style="color:#a6e22e">suite</span>, <span style="color:#a6e22e">noDefault</span>)
-	}
-  
-  <span style="color:#f92672">...</span>
-}
-</code></pre></div><p>cfg的参考使用</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// file: internal/service/service.go
-</span><span style="color:#75715e"></span>
-<span style="color:#f92672">package</span> <span style="color:#a6e22e">service</span>
-
-<span style="color:#f92672">import</span> (
-	<span style="color:#e6db74">&#34;log&#34;</span>
-
-	<span style="color:#e6db74">&#34;github.com/alimy/cfg&#34;</span>
-	<span style="color:#e6db74">&#34;github.com/rocboss/paopao-ce/pkg/types&#34;</span>
-)
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">newService</span>() (<span style="color:#a6e22e">ss</span> []<span style="color:#a6e22e">Service</span>) {
-	<span style="color:#a6e22e">ss</span> = append(<span style="color:#a6e22e">ss</span>, <span style="color:#a6e22e">newWebService</span>())
-
-	<span style="color:#75715e">// add oldWebService if not depredcated OldWebService
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">cfg</span>.<span style="color:#a6e22e">Not</span>(<span style="color:#e6db74">&#34;Deprecated:OldWeb&#34;</span>, <span style="color:#66d9ef">func</span>() {
-		<span style="color:#a6e22e">ss</span> = append(<span style="color:#a6e22e">ss</span>, <span style="color:#a6e22e">newOldWebService</span>())
-	})
-
-	<span style="color:#a6e22e">cfg</span>.<span style="color:#a6e22e">In</span>(<span style="color:#a6e22e">cfg</span>.<span style="color:#a6e22e">Actions</span>{
-		<span style="color:#e6db74">&#34;Admin&#34;</span>: <span style="color:#66d9ef">func</span>() {
-			<span style="color:#a6e22e">ss</span> = append(<span style="color:#a6e22e">ss</span>, <span style="color:#a6e22e">newAdminService</span>())
-		},
-		<span style="color:#e6db74">&#34;SpaceX&#34;</span>: <span style="color:#66d9ef">func</span>() {
-			<span style="color:#a6e22e">ss</span> = append(<span style="color:#a6e22e">ss</span>, <span style="color:#a6e22e">newSpaceXService</span>())
-		},
-		<span style="color:#e6db74">&#34;Bot&#34;</span>: <span style="color:#66d9ef">func</span>() {
-			<span style="color:#a6e22e">ss</span> = append(<span style="color:#a6e22e">ss</span>, <span style="color:#a6e22e">newBotService</span>())
-		},
-		<span style="color:#e6db74">&#34;LocalOSS&#34;</span>: <span style="color:#66d9ef">func</span>() {
-			<span style="color:#a6e22e">ss</span> = append(<span style="color:#a6e22e">ss</span>, <span style="color:#a6e22e">newLocalossService</span>())
-		},
-	})
-
-	<span style="color:#66d9ef">return</span>
-}
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// file: internal/dao/dao.go 
-</span><span style="color:#75715e"></span>
-<span style="color:#f92672">package</span> <span style="color:#a6e22e">dao</span>
-
-<span style="color:#f92672">import</span> (
-	<span style="color:#e6db74">&#34;sync&#34;</span>
-
-	<span style="color:#e6db74">&#34;github.com/alimy/cfg&#34;</span>
-	<span style="color:#e6db74">&#34;github.com/rocboss/paopao-ce/internal/core&#34;</span>
-	<span style="color:#e6db74">&#34;github.com/rocboss/paopao-ce/internal/dao/jinzhu&#34;</span>
-	<span style="color:#e6db74">&#34;github.com/rocboss/paopao-ce/internal/dao/sakila&#34;</span>
-	<span style="color:#e6db74">&#34;github.com/rocboss/paopao-ce/internal/dao/search&#34;</span>
-	<span style="color:#e6db74">&#34;github.com/rocboss/paopao-ce/internal/dao/slonik&#34;</span>
-	<span style="color:#e6db74">&#34;github.com/rocboss/paopao-ce/internal/dao/storage&#34;</span>
-	<span style="color:#e6db74">&#34;github.com/sirupsen/logrus&#34;</span>
-)
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">newAuthorizationManageService</span>() (<span style="color:#a6e22e">s</span> <span style="color:#a6e22e">core</span>.<span style="color:#a6e22e">AuthorizationManageService</span>) {
-	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">cfg</span>.<span style="color:#a6e22e">If</span>(<span style="color:#e6db74">&#34;Gorm&#34;</span>) {
-		<span style="color:#a6e22e">s</span> = <span style="color:#a6e22e">jinzhu</span>.<span style="color:#a6e22e">NewAuthorizationManageService</span>()
-	} <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">cfg</span>.<span style="color:#a6e22e">If</span>(<span style="color:#e6db74">&#34;Sqlx&#34;</span>) <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">cfg</span>.<span style="color:#a6e22e">If</span>(<span style="color:#e6db74">&#34;MySQL&#34;</span>) {
-		<span style="color:#a6e22e">s</span> = <span style="color:#a6e22e">sakila</span>.<span style="color:#a6e22e">NewAuthorizationManageService</span>()
-	} <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">cfg</span>.<span style="color:#a6e22e">If</span>(<span style="color:#e6db74">&#34;Sqlx&#34;</span>) <span style="color:#f92672">&amp;&amp;</span> (<span style="color:#a6e22e">cfg</span>.<span style="color:#a6e22e">If</span>(<span style="color:#e6db74">&#34;Postgres&#34;</span>) <span style="color:#f92672">||</span> <span style="color:#a6e22e">cfg</span>.<span style="color:#a6e22e">If</span>(<span style="color:#e6db74">&#34;PostgreSQL&#34;</span>)) {
-		<span style="color:#a6e22e">s</span> = <span style="color:#a6e22e">slonik</span>.<span style="color:#a6e22e">NewAuthorizationManageService</span>()
-	} <span style="color:#66d9ef">else</span> {
-		<span style="color:#a6e22e">s</span> = <span style="color:#a6e22e">jinzhu</span>.<span style="color:#a6e22e">NewAuthorizationManageService</span>()
-	}
-	<span style="color:#66d9ef">return</span>
-}
-</code></pre></div><p><a href="https://github.com/alimy/cfg">github.com/alimy/cfg</a>的API文档请参考 <a href="https://pkg.go.dev/github.com/alimy/cfg"><img src="https://godoc.org/github.com/alimy/cfg?status.svg" alt="GoDoc"></a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// file: internal/conf/conf.go
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">conf</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;log&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;sync&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;time&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;github.com/alimy/cfg&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">setupSetting</span>(<span style="color:#a6e22e">suite</span> []<span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">noDefault</span> <span style="color:#66d9ef">bool</span>) <span style="color:#66d9ef">error</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">...</span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// initialize features configure
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">ss</span>, <span style="color:#a6e22e">kv</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">setting</span>.<span style="color:#a6e22e">featuresInfoFrom</span>(<span style="color:#e6db74">&#34;Features&#34;</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">cfg</span>.<span style="color:#a6e22e">Initial</span>(<span style="color:#a6e22e">ss</span>, <span style="color:#a6e22e">kv</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">suite</span>) &gt; <span style="color:#ae81ff">0</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">cfg</span>.<span style="color:#a6e22e">Use</span>(<span style="color:#a6e22e">suite</span>, <span style="color:#a6e22e">noDefault</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">...</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>cfg的参考使用</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// file: internal/service/service.go
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">service</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;log&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;github.com/alimy/cfg&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;github.com/rocboss/paopao-ce/pkg/types&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">newService</span>() (<span style="color:#a6e22e">ss</span> []<span style="color:#a6e22e">Service</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">ss</span> = append(<span style="color:#a6e22e">ss</span>, <span style="color:#a6e22e">newWebService</span>())
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// add oldWebService if not depredcated OldWebService
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">cfg</span>.<span style="color:#a6e22e">Not</span>(<span style="color:#e6db74">&#34;Deprecated:OldWeb&#34;</span>, <span style="color:#66d9ef">func</span>() {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">ss</span> = append(<span style="color:#a6e22e">ss</span>, <span style="color:#a6e22e">newOldWebService</span>())
+</span></span><span style="display:flex;"><span>	})
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">cfg</span>.<span style="color:#a6e22e">In</span>(<span style="color:#a6e22e">cfg</span>.<span style="color:#a6e22e">Actions</span>{
+</span></span><span style="display:flex;"><span>		<span style="color:#e6db74">&#34;Admin&#34;</span>: <span style="color:#66d9ef">func</span>() {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">ss</span> = append(<span style="color:#a6e22e">ss</span>, <span style="color:#a6e22e">newAdminService</span>())
+</span></span><span style="display:flex;"><span>		},
+</span></span><span style="display:flex;"><span>		<span style="color:#e6db74">&#34;SpaceX&#34;</span>: <span style="color:#66d9ef">func</span>() {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">ss</span> = append(<span style="color:#a6e22e">ss</span>, <span style="color:#a6e22e">newSpaceXService</span>())
+</span></span><span style="display:flex;"><span>		},
+</span></span><span style="display:flex;"><span>		<span style="color:#e6db74">&#34;Bot&#34;</span>: <span style="color:#66d9ef">func</span>() {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">ss</span> = append(<span style="color:#a6e22e">ss</span>, <span style="color:#a6e22e">newBotService</span>())
+</span></span><span style="display:flex;"><span>		},
+</span></span><span style="display:flex;"><span>		<span style="color:#e6db74">&#34;LocalOSS&#34;</span>: <span style="color:#66d9ef">func</span>() {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">ss</span> = append(<span style="color:#a6e22e">ss</span>, <span style="color:#a6e22e">newLocalossService</span>())
+</span></span><span style="display:flex;"><span>		},
+</span></span><span style="display:flex;"><span>	})
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// file: internal/dao/dao.go 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">dao</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;sync&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;github.com/alimy/cfg&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;github.com/rocboss/paopao-ce/internal/core&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;github.com/rocboss/paopao-ce/internal/dao/jinzhu&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;github.com/rocboss/paopao-ce/internal/dao/sakila&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;github.com/rocboss/paopao-ce/internal/dao/search&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;github.com/rocboss/paopao-ce/internal/dao/slonik&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;github.com/rocboss/paopao-ce/internal/dao/storage&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;github.com/sirupsen/logrus&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">newAuthorizationManageService</span>() (<span style="color:#a6e22e">s</span> <span style="color:#a6e22e">core</span>.<span style="color:#a6e22e">AuthorizationManageService</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">cfg</span>.<span style="color:#a6e22e">If</span>(<span style="color:#e6db74">&#34;Gorm&#34;</span>) {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">s</span> = <span style="color:#a6e22e">jinzhu</span>.<span style="color:#a6e22e">NewAuthorizationManageService</span>()
+</span></span><span style="display:flex;"><span>	} <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">cfg</span>.<span style="color:#a6e22e">If</span>(<span style="color:#e6db74">&#34;Sqlx&#34;</span>) <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">cfg</span>.<span style="color:#a6e22e">If</span>(<span style="color:#e6db74">&#34;MySQL&#34;</span>) {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">s</span> = <span style="color:#a6e22e">sakila</span>.<span style="color:#a6e22e">NewAuthorizationManageService</span>()
+</span></span><span style="display:flex;"><span>	} <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">cfg</span>.<span style="color:#a6e22e">If</span>(<span style="color:#e6db74">&#34;Sqlx&#34;</span>) <span style="color:#f92672">&amp;&amp;</span> (<span style="color:#a6e22e">cfg</span>.<span style="color:#a6e22e">If</span>(<span style="color:#e6db74">&#34;Postgres&#34;</span>) <span style="color:#f92672">||</span> <span style="color:#a6e22e">cfg</span>.<span style="color:#a6e22e">If</span>(<span style="color:#e6db74">&#34;PostgreSQL&#34;</span>)) {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">s</span> = <span style="color:#a6e22e">slonik</span>.<span style="color:#a6e22e">NewAuthorizationManageService</span>()
+</span></span><span style="display:flex;"><span>	} <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">s</span> = <span style="color:#a6e22e">jinzhu</span>.<span style="color:#a6e22e">NewAuthorizationManageService</span>()
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><a href="https://github.com/alimy/cfg">github.com/alimy/cfg</a>的API文档请参考 <a href="https://pkg.go.dev/github.com/alimy/cfg"><img src="https://godoc.org/github.com/alimy/cfg?status.svg" alt="GoDoc"></a></p>
 				<div id="post-tags">
 				  
 				  	

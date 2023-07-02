@@ -356,14 +356,14 @@
 <p>The big goal of Athens is to provide a new place where dependencies — not code — live. Dependencies are immutable blobs of code and associated metadata that come from Github. They live in storage that Athens controls.</p>
 <h4 id="docker部署">Docker部署</h4>
 <p>使用Docker进行部署,官方镜像[gomods/proxy:latest](<a href="https://hub.docker.com/r/gomods/proxy/">https://hub.docker.com/r/gomods/proxy/</a> &lsquo;Athens&rsquo;s docker image&rsquo;)</p>
-<pre><code>$ docker volume create data-athens
+<pre tabindex="0"><code>$ docker volume create data-athens
 $ docker run -d --name athens-proxy --restart always -p 3000:3000 \
     -v data-athens:/var/lib/athens \
     -e ATHENS_DISK_STORAGE_ROOT=/var/lib/athens \ 
     -e ATHENS_STORAGE_TYPE=disk \
     gomods/proxy:latest
 </code></pre><h4 id="use-memory-backend-defualt">Use Memory Backend (Defualt)</h4>
-<pre><code>$ docker run -d --name athens-proxy --restart always -p 3000:3000 gomods/proxy:latest
+<pre tabindex="0"><code>$ docker run -d --name athens-proxy --restart always -p 3000:3000 gomods/proxy:latest
 $ docker logs -f athens-proxy # display logs
 </code></pre>
 				<div id="post-tags">
