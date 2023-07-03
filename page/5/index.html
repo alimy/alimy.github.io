@@ -264,7 +264,9 @@
                     <nav class="cover-navigation cover-navigation--primary">
                         <ul class="navigation">
                             <li class="navigation__item"><a href="https://alimy.me" title="博客首页" class="blog-button">Blog</a> </li> </br></br>
-                            <li class="navigation__item"><a href="https://alimy.me/post/" title="文章列表" class="blog-button">Archive</a> </li>
+                            <li class="navigation__item"><a href="https://alimy.mepost/" title="文章列表" class="blog-button">Archive</a> </li>
+                            </br>  </br>
+                            <li class="navigation__item"><a href="https://alimy.me/pages/cv" title="link to my CV " class="blog-button">About Me</a> </li>
                             </br>  </ul>
                             <nav class="cover-navigation navigation--social">
 </br>
@@ -275,7 +277,9 @@
         <li class="navigation__item">
             <a href="https://iibiubiu.com" title="@iiBiuBiu" target="_blank"> <i class='fa fa-anchor'></i> <span class="label">Twitter</span> </a>
         </li>
-        
+        <li class="navigation__item">
+            <a href="https://www.paopao.info/#/user?username=alimy" title="@Paopao" target="_blank"> <i class='fa fa-leaf'></i> <span class="label">Twitter</span> </a>
+        </li><br>
         
         
         <li class="navigation__item">
@@ -317,7 +321,10 @@
                     <div class="navigation-wrapper">
                         <nav class="cover-navigation cover-navigation--primary">
                             <ul class="navigation">
-                                <li class="navigation__item"><a href="https://alimy.me/" title="博客首页" class="blog-button">Blog</a> </li>
+                                <li class="navigation__item"><a href="https://alimy.me" title="博客首页" class="blog-button">Blog</a> </li></br></br>
+                                <li class="navigation__item"><a href="https://alimy.mepost/" title="文章列表" class="blog-button">Archive</a> </li>
+                                </br>  </br>
+                                <li class="navigation__item"><a href="https://alimy.me/pages/cv" title="link to my CV " class="blog-button">About Me</a> </li>
                                 </br>  </ul>
                         </nav> <nav class="cover-navigation navigation--social">
 </br>
@@ -328,7 +335,9 @@
         <li class="navigation__item">
             <a href="https://iibiubiu.com" title="@iiBiuBiu" target="_blank"> <i class='fa fa-anchor'></i> <span class="label">Twitter</span> </a>
         </li>
-        
+        <li class="navigation__item">
+            <a href="https://www.paopao.info/#/user?username=alimy" title="@Paopao" target="_blank"> <i class='fa fa-leaf'></i> <span class="label">Twitter</span> </a>
+        </li><br>
         
         
         <li class="navigation__item">
@@ -351,6 +360,33 @@
             <div class="content-wrapper__inner">
                 <section id="main">
                     <div>
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="https://alimy.me/post/dev_202012071333/" title="阅读全文">Tg: Binary Data Serialization </a> </h2>
+
+</header>
+<div class="summary">
+    <p>MTProto operation requires that elementary and composite data types as well as queries to which such data types are passed as arguments or by which they are returned, be transmitted in binary format (i. e. serialized) . The <a href="https://alimy.me/post/dev_202012071315/">TL language</a> is used to describe the data types to be serialized.</p>
+<h4 id="general-definitions">General Definitions</h4>
+<p>For our purposes, we can identify a type with the set of its (serialized) values understood as strings (finite sequences) of 32-bit numbers (transmitted in little endian order).</p>
+<p>Therefore:</p>
+<ul>
+<li>Alphabet (A), in this case, is a set of 32-bit numbers (normally, signed, i. e. between <code>-2^31</code> and <code>2^31 - 1)</code>.</li>
+<li>Value, in this case, is the same as a string in Alphabet A, i. e. a finite (possibly, empty) sequence of 32-bit numbers. The set of all such sequences is designated as A*.</li>
+<li>Type, for our purposes, is the same as the set of legal values of a type, i. e. some set T which is a subset of A* and is a prefix code (i. e. no element of T may be a prefix for any other element). Therefore, any sequence from A* can contain no more than one prefix that is a member of T.</li>
+<li>Value of Type T is any sequence (value) which is a member of T as a subset of A*.</li>
+<li>Compatible Types are the types T and T’ not intersecting as subsets of A*, such that the union of T and T&rsquo; is a prefix code.</li>
+<li>Coordinated System of Types is a finite or infinite set of types T_1, &hellip;, T_n, &hellip;, such that any two types from this set are compatible.</li>
+<li>Data Type is the same as type in the sense of the definition above.</li>
+<li>Functional Type is a type describing a function; it is not a type in the sense of the definition above. Initially, we ignore the existence of functional types and describe only the data types; however, in reality, functional types will later be implemented in some extension of this system using the so-called temporary combinators.</li>
+</ul>
+</div>
+<footer id="more">
+<a href='https://alimy.me/post/dev_202012071333/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
                         
                             <article class="post panel-wrapper">
 <header>
@@ -550,25 +586,6 @@ registry = &#34;git://mirrors.ustc.edu.cn/crates.io-index&#34;
 </div>
 <footer id="more">
 <a href='https://alimy.me/post/dev_201909211645/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/dev_201909211630/" title="阅读全文">Cap&#39;n Proto Encoding Spec </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="sectorganization">§Organization</h3>
-<h4 id="64-bit-words">64-bit Words</h4>
-<p>For the purpose of Cap’n Proto, a “word” is defined as 8 bytes, or 64 bits. Since alignment of data is important, all objects (structs, lists, and blobs) are aligned to word boundaries, and sizes are usually expressed in terms of words. (Primitive values are aligned to a multiple of their size within a struct or list.)</p>
-<h4 id="messages">Messages</h4>
-<p>The unit of communication in Cap’n Proto is a “message”. A message is a tree of objects, with the root always being a struct.</p>
-<p>Physically, messages may be split into several “segments”, each of which is a flat blob of bytes. Typically, a segment must be loaded into a contiguous block of memory before it can be accessed, so that the relative pointers within the segment can be followed quickly. However, when a message has multiple segments, it does not matter where those segments are located in memory relative to each other; inter-segment pointers are encoded differently, as we’ll see later.</p>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/dev_201909211630/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
 </footer>
 </article>
 

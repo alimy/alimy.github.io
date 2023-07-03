@@ -264,7 +264,9 @@
                     <nav class="cover-navigation cover-navigation--primary">
                         <ul class="navigation">
                             <li class="navigation__item"><a href="https://alimy.me" title="博客首页" class="blog-button">Blog</a> </li> </br></br>
-                            <li class="navigation__item"><a href="https://alimy.me/post/" title="文章列表" class="blog-button">Archive</a> </li>
+                            <li class="navigation__item"><a href="https://alimy.mepost/" title="文章列表" class="blog-button">Archive</a> </li>
+                            </br>  </br>
+                            <li class="navigation__item"><a href="https://alimy.me/pages/cv" title="link to my CV " class="blog-button">About Me</a> </li>
                             </br>  </ul>
                             <nav class="cover-navigation navigation--social">
 </br>
@@ -275,7 +277,9 @@
         <li class="navigation__item">
             <a href="https://iibiubiu.com" title="@iiBiuBiu" target="_blank"> <i class='fa fa-anchor'></i> <span class="label">Twitter</span> </a>
         </li>
-        
+        <li class="navigation__item">
+            <a href="https://www.paopao.info/#/user?username=alimy" title="@Paopao" target="_blank"> <i class='fa fa-leaf'></i> <span class="label">Twitter</span> </a>
+        </li><br>
         
         
         <li class="navigation__item">
@@ -317,7 +321,10 @@
                     <div class="navigation-wrapper">
                         <nav class="cover-navigation cover-navigation--primary">
                             <ul class="navigation">
-                                <li class="navigation__item"><a href="https://alimy.me/" title="博客首页" class="blog-button">Blog</a> </li>
+                                <li class="navigation__item"><a href="https://alimy.me" title="博客首页" class="blog-button">Blog</a> </li></br></br>
+                                <li class="navigation__item"><a href="https://alimy.mepost/" title="文章列表" class="blog-button">Archive</a> </li>
+                                </br>  </br>
+                                <li class="navigation__item"><a href="https://alimy.me/pages/cv" title="link to my CV " class="blog-button">About Me</a> </li>
                                 </br>  </ul>
                         </nav> <nav class="cover-navigation navigation--social">
 </br>
@@ -328,7 +335,9 @@
         <li class="navigation__item">
             <a href="https://iibiubiu.com" title="@iiBiuBiu" target="_blank"> <i class='fa fa-anchor'></i> <span class="label">Twitter</span> </a>
         </li>
-        
+        <li class="navigation__item">
+            <a href="https://www.paopao.info/#/user?username=alimy" title="@Paopao" target="_blank"> <i class='fa fa-leaf'></i> <span class="label">Twitter</span> </a>
+        </li><br>
         
         
         <li class="navigation__item">
@@ -351,6 +360,47 @@
             <div class="content-wrapper__inner">
                 <section id="main">
                     <div>
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="https://alimy.me/post/dev_201807012219/" title="阅读全文">Docker: 对Docker Remote API进行认证 </a> </h2>
+
+</header>
+<div class="summary">
+    <ul>
+<li>建立证书授权中心</li>
+</ul>
+<pre tabindex="0"><code>$ sudo mkdir /etc/docker
+$ cd /etc/docker
+$ echo 01 | sudo tee ca.csl
+$ sudo openssl genrsa -des3 -out ca-key.pem
+$ sudo openssl req -new -x509 -days 365 -key ca-key.pem -out ca.pem
+</code></pre><ul>
+<li>创建服务器的证书签名请求和密钥</li>
+</ul>
+<pre tabindex="0"><code>$ sudo openssl genrsa -des3 -out server-key.pem
+$ sudo openssl req -new -key server-key.pem -out server.csr
+$ sudo openssl x509 -req -days 365 -in server.csr -CA ca.pem -CAkey ca-key.pem -out server-cert.pem
+$ sudo openssl rsa -in server-key.pem -out server-key.pem
+$ sudo chmod 0600 /etc/docker/server-key.pem /etc/docker/server-cert.pem /etc/docker/ca-key.pem /etc/docker/ca.pem
+</code></pre><ul>
+<li>配置Docker守护进程 (/etc/docker/daemon.json on Linux systems, or C:\ProgramData\docker\config\daemon.json on Windows.)</li>
+</ul>
+<pre tabindex="0"><code>{
+  &#34;debug&#34;: true,
+  &#34;tls&#34;: true,
+  &#34;tlscacert&#34;: &#34;/etc/docker/ca.pem&#34;,
+  &#34;tlscert&#34;: &#34;/etc/docker/server-cert.pem&#34;,
+  &#34;tlskey&#34;: &#34;/etc/docker/server-key.pem&#34;,
+  &#34;hosts&#34;: [&#34;tcp://&lt;config of CN&gt;:2376&#34;]
+}
+</code></pre>
+</div>
+<footer id="more">
+<a href='https://alimy.me/post/dev_201807012219/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
                         
                             <article class="post panel-wrapper">
 <header>
@@ -561,21 +611,6 @@ Local:  rsync [OPTION&hellip;] SRC&hellip; [DEST]</p>
 </div>
 <footer id="more">
 <a href='https://alimy.me/post/dev_201803241012/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/dev_201803181751/" title="阅读全文">RFC: DNS </a> </h2>
-
-</header>
-<div class="summary">
-    <p><a href="https://tools.ietf.org/html/rfc1034" title="DOMAIN NAMES - CONCEPTS AND FACILITIES"><strong>DNS - CONCEPTS AND FACILITIES</strong> RFC https://www.ietf.org/rfc/rfc1034.txt</a></p>
-<p><a href="https://tools.ietf.org/html/rfc1035" title="DOMAIN NAMES - IMPLEMENTATION AND SPECIFICATION"><strong>DNS - IMPLEMENTATION AND SPECIFICATION</strong> RFC https://www.ietf.org/rfc/rfc1035.txt</a></p>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/dev_201803181751/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
 </footer>
 </article>
 
