@@ -27,9 +27,9 @@
                     <nav class="cover-navigation cover-navigation--primary">
                         <ul class="navigation">
                             <li class="navigation__item"><a href="{{ .Site.BaseURL }}" title="博客首页" class="blog-button">Blog</a> </li> </br></br>
-                            <li class="navigation__item"><a href="{{ .Site.BaseURL }}/post/" title="文章列表" class="blog-button">Archive</a> </li>
-                            </br> {{ if .Site.Params.cv }}
-                            <li class="navigation__item"><a href="{{ .Site.Params.cv  }}" title="link to my CV " class="blog-button">CV</a> </li>
+                            <li class="navigation__item"><a href="{{ .Site.BaseURL }}post/" title="文章列表" class="blog-button">Archive</a> </li>
+                            </br> {{ if .Site.Params.cv }} </br>
+                            <li class="navigation__item"><a href="{{ .Site.Params.cv  }}" title="link to my CV " class="blog-button">About Me</a> </li>
                             </br> {{ end }} </ul>
                             {{ partial "social.html" . }}
                     </nav>  </div>
@@ -62,9 +62,10 @@
                     <div class="navigation-wrapper">
                         <nav class="cover-navigation cover-navigation--primary">
                             <ul class="navigation">
-                                <li class="navigation__item"><a href="{{ .Site.BaseURL }}/" title="博客首页" class="blog-button">Blog</a> </li>
-                                </br> {{ if .Site.Params.cv }}
-                                <li class="navigation__item"><a href="{{ .Site.Params.cv  }}" title="link to my CV " class="blog-button">CV</a> </li>
+                                <li class="navigation__item"><a href="{{ .Site.BaseURL }}" title="博客首页" class="blog-button">Blog</a> </li></br></br>
+                                <li class="navigation__item"><a href="{{ .Site.BaseURL }}post/" title="文章列表" class="blog-button">Archive</a> </li>
+                                </br> {{ if .Site.Params.cv }} </br>
+                                <li class="navigation__item"><a href="{{ .Site.Params.cv }}" title="link to my CV " class="blog-button">About Me</a> </li>
                                 </br> {{ end }} </ul>
                         </nav> {{ partial "social.html" . }} </div>
                 </div>
