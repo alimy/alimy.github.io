@@ -15,7 +15,7 @@
       
       <guid>https://alimy.me/pages/cv/</guid>
       <description>Go、Rust开发工程师，专注于存储、网络相关技术研究，钟情于IM、社区、论坛等社交应用开发，有点小追求，乐于探索新事物，喜欢游山玩水，向往自由生活。
-开源项目 go-mir - 🔥一个很酷的开发RESTful API的辅助工具. Yesql - 🔥一个用于使用sqlx来开发数据业务逻辑的辅助库. paopao-ce - 🔥一个清新文艺的微社区. cfg - A flexible features configure help library. 参与项目 gogs - 🔥一款极易搭建的自助 Git 服务. mux - A powerful HTTP router and URL matcher for building Go web servers with 🦍 go-bindata - Turn data file into go code. KubeKey - 一个开源的轻量级工具，用于部署Kubernetes集群. </description>
+开源项目 go-mir - 🔥一个很酷的开发RESTful API的辅助工具. Yesql - 🔥一个用于使用sqlx来开发数据业务逻辑的辅助库. paopao-ce - 🔥一个清新文艺的微社区. sqlx - 🔥general purpose extensions to golang&amp;rsquo;s database/sql(fork from jmoiron/sqlx). cfg - A flexible features configure help library. 参与项目 gogs - 🔥一款极易搭建的自助 Git 服务. mux - A powerful HTTP router and URL matcher for building Go web servers with 🦍 go-bindata - Turn data file into go code. KubeKey - 一个开源的轻量级工具，用于部署Kubernetes集群. </description>
     </item>
     
   </channel>
