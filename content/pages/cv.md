@@ -16,6 +16,7 @@ menu = "About"
 - [go-mir](https://alimy.me/mir) - 🔥一个很酷的开发RESTful API的辅助工具.
 - [Yesql](https://alimy.me/yesql) - 🔥一个用于使用[sqlx](https://github.com/jmoiron/sqlx)来开发数据业务逻辑的辅助库.
 - [paopao-ce](https://github.com/rocboss/paopao-ce/tree/dev) - 🔥一个清新文艺的微社区.
+- [sqlx](https://github.com/bitbus/sqlx) - 🔥general purpose extensions to golang's database/sql(fork from jmoiron/sqlx).
 - [cfg](https://github.com/alimy/cfg) - A flexible features configure help library.
 
 ### 参与项目
