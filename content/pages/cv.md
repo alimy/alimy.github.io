@@ -18,6 +18,7 @@ menu = "About"
 - [paopao-ce](https://github.com/rocboss/paopao-ce/tree/dev) - 🔥一个清新文艺的微社区.
 - [sqlx](https://github.com/bitbus/sqlx) - 🔥general purpose extensions to golang's database/sql(fork from jmoiron/sqlx).
 - [cfg](https://github.com/alimy/cfg) - A flexible features configure help library.
+- [Tryst](https://github.com/alimy/tryst) - Some help utils for Go develop.
 
 ### 参与项目
 - [gogs](https://gogs.io/) - 🔥一款极易搭建的自助 Git 服务.
