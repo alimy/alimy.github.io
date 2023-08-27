@@ -2,40 +2,49 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://alimy.me/post/dev_202308271200/</loc>
+    <lastmod>2023-08-27T12:00:00+08:00</lastmod>
+  </url><url>
+    <loc>https://alimy.me/categories/</loc>
+    <lastmod>2023-08-27T12:00:00+08:00</lastmod>
+  </url><url>
+    <loc>https://alimy.me/tags/development/</loc>
+    <lastmod>2023-08-27T12:00:00+08:00</lastmod>
+  </url><url>
+    <loc>https://alimy.me/categories/development/</loc>
+    <lastmod>2023-08-27T12:00:00+08:00</lastmod>
+  </url><url>
+    <loc>https://alimy.me/tags/git/</loc>
+    <lastmod>2023-08-27T12:00:00+08:00</lastmod>
+  </url><url>
+    <loc>https://alimy.me/tags/github/</loc>
+    <lastmod>2023-08-27T12:00:00+08:00</lastmod>
+  </url><url>
+    <loc>https://alimy.me/post/</loc>
+    <lastmod>2023-08-27T12:00:00+08:00</lastmod>
+  </url><url>
+    <loc>https://alimy.me/tags/</loc>
+    <lastmod>2023-08-27T12:00:00+08:00</lastmod>
+  </url><url>
+    <loc>https://alimy.me/</loc>
+    <lastmod>2023-08-27T12:00:00+08:00</lastmod>
+  </url><url>
     <loc>https://alimy.me/tags/about/</loc>
     <lastmod>2023-07-04T06:00:00+08:00</lastmod>
   </url><url>
     <loc>https://alimy.me/categories/about/</loc>
     <lastmod>2023-07-04T06:00:00+08:00</lastmod>
   </url><url>
-    <loc>https://alimy.me/categories/</loc>
-    <lastmod>2023-07-04T06:00:00+08:00</lastmod>
-  </url><url>
     <loc>https://alimy.me/pages/</loc>
-    <lastmod>2023-07-04T06:00:00+08:00</lastmod>
-  </url><url>
-    <loc>https://alimy.me/tags/</loc>
     <lastmod>2023-07-04T06:00:00+08:00</lastmod>
   </url><url>
     <loc>https://alimy.me/pages/cv/</loc>
     <lastmod>2023-07-04T06:00:00+08:00</lastmod>
   </url><url>
-    <loc>https://alimy.me/</loc>
-    <lastmod>2023-07-04T06:00:00+08:00</lastmod>
-  </url><url>
     <loc>https://alimy.me/tags/database/</loc>
     <lastmod>2023-03-31T20:32:00+08:00</lastmod>
   </url><url>
-    <loc>https://alimy.me/tags/development/</loc>
-    <lastmod>2023-03-31T20:32:00+08:00</lastmod>
-  </url><url>
-    <loc>https://alimy.me/categories/development/</loc>
-    <lastmod>2023-03-31T20:32:00+08:00</lastmod>
-  </url><url>
     <loc>https://alimy.me/tags/go/</loc>
-    <lastmod>2023-03-31T20:32:00+08:00</lastmod>
-  </url><url>
-    <loc>https://alimy.me/post/</loc>
     <lastmod>2023-03-31T20:32:00+08:00</lastmod>
   </url><url>
     <loc>https://alimy.me/post/dev_202303312032/</loc>

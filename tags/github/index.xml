@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>GitHub on 北野</title>
+    <link>https://alimy.me/tags/github/</link>
+    <description>Recent content in GitHub on 北野</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
+    <lastBuildDate>Sun, 27 Aug 2023 12:00:00 +0800</lastBuildDate><atom:link href="https://alimy.me/tags/github/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Add commits to another person&#39;s PR on Github repo</title>
+      <link>https://alimy.me/post/dev_202308271200/</link>
+      <pubDate>Sun, 27 Aug 2023 12:00:00 +0800</pubDate>
+      
+      <guid>https://alimy.me/post/dev_202308271200/</guid>
+      <description>&lt;h3 id=&#34;tldr&#34;&gt;TLDR;&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;git push git@github.com:remoteUser/remoteRepo localBranch:remoteBranch
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;explanation&#34;&gt;Explanation&lt;/h3&gt;
+&lt;p&gt;The normal &lt;code&gt;git push&lt;/code&gt; command usually looks like this:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;git push origin branch
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Pushing to another developer&amp;rsquo;s branch follows a similar pattern: &lt;code&gt;origin&lt;/code&gt; is the other person&amp;rsquo;s repo, and &lt;code&gt;branch&lt;/code&gt; maps your local branch to the same branch on their remote repo.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;origin&lt;/code&gt; = &lt;code&gt;git@github.com:remoteUser/remoteRepo&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;branch&lt;/code&gt; = &lt;code&gt;localBranch:remoteBranch&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Breaking down each variable:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;remoteUser&lt;/code&gt; refers to the username of the developer who made the pr on your repo&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;remoteRepo&lt;/code&gt; refers to the name of the repo that the other developer is creating the PR from, usually, this is the same name as your repo.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;localBranch&lt;/code&gt; refers to the branch name of your local copy of their remote branch&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;remoteBranch&lt;/code&gt; refers to the branch name of that their PR is originating from on their &lt;code&gt;remoteRepo&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Keep in mind, that you can only push to PRs from other developers on your repo if that developer selected &amp;ldquo;Allow edits from maintainers&amp;rdquo; when they created their PR.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

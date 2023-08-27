@@ -363,6 +363,28 @@
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="https://alimy.me/post/dev_202012071337/" title="阅读全文">Tg: Service Messages </a> </h2>
+
+</header>
+<div class="summary">
+    <h4 id="response-to-an-rpc-query">Response to an RPC query</h4>
+<p>A response to an RPC query is normally wrapped as follows:</p>
+<pre tabindex="0"><code>rpc_result#f35c6d01 req_msg_id:long result:Object = RpcResult;
+</code></pre><p>Here req_msg_id is the identifier of the message sent by the other party and containing an RPC query. This way, the recipient knows that the result is a response to the specific RPC query in question. At the same time, this response serves as acknowledgment of the other party’s receipt of the req_msg_id message.</p>
+<p>Note that the response to an RPC query must also be acknowledged. Most frequently, this coincides with the transmission of the next message (which may have a container attached to it carrying a service message with the acknowledgment).</p>
+<h4 id="rpc-error">RPC Error</h4>
+<p>The result field returned in response to any RPC query may also contain an error message in the following format:</p>
+<pre tabindex="0"><code>rpc_error#2144ca19 error_code:int error_message:string = RpcError;
+</code></pre>
+</div>
+<footer id="more">
+<a href='https://alimy.me/post/dev_202012071337/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="https://alimy.me/post/dev_202012071333/" title="阅读全文">Tg: Binary Data Serialization </a> </h2>
 
 </header>
@@ -564,28 +586,6 @@ registry = &#34;git://mirrors.ustc.edu.cn/crates.io-index&#34;
 </div>
 <footer id="more">
 <a href='https://alimy.me/post/dev_202001050047/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/dev_201909211645/" title="阅读全文">Protocol Buffers Messages Encoding </a> </h2>
-
-</header>
-<div class="summary">
-    <p>This document describes the binary wire format for protocol buffer messages. You don&rsquo;t need to understand this to use protocol buffers in your applications, but it can be very useful to know how different protocol buffer formats affect the size of your encoded messages.</p>
-<h3 id="a-simple-message">A Simple Message</h3>
-<p>Let&rsquo;s say you have the following very simple message definition:</p>
-<pre tabindex="0"><code>message Test1 {
-  optional int32 a = 1;
-}
-</code></pre><p>In an application, you create a <code>Test1</code> message and set <code>a</code> to 150. You then serialize the message to an output stream. If you were able to examine the encoded message, you&rsquo;d see three bytes:</p>
-<pre tabindex="0"><code>08 96 01
-</code></pre><p>So far, so small and numeric – but what does it mean? Read on&hellip;</p>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/dev_201909211645/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
 </footer>
 </article>
 

@@ -6,7 +6,16 @@
     <language>en</language>
     
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <updated>Tue, 04 Jul 2023 06:00:00 CST</updated>
+    <updated>Sun, 27 Aug 2023 12:00:00 CST</updated>
+    
+    <item>
+      <title>Posts</title>
+      <link>https://alimy.me/post/</link>
+      <pubDate>Sun, 27 Aug 2023 12:00:00 CST</pubDate>
+      
+      <guid>https://alimy.me/post/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Pages</title>
@@ -14,15 +23,6 @@
       <pubDate>Tue, 04 Jul 2023 06:00:00 CST</pubDate>
       
       <guid>https://alimy.me/pages/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Posts</title>
-      <link>https://alimy.me/post/</link>
-      <pubDate>Fri, 31 Mar 2023 20:32:00 CST</pubDate>
-      
-      <guid>https://alimy.me/post/</guid>
       <description></description>
     </item>
     

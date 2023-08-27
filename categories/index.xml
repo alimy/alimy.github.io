@@ -7,22 +7,22 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Tue, 04 Jul 2023 06:00:00 +0800</lastBuildDate><atom:link href="https://alimy.me/categories/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 27 Aug 2023 12:00:00 +0800</lastBuildDate><atom:link href="https://alimy.me/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Development</title>
+      <link>https://alimy.me/categories/development/</link>
+      <pubDate>Sun, 27 Aug 2023 12:00:00 +0800</pubDate>
+      
+      <guid>https://alimy.me/categories/development/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>About</title>
       <link>https://alimy.me/categories/about/</link>
       <pubDate>Tue, 04 Jul 2023 06:00:00 +0800</pubDate>
       
       <guid>https://alimy.me/categories/about/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Development</title>
-      <link>https://alimy.me/categories/development/</link>
-      <pubDate>Fri, 31 Mar 2023 20:32:00 +0800</pubDate>
-      
-      <guid>https://alimy.me/categories/development/</guid>
       <description></description>
     </item>
     
