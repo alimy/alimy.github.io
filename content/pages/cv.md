@@ -19,6 +19,8 @@ menu = "About"
 - [sqlx](https://github.com/bitbus/sqlx) - 🔥general purpose extensions to golang's database/sql(fork from jmoiron/sqlx).
 - [cfg](https://github.com/alimy/cfg) - A flexible features configure help library.
 - [Tryst](https://github.com/alimy/tryst) - Some help utils for Go develop.
+- [kx](https://github.com/bitbus/kx) - Some help utils for Kitex.
+- [hz](https://github.com/bitbus/hz) - Some help utils for Hertz.
 
 ### 参与项目
 - [gogs](https://gogs.io/) - 🔥一款极易搭建的自助 Git 服务.
