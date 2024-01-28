@@ -351,6 +351,30 @@
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="https://alimy.me/post/dev_202401281630/" title="阅读全文">Kitex: Thrift-HTTP 映射的 IDL 规范 </a> </h2>
+
+</header>
+<div class="summary">
+    <p>本规范是 <code>Thrift</code> 与 <code>HTTP</code> 接口映射的 IDL 定义标准，包括服务、接口以及请求 <code>request</code>、<code>response</code> 参数定义规范和错误码定义规范。Kitex 部分实现了该规范，注解说明有标注支持情况。</p>
+<h3 id="规范说明">规范说明</h3>
+<p>（1）本规范采用注解方式来描述接口信息，包括接口的 <code>method</code>, <code>path</code> 以及接口请求参数，返回参数位置（如 <code>header</code>，<code>cookie</code> )、名称等信息</p>
+<p>（2）本规范所述注解采用 <code>api.{key}={value}</code> 的形式，其中<code>key</code>通常用于指定该字段出现的位置如（<code>header</code>，<code>cookie</code>，<code>query</code>，<code>body</code> 等), <code>value</code> 用于指定该字段在对应位置的实际名称, 一些功能性注解（如<code>api.none</code>, <code>api.js_conv</code>, <code>api.http_code</code>) 除外</p>
+<p>（3）本规范中定义的IDL注解如 <code>api.get</code>, <code>api.header</code> 等，只支持小写，不支持大写或者大小写混用如<code>api.GET</code>, <code>api.Header</code></p>
+<h3 id="文件整体规范">文件整体规范</h3>
+<ul>
+<li>一个服务 service 对应一个 thrift 主文件，主文件里的 <code>method</code> 都是针对当前服务对应接口，主文件可以引用其它 thrift 文件定义</li>
+<li>每个 <code>Method</code> 原则上对应一个 <code>Request</code> 和 <code>Response</code> 定义</li>
+<li>原则上不建议 <code>Request</code> 复用，可以复用 <code>Response</code></li>
+</ul>
+</div>
+<footer id="more">
+<a href='https://alimy.me/post/dev_202401281630/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="https://alimy.me/post/dev_202308271200/" title="阅读全文">Add commits to another person&#39;s PR on Github repo </a> </h2>
 
 </header>
@@ -528,50 +552,6 @@ Mac用了几年，明显感觉散热不佳，于是对Mac做了一次彻底的�
 </div>
 <footer id="more">
 <a href='https://alimy.me/post/dev_202212191032/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.me/post/dev_202212110949/" title="阅读全文">paopao - 关于功能项配置解析的设计 </a> </h2>
-
-</header>
-<div class="summary">
-    <p><a href="https://github.com/rocboss/paopao-ce">paopao-ce</a> 是使用Golang技术栈打造的一个清新文艺的微社区，编译后的可执行文件外加一个配置文件<code>conf.yml</code>就可以简单部署一个节点实例提供类似Twitter的推文服务。</p>
-<p>paopao-ce的配置文件中有一个功能项的配置用于自定义节点实例运行时提供哪些服务，对部署运维非常友好。本文简单解析<code>conf.yml</code>中功能项配置的设计，了解其背后的实现细节。</p>
-<p><code>conf.yml</code>的功能项配置机制是参考<a href="https://github.com/rust-lang/rust">Rust</a>包管理工具Cargo的 <code>Cargo.toml</code> 中 <code>[features]</code> 配置而设计的。如下示例：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span>[<span style="color:#a6e22e">package</span>]
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">name</span> = <span style="color:#e6db74">&#34;poem&#34;</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">version</span> = <span style="color:#e6db74">&#34;1.3.50&#34;</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">authors</span> = [<span style="color:#e6db74">&#34;sunli &lt;scott_s829@163.com&gt;&#34;</span>]
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">edition</span> = <span style="color:#e6db74">&#34;2021&#34;</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">description</span> = <span style="color:#e6db74">&#34;Poem is a full-featured and easy-to-use web framework with the Rust programming language.&#34;</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>[<span style="color:#a6e22e">features</span>]
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">default</span> = [<span style="color:#e6db74">&#34;server&#34;</span>]
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">server</span> = [<span style="color:#e6db74">&#34;tokio/rt&#34;</span>, <span style="color:#e6db74">&#34;tokio/net&#34;</span>, <span style="color:#e6db74">&#34;hyper/server&#34;</span>, <span style="color:#e6db74">&#34;hyper/runtime&#34;</span>]
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">websocket</span> = [<span style="color:#e6db74">&#34;tokio/rt&#34;</span>, <span style="color:#e6db74">&#34;tokio-tungstenite&#34;</span>, <span style="color:#e6db74">&#34;base64&#34;</span>]
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">multipart</span> = [<span style="color:#e6db74">&#34;multer&#34;</span>]
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">rustls</span> = [<span style="color:#e6db74">&#34;server&#34;</span>, <span style="color:#e6db74">&#34;tokio-rustls&#34;</span>, <span style="color:#e6db74">&#34;rustls-pemfile&#34;</span>]
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">native-tls</span> = [<span style="color:#e6db74">&#34;server&#34;</span>, <span style="color:#e6db74">&#34;tokio-native-tls&#34;</span>]
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">openssl-tls</span> = [<span style="color:#e6db74">&#34;server&#34;</span>, <span style="color:#e6db74">&#34;tokio-openssl&#34;</span>, <span style="color:#e6db74">&#34;openssl&#34;</span>]
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">static-files</span> = [<span style="color:#e6db74">&#34;httpdate&#34;</span>, <span style="color:#e6db74">&#34;mime_guess&#34;</span>, <span style="color:#e6db74">&#34;tokio/io-util&#34;</span>, <span style="color:#e6db74">&#34;tokio/fs&#34;</span>]
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">cookie</span> = [<span style="color:#e6db74">&#34;libcookie&#34;</span>, <span style="color:#e6db74">&#34;chrono&#34;</span>, <span style="color:#e6db74">&#34;time&#34;</span>]
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">session</span> = [<span style="color:#e6db74">&#34;tokio/rt&#34;</span>, <span style="color:#e6db74">&#34;cookie&#34;</span>, <span style="color:#e6db74">&#34;rand&#34;</span>, <span style="color:#e6db74">&#34;priority-queue&#34;</span>, <span style="color:#e6db74">&#34;base64&#34;</span>]
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">embed</span> = [<span style="color:#e6db74">&#34;rust-embed&#34;</span>, <span style="color:#e6db74">&#34;hex&#34;</span>, <span style="color:#e6db74">&#34;mime_guess&#34;</span>]
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">xml</span> = [<span style="color:#e6db74">&#34;quick-xml&#34;</span>]
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">i18n</span> = [
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;fluent&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;fluent-langneg&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;fluent-syntax&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;unic-langid&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;intl-memoizer&#34;</span>,
-</span></span><span style="display:flex;"><span>]
-</span></span></code></pre></div>
-</div>
-<footer id="more">
-<a href='https://alimy.me/post/dev_202212110949/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
 </footer>
 </article>
 

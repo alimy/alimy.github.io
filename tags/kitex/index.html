@@ -1,11 +1,11 @@
-  <!DOCTYPE html>
+    <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-  <title> Add commits to another person&#39;s PR on Github repo &middot; 那年江湖，遇见你 </title>
+  <title> Kitex &middot; 那年江湖，遇见你 </title>
   
   <link rel="stylesheet" type="text/css" href="https://alimy.me/css/uno.css" />
   <link rel="stylesheet" type="text/css" href="https://alimy.me/css/lightGallery.css" />
@@ -225,15 +225,17 @@
   </style>
 </head>
 
-  <body>
-    <div id="scriptHeader">
+    <body>
+        <div id="scriptHeader">
     <span class="mobile btn-mobile-menu">
             <i class="fa fa-bars btn-mobile-menu__icon"></i>
             <i class="fa fa-times btn-mobile-close__icon hidden"> </i>
     </span>
     <header class="
         
+        
             panel-cover panel-cover--collapsed
+        
         "  style="background-image: url(/images/cover.jpg)" >
     <div class="panel-main">
         <div class="panel-main__inner panel-inverted">
@@ -341,88 +343,38 @@
     </header>
 </noscript>
 
-    <div class="content-wrapper">
-      <div class="content-wrapper__inner">
-        <div class="post panel-wrapper">
-            <h2>Add commits to another person&#39;s PR on Github repo</h2>
-          
-          <h3 id="tldr">TLDR;</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>git push git@github.com:remoteUser/remoteRepo localBranch:remoteBranch
-</span></span></code></pre></div><h3 id="explanation">Explanation</h3>
-<p>The normal <code>git push</code> command usually looks like this:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>git push origin branch
-</span></span></code></pre></div><p>Pushing to another developer&rsquo;s branch follows a similar pattern: <code>origin</code> is the other person&rsquo;s repo, and <code>branch</code> maps your local branch to the same branch on their remote repo.</p>
-<p><code>origin</code> = <code>git@github.com:remoteUser/remoteRepo</code></p>
-<p><code>branch</code> = <code>localBranch:remoteBranch</code></p>
-<p>Breaking down each variable:</p>
-<p><code>remoteUser</code> refers to the username of the developer who made the pr on your repo</p>
-<p><code>remoteRepo</code> refers to the name of the repo that the other developer is creating the PR from, usually, this is the same name as your repo.</p>
-<p><code>localBranch</code> refers to the branch name of your local copy of their remote branch</p>
-<p><code>remoteBranch</code> refers to the branch name of that their PR is originating from on their <code>remoteRepo</code></p>
-<p>Keep in mind, that you can only push to PRs from other developers on your repo if that developer selected &ldquo;Allow edits from maintainers&rdquo; when they created their PR.</p>
-<h3 id="example">Example</h3>
-<p>Let&rsquo;s say you created the open source project, Material Bread. After releasing the project, another developer, with the Github username alburdette619, forks your project and creates a pull request with some new features. While reviewing <code>alburdette619</code>&rsquo;s PR you realize that his changes will need to be documented in the project&rsquo;s README.</p>
-<p>First, we need to fetch his changes into a branch on our local machine. We can do that using this command:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>git fetch origin pull/branch/head:branchName
-</span></span></code></pre></div><p>In this case, the branch on his PR is number <code>306</code>, and I want to name it <code>pr/306</code>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>git fetch origin pull/306/head:pr/306
-</span></span></code></pre></div><p>We can now make changes on our local branch <code>pr/306</code> and commit them:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>git commit -m <span style="color:#e6db74">&#34;Update Readme with feature xyz&#34;</span>
-</span></span></code></pre></div><p>Finally, we can push these changes to <code>alburdette619</code>&rsquo;s PR with the new commit using the command defined at the top of the article.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>git push git@github.com:remoteUser/remoteRepo localBranch:remoteBranch
-</span></span></code></pre></div><p>The <code>remoteUser</code> is <code>alburdette619</code>, the <code>remoteRepo</code> is <code>material-bread</code>, the <code>localBranch</code> is <code>pr/306</code>, and the <code>remoteBranch</code> is <code>306</code>.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>git push git@github.com:alburdette619/material-bread pr/306:306
-</span></span></code></pre></div><hr>
-<p>（备注: 转载自<a href="https://codinhood.com/micro/add-commits-persons-pr-on-your-repo/" title="add-commits-persons-pr-on-your-repo">网络</a>）</p>
-<p><em>声明：本站是个人开设维护的网站，主要用于收集网络美文、技术文章与原创生活记录等，系孤芳自赏、个人用途，内容如有侵权请联系站长删除。</em></p>
-				<div id="post-tags">
-				  
-				  	
-						  <a href="https://alimy.me/tags/development/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;development</a>
-						
-						  <a href="https://alimy.me/tags/github/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;GitHub</a>
-						
-						  <a href="https://alimy.me/tags/git/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;Git</a>
-						
-					
-				</div>
-        </div>
-        <div id="post-navigator">
-          <a id="post-navigator-prev" href="https://alimy.me/pages/cv/" title="上一篇"><i class="fa fa-chevron-left" aria-hidden="true"></i>&nbsp;关于我</a>
-          <a id="post-navigator-next" href="https://alimy.me/post/dev_202401281630/" title="下一篇">Kitex: Thrift-HTTP 映射的 IDL 规范&nbsp;<i class="fa fa-chevron-right" aria-hidden="true"></i></a>
-        </div>
-        <div id="post-comments">
-          <h3>Comments</h3>
-          
-
-
-<div id="disqus_thread"></div>
-
-<script type="text/javascript">
-  var disqusUsername = "alimy";
-
-  (function() { 
-  var d = document, s = d.createElement('script');
-
-  s.src = '//' + disqusUsername + '.disqus.com/embed.js';
-
-  s.setAttribute('data-timestamp', +new Date());
-  (d.head || d.body).appendChild(s);
-  })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
-
-
-        </div>
-        <footer id="copyright">
+        <div class="content-wrapper">
+            <div class="content-wrapper__inner">
+                <h2>文章列表</h2>
+                
+                <div class="panel-wrapper">
+                <div id="caption">
+                <h3>
+                  2024年 01月
+                  
+                  <span id="list-indicator" title="共1篇文章">1 </span>
+                </h3>
+                </div>
+                <ul id="list">
+                    
+                    <li>
+                        <a href="https://alimy.me/post/dev_202401281630/">Kitex: Thrift-HTTP 映射的 IDL 规范 </a>&nbsp;
+                        <span id="list-date">(Sun, Jan 28, 2024)</span>
+                    </li>
+                    
+                </ul>
+                </div>
+                
+                <footer id="copyright">
   <p>&copy;2015-2024 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">北野 -  Michael Li</a> All rights reserved.</p>
 </footer>
 
-    </div>
+            </div>
+        </div>
+    </body>
     <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
 if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
 var s=document.getElementsByTagName('script')[0];sc.src='https://alimy.me/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
 WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
 
-  </body>
 </html>
