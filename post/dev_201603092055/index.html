@@ -7,14 +7,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
   <title> XStream: Custom Converter for BufferedImage &middot; 那年江湖，遇见你 </title>
   
-  <link rel="stylesheet" type="text/css" href="https://alimy.me/css/uno.css" />
-  <link rel="stylesheet" type="text/css" href="https://alimy.me/css/lightGallery.css" />
+  <link rel="stylesheet" type="text/css" href="https://alimy.github.io/css/uno.css" />
+  <link rel="stylesheet" type="text/css" href="https://alimy.github.io/css/lightGallery.css" />
   
-  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://alimy.me/apple-touch-icon-144-precomposed.png">
-  <link rel="shortcut icon" href="https://alimy.me/favicon.png">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://alimy.github.io/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="https://alimy.github.io/favicon.png">
   
-  <script src="https://alimy.me/js/jquery.min.js"></script>
-  <script src="https://alimy.me/js/main.min.js"></script>
+  <script src="https://alimy.github.io/js/jquery.min.js"></script>
+  <script src="https://alimy.github.io/js/main.min.js"></script>
   <script>
     (function (i, s, o, g, r, a, m) {
       i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
@@ -238,9 +238,9 @@
     <div class="panel-main">
         <div class="panel-main__inner panel-inverted">
             <div class="panel-main__content"> 
-                <a href="https://alimy.me/"> <img src="https://alimy.me/images/logo.jpg" width="256" alt="北野 logo" class="panel-cover__logo logo" /> </a> 
+                <a href="https://alimy.github.io/"> <img src="https://alimy.github.io/images/logo.jpg" width="256" alt="北野 logo" class="panel-cover__logo logo" /> </a> 
                 <h1 class="panel-cover__title panel-title">
-                    <a href="https://alimy.me/">北野</a>
+                    <a href="https://alimy.github.io/">北野</a>
                 </h1>
                 <hr class="panel-cover__divider" />
                 <p class="panel-cover__description">  那年江湖，遇见你  </p>
@@ -248,10 +248,10 @@
                 <div class="navigation-wrapper">
                     <nav class="cover-navigation cover-navigation--primary">
                         <ul class="navigation">
-                            <li class="navigation__item"><a href="https://alimy.me" title="博客首页" class="blog-button">Blog</a> </li> </br></br>
-                            <li class="navigation__item"><a href="https://alimy.me/post/" title="文章列表" class="blog-button">Articles</a> </li>
+                            <li class="navigation__item"><a href="https://alimy.github.io" title="博客首页" class="blog-button">Blog</a> </li> </br></br>
+                            <li class="navigation__item"><a href="https://alimy.github.io/post/" title="文章列表" class="blog-button">Articles</a> </li>
                             </br>  </br>
-                            <li class="navigation__item"><a href="https://alimy.me/pages/cv" title="关于我 " class="blog-button">About Me</a> </li>
+                            <li class="navigation__item"><a href="https://alimy.github.io/pages/cv" title="关于我 " class="blog-button">About Me</a> </li>
                             </br>  </ul>
                             <nav class="cover-navigation navigation--social">
 </br>
@@ -296,9 +296,9 @@
         <div class="panel-main">
             <div class="panel-main__inner panel-inverted">
                 <div class="panel-main__content"> 
-                    <a href="https://alimy.me/"> <img src="https://alimy.me/images/logo.jpg" width="80" alt="北野 logo" class="panel-cover__logo logo" /> </a> 
+                    <a href="https://alimy.github.io/"> <img src="https://alimy.github.io/images/logo.jpg" width="80" alt="北野 logo" class="panel-cover__logo logo" /> </a> 
                     <h1 class="panel-cover__title panel-title">
-                        <a href="https://alimy.me/">北野</a>
+                        <a href="https://alimy.github.io/">北野</a>
                     </h1>
                     <hr class="panel-cover__divider" />
                     <p class="panel-cover__description">  那年江湖，遇见你  </p>
@@ -306,10 +306,10 @@
                     <div class="navigation-wrapper">
                         <nav class="cover-navigation cover-navigation--primary">
                             <ul class="navigation">
-                                <li class="navigation__item"><a href="https://alimy.me" title="博客首页" class="blog-button">Blog</a> </li></br></br>
-                                <li class="navigation__item"><a href="https://alimy.me/post/" title="文章列表" class="blog-button">Articles</a> </li>
+                                <li class="navigation__item"><a href="https://alimy.github.io" title="博客首页" class="blog-button">Blog</a> </li></br></br>
+                                <li class="navigation__item"><a href="https://alimy.github.io/post/" title="文章列表" class="blog-button">Articles</a> </li>
                                 </br>  </br>
-                                <li class="navigation__item"><a href="https://alimy.me/pages/cv" title="关于我 " class="blog-button">About Me</a> </li>
+                                <li class="navigation__item"><a href="https://alimy.github.io/pages/cv" title="关于我 " class="blog-button">About Me</a> </li>
                                 </br>  </ul>
                         </nav> <nav class="cover-navigation navigation--social">
 </br>
@@ -346,7 +346,7 @@
         <div class="post panel-wrapper">
             <h2>XStream: Custom Converter for BufferedImage</h2>
           
-          <p>In the previous tutorials we saw an example of how to convert a <a href="https://alimy.me/post/dev_201603081411" title="parsing an xml">java object to XML and back</a>. That tutorial also explained the concept of aliases and implicit collection. While serializing a Java object to XML XStream uses custom converters. These converters specify how to create XML from a Java Object or how to create a Java Object from XML elements. In most cases the provided converters should suffice, however, in certain cases you may want to create your own converters. To do so create a class that implements com.thoughtworks.xstream.converters.Converter and implement the void marshal(Object source, HierarchicalStreamWriter writer, MarshallingContext context); and Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context); The example below demonstrates a CustomConverter. To make the example more interesting we will write a converter to serialize a BufferedImage. The image for the example can be downloaded from here</p>
+          <p>In the previous tutorials we saw an example of how to convert a <a href="https://alimy.github.io/post/dev_201603081411" title="parsing an xml">java object to XML and back</a>. That tutorial also explained the concept of aliases and implicit collection. While serializing a Java object to XML XStream uses custom converters. These converters specify how to create XML from a Java Object or how to create a Java Object from XML elements. In most cases the provided converters should suffice, however, in certain cases you may want to create your own converters. To do so create a class that implements com.thoughtworks.xstream.converters.Converter and implement the void marshal(Object source, HierarchicalStreamWriter writer, MarshallingContext context); and Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context); The example below demonstrates a CustomConverter. To make the example more interesting we will write a converter to serialize a BufferedImage. The image for the example can be downloaded from here</p>
 <pre tabindex="0"><code>package com.studytrails.xml.xstream;
 
 import java.awt.Graphics2D;
@@ -458,16 +458,16 @@ class CustomBufferedImageConverter implements Converter {
 				<div id="post-tags">
 				  
 				  	
-						  <a href="https://alimy.me/tags/development/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;development</a>
+						  <a href="https://alimy.github.io/tags/development/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;development</a>
 						
-						  <a href="https://alimy.me/tags/xml/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;XML</a>
+						  <a href="https://alimy.github.io/tags/xml/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;XML</a>
 						
 					
 				</div>
         </div>
         <div id="post-navigator">
-          <a id="post-navigator-prev" href="https://alimy.me/post/dev_201603092051/" title="上一篇"><i class="fa fa-chevron-left" aria-hidden="true"></i>&nbsp;XStream: Referencing Objects</a>
-          <a id="post-navigator-next" href="https://alimy.me/post/dev_201603092100/" title="下一篇">XStream: Basic Built-in Converters&nbsp;<i class="fa fa-chevron-right" aria-hidden="true"></i></a>
+          <a id="post-navigator-prev" href="https://alimy.github.io/post/dev_201603092051/" title="上一篇"><i class="fa fa-chevron-left" aria-hidden="true"></i>&nbsp;XStream: Referencing Objects</a>
+          <a id="post-navigator-next" href="https://alimy.github.io/post/dev_201603092100/" title="下一篇">XStream: Basic Built-in Converters&nbsp;<i class="fa fa-chevron-right" aria-hidden="true"></i></a>
         </div>
         <div id="post-comments">
           <h3>Comments</h3>
@@ -499,7 +499,7 @@ class CustomBufferedImageConverter implements Converter {
     </div>
     <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
 if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
-var s=document.getElementsByTagName('script')[0];sc.src='https://alimy.me/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
+var s=document.getElementsByTagName('script')[0];sc.src='https://alimy.github.io/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
 WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
 
   </body>

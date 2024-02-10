@@ -2,7 +2,7 @@
   <channel>
       <title>北野 on 北野 </title>
       <generator uri="https://gohugo.io">Hugo</generator>
-    <link>https://alimy.me/</link>
+    <link>https://alimy.github.io/</link>
     <language>en</language>
     
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
@@ -10,19 +10,19 @@
     
     <item>
       <title>Posts</title>
-      <link>https://alimy.me/post/</link>
+      <link>https://alimy.github.io/post/</link>
       <pubDate>Sun, 28 Jan 2024 16:30:00 CST</pubDate>
       
-      <guid>https://alimy.me/post/</guid>
+      <guid>https://alimy.github.io/post/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Pages</title>
-      <link>https://alimy.me/pages/</link>
+      <link>https://alimy.github.io/pages/</link>
       <pubDate>Tue, 04 Jul 2023 06:00:00 CST</pubDate>
       
-      <guid>https://alimy.me/pages/</guid>
+      <guid>https://alimy.github.io/pages/</guid>
       <description></description>
     </item>
     

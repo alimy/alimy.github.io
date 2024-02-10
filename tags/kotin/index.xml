@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>kotin on 北野</title>
-    <link>https://alimy.me/tags/kotin/</link>
+    <link>https://alimy.github.io/tags/kotin/</link>
     <description>Recent content in kotin on 北野</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Mon, 18 Jan 2021 12:48:00 +0800</lastBuildDate><atom:link href="https://alimy.me/tags/kotin/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 18 Jan 2021 12:48:00 +0800</lastBuildDate><atom:link href="https://alimy.github.io/tags/kotin/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Kotlin: 几种设计模式</title>
-      <link>https://alimy.me/post/dev_202101181248/</link>
+      <link>https://alimy.github.io/post/dev_202101181248/</link>
       <pubDate>Mon, 18 Jan 2021 12:48:00 +0800</pubDate>
       
-      <guid>https://alimy.me/post/dev_202101181248/</guid>
+      <guid>https://alimy.github.io/post/dev_202101181248/</guid>
       <description>&lt;h4 id=&#34;创建型模式&#34;&gt;创建型模式&lt;/h4&gt;
 &lt;p&gt;原始模型&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-kotlin&#34; data-lang=&#34;kotlin&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;interface&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Computer&lt;/span&gt; {

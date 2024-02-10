@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Java on 北野</title>
-    <link>https://alimy.me/tags/java/</link>
+    <link>https://alimy.github.io/tags/java/</link>
     <description>Recent content in Java on 北野</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Sun, 13 Mar 2016 20:30:00 +0800</lastBuildDate><atom:link href="https://alimy.me/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 13 Mar 2016 20:30:00 +0800</lastBuildDate><atom:link href="https://alimy.github.io/tags/java/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Java: Date And Calendar</title>
-      <link>https://alimy.me/post/dev_201603132030/</link>
+      <link>https://alimy.github.io/post/dev_201603132030/</link>
       <pubDate>Sun, 13 Mar 2016 20:30:00 +0800</pubDate>
       
-      <guid>https://alimy.me/post/dev_201603132030/</guid>
+      <guid>https://alimy.github.io/post/dev_201603132030/</guid>
       <description>&lt;h3 id=&#34;overview-of-date-and-calendar-classes&#34;&gt;Overview of Date and Calendar classes&lt;/h3&gt;
 &lt;p&gt;In this tutorial we look at the classes in java that are helpful in manipulating dates. Manipulating dates in java can be challenging, especially if you are building applications that cater to multiple timezones. Parsing dates, printing a date in UTC, printing a date in a different timezone, comparing dates, adding time to date&amp;hellip; we will be looking at all of these in this tutorial. We first begin with the introduction to the classes and then follow up with examples. You may want to directly jump to the examples, however, we strongly recommend that you understand the classes first, since that will make the examples very easy to understand.&lt;/p&gt;
 &lt;ul&gt;

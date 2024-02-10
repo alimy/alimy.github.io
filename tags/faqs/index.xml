@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>FAQs on 北野</title>
-    <link>https://alimy.me/tags/faqs/</link>
+    <link>https://alimy.github.io/tags/faqs/</link>
     <description>Recent content in FAQs on 北野</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Wed, 01 Feb 2023 19:48:00 +0800</lastBuildDate><atom:link href="https://alimy.me/tags/faqs/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 01 Feb 2023 19:48:00 +0800</lastBuildDate><atom:link href="https://alimy.github.io/tags/faqs/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Mounty挂载NTFS硬盘报错</title>
-      <link>https://alimy.me/post/faq_202302011948/</link>
+      <link>https://alimy.github.io/post/faq_202302011948/</link>
       <pubDate>Wed, 01 Feb 2023 19:48:00 +0800</pubDate>
       
-      <guid>https://alimy.me/post/faq_202302011948/</guid>
+      <guid>https://alimy.github.io/post/faq_202302011948/</guid>
       <description>&lt;h3 id=&#34;问题&#34;&gt;问题&lt;/h3&gt;
 &lt;p&gt;&lt;code&gt;The volume UNTITLEDis not re-mountable in read/write mode .Probably it was not clean unmounted before. &lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;卷不能在读/写模式下重新挂载。可能是因为先前没有完全卸载(安全删除)。&lt;/code&gt;&lt;/p&gt;
@@ -25,10 +25,10 @@
     
     <item>
       <title>解决GitHub官网打不开问题</title>
-      <link>https://alimy.me/post/dev_202105220948/</link>
+      <link>https://alimy.github.io/post/dev_202105220948/</link>
       <pubDate>Sat, 22 May 2021 09:48:00 +0800</pubDate>
       
-      <guid>https://alimy.me/post/dev_202105220948/</guid>
+      <guid>https://alimy.github.io/post/dev_202105220948/</guid>
       <description>&lt;p&gt;GitHub经常打不开，或者打开特别慢，一种解决方案是 找到官网IP地址、CDN域名IP地址、静态资源IP地址，然后配置本机hosts文件，刷新DNS缓存即可。&lt;/p&gt;
 &lt;h3 id=&#34;查询三个域名的ip&#34;&gt;查询三个域名的IP：&lt;/h3&gt;
 &lt;ul&gt;
@@ -63,10 +63,10 @@
     
     <item>
       <title>如何在Fedora 33命令行模式下禁止睡眠</title>
-      <link>https://alimy.me/post/dev_202104042045/</link>
+      <link>https://alimy.github.io/post/dev_202104042045/</link>
       <pubDate>Sun, 04 Apr 2021 15:20:45 +0800</pubDate>
       
-      <guid>https://alimy.me/post/dev_202104042045/</guid>
+      <guid>https://alimy.github.io/post/dev_202104042045/</guid>
       <description>&lt;p&gt;切换启动模式：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;%&amp;gt; systemctl get-default &lt;span style=&#34;color:#75715e&#34;&gt;# 获取当前启动模式&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;%&amp;gt; systemctl set-default multi-user.target &lt;span style=&#34;color:#75715e&#34;&gt;# 默认命令行模式启动&lt;/span&gt;
@@ -95,10 +95,10 @@
     
     <item>
       <title>MacOS /usr/bin/目录下 Operation not permitted的解决</title>
-      <link>https://alimy.me/post/dev_202101191805/</link>
+      <link>https://alimy.github.io/post/dev_202101191805/</link>
       <pubDate>Tue, 19 Jan 2021 18:05:00 +0800</pubDate>
       
-      <guid>https://alimy.me/post/dev_202101191805/</guid>
+      <guid>https://alimy.github.io/post/dev_202101191805/</guid>
       <description>&lt;p&gt;mac系统下的Rootless机制，让我们在root权限下也不能随心所欲的读写所有路径了，特殊情况下我们需要关闭Rootless时，可尝试如下操作：&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
@@ -119,10 +119,10 @@
     
     <item>
       <title>Mac OS包管理软件brew和port介绍</title>
-      <link>https://alimy.me/post/dev_202101191738/</link>
+      <link>https://alimy.github.io/post/dev_202101191738/</link>
       <pubDate>Tue, 19 Jan 2021 17:38:00 +0800</pubDate>
       
-      <guid>https://alimy.me/post/dev_202101191738/</guid>
+      <guid>https://alimy.github.io/post/dev_202101191738/</guid>
       <description>&lt;p&gt;Mac OS中主要有三种包管理工具：MacPorts，Homebrew，Fink。这里简介Homebrew和MacPorts的区别：&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;MacPorts&lt;/strong&gt;：&lt;br&gt;
 因为 Mac OS 源自 BSD，因此将 BSD 中的 Port 移植到 OS 成为 MacPorts 就一点不奇怪。MacPorts 会独立于 OS 自建一套仓库树，OS 的包执行目录为 /usr/local，而 MacPorts 的包执行目录为 /opt/local。MacPorts 尽量不影响系统现有程序，自然也就尽量少复用系统已有程序。MacPorts 安装包的过程是下载该程序的所有源文件及其依赖包，然后在本地进行 Build 生成最终的可执行文件。这样做的好处是在系统中存在一套独立的生态环境，从而不影响系统自身的生态环境，缺点就是浪费了系统自身的生态资源。&lt;/p&gt;

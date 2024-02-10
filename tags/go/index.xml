@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Go on 北野</title>
-    <link>https://alimy.me/tags/go/</link>
+    <link>https://alimy.github.io/tags/go/</link>
     <description>Recent content in Go on 北野</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Fri, 31 Mar 2023 20:32:00 +0800</lastBuildDate><atom:link href="https://alimy.me/tags/go/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 31 Mar 2023 20:32:00 +0800</lastBuildDate><atom:link href="https://alimy.github.io/tags/go/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Yesql - Sqlx的好搭挡</title>
-      <link>https://alimy.me/post/dev_202303312032/</link>
+      <link>https://alimy.github.io/post/dev_202303312032/</link>
       <pubDate>Fri, 31 Mar 2023 20:32:00 +0800</pubDate>
       
-      <guid>https://alimy.me/post/dev_202303312032/</guid>
+      <guid>https://alimy.github.io/post/dev_202303312032/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://github.com/alimy/yesql&#34;&gt;Yesql&lt;/a&gt; 解析一个SQL文件，提取出查询语句，自动生成对应的Go结构体，实现查询语句与代码分离，方便编写数据库查询逻辑。&lt;/p&gt;
 &lt;h3 id=&#34;安装&#34;&gt;安装&lt;/h3&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;go get github.com/alimy/yesql
@@ -71,30 +71,30 @@
     
     <item>
       <title>Mir - go-mir的设计演进</title>
-      <link>https://alimy.me/post/dev_202301160906/</link>
+      <link>https://alimy.github.io/post/dev_202301160906/</link>
       <pubDate>Mon, 16 Jan 2023 09:06:00 +0800</pubDate>
       
-      <guid>https://alimy.me/post/dev_202301160906/</guid>
+      <guid>https://alimy.github.io/post/dev_202301160906/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://github.com/alimy/mir&#34;&gt;Mir&lt;/a&gt; 是一套提供类似gRPC服务开发体验的快速开发RESTful API &lt;strong&gt;后端开发脚手架&lt;/strong&gt;，适配多种HTTP框架，包括 &lt;a href=&#34;https://github.com/gin-gonic/gin&#34;&gt;Gin&lt;/a&gt;, &lt;a href=&#34;https://github.com/go-chi/chi&#34;&gt;Chi&lt;/a&gt;, &lt;a href=&#34;https://github.com/cloudwego/hertz&#34;&gt;Hertz&lt;/a&gt;, &lt;a href=&#34;https://github.com/labstack/echo&#34;&gt;Echo&lt;/a&gt;, &lt;a href=&#34;https://github.com/kataras/iris&#34;&gt;Iris&lt;/a&gt;, &lt;a href=&#34;https://github.com/gofiber/fiber&#34;&gt;Fiber&lt;/a&gt;, &lt;a href=&#34;https://github.com/go-macaron/macaron&#34;&gt;Macaron&lt;/a&gt;, &lt;a href=&#34;https://github.com/gorilla/mux&#34;&gt;Mux&lt;/a&gt;, &lt;a href=&#34;https://github.com/julienschmidt/httprouter&#34;&gt;httprouter&lt;/a&gt;。&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/alimy/mir&#34;&gt;Mir&lt;/a&gt; 的演进历经了版本 &lt;a href=&#34;https://github.com/alimy/mir/tree/v1&#34;&gt;v1&lt;/a&gt;、&lt;a href=&#34;https://github.com/alimy/mir/tree/v2&#34;&gt;v2&lt;/a&gt;，目前已经演进到版本&lt;a href=&#34;https://github.com/alimy/mir&#34;&gt;v3&lt;/a&gt;。本文简要概述&lt;a href=&#34;https://github.com/alimy/mir&#34;&gt;Mir&lt;/a&gt;的具体演进过程，一窥设计的要点所在。&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>paopao - 关于paopao-ce的设计定位</title>
-      <link>https://alimy.me/post/dev_202212191032/</link>
+      <link>https://alimy.github.io/post/dev_202212191032/</link>
       <pubDate>Mon, 19 Dec 2022 10:32:00 +0800</pubDate>
       
-      <guid>https://alimy.me/post/dev_202212191032/</guid>
+      <guid>https://alimy.github.io/post/dev_202212191032/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://github.com/rocboss/paopao-ce&#34;&gt;paopao-ce&lt;/a&gt; 是一个清新文艺的微社区，提供类似Twitter/微博的推文分享服务。paopao-ce的运营形态有点类似WordPress，只不过WordPress是使用PHP语言开发的博客平台，提供的是博客服务，而paopao-ce提供的是类似Twitter的推文分享服务。paopao-ce 让 &lt;strong&gt;个人或小组织&lt;/strong&gt; 可以快速、方便的部署一个提供&lt;strong&gt;推文分享服务&lt;/strong&gt;的小站点，在有限范围内形成一个友善的社交小圈子微社区。   &lt;br&gt;
-&lt;img src=&#34;https://alimy.me/images/post/20221219103201.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;</description>
+&lt;img src=&#34;https://alimy.github.io/images/post/20221219103201.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>paopao - 关于功能项配置解析的设计</title>
-      <link>https://alimy.me/post/dev_202212110949/</link>
+      <link>https://alimy.github.io/post/dev_202212110949/</link>
       <pubDate>Sun, 11 Dec 2022 09:49:00 +0800</pubDate>
       
-      <guid>https://alimy.me/post/dev_202212110949/</guid>
+      <guid>https://alimy.github.io/post/dev_202212110949/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://github.com/rocboss/paopao-ce&#34;&gt;paopao-ce&lt;/a&gt; 是使用Golang技术栈打造的一个清新文艺的微社区，编译后的可执行文件外加一个配置文件&lt;code&gt;conf.yml&lt;/code&gt;就可以简单部署一个节点实例提供类似Twitter的推文服务。&lt;/p&gt;
 &lt;p&gt;paopao-ce的配置文件中有一个功能项的配置用于自定义节点实例运行时提供哪些服务，对部署运维非常友好。本文简单解析&lt;code&gt;conf.yml&lt;/code&gt;中功能项配置的设计，了解其背后的实现细节。&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;conf.yml&lt;/code&gt;的功能项配置机制是参考&lt;a href=&#34;https://github.com/rust-lang/rust&#34;&gt;Rust&lt;/a&gt;包管理工具Cargo的 &lt;code&gt;Cargo.toml&lt;/code&gt; 中 &lt;code&gt;[features]&lt;/code&gt; 配置而设计的。如下示例：&lt;/p&gt;
@@ -130,10 +130,10 @@
     
     <item>
       <title>50 Shades of Go</title>
-      <link>https://alimy.me/post/dev_201603182045/</link>
+      <link>https://alimy.github.io/post/dev_201603182045/</link>
       <pubDate>Fri, 18 Mar 2016 20:45:00 +0800</pubDate>
       
-      <guid>https://alimy.me/post/dev_201603182045/</guid>
+      <guid>https://alimy.github.io/post/dev_201603182045/</guid>
       <description>&lt;p&gt;Go is a simple and fun language, but, like any other language, it has a few gotchas&amp;hellip; Many of those gotchas are not entirely Go&amp;rsquo;s fault. Some of these mistakes are natural traps if you are coming from another language. Others are due to faulty assumptions and missing details.&lt;/p&gt;
 &lt;p&gt;A lot of these gotchas may seem obvious if you took the time to learn the language reading the official spec, wiki, mailing list discussions, many great posts and presentations by Rob Pike, and the source code. Not everybody starts the same way though and that&amp;rsquo;s OK. If you are new to Go the information here will save you hours debugging your code.&lt;/p&gt;
 &lt;p&gt;This post covers Go 1.5 and below.&lt;/p&gt;

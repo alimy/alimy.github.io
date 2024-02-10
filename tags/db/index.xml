@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>db on 北野</title>
-    <link>https://alimy.me/tags/db/</link>
+    <link>https://alimy.github.io/tags/db/</link>
     <description>Recent content in db on 北野</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Wed, 30 Jun 2021 07:50:00 +0800</lastBuildDate><atom:link href="https://alimy.me/tags/db/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 30 Jun 2021 07:50:00 +0800</lastBuildDate><atom:link href="https://alimy.github.io/tags/db/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>MySQL 8.0直方图</title>
-      <link>https://alimy.me/post/dev_202106300750/</link>
+      <link>https://alimy.github.io/post/dev_202106300750/</link>
       <pubDate>Wed, 30 Jun 2021 07:50:00 +0800</pubDate>
       
-      <guid>https://alimy.me/post/dev_202106300750/</guid>
+      <guid>https://alimy.github.io/post/dev_202106300750/</guid>
       <description>&lt;h3 id=&#34;0-什么是直方图&#34;&gt;0. 什么是直方图&lt;/h3&gt;
 &lt;p&gt;直方图（Histogram）是数据库提供的一种（索引之外的）基础统计信息，用于描述列上的数据分布情况。它最典型的场景是估算查询谓词的选择率，以便选择合适的执行计划。&lt;/p&gt;
 &lt;p&gt;也就是说，某个列可以不创建索引但创建直方图，也可以帮助提升查询效率。

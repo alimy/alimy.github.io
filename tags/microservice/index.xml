@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Microservice on 北野</title>
-    <link>https://alimy.me/tags/microservice/</link>
+    <link>https://alimy.github.io/tags/microservice/</link>
     <description>Recent content in Microservice on 北野</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Sun, 28 Jan 2024 16:30:00 +0800</lastBuildDate><atom:link href="https://alimy.me/tags/microservice/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 28 Jan 2024 16:30:00 +0800</lastBuildDate><atom:link href="https://alimy.github.io/tags/microservice/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Kitex: Thrift-HTTP 映射的 IDL 规范</title>
-      <link>https://alimy.me/post/dev_202401281630/</link>
+      <link>https://alimy.github.io/post/dev_202401281630/</link>
       <pubDate>Sun, 28 Jan 2024 16:30:00 +0800</pubDate>
       
-      <guid>https://alimy.me/post/dev_202401281630/</guid>
+      <guid>https://alimy.github.io/post/dev_202401281630/</guid>
       <description>&lt;p&gt;本规范是 &lt;code&gt;Thrift&lt;/code&gt; 与 &lt;code&gt;HTTP&lt;/code&gt; 接口映射的 IDL 定义标准，包括服务、接口以及请求 &lt;code&gt;request&lt;/code&gt;、&lt;code&gt;response&lt;/code&gt; 参数定义规范和错误码定义规范。Kitex 部分实现了该规范，注解说明有标注支持情况。&lt;/p&gt;
 &lt;h3 id=&#34;规范说明&#34;&gt;规范说明&lt;/h3&gt;
 &lt;p&gt;（1）本规范采用注解方式来描述接口信息，包括接口的 &lt;code&gt;method&lt;/code&gt;, &lt;code&gt;path&lt;/code&gt; 以及接口请求参数，返回参数位置（如 &lt;code&gt;header&lt;/code&gt;，&lt;code&gt;cookie&lt;/code&gt; )、名称等信息&lt;/p&gt;

@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>About on 北野</title>
-    <link>https://alimy.me/categories/about/</link>
+    <link>https://alimy.github.io/categories/about/</link>
     <description>Recent content in About on 北野</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Tue, 04 Jul 2023 06:00:00 +0800</lastBuildDate><atom:link href="https://alimy.me/categories/about/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 04 Jul 2023 06:00:00 +0800</lastBuildDate><atom:link href="https://alimy.github.io/categories/about/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>关于我</title>
-      <link>https://alimy.me/pages/cv/</link>
+      <link>https://alimy.github.io/pages/cv/</link>
       <pubDate>Tue, 04 Jul 2023 06:00:00 +0800</pubDate>
       
-      <guid>https://alimy.me/pages/cv/</guid>
+      <guid>https://alimy.github.io/pages/cv/</guid>
       <description>Go、Rust 开发工程师，俗称 码农。
 开源项目 go-mir - 🔥一个很酷的开发RESTful API的辅助工具. Yesql - 🔥一个用于使用sqlx来开发数据业务逻辑的辅助库. paopao-ce - 🔥一个清新文艺的微社区. sqlx - 🔥general purpose extensions to golang&amp;rsquo;s database/sql(fork from jmoiron/sqlx). cfg - A flexible features configure help library. Tryst - Some help utils for Go develop. kx - Some help utils for Kitex. hz - Some help utils for Hertz. 参与项目 gogs - 🔥一款极易搭建的自助 Git 服务. mux - A powerful HTTP router and URL matcher for building Go web servers with 🦍 go-bindata - Turn data file into go code.</description>
     </item>

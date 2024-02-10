@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>FAQs on 北野</title>
-    <link>https://alimy.me/categories/faqs/</link>
+    <link>https://alimy.github.io/categories/faqs/</link>
     <description>Recent content in FAQs on 北野</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Wed, 01 Feb 2023 19:48:00 +0800</lastBuildDate><atom:link href="https://alimy.me/categories/faqs/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 01 Feb 2023 19:48:00 +0800</lastBuildDate><atom:link href="https://alimy.github.io/categories/faqs/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Mounty挂载NTFS硬盘报错</title>
-      <link>https://alimy.me/post/faq_202302011948/</link>
+      <link>https://alimy.github.io/post/faq_202302011948/</link>
       <pubDate>Wed, 01 Feb 2023 19:48:00 +0800</pubDate>
       
-      <guid>https://alimy.me/post/faq_202302011948/</guid>
+      <guid>https://alimy.github.io/post/faq_202302011948/</guid>
       <description>&lt;h3 id=&#34;问题&#34;&gt;问题&lt;/h3&gt;
 &lt;p&gt;&lt;code&gt;The volume UNTITLEDis not re-mountable in read/write mode .Probably it was not clean unmounted before. &lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;卷不能在读/写模式下重新挂载。可能是因为先前没有完全卸载(安全删除)。&lt;/code&gt;&lt;/p&gt;
