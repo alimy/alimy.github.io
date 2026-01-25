@@ -7,13 +7,13 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Sun, 25 Jan 2026 12:58:00 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 18 Jan 2026 12:58:00 +0800</lastBuildDate>
     <atom:link href="https://alimy.github.io/tags/go/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>使用Test来生成代码</title>
-      <link>https://alimy.github.io/post/dev_202601251258/</link>
-      <pubDate>Sun, 25 Jan 2026 12:58:00 +0800</pubDate>
-      <guid>https://alimy.github.io/post/dev_202601251258/</guid>
+      <link>https://alimy.github.io/post/dev_202601181258/</link>
+      <pubDate>Sun, 18 Jan 2026 12:58:00 +0800</pubDate>
+      <guid>https://alimy.github.io/post/dev_202601181258/</guid>
       <description>&lt;p&gt;一般我们会起一个main函数的go主文件来写逻辑用于生成代码，但有的时候不太方便在一个包里面有main函数，而生成代码的逻辑又是必须的且最好是就在同一个包内或临近包中，此时，可以利用Test的编译机制，将我们需要的代码生成逻辑写在&lt;code&gt;TestAbc&lt;/code&gt;函数中。&lt;/p&gt;
 &lt;h4 id=&#34;辅助脚本&#34;&gt;辅助脚本&lt;/h4&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;// file: github.com/cloudwego/frugal/internal/reflect/append_gen.sh

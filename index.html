@@ -334,32 +334,6 @@
                         
                             <article class="post panel-wrapper">
 <header>
-<h2 ><a href="https://alimy.github.io/post/dev_202601251258/" title="阅读全文">使用Test来生成代码 </a> </h2>
-
-</header>
-<div class="summary">
-    <p>一般我们会起一个main函数的go主文件来写逻辑用于生成代码，但有的时候不太方便在一个包里面有main函数，而生成代码的逻辑又是必须的且最好是就在同一个包内或临近包中，此时，可以利用Test的编译机制，将我们需要的代码生成逻辑写在<code>TestAbc</code>函数中。</p>
-<h4 id="辅助脚本">辅助脚本</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>// file: github.com/cloudwego/frugal/internal/reflect/append_gen.sh
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>FRUGAL_GEN_APPEND_MAP_FILE<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;append_map_gen.go&#34;</span>
-</span></span><span style="display:flex;"><span>FRUGAL_GEN_APPEND_LIST_FILE<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;append_list_gen.go&#34;</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>rm -f $FRUGAL_GEN_APPEND_MAP_FILE
-</span></span><span style="display:flex;"><span>rm -f $FRUGAL_GEN_APPEND_LIST_FILE
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>exec go test -v -run<span style="color:#f92672">=</span>TestGenAppend -gencode<span style="color:#f92672">=</span>true
-</span></span></code></pre></div>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/dev_202601251258/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
 <h2 ><a href="https://alimy.github.io/post/day_202601251119/" title="阅读全文">诗集-途 </a> </h2>
 
 </header>
@@ -384,6 +358,32 @@
 </div>
 <footer id="more">
 <a href='https://alimy.github.io/post/day_202601251115/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="https://alimy.github.io/post/dev_202601181258/" title="阅读全文">使用Test来生成代码 </a> </h2>
+
+</header>
+<div class="summary">
+    <p>一般我们会起一个main函数的go主文件来写逻辑用于生成代码，但有的时候不太方便在一个包里面有main函数，而生成代码的逻辑又是必须的且最好是就在同一个包内或临近包中，此时，可以利用Test的编译机制，将我们需要的代码生成逻辑写在<code>TestAbc</code>函数中。</p>
+<h4 id="辅助脚本">辅助脚本</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>// file: github.com/cloudwego/frugal/internal/reflect/append_gen.sh
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>FRUGAL_GEN_APPEND_MAP_FILE<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;append_map_gen.go&#34;</span>
+</span></span><span style="display:flex;"><span>FRUGAL_GEN_APPEND_LIST_FILE<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;append_list_gen.go&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>rm -f $FRUGAL_GEN_APPEND_MAP_FILE
+</span></span><span style="display:flex;"><span>rm -f $FRUGAL_GEN_APPEND_LIST_FILE
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>exec go test -v -run<span style="color:#f92672">=</span>TestGenAppend -gencode<span style="color:#f92672">=</span>true
+</span></span></code></pre></div>
+</div>
+<footer id="more">
+<a href='https://alimy.github.io/post/dev_202601181258/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
 </footer>
 </article>
 
