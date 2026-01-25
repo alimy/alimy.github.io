@@ -1,20 +1,21 @@
 <nav class="cover-navigation navigation--social">
 </br>
     <ul class="navigation"> 
-        <li class="navigation__item">
+        <!-- <li class="navigation__item">
             <a href="http://my.gility.net/" title="@Memos" target="_blank"> <i class='fa fa-user-secret'></i> <span class="label">Twitter</span> </a>
-        </li>
+        </li> -->
         <li class="navigation__item">
             <a href="https://iibiubiu.com" title="@iiBiuBiu" target="_blank"> <i class='fa fa-anchor'></i> <span class="label">Twitter</span> </a>
         </li>
         <li class="navigation__item">
-            <a href="https://www.paopao.info/#/u?s=alimy" title="@Paopao" target="_blank"> <i class='fa fa-leaf'></i> <span class="label">Twitter</span> </a>
+            <a href="https://www.paopao.info/#/u?s=alimy" title="@paopao" target="_blank"> <i class='fa fa-leaf'></i> <span class="label">Twitter</span> </a>
         </li><br>
         {{ if .Site.Params.twitter }}
         <!-- Twitter -->
-        <li class="navigation__item">
+        <!-- <li class="navigation__item">
             <a href="http://twitter.com/{{ .Site.Params.twitter }}" title="@Twitter" target="_blank"> <i class='fa fa-twitter'></i> <span class="label">Twitter</span> </a>
-        </li> {{ end }} {{ if .Site.Params.bitbucket }}
+        </li>  -->
+        {{ end }} {{ if .Site.Params.bitbucket }}
         <!-- Bitbucket -->
         <li class="navigation__item">
             <a href="https://bitbucket.org/{{ .Site.Params.bitbucket }}" title="@Bitbucket" target="_blank"> <i class='fa fa-bitbucket'></i> <span class="label">Bitbucket</span> </a>
