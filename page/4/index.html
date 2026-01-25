@@ -334,6 +334,49 @@
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="https://alimy.github.io/post/dev_202105220948/" title="阅读全文">解决GitHub官网打不开问题 </a> </h2>
+
+</header>
+<div class="summary">
+    <p>GitHub经常打不开，或者打开特别慢，一种解决方案是 找到官网IP地址、CDN域名IP地址、静态资源IP地址，然后配置本机hosts文件，刷新DNS缓存即可。</p>
+<h3 id="查询三个域名的ip">查询三个域名的IP：</h3>
+<ul>
+<li>
+<p><a href="https://github.com">github.com</a>: <a href="https://github.com.ipaddress.com/">https://github.com.ipaddress.com/</a></p>
+</li>
+<li>
+<p>fastly.net.ipaddress.com: <a href="https://fastly.net.ipaddress.com/github.global.ssl.fastly.net">https://fastly.net.ipaddress.com/github.global.ssl.fastly.net</a></p>
+</li>
+<li>
+<p>assets-cdn.github.com: <a href="https://github.com.ipaddress.com/assets-cdn.github.com">https://github.com.ipaddress.com/assets-cdn.github.com</a></p>
+</li>
+</ul>
+<h3 id="添加获取的对应ip地址到本地hosts文件">添加获取的对应IP地址到本地hosts文件</h3>
+<p>MacOS或Linux环境hosts文件路径<code>/etc/hosts</code> ; Windows环境是<code>C:\Windows\System32\drivers\etc</code>。</p>
+<p>以下是在MacOS或Linux环境下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>% sudo cat <span style="color:#e6db74">&lt;&lt;EOF&gt;&gt;/etc/hosts
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"># github.com
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">140.82.113.3 github.com
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">199.232.69.194 github.global.ssl.fastly.net
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">185.199.108.153 assets-cdn.github.com
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">185.199.109.153 assets-cdn.github.com
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">185.199.110.153 assets-cdn.github.com
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">185.199.111.153 assets-cdn.github.com
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
+</span></span></code></pre></div><h3 id="刷新dns">刷新DNS</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>% ipconfig /flushdns <span style="color:#75715e"># in windows</span>
+</span></span><span style="display:flex;"><span>% sudo systemctl restart network-manager <span style="color:#75715e"># in Linux that use systemd as init</span>
+</span></span><span style="display:flex;"><span>% sudo killall -HUP mDNSResponder <span style="color:#75715e"># in MacOS</span>
+</span></span></code></pre></div>
+</div>
+<footer id="more">
+<a href='https://alimy.github.io/post/dev_202105220948/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="https://alimy.github.io/post/dev_202104131126/" title="阅读全文">grpc-go: 客户端与服务器之间双向证书验证通信 </a> </h2>
 
 </header>
@@ -553,45 +596,6 @@
 </div>
 <footer id="more">
 <a href='https://alimy.github.io/post/dev_202101191738/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/dev_202101181248/" title="阅读全文">Kotlin: 几种设计模式 </a> </h2>
-
-</header>
-<div class="summary">
-    <h4 id="创建型模式">创建型模式</h4>
-<p>原始模型</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Computer</span> {
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">val</span> cpu: String
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PC</span>(<span style="color:#66d9ef">override</span> <span style="color:#66d9ef">val</span> cpu: String = <span style="color:#e6db74">&#34;Core&#34;</span>): Computer
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Server</span>(<span style="color:#66d9ef">override</span> <span style="color:#66d9ef">val</span> cpu: String = <span style="color:#e6db74">&#34;Xeon&#34;</span>): Computer
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">enum</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ComputerType</span> {
-</span></span><span style="display:flex;"><span>	PC, Server
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ComputerFactory</span> {
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">produce</span>(type: ComputerType): Computer {
-</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">when</span>(type) {
-</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">ComputerType</span>.PC <span style="color:#f92672">-&gt;</span> PC()
-</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">ComputerType</span>.Server <span style="color:#f92672">-&gt;</span> Server()
-</span></span><span style="display:flex;"><span>		}
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>&gt;&gt;&gt; <span style="color:#66d9ef">val</span> comp = ComputerFactory().produce(<span style="color:#a6e22e">ComputerType</span>.PC)
-</span></span><span style="display:flex;"><span>&gt;&gt;&gt; println(comp.cpu)
-</span></span><span style="display:flex;"><span>Core
-</span></span></code></pre></div>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/dev_202101181248/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
 </footer>
 </article>
 
