@@ -2,8 +2,26 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://alimy.github.io/tags/art/</loc>
+    <lastmod>2026-01-25T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://alimy.github.io/categories/art/</loc>
+    <lastmod>2026-01-25T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://alimy.github.io/categories/</loc>
-    <lastmod>2026-01-24T12:58:00+08:00</lastmod>
+    <lastmod>2026-01-25T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://alimy.github.io/post/</loc>
+    <lastmod>2026-01-25T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://alimy.github.io/tags/</loc>
+    <lastmod>2026-01-25T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://alimy.github.io/post/art_202601252036/</loc>
+    <lastmod>2026-01-25T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://alimy.github.io/</loc>
+    <lastmod>2026-01-25T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://alimy.github.io/tags/development/</loc>
     <lastmod>2026-01-24T12:58:00+08:00</lastmod>
@@ -14,13 +32,7 @@
     <loc>https://alimy.github.io/tags/go/</loc>
     <lastmod>2026-01-24T12:58:00+08:00</lastmod>
   </url><url>
-    <loc>https://alimy.github.io/post/</loc>
-    <lastmod>2026-01-24T12:58:00+08:00</lastmod>
-  </url><url>
     <loc>https://alimy.github.io/tags/rpc/</loc>
-    <lastmod>2026-01-24T12:58:00+08:00</lastmod>
-  </url><url>
-    <loc>https://alimy.github.io/tags/</loc>
     <lastmod>2026-01-24T12:58:00+08:00</lastmod>
   </url><url>
     <loc>https://alimy.github.io/tags/tg/</loc>
@@ -30,9 +42,6 @@
     <lastmod>2026-01-24T12:58:00+08:00</lastmod>
   </url><url>
     <loc>https://alimy.github.io/post/dev_202601241258/</loc>
-    <lastmod>2026-01-24T12:58:00+08:00</lastmod>
-  </url><url>
-    <loc>https://alimy.github.io/</loc>
     <lastmod>2026-01-24T12:58:00+08:00</lastmod>
   </url><url>
     <loc>https://alimy.github.io/post/dev_202601221258/</loc>
@@ -157,12 +166,6 @@
   </url><url>
     <loc>https://alimy.github.io/post/dev_202202231110/</loc>
     <lastmod>2022-02-23T11:10:00+08:00</lastmod>
-  </url><url>
-    <loc>https://alimy.github.io/tags/art/</loc>
-    <lastmod>2022-01-15T13:35:00+08:00</lastmod>
-  </url><url>
-    <loc>https://alimy.github.io/categories/art/</loc>
-    <lastmod>2022-01-15T13:35:00+08:00</lastmod>
   </url><url>
     <loc>https://alimy.github.io/post/art_202201151335/</loc>
     <lastmod>2022-01-15T13:35:00+08:00</lastmod>
@@ -675,6 +678,9 @@
     <lastmod>2016-01-13T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://alimy.github.io/post/dev_201601121531/</loc>
+    <lastmod>2016-01-12T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://alimy.github.io/post/art_201601121212/</loc>
     <lastmod>2016-01-12T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://alimy.github.io/post/art_201601111212/</loc>

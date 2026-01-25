@@ -1,12 +1,11 @@
-    <!DOCTYPE html>
+  <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 
 <head>
-	<meta name="generator" content="Hugo 0.120.4">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-  <title> 北野 &middot; 那年江湖，遇见你 </title>
+  <title> 凝视 &middot; 那年江湖，遇见你 </title>
   
   <link rel="stylesheet" type="text/css" href="https://alimy.github.io/css/uno.css" />
   <link rel="stylesheet" type="text/css" href="https://alimy.github.io/css/lightGallery.css" />
@@ -215,17 +214,15 @@
   </style>
 </head>
 
-    <body>
-        <div id="scriptHeader">
+  <body>
+    <div id="scriptHeader">
     <span class="mobile btn-mobile-menu">
             <i class="fa fa-bars btn-mobile-menu__icon"></i>
             <i class="fa fa-times btn-mobile-close__icon hidden"> </i>
     </span>
     <header class="
         
-        
-                panel-cover panel-cover--collapsed
-        
+            panel-cover panel-cover--collapsed
         "  style="background-image: url(/images/cover.jpg)" >
     <div class="panel-main">
         <div class="panel-main__inner panel-inverted">
@@ -327,226 +324,59 @@
     </header>
 </noscript>
 
-        <div class="content-wrapper">
-            <div class="content-wrapper__inner">
-                <section id="main">
-                    <div>
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/dev_202202231110/" title="阅读全文">Mac通过brew本地安装Postgresql </a> </h2>
-
-</header>
-<div class="summary">
-    <pre tabindex="0"><code>%&gt; brew install postgres
-%&gt; psql -version
-%&gt; # 若之前安装过，请确保/usr/local/var路径下无任何postrges相关文件残留
-%&gt; initdb --locale=C -E UTF-8 /usr/local/var/postgres
-
-%&gt; ln -sfv /usr/local/opt/postgresql/*.plist ~/Library/LaunchAgents
-
-%&gt; # 检查server状态，并确认已开启
-%&gt; brew services list
-%&gt; brew services start postgresql
-
-%&gt; # mac上新建用户，设置密码并确认
-%&gt; createuser postgres -P
-
-%&gt; # 删掉默认的postgres库
-%&gt; dropdb postgres
-
-%&gt; # 新建postgres库，若客户端连接报错，有时候需要额外创建跟当前用户同名的库
-%&gt; createdb postgres --owner postgres --encoding UTF8 --echo
-
-%&gt; # 进入交互模式
-%&gt; psql -U username -d dbname -h 127.0.0.1
-</code></pre>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/dev_202202231110/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/art_202201151335/" title="阅读全文">一直都很喜欢你 </a> </h2>
-
-</header>
-<div class="summary">
-    <p><a href="https://alimy.github.io/images/post/20220115133500.png" title="点击查看大图"><img src="https://alimy.github.io/images/post/20220115133500.png" alt=""></a></p>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/art_202201151335/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/dev_202112031525/" title="阅读全文">Go - SQL实践 </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="标准库sql驱动接口-databasesqldriverhttpsgithubcomgolanggotreemastersrcdatabasesqldriver">标准库SQL驱动接口 (<a href="https://github.com/golang/go/tree/master/src/database/sql/driver">database/sql/driver</a>)</h3>
-<p><img src="https://alimy.github.io/images/post/20211203152500.png" alt=""></p>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/dev_202112031525/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/dev_202106300750/" title="阅读全文">MySQL 8.0直方图 </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="0-什么是直方图">0. 什么是直方图</h3>
-<p>直方图（Histogram）是数据库提供的一种（索引之外的）基础统计信息，用于描述列上的数据分布情况。它最典型的场景是估算查询谓词的选择率，以便选择合适的执行计划。</p>
-<p>也就是说，某个列可以不创建索引但创建直方图，也可以帮助提升查询效率。
-MySQL 8.0开始支持直方图，这是个很大的进步。</p>
-<p>直方图可以针对某个列记录其数据分布统计信息，例如有个列的值是从1到1万，那么可以利用直方图分成100个桶（bucket），每个桶中统计这1万个值是怎么分布的，以及每个桶中的最大值、最小值、占比等信息。</p>
-<p>虽然可以利用索引优化SQL效率，但索引维护的代价更高，索引要保持更新，而直方图可以按需手动更新。</p>
-<p>索引统计信息也有不可靠的时候，例如存在数据倾斜，或者统计延迟等问题。</p>
-<p>另外，在有需要的时候，可以在每个有需要的列上创建直方图，但却不太可能同时创建多个单列索引，那样代价太高了。</p>
-<p>例如下面这个执行计划：</p>
-<pre tabindex="0"><code>[root@yejr.run]&gt; explain select * from t1 where seq = 1234;
-+------+---------------+------+---------+------+--------+----------+-------------+
-| type | possible_keys | key  | key_len | ref  | rows   | filtered | Extra       |
-+------+---------------+------+---------+------+--------+----------+-------------+
-| ALL  | NULL          | NULL | NULL    | NULL | 299876 |    10.00 | Using where |
-+------+---------------+------+---------+------+--------+----------+-------------+
-
-[root@yejr.run]&gt; select * from t1 where seq = 1234;
-Empty set (0.097 sec)
-</code></pre><p>在还没创建直方图之前，seq列上同时也没有索引，这时是全表扫描，注意到 filtered 列的值是10%。</p>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/dev_202106300750/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/art_202106031912/" title="阅读全文">如果有人追你 </a> </h2>
-
-</header>
-<div class="summary">
-    <p><a href="https://alimy.github.io/images/post/20210603191201.png" title="点击查看大图"><img src="https://alimy.github.io/images/post/20210603191200.jpg" alt=""></a></p>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/art_202106031912/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/art_202106031910/" title="阅读全文">我爱你，甚于昨日 </a> </h2>
-
-</header>
-<div class="summary">
-    <p><a href="https://alimy.github.io/images/post/20210603191001.png" title="点击查看大图"><img src="https://alimy.github.io/images/post/20210603191001.png" alt=""></a></p>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/art_202106031910/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/art_202106031908/" title="阅读全文">甚是爱你 </a> </h2>
-
-</header>
-<div class="summary">
-    <p><a href="https://alimy.github.io/images/post/20210603190801.png" title="点击查看大图"><img src="https://alimy.github.io/images/post/20210603190801.png" alt=""></a></p>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/art_202106031908/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/art_202106031905/" title="阅读全文">我是要娶你的！ </a> </h2>
-
-</header>
-<div class="summary">
-    <p><a href="https://alimy.github.io/images/post/20210603190501.png" title="点击查看大图"><img src="https://alimy.github.io/images/post/20210603190500.jpg" alt=""></a></p>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/art_202106031905/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/art_202106031901/" title="阅读全文">最温暖的晚安 </a> </h2>
-
-</header>
-<div class="summary">
-    <p><a href="https://alimy.github.io/images/post/20210603190101.png" title="点击查看大图"><img src="https://alimy.github.io/images/post/20210603190101.png" alt=""></a></p>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/art_202106031901/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                    </div>
-                    </br>
-                    
-                </section>
-                <div class="pages">
-  
-<ul class="pagination">
-  
-  <li class="page-item">
-    <a href="https://alimy.github.io/page/2/" class="page-link" aria-label="Previous"><span aria-hidden="true"><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;&nbsp;Previous</span></a>
-  </li>
-  <li class="page-item">
-    <a class="page-link" href="https://alimy.github.io/">1</a>
-  </li>
-  <li class="page-item">
-    <a class="page-link" href="https://alimy.github.io/page/2/">2</a>
-  </li>
-  <li class="page-item active">
-    <a class="page-link" href="https://alimy.github.io/page/3/">3</a>
-  </li>
-  <li class="page-item">
-    <a class="page-link" href="https://alimy.github.io/page/4/">4</a>
-  </li>
-  <li class="page-item disabled">
-    <span aria-hidden="true">&nbsp;&hellip;&nbsp;</span>
-  </li>
-  <li class="page-item">
-    <a class="page-link" href="https://alimy.github.io/page/20/">20</a>
-  </li>
-  <li class="page-item">
-    <a href="https://alimy.github.io/page/4/" class="page-link" aria-label="Next">Next&nbsp;&nbsp;<i class="fa fa-arrow-right" aria-hidden="true"></i></a>
-  </li>
-  
+    <div class="content-wrapper">
+      <div class="content-wrapper__inner">
+        <div class="post panel-wrapper">
+            <h2>凝视</h2>
+          
+          <p><a href="https://alimy.github.io/images/post/20160112121200.jpg" title="点击查看大图"><img src="https://alimy.github.io/images/post/20160112121200.jpg" alt="图片加载中&hellip;请使用支持Webp的浏览器加速查看"></a></p>
+<ul>
+<li>如题（<a href="https://alimy.github.io/images/post/20160112121200.jpg">查看大图</a>）</li>
 </ul>
+				<div id="post-tags">
+				  
+				  	
+						  <a href="https://alimy.github.io/tags/art/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;Art</a>
+						
+					
+				</div>
+        </div>
+        <div id="post-navigator">
+          <a id="post-navigator-prev" href="https://alimy.github.io/post/art_201601111212/" title="上一篇"><i class="fa fa-chevron-left" aria-hidden="true"></i>&nbsp;诱惑</a>
+          <a id="post-navigator-next" href="https://alimy.github.io/post/dev_201601121531/" title="下一篇">Too many open files 的解决方法&nbsp;<i class="fa fa-chevron-right" aria-hidden="true"></i></a>
+        </div>
+        <div id="post-comments">
+          <h3>Comments</h3>
+          
 
 
-</div>
+<div id="disqus_thread"></div>
 
-            <footer id="copyright">
+<script type="text/javascript">
+  var disqusUsername = "alimy";
+
+  (function() { 
+  var d = document, s = d.createElement('script');
+
+  s.src = '//' + disqusUsername + '.disqus.com/embed.js';
+
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+        <footer id="copyright">
   <p>&copy;2015-至今 <a href="mailto:alimy@niubiu.com" title="Email:alimy@niubiu.com">北野 -  Michael Li</a> All rights reserved.</p>
 </footer>
 
-            </div>
-        </div>
-        <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
+    </div>
+    <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
 if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
 var s=document.getElementsByTagName('script')[0];sc.src='https://alimy.github.io/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
 WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
 
-    </body>
+  </body>
 </html>

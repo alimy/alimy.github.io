@@ -7,8 +7,15 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Sat, 24 Jan 2026 12:58:00 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 25 Jan 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://alimy.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>两只争夺领地的青蛙</title>
+      <link>https://alimy.github.io/post/art_202601252036/</link>
+      <pubDate>Sun, 25 Jan 2026 00:00:00 +0000</pubDate>
+      <guid>https://alimy.github.io/post/art_202601252036/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://alimy.github.io/images/post/20260125203600.webp&#34; title=&#34;点击查看大图&#34;&gt;&lt;img src=&#34;https://alimy.github.io/images/post/20260125203600.webp&#34; alt=&#34;图片加载中&amp;hellip;请使用支持Webp的浏览器加速查看&#34;&gt;&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
     <item>
       <title>TL在Go如何实现oneof语义</title>
       <link>https://alimy.github.io/post/dev_202601241258/</link>
@@ -2975,6 +2982,13 @@ regular text with a few non-alphabetic characters thrown in, like # or *.&lt;br&
       <description>&lt;h2 id=&#34;由来&#34;&gt;&amp;gt;由来&lt;/h2&gt;
 &lt;p&gt;gogs 打开一个android app库的资源文件夹(/coding/Coding-Android/src/master/app/src/main/res/drawable-xxhdpi)
 返回 500&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>凝视</title>
+      <link>https://alimy.github.io/post/art_201601121212/</link>
+      <pubDate>Tue, 12 Jan 2016 00:00:00 +0000</pubDate>
+      <guid>https://alimy.github.io/post/art_201601121212/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://alimy.github.io/images/post/20160112121200.jpg&#34; title=&#34;点击查看大图&#34;&gt;&lt;img src=&#34;https://alimy.github.io/images/post/20160112121200.jpg&#34; alt=&#34;图片加载中&amp;hellip;请使用支持Webp的浏览器加速查看&#34;&gt;&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     <item>
       <title>诱惑</title>
