@@ -334,49 +334,6 @@
                         
                             <article class="post panel-wrapper">
 <header>
-<h2 ><a href="https://alimy.github.io/post/dev_201603092051/" title="阅读全文">XStream: Referencing Objects </a> </h2>
-
-</header>
-<div class="summary">
-    <p>XStream allows you to store references while converting a java object to XML. Consider a case where you have an Artist Object. The object contains albums that the artist has released, but you also want to store a reference to a &lsquo;similar artist&rsquo;. People listening to an artist might be interested in listening to a similar artist. When you convert this object to XML, XStream preserves the reference to the similar artist. It also manages circular references, so if there are no similar artist then the &lsquo;similar artist&rsquo; field could store a reference to the Owner Artist.</p>
-<p>XStream has multiple ways to store references. you need to use the setMode(int mode) method to set the mode. XStream allows following modes:</p>
-<ul>
-<li>NO_REFERENCES</li>
-<li>ID_REFERENCES</li>
-<li>XPATH_RELATIVE_REFERENCES</li>
-<li>XPATH_ABSOLUTE_REFERENCES</li>
-<li>SINGLE_NODE_XPATH_RELATIVE_REFERENCES</li>
-<li>SINGLE_NODE_XPATH_ABSOLUTE_REFERENCES</li>
-</ul>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/dev_201603092051/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/dev_201603092041/" title="阅读全文">XStream: Handling Attributes in XML </a> </h2>
-
-</header>
-<div class="summary">
-    <p>In the previous tutorial we saw <a href="https://alimy.github.io/post/dev_201603081411" title="Parsing An XML">how to convert Java to XML and back</a>. In this tutorial we look at different ways to handle XML attributes using XStream. However note that the attributes are only safe if you know that the written String values are not affected by the XML parser&rsquo;s white space normalization. The XML specification requires that a parser does this and it means that an attribute value of:</p>
-<pre tabindex="0"><code>&lt;element attr=&#34;  foo\t\n   bar    &#34;&gt;
-&lt;/element&gt;
-</code></pre><p>will always be normalized and passed this assertion:</p>
-<pre tabindex="0"><code>assertEquals(&#34;foo bar&#34;, element.getAttr());
-XStream has no influence about this behavior.
-</code></pre>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/dev_201603092041/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
 <h2 ><a href="https://alimy.github.io/post/dev_201603081441/" title="阅读全文">XStream: Java to XML Using Annotation </a> </h2>
 
 </header>
@@ -545,6 +502,37 @@ public class Example {
 </div>
 <footer id="more">
 <a href='https://alimy.github.io/post/art_201603071419/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="https://alimy.github.io/post/dev_201603032011/" title="阅读全文">SimpleXML: Tutorial </a> </h2>
+
+</header>
+<div class="summary">
+    <p>This page provides a tutorial that will prepare users for using XML serialization. Before this tutorial is attempted it is advisable to have a look at the <a href="http://simple.sourceforge.net/download/stream/doc/javadoc/">Javadoc</a> documentation for the framework. Although there are only several annotations and objects involved in the serialization process the framework itself has many powerful features which this tutorial attempts to describe.</p>
+</div>
+<footer id="more">
+<a href='https://alimy.github.io/post/dev_201603032011/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="https://alimy.github.io/post/dev_201602021955/" title="阅读全文">TypeScript Language Specification </a> </h2>
+
+</header>
+<div class="summary">
+    <!-- raw HTML omitted -->
+<p>January, 2016</p>
+<p>Microsoft is making this Specification available under the Open Web Foundation Final Specification Agreement Version 1.0 (&ldquo;OWF 1.0&rdquo;) as of October 1, 2012. The OWF 1.0 is available at <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" title="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0">here</a>.</p>
+<p>TypeScript is a trademark of Microsoft Corporation.</p>
+</div>
+<footer id="more">
+<a href='https://alimy.github.io/post/dev_201602021955/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
 </footer>
 </article>
 

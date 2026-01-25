@@ -7,18 +7,8 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Wed, 15 Jan 2025 02:17:00 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 06 Mar 2023 14:12:00 +0800</lastBuildDate>
     <atom:link href="https://alimy.github.io/tags/other/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>微信的历史</title>
-      <link>https://alimy.github.io/post/etc_202501150217/</link>
-      <pubDate>Wed, 15 Jan 2025 02:17:00 +0800</pubDate>
-      <guid>https://alimy.github.io/post/etc_202501150217/</guid>
-      <description>&lt;p&gt;香港的《南华早报》有一个长篇报道，介绍了微信如何变成中国用户最多的手机 App。结合维基百科和其他公开的资料，总结了一份微信的发展史。&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://alimy.github.io/images/post/20250115021700.png&#34; title=&#34;点击查看大图&#34;&gt;&lt;img src=&#34;https://alimy.github.io/images/post/20250115021700.png&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;2010年6月，苹果发布 iPhone 4。当年中国的智能手机销量是3610万部，2011年就猛增到9060万部，2012年更是飙升到2.142亿部。很显然，手机软件（尤其是即时通信软件）即将爆发。&lt;/p&gt;
-&lt;p&gt;2010年10月，腾讯广州研发中心开始开发微信。研发负责人是张小龙，当时是 QQ 邮件移动版的负责人。2005年，他的前一个产品 Foxmail 被腾讯收购，他因此加入腾讯。他带领一支不到10人的团队，不到70天的时间内开发出了第一版微信，击败了另外两个内部同类项目。腾讯公司总裁马化腾确定这款产品的名称叫做&amp;quot;微信&amp;quot;。&lt;/p&gt;</description>
-    </item>
     <item>
       <title>醉缘靡梦 (节选)</title>
       <link>https://alimy.github.io/post/arc_202303061412/</link>
@@ -91,6 +81,16 @@ Mac用了几年，明显感觉散热不佳，于是对Mac做了一次彻底的�
 &lt;p&gt;　　&lt;strong&gt;士卒涂草莽，将军空尔为。&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;　　&lt;strong&gt;乃知兵者是凶器，圣人不得已而用之。&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://alimy.github.io/images/post/20220226095200.jpeg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>微信的历史</title>
+      <link>https://alimy.github.io/post/etc_202601150217/</link>
+      <pubDate>Wed, 15 Jan 2020 02:17:00 +0800</pubDate>
+      <guid>https://alimy.github.io/post/etc_202601150217/</guid>
+      <description>&lt;p&gt;香港的《南华早报》有一个长篇报道，介绍了微信如何变成中国用户最多的手机 App。结合维基百科和其他公开的资料，总结了一份微信的发展史。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://alimy.github.io/images/post/20250115021700.png&#34; title=&#34;点击查看大图&#34;&gt;&lt;img src=&#34;https://alimy.github.io/images/post/20250115021700.png&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;2010年6月，苹果发布 iPhone 4。当年中国的智能手机销量是3610万部，2011年就猛增到9060万部，2012年更是飙升到2.142亿部。很显然，手机软件（尤其是即时通信软件）即将爆发。&lt;/p&gt;
+&lt;p&gt;2010年10月，腾讯广州研发中心开始开发微信。研发负责人是张小龙，当时是 QQ 邮件移动版的负责人。2005年，他的前一个产品 Foxmail 被腾讯收购，他因此加入腾讯。他带领一支不到10人的团队，不到70天的时间内开发出了第一版微信，击败了另外两个内部同类项目。腾讯公司总裁马化腾确定这款产品的名称叫做&amp;quot;微信&amp;quot;。&lt;/p&gt;</description>
     </item>
     <item>
       <title>Hello, Rustacean</title>

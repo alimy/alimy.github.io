@@ -334,83 +334,6 @@
                         
                             <article class="post panel-wrapper">
 <header>
-<h2 ><a href="https://alimy.github.io/post/dev_202012071330/" title="阅读全文">Tg: Type serialization </a> </h2>
-
-</header>
-<div class="summary">
-    <p>See <a href="https://alimy.github.io/post/dev_202012071321/">Polymorphism in TL</a> and <a href="https://alimy.github.io/post/dev_202012071315">TL Language</a>.</p>
-<p>It remains to describe how types, e.g. values of type Type, are transmitted (serialized). In general, there is nothing unexpected going on here: we have type constructors of various arities (for example, List is an arity-1 constructor, but IntList is a 0-arity constructor); and if we know that a 32-bit “name” is assigned to each type constructor, there are no further questions &ndash; values of type Type are serialized exactly like values of any other recursive type with a defined set of constructors of differing arity.</p>
-<p>How can a 32-bit “name” be assigned to a type (a type constructor, to be more exact) such as List or IntList? It is proposed to use the sum of the names of all of its constructors, plus the CRC32 of the string with the designation of the type&rsquo;s name and all of its parameters such as “IntList = Type” or “List X:Type = Type”. This way, the List constructor’s “name” is the sum of the CRC32s of the three strings &ldquo;List X:Type = Type&rdquo;, &ldquo;cons X:Type hd:X tl:List X = List X&rdquo;, and &ldquo;nil X:Type = List X&rdquo;. For “bare” types (which, formally speaking, are subtypes of the corresponding “boxed” type), the situation is somewhat more complicated; the logical negation of the corresponding constructor’s name is used. For built-in bareand boxed types (for example, int and Int), a pseudo-declaration is used (for example, int ? = Int&quot;).</p>
-<ul>
-<li>This description is somewhat outdated and may be updated in the future. Specifically, how to treat the ! modifier has not been explained.*</li>
-</ul>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/dev_202012071330/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/dev_202012071321/" title="阅读全文">Tg: Polymorphism in TL </a> </h2>
-
-</header>
-<div class="summary">
-    <p>It should be noted that in the TL schema of the overwhelming majority of API calls the use of polymorphic types is restricted to the Vector type. Nevertheless, having a view of the big picture is still helpful.</p>
-<h4 id="ordinary-inductive-types">Ordinary inductive types</h4>
-<p>For example, let us consider the IntList, which is defined as follows:</p>
-<pre tabindex="0"><code>int_cons hd:int tl:IntList = IntList;
-int_nil = IntList;
-</code></pre><p>The “int_cons” and “int_nil” constructors as well as the “IntList” type itself are expressions of the following types (writing A : X means that A is an expression of type X):</p>
-<pre tabindex="0"><code>IntList : Type;
-int_cons : int -&gt; IntList -&gt; IntList;
-int_nil : IntList;
-</code></pre><p>The keyword Type is used to denote the type of all types. Note that Type is not Object (Object is the type of all terms). Here is alternative syntax that could be used in some other functional programming language (but not in TL):</p>
-<pre tabindex="0"><code>NewType IntList :=
-| int_cons hd:int tl:IntList
-| int_nil
-EndType
-</code></pre>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/dev_202012071321/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/dev_202012071315/" title="阅读全文">Tg: TL Language </a> </h2>
-
-</header>
-<div class="summary">
-    <p>TL (Type Language) serves to describe the used system of types, constructors, and existing functions. In fact, the combinator description format presented in Binary Data Serialization is used.</p>
-<p><strong>See also:</strong></p>
-<p><a href="https://alimy.github.io/post/dev_202012071321/">Polymorphism in TL</a></p>
-<p><strong>Advanced topics:</strong></p>
-<p><a href="tl-dependent.md">Dependent types in TL</a></p>
-<p><a href="tl-formal.md">Formal description of TL</a></p>
-<p><a href="tl-combinators.md">Formal description of TL combinators</a></p>
-<p><a href="post/dev_202012071330/">Type serialization</a></p>
-<p><a href="tl-tl.md">TL schema for serialization of TL schemas</a></p>
-<p><a href="tl-optargs.md">Optional combinator parameters and their values</a></p>
-<p><a href="tl-abstract-types.md">Binary serialization and abstract TL types</a></p>
-<p><a href="tl-patterns.md">Formal description of templates in TL</a></p>
-<h4 id="overview">Overview</h4>
-<p>A TL program usually consists of two sections separated by keyword <code>---functions---</code>. The first section consists of declarations of built-in types and aggregate types (i.e. their constructors). The second section consists of the declared functions, i.e. functional combinators.</p>
-<p>Actually, both the first and second sections consist of combinator declarations, each of which ends with a semicolon. However, the first section contains only constructors, while the second section only involves functions. Each combinator is declared using a “combinator declaration” in the format explained above. However, the combinator number and field names may be explicitly assigned.</p>
-<p>If additional type declarations are required after functions have been declared, the keyword (section divider) <code>---types---</code> is used. Furthermore, a functional combinator may be declared in the type section if its result type begins with an exclamation point (in fact, when the function section is interpreted, this exclamation point is added automatically).</p>
-<p>To explicitly define 32-bit names of combinators, a hash mark (<code>#</code>) is added immediately after the combinator’s name, followed by 8 hexadecimal digits.</p>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/dev_202012071315/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
 <h2 ><a href="https://alimy.github.io/post/dev_202011271711/" title="阅读全文">Tg: MTProto v2 </a> </h2>
 
 </header>
@@ -447,6 +370,23 @@ EndType
 </div>
 <footer id="more">
 <a href='https://alimy.github.io/post/dev_202011271705/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="https://alimy.github.io/post/etc_202601150217/" title="阅读全文">微信的历史 </a> </h2>
+
+</header>
+<div class="summary">
+    <p>香港的《南华早报》有一个长篇报道，介绍了微信如何变成中国用户最多的手机 App。结合维基百科和其他公开的资料，总结了一份微信的发展史。</p>
+<p><a href="https://alimy.github.io/images/post/20250115021700.png" title="点击查看大图"><img src="https://alimy.github.io/images/post/20250115021700.png" alt=""></a></p>
+<p>2010年6月，苹果发布 iPhone 4。当年中国的智能手机销量是3610万部，2011年就猛增到9060万部，2012年更是飙升到2.142亿部。很显然，手机软件（尤其是即时通信软件）即将爆发。</p>
+<p>2010年10月，腾讯广州研发中心开始开发微信。研发负责人是张小龙，当时是 QQ 邮件移动版的负责人。2005年，他的前一个产品 Foxmail 被腾讯收购，他因此加入腾讯。他带领一支不到10人的团队，不到70天的时间内开发出了第一版微信，击败了另外两个内部同类项目。腾讯公司总裁马化腾确定这款产品的名称叫做&quot;微信&quot;。</p>
+</div>
+<footer id="more">
+<a href='https://alimy.github.io/post/etc_202601150217/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
 </footer>
 </article>
 
@@ -549,6 +489,59 @@ registry = &#34;git://mirrors.ustc.edu.cn/crates.io-index&#34;
 </div>
 <footer id="more">
 <a href='https://alimy.github.io/post/dev_201909211630/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="https://alimy.github.io/post/dev_201909211556/" title="阅读全文">Tars语言与协议 </a> </h2>
+
+</header>
+<div class="summary">
+    <h3 id="目录">目录</h3>
+<ul>
+<li><a href="#main-chapter-1">Tars语言</a></li>
+<li><a href="#main-chapter-2">Tars协议</a></li>
+</ul>
+<h2 id="1-tars语言-a-idmain-chapter-1a">1. Tars语言 <!-- raw HTML omitted --><!-- raw HTML omitted --></h2>
+<h3 id="11-接口文件">1.1. 接口文件</h3>
+<ul>
+<li>Tars语言是一种类c++标识符的语言，用于生成具体的服务接口文件</li>
+<li>Tars文件是Tars框架中客户端和服务端的通信接口，通过Tars的映射实现远程对象调用</li>
+<li>Tars文件的扩展名必须以.tars为扩展名</li>
+<li>对于结构定义，可以支持扩展字段，即可以增加字段而不影响原有结构的解析，可以在存储/协议等地方单独使用</li>
+<li>大小写敏感</li>
+</ul>
+</div>
+<footer id="more">
+<a href='https://alimy.github.io/post/dev_201909211556/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="https://alimy.github.io/post/dev_201909211536/" title="阅读全文">Protocol Buffers Version 3 Language Specification </a> </h2>
+
+</header>
+<div class="summary">
+    <p>This is a language specification reference for version 3 of the Protocol Buffers language (proto3). The syntax is specified using Extended <a href="https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_Form" title="EBNF in WIKI">Backus-Naur Form (EBNF)</a>:</p>
+<pre tabindex="0"><code>|   alternation
+()  grouping
+[]  option (zero or one time)
+{}  repetition (any number of times)
+</code></pre><p>For more information about using proto3, see the language guide.</p>
+<h3 id="lexical-elements">Lexical elements</h3>
+<h4 id="letters-and-digits">Letters and digits</h4>
+<pre tabindex="0"><code>letter = &#34;A&#34; … &#34;Z&#34; | &#34;a&#34; … &#34;z&#34;
+decimalDigit = &#34;0&#34; … &#34;9&#34;
+octalDigit   = &#34;0&#34; … &#34;7&#34;
+hexDigit     = &#34;0&#34; … &#34;9&#34; | &#34;A&#34; … &#34;F&#34; | &#34;a&#34; … &#34;f&#34;
+</code></pre>
+</div>
+<footer id="more">
+<a href='https://alimy.github.io/post/dev_201909211536/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
 </footer>
 </article>
 

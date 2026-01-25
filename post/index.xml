@@ -7,26 +7,8 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Sun, 25 Jan 2026 11:19:00 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 24 Jan 2026 12:58:00 +0800</lastBuildDate>
     <atom:link href="https://alimy.github.io/post/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>诗集-途</title>
-      <link>https://alimy.github.io/post/day_202601251119/</link>
-      <pubDate>Sun, 25 Jan 2026 11:19:00 +0800</pubDate>
-      <guid>https://alimy.github.io/post/day_202601251119/</guid>
-      <description>&lt;p&gt;&lt;strong&gt;漫漫人生路，花开无尽天。&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;莲步意随行，风清心亦欢。&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://alimy.github.io/images/post/20160129222900.jpg&#34; title=&#34;点击查看大图&#34;&gt;&lt;img src=&#34;https://alimy.github.io/images/post/20160129222900.webp&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>诗集-零</title>
-      <link>https://alimy.github.io/post/day_202601251115/</link>
-      <pubDate>Sun, 25 Jan 2026 11:15:00 +0800</pubDate>
-      <guid>https://alimy.github.io/post/day_202601251115/</guid>
-      <description>&lt;p&gt;&lt;strong&gt;天空没有痕迹，鸟儿却已飞过。&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;当尘埃落定时，又是新的开始。&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://alimy.github.io/images/post/20260125111500.jpg&#34; title=&#34;点击查看大图&#34;&gt;&lt;img src=&#34;https://alimy.github.io/images/post/20260125111501.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;</description>
-    </item>
     <item>
       <title>TL在Go如何实现oneof语义</title>
       <link>https://alimy.github.io/post/dev_202601241258/</link>
@@ -85,16 +67,6 @@ folderPeer#e9baa668 peer:Peer folder_id:int = FolderPeer;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;exec go test -v -run&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;TestGenAppend -gencode&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;true
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
-    </item>
-    <item>
-      <title>微信的历史</title>
-      <link>https://alimy.github.io/post/etc_202501150217/</link>
-      <pubDate>Wed, 15 Jan 2025 02:17:00 +0800</pubDate>
-      <guid>https://alimy.github.io/post/etc_202501150217/</guid>
-      <description>&lt;p&gt;香港的《南华早报》有一个长篇报道，介绍了微信如何变成中国用户最多的手机 App。结合维基百科和其他公开的资料，总结了一份微信的发展史。&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://alimy.github.io/images/post/20250115021700.png&#34; title=&#34;点击查看大图&#34;&gt;&lt;img src=&#34;https://alimy.github.io/images/post/20250115021700.png&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;2010年6月，苹果发布 iPhone 4。当年中国的智能手机销量是3610万部，2011年就猛增到9060万部，2012年更是飙升到2.142亿部。很显然，手机软件（尤其是即时通信软件）即将爆发。&lt;/p&gt;
-&lt;p&gt;2010年10月，腾讯广州研发中心开始开发微信。研发负责人是张小龙，当时是 QQ 邮件移动版的负责人。2005年，他的前一个产品 Foxmail 被腾讯收购，他因此加入腾讯。他带领一支不到10人的团队，不到70天的时间内开发出了第一版微信，击败了另外两个内部同类项目。腾讯公司总裁马化腾确定这款产品的名称叫做&amp;quot;微信&amp;quot;。&lt;/p&gt;</description>
     </item>
     <item>
       <title>Kitex: Thrift-HTTP 映射的 IDL 规范</title>
@@ -943,6 +915,16 @@ EndType
 &lt;p&gt;Prior to a message (or a multipart message) being transmitted over a network using a transport protocol, it is encrypted in a certain way, and an external header is added at the top of the message which is: a 64-bit key identifier (that uniquely identifies an authorization key for the server as well as the user) and a 128-bit message key.&lt;/p&gt;
 &lt;p&gt;A user key together with the message key define an actual 256-bit key and a 256-bit initialization vector, which is what encrypts the message using AES-256 encryption with infinite garble extension (IGE). Note that the initial part of the message to be encrypted contains variable data (session, message ID, sequence number, server salt) that obviously influences the message key (and thus the AES key and iv). The message key is defined as the 128 lower-order bits of the SHA1 of the message body (including session, message ID, etc.) Multipart messages are encrypted as a single message.
 &lt;img src=&#34;https://alimy.github.io/images/post/20201127170500.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>微信的历史</title>
+      <link>https://alimy.github.io/post/etc_202601150217/</link>
+      <pubDate>Wed, 15 Jan 2020 02:17:00 +0800</pubDate>
+      <guid>https://alimy.github.io/post/etc_202601150217/</guid>
+      <description>&lt;p&gt;香港的《南华早报》有一个长篇报道，介绍了微信如何变成中国用户最多的手机 App。结合维基百科和其他公开的资料，总结了一份微信的发展史。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://alimy.github.io/images/post/20250115021700.png&#34; title=&#34;点击查看大图&#34;&gt;&lt;img src=&#34;https://alimy.github.io/images/post/20250115021700.png&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;2010年6月，苹果发布 iPhone 4。当年中国的智能手机销量是3610万部，2011年就猛增到9060万部，2012年更是飙升到2.142亿部。很显然，手机软件（尤其是即时通信软件）即将爆发。&lt;/p&gt;
+&lt;p&gt;2010年10月，腾讯广州研发中心开始开发微信。研发负责人是张小龙，当时是 QQ 邮件移动版的负责人。2005年，他的前一个产品 Foxmail 被腾讯收购，他因此加入腾讯。他带领一支不到10人的团队，不到70天的时间内开发出了第一版微信，击败了另外两个内部同类项目。腾讯公司总裁马化腾确定这款产品的名称叫做&amp;quot;微信&amp;quot;。&lt;/p&gt;</description>
     </item>
     <item>
       <title>Rust系统环境变量配置</title>
@@ -2903,6 +2885,24 @@ public class Example {
 &lt;li&gt;显示器 : AOC I2260SWD 21.5英寸IPS广视角炫彩硬屏LED背光显示器 &lt;a href=&#34;http://item.jd.com/1255209.html&#34; title=&#34;AOC I2260SWD 21.5英寸IPS广视角炫彩硬屏LED背光显示器（黑色）￥639&#34;&gt;【京东】&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;键鼠套装 : 罗技（Logitech）MK120 键鼠套装 黑色 &lt;a href=&#34;http://item.jd.com/584300.html&#34; title=&#34;罗技（Logitech）MK120 键鼠套装 黑色 ￥79&#34;&gt;【京东】&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;</description>
+    </item>
+    <item>
+      <title>诗集-途</title>
+      <link>https://alimy.github.io/post/day_202601251119/</link>
+      <pubDate>Mon, 25 Jan 2016 11:19:00 +0800</pubDate>
+      <guid>https://alimy.github.io/post/day_202601251119/</guid>
+      <description>&lt;p&gt;&lt;strong&gt;漫漫人生路，花开无尽天。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;莲步意随行，风清心亦欢。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://alimy.github.io/images/post/20160129222900.jpg&#34; title=&#34;点击查看大图&#34;&gt;&lt;img src=&#34;https://alimy.github.io/images/post/20160129222900.webp&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>诗集-零</title>
+      <link>https://alimy.github.io/post/day_202601251115/</link>
+      <pubDate>Mon, 25 Jan 2016 11:15:00 +0800</pubDate>
+      <guid>https://alimy.github.io/post/day_202601251115/</guid>
+      <description>&lt;p&gt;&lt;strong&gt;天空没有痕迹，鸟儿却已飞过。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;当尘埃落定时，又是新的开始。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://alimy.github.io/images/post/20260125111500.jpg&#34; title=&#34;点击查看大图&#34;&gt;&lt;img src=&#34;https://alimy.github.io/images/post/20260125111501.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     <item>
       <title>梦里水乡</title>
