@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>RPC on 北野</title>
+    <link>https://alimy.github.io/tags/rpc/</link>
+    <description>Recent content in RPC on 北野</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
+    <lastBuildDate>Sat, 24 Jan 2026 12:58:00 +0800</lastBuildDate>
+    <atom:link href="https://alimy.github.io/tags/rpc/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>TL在Go如何实现oneof语义</title>
+      <link>https://alimy.github.io/post/dev_202601241258/</link>
+      <pubDate>Sat, 24 Jan 2026 12:58:00 +0800</pubDate>
+      <guid>https://alimy.github.io/post/dev_202601241258/</guid>
+      <description>&lt;p&gt;TL的Type是一个总类型&lt;code&gt;Class&lt;/code&gt;包含不同的结构子类型实例&lt;code&gt;Object&lt;/code&gt;，类似于Protubuf中&lt;code&gt;Message&lt;/code&gt;与&lt;code&gt;Oneof&lt;/code&gt;的关系。&lt;/p&gt;
+&lt;h4 id=&#34;telegram的rpc-tl片段1&#34;&gt;Telegram的RPC TL片段1：&lt;/h4&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-tl&#34; data-lang=&#34;tl&#34;&gt;peerUser#9db1bc6d user_id:int = Peer;
+peerChat#bad0e5bb chat_id:int = Peer;
+peerChannel#bddde532 channel_id:int = Peer;
+
+folderPeer#e9baa668 peer:Peer folder_id:int = FolderPeer;
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+  </channel>
+</rss>

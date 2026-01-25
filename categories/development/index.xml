@@ -7,8 +7,48 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Sun, 18 Jan 2026 12:58:00 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 24 Jan 2026 12:58:00 +0800</lastBuildDate>
     <atom:link href="https://alimy.github.io/categories/development/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>TL在Go如何实现oneof语义</title>
+      <link>https://alimy.github.io/post/dev_202601241258/</link>
+      <pubDate>Sat, 24 Jan 2026 12:58:00 +0800</pubDate>
+      <guid>https://alimy.github.io/post/dev_202601241258/</guid>
+      <description>&lt;p&gt;TL的Type是一个总类型&lt;code&gt;Class&lt;/code&gt;包含不同的结构子类型实例&lt;code&gt;Object&lt;/code&gt;，类似于Protubuf中&lt;code&gt;Message&lt;/code&gt;与&lt;code&gt;Oneof&lt;/code&gt;的关系。&lt;/p&gt;
+&lt;h4 id=&#34;telegram的rpc-tl片段1&#34;&gt;Telegram的RPC TL片段1：&lt;/h4&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-tl&#34; data-lang=&#34;tl&#34;&gt;peerUser#9db1bc6d user_id:int = Peer;
+peerChat#bad0e5bb chat_id:int = Peer;
+peerChannel#bddde532 channel_id:int = Peer;
+
+folderPeer#e9baa668 peer:Peer folder_id:int = FolderPeer;
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    <item>
+      <title>在go库包中包含main包的方式</title>
+      <link>https://alimy.github.io/post/dev_202601221258/</link>
+      <pubDate>Thu, 22 Jan 2026 12:58:00 +0800</pubDate>
+      <guid>https://alimy.github.io/post/dev_202601221258/</guid>
+      <description>&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// file: golang.org/x/tools/go/cfg/cfg.go
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;package&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;cfg&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; (
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;bytes&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;fmt&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;go/ast&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;go/format&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;go/token&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// A CFG represents the control-flow graph of a single function.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;//
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// The entry point is Blocks[0]; there may be multiple return blocks.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;CFG&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;Blocks&lt;/span&gt; []&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;Block&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;// block[0] is entry; order otherwise undefined
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;noreturn&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;bool&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;// function body lacks a reachable return statement
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// ...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
     <item>
       <title>使用Test来生成代码</title>
       <link>https://alimy.github.io/post/dev_202601181258/</link>
