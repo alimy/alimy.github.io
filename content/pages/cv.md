@@ -9,7 +9,7 @@ categories = [
 ]
 menu = "About"
 +++
- **Go、Rust、Clojure** 开发工程师、产品设计师，热爱生活、喜欢折腾、敢于创新、乐于分享，可期 *那年江湖，遇见你*。
+ **[Go](https://go.dev)、[Rust](https://rust-lang.org)、[Clojure](https://clojure.org)** 开发工程师、产品设计师，热爱生活、喜欢折腾、敢于创新、乐于分享，可期 *那年江湖，遇见你*。
 
 ### 开源项目
 
