@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 
 <head>
-	<meta name="generator" content="Hugo 0.115.0">
+	<meta name="generator" content="Hugo 0.120.4">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
@@ -16,17 +16,6 @@
   
   <script src="https://alimy.github.io/js/jquery.min.js"></script>
   <script src="https://alimy.github.io/js/main.min.js"></script>
-  <script>
-    (function (i, s, o, g, r, a, m) {
-      i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
-        (i[r].q = i[r].q || []).push(arguments)
-      }, i[r].l = 1 * new Date(); a = s.createElement(o),
-        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
-    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-
-    ga('create', 'UA-75081327-1', 'auto');
-    ga('send', 'pageview');
-  </script>
 
   
   <script>
@@ -251,28 +240,25 @@
                 <div class="navigation-wrapper">
                     <nav class="cover-navigation cover-navigation--primary">
                         <ul class="navigation">
-                            <li class="navigation__item"><a href="https://alimy.github.io" title="博客首页" class="blog-button">Blog</a> </li> </br></br>
-                            <li class="navigation__item"><a href="https://alimy.github.io/post/" title="文章列表" class="blog-button">Articles</a> </li>
+                            <li class="navigation__item"><a href="https://alimy.github.io" title="博客首页" class="blog-button">首页</a> </li> </br></br>
+                            <li class="navigation__item"><a href="https://alimy.github.io/post/" title="文章列表" class="blog-button">文章列表</a> </li>
                             </br>  </br>
-                            <li class="navigation__item"><a href="https://alimy.github.io/pages/cv" title="关于我 " class="blog-button">About Me</a> </li>
+                            <li class="navigation__item"><a href="https://alimy.github.io/pages/cv" title="关于我 " class="blog-button">关于我</a> </li>
                             </br>  </ul>
                             <nav class="cover-navigation navigation--social">
 </br>
     <ul class="navigation"> 
-        <li class="navigation__item">
-            <a href="http://my.gility.net/" title="@Memos" target="_blank"> <i class='fa fa-user-secret'></i> <span class="label">Twitter</span> </a>
-        </li>
+        
         <li class="navigation__item">
             <a href="https://iibiubiu.com" title="@iiBiuBiu" target="_blank"> <i class='fa fa-anchor'></i> <span class="label">Twitter</span> </a>
         </li>
         <li class="navigation__item">
-            <a href="https://www.paopao.info/#/u?s=alimy" title="@Paopao" target="_blank"> <i class='fa fa-leaf'></i> <span class="label">Twitter</span> </a>
+            <a href="https://www.paopao.info/#/u?s=alimy" title="@paopao" target="_blank"> <i class='fa fa-leaf'></i> <span class="label">Twitter</span> </a>
         </li><br>
         
         
-        <li class="navigation__item">
-            <a href="http://twitter.com/bitriory" title="@Twitter" target="_blank"> <i class='fa fa-twitter'></i> <span class="label">Twitter</span> </a>
-        </li>   
+        
+          
         
         <li class="navigation__item">
             <a href="https://github.com/alimy" title="@GitHub" target="_blank"> <i class='fa fa-github'></i> <span class="label">Github</span> </a>
@@ -317,20 +303,17 @@
                         </nav> <nav class="cover-navigation navigation--social">
 </br>
     <ul class="navigation"> 
-        <li class="navigation__item">
-            <a href="http://my.gility.net/" title="@Memos" target="_blank"> <i class='fa fa-user-secret'></i> <span class="label">Twitter</span> </a>
-        </li>
+        
         <li class="navigation__item">
             <a href="https://iibiubiu.com" title="@iiBiuBiu" target="_blank"> <i class='fa fa-anchor'></i> <span class="label">Twitter</span> </a>
         </li>
         <li class="navigation__item">
-            <a href="https://www.paopao.info/#/u?s=alimy" title="@Paopao" target="_blank"> <i class='fa fa-leaf'></i> <span class="label">Twitter</span> </a>
+            <a href="https://www.paopao.info/#/u?s=alimy" title="@paopao" target="_blank"> <i class='fa fa-leaf'></i> <span class="label">Twitter</span> </a>
         </li><br>
         
         
-        <li class="navigation__item">
-            <a href="http://twitter.com/bitriory" title="@Twitter" target="_blank"> <i class='fa fa-twitter'></i> <span class="label">Twitter</span> </a>
-        </li>   
+        
+          
         
         <li class="navigation__item">
             <a href="https://github.com/alimy" title="@GitHub" target="_blank"> <i class='fa fa-github'></i> <span class="label">Github</span> </a>
@@ -348,6 +331,137 @@
             <div class="content-wrapper__inner">
                 <section id="main">
                     <div>
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="https://alimy.github.io/post/dev_202104131126/" title="阅读全文">grpc-go: 客户端与服务器之间双向证书验证通信 </a> </h2>
+
+</header>
+<div class="summary">
+    <ul>
+<li>生成根证书(ca.key, ca.crt)</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>%&gt; openssl genrsa -out ca.key <span style="color:#ae81ff">2048</span>
+</span></span><span style="display:flex;"><span>%&gt; openssl req -new -x509 -days <span style="color:#ae81ff">3650</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>     -subj <span style="color:#e6db74">&#34;/C=CN/L=Shanghai/O=grpc/CN=grpc.me&#34;</span>
+</span></span><span style="display:flex;"><span>     -key ca.key -out ca.crt
+</span></span></code></pre></div><ul>
+<li>生成服务器证书(server.key, server.crt)</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>%&gt; openssl genrsa -out server.key <span style="color:#ae81ff">2048</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 未使用CA签名的server.crt</span>
+</span></span><span style="display:flex;"><span>%&gt; openssl req -new -x509 -days <span style="color:#ae81ff">3650</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>     -subj <span style="color:#e6db74">&#34;/C=CN/L=Shanghai/O=grpc-server/CN=server.grpc.me&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>     -key server.key -out server.crt
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用CA签名的server.crt</span>
+</span></span><span style="display:flex;"><span>%&gt; openssl req -new <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>     -subj <span style="color:#e6db74">&#34;/C=CN/L=Shanghai/O=grpc-server/CN=server.grpc.me&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>     -key server.key -out server.csr
+</span></span><span style="display:flex;"><span>%&gt; openssl x509 -req -sha256 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>     -CA ca.crt -CAkey ca.key -CAcreateserial -days <span style="color:#ae81ff">3650</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>     -in server.csr -out server.crt
+</span></span></code></pre></div>
+</div>
+<footer id="more">
+<a href='https://alimy.github.io/post/dev_202104131126/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="https://alimy.github.io/post/dev_202104050200/" title="阅读全文">使用Dnsmasq 实现 hosts 泛解析 </a> </h2>
+
+</header>
+<div class="summary">
+    <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$&gt; sudo dnf install dnsmasq -y <span style="color:#75715e"># 安装 Dnsmasq </span>
+</span></span><span style="display:flex;"><span>$&gt; sudo cp /etc/dnsmasq.conf<span style="color:#f92672">{</span>,bak<span style="color:#f92672">}</span> <span style="color:#75715e"># 先把配置文件备份一份</span>
+</span></span><span style="display:flex;"><span>$&gt; sudo vim /etc/dnsmasq.conf
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 严格按照 resolv-file 文件中的顺序从上到下进行 DNS 解析, 直到第一个成功解析成功为止</span>
+</span></span><span style="display:flex;"><span>strict-order
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 监听的 IP 地址</span>
+</span></span><span style="display:flex;"><span>listen-address<span style="color:#f92672">=</span>127.0.0.1
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 设置缓存大小</span>
+</span></span><span style="display:flex;"><span>cache-size<span style="color:#f92672">=</span><span style="color:#ae81ff">10240</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 泛域名解析，访问任何 baidu.com 域名都会被解析到 6.6.6.6</span>
+</span></span><span style="display:flex;"><span>address<span style="color:#f92672">=</span>/baidu.com/6.6.6.6
+</span></span></code></pre></div><p>域名解析默认读取 /etc/hosts 文件到本地域名配置文件（不支持泛域名）。</p>
+<p>DNS 配置默认读取 /etc/resolv.conf 上游 DNS 配置文件，如果读取不到 /etc/hosts 的地址解析，就会转发给 resolv.conf 进行解析地址。</p>
+</div>
+<footer id="more">
+<a href='https://alimy.github.io/post/dev_202104050200/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="https://alimy.github.io/post/dev_202104042045/" title="阅读全文">如何在Fedora 33命令行模式下禁止睡眠 </a> </h2>
+
+</header>
+<div class="summary">
+    <p>切换启动模式：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>%&gt; systemctl get-default <span style="color:#75715e"># 获取当前启动模式</span>
+</span></span><span style="display:flex;"><span>%&gt; systemctl set-default multi-user.target <span style="color:#75715e"># 默认命令行模式启动</span>
+</span></span><span style="display:flex;"><span>%&gt; systemctl set-default graphical.target <span style="color:#75715e"># 默认图形模式启动</span>
+</span></span></code></pre></div><p>笔记本进入睡眠状态后，很多服务不能远程连接使用，例如 SSH 会连接不上，需要修改一下配置：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>%&gt; systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target <span style="color:#75715e"># 禁止睡眠</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>%&gt; systemctl unmask sleep.target suspend.target hibernate.target hybrid-sleep.target <span style="color:#75715e"># 启用睡眠</span>
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>%&gt; vi /etc/systemd/logind.conf <span style="color:#75715e"># 配置盖子（笔记本）</span>
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>找到该行#HandleLidSwitch<span style="color:#f92672">=</span>suspend,将该行更改为以下所需的设置之一：
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#关闭盖子时关闭计算机</span>
+</span></span><span style="display:flex;"><span>HandleLidSwitch<span style="color:#f92672">=</span>poweroff
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#在合上盖子时到休眠计算机</span>
+</span></span><span style="display:flex;"><span>HandleLidSwitch<span style="color:#f92672">=</span>hibernate
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#关闭盖子时暂停计算机</span>
+</span></span><span style="display:flex;"><span>HandleLidSwitch<span style="color:#f92672">=</span>suspend
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#不执行任何操作</span>
+</span></span><span style="display:flex;"><span>HandleLidSwitch<span style="color:#f92672">=</span>ignore
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>%&gt; systemctl restart systemd-logind <span style="color:#75715e"># 保存文件，然后重新启动服务</span>
+</span></span><span style="display:flex;"><span>%&gt; service systemd-logind restart <span style="color:#75715e"># 同上</span>
+</span></span></code></pre></div>
+</div>
+<footer id="more">
+<a href='https://alimy.github.io/post/dev_202104042045/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="https://alimy.github.io/post/dev_202303152242/" title="阅读全文">乐观锁和悲观锁的区别 </a> </h2>
+
+</header>
+<div class="summary">
+    <h3 id="乐观锁">乐观锁</h3>
+<p>在关系数据库管理系统里，乐观并发控制（又名乐观锁，Optimistic Concurrency Control，缩写 OCC）是一种并发控制的方法。它假设多用户并发的事务在处理时不会彼此互相影响，各事务能够在不产生锁的情况下处理各自影响的那部分数据。在提交数据更新之前，每个事务会先检查在该事务读取数据后，有没有其他事务又修改了该数据。如果其他事务有更新的话，正在提交的事务会进行回滚。乐观事务控制最早是由孔祥重（H.T.Kung）教授提出。</p>
+<h3 id="乐观并发控制的阶段">乐观并发控制的阶段</h3>
+<p>乐观并发控制的事务包括以下阶段：</p>
+<ol>
+<li>读取：事务将数据读入缓存，这时系统会给事务分派一个时间戳。</li>
+<li>校验：事务执行完毕后，进行提交。这时同步校验所有事务，如果事务所读取的数据在读取之后又被其他事务修改，则产生冲突，事务被中断回滚。</li>
+<li>写入：通过校验阶段后，将更新的数据写入数据库。</li>
+</ol>
+<p>乐观并发控制多数用于数据争用不大、冲突较少的环境中，这种环境中，偶尔回滚事务的成本会低于读取数据时锁定数据的成本，因此可以获得比其他并发控制方法更高的吞吐量。</p>
+<p>相对于悲观锁，在对数据库进行处理的时候，乐观锁并不会使用数据库提供的锁机制。一般的实现乐观锁的方式就是记录数据版本。</p>
+<p>数据版本,为数据增加的一个版本标识。当读取数据时，将版本标识的值一同读出，数据每更新一次，同时对版本标识进行更新。当我们提交更新的时候，判断数据库表对应记录的当前版本信息与第一次取出来的版本标识进行比对，如果数据库表当前版本号与第一次取出来的版本标识值相等，则予以更新，否则认为是过期数据。</p>
+<p>实现数据版本有两种方式，第一种是使用版本号，第二种是使用时间戳。 使用版本号实现乐观锁</p>
+<p>使用版本号时，可以在数据初始化时指定一个版本号，每次对数据的更新操作都对版本号执行+1操作。并判断当前版本号是不是该数据的最新的版本号。</p>
+</div>
+<footer id="more">
+<a href='https://alimy.github.io/post/dev_202303152242/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
                         
                             <article class="post panel-wrapper">
 <header>
@@ -373,52 +487,6 @@
 </div>
 <footer id="more">
 <a href='https://alimy.github.io/post/dev_202103151521/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/arc_202303061412/" title="阅读全文">醉缘靡梦 (节选) </a> </h2>
-
-</header>
-<div class="summary">
-    <p><a href="https://alimy.github.io/images/post/20230306141200.png"><img src="https://alimy.github.io/images/post/20230306141204.jpg" alt=""></a><br>
-　　很多事情似乎表面看来美丽安详，但这一切不过是虚幻的美丽&hellip;<br>
-　　横世国际地产案，牵涉银行，证券交易，受贿等，而张婉儿的父亲更是首要人物被双规。而我由于涉嫌骗贷违规操作被牵扯在其中。事情我当然十分清楚，横世地产是我一手扶持起来，涉嫌金额十几亿。尽管我自知我没有违法，但追究起责任我实在是脱不了干系，我最少也要在监狱中呆二十年不幸运的话也许会是死刑。警察询问我情况的时候，我什么也没说。只是默默的听这他们拍桌子踢椅子。其实我觉得这样很好笑，但我的表情却也依然如旧，并没有太大变化，冷静，彷徨。最后他们虽然对我用尽了方法，但我依然只有一句：我不知道。刚开始我还是有些担心害怕的，而后来连我自己也相信我是真的不知道，他们也只有放弃。案子从发生到今天也许已经一个月也许已经有两个月，但究竟是多久我已经并不在乎，以后在狱中我有很多时间，那是多漫长的结果。我等待的只能是一个我不愿意见到的判决，一些我不愿意见到的人。十一月三日终于开庭，来了很多人。也包括我的父母，我根本不敢抬头，那是多么羞耻的一件事。张婉儿与几个涉案人员坐在我旁边。<br>
-　　张婉儿，你在你的认罪书中，承认你所有的罪行对吗？<br>
-　　是的！张婉儿的声音让我抬起头，她的眼睛温柔的看这我。眼眶中滚滚的眼泪似乎就要崩泻，她苍老了许多。我只能看这她，我用那种哀伤的眼神看这她。<br>
-　　嫌疑人，还有什么要为自己辩护的吗？自公司成立起，孟云与我们不过是雇佣关系而已&hellip;&hellip;我的眼泪倾泻下来，那一刻是我一生也无法面对的时刻。我看这她，她只是摇了摇头。微微一笑，用手轻轻指了指自己的心。<br>
-　　张婉儿罪名成立，判处死刑，剥夺政治权利终身，缓刑一年&hellip;孟云做为协犯人员判处有期徒刑三年&hellip;当离开法庭的时候，我又一次听到那歇斯底里的哭喊声：孟云，我爱你！<br>
-　　今天的床有些潮湿，也许是因为刚下过雨的原因吧。三年来，看了很多书，也明白了很多道理，知道了自己为什么不成熟，也知道了自己为什么被欺骗，似乎跟我的性格太过与急功尽利有关，也或许我这个对感情的事情无法把握有关。事到如今我也只能这样想而已。<br>
-　　孟云，有人来看你。</p>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/arc_202303061412/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/arc_202302231607/" title="阅读全文">雪中悍刀行 - 恼姜泥青衣相随 (节选) </a> </h2>
-
-</header>
-<div class="summary">
-    <p><img src="https://alimy.github.io/images/post/20230223160700.webp" alt=""><br>
-　　一个下午有世子殿下插科打诨，徐脂虎欢声笑语不断，她这样发自肺腑的妩媚笑颜，足以让江南道那帮假道学们神魂颠倒，可惜他们见不着。徐脂虎很钟情木剑温华的几句口头禅。<br>
-　　“小年，我当下很忧郁啊！”<br>
-　　“老子能饿得不想吃饭，也是本事嘛。”<br>
-　　“小年，你瞅瞅，那小娘子还没你长得白，没你好看，你给兄弟笑一个，解解馋呗？”<br>
-　　徐凤年说起这个曾经一起偷鸡摸狗的哥们，嘴上恼火，眼神却是柔和。而世子殿下说到李子姑娘和王东厢，可以明显察觉到大姐徐脂虎的喜好程度有一个鲜明高下，出乎意料，徐脂虎被《头场雪》勾去不少眼泪，但似乎对胸有锦绣的王初冬并不看好，反而倒是对那个名字古怪的李子姑娘十分喜欢，说这丫头做侧妃是极好的，娇憨可掬福嘛，而王东厢，对女子来说，惊才绝艳不是幸事啊，说不定会难逃薄福短寿的下场。<br>
-　　这些话徐脂虎都是直言以对，想说什么就说什么，半点不隐瞒，徐凤年笑着说不会的，王丫头既然能引来魁鼋出水，肯定福缘不浅，徐脂虎一听这个解释，点了点头。<br>
-　　她看了眼窗外天色，临近黄昏，该晚饭了，写意园与退步园在卢府一直特立独行，两个园子都可以不参与家族宴席，徐脂虎嫁到江南后，入乡随俗，逐渐习惯了这边的饮食，但照顾弟弟的口味，专门让二乔请了城中酒楼两位名家厨子来写意园做一桌辣烈北凉菜，不是行家可不敢尝试北凉独有的石烹法与温炝法，做地道了，才是大俗出大雅，做差了，就难登大雅之堂。<br>
-　　江南道胭脂虎徐寡妇的两百两银子可烫手得很，其中一位听说是要给那当街杀人的北凉世子做菜，临行前赶忙跑回家对着妻儿一顿痛哭流涕，再看那成天就知道唠叨鸡毛蒜皮的媳妇就格外顺眼，许诺若是能活着走出卢府，以后再不去窑子里挥霍银子。<br>
-　　卢氏府邸气象不大，胜在格局巧妙，深谙藏风聚水的韵味。<br>
-　　一袭青衫踩踏墙头山头与亭尖，翩然而至，恍若仙人，期间俯视卢府山水楼榭布置，这位青衣略微点头，最终在湖畔落下，脚尖才落地，一人一剑奔袭而至，剑气森寒，青衫文士略皱眉头，身形也不后掠，双足站定，一指敲在剑尖上，硬生生压弯了这柄榜上有名的霸秀古剑，两者之间横着一把弯曲成弧的剑，双鬓白霜点点的儒士单指看似不离霸秀，实则瞬间一敲再敲，指玄一十二次，霸秀剑终于撤离，中年儒士不动如山，身后整座小湖竟掀起巨大波澜，层层推去，将对岸花木冲击得摇晃不止，卢府出面拒敌的当然是棠溪剑仙卢白颉，一剑无功而返，已经猜出眼前儒士身份，立即收剑入鞘，面露惊讶道：“曹官子？”</p>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/arc_202302231607/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
 </footer>
 </article>
 
@@ -528,73 +596,6 @@
 </article>
 
                         
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/dev_202101042002/" title="阅读全文">Tg: Serialized binary TL-schema in vkext format(*.tlo) </a> </h2>
-
-</header>
-<div class="summary">
-    <pre tabindex="0"><code>---types---
-/////
-//
-// Serialized binary TL-schema in vkext format
-//
-/////
-
-tls.schema_v2 version:int date:int types_num:# types:types_num*[tls.Type] constructor_num:# constructors:constructor_num*[tls.Combinator] functions_num:# functions:functions_num*[tls.Combinator] = tls.Schema;
-
-tls.type name:int id:string constructors_num:int flags:int arity:int params_type:long = tls.Type;
-tls.combinator name:int id:string type_name:int left:tls.CombinatorLeft right:tls.CombinatorRight = tls.Combinator;
-tls.combinatorLeftBuiltin = tls.CombinatorLeft;
-tls.combinatorLeft args_num:# args:args_num*[tls.Arg] = tls.CombinatorLeft;
-
-tls.combinatorRight value:tls.TypeExpr = tls.CombinatorRight;
-
-tls.arg id:string flags:# var_num:flags.1?int exist_var_num:flags.2?int exist_var_bit:flags.2?int type:tls.TypeExpr = tls.Arg;
-
-tls.exprType _:tls.TypeExpr = tls.Expr;
-tls.exprNat _:tls.NatExpr = tls.Expr;
-
-tls.natConst value:int = tls.NatExpr;
-tls.natVar dif:int var_num:int = tls.NatExpr;
-
-tls.typeVar var_num:int flags:int = tls.TypeExpr;
-tls.array multiplicity:tls.NatExpr args_num:# args:args_num*[tls.Arg] = tls.TypeExpr;
-tls.typeExpr name:int flags:int children_num:# children:children_num*[tls.Expr] = tls.TypeExpr;
----functions---
-</code></pre>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/dev_202101042002/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/dev_202012071348/" title="阅读全文">Tg:TL-formal </a> </h2>
-
-</header>
-<div class="summary">
-    <p>See also <a href="https://core.telegram.org/mtproto/TL">TL Language</a>. For the syntax of declaring combinators, see in article <a href="https://core.telegram.org/mtproto/TL-combinators">Formal declaration of TL combinators</a>. For the syntax of patterns, see in article <a href="https://core.telegram.org/mtproto/TL-patterns">Formal declaration of TL patterns</a>.</p>
-<h3 id="tokens">Tokens</h3>
-<p>Comments are the same as in C/C++. They are removed by a lexical parser (for example, being replaced by a single space). Whitespace separates tokens. Except for string constants, tokens cannot contain spaces.</p>
-<p>Character classes:</p>
-<pre tabindex="0"><code>lc-letter ::= `a` | `b` | ... | `z`
-uc-letter ::= `A` | `B` | ... | `Z`
-digit ::= `0` | `1` | ... | `9`
-hex-digit ::= digit | `a` | `b` | `c` | `d` | `e` | `f`
-underscore ::= `_`
-letter ::= lc-letter | uc-letter
-ident-char ::= letter | digit | underscore
-</code></pre>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/dev_202012071348/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
                     </div>
                     </br>
                     
@@ -637,7 +638,7 @@ ident-char ::= letter | digit | underscore
 </div>
 
             <footer id="copyright">
-  <p>&copy;2015-2024 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">北野 -  Michael Li</a> All rights reserved.</p>
+  <p>&copy;2015-至今 <a href="mailto:alimy@niubiu.com" title="Email:alimy@niubiu.com">北野 -  Michael Li</a> All rights reserved.</p>
 </footer>
 
             </div>

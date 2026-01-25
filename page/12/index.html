@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 
 <head>
-	<meta name="generator" content="Hugo 0.115.0">
+	<meta name="generator" content="Hugo 0.120.4">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
@@ -16,17 +16,6 @@
   
   <script src="https://alimy.github.io/js/jquery.min.js"></script>
   <script src="https://alimy.github.io/js/main.min.js"></script>
-  <script>
-    (function (i, s, o, g, r, a, m) {
-      i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
-        (i[r].q = i[r].q || []).push(arguments)
-      }, i[r].l = 1 * new Date(); a = s.createElement(o),
-        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
-    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-
-    ga('create', 'UA-75081327-1', 'auto');
-    ga('send', 'pageview');
-  </script>
 
   
   <script>
@@ -251,28 +240,25 @@
                 <div class="navigation-wrapper">
                     <nav class="cover-navigation cover-navigation--primary">
                         <ul class="navigation">
-                            <li class="navigation__item"><a href="https://alimy.github.io" title="博客首页" class="blog-button">Blog</a> </li> </br></br>
-                            <li class="navigation__item"><a href="https://alimy.github.io/post/" title="文章列表" class="blog-button">Articles</a> </li>
+                            <li class="navigation__item"><a href="https://alimy.github.io" title="博客首页" class="blog-button">首页</a> </li> </br></br>
+                            <li class="navigation__item"><a href="https://alimy.github.io/post/" title="文章列表" class="blog-button">文章列表</a> </li>
                             </br>  </br>
-                            <li class="navigation__item"><a href="https://alimy.github.io/pages/cv" title="关于我 " class="blog-button">About Me</a> </li>
+                            <li class="navigation__item"><a href="https://alimy.github.io/pages/cv" title="关于我 " class="blog-button">关于我</a> </li>
                             </br>  </ul>
                             <nav class="cover-navigation navigation--social">
 </br>
     <ul class="navigation"> 
-        <li class="navigation__item">
-            <a href="http://my.gility.net/" title="@Memos" target="_blank"> <i class='fa fa-user-secret'></i> <span class="label">Twitter</span> </a>
-        </li>
+        
         <li class="navigation__item">
             <a href="https://iibiubiu.com" title="@iiBiuBiu" target="_blank"> <i class='fa fa-anchor'></i> <span class="label">Twitter</span> </a>
         </li>
         <li class="navigation__item">
-            <a href="https://www.paopao.info/#/u?s=alimy" title="@Paopao" target="_blank"> <i class='fa fa-leaf'></i> <span class="label">Twitter</span> </a>
+            <a href="https://www.paopao.info/#/u?s=alimy" title="@paopao" target="_blank"> <i class='fa fa-leaf'></i> <span class="label">Twitter</span> </a>
         </li><br>
         
         
-        <li class="navigation__item">
-            <a href="http://twitter.com/bitriory" title="@Twitter" target="_blank"> <i class='fa fa-twitter'></i> <span class="label">Twitter</span> </a>
-        </li>   
+        
+          
         
         <li class="navigation__item">
             <a href="https://github.com/alimy" title="@GitHub" target="_blank"> <i class='fa fa-github'></i> <span class="label">Github</span> </a>
@@ -317,20 +303,17 @@
                         </nav> <nav class="cover-navigation navigation--social">
 </br>
     <ul class="navigation"> 
-        <li class="navigation__item">
-            <a href="http://my.gility.net/" title="@Memos" target="_blank"> <i class='fa fa-user-secret'></i> <span class="label">Twitter</span> </a>
-        </li>
+        
         <li class="navigation__item">
             <a href="https://iibiubiu.com" title="@iiBiuBiu" target="_blank"> <i class='fa fa-anchor'></i> <span class="label">Twitter</span> </a>
         </li>
         <li class="navigation__item">
-            <a href="https://www.paopao.info/#/u?s=alimy" title="@Paopao" target="_blank"> <i class='fa fa-leaf'></i> <span class="label">Twitter</span> </a>
+            <a href="https://www.paopao.info/#/u?s=alimy" title="@paopao" target="_blank"> <i class='fa fa-leaf'></i> <span class="label">Twitter</span> </a>
         </li><br>
         
         
-        <li class="navigation__item">
-            <a href="http://twitter.com/bitriory" title="@Twitter" target="_blank"> <i class='fa fa-twitter'></i> <span class="label">Twitter</span> </a>
-        </li>   
+        
+          
         
         <li class="navigation__item">
             <a href="https://github.com/alimy" title="@GitHub" target="_blank"> <i class='fa fa-github'></i> <span class="label">Github</span> </a>
@@ -348,6 +331,49 @@
             <div class="content-wrapper__inner">
                 <section id="main">
                     <div>
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="https://alimy.github.io/post/dev_201603182045/" title="阅读全文">50 Shades of Go </a> </h2>
+
+</header>
+<div class="summary">
+    <p>Go is a simple and fun language, but, like any other language, it has a few gotchas&hellip; Many of those gotchas are not entirely Go&rsquo;s fault. Some of these mistakes are natural traps if you are coming from another language. Others are due to faulty assumptions and missing details.</p>
+<p>A lot of these gotchas may seem obvious if you took the time to learn the language reading the official spec, wiki, mailing list discussions, many great posts and presentations by Rob Pike, and the source code. Not everybody starts the same way though and that&rsquo;s OK. If you are new to Go the information here will save you hours debugging your code.</p>
+<p>This post covers Go 1.5 and below.</p>
+<h3 id="total-beginner">Total Beginner:</h3>
+<ol>
+<li><a href="#1">Opening Brace Can&rsquo;t Be Placed on a Separate Line</a></li>
+<li><a href="#2">Unused Variables</a></li>
+<li><a href="#3">Unused Imports</a></li>
+<li><a href="#4">Short Variable Declarations Can Be Used Only Inside Functions</a></li>
+<li><a href="#5">Redeclaring Variables Using Short Variable Declarations</a></li>
+<li><a href="#6">Can&rsquo;t Use Short Variable Declarations to Set Field Values</a></li>
+<li><a href="#7">Accidental Variable Shadowing</a></li>
+<li><a href="#8">Can&rsquo;t Use &ldquo;nil&rdquo; to Initialize a Variable Without an Explicit Type</a></li>
+<li><a href="#9">Using &ldquo;nil&rdquo; Slices and Maps</a></li>
+<li><a href="#10">Map Capacity</a></li>
+</ol>
+</div>
+<footer id="more">
+<a href='https://alimy.github.io/post/dev_201603182045/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="https://alimy.github.io/post/etc_201603152115/" title="阅读全文">诚意十足的招聘页面 </a> </h2>
+
+</header>
+<div class="summary">
+    <p><a href="https://alimy.github.io/images/post/20160315210501.webp" title="点击查看大图"><img src="https://alimy.github.io/images/post/20160315210501.webp" alt="图片加载中&hellip;请使用支持Webp的浏览器加速查看"></a></p>
+</div>
+<footer id="more">
+<a href='https://alimy.github.io/post/etc_201603152115/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
                         
                             <article class="post panel-wrapper">
 <header>
@@ -520,74 +546,6 @@ Lets see some examples</li>
 </article>
 
                         
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/dev_201603122030/" title="阅读全文">Gson: Custom Type Adapter </a> </h2>
-
-</header>
-<div class="summary">
-    <p>In the earlier tutorials we have seen how gson can serialize and deserialize java classes with or without hierarchies. By default, it introspects the classes and comes with with a strategy for serializing and deserializing it. However, in some cases, you want to specify your own conversion strategy. That is, you want to control how the java object is converted to json string and the other way round. Gson provides a capability to specify a custom type adapter. You tell Gson that for a particular class, use the conversion strategy specified by your custom adapter. Lets look at how to write the type adapter :
-To write a custom adapter extend the com.google.gson.TypeAdapter abstract class. Implement the public abstract T read(JsonReader in) throws IOException; and public abstract void write(JsonWriter out, T value) throws IOException; methods. The adapter should also handle nulls. Create the Type adapter instance and then register it with the GsonBuilder. Create the Gson object from the GsonBuilder and then use that to serialize and deserialize. Lets look at an example</p>
-<pre tabindex="0"><code>package com.studytrails.json.gson;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import org.apache.commons.io.IOUtils;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-public class DatasetTypeAdapterExample8 {
-
-	public static void main(String[] args) throws MalformedURLException, IOException {
-		String url = &#34;http://freemusicarchive.org/api/get/albums.json?api_key=60BLHNQCAOUFPIBZ&amp;limit=5&#34;;
-		String json = IOUtils.toString(new URL(url));
-		// Create the custom type adapter and register it with the GsonBuilder
-		// class.
-		Gson gson = new GsonBuilder().registerTypeAdapter(Dataset.class, new DatasetTypeAdapter()).create();
-		// deserialize the json to Albums class. The Dataset objects are part of
-		// the Albums class. Whenever Gson encounters an object of type DataSet
-		// it calls the DatasetTypeAdapter to read and write json.
-		Albums albums = gson.fromJson(json, Albums.class);
-		System.out.println(albums.getDataset()[1].getAlbum_title());
-		// prints
-		// http://freemusicarchive.org/music/The_Yes_Sirs/Through_The_Cracks_Mix_Vol_1/
-	}
-}
-</code></pre>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/dev_201603122030/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/dev_201603122028/" title="阅读全文">Gson: Serializing Inner Classes </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="serializing-inner-classes">Serializing inner classes</h3>
-<p>Gson can serialize inner classes and static nested classes. The detailed example below demonstrates the following things.</p>
-<ol>
-<li>Serializing class containing static nested class</li>
-<li>Serializing class containing non static nested class (Inner class)</li>
-<li>De-serializing json to a class containing static and non static inner class</li>
-<li>Serializing static nested class (without the enclosing type)</li>
-<li>Serializing non static nested class (without the enclosing type)</li>
-<li>De-serializing json to a static nested class (without the enclosing type)</li>
-<li>De-serializing json to a non static nested class (without the enclosing type)</li>
-</ol>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/dev_201603122028/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
                     </div>
                     </br>
                     
@@ -636,7 +594,7 @@ public class DatasetTypeAdapterExample8 {
 </div>
 
             <footer id="copyright">
-  <p>&copy;2015-2024 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">北野 -  Michael Li</a> All rights reserved.</p>
+  <p>&copy;2015-至今 <a href="mailto:alimy@niubiu.com" title="Email:alimy@niubiu.com">北野 -  Michael Li</a> All rights reserved.</p>
 </footer>
 
             </div>

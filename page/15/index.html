@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 
 <head>
-	<meta name="generator" content="Hugo 0.115.0">
+	<meta name="generator" content="Hugo 0.120.4">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
@@ -16,17 +16,6 @@
   
   <script src="https://alimy.github.io/js/jquery.min.js"></script>
   <script src="https://alimy.github.io/js/main.min.js"></script>
-  <script>
-    (function (i, s, o, g, r, a, m) {
-      i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
-        (i[r].q = i[r].q || []).push(arguments)
-      }, i[r].l = 1 * new Date(); a = s.createElement(o),
-        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
-    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-
-    ga('create', 'UA-75081327-1', 'auto');
-    ga('send', 'pageview');
-  </script>
 
   
   <script>
@@ -251,28 +240,25 @@
                 <div class="navigation-wrapper">
                     <nav class="cover-navigation cover-navigation--primary">
                         <ul class="navigation">
-                            <li class="navigation__item"><a href="https://alimy.github.io" title="博客首页" class="blog-button">Blog</a> </li> </br></br>
-                            <li class="navigation__item"><a href="https://alimy.github.io/post/" title="文章列表" class="blog-button">Articles</a> </li>
+                            <li class="navigation__item"><a href="https://alimy.github.io" title="博客首页" class="blog-button">首页</a> </li> </br></br>
+                            <li class="navigation__item"><a href="https://alimy.github.io/post/" title="文章列表" class="blog-button">文章列表</a> </li>
                             </br>  </br>
-                            <li class="navigation__item"><a href="https://alimy.github.io/pages/cv" title="关于我 " class="blog-button">About Me</a> </li>
+                            <li class="navigation__item"><a href="https://alimy.github.io/pages/cv" title="关于我 " class="blog-button">关于我</a> </li>
                             </br>  </ul>
                             <nav class="cover-navigation navigation--social">
 </br>
     <ul class="navigation"> 
-        <li class="navigation__item">
-            <a href="http://my.gility.net/" title="@Memos" target="_blank"> <i class='fa fa-user-secret'></i> <span class="label">Twitter</span> </a>
-        </li>
+        
         <li class="navigation__item">
             <a href="https://iibiubiu.com" title="@iiBiuBiu" target="_blank"> <i class='fa fa-anchor'></i> <span class="label">Twitter</span> </a>
         </li>
         <li class="navigation__item">
-            <a href="https://www.paopao.info/#/u?s=alimy" title="@Paopao" target="_blank"> <i class='fa fa-leaf'></i> <span class="label">Twitter</span> </a>
+            <a href="https://www.paopao.info/#/u?s=alimy" title="@paopao" target="_blank"> <i class='fa fa-leaf'></i> <span class="label">Twitter</span> </a>
         </li><br>
         
         
-        <li class="navigation__item">
-            <a href="http://twitter.com/bitriory" title="@Twitter" target="_blank"> <i class='fa fa-twitter'></i> <span class="label">Twitter</span> </a>
-        </li>   
+        
+          
         
         <li class="navigation__item">
             <a href="https://github.com/alimy" title="@GitHub" target="_blank"> <i class='fa fa-github'></i> <span class="label">Github</span> </a>
@@ -317,20 +303,17 @@
                         </nav> <nav class="cover-navigation navigation--social">
 </br>
     <ul class="navigation"> 
-        <li class="navigation__item">
-            <a href="http://my.gility.net/" title="@Memos" target="_blank"> <i class='fa fa-user-secret'></i> <span class="label">Twitter</span> </a>
-        </li>
+        
         <li class="navigation__item">
             <a href="https://iibiubiu.com" title="@iiBiuBiu" target="_blank"> <i class='fa fa-anchor'></i> <span class="label">Twitter</span> </a>
         </li>
         <li class="navigation__item">
-            <a href="https://www.paopao.info/#/u?s=alimy" title="@Paopao" target="_blank"> <i class='fa fa-leaf'></i> <span class="label">Twitter</span> </a>
+            <a href="https://www.paopao.info/#/u?s=alimy" title="@paopao" target="_blank"> <i class='fa fa-leaf'></i> <span class="label">Twitter</span> </a>
         </li><br>
         
         
-        <li class="navigation__item">
-            <a href="http://twitter.com/bitriory" title="@Twitter" target="_blank"> <i class='fa fa-twitter'></i> <span class="label">Twitter</span> </a>
-        </li>   
+        
+          
         
         <li class="navigation__item">
             <a href="https://github.com/alimy" title="@GitHub" target="_blank"> <i class='fa fa-github'></i> <span class="label">Github</span> </a>
@@ -348,6 +331,83 @@
             <div class="content-wrapper__inner">
                 <section id="main">
                     <div>
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="https://alimy.github.io/post/dev_201603092120/" title="阅读全文">XStream: XML Transformation </a> </h2>
+
+</header>
+<div class="summary">
+    <p>XStream provides a TraxSource (extends SAXSource) that can be used as an input to XSLT transformation. The TraxSource uses a java Object and the corresponding XStream Object. The java object can then be directly converted to XSLT target without actually converting to XML. Lets look at an example</p>
+<pre tabindex="0"><code>package com.studytrails.xml.xstream;
+
+import java.util.ArrayList;
+
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.TransformerFactoryConfigurationError;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
+
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.TraxSource;
+
+public class XStreamTransformationExample {
+	public static void main(String[] args) throws TransformerFactoryConfigurationError, TransformerException {
+		XStreamTransformationExample transformationExample = new XStreamTransformationExample();
+		transformationExample.runTransformation();
+	}
+
+	private void runTransformation() throws TransformerFactoryConfigurationError, TransformerException {
+		XStream xstream = new XStream();
+		xstream.alias(&#34;rss&#34;, Rss2.class);
+		xstream.alias(&#34;item&#34;, Item2.class);
+		Rss2 rss = new Rss2();
+		Channel2 channel = new Channel2();
+		rss.channel = channel;
+		channel.title = &#34;Title&#34;;
+		channel.link = &#34;link&#34;;
+		channel.image = new Image2();
+		channel.image.link = &#34;image link&#34;;
+		Item2 item1 = new Item2();
+		item1.link = &#34;item link&#34;;
+		item1.title = &#34;Item Title&#34;;
+		channel.items = new ArrayList&lt;Item2&gt;();
+		channel.items.add(item1);
+		System.out.println(xstream.toXML(rss));
+
+		Transformer transformer = TransformerFactory.newInstance().newTransformer(new StreamSource(&#34;bbc.xsl&#34;));
+		TraxSource traxSource = new TraxSource(rss, xstream);
+		StreamResult result = new StreamResult(System.out);
+		transformer.transform(traxSource, result);
+
+		// prints the html on console
+
+	}
+}
+</code></pre>
+</div>
+<footer id="more">
+<a href='https://alimy.github.io/post/dev_201603092120/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="https://alimy.github.io/post/dev_201603092115/" title="阅读全文">XStream: Json to Java </a> </h2>
+
+</header>
+<div class="summary">
+    <p>XStream can also be used with JSON. XStream provides two drivers : a JsonHierarchicalStreamDriver and a JettisonMappedXmlDriver. The JsonHierarchicalStreamDriver can be used to write a JSON string but cannot deserialize a JSON. JettisonMappedXmlDriver can be used to deserialize a JSON but it introduces an additional dependency. In this example we deserialize a json string into a java object.</p>
+<p>Note: The mapping from Java to JSON (and back) is limited, since not anything can be expressed in JSON as with XML. It works quite well for simple objects, but one should not expect wonders. Additionally XStream supports only Jettison 1.0.1. Any other version will not work correctly (even newer ones).</p>
+</div>
+<footer id="more">
+<a href='https://alimy.github.io/post/dev_201603092115/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
                         
                             <article class="post panel-wrapper">
 <header>
@@ -498,71 +558,6 @@ public class CreateXMLFromMusicArtistObject {
 </article>
 
                         
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/dev_201603081427/" title="阅读全文">XStream: XML To Java </a> </h2>
-
-</header>
-<div class="summary">
-    <p>In the earlier tutorial we looked at a way to <a href="https://alimy.github.io/post/dev_201603081411" title="Parsing an XML">convert Java to XML and back</a>. In this tutorial we look at some more examples of XML To Java Conversion. XStream can convert XML elements to multiple types depending on the type specified in the Java class. For example a series for similarly named elements can be converted to an array of String, a List of String or an enum. XStream uses an appropriate Converter based on type specified in the java class. Lets look at some examples.</p>
-<p>In this first example we have an XML that has a parent element called &lsquo;Music&rsquo;. It has a child element called type. We populate a Music object that has a &rsquo;type&rsquo; field which is an enum.</p>
-<pre tabindex="0"><code>package com.studytrails.xml.xstream;
-
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-
-public class ConverterExample3 {
-    static String xml1 = &#34;&lt;Music&gt;&lt;type&gt;rock&lt;/type&gt;&lt;/Music&gt;&#34;;
-
-    public static void main(String[] args) {
-        XStream xStream = new XStream();
-        xStream.processAnnotations(Music.class);
-        Music musicObject = (Music) xStream.fromXML(xml1);
-        System.out.println(musicObject);
-        // prints Music [type=ROCK]
-    }
-
-}
-
-@XStreamAlias(&#34;Music&#34;)
-class Music {
-    public enum genre {
-        ROCK, JAZZ
-    };
-
-    genre type;
-
-    @Override
-    public String toString() {
-        return &#34;Music [type=&#34; + type + &#34;]&#34;;
-    }
-
-}     
-</code></pre>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/dev_201603081427/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/dev_201603081411/" title="阅读全文">XStream: Java to XML and Back </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="the-problem-statement">The Problem Statement</h3>
-<p>XStream can be used to convert a Java Object to XML and back. This tutorial aims to create a java representation of the BBC RSS. We will start with a Simple java class and gradually start adding complexity to it so that it can be converted to the BBC RSS. Note that if you are looking at a way to parse an XML, it would be a good idea to first build a java class that XStream can convert to the required XML. XStream can then use the same class to deserialize the XML. First, have a look at the <a href="http://feeds.bbci.co.uk/news/technology/rss.xml?edition=int" title="BBC RSS">BBC RSS</a>. Your browser would have formatted it to html so look at the source to see the XML. The parent element is &lsquo;rss&rsquo;. It has a child element called &lsquo;channel&rsquo;. The &lsquo;channel&rsquo; has some properties (title, link, image etc) and a list of news &lsquo;item&rsquo;(s). Each &lsquo;item&rsquo; has properties set on it (title, description etc). The aim is to create a Java class that XStream can convert to the BBC RSS.</p>
-<h3 id="creating-an-xstream-instance">Creating an XStream Instance</h3>
-<p>The first step is to create an instance of com.thoughtworks.xstream.XStream. This class is a facade to the XStream API and provides all major functionalities. If this class does not solve your problem then you could directly call the API methods. After obtaining the instance of XStream use the fromXML method to convert the XML to a java object. Note that creating an XStream instance is an expensive operation. It is therefore advisable to create a proper instance once and then reuse it for multiple calls (even in parallel). The setup is not threadsafe but any subsequent marshalling/unmarshalling is threadsafe.</p>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/dev_201603081411/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
                     </div>
                     </br>
                     
@@ -611,7 +606,7 @@ class Music {
 </div>
 
             <footer id="copyright">
-  <p>&copy;2015-2024 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">北野 -  Michael Li</a> All rights reserved.</p>
+  <p>&copy;2015-至今 <a href="mailto:alimy@niubiu.com" title="Email:alimy@niubiu.com">北野 -  Michael Li</a> All rights reserved.</p>
 </footer>
 
             </div>

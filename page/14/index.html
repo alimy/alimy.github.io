@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 
 <head>
-	<meta name="generator" content="Hugo 0.115.0">
+	<meta name="generator" content="Hugo 0.120.4">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
@@ -16,17 +16,6 @@
   
   <script src="https://alimy.github.io/js/jquery.min.js"></script>
   <script src="https://alimy.github.io/js/main.min.js"></script>
-  <script>
-    (function (i, s, o, g, r, a, m) {
-      i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
-        (i[r].q = i[r].q || []).push(arguments)
-      }, i[r].l = 1 * new Date(); a = s.createElement(o),
-        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
-    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-
-    ga('create', 'UA-75081327-1', 'auto');
-    ga('send', 'pageview');
-  </script>
 
   
   <script>
@@ -251,28 +240,25 @@
                 <div class="navigation-wrapper">
                     <nav class="cover-navigation cover-navigation--primary">
                         <ul class="navigation">
-                            <li class="navigation__item"><a href="https://alimy.github.io" title="博客首页" class="blog-button">Blog</a> </li> </br></br>
-                            <li class="navigation__item"><a href="https://alimy.github.io/post/" title="文章列表" class="blog-button">Articles</a> </li>
+                            <li class="navigation__item"><a href="https://alimy.github.io" title="博客首页" class="blog-button">首页</a> </li> </br></br>
+                            <li class="navigation__item"><a href="https://alimy.github.io/post/" title="文章列表" class="blog-button">文章列表</a> </li>
                             </br>  </br>
-                            <li class="navigation__item"><a href="https://alimy.github.io/pages/cv" title="关于我 " class="blog-button">About Me</a> </li>
+                            <li class="navigation__item"><a href="https://alimy.github.io/pages/cv" title="关于我 " class="blog-button">关于我</a> </li>
                             </br>  </ul>
                             <nav class="cover-navigation navigation--social">
 </br>
     <ul class="navigation"> 
-        <li class="navigation__item">
-            <a href="http://my.gility.net/" title="@Memos" target="_blank"> <i class='fa fa-user-secret'></i> <span class="label">Twitter</span> </a>
-        </li>
+        
         <li class="navigation__item">
             <a href="https://iibiubiu.com" title="@iiBiuBiu" target="_blank"> <i class='fa fa-anchor'></i> <span class="label">Twitter</span> </a>
         </li>
         <li class="navigation__item">
-            <a href="https://www.paopao.info/#/u?s=alimy" title="@Paopao" target="_blank"> <i class='fa fa-leaf'></i> <span class="label">Twitter</span> </a>
+            <a href="https://www.paopao.info/#/u?s=alimy" title="@paopao" target="_blank"> <i class='fa fa-leaf'></i> <span class="label">Twitter</span> </a>
         </li><br>
         
         
-        <li class="navigation__item">
-            <a href="http://twitter.com/bitriory" title="@Twitter" target="_blank"> <i class='fa fa-twitter'></i> <span class="label">Twitter</span> </a>
-        </li>   
+        
+          
         
         <li class="navigation__item">
             <a href="https://github.com/alimy" title="@GitHub" target="_blank"> <i class='fa fa-github'></i> <span class="label">Github</span> </a>
@@ -317,20 +303,17 @@
                         </nav> <nav class="cover-navigation navigation--social">
 </br>
     <ul class="navigation"> 
-        <li class="navigation__item">
-            <a href="http://my.gility.net/" title="@Memos" target="_blank"> <i class='fa fa-user-secret'></i> <span class="label">Twitter</span> </a>
-        </li>
+        
         <li class="navigation__item">
             <a href="https://iibiubiu.com" title="@iiBiuBiu" target="_blank"> <i class='fa fa-anchor'></i> <span class="label">Twitter</span> </a>
         </li>
         <li class="navigation__item">
-            <a href="https://www.paopao.info/#/u?s=alimy" title="@Paopao" target="_blank"> <i class='fa fa-leaf'></i> <span class="label">Twitter</span> </a>
+            <a href="https://www.paopao.info/#/u?s=alimy" title="@paopao" target="_blank"> <i class='fa fa-leaf'></i> <span class="label">Twitter</span> </a>
         </li><br>
         
         
-        <li class="navigation__item">
-            <a href="http://twitter.com/bitriory" title="@Twitter" target="_blank"> <i class='fa fa-twitter'></i> <span class="label">Twitter</span> </a>
-        </li>   
+        
+          
         
         <li class="navigation__item">
             <a href="https://github.com/alimy" title="@GitHub" target="_blank"> <i class='fa fa-github'></i> <span class="label">Github</span> </a>
@@ -348,6 +331,94 @@
             <div class="content-wrapper__inner">
                 <section id="main">
                     <div>
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="https://alimy.github.io/post/dev_201603112100/" title="阅读全文">Jackson: jackson Mix- In Annotations </a> </h2>
+
+</header>
+<div class="summary">
+    <p>Annotations are a great way to manage serialization and deserialization in Jackson. However, what do you do if you want to annotate a third party class, or if you dont want to tightly couple your POJOs to jackson annotations. This is where Mix-in comes into play. You define a mix-in abstract class that is kind of a proxy to the actual class. Annotations are then definied over this proxy class</p>
+<h3 id="jackson-mix-in-example">Jackson Mix-In Example</h3>
+<pre tabindex="0"><code>package com.studytrails.json.jackson;
+
+import java.io.File;
+import java.io.IOException;
+
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+public class SerializeExample3 {
+    public static void main(String[] args) throws JsonGenerationException, JsonMappingException, IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.addMixInAnnotations(Bird.class, BirdMixIn.class);
+        Bird bird = new Bird(&#34;scarlet Ibis&#34;);
+        bird.setSound(&#34;eee&#34;);
+        bird.setHabitat(&#34;water&#34;);
+
+        mapper.writerWithDefaultPrettyPrinter().writeValue(new File(&#34;bird.json&#34;), bird);
+    }
+
+}
+</code></pre>
+</div>
+<footer id="more">
+<a href='https://alimy.github.io/post/dev_201603112100/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="https://alimy.github.io/post/dev_201603112055/" title="阅读全文">Jackson: Json data binding filters </a> </h2>
+
+</header>
+<div class="summary">
+    <p>Jackson provides an effective an efficient way to bind json to POJOs. However, at times, certain properties may need to be ignored while converting a json to java ojbect and a java object to json string. Jackson provides three ways to filter properties.</p>
+<ol>
+<li>@JsonIgnoreProperties- This annotation can be used at the type level to ignore json properties. In the example below we ignore the &rsquo;tags&rsquo; property from the albums dataset.</li>
+<li>@JsonIgnore - This annotation can be set at property level to ignore certain properties.</li>
+<li>Using Custom filters</li>
+</ol>
+<p>The example below shows method 1 and 2. Also note the use of the @JsonAutoDetect annotation.</p>
+<h3 id="data-binding-filters-example">Data Binding Filters Example</h3>
+<h4 id="databinding">Databinding</h4>
+<pre tabindex="0"><code>package com.studytrails.json.jackson;
+
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+// Do not use fields to autodetect. use the public getter methods to autodetect properties
+@JsonAutoDetect(fieldVisibility = Visibility.NONE, getterVisibility = Visibility.PUBLIC_ONLY)
+public class AlbumsFilter {
+
+    private String title;
+    private DatasetFilter[] datasetFilter;
+    public String total_pages;
+
+    protected String getTotal_pages() {
+        return total_pages;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    // this getter method is for the &#39;dataset&#39; property
+    @JsonProperty(&#34;dataset&#34;)
+    public DatasetFilter[] getDatasetFilter() {
+        return datasetFilter;
+    }
+}
+</code></pre>
+</div>
+<footer id="more">
+<a href='https://alimy.github.io/post/dev_201603112055/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
                         
                             <article class="post panel-wrapper">
 <header>
@@ -504,83 +575,6 @@
 </article>
 
                         
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/dev_201603092120/" title="阅读全文">XStream: XML Transformation </a> </h2>
-
-</header>
-<div class="summary">
-    <p>XStream provides a TraxSource (extends SAXSource) that can be used as an input to XSLT transformation. The TraxSource uses a java Object and the corresponding XStream Object. The java object can then be directly converted to XSLT target without actually converting to XML. Lets look at an example</p>
-<pre tabindex="0"><code>package com.studytrails.xml.xstream;
-
-import java.util.ArrayList;
-
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.TransformerFactoryConfigurationError;
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.stream.StreamSource;
-
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.TraxSource;
-
-public class XStreamTransformationExample {
-	public static void main(String[] args) throws TransformerFactoryConfigurationError, TransformerException {
-		XStreamTransformationExample transformationExample = new XStreamTransformationExample();
-		transformationExample.runTransformation();
-	}
-
-	private void runTransformation() throws TransformerFactoryConfigurationError, TransformerException {
-		XStream xstream = new XStream();
-		xstream.alias(&#34;rss&#34;, Rss2.class);
-		xstream.alias(&#34;item&#34;, Item2.class);
-		Rss2 rss = new Rss2();
-		Channel2 channel = new Channel2();
-		rss.channel = channel;
-		channel.title = &#34;Title&#34;;
-		channel.link = &#34;link&#34;;
-		channel.image = new Image2();
-		channel.image.link = &#34;image link&#34;;
-		Item2 item1 = new Item2();
-		item1.link = &#34;item link&#34;;
-		item1.title = &#34;Item Title&#34;;
-		channel.items = new ArrayList&lt;Item2&gt;();
-		channel.items.add(item1);
-		System.out.println(xstream.toXML(rss));
-
-		Transformer transformer = TransformerFactory.newInstance().newTransformer(new StreamSource(&#34;bbc.xsl&#34;));
-		TraxSource traxSource = new TraxSource(rss, xstream);
-		StreamResult result = new StreamResult(System.out);
-		transformer.transform(traxSource, result);
-
-		// prints the html on console
-
-	}
-}
-</code></pre>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/dev_201603092120/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/dev_201603092115/" title="阅读全文">XStream: Json to Java </a> </h2>
-
-</header>
-<div class="summary">
-    <p>XStream can also be used with JSON. XStream provides two drivers : a JsonHierarchicalStreamDriver and a JettisonMappedXmlDriver. The JsonHierarchicalStreamDriver can be used to write a JSON string but cannot deserialize a JSON. JettisonMappedXmlDriver can be used to deserialize a JSON but it introduces an additional dependency. In this example we deserialize a json string into a java object.</p>
-<p>Note: The mapping from Java to JSON (and back) is limited, since not anything can be expressed in JSON as with XML. It works quite well for simple objects, but one should not expect wonders. Additionally XStream supports only Jettison 1.0.1. Any other version will not work correctly (even newer ones).</p>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/dev_201603092115/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
                     </div>
                     </br>
                     
@@ -629,7 +623,7 @@ public class XStreamTransformationExample {
 </div>
 
             <footer id="copyright">
-  <p>&copy;2015-2024 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">北野 -  Michael Li</a> All rights reserved.</p>
+  <p>&copy;2015-至今 <a href="mailto:alimy@niubiu.com" title="Email:alimy@niubiu.com">北野 -  Michael Li</a> All rights reserved.</p>
 </footer>
 
             </div>

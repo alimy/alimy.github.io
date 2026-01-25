@@ -7,12 +7,12 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Fri, 10 Jan 2020 04:25:00 +0800</lastBuildDate><atom:link href="https://alimy.github.io/categories/rust/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 10 Jan 2020 04:25:00 +0800</lastBuildDate>
+    <atom:link href="https://alimy.github.io/categories/rust/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Rust系统环境变量配置</title>
       <link>https://alimy.github.io/post/dev_202001100425/</link>
       <pubDate>Fri, 10 Jan 2020 04:25:00 +0800</pubDate>
-      
       <guid>https://alimy.github.io/post/dev_202001100425/</guid>
       <description>&lt;p&gt;国内有些地区访问Rustup的服务器及registry(@github)不太顺畅，这里介绍配置中科大的Rust镜像。&lt;/p&gt;
 &lt;h4 id=&#34;科大-rust-crates-镜像&#34;&gt;科大 Rust Crates 镜像&lt;/h4&gt;
@@ -30,6 +30,5 @@ replace-with = &amp;#39;ustc&amp;#39;
 registry = &amp;#34;git://mirrors.ustc.edu.cn/crates.io-index&amp;#34;
 &lt;/code&gt;&lt;/pre&gt;</description>
     </item>
-    
   </channel>
 </rss>

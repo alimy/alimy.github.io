@@ -7,12 +7,12 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Mon, 18 Jan 2021 12:48:00 +0800</lastBuildDate><atom:link href="https://alimy.github.io/tags/kotin/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 18 Jan 2021 12:48:00 +0800</lastBuildDate>
+    <atom:link href="https://alimy.github.io/tags/kotin/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Kotlin: 几种设计模式</title>
       <link>https://alimy.github.io/post/dev_202101181248/</link>
       <pubDate>Mon, 18 Jan 2021 12:48:00 +0800</pubDate>
-      
       <guid>https://alimy.github.io/post/dev_202101181248/</guid>
       <description>&lt;h4 id=&#34;创建型模式&#34;&gt;创建型模式&lt;/h4&gt;
 &lt;p&gt;原始模型&lt;/p&gt;
@@ -41,6 +41,5 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Core
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
     </item>
-    
   </channel>
 </rss>

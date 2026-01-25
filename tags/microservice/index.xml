@@ -7,12 +7,12 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Sun, 28 Jan 2024 16:30:00 +0800</lastBuildDate><atom:link href="https://alimy.github.io/tags/microservice/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 28 Jan 2024 16:30:00 +0800</lastBuildDate>
+    <atom:link href="https://alimy.github.io/tags/microservice/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Kitex: Thrift-HTTP 映射的 IDL 规范</title>
       <link>https://alimy.github.io/post/dev_202401281630/</link>
       <pubDate>Sun, 28 Jan 2024 16:30:00 +0800</pubDate>
-      
       <guid>https://alimy.github.io/post/dev_202401281630/</guid>
       <description>&lt;p&gt;本规范是 &lt;code&gt;Thrift&lt;/code&gt; 与 &lt;code&gt;HTTP&lt;/code&gt; 接口映射的 IDL 定义标准，包括服务、接口以及请求 &lt;code&gt;request&lt;/code&gt;、&lt;code&gt;response&lt;/code&gt; 参数定义规范和错误码定义规范。Kitex 部分实现了该规范，注解说明有标注支持情况。&lt;/p&gt;
 &lt;h3 id=&#34;规范说明&#34;&gt;规范说明&lt;/h3&gt;
@@ -26,6 +26,5 @@
 &lt;li&gt;原则上不建议 &lt;code&gt;Request&lt;/code&gt; 复用，可以复用 &lt;code&gt;Response&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;</description>
     </item>
-    
   </channel>
 </rss>

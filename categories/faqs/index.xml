@@ -7,12 +7,12 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Wed, 01 Feb 2023 19:48:00 +0800</lastBuildDate><atom:link href="https://alimy.github.io/categories/faqs/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 01 Feb 2023 19:48:00 +0800</lastBuildDate>
+    <atom:link href="https://alimy.github.io/categories/faqs/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Mounty挂载NTFS硬盘报错</title>
       <link>https://alimy.github.io/post/faq_202302011948/</link>
       <pubDate>Wed, 01 Feb 2023 19:48:00 +0800</pubDate>
-      
       <guid>https://alimy.github.io/post/faq_202302011948/</guid>
       <description>&lt;h3 id=&#34;问题&#34;&gt;问题&lt;/h3&gt;
 &lt;p&gt;&lt;code&gt;The volume UNTITLEDis not re-mountable in read/write mode .Probably it was not clean unmounted before. &lt;/code&gt;&lt;/p&gt;
@@ -22,6 +22,5 @@
 &lt;p&gt;就是说磁盘在win下面没有安全删除就拔出来了，导致文件系统中有错误区块，所以在MAC中不能挂载成读写模式。&lt;/p&gt;
 &lt;p&gt;到win下面chkdsk /f 一下，再回到MacOS即可。&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

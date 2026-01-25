@@ -7,12 +7,12 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Sat, 17 Nov 2018 14:35:00 +0800</lastBuildDate><atom:link href="https://alimy.github.io/categories/security/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 17 Nov 2018 14:35:00 +0800</lastBuildDate>
+    <atom:link href="https://alimy.github.io/categories/security/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>AppArmor的前世今生和基本使用</title>
       <link>https://alimy.github.io/post/dev_201811171435/</link>
       <pubDate>Sat, 17 Nov 2018 14:35:00 +0800</pubDate>
-      
       <guid>https://alimy.github.io/post/dev_201811171435/</guid>
       <description>&lt;h4 id=&#34;一mac和dac-一些前置知识&#34;&gt;一：MAC和DAC (一些前置知识)&lt;/h4&gt;
 &lt;p&gt;DAC(Discretionary Access Control)，自主访问控制，是最常用的一类访问控制机制，意思为主体（文件所有者）可以自主指定系统中其它用户对其文件的所有权，最典型的就是Linux的&amp;quot;拥有者/同组用户/其他&amp;quot;。这种方式虽然为用户提供了很大的灵活性，但是缺乏必要的安全性&lt;/p&gt;
@@ -36,6 +36,5 @@
 &lt;li&gt;capability条目 例：capability setgid，表示程序进行setgid操作。&lt;/li&gt;
 &lt;/ol&gt;</description>
     </item>
-    
   </channel>
 </rss>

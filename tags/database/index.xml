@@ -7,12 +7,12 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Fri, 31 Mar 2023 20:32:00 +0800</lastBuildDate><atom:link href="https://alimy.github.io/tags/database/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 31 Mar 2023 20:32:00 +0800</lastBuildDate>
+    <atom:link href="https://alimy.github.io/tags/database/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Yesql - Sqlx的好搭挡</title>
       <link>https://alimy.github.io/post/dev_202303312032/</link>
       <pubDate>Fri, 31 Mar 2023 20:32:00 +0800</pubDate>
-      
       <guid>https://alimy.github.io/post/dev_202303312032/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://github.com/alimy/yesql&#34;&gt;Yesql&lt;/a&gt; 解析一个SQL文件，提取出查询语句，自动生成对应的Go结构体，实现查询语句与代码分离，方便编写数据库查询逻辑。&lt;/p&gt;
 &lt;h3 id=&#34;安装&#34;&gt;安装&lt;/h3&gt;
@@ -68,21 +68,17 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;UPDATE&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tag &lt;span style=&#34;color:#66d9ef&#34;&gt;SET&lt;/span&gt; quote_num&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;quote_num&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, is_del&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, modified_on&lt;span style=&#34;color:#f92672&#34;&gt;=?&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; id &lt;span style=&#34;color:#66d9ef&#34;&gt;IN&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;);
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
     </item>
-    
     <item>
       <title>MySQL和PostgreSQL的常用语法差异</title>
       <link>https://alimy.github.io/post/dev_202203051410/</link>
       <pubDate>Sat, 05 Mar 2022 14:10:00 +0800</pubDate>
-      
       <guid>https://alimy.github.io/post/dev_202203051410/</guid>
       <description>&lt;p&gt;MySQL和PostgreSQL的常用语法差异，后续更新中&amp;hellip;&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Mac通过brew本地安装Postgresql</title>
       <link>https://alimy.github.io/post/dev_202202231110/</link>
       <pubDate>Wed, 23 Feb 2022 11:10:00 +0800</pubDate>
-      
       <guid>https://alimy.github.io/post/dev_202202231110/</guid>
       <description>&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;%&amp;gt; brew install postgres
 %&amp;gt; psql -version
@@ -108,22 +104,18 @@
 %&amp;gt; psql -U username -d dbname -h 127.0.0.1
 &lt;/code&gt;&lt;/pre&gt;</description>
     </item>
-    
     <item>
       <title>Go - SQL实践</title>
       <link>https://alimy.github.io/post/dev_202112031525/</link>
       <pubDate>Fri, 03 Dec 2021 15:25:00 +0800</pubDate>
-      
       <guid>https://alimy.github.io/post/dev_202112031525/</guid>
       <description>&lt;h3 id=&#34;标准库sql驱动接口-databasesqldriverhttpsgithubcomgolanggotreemastersrcdatabasesqldriver&#34;&gt;标准库SQL驱动接口 (&lt;a href=&#34;https://github.com/golang/go/tree/master/src/database/sql/driver&#34;&gt;database/sql/driver&lt;/a&gt;)&lt;/h3&gt;
 &lt;p&gt;&lt;img src=&#34;https://alimy.github.io/images/post/20211203152500.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>乐观锁和悲观锁的区别</title>
       <link>https://alimy.github.io/post/dev_202303152242/</link>
       <pubDate>Mon, 15 Mar 2021 22:42:00 +0800</pubDate>
-      
       <guid>https://alimy.github.io/post/dev_202303152242/</guid>
       <description>&lt;h3 id=&#34;乐观锁&#34;&gt;乐观锁&lt;/h3&gt;
 &lt;p&gt;在关系数据库管理系统里，乐观并发控制（又名乐观锁，Optimistic Concurrency Control，缩写 OCC）是一种并发控制的方法。它假设多用户并发的事务在处理时不会彼此互相影响，各事务能够在不产生锁的情况下处理各自影响的那部分数据。在提交数据更新之前，每个事务会先检查在该事务读取数据后，有没有其他事务又修改了该数据。如果其他事务有更新的话，正在提交的事务会进行回滚。乐观事务控制最早是由孔祥重（H.T.Kung）教授提出。&lt;/p&gt;
@@ -140,12 +132,10 @@
 &lt;p&gt;实现数据版本有两种方式，第一种是使用版本号，第二种是使用时间戳。 使用版本号实现乐观锁&lt;/p&gt;
 &lt;p&gt;使用版本号时，可以在数据初始化时指定一个版本号，每次对数据的更新操作都对版本号执行+1操作。并判断当前版本号是不是该数据的最新的版本号。&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Intro to BoltDB: Painless Performant Persistence</title>
       <link>https://alimy.github.io/post/dev_201603192255/</link>
       <pubDate>Sat, 19 Mar 2016 22:55:00 +0800</pubDate>
-      
       <guid>https://alimy.github.io/post/dev_201603192255/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://github.com/boltdb/bolt&#34; title=&#34;BoltDB&#34;&gt;BoltDB&lt;/a&gt; is a pure Go persistence solution that saves data to a memory mapped file. I call it a persistence solution and not a database, because the word database has a lot of baggage associated with it that doesn’t apply to bolt. And that lack of baggage is what makes bolt so awesome.&lt;/p&gt;
 &lt;p&gt;Bolt is just a Go package. There’s nothing you need to install on the system, no configuration to figure out before you can start coding, nothing. You just go get github.com/boltdb/bolt and then import “github.com/boltdb/bolt”.&lt;/p&gt;
@@ -153,6 +143,5 @@
 &lt;p&gt;Bolt is not a relational database. It’s not even a document store, though you can sort of use it that way. It’s really just a key/value store… but don’t worry if you don’t really know what that means or how you’d use that for storage. It’s super simple and it’s incredibly flexible. Let’s take a look.&lt;/p&gt;
 &lt;p&gt;Storage in bolt is divided into buckets. A bucket is simply a named collection of key/value pairs, just like Go’s map. The name of the bucket, the keys, and the values are all of type []byte. Buckets can contain other buckets, also keyed by a []byte name.&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

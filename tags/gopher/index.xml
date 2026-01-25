@@ -7,12 +7,12 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Fri, 18 Mar 2016 20:45:00 +0800</lastBuildDate><atom:link href="https://alimy.github.io/tags/gopher/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 18 Mar 2016 20:45:00 +0800</lastBuildDate>
+    <atom:link href="https://alimy.github.io/tags/gopher/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>50 Shades of Go</title>
       <link>https://alimy.github.io/post/dev_201603182045/</link>
       <pubDate>Fri, 18 Mar 2016 20:45:00 +0800</pubDate>
-      
       <guid>https://alimy.github.io/post/dev_201603182045/</guid>
       <description>&lt;p&gt;Go is a simple and fun language, but, like any other language, it has a few gotchas&amp;hellip; Many of those gotchas are not entirely Go&amp;rsquo;s fault. Some of these mistakes are natural traps if you are coming from another language. Others are due to faulty assumptions and missing details.&lt;/p&gt;
 &lt;p&gt;A lot of these gotchas may seem obvious if you took the time to learn the language reading the official spec, wiki, mailing list discussions, many great posts and presentations by Rob Pike, and the source code. Not everybody starts the same way though and that&amp;rsquo;s OK. If you are new to Go the information here will save you hours debugging your code.&lt;/p&gt;
@@ -31,6 +31,5 @@
 &lt;li&gt;&lt;a href=&#34;#10&#34;&gt;Map Capacity&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;</description>
     </item>
-    
   </channel>
 </rss>

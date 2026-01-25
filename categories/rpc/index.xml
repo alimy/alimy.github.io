@@ -7,12 +7,12 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Sun, 05 Jan 2020 00:47:00 +0800</lastBuildDate><atom:link href="https://alimy.github.io/categories/rpc/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 05 Jan 2020 00:47:00 +0800</lastBuildDate>
+    <atom:link href="https://alimy.github.io/categories/rpc/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>简单使用docker部署Tars</title>
       <link>https://alimy.github.io/post/dev_202001050047/</link>
       <pubDate>Sun, 05 Jan 2020 00:47:00 +0800</pubDate>
-      
       <guid>https://alimy.github.io/post/dev_202001050047/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://github.com/TarsCloud/Tars&#34;&gt;Tars&lt;/a&gt;是腾讯从2008年到今天一直在使用的后台逻辑层的统一应用框架TAF（Total Application Framework），目前支持C++,Java,PHP,Nodejs,Go语言。该框架为用户提供了涉及到开发、运维、以及测试的一整套解决方案，帮助一个产品或者服务快速开发、部署、测试、上线。 它集可扩展协议编解码、高性能RPC通信框架、名字路由与发现、发布监控、日志统计、配置管理等于一体，通过它可以快速用微服务的方式构建自己的稳定可靠的分布式应用，并实现完整有效的服务治理，非参Nice。本文简单介绍通过docker部署一套用于开发测试的Tars尝尝滋味。&lt;/p&gt;
 &lt;h4 id=&#34;配置清单&#34;&gt;配置清单&lt;/h4&gt;
@@ -35,12 +35,10 @@
 % sudo systemctl start docker
 &lt;/code&gt;&lt;/pre&gt;</description>
     </item>
-    
     <item>
       <title>Protocol Buffers Messages Encoding</title>
       <link>https://alimy.github.io/post/dev_201909211645/</link>
       <pubDate>Sat, 21 Sep 2019 16:45:00 +0800</pubDate>
-      
       <guid>https://alimy.github.io/post/dev_201909211645/</guid>
       <description>&lt;p&gt;This document describes the binary wire format for protocol buffer messages. You don&amp;rsquo;t need to understand this to use protocol buffers in your applications, but it can be very useful to know how different protocol buffer formats affect the size of your encoded messages.&lt;/p&gt;
 &lt;h3 id=&#34;a-simple-message&#34;&gt;A Simple Message&lt;/h3&gt;
@@ -52,12 +50,10 @@
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;08 96 01
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;So far, so small and numeric – but what does it mean? Read on&amp;hellip;&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Cap&#39;n Proto Encoding Spec</title>
       <link>https://alimy.github.io/post/dev_201909211630/</link>
       <pubDate>Sat, 21 Sep 2019 16:30:00 +0800</pubDate>
-      
       <guid>https://alimy.github.io/post/dev_201909211630/</guid>
       <description>&lt;h3 id=&#34;sectorganization&#34;&gt;§Organization&lt;/h3&gt;
 &lt;h4 id=&#34;64-bit-words&#34;&gt;64-bit Words&lt;/h4&gt;
@@ -66,12 +62,10 @@
 &lt;p&gt;The unit of communication in Cap’n Proto is a “message”. A message is a tree of objects, with the root always being a struct.&lt;/p&gt;
 &lt;p&gt;Physically, messages may be split into several “segments”, each of which is a flat blob of bytes. Typically, a segment must be loaded into a contiguous block of memory before it can be accessed, so that the relative pointers within the segment can be followed quickly. However, when a message has multiple segments, it does not matter where those segments are located in memory relative to each other; inter-segment pointers are encoded differently, as we’ll see later.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Tars语言与协议</title>
       <link>https://alimy.github.io/post/dev_201909211556/</link>
       <pubDate>Sat, 21 Sep 2019 15:56:00 +0800</pubDate>
-      
       <guid>https://alimy.github.io/post/dev_201909211556/</guid>
       <description>&lt;h3 id=&#34;目录&#34;&gt;目录&lt;/h3&gt;
 &lt;ul&gt;
@@ -88,12 +82,10 @@
 &lt;li&gt;大小写敏感&lt;/li&gt;
 &lt;/ul&gt;</description>
     </item>
-    
     <item>
       <title>Protocol Buffers Version 3 Language Specification</title>
       <link>https://alimy.github.io/post/dev_201909211536/</link>
       <pubDate>Sat, 21 Sep 2019 15:36:00 +0800</pubDate>
-      
       <guid>https://alimy.github.io/post/dev_201909211536/</guid>
       <description>&lt;p&gt;This is a language specification reference for version 3 of the Protocol Buffers language (proto3). The syntax is specified using Extended &lt;a href=&#34;https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_Form&#34; title=&#34;EBNF in WIKI&#34;&gt;Backus-Naur Form (EBNF)&lt;/a&gt;:&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;|   alternation
@@ -109,12 +101,10 @@ octalDigit   = &amp;#34;0&amp;#34; … &amp;#34;7&amp;#34;
 hexDigit     = &amp;#34;0&amp;#34; … &amp;#34;9&amp;#34; | &amp;#34;A&amp;#34; … &amp;#34;F&amp;#34; | &amp;#34;a&amp;#34; … &amp;#34;f&amp;#34;
 &lt;/code&gt;&lt;/pre&gt;</description>
     </item>
-    
     <item>
       <title>Protocol Buffers Version 2 Language Specification</title>
       <link>https://alimy.github.io/post/dev_201909211516/</link>
       <pubDate>Sat, 21 Sep 2019 15:16:00 +0800</pubDate>
-      
       <guid>https://alimy.github.io/post/dev_201909211516/</guid>
       <description>&lt;p&gt;This is a language specification reference for version 2 of the Protocol Buffers language (proto2). The syntax is specified using Extended &lt;a href=&#34;https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_Form&#34; title=&#34;EBNF in WIKI&#34;&gt;Backus-Naur Form (EBNF)&lt;/a&gt;:&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;|   alternation
@@ -131,12 +121,10 @@ octalDigit   = &amp;#34;0&amp;#34; … &amp;#34;7&amp;#34;
 hexDigit     = &amp;#34;0&amp;#34; … &amp;#34;9&amp;#34; | &amp;#34;A&amp;#34; … &amp;#34;F&amp;#34; | &amp;#34;a&amp;#34; … &amp;#34;f&amp;#34;
 &lt;/code&gt;&lt;/pre&gt;</description>
     </item>
-    
     <item>
       <title>Cap&#39;n Proto Schema Language</title>
       <link>https://alimy.github.io/post/dev_201909211159/</link>
       <pubDate>Sat, 21 Sep 2019 11:59:00 +0800</pubDate>
-      
       <guid>https://alimy.github.io/post/dev_201909211159/</guid>
       <description>&lt;h2 id=&#34;schema-language&#34;&gt;Schema Language&lt;/h2&gt;
 &lt;p&gt;Like Protocol Buffers and Thrift (but unlike JSON or MessagePack), Cap’n Proto messages are strongly-typed and not self-describing. You must define your message structure in a special language, then invoke the Cap’n Proto compiler (&lt;code&gt;capnp compile&lt;/code&gt;) to generate source code to manipulate that message type in your desired language.&lt;/p&gt;
@@ -169,6 +157,5 @@ struct Date {
 }
 &lt;/code&gt;&lt;/pre&gt;</description>
     </item>
-    
   </channel>
 </rss>

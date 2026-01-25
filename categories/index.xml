@@ -7,159 +7,126 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Sun, 28 Jan 2024 16:30:00 +0800</lastBuildDate><atom:link href="https://alimy.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 28 Jan 2024 16:30:00 +0800</lastBuildDate>
+    <atom:link href="https://alimy.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Development</title>
       <link>https://alimy.github.io/categories/development/</link>
       <pubDate>Sun, 28 Jan 2024 16:30:00 +0800</pubDate>
-      
       <guid>https://alimy.github.io/categories/development/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>About</title>
       <link>https://alimy.github.io/categories/about/</link>
       <pubDate>Tue, 04 Jul 2023 06:00:00 +0800</pubDate>
-      
       <guid>https://alimy.github.io/categories/about/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Other</title>
       <link>https://alimy.github.io/categories/other/</link>
-      <pubDate>Thu, 16 Feb 2023 15:55:00 +0800</pubDate>
-      
+      <pubDate>Mon, 06 Mar 2023 14:12:00 +0800</pubDate>
       <guid>https://alimy.github.io/categories/other/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>FAQs</title>
       <link>https://alimy.github.io/categories/faqs/</link>
       <pubDate>Wed, 01 Feb 2023 19:48:00 +0800</pubDate>
-      
       <guid>https://alimy.github.io/categories/faqs/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Art</title>
       <link>https://alimy.github.io/categories/art/</link>
       <pubDate>Sat, 15 Jan 2022 13:35:00 +0800</pubDate>
-      
       <guid>https://alimy.github.io/categories/art/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Story</title>
       <link>https://alimy.github.io/categories/story/</link>
       <pubDate>Sat, 22 May 2021 13:07:00 +0800</pubDate>
-      
       <guid>https://alimy.github.io/categories/story/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>language</title>
       <link>https://alimy.github.io/categories/language/</link>
       <pubDate>Mon, 18 Jan 2021 12:48:00 +0800</pubDate>
-      
       <guid>https://alimy.github.io/categories/language/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Tg</title>
       <link>https://alimy.github.io/categories/tg/</link>
       <pubDate>Mon, 04 Jan 2021 20:02:00 +0800</pubDate>
-      
       <guid>https://alimy.github.io/categories/tg/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Rust</title>
       <link>https://alimy.github.io/categories/rust/</link>
       <pubDate>Fri, 10 Jan 2020 04:25:00 +0800</pubDate>
-      
       <guid>https://alimy.github.io/categories/rust/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>RPC</title>
       <link>https://alimy.github.io/categories/rpc/</link>
       <pubDate>Sun, 05 Jan 2020 00:47:00 +0800</pubDate>
-      
       <guid>https://alimy.github.io/categories/rpc/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Security</title>
       <link>https://alimy.github.io/categories/security/</link>
       <pubDate>Sat, 17 Nov 2018 14:35:00 +0800</pubDate>
-      
       <guid>https://alimy.github.io/categories/security/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Information</title>
       <link>https://alimy.github.io/categories/information/</link>
       <pubDate>Mon, 21 May 2018 08:19:00 +0800</pubDate>
-      
       <guid>https://alimy.github.io/categories/information/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Golang</title>
       <link>https://alimy.github.io/categories/golang/</link>
       <pubDate>Sat, 03 Mar 2018 19:34:00 +0800</pubDate>
-      
       <guid>https://alimy.github.io/categories/golang/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Transport</title>
       <link>https://alimy.github.io/categories/transport/</link>
       <pubDate>Thu, 24 Mar 2016 22:55:00 +0800</pubDate>
-      
       <guid>https://alimy.github.io/categories/transport/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Game</title>
       <link>https://alimy.github.io/categories/game/</link>
       <pubDate>Thu, 24 Mar 2016 21:35:00 +0800</pubDate>
-      
       <guid>https://alimy.github.io/categories/game/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Cloud</title>
       <link>https://alimy.github.io/categories/cloud/</link>
       <pubDate>Sat, 16 Jan 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://alimy.github.io/categories/cloud/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>文摘</title>
       <link>https://alimy.github.io/categories/%E6%96%87%E6%91%98/</link>
       <pubDate>Wed, 26 Jan 1994 00:00:00 +0800</pubDate>
-      
       <guid>https://alimy.github.io/categories/%E6%96%87%E6%91%98/</guid>
       <description></description>
     </item>
-    
   </channel>
 </rss>

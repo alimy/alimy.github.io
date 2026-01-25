@@ -15,17 +15,6 @@
   
   <script src="https://alimy.github.io/js/jquery.min.js"></script>
   <script src="https://alimy.github.io/js/main.min.js"></script>
-  <script>
-    (function (i, s, o, g, r, a, m) {
-      i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
-        (i[r].q = i[r].q || []).push(arguments)
-      }, i[r].l = 1 * new Date(); a = s.createElement(o),
-        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
-    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-
-    ga('create', 'UA-75081327-1', 'auto');
-    ga('send', 'pageview');
-  </script>
 
   
   <script>
@@ -248,28 +237,25 @@
                 <div class="navigation-wrapper">
                     <nav class="cover-navigation cover-navigation--primary">
                         <ul class="navigation">
-                            <li class="navigation__item"><a href="https://alimy.github.io" title="博客首页" class="blog-button">Blog</a> </li> </br></br>
-                            <li class="navigation__item"><a href="https://alimy.github.io/post/" title="文章列表" class="blog-button">Articles</a> </li>
+                            <li class="navigation__item"><a href="https://alimy.github.io" title="博客首页" class="blog-button">首页</a> </li> </br></br>
+                            <li class="navigation__item"><a href="https://alimy.github.io/post/" title="文章列表" class="blog-button">文章列表</a> </li>
                             </br>  </br>
-                            <li class="navigation__item"><a href="https://alimy.github.io/pages/cv" title="关于我 " class="blog-button">About Me</a> </li>
+                            <li class="navigation__item"><a href="https://alimy.github.io/pages/cv" title="关于我 " class="blog-button">关于我</a> </li>
                             </br>  </ul>
                             <nav class="cover-navigation navigation--social">
 </br>
     <ul class="navigation"> 
-        <li class="navigation__item">
-            <a href="http://my.gility.net/" title="@Memos" target="_blank"> <i class='fa fa-user-secret'></i> <span class="label">Twitter</span> </a>
-        </li>
+        
         <li class="navigation__item">
             <a href="https://iibiubiu.com" title="@iiBiuBiu" target="_blank"> <i class='fa fa-anchor'></i> <span class="label">Twitter</span> </a>
         </li>
         <li class="navigation__item">
-            <a href="https://www.paopao.info/#/u?s=alimy" title="@Paopao" target="_blank"> <i class='fa fa-leaf'></i> <span class="label">Twitter</span> </a>
+            <a href="https://www.paopao.info/#/u?s=alimy" title="@paopao" target="_blank"> <i class='fa fa-leaf'></i> <span class="label">Twitter</span> </a>
         </li><br>
         
         
-        <li class="navigation__item">
-            <a href="http://twitter.com/bitriory" title="@Twitter" target="_blank"> <i class='fa fa-twitter'></i> <span class="label">Twitter</span> </a>
-        </li>   
+        
+          
         
         <li class="navigation__item">
             <a href="https://github.com/alimy" title="@GitHub" target="_blank"> <i class='fa fa-github'></i> <span class="label">Github</span> </a>
@@ -314,20 +300,17 @@
                         </nav> <nav class="cover-navigation navigation--social">
 </br>
     <ul class="navigation"> 
-        <li class="navigation__item">
-            <a href="http://my.gility.net/" title="@Memos" target="_blank"> <i class='fa fa-user-secret'></i> <span class="label">Twitter</span> </a>
-        </li>
+        
         <li class="navigation__item">
             <a href="https://iibiubiu.com" title="@iiBiuBiu" target="_blank"> <i class='fa fa-anchor'></i> <span class="label">Twitter</span> </a>
         </li>
         <li class="navigation__item">
-            <a href="https://www.paopao.info/#/u?s=alimy" title="@Paopao" target="_blank"> <i class='fa fa-leaf'></i> <span class="label">Twitter</span> </a>
+            <a href="https://www.paopao.info/#/u?s=alimy" title="@paopao" target="_blank"> <i class='fa fa-leaf'></i> <span class="label">Twitter</span> </a>
         </li><br>
         
         
-        <li class="navigation__item">
-            <a href="http://twitter.com/bitriory" title="@Twitter" target="_blank"> <i class='fa fa-twitter'></i> <span class="label">Twitter</span> </a>
-        </li>   
+        
+          
         
         <li class="navigation__item">
             <a href="https://github.com/alimy" title="@GitHub" target="_blank"> <i class='fa fa-github'></i> <span class="label">Github</span> </a>
@@ -432,42 +415,42 @@
 </span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/dependencies&gt;</span>
 </span></span></code></pre></div><p>That is it, now your maven project is Gson enabled.</p>
 <h3 id="a-nametoc-primitives-examplesaprimitives-examples"><!-- raw HTML omitted --><!-- raw HTML omitted -->Primitives Examples</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">// Serialization
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>Gson gson <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Gson<span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>gson<span style="color:#f92672">.</span><span style="color:#a6e22e">toJson</span><span style="color:#f92672">(</span><span style="color:#ae81ff">1</span><span style="color:#f92672">);</span>            <span style="color:#75715e">// ==&gt; 1
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>gson<span style="color:#f92672">.</span><span style="color:#a6e22e">toJson</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;abcd&#34;</span><span style="color:#f92672">);</span>       <span style="color:#75715e">// ==&gt; &#34;abcd&#34;
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>gson<span style="color:#f92672">.</span><span style="color:#a6e22e">toJson</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> Long<span style="color:#f92672">(</span><span style="color:#ae81ff">10</span><span style="color:#f92672">));</span> <span style="color:#75715e">// ==&gt; 10
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span><span style="color:#f92672">[]</span> values <span style="color:#f92672">=</span> <span style="color:#f92672">{</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">};</span>
-</span></span><span style="display:flex;"><span>gson<span style="color:#f92672">.</span><span style="color:#a6e22e">toJson</span><span style="color:#f92672">(</span>values<span style="color:#f92672">);</span>       <span style="color:#75715e">// ==&gt; [1]
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// Deserialization
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> one <span style="color:#f92672">=</span> gson<span style="color:#f92672">.</span><span style="color:#a6e22e">fromJson</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;1&#34;</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span><span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>Integer one <span style="color:#f92672">=</span> gson<span style="color:#f92672">.</span><span style="color:#a6e22e">fromJson</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;1&#34;</span><span style="color:#f92672">,</span> Integer<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>Long one <span style="color:#f92672">=</span> gson<span style="color:#f92672">.</span><span style="color:#a6e22e">fromJson</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;1&#34;</span><span style="color:#f92672">,</span> Long<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>Boolean <span style="color:#66d9ef">false</span> <span style="color:#f92672">=</span> gson<span style="color:#f92672">.</span><span style="color:#a6e22e">fromJson</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;false&#34;</span><span style="color:#f92672">,</span> Boolean<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>String str <span style="color:#f92672">=</span> gson<span style="color:#f92672">.</span><span style="color:#a6e22e">fromJson</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;\&#34;abc\&#34;&#34;</span><span style="color:#f92672">,</span> String<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>String anotherStr <span style="color:#f92672">=</span> gson<span style="color:#f92672">.</span><span style="color:#a6e22e">fromJson</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;[\&#34;abc\&#34;]&#34;</span><span style="color:#f92672">,</span> String<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">// Serialization</span>
+</span></span><span style="display:flex;"><span>Gson gson <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Gson();
+</span></span><span style="display:flex;"><span>gson.<span style="color:#a6e22e">toJson</span>(1);            <span style="color:#75715e">// ==&gt; 1</span>
+</span></span><span style="display:flex;"><span>gson.<span style="color:#a6e22e">toJson</span>(<span style="color:#e6db74">&#34;abcd&#34;</span>);       <span style="color:#75715e">// ==&gt; &#34;abcd&#34;</span>
+</span></span><span style="display:flex;"><span>gson.<span style="color:#a6e22e">toJson</span>(<span style="color:#66d9ef">new</span> Long(10)); <span style="color:#75715e">// ==&gt; 10</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span><span style="color:#f92672">[]</span> values <span style="color:#f92672">=</span> { 1 };
+</span></span><span style="display:flex;"><span>gson.<span style="color:#a6e22e">toJson</span>(values);       <span style="color:#75715e">// ==&gt; [1]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Deserialization</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> one <span style="color:#f92672">=</span> gson.<span style="color:#a6e22e">fromJson</span>(<span style="color:#e6db74">&#34;1&#34;</span>, <span style="color:#66d9ef">int</span>.<span style="color:#a6e22e">class</span>);
+</span></span><span style="display:flex;"><span>Integer one <span style="color:#f92672">=</span> gson.<span style="color:#a6e22e">fromJson</span>(<span style="color:#e6db74">&#34;1&#34;</span>, Integer.<span style="color:#a6e22e">class</span>);
+</span></span><span style="display:flex;"><span>Long one <span style="color:#f92672">=</span> gson.<span style="color:#a6e22e">fromJson</span>(<span style="color:#e6db74">&#34;1&#34;</span>, Long.<span style="color:#a6e22e">class</span>);
+</span></span><span style="display:flex;"><span>Boolean <span style="color:#66d9ef">false</span> <span style="color:#f92672">=</span> gson.<span style="color:#a6e22e">fromJson</span>(<span style="color:#e6db74">&#34;false&#34;</span>, Boolean.<span style="color:#a6e22e">class</span>);
+</span></span><span style="display:flex;"><span>String str <span style="color:#f92672">=</span> gson.<span style="color:#a6e22e">fromJson</span>(<span style="color:#e6db74">&#34;\&#34;abc\&#34;&#34;</span>, String.<span style="color:#a6e22e">class</span>);
+</span></span><span style="display:flex;"><span>String anotherStr <span style="color:#f92672">=</span> gson.<span style="color:#a6e22e">fromJson</span>(<span style="color:#e6db74">&#34;[\&#34;abc\&#34;]&#34;</span>, String.<span style="color:#a6e22e">class</span>);
 </span></span></code></pre></div><h3 id="a-nametoc-object-examplesaobject-examples"><!-- raw HTML omitted --><!-- raw HTML omitted -->Object Examples</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">BagOfPrimitives</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> value1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">private</span> String value2 <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;abc&#34;</span><span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">transient</span> <span style="color:#66d9ef">int</span> value3 <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span><span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>  BagOfPrimitives<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// no-args constructor
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">BagOfPrimitives</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> value1 <span style="color:#f92672">=</span> 1;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">private</span> String value2 <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;abc&#34;</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">transient</span> <span style="color:#66d9ef">int</span> value3 <span style="color:#f92672">=</span> 3;
+</span></span><span style="display:flex;"><span>  BagOfPrimitives() {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// no-args constructor</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// Serialization
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>BagOfPrimitives obj <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> BagOfPrimitives<span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>Gson gson <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Gson<span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>String json <span style="color:#f92672">=</span> gson<span style="color:#f92672">.</span><span style="color:#a6e22e">toJson</span><span style="color:#f92672">(</span>obj<span style="color:#f92672">);</span>  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Serialization</span>
+</span></span><span style="display:flex;"><span>BagOfPrimitives obj <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> BagOfPrimitives();
+</span></span><span style="display:flex;"><span>Gson gson <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Gson();
+</span></span><span style="display:flex;"><span>String json <span style="color:#f92672">=</span> gson.<span style="color:#a6e22e">toJson</span>(obj);  
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// ==&gt; json is {&#34;value1&#34;:1,&#34;value2&#34;:&#34;abc&#34;}
-</span></span></span></code></pre></div><p>Note that you can not serialize objects with circular references since that will result in infinite recursion.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">// Deserialization
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>BagOfPrimitives obj2 <span style="color:#f92672">=</span> gson<span style="color:#f92672">.</span><span style="color:#a6e22e">fromJson</span><span style="color:#f92672">(</span>json<span style="color:#f92672">,</span> BagOfPrimitives<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// ==&gt; obj2 is just like obj
-</span></span></span></code></pre></div><h4 id="a-nametoc-finer-points-with-objectsafiner-points-with-objects"><!-- raw HTML omitted --><!-- raw HTML omitted --><strong>Finer Points with Objects</strong></h4>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ==&gt; json is {&#34;value1&#34;:1,&#34;value2&#34;:&#34;abc&#34;}</span>
+</span></span></code></pre></div><p>Note that you can not serialize objects with circular references since that will result in infinite recursion.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">// Deserialization</span>
+</span></span><span style="display:flex;"><span>BagOfPrimitives obj2 <span style="color:#f92672">=</span> gson.<span style="color:#a6e22e">fromJson</span>(json, BagOfPrimitives.<span style="color:#a6e22e">class</span>);
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ==&gt; obj2 is just like obj</span>
+</span></span></code></pre></div><h4 id="a-nametoc-finer-points-with-objectsafiner-points-with-objects"><!-- raw HTML omitted --><!-- raw HTML omitted --><strong>Finer Points with Objects</strong></h4>
 <ul>
 <li>It is perfectly fine (and recommended) to use private fields</li>
 <li>There is no need to use any annotations to indicate a field is to be included for serialization and deserialization. All fields in the current class (and from all super classes) are included by default.</li>
@@ -481,93 +464,93 @@
 <h3 id="a-nametoc-nested-classes-including-inner-classes-anested-classes-including-inner-classes"><!-- raw HTML omitted --><!-- raw HTML omitted -->Nested Classes (including Inner Classes)</h3>
 <p>Gson can serialize static nested classes quite easily.</p>
 <p>Gson can also deserialize static nested classes. However, Gson can <strong>not</strong> automatically deserialize the <strong>pure inner classes since their no-args constructor also need a reference to the containing Object</strong> which is not available at the time of deserialization. You can address this problem by either making the inner class static or by providing a custom InstanceCreator for it. Here is an example:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">A</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> String a<span style="color:#f92672">;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">A</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> String a;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">B</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">B</span> {
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> String b<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> String b;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">B</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// No args constructor for B
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">B</span>() {
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// No args constructor for B</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p><strong>NOTE</strong>: The above class B can not (by default) be serialized with Gson.</p>
 <p>Gson can not deserialize <code>{&quot;b&quot;:&quot;abc&quot;}</code> into an instance of B since the class B is an inner class. if it was defined as static class B then Gson would have been able to deserialize the string. Another solution is to write a custom instance creator for B.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">InstanceCreatorForB</span> <span style="color:#66d9ef">implements</span> InstanceCreator<span style="color:#f92672">&lt;</span>A<span style="color:#f92672">.</span><span style="color:#a6e22e">B</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> A a<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">InstanceCreatorForB</span><span style="color:#f92672">(</span>A a<span style="color:#f92672">)</span>  <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">a</span> <span style="color:#f92672">=</span> a<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> A<span style="color:#f92672">.</span><span style="color:#a6e22e">B</span> <span style="color:#a6e22e">createInstance</span><span style="color:#f92672">(</span>Type type<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> a<span style="color:#f92672">.</span><span style="color:#a6e22e">new</span> <span style="color:#a6e22e">B</span><span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">InstanceCreatorForB</span> <span style="color:#66d9ef">implements</span> InstanceCreator<span style="color:#f92672">&lt;</span>A.<span style="color:#a6e22e">B</span><span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> A a;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">InstanceCreatorForB</span>(A a)  {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">a</span> <span style="color:#f92672">=</span> a;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> A.<span style="color:#a6e22e">B</span> <span style="color:#a6e22e">createInstance</span>(Type type) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> a.<span style="color:#a6e22e">new</span> <span style="color:#a6e22e">B</span>();
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>The above is possible, but not recommended.</p>
 <h3 id="a-nametoc-array-examplesaarray-examples"><!-- raw HTML omitted --><!-- raw HTML omitted -->Array Examples</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Gson gson <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Gson<span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span><span style="color:#f92672">[]</span> ints <span style="color:#f92672">=</span> <span style="color:#f92672">{</span><span style="color:#ae81ff">1</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">3</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">4</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">5</span><span style="color:#f92672">};</span>
-</span></span><span style="display:flex;"><span>String<span style="color:#f92672">[]</span> strings <span style="color:#f92672">=</span> <span style="color:#f92672">{</span><span style="color:#e6db74">&#34;abc&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;def&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;ghi&#34;</span><span style="color:#f92672">};</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Gson gson <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Gson();
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span><span style="color:#f92672">[]</span> ints <span style="color:#f92672">=</span> {1, 2, 3, 4, 5};
+</span></span><span style="display:flex;"><span>String<span style="color:#f92672">[]</span> strings <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#34;abc&#34;</span>, <span style="color:#e6db74">&#34;def&#34;</span>, <span style="color:#e6db74">&#34;ghi&#34;</span>};
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// Serialization
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>gson<span style="color:#f92672">.</span><span style="color:#a6e22e">toJson</span><span style="color:#f92672">(</span>ints<span style="color:#f92672">);</span>     <span style="color:#75715e">// ==&gt; [1,2,3,4,5]
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>gson<span style="color:#f92672">.</span><span style="color:#a6e22e">toJson</span><span style="color:#f92672">(</span>strings<span style="color:#f92672">);</span>  <span style="color:#75715e">// ==&gt; [&#34;abc&#34;, &#34;def&#34;, &#34;ghi&#34;]
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// Deserialization
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span><span style="color:#f92672">[]</span> ints2 <span style="color:#f92672">=</span> gson<span style="color:#f92672">.</span><span style="color:#a6e22e">fromJson</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;[1,2,3,4,5]&#34;</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span><span style="color:#f92672">[].</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// ==&gt; ints2 will be same as ints
-</span></span></span></code></pre></div><p>We also support multi-dimensional arrays, with arbitrarily complex element types.</p>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Serialization</span>
+</span></span><span style="display:flex;"><span>gson.<span style="color:#a6e22e">toJson</span>(ints);     <span style="color:#75715e">// ==&gt; [1,2,3,4,5]</span>
+</span></span><span style="display:flex;"><span>gson.<span style="color:#a6e22e">toJson</span>(strings);  <span style="color:#75715e">// ==&gt; [&#34;abc&#34;, &#34;def&#34;, &#34;ghi&#34;]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Deserialization</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span><span style="color:#f92672">[]</span> ints2 <span style="color:#f92672">=</span> gson.<span style="color:#a6e22e">fromJson</span>(<span style="color:#e6db74">&#34;[1,2,3,4,5]&#34;</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">[]</span>.<span style="color:#a6e22e">class</span>);
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ==&gt; ints2 will be same as ints</span>
+</span></span></code></pre></div><p>We also support multi-dimensional arrays, with arbitrarily complex element types.</p>
 <h3 id="a-nametoc-collections-examplesacollections-examples"><!-- raw HTML omitted --><!-- raw HTML omitted -->Collections Examples</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Gson gson <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Gson<span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>Collection<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;</span> ints <span style="color:#f92672">=</span> Lists<span style="color:#f92672">.</span><span style="color:#a6e22e">immutableList</span><span style="color:#f92672">(</span><span style="color:#ae81ff">1</span><span style="color:#f92672">,</span><span style="color:#ae81ff">2</span><span style="color:#f92672">,</span><span style="color:#ae81ff">3</span><span style="color:#f92672">,</span><span style="color:#ae81ff">4</span><span style="color:#f92672">,</span><span style="color:#ae81ff">5</span><span style="color:#f92672">);</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Gson gson <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Gson();
+</span></span><span style="display:flex;"><span>Collection<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;</span> ints <span style="color:#f92672">=</span> Lists.<span style="color:#a6e22e">immutableList</span>(1,2,3,4,5);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// Serialization
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>String json <span style="color:#f92672">=</span> gson<span style="color:#f92672">.</span><span style="color:#a6e22e">toJson</span><span style="color:#f92672">(</span>ints<span style="color:#f92672">);</span>  <span style="color:#75715e">// ==&gt; json is [1,2,3,4,5]
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// Deserialization
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>Type collectionType <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TypeToken<span style="color:#f92672">&lt;</span>Collection<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;&gt;(){}.</span><span style="color:#a6e22e">getType</span><span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>Collection<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;</span> ints2 <span style="color:#f92672">=</span> gson<span style="color:#f92672">.</span><span style="color:#a6e22e">fromJson</span><span style="color:#f92672">(</span>json<span style="color:#f92672">,</span> collectionType<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// ==&gt; ints2 is same as ints
-</span></span></span></code></pre></div><p>Fairly hideous: note how we define the type of collection.
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Serialization</span>
+</span></span><span style="display:flex;"><span>String json <span style="color:#f92672">=</span> gson.<span style="color:#a6e22e">toJson</span>(ints);  <span style="color:#75715e">// ==&gt; json is [1,2,3,4,5]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Deserialization</span>
+</span></span><span style="display:flex;"><span>Type collectionType <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TypeToken<span style="color:#f92672">&lt;</span>Collection<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;&gt;</span>(){}.<span style="color:#a6e22e">getType</span>();
+</span></span><span style="display:flex;"><span>Collection<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;</span> ints2 <span style="color:#f92672">=</span> gson.<span style="color:#a6e22e">fromJson</span>(json, collectionType);
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ==&gt; ints2 is same as ints</span>
+</span></span></code></pre></div><p>Fairly hideous: note how we define the type of collection.
 Unfortunately, there is no way to get around this in Java.</p>
 <h4 id="a-nametoc-collections-limitationsacollections-limitations"><!-- raw HTML omitted --><!-- raw HTML omitted -->Collections Limitations</h4>
 <p>Gson can serialize collection of arbitrary objects but can not deserialize from it, because there is no way for the user to indicate the type of the resulting object. Instead, while deserializing, the Collection must be of a specific, generic type.
 This makes sense, and is rarely a problem when following good Java coding practices.</p>
 <h3 id="a-nametoc-serializing-and-deserializing-generic-typesaserializing-and-deserializing-generic-types"><!-- raw HTML omitted --><!-- raw HTML omitted -->Serializing and Deserializing Generic Types</h3>
 <p>When you call <code>toJson(obj)</code>, Gson calls <code>obj.getClass()</code> to get information on the fields to serialize. Similarly, you can typically pass <code>MyClass.class</code> object in the <code>fromJson(json, MyClass.class)</code> method. This works fine if the object is a non-generic type. However, if the object is of a generic type, then the Generic type information is lost because of Java Type Erasure. Here is an example illustrating the point:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Foo</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>  T value<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>Gson gson <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Gson<span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>Foo<span style="color:#f92672">&lt;</span>Bar<span style="color:#f92672">&gt;</span> foo <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Foo<span style="color:#f92672">&lt;</span>Bar<span style="color:#f92672">&gt;();</span>
-</span></span><span style="display:flex;"><span>gson<span style="color:#f92672">.</span><span style="color:#a6e22e">toJson</span><span style="color:#f92672">(</span>foo<span style="color:#f92672">);</span> <span style="color:#75715e">// May not serialize foo.value correctly
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span>gson<span style="color:#f92672">.</span><span style="color:#a6e22e">fromJson</span><span style="color:#f92672">(</span>json<span style="color:#f92672">,</span> foo<span style="color:#f92672">.</span><span style="color:#a6e22e">getClass</span><span style="color:#f92672">());</span> <span style="color:#75715e">// Fails to deserialize foo.value as Bar
-</span></span></span></code></pre></div><p>The above code fails to interpret value as type Bar because Gson invokes <code>list.getClass()</code> to get its class information, but this method returns a raw class, <code>Foo.class</code>. This means that Gson has no way of knowing that this is an object of type <code>Foo&lt;Bar&gt;</code>, and not just plain <code>Foo</code>.</p>
-<p>You can solve this problem by specifying the correct parameterized type for your generic type. You can do this by using the <a href="http://google.github.io/gson/apidocs/com/google/gson/reflect/TypeToken.html"><code>TypeToken</code></a> class.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Type fooType <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TypeToken<span style="color:#f92672">&lt;</span>Foo<span style="color:#f92672">&lt;</span>Bar<span style="color:#f92672">&gt;&gt;()</span> <span style="color:#f92672">{}.</span><span style="color:#a6e22e">getType</span><span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>gson<span style="color:#f92672">.</span><span style="color:#a6e22e">toJson</span><span style="color:#f92672">(</span>foo<span style="color:#f92672">,</span> fooType<span style="color:#f92672">);</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Foo</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>  T value;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>Gson gson <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Gson();
+</span></span><span style="display:flex;"><span>Foo<span style="color:#f92672">&lt;</span>Bar<span style="color:#f92672">&gt;</span> foo <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Foo<span style="color:#f92672">&lt;</span>Bar<span style="color:#f92672">&gt;</span>();
+</span></span><span style="display:flex;"><span>gson.<span style="color:#a6e22e">toJson</span>(foo); <span style="color:#75715e">// May not serialize foo.value correctly</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>gson<span style="color:#f92672">.</span><span style="color:#a6e22e">fromJson</span><span style="color:#f92672">(</span>json<span style="color:#f92672">,</span> fooType<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>gson.<span style="color:#a6e22e">fromJson</span>(json, foo.<span style="color:#a6e22e">getClass</span>()); <span style="color:#75715e">// Fails to deserialize foo.value as Bar</span>
+</span></span></code></pre></div><p>The above code fails to interpret value as type Bar because Gson invokes <code>list.getClass()</code> to get its class information, but this method returns a raw class, <code>Foo.class</code>. This means that Gson has no way of knowing that this is an object of type <code>Foo&lt;Bar&gt;</code>, and not just plain <code>Foo</code>.</p>
+<p>You can solve this problem by specifying the correct parameterized type for your generic type. You can do this by using the <a href="http://google.github.io/gson/apidocs/com/google/gson/reflect/TypeToken.html"><code>TypeToken</code></a> class.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Type fooType <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TypeToken<span style="color:#f92672">&lt;</span>Foo<span style="color:#f92672">&lt;</span>Bar<span style="color:#f92672">&gt;&gt;</span>() {}.<span style="color:#a6e22e">getType</span>();
+</span></span><span style="display:flex;"><span>gson.<span style="color:#a6e22e">toJson</span>(foo, fooType);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>gson.<span style="color:#a6e22e">fromJson</span>(json, fooType);
 </span></span></code></pre></div><p>The idiom used to get <code>fooType</code> actually defines an anonymous local inner class containing a method <code>getType()</code> that returns the fully parameterized type.</p>
 <h3 id="a-nametoc-serializing-and-deserializing-collection-with-objects-of-arbitrary-typesaserializing-and-deserializing-collection-with-objects-of-arbitrary-types"><!-- raw HTML omitted --><!-- raw HTML omitted -->Serializing and Deserializing Collection with Objects of Arbitrary Types</h3>
 <p>Sometimes you are dealing with JSON array that contains mixed types. For example:
 <code>['hello',5,{name:'GREETINGS',source:'guest'}]</code></p>
 <p>The equivalent <code>Collection</code> containing this is:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Collection collection <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ArrayList<span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>collection<span style="color:#f92672">.</span><span style="color:#a6e22e">add</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;hello&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>collection<span style="color:#f92672">.</span><span style="color:#a6e22e">add</span><span style="color:#f92672">(</span><span style="color:#ae81ff">5</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>collection<span style="color:#f92672">.</span><span style="color:#a6e22e">add</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> Event<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;GREETINGS&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;guest&#34;</span><span style="color:#f92672">));</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Collection collection <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ArrayList();
+</span></span><span style="display:flex;"><span>collection.<span style="color:#a6e22e">add</span>(<span style="color:#e6db74">&#34;hello&#34;</span>);
+</span></span><span style="display:flex;"><span>collection.<span style="color:#a6e22e">add</span>(5);
+</span></span><span style="display:flex;"><span>collection.<span style="color:#a6e22e">add</span>(<span style="color:#66d9ef">new</span> Event(<span style="color:#e6db74">&#34;GREETINGS&#34;</span>, <span style="color:#e6db74">&#34;guest&#34;</span>));
 </span></span></code></pre></div><p>where the <code>Event</code> class is defined as:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Event</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">private</span> String name<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">private</span> String source<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">private</span> <span style="color:#a6e22e">Event</span><span style="color:#f92672">(</span>String name<span style="color:#f92672">,</span> String source<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">name</span> <span style="color:#f92672">=</span> name<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">source</span> <span style="color:#f92672">=</span> source<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Event</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">private</span> String name;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">private</span> String source;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">private</span> <span style="color:#a6e22e">Event</span>(String name, String source) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">name</span> <span style="color:#f92672">=</span> name;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">source</span> <span style="color:#f92672">=</span> source;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>You can serialize the collection with Gson without doing anything specific: <code>toJson(collection)</code> would write out the desired output.</p>
 <p>However, deserialization with <code>fromJson(json, Collection.class)</code> will not work since Gson has no way of knowing how to map the input to the types. Gson requires that you provide a genericised version of collection type in <code>fromJson()</code>. So, you have three options:</p>
 <ol>
@@ -604,28 +587,28 @@ Gson allows you to register your own custom serializers and deserializers. This 
 <p>Instance Creators: Not needed if no-args constructor is available or a deserializer is registered</p>
 </li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>GsonBuilder gson <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> GsonBuilder<span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>gson<span style="color:#f92672">.</span><span style="color:#a6e22e">registerTypeAdapter</span><span style="color:#f92672">(</span>MyType2<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">new</span> MyTypeAdapter<span style="color:#f92672">());</span>
-</span></span><span style="display:flex;"><span>gson<span style="color:#f92672">.</span><span style="color:#a6e22e">registerTypeAdapter</span><span style="color:#f92672">(</span>MyType<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">new</span> MySerializer<span style="color:#f92672">());</span>
-</span></span><span style="display:flex;"><span>gson<span style="color:#f92672">.</span><span style="color:#a6e22e">registerTypeAdapter</span><span style="color:#f92672">(</span>MyType<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">new</span> MyDeserializer<span style="color:#f92672">());</span>
-</span></span><span style="display:flex;"><span>gson<span style="color:#f92672">.</span><span style="color:#a6e22e">registerTypeAdapter</span><span style="color:#f92672">(</span>MyType<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">new</span> MyInstanceCreator<span style="color:#f92672">());</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>GsonBuilder gson <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> GsonBuilder();
+</span></span><span style="display:flex;"><span>gson.<span style="color:#a6e22e">registerTypeAdapter</span>(MyType2.<span style="color:#a6e22e">class</span>, <span style="color:#66d9ef">new</span> MyTypeAdapter());
+</span></span><span style="display:flex;"><span>gson.<span style="color:#a6e22e">registerTypeAdapter</span>(MyType.<span style="color:#a6e22e">class</span>, <span style="color:#66d9ef">new</span> MySerializer());
+</span></span><span style="display:flex;"><span>gson.<span style="color:#a6e22e">registerTypeAdapter</span>(MyType.<span style="color:#a6e22e">class</span>, <span style="color:#66d9ef">new</span> MyDeserializer());
+</span></span><span style="display:flex;"><span>gson.<span style="color:#a6e22e">registerTypeAdapter</span>(MyType.<span style="color:#a6e22e">class</span>, <span style="color:#66d9ef">new</span> MyInstanceCreator());
 </span></span></code></pre></div><p><code>registerTypeAdapter</code> call checks if the type adapter implements more than one of these interfaces and register it for all of them.</p>
 <h4 id="a-nametoc-writing-a-serializerawriting-a-serializer"><!-- raw HTML omitted --><!-- raw HTML omitted -->Writing a Serializer</h4>
 <p>Here is an example of how to write a custom serializer for JodaTime <code>DateTime</code> class.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">DateTimeSerializer</span> <span style="color:#66d9ef">implements</span> JsonSerializer<span style="color:#f92672">&lt;</span>DateTime<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> JsonElement <span style="color:#a6e22e">serialize</span><span style="color:#f92672">(</span>DateTime src<span style="color:#f92672">,</span> Type typeOfSrc<span style="color:#f92672">,</span> JsonSerializationContext context<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> JsonPrimitive<span style="color:#f92672">(</span>src<span style="color:#f92672">.</span><span style="color:#a6e22e">toString</span><span style="color:#f92672">());</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">DateTimeSerializer</span> <span style="color:#66d9ef">implements</span> JsonSerializer<span style="color:#f92672">&lt;</span>DateTime<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> JsonElement <span style="color:#a6e22e">serialize</span>(DateTime src, Type typeOfSrc, JsonSerializationContext context) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> JsonPrimitive(src.<span style="color:#a6e22e">toString</span>());
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>Gson calls <code>serialize()</code> when it runs into a <code>DateTime</code> object during serialization.</p>
 <h4 id="a-nametoc-writing-a-deserializerawriting-a-deserializer"><!-- raw HTML omitted --><!-- raw HTML omitted -->Writing a Deserializer</h4>
 <p>Here is an example of how to write a custom deserializer for JodaTime DateTime class.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">DateTimeDeserializer</span> <span style="color:#66d9ef">implements</span> JsonDeserializer<span style="color:#f92672">&lt;</span>DateTime<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> DateTime <span style="color:#a6e22e">deserialize</span><span style="color:#f92672">(</span>JsonElement json<span style="color:#f92672">,</span> Type typeOfT<span style="color:#f92672">,</span> JsonDeserializationContext context<span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">throws</span> JsonParseException <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> DateTime<span style="color:#f92672">(</span>json<span style="color:#f92672">.</span><span style="color:#a6e22e">getAsJsonPrimitive</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getAsString</span><span style="color:#f92672">());</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">DateTimeDeserializer</span> <span style="color:#66d9ef">implements</span> JsonDeserializer<span style="color:#f92672">&lt;</span>DateTime<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> DateTime <span style="color:#a6e22e">deserialize</span>(JsonElement json, Type typeOfT, JsonDeserializationContext context)
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">throws</span> JsonParseException {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> DateTime(json.<span style="color:#a6e22e">getAsJsonPrimitive</span>().<span style="color:#a6e22e">getAsString</span>());
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>Gson calls <code>deserialize</code> when it needs to deserialize a JSON string fragment into a DateTime object</p>
 <p><strong>Finer points with Serializers and Deserializers</strong></p>
 <p>Often you want to register a single handler for all generic types corresponding to a raw type</p>
@@ -652,11 +635,11 @@ Well-behaved classes that are meant for serialization and deserialization should
 </ul>
 <p>Typically, Instance Creators are needed when you are dealing with a library class that does NOT define a no-argument constructor</p>
 <p><strong>Instance Creator Example</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MoneyInstanceCreator</span> <span style="color:#66d9ef">implements</span> InstanceCreator<span style="color:#f92672">&lt;</span>Money<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> Money <span style="color:#a6e22e">createInstance</span><span style="color:#f92672">(</span>Type type<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> Money<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;1000000&#34;</span><span style="color:#f92672">,</span> CurrencyCode<span style="color:#f92672">.</span><span style="color:#a6e22e">USD</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MoneyInstanceCreator</span> <span style="color:#66d9ef">implements</span> InstanceCreator<span style="color:#f92672">&lt;</span>Money<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> Money <span style="color:#a6e22e">createInstance</span>(Type type) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> Money(<span style="color:#e6db74">&#34;1000000&#34;</span>, CurrencyCode.<span style="color:#a6e22e">USD</span>);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>Type could be of a corresponding generic type</p>
 <ul>
 <li>Very useful to invoke constructors which need specific generic type information</li>
@@ -664,33 +647,33 @@ Well-behaved classes that are meant for serialization and deserialization should
 </ul>
 <h4 id="a-nametoc-instancecreator-for-a-parameterized-typeainstancecreator-for-a-parameterized-type"><!-- raw HTML omitted --><!-- raw HTML omitted -->InstanceCreator for a Parameterized Type</h4>
 <p>Sometimes that the type that you are trying to instantiate is a parameterized type. Generally, this is not a problem since the actual instance is of raw type. Here is an example:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyList</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">extends</span> ArrayList<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyList</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">extends</span> ArrayList<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyListInstanceCreator</span> <span style="color:#66d9ef">implements</span> InstanceCreator<span style="color:#f92672">&lt;</span>MyList<span style="color:#f92672">&lt;?&gt;&gt;</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@SuppressWarnings</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;unchecked&#34;</span><span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> MyList<span style="color:#f92672">&lt;?&gt;</span> createInstance<span style="color:#f92672">(</span>Type type<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// No need to use a parameterized list since the actual instance will have the raw type anyway.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> MyList<span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyListInstanceCreator</span> <span style="color:#66d9ef">implements</span> InstanceCreator<span style="color:#f92672">&lt;</span>MyList<span style="color:#f92672">&lt;?&gt;&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@SuppressWarnings</span>(<span style="color:#e6db74">&#34;unchecked&#34;</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> MyList<span style="color:#f92672">&lt;?&gt;</span> createInstance(Type type) {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// No need to use a parameterized list since the actual instance will have the raw type anyway.</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> MyList();
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>However, sometimes you do need to create instance based on the actual parameterized type. In this case, you can use the type parameter being passed to the <code>createInstance</code> method. Here is an example:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Id</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> Class<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> classOfId<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">long</span> value<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Id</span><span style="color:#f92672">(</span>Class<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> classOfId<span style="color:#f92672">,</span> <span style="color:#66d9ef">long</span> value<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">classOfId</span> <span style="color:#f92672">=</span> classOfId<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">value</span> <span style="color:#f92672">=</span> value<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Id</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> Class<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> classOfId;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">long</span> value;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Id</span>(Class<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> classOfId, <span style="color:#66d9ef">long</span> value) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">classOfId</span> <span style="color:#f92672">=</span> classOfId;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">value</span> <span style="color:#f92672">=</span> value;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">IdInstanceCreator</span> <span style="color:#66d9ef">implements</span> InstanceCreator<span style="color:#f92672">&lt;</span>Id<span style="color:#f92672">&lt;?&gt;&gt;</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> Id<span style="color:#f92672">&lt;?&gt;</span> createInstance<span style="color:#f92672">(</span>Type type<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    Type<span style="color:#f92672">[]</span> typeParameters <span style="color:#f92672">=</span> <span style="color:#f92672">((</span>ParameterizedType<span style="color:#f92672">)</span>type<span style="color:#f92672">).</span><span style="color:#a6e22e">getActualTypeArguments</span><span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>    Type idType <span style="color:#f92672">=</span> typeParameters<span style="color:#f92672">[</span><span style="color:#ae81ff">0</span><span style="color:#f92672">];</span> <span style="color:#75715e">// Id has only one parameterized type T
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> Id<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">((</span>Class<span style="color:#f92672">)</span>idType<span style="color:#f92672">,</span> <span style="color:#ae81ff">0</span>L<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">IdInstanceCreator</span> <span style="color:#66d9ef">implements</span> InstanceCreator<span style="color:#f92672">&lt;</span>Id<span style="color:#f92672">&lt;?&gt;&gt;</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> Id<span style="color:#f92672">&lt;?&gt;</span> createInstance(Type type) {
+</span></span><span style="display:flex;"><span>    Type<span style="color:#f92672">[]</span> typeParameters <span style="color:#f92672">=</span> ((ParameterizedType)type).<span style="color:#a6e22e">getActualTypeArguments</span>();
+</span></span><span style="display:flex;"><span>    Type idType <span style="color:#f92672">=</span> typeParameters<span style="color:#f92672">[</span>0<span style="color:#f92672">]</span>; <span style="color:#75715e">// Id has only one parameterized type T</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> Id.<span style="color:#a6e22e">get</span>((Class)idType, 0L);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>In the above example, an instance of the Id class can not be created without actually passing in the actual type for the parameterized type. We solve this problem by using the passed method parameter, <code>type</code>. The <code>type</code> object in this case is the Java parameterized type representation of <code>Id&lt;Foo&gt;</code> where the actual instance should be bound to <code>Id&lt;Foo&gt;</code>. Since <code>Id</code> class has just one parameterized type parameter, <code>T</code>, we use the zeroth element of the type array returned by <code>getActualTypeArgument()</code> which will hold <code>Foo.class</code> in this case.</p>
 <h3 id="a-nametoc-compact-vs-pretty-printing-for-json-output-formatacompact-vs-pretty-printing-for-json-output-format"><!-- raw HTML omitted --><!-- raw HTML omitted -->Compact Vs. Pretty Printing for JSON Output Format</h3>
 <p>The default JSON output that is provide by Gson is a compact JSON format. This means that there will not be any whitespace in the output JSON structure. Therefore, there will be no whitespace between field names and its value, object fields, and objects within arrays in the JSON output. As well, &ldquo;null&rdquo; fields will be ignored in the output (NOTE: null values will still be included in collections/arrays of objects). See the <a href="#TOC-Null-Object-Support">Null Object Support</a> section for information on configure Gson to output all null values.</p>
@@ -701,56 +684,56 @@ String jsonOutput = gson.toJson(someObject);
 </code></pre><h3 id="a-nametoc-null-object-supportanull-object-support"><!-- raw HTML omitted --><!-- raw HTML omitted -->Null Object Support</h3>
 <p>The default behaviour that is implemented in Gson is that <code>null</code> object fields are ignored. This allows for a more compact output format; however, the client must define a default value for these fields as the JSON format is converted back into its Java.</p>
 <p>Here&rsquo;s how you would configure a <code>Gson</code> instance to output null:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Gson gson <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> GsonBuilder<span style="color:#f92672">().</span><span style="color:#a6e22e">serializeNulls</span><span style="color:#f92672">().</span><span style="color:#a6e22e">create</span><span style="color:#f92672">();</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Gson gson <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> GsonBuilder().<span style="color:#a6e22e">serializeNulls</span>().<span style="color:#a6e22e">create</span>();
 </span></span></code></pre></div><p>NOTE: when serializing <code>null</code>s with Gson, it will add a <code>JsonNull</code> element to the <code>JsonElement</code> structure. Therefore, this object can be used in custom serialization/deserialization.</p>
 <p>Here&rsquo;s an example:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Foo</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> String s<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">int</span> i<span style="color:#f92672">;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Foo</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> String s;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">int</span> i;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Foo</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span><span style="color:#f92672">(</span><span style="color:#66d9ef">null</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">5</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Foo</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span>(<span style="color:#66d9ef">null</span>, 5);
+</span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Foo</span><span style="color:#f92672">(</span>String s<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> i<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">s</span> <span style="color:#f92672">=</span> s<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">i</span> <span style="color:#f92672">=</span> i<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Foo</span>(String s, <span style="color:#66d9ef">int</span> i) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">s</span> <span style="color:#f92672">=</span> s;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">i</span> <span style="color:#f92672">=</span> i;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Gson gson <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> GsonBuilder<span style="color:#f92672">().</span><span style="color:#a6e22e">serializeNulls</span><span style="color:#f92672">().</span><span style="color:#a6e22e">create</span><span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>Foo foo <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Foo<span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>String json <span style="color:#f92672">=</span> gson<span style="color:#f92672">.</span><span style="color:#a6e22e">toJson</span><span style="color:#f92672">(</span>foo<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>json<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>Gson gson <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> GsonBuilder().<span style="color:#a6e22e">serializeNulls</span>().<span style="color:#a6e22e">create</span>();
+</span></span><span style="display:flex;"><span>Foo foo <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Foo();
+</span></span><span style="display:flex;"><span>String json <span style="color:#f92672">=</span> gson.<span style="color:#a6e22e">toJson</span>(foo);
+</span></span><span style="display:flex;"><span>System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(json);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>json <span style="color:#f92672">=</span> gson<span style="color:#f92672">.</span><span style="color:#a6e22e">toJson</span><span style="color:#f92672">(</span><span style="color:#66d9ef">null</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>json<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>json <span style="color:#f92672">=</span> gson.<span style="color:#a6e22e">toJson</span>(<span style="color:#66d9ef">null</span>);
+</span></span><span style="display:flex;"><span>System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(json);
 </span></span></code></pre></div><p>The output is:</p>
 <pre tabindex="0"><code>{&#34;s&#34;:null,&#34;i&#34;:5}
 null
 </code></pre><h3 id="a-nametoc-versioning-supportaversioning-support"><!-- raw HTML omitted --><!-- raw HTML omitted -->Versioning Support</h3>
 <p>Multiple versions of the same object can be maintained by using <a href="gson/src/main/java/com/google/gson/annotations/Since.java">@Since</a> annotation. This annotation can be used on Classes, Fields and, in a future release, Methods. In order to leverage this feature, you must configure your <code>Gson</code> instance to ignore any field/object that is greater than some version number. If no version is set on the <code>Gson</code> instance then it will serialize and deserialize all fields and classes regardless of the version.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">VersionedClass</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">@Since</span><span style="color:#f92672">(</span><span style="color:#ae81ff">1.1</span><span style="color:#f92672">)</span> <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> String newerField<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">@Since</span><span style="color:#f92672">(</span><span style="color:#ae81ff">1.0</span><span style="color:#f92672">)</span> <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> String newField<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> String field<span style="color:#f92672">;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">VersionedClass</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">@Since</span>(1.<span style="color:#a6e22e">1</span>) <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> String newerField;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">@Since</span>(1.<span style="color:#a6e22e">0</span>) <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> String newField;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> String field;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">VersionedClass</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">newerField</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;newer&#34;</span><span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">newField</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;new&#34;</span><span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">field</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;old&#34;</span><span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">VersionedClass</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">newerField</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;newer&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">newField</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;new&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">field</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;old&#34;</span>;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>VersionedClass versionedObject <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> VersionedClass<span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>Gson gson <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> GsonBuilder<span style="color:#f92672">().</span><span style="color:#a6e22e">setVersion</span><span style="color:#f92672">(</span><span style="color:#ae81ff">1.0</span><span style="color:#f92672">).</span><span style="color:#a6e22e">create</span><span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>String jsonOutput <span style="color:#f92672">=</span> gson<span style="color:#f92672">.</span><span style="color:#a6e22e">toJson</span><span style="color:#f92672">(</span>someObject<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>jsonOutput<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>VersionedClass versionedObject <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> VersionedClass();
+</span></span><span style="display:flex;"><span>Gson gson <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> GsonBuilder().<span style="color:#a6e22e">setVersion</span>(1.<span style="color:#a6e22e">0</span>).<span style="color:#a6e22e">create</span>();
+</span></span><span style="display:flex;"><span>String jsonOutput <span style="color:#f92672">=</span> gson.<span style="color:#a6e22e">toJson</span>(someObject);
+</span></span><span style="display:flex;"><span>System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(jsonOutput);
+</span></span><span style="display:flex;"><span>System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>();
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>gson <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Gson<span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>jsonOutput <span style="color:#f92672">=</span> gson<span style="color:#f92672">.</span><span style="color:#a6e22e">toJson</span><span style="color:#f92672">(</span>someObject<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>jsonOutput<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>gson <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Gson();
+</span></span><span style="display:flex;"><span>jsonOutput <span style="color:#f92672">=</span> gson.<span style="color:#a6e22e">toJson</span>(someObject);
+</span></span><span style="display:flex;"><span>System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(jsonOutput);
 </span></span></code></pre></div><p>The output is:</p>
 <pre tabindex="0"><code>{&#34;newField&#34;:&#34;new&#34;,&#34;field&#34;:&#34;old&#34;}
 
@@ -759,83 +742,83 @@ null
 <p>Gson supports numerous mechanisms for excluding top-level classes, fields and field types. Below are pluggable mechanism that allow field and class exclusion. If none of the below mechanism satisfy your needs then you can always use <a href="#TOC-Custom-Serialization-and-Deserializ">custom serializers and deserializers</a>.</p>
 <h4 id="a-nametoc-java-modifier-exclusionajava-modifier-exclusion"><!-- raw HTML omitted --><!-- raw HTML omitted -->Java Modifier Exclusion</h4>
 <p>By default, if you mark a field as <code>transient</code>, it will be excluded. As well, if a field is marked as <code>static</code> then by default it will be excluded. If you want to include some transient fields then you can do the following:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">import</span> java.lang.reflect.Modifier<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>Gson gson <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> GsonBuilder<span style="color:#f92672">()</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">.</span><span style="color:#a6e22e">excludeFieldsWithModifiers</span><span style="color:#f92672">(</span>Modifier<span style="color:#f92672">.</span><span style="color:#a6e22e">STATIC</span><span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">.</span><span style="color:#a6e22e">create</span><span style="color:#f92672">();</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">import</span> java.lang.reflect.Modifier;
+</span></span><span style="display:flex;"><span>Gson gson <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> GsonBuilder()
+</span></span><span style="display:flex;"><span>    .<span style="color:#a6e22e">excludeFieldsWithModifiers</span>(Modifier.<span style="color:#a6e22e">STATIC</span>)
+</span></span><span style="display:flex;"><span>    .<span style="color:#a6e22e">create</span>();
 </span></span></code></pre></div><p>NOTE: you can use any number of the <code>Modifier</code> constants to <code>excludeFieldsWithModifiers</code> method. For example:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Gson gson <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> GsonBuilder<span style="color:#f92672">()</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">.</span><span style="color:#a6e22e">excludeFieldsWithModifiers</span><span style="color:#f92672">(</span>Modifier<span style="color:#f92672">.</span><span style="color:#a6e22e">STATIC</span><span style="color:#f92672">,</span> Modifier<span style="color:#f92672">.</span><span style="color:#a6e22e">TRANSIENT</span><span style="color:#f92672">,</span> Modifier<span style="color:#f92672">.</span><span style="color:#a6e22e">VOLATILE</span><span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">.</span><span style="color:#a6e22e">create</span><span style="color:#f92672">();</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Gson gson <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> GsonBuilder()
+</span></span><span style="display:flex;"><span>    .<span style="color:#a6e22e">excludeFieldsWithModifiers</span>(Modifier.<span style="color:#a6e22e">STATIC</span>, Modifier.<span style="color:#a6e22e">TRANSIENT</span>, Modifier.<span style="color:#a6e22e">VOLATILE</span>)
+</span></span><span style="display:flex;"><span>    .<span style="color:#a6e22e">create</span>();
 </span></span></code></pre></div><h4 id="a-nametoc-gson-s-exposeagsons-expose"><!-- raw HTML omitted --><!-- raw HTML omitted -->Gson&rsquo;s <code>@Expose</code></h4>
 <p>This feature provides a way where you can mark certain fields of your objects to be excluded for consideration for serialization and deserialization to JSON. To use this annotation, you must create Gson by using <code>new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create()</code>. The Gson instance created will exclude all fields in a class that are not marked with <code>@Expose</code> annotation.</p>
 <h4 id="a-nametoc-user-defined-exclusion-strategiesauser-defined-exclusion-strategies"><!-- raw HTML omitted --><!-- raw HTML omitted -->User Defined Exclusion Strategies</h4>
 <p>If the above mechanisms for excluding fields and class type do not work for you then you can always write your own exclusion strategy and plug it into Gson. See the <a href="http://google.github.io/gson/apidocs/com/google/gson/ExclusionStrategy.html"><code>ExclusionStrategy</code></a> JavaDoc for more information.</p>
 <p>The following example shows how to exclude fields marked with a specific <code>@Foo</code> annotation and excludes top-level types (or declared field type) of class <code>String</code>.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Retention</span><span style="color:#f92672">(</span>RetentionPolicy<span style="color:#f92672">.</span><span style="color:#a6e22e">RUNTIME</span><span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@Target</span><span style="color:#f92672">({</span>ElementType<span style="color:#f92672">.</span><span style="color:#a6e22e">FIELD</span><span style="color:#f92672">})</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#a6e22e">@interface</span> Foo <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Field tag only annotation
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">}</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Retention</span>(RetentionPolicy.<span style="color:#a6e22e">RUNTIME</span>)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@Target</span>({ElementType.<span style="color:#a6e22e">FIELD</span>})
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#a6e22e">@interface</span> Foo {
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Field tag only annotation</span>
+</span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SampleObjectForTest</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">@Foo</span> <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">int</span> annotatedField<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> String stringField<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">long</span> longField<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> Class<span style="color:#f92672">&lt;?&gt;</span> clazzField<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SampleObjectForTest</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">@Foo</span> <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">int</span> annotatedField;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> String stringField;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">long</span> longField;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> Class<span style="color:#f92672">&lt;?&gt;</span> clazzField;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">SampleObjectForTest</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    annotatedField <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span><span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>    stringField <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;someDefaultValue&#34;</span><span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>    longField <span style="color:#f92672">=</span> <span style="color:#ae81ff">1234</span><span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">SampleObjectForTest</span>() {
+</span></span><span style="display:flex;"><span>    annotatedField <span style="color:#f92672">=</span> 5;
+</span></span><span style="display:flex;"><span>    stringField <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;someDefaultValue&#34;</span>;
+</span></span><span style="display:flex;"><span>    longField <span style="color:#f92672">=</span> 1234;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyExclusionStrategy</span> <span style="color:#66d9ef">implements</span> ExclusionStrategy <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> Class<span style="color:#f92672">&lt;?&gt;</span> typeToSkip<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyExclusionStrategy</span> <span style="color:#66d9ef">implements</span> ExclusionStrategy {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> Class<span style="color:#f92672">&lt;?&gt;</span> typeToSkip;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">private</span> <span style="color:#a6e22e">MyExclusionStrategy</span><span style="color:#f92672">(</span>Class<span style="color:#f92672">&lt;?&gt;</span> typeToSkip<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">typeToSkip</span> <span style="color:#f92672">=</span> typeToSkip<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">private</span> <span style="color:#a6e22e">MyExclusionStrategy</span>(Class<span style="color:#f92672">&lt;?&gt;</span> typeToSkip) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">typeToSkip</span> <span style="color:#f92672">=</span> typeToSkip;
+</span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">shouldSkipClass</span><span style="color:#f92672">(</span>Class<span style="color:#f92672">&lt;?&gt;</span> clazz<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#f92672">(</span>clazz <span style="color:#f92672">==</span> typeToSkip<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">shouldSkipClass</span>(Class<span style="color:#f92672">&lt;?&gt;</span> clazz) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> (clazz <span style="color:#f92672">==</span> typeToSkip);
+</span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">shouldSkipField</span><span style="color:#f92672">(</span>FieldAttributes f<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> f<span style="color:#f92672">.</span><span style="color:#a6e22e">getAnnotation</span><span style="color:#f92672">(</span>Foo<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">)</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">shouldSkipField</span>(FieldAttributes f) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> f.<span style="color:#a6e22e">getAnnotation</span>(Foo.<span style="color:#a6e22e">class</span>) <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span>;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>  Gson gson <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> GsonBuilder<span style="color:#f92672">()</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">.</span><span style="color:#a6e22e">setExclusionStrategies</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> MyExclusionStrategy<span style="color:#f92672">(</span>String<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">))</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">.</span><span style="color:#a6e22e">serializeNulls</span><span style="color:#f92672">()</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">.</span><span style="color:#a6e22e">create</span><span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>  SampleObjectForTest src <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> SampleObjectForTest<span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>  String json <span style="color:#f92672">=</span> gson<span style="color:#f92672">.</span><span style="color:#a6e22e">toJson</span><span style="color:#f92672">(</span>src<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>  System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>json<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span>(String<span style="color:#f92672">[]</span> args) {
+</span></span><span style="display:flex;"><span>  Gson gson <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> GsonBuilder()
+</span></span><span style="display:flex;"><span>      .<span style="color:#a6e22e">setExclusionStrategies</span>(<span style="color:#66d9ef">new</span> MyExclusionStrategy(String.<span style="color:#a6e22e">class</span>))
+</span></span><span style="display:flex;"><span>      .<span style="color:#a6e22e">serializeNulls</span>()
+</span></span><span style="display:flex;"><span>      .<span style="color:#a6e22e">create</span>();
+</span></span><span style="display:flex;"><span>  SampleObjectForTest src <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> SampleObjectForTest();
+</span></span><span style="display:flex;"><span>  String json <span style="color:#f92672">=</span> gson.<span style="color:#a6e22e">toJson</span>(src);
+</span></span><span style="display:flex;"><span>  System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(json);
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>The output is:</p>
 <pre tabindex="0"><code>{&#34;longField&#34;:1234}
 </code></pre><h3 id="a-nametoc-json-field-naming-supportajson-field-naming-support"><!-- raw HTML omitted --><!-- raw HTML omitted -->JSON Field Naming Support</h3>
 <p>Gson supports some pre-defined field naming policies to convert the standard Java field names (i.e., camel cased names starting with lower case &mdash; <code>sampleFieldNameInJava</code>) to a Json field name (i.e., <code>sample_field_name_in_java</code> or <code>SampleFieldNameInJava</code>). See the <a href="http://google.github.io/gson/apidocs/com/google/gson/FieldNamingPolicy.html">FieldNamingPolicy</a> class for information on the pre-defined naming policies.</p>
 <p>It also has an annotation based strategy to allows clients to define custom names on a per field basis. Note, that the annotation based strategy has field name validation which will raise &ldquo;Runtime&rdquo; exceptions if an invalid field name is provided as the annotation value.</p>
 <p>The following is an example of how to use both Gson naming policy features:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SomeObject</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">@SerializedName</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;custom_naming&#34;</span><span style="color:#f92672">)</span> <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> String someField<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> String someOtherField<span style="color:#f92672">;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SomeObject</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">@SerializedName</span>(<span style="color:#e6db74">&#34;custom_naming&#34;</span>) <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> String someField;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> String someOtherField;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">SomeObject</span><span style="color:#f92672">(</span>String a<span style="color:#f92672">,</span> String b<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">someField</span> <span style="color:#f92672">=</span> a<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">someOtherField</span> <span style="color:#f92672">=</span> b<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">SomeObject</span>(String a, String b) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">someField</span> <span style="color:#f92672">=</span> a;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">someOtherField</span> <span style="color:#f92672">=</span> b;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>SomeObject someObject <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> SomeObject<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;first&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;second&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>Gson gson <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> GsonBuilder<span style="color:#f92672">().</span><span style="color:#a6e22e">setFieldNamingPolicy</span><span style="color:#f92672">(</span>FieldNamingPolicy<span style="color:#f92672">.</span><span style="color:#a6e22e">UPPER_CAMEL_CASE</span><span style="color:#f92672">).</span><span style="color:#a6e22e">create</span><span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>String jsonRepresentation <span style="color:#f92672">=</span> gson<span style="color:#f92672">.</span><span style="color:#a6e22e">toJson</span><span style="color:#f92672">(</span>someObject<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>jsonRepresentation<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>SomeObject someObject <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> SomeObject(<span style="color:#e6db74">&#34;first&#34;</span>, <span style="color:#e6db74">&#34;second&#34;</span>);
+</span></span><span style="display:flex;"><span>Gson gson <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> GsonBuilder().<span style="color:#a6e22e">setFieldNamingPolicy</span>(FieldNamingPolicy.<span style="color:#a6e22e">UPPER_CAMEL_CASE</span>).<span style="color:#a6e22e">create</span>();
+</span></span><span style="display:flex;"><span>String jsonRepresentation <span style="color:#f92672">=</span> gson.<span style="color:#a6e22e">toJson</span>(someObject);
+</span></span><span style="display:flex;"><span>System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(jsonRepresentation);
 </span></span></code></pre></div><p>The output is:</p>
 <pre tabindex="0"><code>{&#34;custom_naming&#34;:&#34;first&#34;,&#34;SomeOtherField&#34;:&#34;second&#34;}
 </code></pre><p>If you have a need for custom naming policy (<a href="http://groups.google.com/group/google-gson/browse_thread/thread/cb441a2d717f6892">see this discussion</a>), you can use the <a href="http://google.github.io/gson/apidocs/com/google/gson/annotations/SerializedName.html">@SerializedName</a> annotation.</p>
@@ -893,7 +876,7 @@ null
 
         </div>
         <footer id="copyright">
-  <p>&copy;2015-2024 <a href="mailto:alimy@gility.net" title="Email:alimy@gility.net">北野 -  Michael Li</a> All rights reserved.</p>
+  <p>&copy;2015-至今 <a href="mailto:alimy@niubiu.com" title="Email:alimy@niubiu.com">北野 -  Michael Li</a> All rights reserved.</p>
 </footer>
 
     </div>

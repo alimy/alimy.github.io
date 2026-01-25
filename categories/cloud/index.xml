@@ -7,12 +7,12 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Sat, 16 Jan 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://alimy.github.io/categories/cloud/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 16 Jan 2016 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://alimy.github.io/categories/cloud/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>DogeOS,SmartOS,illumos</title>
       <link>https://alimy.github.io/post/dev_201601161712/</link>
       <pubDate>Sat, 16 Jan 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://alimy.github.io/post/dev_201601161712/</guid>
       <description>&lt;h3 id=&#34;sect这些都是什么&#34;&gt;§这些都是什么？&lt;/h3&gt;
 &lt;ul&gt;
@@ -25,6 +25,5 @@
 &lt;p&gt;当然不是这么简单 :)&lt;/p&gt;
 &lt;p&gt;但是也不希望写的太长。以下就尽量言简意垓的把来龙去脉，历史纠纷，以及革命先进性都说清楚。&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

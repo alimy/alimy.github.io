@@ -7,12 +7,12 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Wed, 30 Jun 2021 07:50:00 +0800</lastBuildDate><atom:link href="https://alimy.github.io/tags/db/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 30 Jun 2021 07:50:00 +0800</lastBuildDate>
+    <atom:link href="https://alimy.github.io/tags/db/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>MySQL 8.0直方图</title>
       <link>https://alimy.github.io/post/dev_202106300750/</link>
       <pubDate>Wed, 30 Jun 2021 07:50:00 +0800</pubDate>
-      
       <guid>https://alimy.github.io/post/dev_202106300750/</guid>
       <description>&lt;h3 id=&#34;0-什么是直方图&#34;&gt;0. 什么是直方图&lt;/h3&gt;
 &lt;p&gt;直方图（Histogram）是数据库提供的一种（索引之外的）基础统计信息，用于描述列上的数据分布情况。它最典型的场景是估算查询谓词的选择率，以便选择合适的执行计划。&lt;/p&gt;
@@ -34,6 +34,5 @@ MySQL 8.0开始支持直方图，这是个很大的进步。&lt;/p&gt;
 Empty set (0.097 sec)
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;在还没创建直方图之前，seq列上同时也没有索引，这时是全表扫描，注意到 filtered 列的值是10%。&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

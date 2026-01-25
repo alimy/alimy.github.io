@@ -7,12 +7,12 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Mon, 15 Mar 2021 15:21:00 +0800</lastBuildDate><atom:link href="https://alimy.github.io/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 15 Mar 2021 15:21:00 +0800</lastBuildDate>
+    <atom:link href="https://alimy.github.io/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>部署v1.20版的Kubernetes集群</title>
       <link>https://alimy.github.io/post/dev_202103151521/</link>
       <pubDate>Mon, 15 Mar 2021 15:21:00 +0800</pubDate>
-      
       <guid>https://alimy.github.io/post/dev_202103151521/</guid>
       <description>&lt;h3 id=&#34;主机环境预设&#34;&gt;主机环境预设&lt;/h3&gt;
 &lt;p&gt;本示例中的Kubernetes集群部署将基于以下环境进行。&lt;/p&gt;
@@ -30,6 +30,5 @@
 &lt;p&gt;（4）各节点禁用默认配置的iptables防火墙服务；&lt;/p&gt;
 &lt;p&gt;注意：为了便于操作，后面将在各节点直接以系统管理员root用户进行操作。若用户使用了普通用户，建议将如下各命令以sudo方式运行。&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

@@ -7,12 +7,12 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Sat, 19 Mar 2016 22:45:00 +0800</lastBuildDate><atom:link href="https://alimy.github.io/tags/android/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 19 Mar 2016 22:45:00 +0800</lastBuildDate>
+    <atom:link href="https://alimy.github.io/tags/android/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Android: Volley&#43;OkHttp with https</title>
       <link>https://alimy.github.io/post/dev_201603192245/</link>
       <pubDate>Sat, 19 Mar 2016 22:45:00 +0800</pubDate>
-      
       <guid>https://alimy.github.io/post/dev_201603192245/</guid>
       <description>&lt;h3 id=&#34;android-network-simple&#34;&gt;Android Network Simple&lt;/h3&gt;
 &lt;p&gt;This article shows how to use volley with OkHttp and security your api with https.
@@ -29,6 +29,5 @@
 &lt;li&gt;如果你的服务端有多个IP地址，当第一个地址连接失败时，OKHttp会尝试连接其他的地址，这对IPV4和IPV6以及寄宿在多个数据中心的服务而言，是非常有必要的。&lt;/li&gt;
 &lt;/ul&gt;</description>
     </item>
-    
   </channel>
 </rss>

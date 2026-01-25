@@ -7,22 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Fri, 03 Dec 2021 15:25:00 +0800</lastBuildDate><atom:link href="https://alimy.github.io/tags/golang/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 03 Dec 2021 15:25:00 +0800</lastBuildDate>
+    <atom:link href="https://alimy.github.io/tags/golang/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Go - SQL实践</title>
       <link>https://alimy.github.io/post/dev_202112031525/</link>
       <pubDate>Fri, 03 Dec 2021 15:25:00 +0800</pubDate>
-      
       <guid>https://alimy.github.io/post/dev_202112031525/</guid>
       <description>&lt;h3 id=&#34;标准库sql驱动接口-databasesqldriverhttpsgithubcomgolanggotreemastersrcdatabasesqldriver&#34;&gt;标准库SQL驱动接口 (&lt;a href=&#34;https://github.com/golang/go/tree/master/src/database/sql/driver&#34;&gt;database/sql/driver&lt;/a&gt;)&lt;/h3&gt;
 &lt;p&gt;&lt;img src=&#34;https://alimy.github.io/images/post/20211203152500.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>grpc-go: 客户端与服务器之间双向证书验证通信</title>
       <link>https://alimy.github.io/post/dev_202104131126/</link>
       <pubDate>Tue, 13 Apr 2021 11:26:00 +0800</pubDate>
-      
       <guid>https://alimy.github.io/post/dev_202104131126/</guid>
       <description>&lt;ul&gt;
 &lt;li&gt;生成根证书(ca.key, ca.crt)&lt;/li&gt;
@@ -50,12 +48,10 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;     -in server.csr -out server.crt
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
     </item>
-    
     <item>
       <title>Golang Tutorial: What&#39;s DefaultServeMux in net/http</title>
       <link>https://alimy.github.io/post/dev_201803031932/</link>
       <pubDate>Sat, 03 Mar 2018 19:34:00 +0800</pubDate>
-      
       <guid>https://alimy.github.io/post/dev_201803031932/</guid>
       <description>&lt;p&gt;craete a HTTPS Server use net/http and route handle function by DefaultServeMux, see code below:&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;package main
@@ -85,12 +81,10 @@ func main() {
 }
 &lt;/code&gt;&lt;/pre&gt;</description>
     </item>
-    
     <item>
       <title>Golang Tutorial: Create HTTPS Server use net/http</title>
       <link>https://alimy.github.io/post/dev_201803030946/</link>
       <pubDate>Sat, 03 Mar 2018 09:46:00 +0800</pubDate>
-      
       <guid>https://alimy.github.io/post/dev_201803030946/</guid>
       <description>&lt;p&gt;It is simple to craete a HTTPS Server use net/http, see code below:&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;package main
@@ -117,12 +111,10 @@ func main() {
 }
 &lt;/code&gt;&lt;/pre&gt;</description>
     </item>
-    
     <item>
       <title>Go - See what packages my app imports</title>
       <link>https://alimy.github.io/post/dev_201604101827/</link>
       <pubDate>Sun, 10 Apr 2016 18:27:00 +0800</pubDate>
-      
       <guid>https://alimy.github.io/post/dev_201604101827/</guid>
       <description>&lt;p&gt;It’s often practical to see what packages your app is importing. Unfortunately there isn’t a simple way to do that, however it is doable via the go list tool and using templates.&lt;/p&gt;
 &lt;p&gt;Go to your app and run the following.&lt;/p&gt;
@@ -138,12 +130,10 @@ github.com/codegangsta/cli
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ go list -f &amp;#39;{{join .Deps &amp;#34;\n&amp;#34;}}&amp;#39; |  xargs go list -f &amp;#39;{{.ImportPath}}&amp;#39;
 &lt;/code&gt;&lt;/pre&gt;</description>
     </item>
-    
     <item>
       <title>Go - EBNF</title>
       <link>https://alimy.github.io/post/dev_201604021445/</link>
       <pubDate>Sat, 02 Apr 2016 14:45:00 +0800</pubDate>
-      
       <guid>https://alimy.github.io/post/dev_201604021445/</guid>
       <description>&lt;h3 id=&#34;notation&#34;&gt;Notation&lt;/h3&gt;
 &lt;p&gt;The syntax is specified using Extended Backus-Naur Form (EBNF):&lt;/p&gt;
@@ -161,6 +151,5 @@ Repetition  = &amp;#34;{&amp;#34; Expression &amp;#34;}&amp;#34; .
 {}  repetition (0 to n times)
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Lower-case production names are used to identify lexical tokens. Non-terminals are in CamelCase. Lexical tokens are enclosed in double quotes &amp;quot;&amp;quot; or back quotes ``.&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>
