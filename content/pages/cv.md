@@ -25,7 +25,7 @@ menu = "About"
 ### 参与项目
 
 - [Gogs](https://gogs.io/) - 🔥一款极易搭建的自助 Git 服务.
-- [Cloudreve](https://cloudreve.org/) - 🔥 Self-hosted file management system with multi-cloud support.
+- [Cloudreve](https://cloudreve.org/) - 🔥Self-hosted file management system with multi-cloud support.
 - [mux](https://github.com/gorilla/mux) - A powerful HTTP router and URL matcher for building Go web servers with 🦍
 - [go-bindata](https://github.com/go-bindata/go-bindata) - Turn data file into go code.
 - [KubeKey](https://github.com/kubesphere/kubekey) - 一个开源的轻量级工具，用于部署Kubernetes集群.
