@@ -334,36 +334,6 @@
                         
                             <article class="post panel-wrapper">
 <header>
-<h2 ><a href="https://alimy.github.io/post/dev_202012071315/" title="阅读全文">Tg: TL Language </a> </h2>
-
-</header>
-<div class="summary">
-    <p>TL (Type Language) serves to describe the used system of types, constructors, and existing functions. In fact, the combinator description format presented in Binary Data Serialization is used.</p>
-<p><strong>See also:</strong></p>
-<p><a href="https://alimy.github.io/post/dev_202012071321/">Polymorphism in TL</a></p>
-<p><strong>Advanced topics:</strong></p>
-<p><a href="tl-dependent.md">Dependent types in TL</a></p>
-<p><a href="tl-formal.md">Formal description of TL</a></p>
-<p><a href="tl-combinators.md">Formal description of TL combinators</a></p>
-<p><a href="post/dev_202012071330/">Type serialization</a></p>
-<p><a href="tl-tl.md">TL schema for serialization of TL schemas</a></p>
-<p><a href="tl-optargs.md">Optional combinator parameters and their values</a></p>
-<p><a href="tl-abstract-types.md">Binary serialization and abstract TL types</a></p>
-<p><a href="tl-patterns.md">Formal description of templates in TL</a></p>
-<h4 id="overview">Overview</h4>
-<p>A TL program usually consists of two sections separated by keyword <code>---functions---</code>. The first section consists of declarations of built-in types and aggregate types (i.e. their constructors). The second section consists of the declared functions, i.e. functional combinators.</p>
-<p>Actually, both the first and second sections consist of combinator declarations, each of which ends with a semicolon. However, the first section contains only constructors, while the second section only involves functions. Each combinator is declared using a “combinator declaration” in the format explained above. However, the combinator number and field names may be explicitly assigned.</p>
-<p>If additional type declarations are required after functions have been declared, the keyword (section divider) <code>---types---</code> is used. Furthermore, a functional combinator may be declared in the type section if its result type begins with an exclamation point (in fact, when the function section is interpreted, this exclamation point is added automatically).</p>
-<p>To explicitly define 32-bit names of combinators, a hash mark (<code>#</code>) is added immediately after the combinator’s name, followed by 8 hexadecimal digits.</p>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/dev_202012071315/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
 <h2 ><a href="https://alimy.github.io/post/dev_202011271711/" title="阅读全文">Tg: MTProto v2 </a> </h2>
 
 </header>
@@ -546,6 +516,32 @@ registry = &#34;git://mirrors.ustc.edu.cn/crates.io-index&#34;
 </div>
 <footer id="more">
 <a href='https://alimy.github.io/post/dev_201909211556/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="https://alimy.github.io/post/dev_201909211536/" title="阅读全文">Protocol Buffers Version 3 Language Specification </a> </h2>
+
+</header>
+<div class="summary">
+    <p>This is a language specification reference for version 3 of the Protocol Buffers language (proto3). The syntax is specified using Extended <a href="https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_Form" title="EBNF in WIKI">Backus-Naur Form (EBNF)</a>:</p>
+<pre tabindex="0"><code>|   alternation
+()  grouping
+[]  option (zero or one time)
+{}  repetition (any number of times)
+</code></pre><p>For more information about using proto3, see the language guide.</p>
+<h3 id="lexical-elements">Lexical elements</h3>
+<h4 id="letters-and-digits">Letters and digits</h4>
+<pre tabindex="0"><code>letter = &#34;A&#34; … &#34;Z&#34; | &#34;a&#34; … &#34;z&#34;
+decimalDigit = &#34;0&#34; … &#34;9&#34;
+octalDigit   = &#34;0&#34; … &#34;7&#34;
+hexDigit     = &#34;0&#34; … &#34;9&#34; | &#34;A&#34; … &#34;F&#34; | &#34;a&#34; … &#34;f&#34;
+</code></pre>
+</div>
+<footer id="more">
+<a href='https://alimy.github.io/post/dev_201909211536/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
 </footer>
 </article>
 
