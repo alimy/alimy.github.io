@@ -9,7 +9,7 @@ categories = [
 ]
 menu = "About"
 +++
-**[Go](https://go.dev)、[Rust](https://rust-lang.org)、[Clojure](https://clojure.org)** 开发工程师、产品设计师，热爱生活，乐于折腾，敢于创新，笃于分享。
+**[Go](https://go.dev)、[Rust](https://rust-lang.org)、[Clojure](https://clojure.org)** 开发工程师、产品设计师，热爱生活，乐于折腾，敢于创新，笃于分享。存知己，若比邻，咫尺天涯，追寻梦想，只为 **那年江湖，遇见你**!
 
 [![图片加载中...请使用支持Webp的浏览器加速查看](/images/post/20260125203600.webp)](/images/post/20260125203600.webp "两只争夺领地的青蛙")
 
