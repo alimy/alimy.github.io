@@ -336,6 +336,34 @@
                         
                             <article class="post panel-wrapper">
 <header>
+<h2 ><a href="https://alimy.github.io/post/dev_202012071321/" title="阅读全文">Tg: Polymorphism in TL </a> </h2>
+
+</header>
+<div class="summary">
+    <p>It should be noted that in the TL schema of the overwhelming majority of API calls the use of polymorphic types is restricted to the Vector type. Nevertheless, having a view of the big picture is still helpful.</p>
+<h4 id="ordinary-inductive-types">Ordinary inductive types</h4>
+<p>For example, let us consider the IntList, which is defined as follows:</p>
+<pre tabindex="0"><code>int_cons hd:int tl:IntList = IntList;
+int_nil = IntList;
+</code></pre><p>The “int_cons” and “int_nil” constructors as well as the “IntList” type itself are expressions of the following types (writing A : X means that A is an expression of type X):</p>
+<pre tabindex="0"><code>IntList : Type;
+int_cons : int -&gt; IntList -&gt; IntList;
+int_nil : IntList;
+</code></pre><p>The keyword Type is used to denote the type of all types. Note that Type is not Object (Object is the type of all terms). Here is alternative syntax that could be used in some other functional programming language (but not in TL):</p>
+<pre tabindex="0"><code>NewType IntList :=
+| int_cons hd:int tl:IntList
+| int_nil
+EndType
+</code></pre>
+</div>
+<footer id="more">
+<a href='https://alimy.github.io/post/dev_202012071321/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
 <h2 ><a href="https://alimy.github.io/post/dev_202012071315/" title="阅读全文">Tg: TL Language </a> </h2>
 
 </header>
@@ -521,33 +549,6 @@ registry = &#34;git://mirrors.ustc.edu.cn/crates.io-index&#34;
 </div>
 <footer id="more">
 <a href='https://alimy.github.io/post/dev_201909211630/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/dev_201909211556/" title="阅读全文">Tars语言与协议 </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="目录">目录</h3>
-<ul>
-<li><a href="#main-chapter-1">Tars语言</a></li>
-<li><a href="#main-chapter-2">Tars协议</a></li>
-</ul>
-<h2 id="1-tars语言-a-idmain-chapter-1a">1. Tars语言 <!-- raw HTML omitted --><!-- raw HTML omitted --></h2>
-<h3 id="11-接口文件">1.1. 接口文件</h3>
-<ul>
-<li>Tars语言是一种类c++标识符的语言，用于生成具体的服务接口文件</li>
-<li>Tars文件是Tars框架中客户端和服务端的通信接口，通过Tars的映射实现远程对象调用</li>
-<li>Tars文件的扩展名必须以.tars为扩展名</li>
-<li>对于结构定义，可以支持扩展字段，即可以增加字段而不影响原有结构的解析，可以在存储/协议等地方单独使用</li>
-<li>大小写敏感</li>
-</ul>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/dev_201909211556/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
 </footer>
 </article>
 
