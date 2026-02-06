@@ -7,8 +7,15 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Sun, 01 Feb 2026 14:15:00 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 06 Feb 2026 09:18:00 +0800</lastBuildDate>
     <atom:link href="https://alimy.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Art</title>
+      <link>https://alimy.github.io/categories/art/</link>
+      <pubDate>Fri, 06 Feb 2026 09:18:00 +0800</pubDate>
+      <guid>https://alimy.github.io/categories/art/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Development</title>
       <link>https://alimy.github.io/categories/development/</link>
@@ -28,13 +35,6 @@
       <link>https://alimy.github.io/categories/faqs/</link>
       <pubDate>Wed, 01 Feb 2023 19:48:00 +0800</pubDate>
       <guid>https://alimy.github.io/categories/faqs/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Art</title>
-      <link>https://alimy.github.io/categories/art/</link>
-      <pubDate>Sat, 15 Jan 2022 13:35:00 +0800</pubDate>
-      <guid>https://alimy.github.io/categories/art/</guid>
       <description></description>
     </item>
     <item>
