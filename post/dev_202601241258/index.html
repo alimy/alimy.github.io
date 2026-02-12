@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 
 <head>
@@ -7,14 +7,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
   <title> TL在Go如何实现oneof语义 &middot; 那年江湖，遇见你 </title>
   
-  <link rel="stylesheet" type="text/css" href="https://alimy.github.io/css/uno.css" />
-  <link rel="stylesheet" type="text/css" href="https://alimy.github.io/css/lightGallery.css" />
+  <link rel="stylesheet" type="text/css" href="https://alimy.github.io//css/uno.css" />
+  <link rel="stylesheet" type="text/css" href="https://alimy.github.io//css/lightGallery.css" />
   
   <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://alimy.github.io/apple-touch-icon-144-precomposed.png">
   <link rel="shortcut icon" href="https://alimy.github.io/favicon.png">
   
-  <script src="https://alimy.github.io/js/jquery.min.js"></script>
-  <script src="https://alimy.github.io/js/main.min.js"></script>
+  <script src="https://alimy.github.io//js/jquery.min.js"></script>
+  <script src="https://alimy.github.io//js/main.min.js"></script>
 
   <script data-host="https://riiffy.com" data-dnt="false" src="https://riiffy.com/js/script.js" id="ZwSg9rf6GA" async
     defer></script>
@@ -216,8 +216,9 @@
     }
   </style>
 </head>
-  <body>
-    <div id="scriptHeader">
+
+<body>
+  <div id="scriptHeader">
     <span class="mobile btn-mobile-menu">
             <i class="fa fa-bars btn-mobile-menu__icon"></i>
             <i class="fa fa-times btn-mobile-close__icon hidden"> </i>
@@ -229,9 +230,9 @@
     <div class="panel-main">
         <div class="panel-main__inner panel-inverted">
             <div class="panel-main__content"> 
-                <a href="https://alimy.github.io/"> <img src="https://alimy.github.io/images/logo.jpg" width="256" alt="北野 logo" class="panel-cover__logo logo" /> </a> 
+                <a href="https://alimy.github.io//"> <img src="https://alimy.github.io/images/logo.jpg" width="256" alt="北野 logo" class="panel-cover__logo logo" /> </a> 
                 <h1 class="panel-cover__title panel-title">
-                    <a href="https://alimy.github.io/">北野</a>
+                    <a href="https://alimy.github.io//">北野</a>
                 </h1>
                 <hr class="panel-cover__divider" />
                 <p class="panel-cover__description">  那年江湖，遇见你  </p>
@@ -239,8 +240,8 @@
                 <div class="navigation-wrapper">
                     <nav class="cover-navigation cover-navigation--primary">
                         <ul class="navigation">
-                            <li class="navigation__item"><a href="https://alimy.github.io" title="博客首页" class="blog-button">首页</a> </li> </br></br>
-                            <li class="navigation__item"><a href="https://alimy.github.io/post/" title="文章列表" class="blog-button">文章列表</a> </li>
+                            <li class="navigation__item"><a href="https://alimy.github.io/" title="博客首页" class="blog-button">首页</a> </li> </br></br>
+                            <li class="navigation__item"><a href="https://alimy.github.io//post/" title="文章列表" class="blog-button">文章列表</a> </li>
                             </br>  </br>
                             <li class="navigation__item"><a href="https://alimy.github.io/pages/cv" title="关于我 " class="blog-button">关于我</a> </li>
                             </br>  </ul>
@@ -284,9 +285,9 @@
         <div class="panel-main">
             <div class="panel-main__inner panel-inverted">
                 <div class="panel-main__content"> 
-                    <a href="https://alimy.github.io/"> <img src="https://alimy.github.io/images/logo.jpg" width="80" alt="北野 logo" class="panel-cover__logo logo" /> </a> 
+                    <a href="https://alimy.github.io//"> <img src="https://alimy.github.io/images/logo.jpg" width="80" alt="北野 logo" class="panel-cover__logo logo" /> </a> 
                     <h1 class="panel-cover__title panel-title">
-                        <a href="https://alimy.github.io/">北野</a>
+                        <a href="https://alimy.github.io//">北野</a>
                     </h1>
                     <hr class="panel-cover__divider" />
                     <p class="panel-cover__description">  那年江湖，遇见你  </p>
@@ -294,8 +295,8 @@
                     <div class="navigation-wrapper">
                         <nav class="cover-navigation cover-navigation--primary">
                             <ul class="navigation">
-                                <li class="navigation__item"><a href="https://alimy.github.io" title="博客首页" class="blog-button">Blog</a> </li></br></br>
-                                <li class="navigation__item"><a href="https://alimy.github.io/post/" title="文章列表" class="blog-button">Articles</a> </li>
+                                <li class="navigation__item"><a href="https://alimy.github.io/" title="博客首页" class="blog-button">Blog</a> </li></br></br>
+                                <li class="navigation__item"><a href="https://alimy.github.io//post/" title="文章列表" class="blog-button">Articles</a> </li>
                                 </br>  </br>
                                 <li class="navigation__item"><a href="https://alimy.github.io/pages/cv" title="关于我 " class="blog-button">About Me</a> </li>
                                 </br>  </ul>
@@ -326,12 +327,12 @@
     </header>
 </noscript>
 
-    <div class="content-wrapper">
-      <div class="content-wrapper__inner">
-        <div class="post panel-wrapper">
-            <h2>TL在Go如何实现oneof语义</h2>
-          
-          <p>TL的Type是一个总类型<code>Class</code>包含不同的结构子类型实例<code>Object</code>，类似于Protubuf中<code>Message</code>与<code>Oneof</code>的关系。</p>
+  <div class="content-wrapper">
+    <div class="content-wrapper__inner">
+      <div class="post panel-wrapper">
+        <h2>TL在Go如何实现oneof语义</h2>
+        
+        <p>TL的Type是一个总类型<code>Class</code>包含不同的结构子类型实例<code>Object</code>，类似于Protubuf中<code>Message</code>与<code>Oneof</code>的关系。</p>
 <h4 id="telegram的rpc-tl片段1">Telegram的RPC TL片段1：</h4>
 <pre tabindex="0"><code class="language-tl" data-lang="tl">peerUser#9db1bc6d user_id:int = Peer;
 peerChat#bad0e5bb chat_id:int = Peer;
@@ -339,160 +340,162 @@ peerChannel#bddde532 channel_id:int = Peer;
 
 folderPeer#e9baa668 peer:Peer folder_id:int = FolderPeer;
 </code></pre><h4 id="上述tl片段1-等价的protobuf描述">上述TL片段1 等价的Protobuf描述：</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-proto" data-lang="proto"><span style="display:flex;"><span>syntax <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;proto3&#34;</span>;<span style="color:#960050;background-color:#1e0010">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-proto" data-lang="proto"><span style="display:flex;"><span>syntax <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;proto3&#34;</span>;<span style="color:#960050;background-color:#1e0010">
 </span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#f92672">package</span> tg_oneof;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#f92672">package</span> tg_oneof;<span style="color:#960050;background-color:#1e0010">
 </span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">option</span> go_package <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;./tg_oneof&#34;</span>;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">option</span> go_package <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;./tg_oneof&#34;</span>;<span style="color:#960050;background-color:#1e0010">
 </span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
 </span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">message</span> <span style="color:#a6e22e">Peer</span> {<span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>	<span style="color:#66d9ef">message</span> <span style="color:#a6e22e">PeerUser</span> {<span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>		<span style="color:#66d9ef">int32</span> user_id <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;  <span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>	}<span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>	<span style="color:#66d9ef">message</span> <span style="color:#a6e22e">PeerChat</span> {<span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>		<span style="color:#66d9ef">int32</span> chat_id <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;<span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>	}<span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>	<span style="color:#66d9ef">message</span> <span style="color:#a6e22e">PeerChannel</span> {<span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>	    <span style="color:#66d9ef">int32</span> channel_id <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;<span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>	}<span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>  <span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>  <span style="color:#66d9ef">oneof</span> oneofPeer {<span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    PeerUser peerUser <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;<span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    PeerChat peerChat <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;<span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    PeerChannel peerChannel <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>;<span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>  }<span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>}<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">message</span> <span style="color:#a6e22e">Peer</span> {<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">message</span> <span style="color:#a6e22e">PeerUser</span> {<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">int32</span> user_id <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;  <span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span>	}<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">message</span> <span style="color:#a6e22e">PeerChat</span> {<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">int32</span> chat_id <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span>	}<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">message</span> <span style="color:#a6e22e">PeerChannel</span> {<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span>	    <span style="color:#66d9ef">int32</span> channel_id <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span>	}<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span>  <span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">oneof</span> oneofPeer {<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span>    PeerUser peerUser <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span>    PeerChat peerChat <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span>    PeerChannel peerChannel <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span>  }<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span>}<span style="color:#960050;background-color:#1e0010">
 </span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">message</span> <span style="color:#a6e22e">FolderPeer</span> {<span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>	<span style="color:#66d9ef">message</span> <span style="color:#a6e22e">FolderPeer</span> {<span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>		<span style="color:#66d9ef">oneof</span> oneofPeer {<span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>			Peer.PeerUser peerUser <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;<span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>			Peer.PeerChat peerChat <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;<span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>			Peer.PeerChannel peerChannel <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>;<span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>		}<span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>		<span style="color:#66d9ef">int32</span> folder_id <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;<span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>	}<span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>}<span style="color:#960050;background-color:#1e0010">
-</span></span></span></code></pre></div><h4 id="gotdhttpsgithubcomgotdtd生成的代码"><a href="https://github.com/gotd/td">gotd</a>生成的代码：</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// PeerClass represents Peer generic type.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// Constructors:
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// - [PeerUser]
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// - [PeerChat]
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// - [PeerChannel]
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// Example:
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// g, err := tg.DecodePeer(buf)
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// if err != nil {
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//     panic(err)
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// }
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// switch v := g.(type) {
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// case *tg.PeerUser: // peerUser#59511722
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// case *tg.PeerChat: // peerChat#36c6019a
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// case *tg.PeerChannel: // peerChannel#a2a5371e
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// default: panic(v)
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// }
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">PeerClass</span> <span style="color:#66d9ef">interface</span> {
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">message</span> <span style="color:#a6e22e">FolderPeer</span> {<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">message</span> <span style="color:#a6e22e">FolderPeer</span> {<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">oneof</span> oneofPeer {<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span>			Peer.PeerUser peerUser <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span>			Peer.PeerChat peerChat <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span>			Peer.PeerChannel peerChannel <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span>		}<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">int32</span> folder_id <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span>	}<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span>}<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><h4 id="gotd生成的代码"><a href="https://github.com/gotd/td">gotd</a>生成的代码：</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// PeerClass represents Peer generic type.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// Constructors:</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// - [PeerUser]</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// - [PeerChat]</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// - [PeerChannel]</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// Example:</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// g, err := tg.DecodePeer(buf)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// if err != nil {</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//     panic(err)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// }</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// switch v := g.(type) {</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// case *tg.PeerUser: // peerUser#59511722</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// case *tg.PeerChat: // peerChat#36c6019a</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// case *tg.PeerChannel: // peerChannel#a2a5371e</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// default: panic(v)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// }</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">PeerClass</span> <span style="color:#66d9ef">interface</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">bin</span>.<span style="color:#a6e22e">Encoder</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">bin</span>.<span style="color:#a6e22e">Decoder</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">bin</span>.<span style="color:#a6e22e">BareEncoder</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">bin</span>.<span style="color:#a6e22e">BareDecoder</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">construct</span>() <span style="color:#a6e22e">PeerClass</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// TypeID returns type id in TL schema.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">TypeID</span>() <span style="color:#66d9ef">uint32</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// TypeName returns name of type in TL schema.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">TypeName</span>() <span style="color:#66d9ef">string</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// String implements fmt.Stringer.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">String</span>() <span style="color:#66d9ef">string</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Zero returns true if current object has a zero value.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">Zero</span>() <span style="color:#66d9ef">bool</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// TypeID returns type id in TL schema.</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">TypeID</span>() <span style="color:#66d9ef">uint32</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// TypeName returns name of type in TL schema.</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">TypeName</span>() <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// String implements fmt.Stringer.</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">String</span>() <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Zero returns true if current object has a zero value.</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Zero</span>() <span style="color:#66d9ef">bool</span>
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// PeerChannel represents TL type `peerChannel#a2a5371e`.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// Channel/supergroup
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">PeerChannel</span> <span style="color:#66d9ef">struct</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Channel ID
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">ChannelID</span> <span style="color:#66d9ef">int64</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// PeerChannel represents TL type `peerChannel#a2a5371e`.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Channel/supergroup</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">PeerChannel</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Channel ID</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">ChannelID</span> <span style="color:#66d9ef">int64</span>
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// construct implements constructor of PeerClass.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">p</span> <span style="color:#a6e22e">PeerChannel</span>) <span style="color:#a6e22e">construct</span>() <span style="color:#a6e22e">PeerClass</span> { <span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">p</span> }
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// construct implements constructor of PeerClass.</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">p</span> <span style="color:#a6e22e">PeerChannel</span>) <span style="color:#a6e22e">construct</span>() <span style="color:#a6e22e">PeerClass</span> { <span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">p</span> }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// PeerChat represents TL type `peerChat#36c6019a`.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// Group.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">PeerChat</span> <span style="color:#66d9ef">struct</span> {
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// Group identifier
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">ChatID</span> <span style="color:#66d9ef">int64</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// PeerChat represents TL type `peerChat#36c6019a`.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Group.</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">PeerChat</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// Group identifier</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">ChatID</span> <span style="color:#66d9ef">int64</span>
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// construct implements constructor of PeerClass.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">p</span> <span style="color:#a6e22e">PeerChat</span>) <span style="color:#a6e22e">construct</span>() <span style="color:#a6e22e">PeerClass</span> { <span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">p</span> }
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// construct implements constructor of PeerClass.</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">p</span> <span style="color:#a6e22e">PeerChat</span>) <span style="color:#a6e22e">construct</span>() <span style="color:#a6e22e">PeerClass</span> { <span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">p</span> }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// PeerUser represents TL type `peerUser#59511722`.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// Chat partner
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">PeerUser</span> <span style="color:#66d9ef">struct</span> {
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// User identifier
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">UserID</span> <span style="color:#66d9ef">int64</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// PeerUser represents TL type `peerUser#59511722`.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Chat partner</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">PeerUser</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// User identifier</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">UserID</span> <span style="color:#66d9ef">int64</span>
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// construct implements constructor of PeerClass.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">p</span> <span style="color:#a6e22e">PeerUser</span>) <span style="color:#a6e22e">construct</span>() <span style="color:#a6e22e">PeerClass</span> { <span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">p</span> }
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// construct implements constructor of PeerClass.</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">p</span> <span style="color:#a6e22e">PeerUser</span>) <span style="color:#a6e22e">construct</span>() <span style="color:#a6e22e">PeerClass</span> { <span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">p</span> }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// FolderPeer represents TL type `folderPeer#e9baa668`.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// Peer in a folder
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">FolderPeer</span> <span style="color:#66d9ef">struct</span> {
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// Folder peer info
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">Peer</span> <span style="color:#a6e22e">PeerClass</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// Peer folder ID, for more info click here¹
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">FolderID</span> <span style="color:#66d9ef">int</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// FolderPeer represents TL type `folderPeer#e9baa668`.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Peer in a folder</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">FolderPeer</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// Folder peer info</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Peer</span> <span style="color:#a6e22e">PeerClass</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// Peer folder ID, for more info click here¹</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">FolderID</span> <span style="color:#66d9ef">int</span>
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>这里的关键是必须有某种方式约束<code>PeerClass</code>只能是<code>PeerUser/PeerChat/PeerChannel</code>之一，gotd巧妙的使用未导出方法 <code>construct() PeerClass</code> 来约束只有与<code>PeerClass</code>同一包内的实现该私有方法的<code>PeerUser/PeerChat/PeerChannel</code>才能赋值给<code>PeerClass</code>变量。</p>
 <p>Go中 switch type 断言与Rust的match type有异曲同工之妙：</p>
 <ul>
 <li>Go代码：</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">switch</span> <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">g</span>.(<span style="color:#66d9ef">type</span>) {
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">case</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">tg</span>.<span style="color:#a6e22e">PeerUser</span>: <span style="color:#75715e">// peerUser#59511722
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">case</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">tg</span>.<span style="color:#a6e22e">PeerChat</span>: <span style="color:#75715e">// peerChat#36c6019a
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">case</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">tg</span>.<span style="color:#a6e22e">PeerChannel</span>: <span style="color:#75715e">// peerChannel#a2a5371e
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">default</span>: panic(<span style="color:#a6e22e">v</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">switch</span> <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">g</span>.(<span style="color:#66d9ef">type</span>) {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">case</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">tg</span>.<span style="color:#a6e22e">PeerUser</span>: <span style="color:#75715e">// peerUser#59511722</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">case</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">tg</span>.<span style="color:#a6e22e">PeerChat</span>: <span style="color:#75715e">// peerChat#36c6019a</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">case</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">tg</span>.<span style="color:#a6e22e">PeerChannel</span>: <span style="color:#75715e">// peerChannel#a2a5371e</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">default</span>: panic(<span style="color:#a6e22e">v</span>)
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><ul>
 <li>等价Rust代码：</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">match</span> g {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">match</span> g {
 </span></span><span style="display:flex;"><span>	tg::PeerUser(user) <span style="color:#f92672">=&gt;</span> <span style="color:#75715e">// peerUser#59511722
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	tg::PeerChat(chat) <span style="color:#f92672">=&gt;</span> <span style="color:#75715e">// peerChat#36c6019a
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	tg::PeerChannel(channel) <span style="color:#f92672">=&gt;</span> <span style="color:#75715e">// peerChannel#a2a5371e
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	_ <span style="color:#f92672">=&gt;</span> None
+</span></span></span><span style="display:flex;"><span>	tg::PeerChat(chat) <span style="color:#f92672">=&gt;</span> <span style="color:#75715e">// peerChat#36c6019a
+</span></span></span><span style="display:flex;"><span>	tg::PeerChannel(channel) <span style="color:#f92672">=&gt;</span> <span style="color:#75715e">// peerChannel#a2a5371e
+</span></span></span><span style="display:flex;"><span>	_ <span style="color:#f92672">=&gt;</span> None
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div>
-				<div id="post-tags">
-				  
-				  	
-						  <a href="https://alimy.github.io/tags/development/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;development</a>
-						
-						  <a href="https://alimy.github.io/tags/go/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;Go</a>
-						
-						  <a href="https://alimy.github.io/tags/rpc/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;RPC</a>
-						
-						  <a href="https://alimy.github.io/tags/tl/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;TL</a>
-						
-						  <a href="https://alimy.github.io/tags/tg/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;tg</a>
-						
-					
-				</div>
-        </div>
-        <div id="post-navigator">
-          <a id="post-navigator-prev" href="https://alimy.github.io/post/dev_202601221258/" title="上一篇"><i class="fa fa-chevron-left" aria-hidden="true"></i>&nbsp;在go库包中包含main包的方式</a>
-          <a id="post-navigator-next" href="https://alimy.github.io/post/dev_202602011415/" title="下一篇">git-sync同步所有git库&nbsp;<i class="fa fa-chevron-right" aria-hidden="true"></i></a>
-        </div>
-        <div id="post-comments">
-          <h3>Comments</h3>
+        <div id="post-tags">
           
+          
+          <a href="https://alimy.github.io/tags/development/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;Development</a>
+          
+          <a href="https://alimy.github.io/tags/go/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;Go</a>
+          
+          <a href="https://alimy.github.io/tags/rpc/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;RPC</a>
+          
+          <a href="https://alimy.github.io/tags/tl/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;TL</a>
+          
+          <a href="https://alimy.github.io/tags/tg/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;Tg</a>
+          
+          
+        </div>
+      </div>
+      <div id="post-navigator">
+        <a id="post-navigator-prev" href="https://alimy.github.io/post/dev_202601221258/" title="上一篇"><i class="fa fa-chevron-left"
+            aria-hidden="true"></i>&nbsp;在go库包中包含main包的方式</a>
+        <a id="post-navigator-next" href="https://alimy.github.io/post/dev_202602011415/" title="下一篇">git-sync同步所有git库&nbsp;<i
+            class="fa fa-chevron-right" aria-hidden="true"></i></a>
+      </div>
+      <div id="post-comments">
+        <h3>Comments</h3>
+        
 
 
 <div id="disqus_thread"></div>
@@ -512,8 +515,8 @@ folderPeer#e9baa668 peer:Peer folder_id:int = FolderPeer;
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
 
 
-        </div>
-        <footer id="copyright">
+      </div>
+      <footer id="copyright">
   <p>&copy;2015-至今 <a href="mailto:alimy@niubiu.com" title="Email:alimy@niubiu.com">北野 - Michael Li</a> All rights
     reserved.&nbsp;&nbsp;<a href="https://riiffy.com/alimy.github.io" title="访问统计" target="_blank">Riiffy</p>
 </footer>
@@ -523,5 +526,6 @@ if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascr
 var s=document.getElementsByTagName('script')[0];sc.src='https://alimy.github.io/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
 WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
 
-  </body>
+</body>
+
 </html>

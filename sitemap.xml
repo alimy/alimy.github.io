@@ -2,10 +2,10 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://alimy.github.io/tags/art/</loc>
+    <loc>https://alimy.github.io/categories/art/</loc>
     <lastmod>2026-02-06T09:18:00+08:00</lastmod>
   </url><url>
-    <loc>https://alimy.github.io/categories/art/</loc>
+    <loc>https://alimy.github.io/tags/art/</loc>
     <lastmod>2026-02-06T09:18:00+08:00</lastmod>
   </url><url>
     <loc>https://alimy.github.io/categories/</loc>
@@ -26,19 +26,19 @@
     <loc>https://alimy.github.io/post/etc_202602031028/</loc>
     <lastmod>2026-02-03T10:28:00+08:00</lastmod>
   </url><url>
-    <loc>https://alimy.github.io/tags/other/</loc>
+    <loc>https://alimy.github.io/categories/other/</loc>
     <lastmod>2026-02-03T10:28:00+08:00</lastmod>
   </url><url>
-    <loc>https://alimy.github.io/categories/other/</loc>
+    <loc>https://alimy.github.io/tags/other/</loc>
     <lastmod>2026-02-03T10:28:00+08:00</lastmod>
   </url><url>
     <loc>https://alimy.github.io/tags/bash/</loc>
     <lastmod>2026-02-01T14:15:00+08:00</lastmod>
   </url><url>
-    <loc>https://alimy.github.io/tags/development/</loc>
+    <loc>https://alimy.github.io/categories/development/</loc>
     <lastmod>2026-02-01T14:15:00+08:00</lastmod>
   </url><url>
-    <loc>https://alimy.github.io/categories/development/</loc>
+    <loc>https://alimy.github.io/tags/development/</loc>
     <lastmod>2026-02-01T14:15:00+08:00</lastmod>
   </url><url>
     <loc>https://alimy.github.io/post/dev_202602011415/</loc>
@@ -116,10 +116,10 @@
     <loc>https://alimy.github.io/post/etc_202302100616/</loc>
     <lastmod>2023-02-10T06:16:00+08:00</lastmod>
   </url><url>
-    <loc>https://alimy.github.io/tags/faqs/</loc>
+    <loc>https://alimy.github.io/categories/faqs/</loc>
     <lastmod>2023-02-01T19:48:00+08:00</lastmod>
   </url><url>
-    <loc>https://alimy.github.io/categories/faqs/</loc>
+    <loc>https://alimy.github.io/tags/faqs/</loc>
     <lastmod>2023-02-01T19:48:00+08:00</lastmod>
   </url><url>
     <loc>https://alimy.github.io/tags/macos/</loc>
@@ -251,10 +251,10 @@
     <loc>https://alimy.github.io/post/dev_202101181248/</loc>
     <lastmod>2021-01-18T12:48:00+08:00</lastmod>
   </url><url>
-    <loc>https://alimy.github.io/tags/language/</loc>
+    <loc>https://alimy.github.io/categories/language/</loc>
     <lastmod>2021-01-18T12:48:00+08:00</lastmod>
   </url><url>
-    <loc>https://alimy.github.io/categories/language/</loc>
+    <loc>https://alimy.github.io/tags/language/</loc>
     <lastmod>2021-01-18T12:48:00+08:00</lastmod>
   </url><url>
     <loc>https://alimy.github.io/categories/tg/</loc>
@@ -377,10 +377,10 @@
     <loc>https://alimy.github.io/post/dev_201806040842/</loc>
     <lastmod>2018-06-04T08:42:00+08:00</lastmod>
   </url><url>
-    <loc>https://alimy.github.io/tags/information/</loc>
+    <loc>https://alimy.github.io/categories/information/</loc>
     <lastmod>2018-05-21T08:19:00+08:00</lastmod>
   </url><url>
-    <loc>https://alimy.github.io/categories/information/</loc>
+    <loc>https://alimy.github.io/tags/information/</loc>
     <lastmod>2018-05-21T08:19:00+08:00</lastmod>
   </url><url>
     <loc>https://alimy.github.io/post/info_201805210818/</loc>
@@ -446,10 +446,10 @@
     <loc>https://alimy.github.io/categories/transport/</loc>
     <lastmod>2016-03-24T22:55:00+08:00</lastmod>
   </url><url>
-    <loc>https://alimy.github.io/tags/game/</loc>
+    <loc>https://alimy.github.io/categories/game/</loc>
     <lastmod>2016-03-24T21:35:00+08:00</lastmod>
   </url><url>
-    <loc>https://alimy.github.io/categories/game/</loc>
+    <loc>https://alimy.github.io/tags/game/</loc>
     <lastmod>2016-03-24T21:35:00+08:00</lastmod>
   </url><url>
     <loc>https://alimy.github.io/tags/history/</loc>
@@ -662,10 +662,10 @@
     <loc>https://alimy.github.io/post/day_201601201649/</loc>
     <lastmod>2016-01-20T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://alimy.github.io/tags/cloud/</loc>
+    <loc>https://alimy.github.io/categories/cloud/</loc>
     <lastmod>2016-01-16T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://alimy.github.io/categories/cloud/</loc>
+    <loc>https://alimy.github.io/tags/cloud/</loc>
     <lastmod>2016-01-16T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://alimy.github.io/post/dev_201601161712/</loc>
@@ -722,10 +722,10 @@
     <loc>https://alimy.github.io/post/day_201512292359/</loc>
     <lastmod>2015-12-29T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://alimy.github.io/tags/about/</loc>
+    <loc>https://alimy.github.io/categories/about/</loc>
     <lastmod>2008-10-01T06:00:00+08:00</lastmod>
   </url><url>
-    <loc>https://alimy.github.io/categories/about/</loc>
+    <loc>https://alimy.github.io/tags/about/</loc>
     <lastmod>2008-10-01T06:00:00+08:00</lastmod>
   </url><url>
     <loc>https://alimy.github.io/pages/</loc>

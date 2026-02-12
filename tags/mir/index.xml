@@ -1,21 +1,28 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Mir on 北野</title>
+      <title>Mir on 北野 </title>
+      <generator uri="https://gohugo.io">Hugo</generator>
     <link>https://alimy.github.io/tags/mir/</link>
-    <description>Recent content in Mir on 北野</description>
-    <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
+    
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Mon, 16 Jan 2023 09:06:00 +0800</lastBuildDate>
-    <atom:link href="https://alimy.github.io/tags/mir/index.xml" rel="self" type="application/rss+xml" />
+    <updated>Mon, 16 Jan 2023 09:06:00 CST</updated>
+    
     <item>
       <title>Mir - go-mir的设计演进</title>
       <link>https://alimy.github.io/post/dev_202301160906/</link>
-      <pubDate>Mon, 16 Jan 2023 09:06:00 +0800</pubDate>
+      <pubDate>Mon, 16 Jan 2023 09:06:00 CST</pubDate>
+      
       <guid>https://alimy.github.io/post/dev_202301160906/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://github.com/alimy/mir&#34;&gt;Mir&lt;/a&gt; 是一套提供类似gRPC服务开发体验的快速开发RESTful API &lt;strong&gt;后端开发脚手架&lt;/strong&gt;，适配多种HTTP框架，包括 &lt;a href=&#34;https://github.com/gin-gonic/gin&#34;&gt;Gin&lt;/a&gt;, &lt;a href=&#34;https://github.com/go-chi/chi&#34;&gt;Chi&lt;/a&gt;, &lt;a href=&#34;https://github.com/cloudwego/hertz&#34;&gt;Hertz&lt;/a&gt;, &lt;a href=&#34;https://github.com/labstack/echo&#34;&gt;Echo&lt;/a&gt;, &lt;a href=&#34;https://github.com/kataras/iris&#34;&gt;Iris&lt;/a&gt;, &lt;a href=&#34;https://github.com/gofiber/fiber&#34;&gt;Fiber&lt;/a&gt;, &lt;a href=&#34;https://github.com/go-macaron/macaron&#34;&gt;Macaron&lt;/a&gt;, &lt;a href=&#34;https://github.com/gorilla/mux&#34;&gt;Mux&lt;/a&gt;, &lt;a href=&#34;https://github.com/julienschmidt/httprouter&#34;&gt;httprouter&lt;/a&gt;。&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://github.com/alimy/mir&#34;&gt;Mir&lt;/a&gt; 的演进历经了版本 &lt;a href=&#34;https://github.com/alimy/mir/tree/v1&#34;&gt;v1&lt;/a&gt;、&lt;a href=&#34;https://github.com/alimy/mir/tree/v2&#34;&gt;v2&lt;/a&gt;，目前已经演进到版本&lt;a href=&#34;https://github.com/alimy/mir&#34;&gt;v3&lt;/a&gt;。本文简要概述&lt;a href=&#34;https://github.com/alimy/mir&#34;&gt;Mir&lt;/a&gt;的具体演进过程，一窥设计的要点所在。&lt;/p&gt;</description>
+&lt;p&gt;&lt;a href=&#34;https://github.com/alimy/mir&#34;&gt;Mir&lt;/a&gt; 的演进历经了版本 &lt;a href=&#34;https://github.com/alimy/mir/tree/v1&#34;&gt;v1&lt;/a&gt;、&lt;a href=&#34;https://github.com/alimy/mir/tree/v2&#34;&gt;v2&lt;/a&gt;，目前已经演进到版本&lt;a href=&#34;https://github.com/alimy/mir&#34;&gt;v3&lt;/a&gt;。本文简要概述&lt;a href=&#34;https://github.com/alimy/mir&#34;&gt;Mir&lt;/a&gt;的具体演进过程，一窥设计的要点所在。&lt;/p&gt;
+&lt;h3 id=&#34;版本v1的由来&#34;&gt;版本&lt;a href=&#34;https://github.com/alimy/mir/tree/v1&#34;&gt;v1&lt;/a&gt;的由来&lt;/h3&gt;
+&lt;p&gt;TODO;&lt;/p&gt;
+&lt;h3 id=&#34;版本v2的设计要点&#34;&gt;版本&lt;a href=&#34;https://github.com/alimy/mir/tree/v2&#34;&gt;v2&lt;/a&gt;的设计要点&lt;/h3&gt;
+&lt;p&gt;TODO;&lt;/p&gt;
+&lt;h3 id=&#34;版本v3的意外出山&#34;&gt;版本&lt;a href=&#34;https://github.com/alimy/mir&#34;&gt;v3&lt;/a&gt;的意外出山&lt;/h3&gt;
+&lt;p&gt;TODO;&lt;/p&gt;</description>
     </item>
+    
   </channel>
 </rss>

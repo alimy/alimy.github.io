@@ -1,22 +1,41 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>About on 北野</title>
+      <title>About on 北野 </title>
+      <generator uri="https://gohugo.io">Hugo</generator>
     <link>https://alimy.github.io/tags/about/</link>
-    <description>Recent content in About on 北野</description>
-    <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
+    
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Wed, 01 Oct 2008 06:00:00 +0800</lastBuildDate>
-    <atom:link href="https://alimy.github.io/tags/about/index.xml" rel="self" type="application/rss+xml" />
+    <updated>Wed, 01 Oct 2008 06:00:00 CST</updated>
+    
     <item>
       <title>关于我</title>
       <link>https://alimy.github.io/pages/cv/</link>
-      <pubDate>Wed, 01 Oct 2008 06:00:00 +0800</pubDate>
+      <pubDate>Wed, 01 Oct 2008 06:00:00 CST</pubDate>
+      
       <guid>https://alimy.github.io/pages/cv/</guid>
-      <description>Go、Rust、Clojure 开发工程师、产品设计师，热爱生活，乐于折腾，敢于创新，笃于分享。
-存知己，若比邻，仗剑天涯，追寻梦想，只为 那年江湖，遇见你 ！
-开源项目 go-mir - 🔥一个很酷的开发RESTful API的辅助工具. Yesql - 🔥一个用于使用sqlx来开发数据业务逻辑的辅助库. paopao-ce - 🔥一个清新文艺的微社区. sqlx - 🔥general purpose extensions to golang&amp;rsquo;s database/sql(fork from jmoiron/sqlx). cfg - A flexible features configure help library. Tryst - Some help utils for Go develop. 参与项目 Gogs - 🔥一款极易搭建的自助 Git 服务. Cloudreve - 🔥Self-hosted file management system with multi-cloud support. mux - A powerful HTTP router and URL matcher for building Go web servers with 🦍 go-bindata - Turn data file into go code.</description>
+      <description>&lt;p&gt;&lt;strong&gt;&lt;a href=&#34;https://go.dev&#34;&gt;Go&lt;/a&gt;、&lt;a href=&#34;https://rust-lang.org&#34;&gt;Rust&lt;/a&gt;、&lt;a href=&#34;https://clojure.org&#34;&gt;Clojure&lt;/a&gt;&lt;/strong&gt; 开发工程师、产品设计师，热爱生活，乐于折腾，敢于创新，笃于分享。&lt;/p&gt;
+&lt;p&gt;存知己，若比邻，仗剑天涯，追寻梦想，只为 &lt;em&gt;&lt;strong&gt;那年江湖，遇见你&lt;/strong&gt;&lt;/em&gt; ！&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://alimy.github.io/images/post/20260125203600.webp&#34; title=&#34;两只争夺领地的青蛙&#34;&gt;&lt;img src=&#34;https://alimy.github.io/images/post/20260125203600.webp&#34; alt=&#34;图片加载中&amp;hellip;请使用支持Webp的浏览器加速查看&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;开源项目&#34;&gt;开源项目&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://alimy.github.io/mir&#34;&gt;go-mir&lt;/a&gt; - 🔥一个很酷的开发RESTful API的辅助工具.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://alimy.github.io/yesql&#34;&gt;Yesql&lt;/a&gt; - 🔥一个用于使用&lt;a href=&#34;https://github.com/jmoiron/sqlx&#34;&gt;sqlx&lt;/a&gt;来开发数据业务逻辑的辅助库.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/rocboss/paopao-ce/tree/dev&#34;&gt;paopao-ce&lt;/a&gt; - 🔥一个清新文艺的微社区.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/bitbus/sqlx&#34;&gt;sqlx&lt;/a&gt; - 🔥general purpose extensions to golang&amp;rsquo;s database/sql(fork from jmoiron/sqlx).&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/alimy/cfg&#34;&gt;cfg&lt;/a&gt; - A flexible features configure help library.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/alimy/tryst&#34;&gt;Tryst&lt;/a&gt; - Some help utils for Go develop.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;参与项目&#34;&gt;参与项目&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://gogs.io/&#34;&gt;Gogs&lt;/a&gt; - 🔥一款极易搭建的自助 Git 服务.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://cloudreve.org/&#34;&gt;Cloudreve&lt;/a&gt; - 🔥Self-hosted file management system with multi-cloud support.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/gorilla/mux&#34;&gt;mux&lt;/a&gt; - A powerful HTTP router and URL matcher for building Go web servers with 🦍&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/go-bindata/go-bindata&#34;&gt;go-bindata&lt;/a&gt; - Turn data file into go code.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/kubesphere/kubekey&#34;&gt;KubeKey&lt;/a&gt; - 一个开源的轻量级工具，用于部署Kubernetes集群.&lt;/li&gt;
+&lt;/ul&gt;
+</description>
     </item>
+    
   </channel>
 </rss>

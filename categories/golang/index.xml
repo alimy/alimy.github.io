@@ -1,18 +1,18 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Golang on 北野</title>
+      <title>Golang on 北野 </title>
+      <generator uri="https://gohugo.io">Hugo</generator>
     <link>https://alimy.github.io/categories/golang/</link>
-    <description>Recent content in Golang on 北野</description>
-    <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
+    
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Sat, 03 Mar 2018 19:34:00 +0800</lastBuildDate>
-    <atom:link href="https://alimy.github.io/categories/golang/index.xml" rel="self" type="application/rss+xml" />
+    <updated>Sat, 03 Mar 2018 19:34:00 CST</updated>
+    
     <item>
       <title>Golang Tutorial: What&#39;s DefaultServeMux in net/http</title>
       <link>https://alimy.github.io/post/dev_201803031932/</link>
-      <pubDate>Sat, 03 Mar 2018 19:34:00 +0800</pubDate>
+      <pubDate>Sat, 03 Mar 2018 19:34:00 CST</pubDate>
+      
       <guid>https://alimy.github.io/post/dev_201803031932/</guid>
       <description>&lt;p&gt;craete a HTTPS Server use net/http and route handle function by DefaultServeMux, see code below:&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;package main
@@ -40,12 +40,48 @@ func main() {
 
 	log.Fatal(server.ListenAndServe())
 }
-&lt;/code&gt;&lt;/pre&gt;</description>
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;the http.HandleFunc is defined below:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;package http
+
+// HandleFunc registers the handler function for the given pattern
+// in the DefaultServeMux.
+// The documentation for ServeMux explains how patterns are matched.
+func HandleFunc(pattern string, handler func(ResponseWriter, *Request)) {
+	DefaultServeMux.HandleFunc(pattern, handler)
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;DefaultServeMux is a ref var of &amp;amp;ServeMux&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;// DefaultServeMux is the default ServeMux used by Serve.
+var DefaultServeMux = &amp;amp;defaultServeMux
+
+var defaultServeMux ServeMux
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;And the method of HandleFunc is defined below:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;package Server
+
+// HandleFunc registers the handler function for the given pattern.
+func (mux *ServeMux) HandleFunc(pattern string, handler func(ResponseWriter, *Request)) {
+	mux.Handle(pattern, HandlerFunc(handler))
+}
+
+// The HandlerFunc type is an adapter to allow the use of
+// ordinary functions as HTTP handlers. If f is a function
+// with the appropriate signature, HandlerFunc(f) is a
+// Handler that calls f.
+type HandlerFunc func(ResponseWriter, *Request)
+
+// ServeHTTP calls f(w, r).
+func (f HandlerFunc) ServeHTTP(w ResponseWriter, r *Request) {
+	f(w, r)
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;So we see,  the method of HandleFunc convert arg of func(ResponseWriter, *Request) to a http Handler and passed to ServeMux.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;(Note: &lt;a href=&#34;http://gitbus.com/alimy/dugo.git&#34; title=&#34;My Go Programming code repository&#34;&gt;&lt;em&gt;My Code repository&lt;/em&gt;&lt;/a&gt;)&lt;/p&gt;</description>
     </item>
+    
     <item>
       <title>Golang Tutorial: Create HTTPS Server use net/http</title>
       <link>https://alimy.github.io/post/dev_201803030946/</link>
-      <pubDate>Sat, 03 Mar 2018 09:46:00 +0800</pubDate>
+      <pubDate>Sat, 03 Mar 2018 09:46:00 CST</pubDate>
+      
       <guid>https://alimy.github.io/post/dev_201803030946/</guid>
       <description>&lt;p&gt;It is simple to craete a HTTPS Server use net/http, see code below:&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;package main
@@ -70,7 +106,59 @@ func main() {
 	}
 	server.ListenAndServeTLS(&amp;#34;cert.pem&amp;#34;, &amp;#34;key.pem&amp;#34;)
 }
-&lt;/code&gt;&lt;/pre&gt;</description>
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;We can use golang&amp;rsquo;s crypto libraries to create SSL certificates that used in simple https server above. see code below:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;package main
+
+import (
+	&amp;#34;crypto/rand&amp;#34;
+	&amp;#34;crypto/x509/pkix&amp;#34;
+	&amp;#34;math/big&amp;#34;
+	&amp;#34;crypto/x509&amp;#34;
+	&amp;#34;encoding/pem&amp;#34;
+	&amp;#34;net&amp;#34;
+	&amp;#34;os&amp;#34;
+	&amp;#34;time&amp;#34;
+	&amp;#34;crypto/rsa&amp;#34;
+)
+
+const (
+	certFileName = &amp;#34;cert.pem&amp;#34;
+	keyFileName  = &amp;#34;key.pem&amp;#34;
+)
+
+func main() {
+	max := new(big.Int).Lsh(big.NewInt(1), 128)
+	serialNumber, _ := rand.Int(rand.Reader, max)
+	subject := pkix.Name{
+		Organization:       []string{&amp;#34;Manning Publications Co.&amp;#34;},
+		OrganizationalUnit: []string{&amp;#34;Books&amp;#34;},
+		CommonName:         &amp;#34;Go Web Programming&amp;#34;,
+	}
+
+	template := x509.Certificate{
+		SerialNumber: serialNumber,
+		Subject:      subject,
+		NotBefore:    time.Now(),
+		NotAfter:     time.Now().Add(365 * 24 * time.Hour),
+		KeyUsage:     x509.KeyUsageKeyEncipherment | x509.KeyUsageDigitalSignature,
+		ExtKeyUsage:  []x509.ExtKeyUsage{x509.ExtKeyUsageServerAuth},
+		IPAddresses:  []net.IP{net.ParseIP(&amp;#34;127.0.0.1&amp;#34;)},
+	}
+
+	pk, _ := rsa.GenerateKey(rand.Reader, 2048)
+
+	derBytes, _ := x509.CreateCertificate(rand.Reader, &amp;amp;template, &amp;amp;template, &amp;amp;pk.PublicKey, pk)
+	certOut, _ := os.Create(certFileName)
+	pem.Encode(certOut, &amp;amp;pem.Block{Type: &amp;#34;CERTIFICATE&amp;#34;, Bytes: derBytes})
+	certOut.Close()
+
+	keyOut, _ := os.Create(keyFileName)
+	pem.Encode(keyOut, &amp;amp;pem.Block{Type: &amp;#34;RSA PRIVATE KEY&amp;#34;, Bytes: x509.MarshalPKCS1PrivateKey(pk)})
+	keyOut.Close()
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;p&gt;(Note: This article’s code is reference from the simple code in book &lt;a href=&#34;https://github.com/sausheong/gwp.git&#34; title=&#34;Go Web Programming code repository&#34;&gt;&amp;lt;&lt;strong&gt;Go Web Programming&lt;/strong&gt;&amp;gt;&lt;/a&gt; and this link is &lt;a href=&#34;http://gitbus.com/alimy/dugo.git&#34; title=&#34;My Go Programming code repository&#34;&gt;&lt;em&gt;My Code repository&lt;/em&gt;&lt;/a&gt;)&lt;/p&gt;</description>
     </item>
+    
   </channel>
 </rss>

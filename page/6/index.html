@@ -2,20 +2,20 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 
 <head>
-	<meta name="generator" content="Hugo 0.120.4">
+	<meta name="generator" content="Hugo 0.155.3">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
   <title> 北野 &middot; 那年江湖，遇见你 </title>
   
-  <link rel="stylesheet" type="text/css" href="https://alimy.github.io/css/uno.css" />
-  <link rel="stylesheet" type="text/css" href="https://alimy.github.io/css/lightGallery.css" />
+  <link rel="stylesheet" type="text/css" href="https://alimy.github.io//css/uno.css" />
+  <link rel="stylesheet" type="text/css" href="https://alimy.github.io//css/lightGallery.css" />
   
   <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://alimy.github.io/apple-touch-icon-144-precomposed.png">
   <link rel="shortcut icon" href="https://alimy.github.io/favicon.png">
   
-  <script src="https://alimy.github.io/js/jquery.min.js"></script>
-  <script src="https://alimy.github.io/js/main.min.js"></script>
+  <script src="https://alimy.github.io//js/jquery.min.js"></script>
+  <script src="https://alimy.github.io//js/main.min.js"></script>
 
   <script data-host="https://riiffy.com" data-dnt="false" src="https://riiffy.com/js/script.js" id="ZwSg9rf6GA" async
     defer></script>
@@ -232,9 +232,9 @@
     <div class="panel-main">
         <div class="panel-main__inner panel-inverted">
             <div class="panel-main__content"> 
-                <a href="https://alimy.github.io/"> <img src="https://alimy.github.io/images/logo.jpg" width="256" alt="北野 logo" class="panel-cover__logo logo" /> </a> 
+                <a href="https://alimy.github.io//"> <img src="https://alimy.github.io/images/logo.jpg" width="256" alt="北野 logo" class="panel-cover__logo logo" /> </a> 
                 <h1 class="panel-cover__title panel-title">
-                    <a href="https://alimy.github.io/">北野</a>
+                    <a href="https://alimy.github.io//">北野</a>
                 </h1>
                 <hr class="panel-cover__divider" />
                 <p class="panel-cover__description">  那年江湖，遇见你  </p>
@@ -242,8 +242,8 @@
                 <div class="navigation-wrapper">
                     <nav class="cover-navigation cover-navigation--primary">
                         <ul class="navigation">
-                            <li class="navigation__item"><a href="https://alimy.github.io" title="博客首页" class="blog-button">首页</a> </li> </br></br>
-                            <li class="navigation__item"><a href="https://alimy.github.io/post/" title="文章列表" class="blog-button">文章列表</a> </li>
+                            <li class="navigation__item"><a href="https://alimy.github.io/" title="博客首页" class="blog-button">首页</a> </li> </br></br>
+                            <li class="navigation__item"><a href="https://alimy.github.io//post/" title="文章列表" class="blog-button">文章列表</a> </li>
                             </br>  </br>
                             <li class="navigation__item"><a href="https://alimy.github.io/pages/cv" title="关于我 " class="blog-button">关于我</a> </li>
                             </br>  </ul>
@@ -287,9 +287,9 @@
         <div class="panel-main">
             <div class="panel-main__inner panel-inverted">
                 <div class="panel-main__content"> 
-                    <a href="https://alimy.github.io/"> <img src="https://alimy.github.io/images/logo.jpg" width="80" alt="北野 logo" class="panel-cover__logo logo" /> </a> 
+                    <a href="https://alimy.github.io//"> <img src="https://alimy.github.io/images/logo.jpg" width="80" alt="北野 logo" class="panel-cover__logo logo" /> </a> 
                     <h1 class="panel-cover__title panel-title">
-                        <a href="https://alimy.github.io/">北野</a>
+                        <a href="https://alimy.github.io//">北野</a>
                     </h1>
                     <hr class="panel-cover__divider" />
                     <p class="panel-cover__description">  那年江湖，遇见你  </p>
@@ -297,8 +297,8 @@
                     <div class="navigation-wrapper">
                         <nav class="cover-navigation cover-navigation--primary">
                             <ul class="navigation">
-                                <li class="navigation__item"><a href="https://alimy.github.io" title="博客首页" class="blog-button">Blog</a> </li></br></br>
-                                <li class="navigation__item"><a href="https://alimy.github.io/post/" title="文章列表" class="blog-button">Articles</a> </li>
+                                <li class="navigation__item"><a href="https://alimy.github.io/" title="博客首页" class="blog-button">Blog</a> </li></br></br>
+                                <li class="navigation__item"><a href="https://alimy.github.io//post/" title="文章列表" class="blog-button">Articles</a> </li>
                                 </br>  </br>
                                 <li class="navigation__item"><a href="https://alimy.github.io/pages/cv" title="关于我 " class="blog-button">About Me</a> </li>
                                 </br>  </ul>
@@ -333,123 +333,6 @@
             <div class="content-wrapper__inner">
                 <section id="main">
                     <div>
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/dev_202012071321/" title="阅读全文">Tg: Polymorphism in TL </a> </h2>
-
-</header>
-<div class="summary">
-    <p>It should be noted that in the TL schema of the overwhelming majority of API calls the use of polymorphic types is restricted to the Vector type. Nevertheless, having a view of the big picture is still helpful.</p>
-<h4 id="ordinary-inductive-types">Ordinary inductive types</h4>
-<p>For example, let us consider the IntList, which is defined as follows:</p>
-<pre tabindex="0"><code>int_cons hd:int tl:IntList = IntList;
-int_nil = IntList;
-</code></pre><p>The “int_cons” and “int_nil” constructors as well as the “IntList” type itself are expressions of the following types (writing A : X means that A is an expression of type X):</p>
-<pre tabindex="0"><code>IntList : Type;
-int_cons : int -&gt; IntList -&gt; IntList;
-int_nil : IntList;
-</code></pre><p>The keyword Type is used to denote the type of all types. Note that Type is not Object (Object is the type of all terms). Here is alternative syntax that could be used in some other functional programming language (but not in TL):</p>
-<pre tabindex="0"><code>NewType IntList :=
-| int_cons hd:int tl:IntList
-| int_nil
-EndType
-</code></pre>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/dev_202012071321/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/dev_202012071315/" title="阅读全文">Tg: TL Language </a> </h2>
-
-</header>
-<div class="summary">
-    <p>TL (Type Language) serves to describe the used system of types, constructors, and existing functions. In fact, the combinator description format presented in Binary Data Serialization is used.</p>
-<p><strong>See also:</strong></p>
-<p><a href="https://alimy.github.io/post/dev_202012071321/">Polymorphism in TL</a></p>
-<p><strong>Advanced topics:</strong></p>
-<p><a href="tl-dependent.md">Dependent types in TL</a></p>
-<p><a href="tl-formal.md">Formal description of TL</a></p>
-<p><a href="tl-combinators.md">Formal description of TL combinators</a></p>
-<p><a href="post/dev_202012071330/">Type serialization</a></p>
-<p><a href="tl-tl.md">TL schema for serialization of TL schemas</a></p>
-<p><a href="tl-optargs.md">Optional combinator parameters and their values</a></p>
-<p><a href="tl-abstract-types.md">Binary serialization and abstract TL types</a></p>
-<p><a href="tl-patterns.md">Formal description of templates in TL</a></p>
-<h4 id="overview">Overview</h4>
-<p>A TL program usually consists of two sections separated by keyword <code>---functions---</code>. The first section consists of declarations of built-in types and aggregate types (i.e. their constructors). The second section consists of the declared functions, i.e. functional combinators.</p>
-<p>Actually, both the first and second sections consist of combinator declarations, each of which ends with a semicolon. However, the first section contains only constructors, while the second section only involves functions. Each combinator is declared using a “combinator declaration” in the format explained above. However, the combinator number and field names may be explicitly assigned.</p>
-<p>If additional type declarations are required after functions have been declared, the keyword (section divider) <code>---types---</code> is used. Furthermore, a functional combinator may be declared in the type section if its result type begins with an exclamation point (in fact, when the function section is interpreted, this exclamation point is added automatically).</p>
-<p>To explicitly define 32-bit names of combinators, a hash mark (<code>#</code>) is added immediately after the combinator’s name, followed by 8 hexadecimal digits.</p>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/dev_202012071315/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/dev_202011271711/" title="阅读全文">Tg: MTProto v2 </a> </h2>
-
-</header>
-<div class="summary">
-    <h2 id="mobile-protocol-detailed-description">Mobile Protocol: Detailed Description</h2>
-<p>This article describes the basic layer of the MTProto protocol version 2.0 (Cloud chats, server-client encryption). The principal differences from version 1.0 (<a href="https://alimy.github.io/post/dev_202011271705/" title="MTProto v1">described here</a> for reference) are as follows:</p>
-<ul>
-<li>SHA-256 is used instead of SHA-1;</li>
-<li>Padding bytes are involved in the computation of <code>msg_key</code>;</li>
-<li><code>msg_key</code> depends not only on the message to be encrypted, but on a portion of <code>auth_key</code> as well;
-12..1024 padding bytes are used instead of 0..15 padding bytes in v.1.0.</li>
-</ul>
-<h4 id="protocol-description">Protocol description</h4>
-<p>Before a message (or a multipart message) is transmitted over a network using a transport protocol, it is encrypted in a certain way, and an external header is added at the top of the message that consists of a 64-bit key identifier <code>auth_key_id</code> (that uniquely identifies an authorization key for the server as well as the user) and a 128-bit message key <code>msg_key</code>.</p>
-<p>The authorization key <code>auth_key</code> combined with the message key <code>msg_key</code> define an actual 256-bit key <code>aes_key</code> and a 256-bit initialization vector <code>aes_iv</code>, which are used to encrypt the message using AES-256 encryption in infinite garble extension (IGE) mode. Note that the initial part of the message to be encrypted contains variable data (session, message ID, sequence number, server salt) that obviously influences the message key (and thus the AES key and iv). In <strong>MTProto 2.0</strong>, the message key is defined as the 128 middle bits of the SHA-256 of the message body (including session, message ID, padding, etc.) prepended by 32 bytes taken from the authorization key. In the older <strong>MTProto 1.0</strong>, the message key was computed as the lower 128 bits of SHA-1 of the message body, excluding the padding bytes.</p>
-<p>Multipart messages are encrypted as a single message.</p>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/dev_202011271711/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/dev_202011271705/" title="阅读全文">Tg: MTProto v1 </a> </h2>
-
-</header>
-<div class="summary">
-    <h2 id="mobile-protocol-detailed-description">Mobile Protocol: Detailed Description</h2>
-<p>Prior to a message (or a multipart message) being transmitted over a network using a transport protocol, it is encrypted in a certain way, and an external header is added at the top of the message which is: a 64-bit key identifier (that uniquely identifies an authorization key for the server as well as the user) and a 128-bit message key.</p>
-<p>A user key together with the message key define an actual 256-bit key and a 256-bit initialization vector, which is what encrypts the message using AES-256 encryption with infinite garble extension (IGE). Note that the initial part of the message to be encrypted contains variable data (session, message ID, sequence number, server salt) that obviously influences the message key (and thus the AES key and iv). The message key is defined as the 128 lower-order bits of the SHA1 of the message body (including session, message ID, etc.) Multipart messages are encrypted as a single message.
-<img src="https://alimy.github.io/images/post/20201127170500.png" alt=""></p>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/dev_202011271705/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
-                        
-                            <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/etc_202601150217/" title="阅读全文">微信的历史 </a> </h2>
-
-</header>
-<div class="summary">
-    <p>香港的《南华早报》有一个长篇报道，介绍了微信如何变成中国用户最多的手机 App。结合维基百科和其他公开的资料，总结了一份微信的发展史。</p>
-<p><a href="https://alimy.github.io/images/post/20250115021700.png" title="点击查看大图"><img src="https://alimy.github.io/images/post/20250115021700.png" alt=""></a></p>
-<p>2010年6月，苹果发布 iPhone 4。当年中国的智能手机销量是3610万部，2011年就猛增到9060万部，2012年更是飙升到2.142亿部。很显然，手机软件（尤其是即时通信软件）即将爆发。</p>
-<p>2010年10月，腾讯广州研发中心开始开发微信。研发负责人是张小龙，当时是 QQ 邮件移动版的负责人。2005年，他的前一个产品 Foxmail 被腾讯收购，他因此加入腾讯。他带领一支不到10人的团队，不到70天的时间内开发出了第一版微信，击败了另外两个内部同类项目。腾讯公司总裁马化腾确定这款产品的名称叫做&quot;微信&quot;。</p>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/etc_202601150217/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
-</article>
-
                         
                             <article class="post panel-wrapper">
 <header>
@@ -540,7 +423,7 @@ registry = &#34;git://mirrors.ustc.edu.cn/crates.io-index&#34;
 
 </header>
 <div class="summary">
-    <h3 id="sectorganization">§Organization</h3>
+    <h3 id="organization">§Organization</h3>
 <h4 id="64-bit-words">64-bit Words</h4>
 <p>For the purpose of Cap’n Proto, a “word” is defined as 8 bytes, or 64 bits. Since alignment of data is important, all objects (structs, lists, and blobs) are aligned to word boundaries, and sizes are usually expressed in terms of words. (Primitive values are aligned to a multiple of their size within a struct or list.)</p>
 <h4 id="messages">Messages</h4>
@@ -549,6 +432,221 @@ registry = &#34;git://mirrors.ustc.edu.cn/crates.io-index&#34;
 </div>
 <footer id="more">
 <a href='https://alimy.github.io/post/dev_201909211630/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="https://alimy.github.io/post/dev_201909211556/" title="阅读全文">Tars语言与协议 </a> </h2>
+
+</header>
+<div class="summary">
+    <h3 id="目录">目录</h3>
+<ul>
+<li><a href="#main-chapter-1">Tars语言</a></li>
+<li><a href="#main-chapter-2">Tars协议</a></li>
+</ul>
+<h2 id="1-tars语言">1. Tars语言 <a id="main-chapter-1"></a></h2>
+<h3 id="11-接口文件">1.1. 接口文件</h3>
+<ul>
+<li>Tars语言是一种类c++标识符的语言，用于生成具体的服务接口文件</li>
+<li>Tars文件是Tars框架中客户端和服务端的通信接口，通过Tars的映射实现远程对象调用</li>
+<li>Tars文件的扩展名必须以.tars为扩展名</li>
+<li>对于结构定义，可以支持扩展字段，即可以增加字段而不影响原有结构的解析，可以在存储/协议等地方单独使用</li>
+<li>大小写敏感</li>
+</ul>
+</div>
+<footer id="more">
+<a href='https://alimy.github.io/post/dev_201909211556/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="https://alimy.github.io/post/dev_201909211536/" title="阅读全文">Protocol Buffers Version 3 Language Specification </a> </h2>
+
+</header>
+<div class="summary">
+    <p>This is a language specification reference for version 3 of the Protocol Buffers language (proto3). The syntax is specified using Extended <a href="https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_Form" title="EBNF in WIKI">Backus-Naur Form (EBNF)</a>:</p>
+<pre tabindex="0"><code>|   alternation
+()  grouping
+[]  option (zero or one time)
+{}  repetition (any number of times)
+</code></pre><p>For more information about using proto3, see the language guide.</p>
+<h3 id="lexical-elements">Lexical elements</h3>
+<h4 id="letters-and-digits">Letters and digits</h4>
+<pre tabindex="0"><code>letter = &#34;A&#34; … &#34;Z&#34; | &#34;a&#34; … &#34;z&#34;
+decimalDigit = &#34;0&#34; … &#34;9&#34;
+octalDigit   = &#34;0&#34; … &#34;7&#34;
+hexDigit     = &#34;0&#34; … &#34;9&#34; | &#34;A&#34; … &#34;F&#34; | &#34;a&#34; … &#34;f&#34;
+</code></pre>
+</div>
+<footer id="more">
+<a href='https://alimy.github.io/post/dev_201909211536/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="https://alimy.github.io/post/dev_201909211516/" title="阅读全文">Protocol Buffers Version 2 Language Specification </a> </h2>
+
+</header>
+<div class="summary">
+    <p>This is a language specification reference for version 2 of the Protocol Buffers language (proto2). The syntax is specified using Extended <a href="https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_Form" title="EBNF in WIKI">Backus-Naur Form (EBNF)</a>:</p>
+<pre tabindex="0"><code>|   alternation
+()  grouping
+[]  option (zero or one time)
+{}  repetition (any number of times)
+</code></pre><p>For more information about using proto2, see the language guide.</p>
+<h3 id="lexical-elements">Lexical elements</h3>
+<h4 id="letters-and-digits">Letters and digits</h4>
+<pre tabindex="0"><code>letter = &#34;A&#34; … &#34;Z&#34; | &#34;a&#34; … &#34;z&#34;
+capitalLetter =  &#34;A&#34; … &#34;Z&#34;
+decimalDigit = &#34;0&#34; … &#34;9&#34;
+octalDigit   = &#34;0&#34; … &#34;7&#34;
+hexDigit     = &#34;0&#34; … &#34;9&#34; | &#34;A&#34; … &#34;F&#34; | &#34;a&#34; … &#34;f&#34;
+</code></pre>
+</div>
+<footer id="more">
+<a href='https://alimy.github.io/post/dev_201909211516/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="https://alimy.github.io/post/dev_201909211159/" title="阅读全文">Cap&#39;n Proto Schema Language </a> </h2>
+
+</header>
+<div class="summary">
+    <h2 id="schema-language">Schema Language</h2>
+<p>Like Protocol Buffers and Thrift (but unlike JSON or MessagePack), Cap’n Proto messages are strongly-typed and not self-describing. You must define your message structure in a special language, then invoke the Cap’n Proto compiler (<code>capnp compile</code>) to generate source code to manipulate that message type in your desired language.</p>
+<h4 id="for-example">For example:</h4>
+<pre tabindex="0"><code>@0xdbb9ad1f14bf0b36;  # unique file ID, generated by `capnp id`
+
+struct Person {
+  name @0 :Text;
+  birthdate @3 :Date;
+
+  email @1 :Text;
+  phones @2 :List(PhoneNumber);
+
+  struct PhoneNumber {
+    number @0 :Text;
+    type @1 :Type;
+
+    enum Type {
+      mobile @0;
+      home @1;
+      work @2;
+    }
+  }
+}
+
+struct Date {
+  year @0 :Int16;
+  month @1 :UInt8;
+  day @2 :UInt8;
+}
+</code></pre>
+</div>
+<footer id="more">
+<a href='https://alimy.github.io/post/dev_201909211159/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="https://alimy.github.io/post/dev_201904141055/" title="阅读全文">Tus Resumable Upload Protocol </a> </h2>
+
+</header>
+<div class="summary">
+    <p><strong>Version:</strong> 1.0.0 (<a href="http://semver.org">SemVer</a>)<br>
+<strong>Date:</strong> 2016-03-25<br>
+<strong>Authors:</strong> <a href="https://twitter.com/felixge">Felix Geisendörfer</a>, <a href="https://twitter.com/kvz">Kevin van
+Zonneveld</a>, <a href="https://twitter.com/tim_kos">Tim Koschützki</a>,
+<a href="https://github.com/vayam">Naren Venkataraman</a>, <a href="https://twitter.com/Acconut_">Marius
+Kleidl</a><br>
+<strong>Collaborators</strong>:
+<a href="https://github.com/biasedbit">Bruno de Carvalho</a>,
+<a href="https://github.com/sandfox">James Butler</a>,
+<a href="https://github.com/cybic">Øystein Steimler</a>,
+<a href="https://github.com/srijs">Sam Rijs</a>,
+<a href="https://github.com/khangtoh">Khang Toh</a>,
+<a href="https://github.com/Amodio">Jacques Boscq</a>,
+<a href="https://github.com/jerefrer">Jérémy FRERE</a>,
+<a href="https://github.com/hintjens">Pieter Hintjens</a>,
+<a href="https://github.com/ehd">Stephan Seidt</a>,
+<a href="https://github.com/aranw">Aran Wilkinson</a>,
+<a href="https://github.com/Baughn">Svein Ove Aas</a>,
+<a href="https://github.com/noptic">Oliver Anan</a>,
+<a href="https://github.com/schmerg">Tim</a>,
+<a href="https://github.com/j4james">j4james</a>,
+<a href="https://github.com/reschke">Julian Reschke</a>,
+<a href="https://github.com/evert">Evert Pot</a>,
+<a href="https://github.com/homeworkprod">Jochen Kupperschmidt</a>,
+<a href="https://github.com/andrewfenn">Andrew Fenn</a>,
+<a href="https://github.com/kevinswiber">Kevin Swiber</a>,
+<a href="https://github.com/0x20h">Jan Kohlhof</a>,
+<a href="https://github.com/radiospiel">eno</a>,
+<a href="https://github.com/luk-">Luke Arduini</a>,
+<a href="https://github.com/sheeep">Jim Schmid</a>,
+<a href="https://github.com/jf">Jeffrey &lsquo;jf&rsquo; Lim</a>,
+<a href="https://github.com/timemachine3030">Daniel Lopretto</a>,
+<a href="https://github.com/MarkMurphy">Mark Murphy</a>,
+<a href="https://github.com/pmdarrow">Peter Darrow</a>,
+<a href="https://github.com/Gargaj">Gargaj</a>,
+<a href="https://github.com/qsorix">Tomasz Rydzyński</a>,
+<a href="https://github.com/tino">Tino de Bruijn</a>,
+<a href="https://github.com/kless">Jonas mg</a>,
+<a href="https://github.com/ChristianUlbrich">Christian Ulbrich</a>,
+<a href="https://github.com/jonhoo">Jon Gjengset</a>,
+<a href="https://github.com/wronglink">Michael Elovskikh</a>,
+<a href="https://github.com/technoweenie">Rick Olson</a>,
+<a href="https://convolv.es">J. Ryan Stinnett</a>,
+<a href="https://github.com/ifedapoolarewaju">Ifedapo Olarewaju</a>
+<a href="https://github.com/ronag">Robert Nagy</a></p>
+<p>The key words &ldquo;MUST&rdquo;, &ldquo;MUST NOT&rdquo;, &ldquo;REQUIRED&rdquo;, &ldquo;SHALL&rdquo;, &ldquo;SHALL NOT&rdquo;, &ldquo;SHOULD&rdquo;,
+&ldquo;SHOULD NOT&rdquo;, &ldquo;RECOMMENDED&rdquo;, &ldquo;MAY&rdquo;, and &ldquo;OPTIONAL&rdquo; in this document are to be
+interpreted as described in <a href="http://www.ietf.org/rfc/rfc2119.txt">RFC 2119</a>.</p>
+<h2 id="status">Status</h2>
+<p>Following <a href="http://semver.org">SemVer</a>, as of 1.0.0 tus is ready for general
+adoption. We don&rsquo;t expect to make breaking changes, but if we do, those will
+have to be in a 2.0.0. Introducing a new extension or any backwards-compatible
+change adding new functionality will result in a bumped MINOR version.</p>
+<h2 id="contributing">Contributing</h2>
+<p>This protocol is authored and owned by the tus community. We welcome patches
+and feedback via
+<a href="https://github.com/tus/tus-resumable-upload-protocol">GitHub</a>. All authors and
+collaborators will be listed as such in the protocol header.</p>
+<p>Please also <a href="https://github.com/tus/tus.io/issues/new">let us know</a> about any
+implementations (open source or commercial) if you&rsquo;d like to be listed on the
+<a href="https://www.tus.io/implementations.html">implementations</a> page.</p>
+<h2 id="abstract">Abstract</h2>
+<p>The protocol provides a mechanism for resumable file uploads via HTTP/1.1 (<a href="https://tools.ietf.org/html/rfc7230">RFC
+7230</a>) and HTTP/2 (<a href="https://tools.ietf.org/html/rfc7540">RFC
+7540</a>).</p>
+</div>
+<footer id="more">
+<a href='https://alimy.github.io/post/dev_201904141055/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
+</footer>
+</article>
+
+                        
+                            <article class="post panel-wrapper">
+<header>
+<h2 ><a href="https://alimy.github.io/post/art_201903151200/" title="阅读全文">熊猫人 </a> </h2>
+
+</header>
+<div class="summary">
+    <p><a href="https://alimy.github.io/images/post/20190315120000.webp" title="点击查看大图"><img src="https://alimy.github.io/images/post/20190315120000.webp" alt="图片加载中&hellip;请使用支持Webp的浏览器加速查看"></a></p>
+</div>
+<footer id="more">
+<a href='https://alimy.github.io/post/art_201903151200/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
 </footer>
 </article>
 
@@ -562,7 +660,8 @@ registry = &#34;git://mirrors.ustc.edu.cn/crates.io-index&#34;
 <ul class="pagination">
   
   <li class="page-item">
-    <a href="https://alimy.github.io/page/5/" class="page-link" aria-label="Previous"><span aria-hidden="true"><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;&nbsp;Previous</span></a>
+    <a href="https://alimy.github.io/page/5/"  class="page-link" aria-label="Previous"><span
+        aria-hidden="true"><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;&nbsp;上一页</span></a>
   </li>
   <li class="page-item">
     <a class="page-link" href="https://alimy.github.io/">1</a>
@@ -589,14 +688,14 @@ registry = &#34;git://mirrors.ustc.edu.cn/crates.io-index&#34;
     <span aria-hidden="true">&nbsp;&hellip;&nbsp;</span>
   </li>
   <li class="page-item">
-    <a class="page-link" href="https://alimy.github.io/page/20/">20</a>
+    <a class="page-link" href="https://alimy.github.io/page/18/">18</a>
   </li>
   <li class="page-item">
-    <a href="https://alimy.github.io/page/7/" class="page-link" aria-label="Next">Next&nbsp;&nbsp;<i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+    <a href="https://alimy.github.io/page/7/"  class="page-link" aria-label="Next">下一页&nbsp;&nbsp;<i
+        class="fa fa-arrow-right" aria-hidden="true"></i></a>
   </li>
   
 </ul>
-
 
 </div>
 

@@ -1,18 +1,18 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>RPC on 北野</title>
+      <title>RPC on 北野 </title>
+      <generator uri="https://gohugo.io">Hugo</generator>
     <link>https://alimy.github.io/categories/rpc/</link>
-    <description>Recent content in RPC on 北野</description>
-    <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
+    
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Sun, 05 Jan 2020 00:47:00 +0800</lastBuildDate>
-    <atom:link href="https://alimy.github.io/categories/rpc/index.xml" rel="self" type="application/rss+xml" />
+    <updated>Sun, 05 Jan 2020 00:47:00 CST</updated>
+    
     <item>
       <title>简单使用docker部署Tars</title>
       <link>https://alimy.github.io/post/dev_202001050047/</link>
-      <pubDate>Sun, 05 Jan 2020 00:47:00 +0800</pubDate>
+      <pubDate>Sun, 05 Jan 2020 00:47:00 CST</pubDate>
+      
       <guid>https://alimy.github.io/post/dev_202001050047/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://github.com/TarsCloud/Tars&#34;&gt;Tars&lt;/a&gt;是腾讯从2008年到今天一直在使用的后台逻辑层的统一应用框架TAF（Total Application Framework），目前支持C++,Java,PHP,Nodejs,Go语言。该框架为用户提供了涉及到开发、运维、以及测试的一整套解决方案，帮助一个产品或者服务快速开发、部署、测试、上线。 它集可扩展协议编解码、高性能RPC通信框架、名字路由与发现、发布监控、日志统计、配置管理等于一体，通过它可以快速用微服务的方式构建自己的稳定可靠的分布式应用，并实现完整有效的服务治理，非参Nice。本文简单介绍通过docker部署一套用于开发测试的Tars尝尝滋味。&lt;/p&gt;
 &lt;h4 id=&#34;配置清单&#34;&gt;配置清单&lt;/h4&gt;
@@ -33,12 +33,49 @@
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;启动Docker服务：&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;% sudo systemctl enable docker
 % sudo systemctl start docker
-&lt;/code&gt;&lt;/pre&gt;</description>
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;docker启动mysql-57&#34;&gt;Docker启动MySQL 5.7&lt;/h4&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;% mkdir mysql-data
+% sudo docker pull mysql:5.7
+% sudo docker run -d --restart always --name tars-mysql \
+            --net=host \
+            -e MYSQL_ROOT_PASSWORD=&amp;#39;root@appinside&amp;#39; \
+            -v ${PWD}/mysql-data:/var/lib/mysql  \
+            -v /etc/localtime:/etc/localtime:ro \
+            mysql:5.7
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;这里&lt;code&gt;--net=host&lt;/code&gt;让docker使用本地网络。&lt;/p&gt;
+&lt;h4 id=&#34;docker启动tars-master&#34;&gt;Docker启动Tars master&lt;/h4&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;% sudo docker pull bitbus/tars:latest
+% sudo docker run -d --restart always --name tars-master \
+        --net=host \
+        -e INET=eth0 \
+        -e REBUILD=false \
+        -e SLAVE=false \
+        -e MYSQL_HOST=192.168.124.18 \
+        -e MYSQL_ROOT_PASSWORD=root@appinside \
+        -v /etc/localtime:/etc/localtime:ro \
+        bitbus/tars:latest
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;--net=host&lt;/code&gt; 让docker使用本地网络&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-e INET=etho&lt;/code&gt; 本地网卡接口名,这里替换成对应系统环境的接口名字，比如这里就是eth0&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-e MYSQL_HOST=192.168.124.18&lt;/code&gt; MySQL的host，如果mysql server部署在tars master的同一机器，比如上面，就对应网卡接口(eth0)的网络地址&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;效果展示&#34;&gt;效果展示&lt;/h4&gt;
+&lt;p&gt;在浏览器访问http://192.168.124.18:3000 或 http://localhost:3000 如下：&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://alimy.github.io/images/post/20200105004700.png&#34; title=&#34;点击查看大图&#34;&gt;&lt;img src=&#34;https://alimy.github.io/images/post/20200105004700.png&#34; alt=&#34;图片加载中&amp;hellip;&#34;&gt;&lt;/a&gt;&lt;br&gt;
+&lt;a href=&#34;https://alimy.github.io/images/post/20200105004701.png&#34; title=&#34;点击查看大图&#34;&gt;&lt;img src=&#34;https://alimy.github.io/images/post/20200105004701.png&#34; alt=&#34;图片加载中&amp;hellip;&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h4 id=&#34;结语&#34;&gt;结语&lt;/h4&gt;
+&lt;p&gt;Tars非常非常Nice，是一个非常完备的多语言支持RPC框架，自带一整套运维。目前相关可以搜到的使用文档非常少，本人是一个go开发，边看TarsGo源码边做开发然后熟悉Tars的细节，虽然有点累但很coding.后续再写文章描述Tars应用的开发流程与细节。Happy enjoy your heart from coding。&lt;/p&gt;
+&lt;h4 id=&#34;参考文档&#34;&gt;参考文档&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/TarsCloud/TarsDocker&#34;&gt;TarsDocker&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</description>
     </item>
+    
     <item>
       <title>Protocol Buffers Messages Encoding</title>
       <link>https://alimy.github.io/post/dev_201909211645/</link>
-      <pubDate>Sat, 21 Sep 2019 16:45:00 +0800</pubDate>
+      <pubDate>Sat, 21 Sep 2019 16:45:00 CST</pubDate>
+      
       <guid>https://alimy.github.io/post/dev_201909211645/</guid>
       <description>&lt;p&gt;This document describes the binary wire format for protocol buffer messages. You don&amp;rsquo;t need to understand this to use protocol buffers in your applications, but it can be very useful to know how different protocol buffer formats affect the size of your encoded messages.&lt;/p&gt;
 &lt;h3 id=&#34;a-simple-message&#34;&gt;A Simple Message&lt;/h3&gt;
@@ -48,31 +85,408 @@
 }
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In an application, you create a &lt;code&gt;Test1&lt;/code&gt; message and set &lt;code&gt;a&lt;/code&gt; to 150. You then serialize the message to an output stream. If you were able to examine the encoded message, you&amp;rsquo;d see three bytes:&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;08 96 01
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;So far, so small and numeric – but what does it mean? Read on&amp;hellip;&lt;/p&gt;</description>
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;So far, so small and numeric – but what does it mean? Read on&amp;hellip;&lt;/p&gt;
+&lt;h3 id=&#34;base-128-varints&#34;&gt;Base 128 Varints&lt;/h3&gt;
+&lt;p&gt;To understand your simple protocol buffer encoding, you first need to understand varints. Varints are a method of serializing integers using one or more bytes. Smaller numbers take a smaller number of bytes.&lt;/p&gt;
+&lt;p&gt;Each byte in a varint, except the last byte, has the most significant bit (msb) set – this indicates that there are further bytes to come. The lower 7 bits of each byte are used to store the two&amp;rsquo;s complement representation of the number in groups of 7 bits, &lt;strong&gt;least significant group first&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;So, for example, here is the number 1 – it&amp;rsquo;s a single byte, so the msb is not set:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;0000 0001
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;And here is 300 – this is a bit more complicated:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;1010 1100 0000 0010
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;How do you figure out that this is 300? First you drop the msb from each byte, as this is just there to tell us whether we&amp;rsquo;ve reached the end of the number (as you can see, it&amp;rsquo;s set in the first byte as there is more than one byte in the varint):&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt; 1010 1100 0000 0010
+→ 010 1100  000 0010
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;You reverse the two groups of 7 bits because, as you remember, varints store numbers with the least significant group first. Then you concatenate them to get your final value:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;000 0010  010 1100
+→  000 0010 ++ 010 1100
+→  100101100
+→  256 + 32 + 8 + 4 = 300
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;message-structure&#34;&gt;Message Structure&lt;/h3&gt;
+&lt;p&gt;As you know, a protocol buffer message is a series of key-value pairs. The binary version of a message just uses the field&amp;rsquo;s number as the key – the name and declared type for each field can only be determined on the decoding end by referencing the message type&amp;rsquo;s definition (i.e. the .proto file).&lt;/p&gt;
+&lt;p&gt;When a message is encoded, the keys and values are concatenated into a byte stream. When the message is being decoded, the parser needs to be able to skip fields that it doesn&amp;rsquo;t recognize. This way, new fields can be added to a message without breaking old programs that do not know about them. To this end, the &amp;ldquo;key&amp;rdquo; for each pair in a wire-format message is actually two values – the field number from your .proto file, plus a wire type that provides just enough information to find the length of the following value. In most language implementations this key is referred to as a tag.&lt;/p&gt;
+&lt;p&gt;The available wire types are as follows:&lt;/p&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;Type&lt;/th&gt;
+          &lt;th&gt;Meaning&lt;/th&gt;
+          &lt;th&gt;Used For&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;0&lt;/td&gt;
+          &lt;td&gt;Varint&lt;/td&gt;
+          &lt;td&gt;int32, int64, uint32, uint64, sint32, sint64, bool, enum&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;1&lt;/td&gt;
+          &lt;td&gt;64-bit&lt;/td&gt;
+          &lt;td&gt;fixed64, sfixed64, double&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;2&lt;/td&gt;
+          &lt;td&gt;Length-delimited&lt;/td&gt;
+          &lt;td&gt;string, bytes, embedded messages, packed repeated fields&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;3&lt;/td&gt;
+          &lt;td&gt;Start group&lt;/td&gt;
+          &lt;td&gt;groups (deprecated)&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;4&lt;/td&gt;
+          &lt;td&gt;End group&lt;/td&gt;
+          &lt;td&gt;groups (deprecated)&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;5&lt;/td&gt;
+          &lt;td&gt;32-bit&lt;/td&gt;
+          &lt;td&gt;fixed32, sfixed32, float&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Each key in the streamed message is a varint with the value &lt;code&gt;(field_number &amp;lt;&amp;lt; 3) | wire_type&lt;/code&gt; – in other words, the last three bits of the number store the wire type.&lt;/p&gt;
+&lt;p&gt;Now let&amp;rsquo;s look at our simple example again. You now know that the first number in the stream is always a varint key, and here it&amp;rsquo;s 08, or (dropping the msb):&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;000 1000
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;You take the last three bits to get the wire type (0) and then right-shift by three to get the field number (1). So you now know that the field number is 1 and the following value is a varint. Using your varint-decoding knowledge from the previous section, you can see that the next two bytes store the value 150.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;96 01 = 1001 0110  0000 0001
+       → 000 0001  ++  001 0110 (drop the msb and reverse the groups of 7 bits)
+       → 10010110
+       → 128 + 16 + 4 + 2 = 150
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;more-value-types&#34;&gt;More Value Types&lt;/h3&gt;
+&lt;h4 id=&#34;signed-integers&#34;&gt;Signed Integers&lt;/h4&gt;
+&lt;p&gt;As you saw in the previous section, all the protocol buffer types associated with wire type 0 are encoded as varints. However, there is an important difference between the signed int types (sint32 and sint64) and the &amp;ldquo;standard&amp;rdquo; int types (int32 and int64) when it comes to encoding negative numbers. If you use int32 or int64 as the type for a negative number, the resulting varint is always ten bytes long – it is, effectively, treated like a very large unsigned integer. If you use one of the signed types, the resulting varint uses ZigZag encoding, which is much more efficient.&lt;/p&gt;
+&lt;p&gt;ZigZag encoding maps signed integers to unsigned integers so that numbers with a small absolute value (for instance, -1) have a small varint encoded value too. It does this in a way that &amp;ldquo;zig-zags&amp;rdquo; back and forth through the positive and negative integers, so that -1 is encoded as 1, 1 is encoded as 2, -2 is encoded as 3, and so on, as you can see in the following table:&lt;/p&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;Signed Original&lt;/th&gt;
+          &lt;th&gt;Encoded As&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;0&lt;/td&gt;
+          &lt;td&gt;0&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;-1&lt;/td&gt;
+          &lt;td&gt;1&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;1&lt;/td&gt;
+          &lt;td&gt;2&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;-2&lt;/td&gt;
+          &lt;td&gt;3&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;2147483647&lt;/td&gt;
+          &lt;td&gt;4294967294&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;-2147483648&lt;/td&gt;
+          &lt;td&gt;4294967295&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;In other words, each value &lt;code&gt;n&lt;/code&gt; is encoded using&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;(n &amp;lt;&amp;lt; 1) ^ (n &amp;gt;&amp;gt; 31)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;for &lt;code&gt;sint32s&lt;/code&gt;, or&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;(n &amp;lt;&amp;lt; 1) ^ (n &amp;gt;&amp;gt; 63)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;for the 64-bit version.&lt;/p&gt;
+&lt;p&gt;Note that the second shift – the &lt;code&gt;(n &amp;gt;&amp;gt; 31)&lt;/code&gt; part – is an arithmetic shift. So, in other words, the result of the shift is either a number that is all zero bits (if &lt;code&gt;n&lt;/code&gt; is positive) or all one bits (if &lt;code&gt;n&lt;/code&gt; is negative).&lt;/p&gt;
+&lt;p&gt;When the &lt;code&gt;sint32&lt;/code&gt; or &lt;code&gt;sint64&lt;/code&gt; is parsed, its value is decoded back to the original, signed version.&lt;/p&gt;
+&lt;h3 id=&#34;non-varint-numbers&#34;&gt;Non-varint Numbers&lt;/h3&gt;
+&lt;p&gt;Non-varint numeric types are simple – double and fixed64 have wire type 1, which tells the parser to expect a fixed 64-bit lump of data; similarly float and fixed32 have wire type 5, which tells it to expect 32 bits. In both cases the values are stored in little-endian byte order.&lt;/p&gt;
+&lt;h3 id=&#34;strings&#34;&gt;Strings&lt;/h3&gt;
+&lt;p&gt;A wire type of 2 (length-delimited) means that the value is a varint encoded length followed by the specified number of bytes of data.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;message Test2 {
+  optional string b = 2;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Setting the value of b to &amp;ldquo;testing&amp;rdquo; gives you:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;12 07 74 65 73 74 69 6e 67
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The red bytes are the UTF8 of &amp;ldquo;testing&amp;rdquo;. The key here is 0x12 → field number = 2, type = 2. The length varint in the value is 7 and lo and behold, we find seven bytes following it – our string.&lt;/p&gt;
+&lt;h3 id=&#34;embedded-messages&#34;&gt;Embedded Messages&lt;/h3&gt;
+&lt;p&gt;Here&amp;rsquo;s a message definition with an embedded message of our example type, Test1:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;message Test3 {
+  optional Test1 c = 3;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;And here&amp;rsquo;s the encoded version, again with the Test1&amp;rsquo;s a field set to 150:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt; 1a 03 08 96 01
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;As you can see, the last three bytes are exactly the same as our first example (08 96 01), and they&amp;rsquo;re preceded by the number 3 – embedded messages are treated in exactly the same way as strings (wire type = 2).&lt;/p&gt;
+&lt;h3 id=&#34;optional-and-repeated-elements&#34;&gt;Optional And Repeated Elements&lt;/h3&gt;
+&lt;p&gt;If a proto2 message definition has repeated elements (without the [packed=true] option), the encoded message has zero or more key-value pairs with the same field number. These repeated values do not have to appear consecutively; they may be interleaved with other fields. The order of the elements with respect to each other is preserved when parsing, though the ordering with respect to other fields is lost. In proto3, repeated fields use &lt;strong&gt;packed encoding&lt;/strong&gt;, which you can read about below.&lt;/p&gt;
+&lt;p&gt;For any non-repeated fields in proto3, or optional fields in proto2, the encoded message may or may not have a key-value pair with that field number.&lt;/p&gt;
+&lt;p&gt;Normally, an encoded message would never have more than one instance of a non-repeated field. However, parsers are expected to handle the case in which they do. For numeric types and strings, if the same field appears multiple times, the parser accepts the last value it sees. For embedded message fields, the parser merges multiple instances of the same field, as if with the Message::MergeFrom method – that is, all singular scalar fields in the latter instance replace those in the former, singular embedded messages are merged, and repeated fields are concatenated. The effect of these rules is that parsing the concatenation of two encoded messages produces exactly the same result as if you had parsed the two messages separately and merged the resulting objects. That is, this:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;MyMessage message;
+message.ParseFromString(str1 + str2);
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;is equivalent to this:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;MyMessage message, message2;
+message.ParseFromString(str1);
+message2.ParseFromString(str2);
+message.MergeFrom(message2);
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This property is occasionally useful, as it allows you to merge two messages even if you do not know their types.&lt;/p&gt;
+&lt;h3 id=&#34;packed-repeated-fields&#34;&gt;Packed Repeated Fields&lt;/h3&gt;
+&lt;p&gt;Version 2.1.0 introduced packed repeated fields, which in proto2 are declared like repeated fields but with the special &lt;code&gt;[packed=true]&lt;/code&gt; option. In proto3, repeated fields of scalar numeric types are packed by default. These function like repeated fields, but are encoded differently. A packed repeated field containing zero elements does not appear in the encoded message. Otherwise, all of the elements of the field are packed into a single key-value pair with wire type 2 (length-delimited). Each element is encoded the same way it would be normally, except without a key preceding it.&lt;/p&gt;
+&lt;p&gt;For example, imagine you have the message type:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;message Test4 {
+  repeated int32 d = 4 [packed=true];
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Now let&amp;rsquo;s say you construct a Test4, providing the values 3, 270, and 86942 for the repeated field d. Then, the encoded form would be:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;22        // key (field number 4, wire type 2)
+06        // payload size (6 bytes)
+03        // first element (varint 3)
+8E 02     // second element (varint 270)
+9E A7 05  // third element (varint 86942)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Only repeated fields of primitive numeric types (types which use the varint, 32-bit, or 64-bit wire types) can be declared &amp;ldquo;packed&amp;rdquo;.&lt;/p&gt;
+&lt;p&gt;Note that although there&amp;rsquo;s usually no reason to encode more than one key-value pair for a packed repeated field, encoders must be prepared to accept multiple key-value pairs. In this case, the payloads should be concatenated. Each pair must contain a whole number of elements.&lt;/p&gt;
+&lt;p&gt;Protocol buffer parsers must be able to parse repeated fields that were compiled as &lt;code&gt;packed&lt;/code&gt; as if they were not packed, and vice versa. This permits adding &lt;code&gt;[packed=true]&lt;/code&gt; to existing fields in a forward- and backward-compatible way.&lt;/p&gt;
+&lt;h3 id=&#34;field-order&#34;&gt;Field Order&lt;/h3&gt;
+&lt;p&gt;Field numbers may be used in any order in a &lt;code&gt;.proto&lt;/code&gt; file. The order chosen has no effect on how the messages are serialized.&lt;/p&gt;
+&lt;p&gt;When a message is serialized, there is no guaranteed order for how its known or &lt;strong&gt;unknown fields&lt;/strong&gt; should be written. Serialization order is an implementation detail and the details of any particular implementation may change in the future. Therefore, protocol buffer parsers must be able to parse fields in any order.&lt;/p&gt;
+&lt;h3 id=&#34;implications&#34;&gt;Implications&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Do not assume the byte output of a serialized message is stable. This is especially true for messages with transitive bytes fields representing other serialized protocol buffer messages.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;By default, repeated invocations of serialization methods on the same protocol buffer message instance may not return the same byte output; i.e. the default serialization is not deterministic.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Deterministic serialization only guarantees the same byte output for a particular binary. The byte output may change across different versions of the binary.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The following checks may fail for a protocol buffer message instance foo.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;foo.SerializeAsString() == foo.SerializeAsString()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Hash(foo.SerializeAsString()) == Hash(foo.SerializeAsString())&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;CRC(foo.SerializeAsString()) == CRC(foo.SerializeAsString())&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;FingerPrint(foo.SerializeAsString()) == FingerPrint(foo.SerializeAsString())&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Here&amp;rsquo;re a few example scenarios where logically equivalent protocol buffer messages foo and bar may serialize to different byte outputs.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;bar&lt;/code&gt; is serialized by an old server that treats some fields as unknown.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;bar&lt;/code&gt; is serialized by a server that is implemented in a different programming language and serializes fields in different order.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;bar&lt;/code&gt; has a field that serializes in non-deterministic manner.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;bar&lt;/code&gt; has a field that stores a serialized byte output of a protocol buffer message which is serialized differently.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;bar&lt;/code&gt; is serialized by a new server that serializes fields in different order due to an implementation change.&lt;/li&gt;
+&lt;li&gt;Both &lt;code&gt;foo&lt;/code&gt; and bar are concatenation of individual messages but with different order.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;(Notice: Origin official document is &lt;a href=&#34;https://developers.google.com/protocol-buffers/docs/encoding&#34; title=&#34;protocol-buffers encoding&#34;&gt;&lt;em&gt;Here&lt;/em&gt;&lt;/a&gt;)&lt;/p&gt;</description>
     </item>
+    
     <item>
       <title>Cap&#39;n Proto Encoding Spec</title>
       <link>https://alimy.github.io/post/dev_201909211630/</link>
-      <pubDate>Sat, 21 Sep 2019 16:30:00 +0800</pubDate>
+      <pubDate>Sat, 21 Sep 2019 16:30:00 CST</pubDate>
+      
       <guid>https://alimy.github.io/post/dev_201909211630/</guid>
-      <description>&lt;h3 id=&#34;sectorganization&#34;&gt;§Organization&lt;/h3&gt;
+      <description>&lt;h3 id=&#34;organization&#34;&gt;§Organization&lt;/h3&gt;
 &lt;h4 id=&#34;64-bit-words&#34;&gt;64-bit Words&lt;/h4&gt;
 &lt;p&gt;For the purpose of Cap’n Proto, a “word” is defined as 8 bytes, or 64 bits. Since alignment of data is important, all objects (structs, lists, and blobs) are aligned to word boundaries, and sizes are usually expressed in terms of words. (Primitive values are aligned to a multiple of their size within a struct or list.)&lt;/p&gt;
 &lt;h4 id=&#34;messages&#34;&gt;Messages&lt;/h4&gt;
 &lt;p&gt;The unit of communication in Cap’n Proto is a “message”. A message is a tree of objects, with the root always being a struct.&lt;/p&gt;
-&lt;p&gt;Physically, messages may be split into several “segments”, each of which is a flat blob of bytes. Typically, a segment must be loaded into a contiguous block of memory before it can be accessed, so that the relative pointers within the segment can be followed quickly. However, when a message has multiple segments, it does not matter where those segments are located in memory relative to each other; inter-segment pointers are encoded differently, as we’ll see later.&lt;/p&gt;</description>
+&lt;p&gt;Physically, messages may be split into several “segments”, each of which is a flat blob of bytes. Typically, a segment must be loaded into a contiguous block of memory before it can be accessed, so that the relative pointers within the segment can be followed quickly. However, when a message has multiple segments, it does not matter where those segments are located in memory relative to each other; inter-segment pointers are encoded differently, as we’ll see later.&lt;/p&gt;
+&lt;p&gt;Ideally, every message would have only one segment. However, there are a few reasons why splitting a message into multiple segments may be convenient:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;It can be difficult to predict how large a message might be until you start writing it, and you can’t start writing it until you have a segment to write to. If it turns out the segment you allocated isn’t big enough, you can allocate additional segments without the need to relocate the data you’ve already written.&lt;/li&gt;
+&lt;li&gt;Allocating excessively large blocks of memory can make life difficult for memory allocators, especially on 32-bit systems with limited address space.
+The first word of the first segment of the message is always a pointer pointing to the message’s root struct.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;objects&#34;&gt;Objects&lt;/h4&gt;
+&lt;p&gt;Each segment in a message contains a series of objects. For the purpose of Cap’n Proto, an “object” is any value which may have a pointer pointing to it. Pointers can only point to the beginning of objects, not into the middle, and no more than one pointer can point at each object. Thus, objects and the pointers connecting them form a tree, not a graph. An object is itself composed of primitive data values and pointers, in a layout that depends on the kind of object.&lt;/p&gt;
+&lt;p&gt;At the moment, there are three kinds of objects: structs, lists, and far-pointer landing pads. Blobs might also be considered to be a kind of object, but are encoded identically to lists of bytes.&lt;/p&gt;
+&lt;h3 id=&#34;value-encoding&#34;&gt;§Value Encoding&lt;/h3&gt;
+&lt;h4 id=&#34;primitive-values&#34;&gt;Primitive Values&lt;/h4&gt;
+&lt;p&gt;The built-in primitive types are encoded as follows:&lt;/p&gt;
+&lt;p&gt;Void: Not encoded at all. It has only one possible value thus carries no information.
+Bool: One bit. 1 = true, 0 = false.
+Integers: Encoded in little-endian format. Signed integers use two’s complement.
+Floating-points: Encoded in little-endian IEEE-754 format.
+Primitive types must always be aligned to a multiple of their size. Note that since the size of a Bool is one bit, this means eight Bool values can be encoded in a single byte – this differs from C++, where the bool type takes a whole byte.&lt;/p&gt;
+&lt;h4 id=&#34;enums&#34;&gt;Enums&lt;/h4&gt;
+&lt;p&gt;Enums are encoded the same as UInt16.&lt;/p&gt;
+&lt;h3 id=&#34;object-encoding&#34;&gt;§Object Encoding&lt;/h3&gt;
+&lt;h4 id=&#34;blobs&#34;&gt;Blobs&lt;/h4&gt;
+&lt;p&gt;The built-in blob types are encoded as follows:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Data&lt;/code&gt;: Encoded as a pointer, identical to List(UInt8).&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Text&lt;/code&gt;: Like &lt;code&gt;Data&lt;/code&gt;, but the content must be valid UTF-8, and the last byte of the content must be zero. The encoding allows bytes other than the last to be zero, but some applications (especially ones written in languages that use NUL-terminated strings) may truncate at the first zero. If a particular text field is explicitly intended to support zero bytes, it should document this, but otherwise senders should assume that zero bytes are not allowed to be safe. Note that the NUL terminator is included in the size sent on the wire, but the runtime library should not count it in any size reported to the application.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;structs&#34;&gt;Structs&lt;/h4&gt;
+&lt;p&gt;A struct value is encoded as a pointer to its content. The content is split into two sections: data and pointers, with the pointer section appearing immediately after the data section. This split allows structs to be traversed (e.g., copied) without knowing their type.&lt;/p&gt;
+&lt;p&gt;A struct pointer looks like this:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;lsb                      struct pointer                       msb
++-+-----------------------------+---------------+---------------+
+|A|             B               |       C       |       D       |
++-+-----------------------------+---------------+---------------+
+
+A (2 bits) = 0, to indicate that this is a struct pointer.
+B (30 bits) = Offset, in words, from the end of the pointer to the
+    start of the struct&amp;#39;s data section.  Signed.
+C (16 bits) = Size of the struct&amp;#39;s data section, in words.
+D (16 bits) = Size of the struct&amp;#39;s pointer section, in words.
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Fields are positioned within the struct according to an algorithm with the following principles:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The position of each field depends only on its definition and the definitions of lower-numbered fields, never on the definitions of higher-numbered fields. This ensures backwards-compatibility when new fields are added.&lt;/li&gt;
+&lt;li&gt;Due to alignment requirements, fields in the data section may be separated by padding. However, later-numbered fields may be positioned into the padding left between earlier-numbered fields. Because of this, a struct will never contain more than 63 bits of padding. Since objects are rounded up to a whole number of words anyway, padding never ends up wasting space.&lt;/li&gt;
+&lt;li&gt;Unions and groups need not occupy contiguous memory. Indeed, they may have to be split into multiple slots if new fields are added later on.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Field offsets are computed by the Cap’n Proto compiler. The precise algorithm is too complicated to describe here, but you need not implement it yourself, as the compiler can produce a compiled schema format which includes offset information.&lt;/p&gt;
+&lt;h4 id=&#34;default-values&#34;&gt;Default Values&lt;/h4&gt;
+&lt;p&gt;A default struct is always all-zeros. To achieve this, fields in the data section are stored xor’d with their defined default values. An all-zero pointer is considered “null”; accessor methods for pointer fields check for null and return a pointer to their default value in this case.&lt;/p&gt;
+&lt;p&gt;There are several reasons why this is desirable:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Cap’n Proto messages are often “packed” with a simple compression algorithm that deflates zero-value bytes.&lt;/li&gt;
+&lt;li&gt;Newly-allocated structs only need to be zero-initialized, which is fast and requires no knowledge of the struct type except its size.&lt;/li&gt;
+&lt;li&gt;If a newly-added field is placed in space that was previously padding, messages written by old binaries that do not know about this field will still have its default value set correctly – because it is always zero.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;zero-sized-structs&#34;&gt;Zero-sized structs.&lt;/h4&gt;
+&lt;p&gt;As stated above, a pointer whose bits are all zero is considered a null pointer, not a struct of zero size. To encode a struct of zero size, set A, C, and D to zero, and set B (the offset) to -1.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Historical explanation:&lt;/strong&gt; A null pointer is intended to be treated as equivalent to the field’s default value. Early on, it was thought that a zero-sized struct was a suitable synonym for null, since interpreting an empty struct as any struct type results in a struct whose fields are all default-valued. So, the pointer encoding was designed such that a zero-sized struct’s pointer would be all-zero, so that it could conveniently be overloaded to mean “null”.&lt;/p&gt;
+&lt;p&gt;However, it turns out there are two important differences between a zero-sized struct and a null pointer. First, applications often check for null explicitly when implementing optional fields. Second, an empty struct is technically equivalent to the default value for the struct type, whereas a null pointer is equivalent to the default value for the particular field. These are not necessarily the same.&lt;/p&gt;
+&lt;p&gt;It therefore became necessary to find a different encoding for zero-sized structs. Since the struct has zero size, the pointer’s offset can validly point to any location so long as it is in-bounds. Since an offset of -1 points to the beginning of the pointer itself, it is known to be in-bounds. So, we use an offset of -1 when the struct has zero size.&lt;/p&gt;
+&lt;h4 id=&#34;lists&#34;&gt;Lists&lt;/h4&gt;
+&lt;p&gt;A list value is encoded as a pointer to a flat array of values.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;lsb                       list pointer                        msb
++-+-----------------------------+--+----------------------------+
+|A|             B               |C |             D              |
++-+-----------------------------+--+----------------------------+
+
+A (2 bits) = 1, to indicate that this is a list pointer.
+B (30 bits) = Offset, in words, from the end of the pointer to the
+    start of the first element of the list.  Signed.
+C (3 bits) = Size of each element:
+    0 = 0 (e.g. List(Void))
+    1 = 1 bit
+    2 = 1 byte
+    3 = 2 bytes
+    4 = 4 bytes
+    5 = 8 bytes (non-pointer)
+    6 = 8 bytes (pointer)
+    7 = composite (see below)
+D (29 bits) = Size of the list:
+    when C &amp;lt;&amp;gt; 7: Number of elements in the list.
+    when C = 7: Number of words in the list, not counting the tag word
+    (see below).
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The pointed-to values are tightly-packed. In particular, &lt;code&gt;Bools&lt;/code&gt; are packed bit-by-bit in little-endian order (the first bit is the least-significant bit of the first byte).&lt;/p&gt;
+&lt;p&gt;When C = 7, the elements of the list are fixed-width composite values – usually, structs. In this case, the list content is prefixed by a “tag” word that describes each individual element. The tag has the same layout as a struct pointer, except that the pointer offset (B) instead indicates the number of elements in the list. Meanwhile, section (D) of the list pointer – which normally would store this element count – instead stores the total number of words in the list (not counting the tag word). The reason we store a word count in the pointer rather than an element count is to ensure that the extents of the list’s location can always be determined by inspecting the pointer alone, without having to look at the tag; this may allow more-efficient prefetching in some use cases. The reason we don’t store struct lists as a list of pointers is because doing so would take significantly more space (an extra pointer per element) and may be less cache-friendly.&lt;/p&gt;
+&lt;p&gt;In the future, we could consider implementing matrixes using the “composite” element type, with the elements being fixed-size lists rather than structs. In this case, the tag would look like a list pointer rather than a struct pointer. As of this writing, no such feature has been implemented.&lt;/p&gt;
+&lt;p&gt;A struct list must always be written using C = 7. However, a list of any element size (except C = 1, i.e. 1-bit) may be decoded as a struct list, with each element being interpreted as being a prefix of the struct data. For instance, a list of 2-byte values (C = 3) can be decoded as a struct list where each struct has 2 bytes in their “data” section (and an empty pointer section). A list of pointer values (C = 6) can be decoded as a struct list where each struct has a pointer section with one pointer (and an empty data section). The purpose of this rule is to make it possible to upgrade a list of primitives to a list of structs, as described under the protocol evolution rules. (We make a special exception that boolean lists cannot be upgraded in this way due to the unreasonable implementation burden.) Note that even though struct lists can be decoded from any element size (except C = 1), it is NOT permitted to encode a struct list using any type other than C = 7 because doing so would interfere with the canonicalization algorithm.&lt;/p&gt;
+&lt;h4 id=&#34;inter-segment-pointers&#34;&gt;Inter-Segment Pointers&lt;/h4&gt;
+&lt;p&gt;When a pointer needs to point to a different segment, offsets no longer work. We instead encode the pointer as a “far pointer”, which looks like this:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;lsb                        far pointer                        msb
++-+-+---------------------------+-------------------------------+
+|A|B|            C              |               D               |
++-+-+---------------------------+-------------------------------+
+
+A (2 bits) = 2, to indicate that this is a far pointer.
+B (1 bit) = 0 if the landing pad is one word, 1 if it is two words.
+    See explanation below.
+C (29 bits) = Offset, in words, from the start of the target segment
+    to the location of the far-pointer landing-pad within that
+    segment.  Unsigned.
+D (32 bits) = ID of the target segment.  (Segments are numbered
+    sequentially starting from zero.)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If B == 0, then the “landing pad” of a far pointer is normally just another pointer, which in turn points to the actual object.&lt;/p&gt;
+&lt;p&gt;If B == 1, then the “landing pad” is itself another far pointer that is interpreted differently: This far pointer (which always has B = 0) points to the start of the object’s content, located in some other segment. The landing pad is itself immediately followed by a tag word. The tag word looks exactly like an intra-segment pointer to the target object would look, except that the offset is always zero.&lt;/p&gt;
+&lt;p&gt;The reason for the convoluted double-far convention is to make it possible to form a new pointer to an object in a segment that is full. If you can’t allocate even one word in the segment where the target resides, then you will need to allocate a landing pad in some other segment, and use this double-far approach. This should be exceedingly rare in practice since pointers are normally set to point to new objects, not existing ones.&lt;/p&gt;
+&lt;h4 id=&#34;capabilities-interfaces&#34;&gt;Capabilities (Interfaces)&lt;/h4&gt;
+&lt;p&gt;When using Cap’n Proto for RPC, every message has an associated “capability table” which is a flat list of all capabilities present in the message body. The details of what this table contains and where it is stored are the responsibility of the RPC system; in some cases, the table may not even be part of the message content.&lt;/p&gt;
+&lt;p&gt;A capability pointer, then, simply contains an index into the separate capability table.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;lsb                    capability pointer                     msb
++-+-----------------------------+-------------------------------+
+|A|              B              |               C               |
++-+-----------------------------+-------------------------------+
+
+A (2 bits) = 3, to indicate that this is an &amp;#34;other&amp;#34; pointer.
+B (30 bits) = 0, to indicate that this is a capability pointer.
+    (All other values are reserved for future use.)
+C (32 bits) = Index of the capability in the message&amp;#39;s capability
+    table.
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In &lt;em&gt;rpc.capnp&lt;/em&gt;, the capability table is encoded as a list of &lt;code&gt;CapDescriptors&lt;/code&gt;, appearing along-side the message content in the &lt;code&gt;Payload&lt;/code&gt; struct. However, some use cases may call for different approaches. A message that is built and consumed within the same process need not encode the capability table at all (it can just keep the table as a separate array). A message that is going to be stored to disk would need to store a table of &lt;code&gt;SturdyRefs&lt;/code&gt; instead of &lt;code&gt;CapDescriptors&lt;/code&gt;.&lt;/p&gt;
+&lt;h4 id=&#34;serialization-over-a-stream&#34;&gt;Serialization Over a Stream&lt;/h4&gt;
+&lt;p&gt;When transmitting a message, the segments must be framed in some way, i.e. to communicate the number of segments and their sizes before communicating the actual data. The best framing approach may differ depending on the medium – for example, messages read via mmap or shared memory may call for a different approach than messages sent over a socket or a pipe. Cap’n Proto does not attempt to specify a framing format for every situation. However, since byte streams are by far the most common transmission medium, Cap’n Proto does define and implement a recommended framing format for them.&lt;/p&gt;
+&lt;p&gt;When transmitting over a stream, the following should be sent. All integers are unsigned and little-endian.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;(4 bytes) The number of segments, minus one (since there is always at least one segment).&lt;/li&gt;
+&lt;li&gt;(N * 4 bytes) The size of each segment, in words.&lt;/li&gt;
+&lt;li&gt;(0 or 4 bytes) Padding up to the next word boundary.&lt;/li&gt;
+&lt;li&gt;The content of each segment, in order.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;packing&#34;&gt;Packing&lt;/h4&gt;
+&lt;p&gt;For cases where bandwidth usage matters, Cap’n Proto defines a simple compression scheme called “packing”. This scheme is based on the observation that Cap’n Proto messages contain lots of zero bytes: padding bytes, unset fields, and high-order bytes of small-valued integers.&lt;/p&gt;
+&lt;p&gt;In packed format, each word of the message is reduced to a tag byte followed by zero to eight content bytes. The bits of the tag byte correspond to the bytes of the unpacked word, with the least-significant bit corresponding to the first byte. Each zero bit indicates that the corresponding byte is zero. The non-zero bytes are packed following the tag.&lt;/p&gt;
+&lt;p&gt;For example, here is some typical Cap’n Proto data (a struct pointer (offset = 2, data size = 3, pointer count = 2) followed by a text pointer (offset = 6, length = 53)) and its packed form:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;unpacked (hex):  08 00 00 00 03 00 02 00   19 00 00 00 aa 01 00 00
+packed (hex):  51 08 03 02   31 19 aa 01
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In addition to the above, there are two tag values which are treated specially: 0x00 and 0xff.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;0x00: The tag is followed by a single byte which indicates a count of consecutive zero-valued words, minus 1. E.g. if the tag 0x00 is followed by 0x05, the sequence unpacks to 6 words of zero.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Or, put another way: the tag is first decoded as if it were not special. Since none of the bits are set, it is followed by no bytes and expands to a word full of zeros. After that, the next byte is interpreted as a count of additional words that are also all-zero.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;0xff: The tag is followed by the bytes of the word (as if it weren’t special), but after those bytes is another byte with value N. Following that byte is N unpacked words that should be copied directly. These unpacked words may or may not contain zeros – it is up to the compressor to decide when to end the unpacked span and return to packing each word. The purpose of this rule is to minimize the impact of packing on data that doesn’t contain any zeros – in particular, long text blobs. Because of this rule, the worst-case space overhead of packing is 2 bytes per 2 KiB of input (256 words = 2KiB).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Examples:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;unpacked (hex):  00 (x 32 bytes)
+packed (hex):  00 03
+
+unpacked (hex):  8a (x 32 bytes)
+packed (hex):  ff 8a (x 8 bytes) 03 8a (x 24 bytes)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Notice that both of the special cases begin by treating the tag as if it weren’t special. This is intentionally designed to make encoding faster: you can compute the tag value and encode the bytes in a single pass through the input word. Only after you’ve finished with that word do you need to check whether the tag ended up being 0x00 or 0xff.&lt;/p&gt;
+&lt;p&gt;It is possible to write both an encoder and a decoder which only branch at the end of each word, and only to handle the two special tags. It is not necessary to branch on every byte. See the C++ reference implementation for an example.&lt;/p&gt;
+&lt;p&gt;Packing is normally applied on top of the standard stream framing described in the previous section.&lt;/p&gt;
+&lt;h4 id=&#34;compression&#34;&gt;Compression&lt;/h4&gt;
+&lt;p&gt;When Cap’n Proto messages may contain repetitive data (especially, large text blobs), it makes sense to apply a standard compression algorithm in addition to packing. When CPU time is scarce, we recommend &lt;a href=&#34;https://code.google.com/p/lz4/&#34;&gt;LZ4 compression&lt;/a&gt;. Otherwise, &lt;a href=&#34;http://www.zlib.net/&#34;&gt;zlib&lt;/a&gt; is slower but will compress more.&lt;/p&gt;
+&lt;h3 id=&#34;canonicalization&#34;&gt;§Canonicalization&lt;/h3&gt;
+&lt;p&gt;Cap’n Proto messages have a well-defined canonical form. Cap’n Proto encoders are NOT required to output messages in canonical form, and in fact they will almost never do so by default. However, it is possible to write code which canonicalizes a Cap’n Proto message without knowing its schema.&lt;/p&gt;
+&lt;p&gt;A canonical Cap’n Proto message must adhere to the following rules:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The object tree must be encoded in preorder (with respect to the order of the pointers within each object).&lt;/li&gt;
+&lt;li&gt;The message must be encoded as a single segment. (When signing or hashing a canonical Cap’n Proto message, the segment table shall not be included, because it would be redundant.)&lt;/li&gt;
+&lt;li&gt;Trailing zero-valued words in a struct’s data or pointer segments must be truncated. Since zero represents a default value, this does not change the struct’s meaning. This rule is important to ensure that adding a new field to a struct does not affect the canonical encoding of messages that do not set that field.&lt;/li&gt;
+&lt;li&gt;Similarly, for a struct list, if a trailing word in a section of all structs in the list is zero, then it must be truncated from all structs in the list. (All structs in a struct list must have equal sizes, hence a trailing zero can only be removed if it is zero in all elements.)&lt;/li&gt;
+&lt;li&gt;Any struct pointer pointing to a zero-sized struct should have an offset of -1.&lt;/li&gt;
+&lt;li&gt;Canonical messages are not packed. However, packing can still be applied for transmission purposes; the message must simply be unpacked before checking signatures.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Note that Cap’n Proto 0.5 introduced the rule that struct lists must always be encoded using C = 7 in the list pointer. Prior versions of Cap’n Proto allowed struct lists to be encoded using any element size, so that small structs could be compacted to take less than a word per element, and many encoders in fact implemented this. Unfortunately, this “optimization” made canonicalization impossible without knowing the schema, which is a significant obstacle. Therefore, the rules have been changed in 0.5, but data written by previous versions may not be possible to canonicalize.&lt;/p&gt;
+&lt;h3 id=&#34;security-considerations&#34;&gt;§Security Considerations&lt;/h3&gt;
+&lt;p&gt;A naive implementation of a Cap’n Proto reader may be vulnerable to attacks based on various kinds of malicious input. Implementations MUST guard against these.&lt;/p&gt;
+&lt;h4 id=&#34;pointer-validation&#34;&gt;Pointer Validation&lt;/h4&gt;
+&lt;p&gt;Cap’n Proto readers must validate pointers, e.g. to check that the target object is within the bounds of its segment. To avoid an upfront scan of the message (which would defeat Cap’n Proto’s O(1) parsing performance), validation should occur lazily when the getter method for a pointer is called, throwing an exception or returning a default value if the pointer is invalid.&lt;/p&gt;
+&lt;h4 id=&#34;amplification-attack&#34;&gt;Amplification attack&lt;/h4&gt;
+&lt;p&gt;A message containing cyclic (or even just overlapping) pointers can cause the reader to go into an infinite loop while traversing the content.&lt;/p&gt;
+&lt;p&gt;To defend against this, as the application traverses the message, each time a pointer is dereferenced, a counter should be incremented by the size of the data to which it points. If this counter goes over some limit, an error should be raised, and/or default values should be returned. We call this limit the “traversal limit” (or, sometimes, the “read limit”).&lt;/p&gt;
+&lt;p&gt;The C++ implementation currently defaults to a limit of 64MiB, but allows the caller to set a different limit if desired. Another reasonable strategy is to set the limit to some multiple of the original message size; however, most applications should place limits on overall message sizes anyway, so it makes sense to have one check cover both.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;List amplification:&lt;/strong&gt; A list of Void values or zero-size structs can have a very large element count while taking constant space on the wire. If the receiving application expects a list of structs, it will see these zero-sized elements as valid structs set to their default values. If it iterates through the list processing each element, it could spend a large amount of CPU time or other resources despite the message being small. To defend against this, the “traversal limit” should count a list of zero-sized elements as if each element were one word instead. This rule was introduced in the C++ implementation in commit 1048706.&lt;/p&gt;
+&lt;h4 id=&#34;stack-overflow-dos-attack&#34;&gt;Stack overflow DoS attack&lt;/h4&gt;
+&lt;p&gt;A message with deeply-nested objects can cause a stack overflow in typical code which processes messages recursively.&lt;/p&gt;
+&lt;p&gt;To defend against this, as the application traverses the message, the pointer depth should be tracked. If it goes over some limit, an error should be raised. The C++ implementation currently defaults to a limit of 64 pointers, but allows the caller to set a different limit.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;(Notice: Origin official document is [&lt;em&gt;Here&lt;/em&gt;](&lt;a href=&#34;https://capnproto.org/encoding.html&#34;&gt;https://capnproto.org/encoding.html&lt;/a&gt; &amp;lsquo;Cap&amp;rsquo;n Proto Encoding Spec&amp;rsquo;))&lt;/p&gt;</description>
     </item>
+    
     <item>
       <title>Tars语言与协议</title>
       <link>https://alimy.github.io/post/dev_201909211556/</link>
-      <pubDate>Sat, 21 Sep 2019 15:56:00 +0800</pubDate>
+      <pubDate>Sat, 21 Sep 2019 15:56:00 CST</pubDate>
+      
       <guid>https://alimy.github.io/post/dev_201909211556/</guid>
       <description>&lt;h3 id=&#34;目录&#34;&gt;目录&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;#main-chapter-1&#34;&gt;Tars语言&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#main-chapter-2&#34;&gt;Tars协议&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id=&#34;1-tars语言-a-idmain-chapter-1a&#34;&gt;1. Tars语言 &lt;!-- raw HTML omitted --&gt;&lt;!-- raw HTML omitted --&gt;&lt;/h2&gt;
+&lt;h2 id=&#34;1-tars语言&#34;&gt;1. Tars语言 &lt;a id=&#34;main-chapter-1&#34;&gt;&lt;/a&gt;&lt;/h2&gt;
 &lt;h3 id=&#34;11-接口文件&#34;&gt;1.1. 接口文件&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;Tars语言是一种类c++标识符的语言，用于生成具体的服务接口文件&lt;/li&gt;
@@ -80,12 +494,347 @@
 &lt;li&gt;Tars文件的扩展名必须以.tars为扩展名&lt;/li&gt;
 &lt;li&gt;对于结构定义，可以支持扩展字段，即可以增加字段而不影响原有结构的解析，可以在存储/协议等地方单独使用&lt;/li&gt;
 &lt;li&gt;大小写敏感&lt;/li&gt;
-&lt;/ul&gt;</description>
+&lt;/ul&gt;
+&lt;h3 id=&#34;12-词法规则&#34;&gt;1.2. 词法规则&lt;/h3&gt;
+&lt;h4 id=&#34;121-注释&#34;&gt;1.2.1. 注释&lt;/h4&gt;
+&lt;p&gt;采用c++的注释规范。&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;//表示注释一行，/**/表示注释范围中的所有代码。
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;122-关键字&#34;&gt;1.2.2. 关键字&lt;/h4&gt;
+&lt;p&gt;&lt;code&gt;void&lt;/code&gt;  &lt;code&gt;struct&lt;/code&gt;  &lt;code&gt;bool&lt;/code&gt;  &lt;code&gt;byte&lt;/code&gt;  &lt;code&gt;short&lt;/code&gt;  &lt;code&gt;int&lt;/code&gt; &lt;br&gt;
+&lt;code&gt;double&lt;/code&gt;  &lt;code&gt;float&lt;/code&gt;  &lt;code&gt;long&lt;/code&gt;  &lt;code&gt;string&lt;/code&gt;  &lt;code&gt;vector&lt;/code&gt; &lt;br&gt;
+&lt;code&gt;map&lt;/code&gt;  &lt;code&gt;key&lt;/code&gt;  &lt;code&gt;routekey&lt;/code&gt;  &lt;code&gt;module&lt;/code&gt;  &lt;code&gt;interface&lt;/code&gt;  &lt;code&gt;out&lt;/code&gt;&lt;br&gt;
+&lt;code&gt;require&lt;/code&gt;  &lt;code&gt;optional&lt;/code&gt;  &lt;code&gt;false&lt;/code&gt;  &lt;code&gt;true&lt;/code&gt;  &lt;code&gt;enum&lt;/code&gt;  &lt;code&gt;const&lt;/code&gt;&lt;/p&gt;
+&lt;h4 id=&#34;123-标识符&#34;&gt;1.2.3. 标识符&lt;/h4&gt;
+&lt;p&gt;所有标识符不能带有&amp;rsquo;tars_’符号，且必须以字母开头，同时不能和关键字冲突。&lt;/p&gt;
+&lt;h3 id=&#34;13-基本类型&#34;&gt;1.3. 基本类型&lt;/h3&gt;
+&lt;p&gt;支持的基本类型包括以下：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;void&lt;/code&gt;	：只能在函数的返回值表示&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;bool&lt;/code&gt;	：布尔类型，映射到 &lt;code&gt;tars::Bool&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;byte&lt;/code&gt;	：有符号字符，映射到 &lt;code&gt;tars::Char&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;short&lt;/code&gt;	：有符号短整型，映射到 &lt;code&gt;tars::Short&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;int&lt;/code&gt;	：有符号整型，映射到 &lt;code&gt;tars::Int32&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;long&lt;/code&gt;	：有符号长整型，映射到 &lt;code&gt;tars::Int64&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;float&lt;/code&gt;	：映射到 &lt;code&gt;tars::Float&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;double&lt;/code&gt;：映射到 &lt;code&gt;tars::Double&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;string&lt;/code&gt;：映射到 &lt;code&gt;std::string，java:String&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;unsigned byte&lt;/code&gt;：无符号字符,c++映射到 &lt;code&gt;unsigend char&lt;/code&gt; 其它版本 &lt;code&gt;tars::Short&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;unsigned short&lt;/code&gt;：无符号短整形c++映射到 &lt;code&gt;unsigned short&lt;/code&gt; 其它版本 &lt;code&gt;tars::Int32&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Unsigned int&lt;/code&gt;:无符号整形c++映射到 &lt;code&gt;unsigned int&lt;/code&gt;其它版本 &lt;code&gt;tars::Int64&lt;/code&gt;&lt;/p&gt;
+&lt;h3 id=&#34;14-复杂类型&#34;&gt;1.4. 复杂类型&lt;/h3&gt;
+&lt;h4 id=&#34;141-枚举&#34;&gt;1.4.1. 枚举&lt;/h4&gt;
+&lt;p&gt;枚举类型的定义如下：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;enum TE
+{
+    E1,
+    E2,
+    E3
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;说明：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;枚举类型支持在指定枚举变量的值，例如支持：E1 = 1这种定义方式；&lt;/li&gt;
+&lt;li&gt;第一个定义的枚举类型值为0，这里E1的值为0；&lt;/li&gt;
+&lt;li&gt;枚举类型在tars文件定义后，通过tars2cpp生成以后，除了会生成相应的enum定义之外，会生成etos和stoe函数，将枚举值转换成字符串，以及将字符串转换成枚举值，在代码调试时会非常方便。&lt;/li&gt;
+&lt;li&gt;建议在c++的tars文件中，所有接口都以int返回，且返回值在tars文件中以枚举来定义。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;142-常量&#34;&gt;1.4.2. 常量&lt;/h4&gt;
+&lt;p&gt;Tars文件中可以定义常量，例如：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;const int a = 0;
+
+const string s = “abc”;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;说明：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;由于map，vector没有描述常量的值，因此不支持map，vector的定义；&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;143-结构&#34;&gt;1.4.3. 结构&lt;/h4&gt;
+&lt;p&gt;结构定义如下：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;struct Test
+{
+    0  require  string s;
+    1  optional int  i = 23;
+};
+
+key[Test, s, i];
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;说明：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;第一列数字表示该字段的标识（tag），无论结构增减字段，该字段得值都不变，必须和响应的字段对应；&lt;/li&gt;
+&lt;li&gt;Tag的值必须要&amp;gt;=0且&amp;lt;=255；&lt;/li&gt;
+&lt;li&gt;require表示该字段必选；&lt;/li&gt;
+&lt;li&gt;optional表示该字段可选；&lt;/li&gt;
+&lt;li&gt;对于optional字段，可以有一个缺省值，缺省值在编码时默认不打包；&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;key说明：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;表示结构的小于比较符号，缺省时Struct是没有小于操作的，如果定义了key，则生成小于比较符。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;key详细说明：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;key[Stuct, member…]：&lt;/li&gt;
+&lt;li&gt;Struct：表示结构的名称&lt;/li&gt;
+&lt;li&gt;Member：表示该结构的成员变量，可以有多个；&lt;/li&gt;
+&lt;li&gt;生成的小于比较操作符，按照key中成员变量定义的顺序进行优先&amp;lt;比较；&lt;/li&gt;
+&lt;li&gt;生成小于比较操作符以后，该结构就可以作为map的key；&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;其他说明：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;在Tars的c++语言中，对于结构而言，提供两个成员函数用于直接打印出结构的内容，可以用于调试和记录日志：&lt;/li&gt;
+&lt;li&gt;ostream&amp;amp; display(ostream&amp;amp; _os, int _level=0)：直接打印结构的详细内容，主要用于调试；&lt;/li&gt;
+&lt;li&gt;ostream&amp;amp; displaySimple(ostream&amp;amp; _os, int _level=0)：所有成员变量自动按照顺序以|分隔打印出来，用于记录日志；&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;144-序列&#34;&gt;1.4.4. 序列&lt;/h4&gt;
+&lt;p&gt;序列用vector来定义，如下：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;vector&amp;lt;int&amp;gt; vi;
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;145-字典&#34;&gt;1.4.5. 字典&lt;/h4&gt;
+&lt;p&gt;字典用map来定义，如下：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;map&amp;lt;int, string&amp;gt; m;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;说明：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;对于struct，通常不能作为map的key，因此struct没有大小比较符号；&lt;/li&gt;
+&lt;li&gt;如果需要struct能够作为map的key，需要用less定义struct中成员的比较顺序；&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;146-数组&#34;&gt;1.4.6. 数组&lt;/h4&gt;
+&lt;p&gt;结构中可以定义数组类型，数组用[]来定义，如下：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;byte m[5];
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;说明：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;对数组类型，在C++生成代码中会同时生成数组长度&lt;code&gt;mLen&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;对数组赋值后必须同时对数组长度赋值&lt;/li&gt;
+&lt;li&gt;在非c++版本中数组类型将翻译为&lt;code&gt;vector&amp;lt;类型&amp;gt;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;byte m[5]&lt;/code&gt; 等价于定义&lt;code&gt;vector&amp;lt;byte&amp;gt;:5&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;147-指针&#34;&gt;1.4.7 指针&lt;/h4&gt;
+&lt;p&gt;结构中可以定义byte指针类型，指针用*来定义，如下：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;byte *m;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;指针类型使用时需要提前预分配内存块，指针需要内存时通过偏移指向预分配内存块，减少解码过程中的内存申请。&lt;/p&gt;
+&lt;p&gt;说明：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;对于指针类型，在c++代码中会同时生成mLen，用来指定指针长度。&lt;/li&gt;
+&lt;li&gt;对指针赋值后必须对长度mLen赋值&lt;/li&gt;
+&lt;li&gt;在非c++版本中指针类型将翻译为&lt;code&gt;vector&amp;lt;类型&amp;gt;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;含有指针类型的数据读取时BufferReader必须用MapBufferReader,同时需要提前设定指针指向内存的buffer&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;148-嵌套&#34;&gt;1.4.8 嵌套&lt;/h4&gt;
+&lt;p&gt;任何&lt;code&gt;struct&lt;/code&gt;，&lt;code&gt;map&lt;/code&gt;，&lt;code&gt;vector&lt;/code&gt;都可以嵌套；&lt;/p&gt;
+&lt;h3 id=&#34;15-接口&#34;&gt;1.5. 接口&lt;/h3&gt;
+&lt;p&gt;接口定义如下，例如：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;interface Demo
+{
+    int get(out vector&amp;lt;map&amp;lt;int, string&amp;gt;&amp;gt; v);
+    
+    int set(vector&amp;lt;map&amp;lt;int, string&amp;gt;&amp;gt; v);
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;说明：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;表示输出参数&lt;/li&gt;
+&lt;li&gt;接口定义后，通过自动代码生成工具（如：tars2cpp)会生成同步接口和异步接口等代码&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;16-名字空间&#34;&gt;1.6. 名字空间&lt;/h3&gt;
+&lt;p&gt;所有的struct，interface必须在名字空间中，例如：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;module MemCache
+{
+    struct Key
+    {
+        0 require string s;
+    };
+
+    struct Value
+    {
+        0 require string s;
+    };
+
+    interface MemCacheI
+    {
+        int get(Key k, out Value v);
+
+        int set(Key k, Value v);
+    };
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;说明：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;名字空间不能嵌套;&lt;/li&gt;
+&lt;li&gt;可以引用其他名字空间,例如:Demo1::Key&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;2-tars协议&#34;&gt;2. Tars协议 &lt;a id=&#34;main-chapter-2&#34;&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;h3 id=&#34;21-数据编码&#34;&gt;2.1. 数据编码&lt;/h3&gt;
+&lt;h4 id=&#34;211-基本结构&#34;&gt;2.1.1. 基本结构&lt;/h4&gt;
+&lt;p&gt;每一个数据由两个部分组成，如下图：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;| 头信息 | 实际数据 |
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;而其中头信息包括以下几个部分：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;| Type(4 bits) | Tag 1(4 bits) | Tag 2(1 byte) |
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;code&gt;Tag 2&lt;/code&gt;是可选的，当&lt;code&gt;Tag&lt;/code&gt;的值不超过14时，只需要用&lt;code&gt;Tag 1&lt;/code&gt;就可以表示；当&lt;code&gt;Tag&lt;/code&gt;的值超过14而小于256时，&lt;code&gt;Tag 1&lt;/code&gt;固定为15，而用&lt;code&gt;Tag 2&lt;/code&gt;表示&lt;code&gt;Tag&lt;/code&gt;的值。&lt;code&gt;Tag&lt;/code&gt;不允许大于255。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Type&lt;/code&gt;表示类型，用4个二进制位表示，取值范围是0~15，用来标识该数据的类型。不同类型的数据，其后紧跟着的实际数据的长度和格式都是不一样的，详见一下的类型表。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Tag&lt;/code&gt;由&lt;code&gt;Tag 1&lt;/code&gt;和&lt;code&gt;Tag 2&lt;/code&gt;一起表示。取值范围是0~255，即该数据在结构中的字段ID，用来区分不同的字段。&lt;/p&gt;
+&lt;h4 id=&#34;212-编码类型表&#34;&gt;2.1.2. 编码类型表&lt;/h4&gt;
+&lt;p&gt;注意，这里的类型与tars文件定义的类型是两个不同的概念，这里的类型只是标识数据存储的类型，而不是数据定义的类型。&lt;/p&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;取值&lt;/th&gt;
+          &lt;th&gt;类型&lt;/th&gt;
+          &lt;th&gt;备注&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;0&lt;/td&gt;
+          &lt;td&gt;int1&lt;/td&gt;
+          &lt;td&gt;紧跟1个字节整型数据&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;1&lt;/td&gt;
+          &lt;td&gt;int2&lt;/td&gt;
+          &lt;td&gt;紧跟2个字节整型数据&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;2&lt;/td&gt;
+          &lt;td&gt;int4&lt;/td&gt;
+          &lt;td&gt;紧跟4个字节整型数据&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;3&lt;/td&gt;
+          &lt;td&gt;int8&lt;/td&gt;
+          &lt;td&gt;紧跟8个字节整型数据&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;4&lt;/td&gt;
+          &lt;td&gt;float&lt;/td&gt;
+          &lt;td&gt;紧跟4个字节浮点型数据&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;5&lt;/td&gt;
+          &lt;td&gt;double&lt;/td&gt;
+          &lt;td&gt;紧跟8个字节浮点型数据&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;6&lt;/td&gt;
+          &lt;td&gt;String1&lt;/td&gt;
+          &lt;td&gt;紧跟1个字节长度，再跟内容&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;7&lt;/td&gt;
+          &lt;td&gt;String4&lt;/td&gt;
+          &lt;td&gt;紧跟4个字节长度，再跟内容&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;8&lt;/td&gt;
+          &lt;td&gt;Map&lt;/td&gt;
+          &lt;td&gt;紧跟一个整型数据表示Map的大小，再跟[key, value]对列表&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;9&lt;/td&gt;
+          &lt;td&gt;List&lt;/td&gt;
+          &lt;td&gt;紧跟一个整型数据表示List的大小，再跟元素列表&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;10&lt;/td&gt;
+          &lt;td&gt;自定义结构开始&lt;/td&gt;
+          &lt;td&gt;自定义结构开始标志&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;11&lt;/td&gt;
+          &lt;td&gt;自定义结构结束&lt;/td&gt;
+          &lt;td&gt;自定义结构结束标志，Tag为0&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;12&lt;/td&gt;
+          &lt;td&gt;数字0&lt;/td&gt;
+          &lt;td&gt;表示数字0，后面不跟数据&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;13&lt;/td&gt;
+          &lt;td&gt;SimpleList&lt;/td&gt;
+          &lt;td&gt;简单列表（目前用在byte数组），紧跟一个类型字段（目前只支持byte），紧跟一个整型数据表示长度，再跟byte数据&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;213-各类型详细描述&#34;&gt;2.1.3. 各类型详细描述&lt;/h4&gt;
+&lt;p&gt;1.基本类型（包括&lt;code&gt;int1&lt;/code&gt;、&lt;code&gt;int2&lt;/code&gt;、&lt;code&gt;int4&lt;/code&gt;、&lt;code&gt;int8&lt;/code&gt;、&lt;code&gt;float&lt;/code&gt;、&lt;code&gt;double&lt;/code&gt;）&lt;/p&gt;
+&lt;p&gt;头信息后紧跟数值数据。char、bool也被看作整型。所有的整型数据之间不做区分，也就是说一个short的值可以赋值给一个int。&lt;/p&gt;
+&lt;p&gt;2.数字0&lt;/p&gt;
+&lt;p&gt;头信息后不跟数据，表示数值0。所有基本类型的0值都可以这样来表示。&lt;/p&gt;
+&lt;p&gt;这是考虑到数字0出现的概率比较大，所以单独提一个类型，以节省空间。&lt;/p&gt;
+&lt;p&gt;3.字符串（包括String1、String4）&lt;/p&gt;
+&lt;p&gt;String1跟一个字节的长度（该长度数据不包括头信息），接着紧跟内容。&lt;/p&gt;
+&lt;p&gt;String4与之类似。&lt;/p&gt;
+&lt;p&gt;4.Map&lt;/p&gt;
+&lt;p&gt;紧跟一个整形数据（包括头信息）表示Map的大小，然后紧跟[Key数据（Tag为0），Value数据（Tag为1）]对列表。&lt;/p&gt;
+&lt;p&gt;5.List&lt;/p&gt;
+&lt;p&gt;紧跟一个整形数据（包括头信息）表示&lt;code&gt;List&lt;/code&gt;的大小，然后紧跟元素列表（&lt;code&gt;Tag&lt;/code&gt;为0）&lt;/p&gt;
+&lt;p&gt;6.自定义结构开始&lt;/p&gt;
+&lt;p&gt;自定义结构开始标志，后面紧跟字段数据，字段按照tag升序顺序排列&lt;/p&gt;
+&lt;p&gt;7.自定义结构结束&lt;/p&gt;
+&lt;p&gt;自定义结构结束标志，Tag为0&lt;/p&gt;
+&lt;h4 id=&#34;214-对象持久化&#34;&gt;2.1.4 对象持久化&lt;/h4&gt;
+&lt;p&gt;对于自定义结构的持久化，由开始标志与结束标志来标识。&lt;/p&gt;
+&lt;p&gt;比如如下结构定义：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;struct TestInfo
+{
+    1  require  int    ii  = 34;
+    2  optional string s   = &amp;#34;abc&amp;#34;;
+};
+
+struct TestInfo2
+{
+    1  require TestInfo  t;
+    2  require int       a = 12345;
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;其中，默认的TestInfo2结构编码后结果为：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://alimy.github.io/images/post/20190921155601.png&#34; alt=&#34;tars&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;22-消息格式&#34;&gt;2.2. 消息格式&lt;/h3&gt;
+&lt;p&gt;TUP底层协议完全采用Tars定义，与Tars的底层数据包定义一致，其中&lt;code&gt;require&lt;/code&gt;的字段为TUP必须的字段，&lt;code&gt;optional&lt;/code&gt;为访问Tars服务时额外需要用到的字段。&lt;/p&gt;
+&lt;h4 id=&#34;221-请求包&#34;&gt;2.2.1. 请求包&lt;/h4&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;//请求包体
+struct RequestPacket
+{
+    1  require short        iVersion;         //版本号
+    2  optional byte        cPacketType;      //包类型
+    3  optional int         iMessageType;     //消息类型
+    4  require int          iRequestId;       //请求ID
+    5  require string       sServantName;     //servant名字
+    6  require string       sFuncName;        //函数名称
+    7  require vector&amp;lt;byte&amp;gt; sBuffer;          //二进制buffer
+    8  optional int         iTimeout;         //超时时间（毫秒）
+    9  optional map&amp;lt;string, string&amp;gt; context;  //业务上下文
+    10 optional map&amp;lt;string, string&amp;gt; status;   //框架协议上下文
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;222-响应包&#34;&gt;2.2.2. 响应包&lt;/h4&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;//响应包体
+struct ResponsePacket
+{
+    1 require short         iVersion;       //版本号
+    2 optional byte         cPacketType;    //包类型
+    3 require int           iRequestId;     //请求ID
+    4 optional int          iMessageType;   //消息类型
+    5 optional int          iRet;           //返回值
+    6 require vector&amp;lt;byte&amp;gt;  sBuffer;        //二进制流
+    7 optional map&amp;lt;string, string&amp;gt; status;  //协议上下文
+    8 optional string       sResultDesc;    //结果描述
+};
+
+//返回值
+const int TAFSERVERSUCCESS       = 0;       //服务器端处理成功
+const int TAFSERVERDECODEERR     = -1;      //服务器端解码异常
+const int TAFSERVERENCODEERR     = -2;      //服务器端编码异常
+const int TAFSERVERNOFUNCERR     = -3;      //服务器端没有该函数
+const int TAFSERVERNOSERVANTERR  = -4;      //服务器端没有该Servant对象
+const int TAFSERVERRESETGRID     = -5;      //服务器端灰度状态不一致
+const int TAFSERVERQUEUETIMEOUT  = -6;      //服务器队列超过限制
+const int TAFASYNCCALLTIMEOUT    = -7;      //异步调用超时
+const int TAFINVOKETIMEOUT       = -7;      //调用超时
+const int TAFPROXYCONNECTERR     = -8;      //proxy链接异常
+const int TAFSERVEROVERLOAD      = -9;      //服务器端超负载,超过队列长度
+const int TAFADAPTERNULL         = -10;     //客户端选路为空，服务不存在或者所有服务down掉了
+const int TAFINVOKEBYINVALIDESET = -11;     //客户端按set规则调用非法
+const int TAFCLIENTDECODEERR     = -12;     //客户端解码异常
+const int TAFSERVERUNKNOWNERR    = -99;     //服务器端位置异常
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;p&gt;(Notice: Origin official document is &lt;a href=&#34;https://github.com/TarsCloud/TarsProtocol/blob/master/docs/tars_protocol.md&#34; title=&#34;tars protocol&#34;&gt;&lt;em&gt;Here&lt;/em&gt;&lt;/a&gt;)&lt;/p&gt;</description>
     </item>
+    
     <item>
       <title>Protocol Buffers Version 3 Language Specification</title>
       <link>https://alimy.github.io/post/dev_201909211536/</link>
-      <pubDate>Sat, 21 Sep 2019 15:36:00 +0800</pubDate>
+      <pubDate>Sat, 21 Sep 2019 15:36:00 CST</pubDate>
+      
       <guid>https://alimy.github.io/post/dev_201909211536/</guid>
       <description>&lt;p&gt;This is a language specification reference for version 3 of the Protocol Buffers language (proto3). The syntax is specified using Extended &lt;a href=&#34;https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_Form&#34; title=&#34;EBNF in WIKI&#34;&gt;Backus-Naur Form (EBNF)&lt;/a&gt;:&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;|   alternation
@@ -99,12 +848,169 @@
 decimalDigit = &amp;#34;0&amp;#34; … &amp;#34;9&amp;#34;
 octalDigit   = &amp;#34;0&amp;#34; … &amp;#34;7&amp;#34;
 hexDigit     = &amp;#34;0&amp;#34; … &amp;#34;9&amp;#34; | &amp;#34;A&amp;#34; … &amp;#34;F&amp;#34; | &amp;#34;a&amp;#34; … &amp;#34;f&amp;#34;
-&lt;/code&gt;&lt;/pre&gt;</description>
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;identifiers&#34;&gt;Identifiers&lt;/h4&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;ident = letter { letter | decimalDigit | &amp;#34;_&amp;#34; }
+fullIdent = ident { &amp;#34;.&amp;#34; ident }
+messageName = ident
+enumName = ident
+fieldName = ident
+oneofName = ident
+mapName = ident
+serviceName = ident
+rpcName = ident
+messageType = [ &amp;#34;.&amp;#34; ] { ident &amp;#34;.&amp;#34; } messageName
+enumType = [ &amp;#34;.&amp;#34; ] { ident &amp;#34;.&amp;#34; } enumName
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;integer-literals&#34;&gt;Integer literals&lt;/h4&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;intLit     = decimalLit | octalLit | hexLit
+decimalLit = ( &amp;#34;1&amp;#34; … &amp;#34;9&amp;#34; ) { decimalDigit }
+octalLit   = &amp;#34;0&amp;#34; { octalDigit }
+hexLit     = &amp;#34;0&amp;#34; ( &amp;#34;x&amp;#34; | &amp;#34;X&amp;#34; ) hexDigit { hexDigit } 
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;floating-point-literals&#34;&gt;Floating-point literals&lt;/h4&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;floatLit = ( decimals &amp;#34;.&amp;#34; [ decimals ] [ exponent ] | decimals exponent | &amp;#34;.&amp;#34;decimals [ exponent ] ) | &amp;#34;inf&amp;#34; | &amp;#34;nan&amp;#34;
+decimals  = decimalDigit { decimalDigit }
+exponent  = ( &amp;#34;e&amp;#34; | &amp;#34;E&amp;#34; ) [ &amp;#34;+&amp;#34; | &amp;#34;-&amp;#34; ] decimals 
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;boolean&#34;&gt;Boolean&lt;/h4&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;boolLit = &amp;#34;true&amp;#34; | &amp;#34;false&amp;#34; 
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;string-literals&#34;&gt;String literals&lt;/h4&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;strLit = ( &amp;#34;&amp;#39;&amp;#34; { charValue } &amp;#34;&amp;#39;&amp;#34; ) |  ( &amp;#39;&amp;#34;&amp;#39; { charValue } &amp;#39;&amp;#34;&amp;#39; )
+charValue = hexEscape | octEscape | charEscape | /[^\0\n\\]/
+hexEscape = &amp;#39;\&amp;#39; ( &amp;#34;x&amp;#34; | &amp;#34;X&amp;#34; ) hexDigit hexDigit
+octEscape = &amp;#39;\&amp;#39; octalDigit octalDigit octalDigit
+charEscape = &amp;#39;\&amp;#39; ( &amp;#34;a&amp;#34; | &amp;#34;b&amp;#34; | &amp;#34;f&amp;#34; | &amp;#34;n&amp;#34; | &amp;#34;r&amp;#34; | &amp;#34;t&amp;#34; | &amp;#34;v&amp;#34; | &amp;#39;\&amp;#39; | &amp;#34;&amp;#39;&amp;#34; | &amp;#39;&amp;#34;&amp;#39; )
+quote = &amp;#34;&amp;#39;&amp;#34; | &amp;#39;&amp;#34;&amp;#39;
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;emptystatement&#34;&gt;EmptyStatement&lt;/h4&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;emptyStatement = &amp;#34;;&amp;#34;
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;constant&#34;&gt;Constant&lt;/h4&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;constant = fullIdent | ( [ &amp;#34;-&amp;#34; | &amp;#34;+&amp;#34; ] intLit ) | ( [ &amp;#34;-&amp;#34; | &amp;#34;+&amp;#34; ] floatLit ) | strLit | boolLit 
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;syntax&#34;&gt;Syntax&lt;/h4&gt;
+&lt;p&gt;The syntax statement is used to define the protobuf version.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;syntax = &amp;#34;syntax&amp;#34; &amp;#34;=&amp;#34; quote &amp;#34;proto3&amp;#34; quote &amp;#34;;&amp;#34;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Example:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;syntax = &amp;#34;proto3&amp;#34;;
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;import-statement&#34;&gt;Import Statement&lt;/h4&gt;
+&lt;p&gt;The import statement is used to import another .proto&amp;rsquo;s definitions.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;import = &amp;#34;import&amp;#34; [ &amp;#34;weak&amp;#34; | &amp;#34;public&amp;#34; ] strLit &amp;#34;;&amp;#34; 
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Example:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;import public &amp;#34;other.proto&amp;#34;;
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;package&#34;&gt;Package&lt;/h4&gt;
+&lt;p&gt;The package specifier can be used to prevent name clashes between protocol message types.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;package = &amp;#34;package&amp;#34; fullIdent &amp;#34;;&amp;#34;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Example:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;package foo.bar;
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;option&#34;&gt;Option&lt;/h4&gt;
+&lt;p&gt;Options can be used in proto files, messages, enums and services. An option can be a protobuf defined option or a custom option. For more information, see Options in the language guide.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;option = &amp;#34;option&amp;#34; optionName  &amp;#34;=&amp;#34; constant &amp;#34;;&amp;#34;
+optionName = ( ident | &amp;#34;(&amp;#34; fullIdent &amp;#34;)&amp;#34; ) { &amp;#34;.&amp;#34; ident }
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Example:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;option java_package = &amp;#34;com.example.foo&amp;#34;;
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;fields&#34;&gt;Fields&lt;/h4&gt;
+&lt;p&gt;Fields are the basic elements of a protocol buffer message. Fields can be normal fields, oneof fields, or map fields. A field has a type and field number.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;type = &amp;#34;double&amp;#34; | &amp;#34;float&amp;#34; | &amp;#34;int32&amp;#34; | &amp;#34;int64&amp;#34; | &amp;#34;uint32&amp;#34; | &amp;#34;uint64&amp;#34;
+      | &amp;#34;sint32&amp;#34; | &amp;#34;sint64&amp;#34; | &amp;#34;fixed32&amp;#34; | &amp;#34;fixed64&amp;#34; | &amp;#34;sfixed32&amp;#34; | &amp;#34;sfixed64&amp;#34;
+      | &amp;#34;bool&amp;#34; | &amp;#34;string&amp;#34; | &amp;#34;bytes&amp;#34; | messageType | enumType
+fieldNumber = intLit;
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;normal-field&#34;&gt;Normal field&lt;/h4&gt;
+&lt;p&gt;Each field has type, name and field number. It may have field options.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;field = [ &amp;#34;repeated&amp;#34; ] type fieldName &amp;#34;=&amp;#34; fieldNumber [ &amp;#34;[&amp;#34; fieldOptions &amp;#34;]&amp;#34; ] &amp;#34;;&amp;#34;
+fieldOptions = fieldOption { &amp;#34;,&amp;#34;  fieldOption }
+fieldOption = optionName &amp;#34;=&amp;#34; constant
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Examples:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;foo.bar nested_message = 2;
+repeated int32 samples = 4 [packed=true];
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;oneof-and-oneof-field&#34;&gt;Oneof and oneof field&lt;/h4&gt;
+&lt;p&gt;A oneof consists of oneof fields and a oneof name.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;oneof = &amp;#34;oneof&amp;#34; oneofName &amp;#34;{&amp;#34; { oneofField | emptyStatement } &amp;#34;}&amp;#34;
+oneofField = type fieldName &amp;#34;=&amp;#34; fieldNumber [ &amp;#34;[&amp;#34; fieldOptions &amp;#34;]&amp;#34; ] &amp;#34;;&amp;#34;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Example:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;oneof foo {
+    string name = 4;
+    SubMessage sub_message = 9;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;map-field&#34;&gt;Map field&lt;/h4&gt;
+&lt;p&gt;A map field has a key type, value type, name, and field number. The key type can be any integral or string type.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;mapField = &amp;#34;map&amp;#34; &amp;#34;&amp;lt;&amp;#34; keyType &amp;#34;,&amp;#34; type &amp;#34;&amp;gt;&amp;#34; mapName &amp;#34;=&amp;#34; fieldNumber [ &amp;#34;[&amp;#34; fieldOptions &amp;#34;]&amp;#34; ] &amp;#34;;&amp;#34;
+keyType = &amp;#34;int32&amp;#34; | &amp;#34;int64&amp;#34; | &amp;#34;uint32&amp;#34; | &amp;#34;uint64&amp;#34; | &amp;#34;sint32&amp;#34; | &amp;#34;sint64&amp;#34; |
+          &amp;#34;fixed32&amp;#34; | &amp;#34;fixed64&amp;#34; | &amp;#34;sfixed32&amp;#34; | &amp;#34;sfixed64&amp;#34; | &amp;#34;bool&amp;#34; | &amp;#34;string&amp;#34;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Example:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;map&amp;lt;string, Project&amp;gt; projects = 3;
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;reserved&#34;&gt;Reserved&lt;/h4&gt;
+&lt;p&gt;Reserved statements declare a range of field numbers or field names that cannot be used in this message.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;reserved = &amp;#34;reserved&amp;#34; ( ranges | fieldNames ) &amp;#34;;&amp;#34;
+ranges = range { &amp;#34;,&amp;#34; range }
+range =  intLit [ &amp;#34;to&amp;#34; ( intLit | &amp;#34;max&amp;#34; ) ]
+fieldNames = fieldName { &amp;#34;,&amp;#34; fieldName }
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Examples:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;reserved 2, 15, 9 to 11;
+reserved &amp;#34;foo&amp;#34;, &amp;#34;bar&amp;#34;;
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;top-level-definitions&#34;&gt;Top Level definitions&lt;/h3&gt;
+&lt;h4 id=&#34;enum-definition&#34;&gt;Enum definition&lt;/h4&gt;
+&lt;p&gt;The enum definition consists of a name and an enum body. The enum body can have options and enum fields. Enum definitions must start with enum value zero.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;enum = &amp;#34;enum&amp;#34; enumName enumBody
+enumBody = &amp;#34;{&amp;#34; { option | enumField | emptyStatement } &amp;#34;}&amp;#34;
+enumField = ident &amp;#34;=&amp;#34; intLit [ &amp;#34;[&amp;#34; enumValueOption { &amp;#34;,&amp;#34;  enumValueOption } &amp;#34;]&amp;#34; ]&amp;#34;;&amp;#34;
+enumValueOption = optionName &amp;#34;=&amp;#34; constant
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Example:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;enum EnumAllowingAlias {
+  option allow_alias = true;
+  UNKNOWN = 0;
+  STARTED = 1;
+  RUNNING = 2 [(custom_option) = &amp;#34;hello world&amp;#34;];
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;message-definition&#34;&gt;Message definition&lt;/h4&gt;
+&lt;p&gt;A message consists of a message name and a message body. The message body can have fields, nested enum definitions, nested message definitions, options, oneofs, map fields, and reserved statements.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;message = &amp;#34;message&amp;#34; messageName messageBody
+messageBody = &amp;#34;{&amp;#34; { field | enum | message | option | oneof | mapField |
+reserved | emptyStatement } &amp;#34;}&amp;#34;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Example:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;message Outer {
+  option (my_option).a = true;
+  message Inner {   // Level 2
+    int64 ival = 1;
+  }
+  map&amp;lt;int32, string&amp;gt; my_map = 2;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;service-definition&#34;&gt;Service definition&lt;/h4&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;service = &amp;#34;service&amp;#34; serviceName &amp;#34;{&amp;#34; { option | rpc | emptyStatement } &amp;#34;}&amp;#34;
+rpc = &amp;#34;rpc&amp;#34; rpcName &amp;#34;(&amp;#34; [ &amp;#34;stream&amp;#34; ] messageType &amp;#34;)&amp;#34; &amp;#34;returns&amp;#34; &amp;#34;(&amp;#34; [ &amp;#34;stream&amp;#34; ]
+messageType &amp;#34;)&amp;#34; (( &amp;#34;{&amp;#34; {option | emptyStatement } &amp;#34;}&amp;#34; ) | &amp;#34;;&amp;#34;)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Example:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;service SearchService {
+  rpc Search (SearchRequest) returns (SearchResponse);
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;proto-file&#34;&gt;Proto file&lt;/h4&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;proto = syntax { import | package | option | topLevelDef | emptyStatement }
+topLevelDef = message | enum | service
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;An example .proto file:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;syntax = &amp;#34;proto3&amp;#34;;
+
+import public &amp;#34;other.proto&amp;#34;;
+option java_package = &amp;#34;com.example.foo&amp;#34;;
+
+enum EnumAllowingAlias {
+  option allow_alias = true;
+  UNKNOWN = 0;
+  STARTED = 1;
+  RUNNING = 2 [(custom_option) = &amp;#34;hello world&amp;#34;];
+}
+
+message outer {
+  option (my_option).a = true;
+  message inner {   // Level 2
+    int64 ival = 1;
+  }
+  repeated inner inner_message = 2;
+  EnumAllowingAlias enum_field =3;
+  map&amp;lt;int32, string&amp;gt; my_map = 4;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;p&gt;(Notice: Origin official document is &lt;a href=&#34;https://developers.google.com/protocol-buffers/docs/reference/proto3-spec&#34; title=&#34;proto3-spec&#34;&gt;&lt;em&gt;Here&lt;/em&gt;&lt;/a&gt;)&lt;/p&gt;</description>
     </item>
+    
     <item>
       <title>Protocol Buffers Version 2 Language Specification</title>
       <link>https://alimy.github.io/post/dev_201909211516/</link>
-      <pubDate>Sat, 21 Sep 2019 15:16:00 +0800</pubDate>
+      <pubDate>Sat, 21 Sep 2019 15:16:00 CST</pubDate>
+      
       <guid>https://alimy.github.io/post/dev_201909211516/</guid>
       <description>&lt;p&gt;This is a language specification reference for version 2 of the Protocol Buffers language (proto2). The syntax is specified using Extended &lt;a href=&#34;https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_Form&#34; title=&#34;EBNF in WIKI&#34;&gt;Backus-Naur Form (EBNF)&lt;/a&gt;:&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;|   alternation
@@ -119,12 +1025,202 @@ capitalLetter =  &amp;#34;A&amp;#34; … &amp;#34;Z&amp;#34;
 decimalDigit = &amp;#34;0&amp;#34; … &amp;#34;9&amp;#34;
 octalDigit   = &amp;#34;0&amp;#34; … &amp;#34;7&amp;#34;
 hexDigit     = &amp;#34;0&amp;#34; … &amp;#34;9&amp;#34; | &amp;#34;A&amp;#34; … &amp;#34;F&amp;#34; | &amp;#34;a&amp;#34; … &amp;#34;f&amp;#34;
-&lt;/code&gt;&lt;/pre&gt;</description>
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;identifiers&#34;&gt;Identifiers&lt;/h4&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;ident = letter { letter | decimalDigit | &amp;#34;_&amp;#34; }
+fullIdent = ident { &amp;#34;.&amp;#34; ident }
+messageName = ident
+enumName = ident
+fieldName = ident
+oneofName = ident
+mapName = ident
+serviceName = ident
+rpcName = ident
+streamName = ident
+messageType = [ &amp;#34;.&amp;#34; ] { ident &amp;#34;.&amp;#34; } messageName
+enumType = [ &amp;#34;.&amp;#34; ] { ident &amp;#34;.&amp;#34; } enumName
+groupName = capitalLetter { letter | decimalDigit | &amp;#34;_&amp;#34; }
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;integer-literals&#34;&gt;Integer literals&lt;/h4&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;intLit     = decimalLit | octalLit | hexLit
+decimalLit = ( &amp;#34;1&amp;#34; … &amp;#34;9&amp;#34; ) { decimalDigit }
+octalLit   = &amp;#34;0&amp;#34; { octalDigit }
+hexLit     = &amp;#34;0&amp;#34; ( &amp;#34;x&amp;#34; | &amp;#34;X&amp;#34; ) hexDigit { hexDigit } 
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;floating-point-literals&#34;&gt;Floating-point literals&lt;/h4&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;floatLit = ( decimals &amp;#34;.&amp;#34; [ decimals ] [ exponent ] | decimals exponent | &amp;#34;.&amp;#34;decimals [ exponent ] ) | &amp;#34;inf&amp;#34; | &amp;#34;nan&amp;#34;
+decimals  = decimalDigit { decimalDigit }
+exponent  = ( &amp;#34;e&amp;#34; | &amp;#34;E&amp;#34; ) [ &amp;#34;+&amp;#34; | &amp;#34;-&amp;#34; ] decimals 
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;boolean&#34;&gt;Boolean&lt;/h4&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;boolLit = &amp;#34;true&amp;#34; | &amp;#34;false&amp;#34; 
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;string-literals&#34;&gt;String literals&lt;/h4&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;strLit = ( &amp;#34;&amp;#39;&amp;#34; { charValue } &amp;#34;&amp;#39;&amp;#34; ) | ( &amp;#39;&amp;#34;&amp;#39; { charValue } &amp;#39;&amp;#34;&amp;#39; )
+charValue = hexEscape | octEscape | charEscape | /[^\0\n\\]/
+hexEscape = &amp;#39;\&amp;#39; ( &amp;#34;x&amp;#34; | &amp;#34;X&amp;#34; ) hexDigit hexDigit
+octEscape = &amp;#39;\&amp;#39; octalDigit octalDigit octalDigit
+charEscape = &amp;#39;\&amp;#39; ( &amp;#34;a&amp;#34; | &amp;#34;b&amp;#34; | &amp;#34;f&amp;#34; | &amp;#34;n&amp;#34; | &amp;#34;r&amp;#34; | &amp;#34;t&amp;#34; | &amp;#34;v&amp;#34; | &amp;#39;\&amp;#39; | &amp;#34;&amp;#39;&amp;#34; | &amp;#39;&amp;#34;&amp;#39; )
+quote = &amp;#34;&amp;#39;&amp;#34; | &amp;#39;&amp;#34;&amp;#39;
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;emptystatement&#34;&gt;EmptyStatement&lt;/h4&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;emptyStatement = &amp;#34;;&amp;#34;
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;constant&#34;&gt;Constant&lt;/h4&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;constant = fullIdent | ( [ &amp;#34;-&amp;#34; | &amp;#34;+&amp;#34; ] intLit ) | ( [ &amp;#34;-&amp;#34; | &amp;#34;+&amp;#34; ] floatLit ) |
+                strLit | boolLit 
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;syntax&#34;&gt;Syntax&lt;/h4&gt;
+&lt;p&gt;The syntax statement is used to define the protobuf version.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;syntax = &amp;#34;syntax&amp;#34; &amp;#34;=&amp;#34; quote &amp;#34;proto2&amp;#34; quote &amp;#34;;&amp;#34;
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;import-statement&#34;&gt;Import Statement&lt;/h4&gt;
+&lt;p&gt;The import statement is used to import another .proto&amp;rsquo;s definitions.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;import = &amp;#34;import&amp;#34; [ &amp;#34;weak&amp;#34; | &amp;#34;public&amp;#34; ] strLit &amp;#34;;&amp;#34; 
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Example:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;import public &amp;#34;other.proto&amp;#34;;
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;package&#34;&gt;Package&lt;/h4&gt;
+&lt;p&gt;The package specifier can be used to prevent name clashes between protocol message types.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;package = &amp;#34;package&amp;#34; fullIdent &amp;#34;;&amp;#34;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Example:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;package foo.bar;
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;option&#34;&gt;Option&lt;/h4&gt;
+&lt;p&gt;Options can be used in proto files, messages, enums and services. An option can be a protobuf defined option or a custom option. For more information, see Options in the language guide.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;option = &amp;#34;option&amp;#34; optionName  &amp;#34;=&amp;#34; constant &amp;#34;;&amp;#34;
+optionName = ( ident | &amp;#34;(&amp;#34; fullIdent &amp;#34;)&amp;#34; ) { &amp;#34;.&amp;#34; ident }
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For examples:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;option java_package = &amp;#34;com.example.foo&amp;#34;;
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;fields&#34;&gt;Fields&lt;/h4&gt;
+&lt;p&gt;Fields are the basic elements of a protocol buffer message. Fields can be normal fields, group fields, oneof fields, or map fields. A field has a label, type and field number.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;label = &amp;#34;required&amp;#34; | &amp;#34;optional&amp;#34; | &amp;#34;repeated&amp;#34;
+type = &amp;#34;double&amp;#34; | &amp;#34;float&amp;#34; | &amp;#34;int32&amp;#34; | &amp;#34;int64&amp;#34; | &amp;#34;uint32&amp;#34; | &amp;#34;uint64&amp;#34;
+      | &amp;#34;sint32&amp;#34; | &amp;#34;sint64&amp;#34; | &amp;#34;fixed32&amp;#34; | &amp;#34;fixed64&amp;#34; | &amp;#34;sfixed32&amp;#34; | &amp;#34;sfixed64&amp;#34;
+      | &amp;#34;bool&amp;#34; | &amp;#34;string&amp;#34; | &amp;#34;bytes&amp;#34; | messageType | enumType
+fieldNumber = intLit;
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;normal-field&#34;&gt;Normal field&lt;/h4&gt;
+&lt;p&gt;Each field has label, type, name and field number. It may have field options.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;field = label type fieldName &amp;#34;=&amp;#34; fieldNumber [ &amp;#34;[&amp;#34; fieldOptions &amp;#34;]&amp;#34; ] &amp;#34;;&amp;#34;
+fieldOptions = fieldOption { &amp;#34;,&amp;#34;  fieldOption }
+fieldOption = optionName &amp;#34;=&amp;#34; constant
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Examples:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;optional foo.bar nested_message = 2;
+repeated int32 samples = 4 [packed=true];
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;group-field&#34;&gt;Group field&lt;/h4&gt;
+&lt;p&gt;Note that this feature is deprecated and should not be used when creating new message types – use nested message types instead.&lt;/p&gt;
+&lt;p&gt;Groups are one way to nest information in message definitions. The group name must begin with capital letter.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;group = label &amp;#34;group&amp;#34; groupName &amp;#34;=&amp;#34; fieldNumber messageBody
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Example:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;repeated group Result = 1 {
+    required string url = 2;
+    optional string title = 3;
+    repeated string snippets = 4;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;oneof-and-oneof-field&#34;&gt;Oneof and oneof field&lt;/h4&gt;
+&lt;p&gt;A oneof consists of oneof fields and a oneof name. Oneof fields do not have labels.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;oneof = &amp;#34;oneof&amp;#34; oneofName &amp;#34;{&amp;#34; { oneofField | emptyStatement } &amp;#34;}&amp;#34;
+oneofField = type fieldName &amp;#34;=&amp;#34; fieldNumber [ &amp;#34;[&amp;#34; fieldOptions &amp;#34;]&amp;#34; ] &amp;#34;;&amp;#34;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Example:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;oneof foo {
+    string name = 4;
+    SubMessage sub_message = 9;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;map-field&#34;&gt;Map field&lt;/h4&gt;
+&lt;p&gt;A map field has a key type, value type, name, and field number. The key type can be any integral or string type.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;mapField = &amp;#34;map&amp;#34; &amp;#34;&amp;lt;&amp;#34; keyType &amp;#34;,&amp;#34; type &amp;#34;&amp;gt;&amp;#34; mapName &amp;#34;=&amp;#34; fieldNumber [ &amp;#34;[&amp;#34; fieldOptions &amp;#34;]&amp;#34; ] &amp;#34;;&amp;#34;
+keyType = &amp;#34;int32&amp;#34; | &amp;#34;int64&amp;#34; | &amp;#34;uint32&amp;#34; | &amp;#34;uint64&amp;#34; | &amp;#34;sint32&amp;#34; | &amp;#34;sint64&amp;#34; |
+          &amp;#34;fixed32&amp;#34; | &amp;#34;fixed64&amp;#34; | &amp;#34;sfixed32&amp;#34; | &amp;#34;sfixed64&amp;#34; | &amp;#34;bool&amp;#34; | &amp;#34;string&amp;#34;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Example:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;map&amp;lt;string, Project&amp;gt; projects = 3;
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;extensions-and-reserved&#34;&gt;Extensions and Reserved&lt;/h3&gt;
+&lt;p&gt;Extensions and reserved are message elements that declare a range of field numbers or field names.&lt;/p&gt;
+&lt;h4 id=&#34;extensions&#34;&gt;Extensions&lt;/h4&gt;
+&lt;p&gt;Extensions declare that a range of field numbers in a message are available for third-party extensions. Other people can declare new fields for your message type with those numeric tags in their own .proto files without having to edit the original file.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;extensions = &amp;#34;extensions&amp;#34; ranges &amp;#34;;&amp;#34;
+ranges = range { &amp;#34;,&amp;#34; range }
+range =  intLit [ &amp;#34;to&amp;#34; ( intLit | &amp;#34;max&amp;#34; ) ]
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Examples:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;extensions 100 to 199;
+extensions 4, 20 to max;
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;reserved&#34;&gt;Reserved&lt;/h4&gt;
+&lt;p&gt;Reserved declares a range of field numbers or field names in a message that can not be used.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;reserved = &amp;#34;reserved&amp;#34; ( ranges | fieldNames ) &amp;#34;;&amp;#34;
+fieldNames = fieldName { &amp;#34;,&amp;#34; fieldName }
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Examples:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;reserved 2, 15, 9 to 11;
+reserved &amp;#34;foo&amp;#34;, &amp;#34;bar&amp;#34;;
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;top-level-definitions&#34;&gt;Top Level definitions&lt;/h3&gt;
+&lt;h4 id=&#34;enum-definition&#34;&gt;Enum definition&lt;/h4&gt;
+&lt;p&gt;The enum definition consists of a name and an enum body. The enum body can have options and enum fields.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;enum = &amp;#34;enum&amp;#34; enumName enumBody
+enumBody = &amp;#34;{&amp;#34; { option | enumField | emptyStatement } &amp;#34;}&amp;#34;
+enumField = ident &amp;#34;=&amp;#34; intLit [ &amp;#34;[&amp;#34; enumValueOption { &amp;#34;,&amp;#34;  enumValueOption } &amp;#34;]&amp;#34; ]&amp;#34;;&amp;#34;
+enumValueOption = optionName &amp;#34;=&amp;#34; constant
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Example:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;enum EnumAllowingAlias {
+  option allow_alias = true;
+  UNKNOWN = 0;
+  STARTED = 1;
+  RUNNING = 2 [(custom_option) = &amp;#34;hello world&amp;#34;];
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;message-definition&#34;&gt;Message definition&lt;/h4&gt;
+&lt;p&gt;A message consists of a message name and a message body. The message body can have fields, nested enum definitions, nested message definitions, extend statements, extensions, groups, options, oneofs, map fields, and reserved statements.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;message = &amp;#34;message&amp;#34; messageName messageBody
+messageBody = &amp;#34;{&amp;#34; { field | enum | message | extend | extensions | group |
+option | oneof | mapField | reserved | emptyStatement } &amp;#34;}&amp;#34;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Example:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;message Outer {
+  option (my_option).a = true;
+  message Inner {   // Level 2
+    required int64 ival = 1;
+  }
+  map&amp;lt;int32, string&amp;gt; my_map = 2;
+  extensions 20 to 30;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;extend&#34;&gt;Extend&lt;/h4&gt;
+&lt;p&gt;If a message in the same or imported .proto file has reserved a range for extensions, the message can be extended.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;extend = &amp;#34;extend&amp;#34; messageType &amp;#34;{&amp;#34; {field | group | emptyStatement} &amp;#34;}&amp;#34;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Example:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;extend Foo {
+  optional int32 bar = 126;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;service-definition&#34;&gt;Service definition&lt;/h4&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;service = &amp;#34;service&amp;#34; serviceName &amp;#34;{&amp;#34; { option | rpc | stream | emptyStatement } &amp;#34;}&amp;#34;
+rpc = &amp;#34;rpc&amp;#34; rpcName &amp;#34;(&amp;#34; [ &amp;#34;stream&amp;#34; ] messageType &amp;#34;)&amp;#34; &amp;#34;returns&amp;#34; &amp;#34;(&amp;#34; [ &amp;#34;stream&amp;#34; ]
+messageType &amp;#34;)&amp;#34; (( &amp;#34;{&amp;#34; { option | emptyStatement } &amp;#34;}&amp;#34; ) | &amp;#34;;&amp;#34; )
+stream = &amp;#34;stream&amp;#34; streamName &amp;#34;(&amp;#34; messageType &amp;#34;,&amp;#34; messageType &amp;#34;)&amp;#34; (( &amp;#34;{&amp;#34;
+{ option | emptyStatement } &amp;#34;}&amp;#34;) | &amp;#34;;&amp;#34; )
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Example:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;service SearchService {
+  rpc Search (SearchRequest) returns (SearchResponse);
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;proto-file&#34;&gt;Proto file&lt;/h4&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;proto = syntax { import | package | option | topLevelDef | emptyStatement }
+topLevelDef = message | enum | extend | service
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;An example .proto file:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;syntax = &amp;#34;proto2&amp;#34;;
+import public &amp;#34;other.proto&amp;#34;;
+option java_package = &amp;#34;com.example.foo&amp;#34;;
+enum EnumAllowingAlias {
+  option allow_alias = true;
+  UNKNOWN = 0;
+  STARTED = 1;
+  RUNNING = 2 [(custom_option) = &amp;#34;hello world&amp;#34;];
+}
+message outer {
+  option (my_option).a = true;
+  message inner {   // Level 2
+    required int64 ival = 1;
+  }
+  repeated inner inner_message = 2;
+  optional EnumAllowingAlias enum_field = 3;
+  map&amp;lt;int32, string&amp;gt; my_map = 4;
+  extensions 20 to 30;
+}
+message foo {
+  optional group GroupMessage {
+    optional a = 1;
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;p&gt;(Notice: Origin official document is &lt;a href=&#34;https://developers.google.com/protocol-buffers/docs/reference/proto2-spec&#34; title=&#34;proto2-spec&#34;&gt;&lt;em&gt;Here&lt;/em&gt;&lt;/a&gt;)&lt;/p&gt;</description>
     </item>
+    
     <item>
       <title>Cap&#39;n Proto Schema Language</title>
       <link>https://alimy.github.io/post/dev_201909211159/</link>
-      <pubDate>Sat, 21 Sep 2019 11:59:00 +0800</pubDate>
+      <pubDate>Sat, 21 Sep 2019 11:59:00 CST</pubDate>
+      
       <guid>https://alimy.github.io/post/dev_201909211159/</guid>
       <description>&lt;h2 id=&#34;schema-language&#34;&gt;Schema Language&lt;/h2&gt;
 &lt;p&gt;Like Protocol Buffers and Thrift (but unlike JSON or MessagePack), Cap’n Proto messages are strongly-typed and not self-describing. You must define your message structure in a special language, then invoke the Cap’n Proto compiler (&lt;code&gt;capnp compile&lt;/code&gt;) to generate source code to manipulate that message type in your desired language.&lt;/p&gt;
@@ -155,7 +1251,456 @@ struct Date {
   month @1 :UInt8;
   day @2 :UInt8;
 }
-&lt;/code&gt;&lt;/pre&gt;</description>
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Some notes:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Types come after names. The name is by far the most important thing to see, especially when quickly skimming, so we put it up front where it is most visible. Sorry, C got it wrong.&lt;/li&gt;
+&lt;li&gt;The &lt;code&gt;@N&lt;/code&gt; annotations show how the protocol evolved over time, so that the system can make sure to maintain compatibility with older versions. Fields (and enumerants, and interface methods) must be numbered consecutively starting from zero in the order in which they were added. In this example, it looks like the &lt;code&gt;birthdate&lt;/code&gt; field was added to the &lt;code&gt;Person&lt;/code&gt; structure recently – its number is higher than the &lt;code&gt;email&lt;/code&gt; and &lt;code&gt;phones&lt;/code&gt; fields. Unlike Protobufs, you cannot skip numbers when defining fields – but there was never any reason to do so anyway.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;language-reference&#34;&gt;Language Reference&lt;/h2&gt;
+&lt;h3 id=&#34;comments&#34;&gt;Comments&lt;/h3&gt;
+&lt;p&gt;Comments are indicated by hash signs and extend to the end of the line:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# This is a comment.
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Comments meant as documentation should appear after the declaration, either on the same line, or on a subsequent line. Doc comments for aggregate definitions should appear on the line after the opening brace.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;struct Date {
+  # A standard Gregorian calendar date.
+
+  year @0 :Int16;
+  # The year.  Must include the century.
+  # Negative value indicates BC.
+
+  month @1 :UInt8;   # Month number, 1-12.
+  day @2 :UInt8;     # Day number, 1-30.
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Placing the comment after the declaration rather than before makes the code more readable, especially when doc comments grow long. You almost always need to see the declaration before you can start reading the comment.&lt;/p&gt;
+&lt;h3 id=&#34;built-in-types&#34;&gt;Built-in Types&lt;/h3&gt;
+&lt;p&gt;The following types are automatically defined:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Void:&lt;/strong&gt; &lt;code&gt;Void&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Boolean:&lt;/strong&gt; &lt;code&gt;Bool&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Integers:&lt;/strong&gt; &lt;code&gt;Int8&lt;/code&gt;, &lt;code&gt;Int16&lt;/code&gt;, &lt;code&gt;Int32&lt;/code&gt;, &lt;code&gt;Int64&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Unsigned integers:&lt;/strong&gt; &lt;code&gt;UInt8&lt;/code&gt;, &lt;code&gt;UInt16&lt;/code&gt;, &lt;code&gt;UInt32&lt;/code&gt;,&lt;code&gt;UInt64&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Floating-point:&lt;/strong&gt; &lt;code&gt;Float32&lt;/code&gt;, &lt;code&gt;Float64&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Blobs:&lt;/strong&gt; &lt;code&gt;Text&lt;/code&gt;, &lt;code&gt;Data&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Lists:&lt;/strong&gt; &lt;code&gt;List(T)&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Notes:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The &lt;code&gt;Void&lt;/code&gt; type has exactly one possible value, and thus can be encoded in zero bits. It is rarely used, but can be useful as a union member.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Text&lt;/code&gt; is always UTF-8 encoded and NUL-terminated.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Data&lt;/code&gt; is a completely arbitrary sequence of bytes.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;List&lt;/code&gt; is a parameterized type, where the parameter is the element type. For example, &lt;code&gt;List(Int32)&lt;/code&gt;, &lt;code&gt;List(Person)&lt;/code&gt;, and &lt;code&gt;List(List(Text))&lt;/code&gt; are all valid.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;structs&#34;&gt;Structs&lt;/h3&gt;
+&lt;p&gt;A struct has a set of named, typed fields, numbered consecutively starting from zero.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;struct Person {
+  name @0 :Text;
+  email @1 :Text;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Fields can have default values:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;foo @0 :Int32 = 123;
+bar @1 :Text = &amp;#34;blah&amp;#34;;
+baz @2 :List(Bool) = [ true, false, false, true ];
+qux @3 :Person = (name = &amp;#34;Bob&amp;#34;, email = &amp;#34;bob@example.com&amp;#34;);
+corge @4 :Void = void;
+grault @5 :Data = 0x&amp;#34;a1 40 33&amp;#34;;
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;unions&#34;&gt;Unions&lt;/h3&gt;
+&lt;p&gt;A union is two or more fields of a struct which are stored in the same location. Only one of these fields can be set at a time, and a separate tag is maintained to track which one is currently set. Unlike in C, unions are not types, they are simply properties of fields, therefore union declarations do not look like types.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;struct Person {
+  # ...
+
+  employment :union {
+    # We assume that a person is only one of these.
+    unemployed @4 :Void;
+    employer @5 :Company;
+    school @6 :School;
+    selfEmployed @7 :Void;
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Additionally, unions can be unnamed. Each struct can contain no more than one unnamed union. Use unnamed unions in cases where you would struggle to think of an appropriate name for the union, because the union represents the main body of the struct.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;struct Shape {
+  area @0 :Float64;
+
+  union {
+    circle @1 :Float64;      # radius
+    square @2 :Float64;      # width
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Notes:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Unions members are numbered in the same number space as fields of the containing struct. Remember that the purpose of the numbers is to indicate the evolution order of the struct. The system needs to know when the union fields were declared relative to the non-union fields.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Notice that we used the “useless” &lt;code&gt;Void&lt;/code&gt; type here. We don’t have any extra information to store for the &lt;code&gt;unemployed&lt;/code&gt; or &lt;code&gt;selfEmployed&lt;/code&gt; cases, but we still want the union to distinguish these states from others.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;By default, when a struct is initialized, the lowest-numbered field in the union is “set”. If you do not want any field set by default, simply declare a field called “unset” and make it the lowest-numbered field.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;You can move an existing field into a new union without breaking compatibility with existing data, as long as all of the other fields in the union are new. Since the existing field is necessarily the lowest-numbered in the union, it will be the union’s default field.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Wait, why aren’t unions first-class types?&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Requiring unions to be declared inside a struct, rather than living as free-standing types, has some important advantages:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;If unions were first-class types, then union members would clearly have to be numbered separately from the containing type’s fields. This means that the compiler, when deciding how to position the union in its containing struct, would have to conservatively assume that any kind of new field might be added to the union in the future. To support this, all unions would have to be allocated as separate objects embedded by pointer, wasting space.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;A free-standing union would be a liability for protocol evolution, because no additional data can be attached to it later on. Consider, for example, a type which represents a parser token. This type is naturally a union: it may be a keyword, identifier, numeric literal, quoted string, etc. So the author defines it as a union, and the type is used widely. Later on, the developer wants to attach information to the token indicating its line and column number in the source file. Unfortunately, this is impossible without updating all users of the type, because the new information ought to apply to all token instances, not just specific members of the union. On the other hand, if unions must be embedded within structs, it is always possible to add new fields to the struct later on.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;When evolving a protocol it is common to discover that some existing field really should have been enclosed in a union, because new fields being added are mutually exclusive with it. With Cap’n Proto’s unions, it is actually possible to “retroactively unionize” such a field without changing its layout. This allows you to continue being able to read old data without wasting space when writing new data. This is only possible when unions are declared within their containing struct.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Cap’n Proto’s unconventional approach to unions provides these advantages without any real down side: where you would conventionally define a free-standing union type, in Cap’n Proto you may simply define a struct type that contains only that union (probably unnamed), and you have achieved the same effect. Thus, aside from being slightly unintuitive, it is strictly superior.&lt;/p&gt;
+&lt;h3 id=&#34;groups&#34;&gt;Groups&lt;/h3&gt;
+&lt;p&gt;A group is a set of fields that are encapsulated in their own scope.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;struct Person {
+  # ...
+
+  address :group {
+    # Note:  This is a terrible way to use groups, and meant
+    #        only to demonstrate the syntax.
+    houseNumber @8 :UInt32;
+    street @9 :Text;
+    city @10 :Text;
+    country @11 :Text;
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Interface-wise, the above group behaves as if you had defined a nested struct called &lt;code&gt;Address&lt;/code&gt; and then a field &lt;code&gt;address :Address&lt;/code&gt;. However, a group is not a separate object from its containing struct: the fields are numbered in the same space as the containing struct’s fields, and are laid out exactly the same as if they hadn’t been grouped at all. Essentially, a group is just a namespace.&lt;/p&gt;
+&lt;p&gt;Groups on their own (as in the above example) are useless, almost as much so as the &lt;code&gt;Void&lt;/code&gt; type. They become interesting when used together with unions.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;struct Shape {
+  area @0 :Float64;
+
+  union {
+    circle :group {
+      radius @1 :Float64;
+    }
+    rectangle :group {
+      width @2 :Float64;
+      height @3 :Float64;
+    }
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;There are two main reason to use groups with unions:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;They are often more self-documenting. Notice that &lt;code&gt;radius&lt;/code&gt; is now a member of &lt;code&gt;circle&lt;/code&gt;, so we don’t need a comment to explain that the value of circle is its radius.&lt;/li&gt;
+&lt;li&gt;You can add additional members later on, without breaking compatibility. Notice how we upgraded &lt;code&gt;square&lt;/code&gt; to &lt;code&gt;rectangle&lt;/code&gt; above, adding a &lt;code&gt;height&lt;/code&gt; field. This definition is actually wire-compatible with the previous version of the &lt;code&gt;Shape&lt;/code&gt; example from the “union” section (aside from the fact that &lt;code&gt;height&lt;/code&gt; will always be zero when reading old data – hey, it’s not a perfect example). In real-world use, it is common to realize after the fact that you need to add some information to a struct that only applies when one particular union field is set. Without the ability to upgrade to a group, you would have to define the new field separately, and have it waste space when not relevant.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Note that a named union is actually exactly equivalent to a named group containing an unnamed union.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Wait, weren’t groups considered a misfeature in Protobufs? Why did you do this again?&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;They are useful in unions, which Protobufs did not have. Meanwhile, you cannot have a “repeated group” in Cap’n Proto, which was the case that got into the most trouble with Protobufs.&lt;/p&gt;
+&lt;h3 id=&#34;dynamically-typed-fields&#34;&gt;Dynamically-typed Fields&lt;/h3&gt;
+&lt;p&gt;A struct may have a field with type AnyPointer. This field’s value can be of any pointer type – i.e. any struct, interface, list, or blob. This is essentially like a void* in C.&lt;/p&gt;
+&lt;p&gt;See also &lt;strong&gt;generics&lt;/strong&gt;.&lt;/p&gt;
+&lt;h3 id=&#34;enums&#34;&gt;Enums&lt;/h3&gt;
+&lt;p&gt;An enum is a type with a small finite set of symbolic values.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;enum Rfc3092Variable {
+  foo @0;
+  bar @1;
+  baz @2;
+  qux @3;
+  # ...
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Like fields, enumerants must be numbered sequentially starting from zero. In languages where enums have numeric values, these numbers will be used, but in general Cap’n Proto enums should not be considered numeric.&lt;/p&gt;
+&lt;h3 id=&#34;interfaces&#34;&gt;Interfaces&lt;/h3&gt;
+&lt;p&gt;An interface has a collection of methods, each of which takes some parameters and return some results. Like struct fields, methods are numbered. Interfaces support inheritance, including multiple inheritance.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;interface Node {
+  isDirectory @0 () -&amp;gt; (result :Bool);
+}
+
+interface Directory extends(Node) {
+  list @0 () -&amp;gt; (list :List(Entry));
+  struct Entry {
+    name @0 :Text;
+    node @1 :Node;
+  }
+
+  create @1 (name :Text) -&amp;gt; (file :File);
+  mkdir @2 (name :Text) -&amp;gt; (directory :Directory);
+  open @3 (name :Text) -&amp;gt; (node :Node);
+  delete @4 (name :Text);
+  link @5 (name :Text, node :Node);
+}
+
+interface File extends(Node) {
+  size @0 () -&amp;gt; (size :UInt64);
+  read @1 (startAt :UInt64 = 0, amount :UInt64 = 0xffffffffffffffff)
+       -&amp;gt; (data :Data);
+  # Default params = read entire file.
+
+  write @2 (startAt :UInt64, data :Data);
+  truncate @3 (size :UInt64);
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Notice something interesting here: &lt;code&gt;Node&lt;/code&gt;, &lt;code&gt;Directory&lt;/code&gt;, and &lt;code&gt;File&lt;/code&gt; are interfaces, but several methods take these types as parameters or return them as results. &lt;code&gt;Directory.Entry&lt;/code&gt; is a struct, but it contains a Node, which is an interface. Structs (and primitive types) are passed over RPC by value, but interfaces are passed by reference. So when &lt;code&gt;Directory.list&lt;/code&gt; is called remotely, the content of a List(Entry) (including the text of each name) is transmitted back, but for the node field, only a reference to some remote Node object is sent.&lt;/p&gt;
+&lt;p&gt;When an address of an object is transmitted, the RPC system automatically manages making sure that the recipient gets permission to call the addressed object – because if the recipient wasn’t meant to have access, the sender shouldn’t have sent the reference in the first place. This makes it very easy to develop secure protocols with Cap’n Proto – you almost don’t need to think about access control at all. This feature is what makes Cap’n Proto a “capability-based” RPC system – a reference to an object inherently represents a “capability” to access it.&lt;/p&gt;
+&lt;h3 id=&#34;generic-types&#34;&gt;Generic Types&lt;/h3&gt;
+&lt;p&gt;A struct or interface type may be parameterized, making it “generic”. For example, this is useful for defining type-safe containers:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;struct Map(Key, Value) {
+  entries @0 :List(Entry);
+  struct Entry {
+    key @0 :Key;
+    value @1 :Value;
+  }
+}
+
+struct People {
+  byName @0 :Map(Text, Person);
+  # Maps names to Person instances.
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Cap’n Proto generics work very similarly to Java generics or C++ templates. Some notes:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Only pointer types (structs, lists, blobs, and interfaces) can be used as generic parameters, much like in Java. This is a pragmatic limitation: allowing parameters to have non-pointer types would mean that different parameterizations of a struct could have completely different layouts, which would excessively complicate the Cap’n Proto implementation.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;A type declaration nested inside a generic type may use the type parameters of the outer type, as you can see in the example above. This differs from Java, but matches C++. If you want to refer to a nested type from outside the outer type, you must specify the parameters on the outer type, not the inner. For example, &lt;code&gt;Map(Text, Person).Entry&lt;/code&gt; is a valid type; &lt;code&gt;Map.Entry(Text, Person)&lt;/code&gt; is NOT valid. (Of course, an inner type may declare additional generic parameters.)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;If you refer to a generic type but omit its parameters (e.g. declare a field of type &lt;code&gt;Map&lt;/code&gt; rather than &lt;code&gt;Map(T, U)&lt;/code&gt;), it is as if you specified &lt;code&gt;AnyPointer&lt;/code&gt; for each parameter. Note that such a type is wire-compatible with any specific parameterization, so long as you interpret the &lt;code&gt;AnyPointers&lt;/code&gt; as the correct type at runtime.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Relatedly, it is safe to cast an generic interface of a specific parameterization to a generic interface where all parameters are &lt;code&gt;AnyPointer&lt;/code&gt; and vice versa, as long as the &lt;code&gt;AnyPointers&lt;/code&gt; are treated as the correct type at runtime. This means that e.g. you can implement a server in a generic way that is correct for all parameterizations but call it from clients using a specific parameterization.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The encoding of a generic type is exactly the same as the encoding of a type produced by substituting the type parameters manually. For example, &lt;code&gt;Map(Text, Person)&lt;/code&gt; is encoded exactly the same as:&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;  struct PersonMap {
+    # Encoded the same as Map(Text, Person).
+    entries @0 :List(Entry);
+    struct Entry {
+      key @0 :Text;
+      value @1 :Person;
+    }
+  }
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Therefore, it is possible to upgrade non-generic types to generic types while retaining backwards-compatibility.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Similarly, a generic interface’s protocol is exactly the same as the interface obtained by manually substituting the generic parameters.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;generic-methods&#34;&gt;Generic Methods&lt;/h3&gt;
+&lt;p&gt;Interface methods may also have “implicit” generic parameters that apply to a particular method call. This commonly applies to “factory” methods. For example:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;interface Assignable(T) {
+  # A generic interface, with non-generic methods.
+  get @0 () -&amp;gt; (value :T);
+  set @1 (value :T) -&amp;gt; ();
+}
+
+interface AssignableFactory {
+  newAssignable @0 [T] (initialValue :T)
+      -&amp;gt; (assignable :Assignable(T));
+  # A generic method.
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Here, the method &lt;code&gt;newAssignable()&lt;/code&gt; is generic. The return type of the method depends on the input type.&lt;/p&gt;
+&lt;p&gt;Ideally, calls to a generic method should not have to explicitly specify the method’s type parameters, because they should be inferred from the types of the method’s regular parameters. However, this may not always be possible; it depends on the programming language and API details.&lt;/p&gt;
+&lt;p&gt;Note that if a method’s generic parameter is used only in its returns, not its parameters, then this implies that the returned value is appropriate for any parameterization. For example:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;newUnsetAssignable @1 [T] () -&amp;gt; (assignable :Assignable(T));
+# Create a new assignable. `get()` on the returned object will
+# throw an exception until `set()` has been called at least once.
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Because of the way this method is designed, the returned &lt;code&gt;Assignable&lt;/code&gt; is initially valid for any &lt;code&gt;T&lt;/code&gt;. Effectively, it doesn’t take on a type until the first time &lt;code&gt;set()&lt;/code&gt; is called, and then T retroactively becomes the type of value passed to &lt;code&gt;set()&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;In contrast, if it’s the case that the returned type is unknown, then you should NOT declare it as generic. Instead, use &lt;code&gt;AnyPointer&lt;/code&gt;, or omit a type’s parameters (since they default to &lt;code&gt;AnyPointer&lt;/code&gt;). For example:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;getNamedAssignable @2 (name :Text) -&amp;gt; (assignable :Assignable);
+# Get the `Assignable` with the given name. It is the
+# responsibility of the caller to keep track of the type of each
+# named `Assignable` and cast the returned object appropriately.
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Here, we omitted the parameters to &lt;code&gt;Assignable&lt;/code&gt; in the return type, because the returned object has a specific type parameterization but it is not locally knowable.&lt;/p&gt;
+&lt;h3 id=&#34;constants&#34;&gt;Constants&lt;/h3&gt;
+&lt;p&gt;You can define constants in Cap’n Proto. These don’t affect what is sent on the wire, but they will be included in the generated code, and can be evaluated using the &lt;code&gt;capnp&lt;/code&gt; tool.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;const pi :Float32 = 3.14159;
+const bob :Person = (name = &amp;#34;Bob&amp;#34;, email = &amp;#34;bob@example.com&amp;#34;);
+const secret :Data = 0x&amp;#34;9f98739c2b53835e 6720a00907abd42f&amp;#34;;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Additionally, you may refer to a constant inside another value (e.g. another constant, or a default value of a field).&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;const foo :Int32 = 123;
+const bar :Text = &amp;#34;Hello&amp;#34;;
+const baz :SomeStruct = (id = .foo, message = .bar);
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Note that when substituting a constant into another value, the constant’s name must be qualified with its scope. E.g. if a constant &lt;code&gt;qux&lt;/code&gt; is declared nested in a type &lt;code&gt;Corge&lt;/code&gt;, it would need to be referenced as &lt;code&gt;Corge.qux&lt;/code&gt; rather than just &lt;code&gt;qux&lt;/code&gt;, even when used within the &lt;code&gt;Corge&lt;/code&gt; scope. Constants declared at the top-level scope are prefixed just with &lt;code&gt;.&lt;/code&gt;. This rule helps to make it clear that the name refers to a user-defined constant, rather than a literal value (like &lt;code&gt;true&lt;/code&gt; or &lt;code&gt;inf&lt;/code&gt;) or an enum value.&lt;/p&gt;
+&lt;h3 id=&#34;nesting-scope-and-aliases&#34;&gt;Nesting, Scope, and Aliases&lt;/h3&gt;
+&lt;p&gt;You can nest constant, alias, and type definitions inside structs and interfaces (but not enums). This has no effect on any definition involved except to define the scope of its name. So in Java terms, inner classes are always “static”. To name a nested type from another scope, separate the path with  &lt;code&gt;.&lt;/code&gt;s.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;struct Foo {
+  struct Bar {
+    #...
+  }
+  bar @0 :Bar;
+}
+
+struct Baz {
+  bar @0 :Foo.Bar;
+}
+If typing long scopes becomes cumbersome, you can use `using` to declare an alias.
+
+struct Qux {
+  using Foo.Bar;
+  bar @0 :Bar;
+}
+
+struct Corge {
+  using T = Foo.Bar;
+  bar @0 :T;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;imports&#34;&gt;Imports&lt;/h3&gt;
+&lt;p&gt;An &lt;code&gt;import&lt;/code&gt; expression names the scope of some other file:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;struct Foo {
+  baz @0 :import &amp;#34;bar.capnp&amp;#34;.Baz;
+  # Use type &amp;#34;Baz&amp;#34; defined in bar.capnp.
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Of course, typically it’s more readable to define an alias:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;using Bar = import &amp;#34;bar.capnp&amp;#34;;
+
+struct Foo {
+  baz @0 :Bar.Baz;
+  # Use type &amp;#34;Baz&amp;#34; defined in bar.capnp.
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Or even:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;using import &amp;#34;bar.capnp&amp;#34;.Baz;
+
+struct Foo {
+  baz @0 :Baz;
+  # Use type &amp;#34;Baz&amp;#34; defined in bar.capnp.
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The above imports specify relative paths. If the path begins with a &lt;code&gt;/&lt;/code&gt;, it is absolute – in this case, the &lt;code&gt;capnp&lt;/code&gt; tool searches for the file in each of the search path directories specified with &lt;code&gt;-I&lt;/code&gt;.&lt;/p&gt;
+&lt;h3 id=&#34;annotations&#34;&gt;Annotations&lt;/h3&gt;
+&lt;p&gt;Sometimes you want to attach extra information to parts of your protocol that isn’t part of the Cap’n Proto language. This information might control details of a particular code generator, or you might even read it at run time to assist in some kind of dynamic message processing. For example, you might create a field annotation which means “hide from the public”, and when you send a message to an external user, you might invoke some code first that iterates over your message and removes all of these hidden fields.&lt;/p&gt;
+&lt;p&gt;You may declare annotations and use them like so:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;annotation foo(struct, enum) :Text;
+# Declare an annotation &amp;#39;foo&amp;#39; which applies to struct and enum types.
+
+struct MyType $foo(&amp;#34;bar&amp;#34;) {
+  # Apply &amp;#39;foo&amp;#39; to to MyType.
+
+  # ...
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The possible targets for an annotation are: &lt;code&gt;file&lt;/code&gt;, &lt;code&gt;struct&lt;/code&gt;, &lt;code&gt;field&lt;/code&gt;, &lt;code&gt;union&lt;/code&gt;, &lt;code&gt;group&lt;/code&gt;, &lt;code&gt;enum&lt;/code&gt;, &lt;code&gt;enumerant&lt;/code&gt;, &lt;code&gt;interface&lt;/code&gt;, &lt;code&gt;method&lt;/code&gt;, &lt;code&gt;parameter&lt;/code&gt;, &lt;code&gt;annotation&lt;/code&gt;, &lt;code&gt;const&lt;/code&gt;. You may also specify &lt;code&gt;*&lt;/code&gt; to cover them all.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;annotation baz(*) :Int32;
+# &amp;#39;baz&amp;#39; can annotate anything!
+
+$baz(1);  # Annotate the file.
+
+struct MyStruct $baz(2) {
+  myField @0 :Text = &amp;#34;default&amp;#34; $baz(3);
+  myUnion :union $baz(4) {
+    # ...
+  }
+}
+
+enum MyEnum $baz(5) {
+  myEnumerant @0 $baz(6);
+}
+
+interface MyInterface $baz(7) {
+  myMethod @0 (myParam :Text $baz(9)) -&amp;gt; () $baz(8);
+}
+
+annotation myAnnotation(struct) :Int32 $baz(10);
+const myConst :Int32 = 123 $baz(11);
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;code&gt;Void&lt;/code&gt; annotations can omit the value. Struct-typed annotations are also allowed. Tip: If you want an annotation to have a default value, declare it as a struct with a single field with a default value.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;annotation qux(struct, field) :Void;
+
+struct MyStruct $qux {
+  string @0 :Text $qux;
+  number @1 :Int32 $qux;
+}
+
+annotation corge(file) :MyStruct;
+
+$corge(string = &amp;#34;hello&amp;#34;, number = 123);
+
+struct Grault {
+  value @0 :Int32 = 123;
+}
+
+annotation grault(file) :Grault;
+
+$grault();  # value defaults to 123
+$grault(value = 456);
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;unique-ids&#34;&gt;Unique IDs&lt;/h3&gt;
+&lt;p&gt;A Cap’n Proto file must have a unique 64-bit ID, and each type and annotation defined therein may also have an ID. Use &lt;code&gt;capnp id&lt;/code&gt; to generate a new ID randomly. ID specifications begin with &lt;code&gt;@&lt;/code&gt;:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;@0xdbb9ad1f14bf0b36;
+# file ID
+
+struct Foo @0x8db435604d0d3723 {
+  # ...
+}
+
+enum Bar @0xb400f69b5334aab3 {
+  # ...
+}
+
+interface Baz @0xf7141baba3c12691 {
+  # ...
+}
+
+annotation qux @0xf8a1bedf44c89f00 (field) :Text;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If you omit the ID for a type or annotation, one will be assigned automatically. This default ID is derived by taking the first 8 bytes of the MD5 hash of the parent scope’s ID concatenated with the declaration’s name (where the “parent scope” is the file for top-level declarations, or the outer type for nested declarations). You can see the automatically-generated IDs by “compiling” your file with the &lt;code&gt;-ocapnp&lt;/code&gt; flag, which echos the schema back to the terminal annotated with extra information, e.g. &lt;code&gt;capnp compile -ocapnp myschema.capnp&lt;/code&gt;. In general, you would only specify an explicit ID for a declaration if that declaration has been renamed or moved and you want the ID to stay the same for backwards-compatibility.&lt;/p&gt;
+&lt;p&gt;IDs exist to provide a relatively short yet unambiguous way to refer to a type or annotation from another context. They may be used for representing schemas, for tagging dynamically-typed fields, etc. Most languages prefer instead to define a symbolic global namespace e.g. full of “packages”, but this would have some important disadvantages in the context of Cap’n Proto:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Programmers often feel the need to change symbolic names and organization in order to make their code cleaner, but the renamed code should still work with existing encoded data.&lt;/li&gt;
+&lt;li&gt;It’s easy for symbolic names to collide, and these collisions could be hard to detect in a large distributed system with many different binaries using different versions of protocols.&lt;/li&gt;
+&lt;li&gt;Fully-qualified type names may be large and waste space when transmitted on the wire.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Note that IDs are 64-bit (actually, 63-bit, as the first bit is always 1). Random collisions are possible, but unlikely – there would have to be on the order of a billion types before this becomes a real concern. Collisions from misuse (e.g. copying an example without changing the ID) are much more likely.&lt;/p&gt;
+&lt;h2 id=&#34;evolving-your-protocol&#34;&gt;Evolving Your Protocol&lt;/h2&gt;
+&lt;p&gt;A protocol can be changed in the following ways without breaking backwards-compatibility, and without changing the &lt;strong&gt;canonical&lt;/strong&gt; encoding of a message:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;New types, constants, and aliases can be added anywhere, since they obviously don’t affect the encoding of any existing type.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;New fields, enumerants, and methods may be added to structs, enums, and interfaces, respectively, as long as each new member’s number is larger than all previous members. Similarly, new fields may be added to existing groups and unions.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;New parameters may be added to a method. The new parameters must be added to the end of the parameter list and must have default values.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Members can be re-arranged in the source code, so long as their numbers stay the same.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Any symbolic name can be changed, as long as the type ID / ordinal numbers stay the same. Note that type declarations have an implicit ID generated based on their name and parent’s ID, but you can use capnp compile -ocapnp myschema.capnp to find out what that number is, and then declare it explicitly after your rename.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Type definitions can be moved to different scopes, as long as the type ID is declared explicitly.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;A field can be moved into a group or a union, as long as the group/union and all other fields within it are new. In other words, a field can be replaced with a group or union containing an equivalent field and some new fields.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;A non-generic type can be made generic, and new generic parameters may be added to an existing generic type. Other types used inside the body of the newly-generic type can be replaced with the new generic parameter so long as all existing users of the type are updated to bind that generic parameter to the type it replaced. For example:&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;  struct Map {
+    entries @0 :List(Entry);
+    struct Entry {
+      key @0 :Text;
+      value @1 :Text;
+    }
+  }
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Can change to:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;  struct Map(Key, Value) {
+    entries @0 :List(Entry);
+    struct Entry {
+      key @0 :Key;
+      value @1 :Value;
+    }
+  }
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;As long as all existing uses of &lt;code&gt;Map&lt;/code&gt; are replaced with &lt;code&gt;Map(Text, Text)&lt;/code&gt; (and any uses of &lt;code&gt;Map.Entry&lt;/code&gt; are replaced with &lt;code&gt;Map(Text, Text).Entry&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;(This rule applies analogously to generic methods.)&lt;/p&gt;
+&lt;p&gt;The following changes are backwards-compatible but may change the canonical encoding of a message. Apps that rely on canonicalization (such as some cryptographic protocols) should avoid changes in this list, but most apps can safely use them:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A field of type &lt;code&gt;List(T)&lt;/code&gt;, where &lt;code&gt;T&lt;/code&gt; is a primitive type, blob, or list, may be changed to type &lt;code&gt;List(U)&lt;/code&gt;, where &lt;code&gt;U&lt;/code&gt; is a struct type whose &lt;code&gt;@0&lt;/code&gt; field is of type &lt;code&gt;T&lt;/code&gt;. This rule is useful when you realize too late that you need to attach some extra data to each element of your list. Without this rule, you would be stuck defining parallel lists, which are ugly and error-prone. As a special exception to this rule, &lt;code&gt;List(Bool)&lt;/code&gt; may &lt;strong&gt;not&lt;/strong&gt; be upgraded to a list of structs, because implementing this for bit lists has proven unreasonably expensive.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Any change not listed above should be assumed &lt;strong&gt;NOT&lt;/strong&gt; to be safe. In particular:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;You cannot change a field, method, or enumerant’s number.&lt;/li&gt;
+&lt;li&gt;You cannot change a field or method parameter’s type or default value.&lt;/li&gt;
+&lt;li&gt;You cannot change a type’s ID.&lt;/li&gt;
+&lt;li&gt;You cannot change the name of a type that doesn’t have an explicit ID, as the implicit ID is generated based in part on the type name.&lt;/li&gt;
+&lt;li&gt;You cannot move a type to a different scope or file unless it has an explicit ID, as the implicit ID is based in part on the scope’s ID.&lt;/li&gt;
+&lt;li&gt;You cannot move an existing field into or out of an existing union, nor can you form a new union containing more than one existing field.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Also, these rules only apply to the Cap’n Proto native encoding. It is sometimes useful to transcode Cap’n Proto types to other formats, like JSON, which may have different rules (e.g., field names cannot change in JSON).&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;(Notice: Origin official document is [&lt;em&gt;Here&lt;/em&gt;](&lt;a href=&#34;https://capnproto.org/language.html&#34;&gt;https://capnproto.org/language.html&lt;/a&gt; &amp;lsquo;cap&amp;rsquo;n proto schema language&amp;rsquo;))&lt;/p&gt;</description>
     </item>
+    
   </channel>
 </rss>

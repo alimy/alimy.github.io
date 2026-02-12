@@ -1,18 +1,18 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Rust on 北野</title>
+      <title>Rust on 北野 </title>
+      <generator uri="https://gohugo.io">Hugo</generator>
     <link>https://alimy.github.io/categories/rust/</link>
-    <description>Recent content in Rust on 北野</description>
-    <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
+    
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Fri, 10 Jan 2020 04:25:00 +0800</lastBuildDate>
-    <atom:link href="https://alimy.github.io/categories/rust/index.xml" rel="self" type="application/rss+xml" />
+    <updated>Fri, 10 Jan 2020 04:25:00 CST</updated>
+    
     <item>
       <title>Rust系统环境变量配置</title>
       <link>https://alimy.github.io/post/dev_202001100425/</link>
-      <pubDate>Fri, 10 Jan 2020 04:25:00 +0800</pubDate>
+      <pubDate>Fri, 10 Jan 2020 04:25:00 CST</pubDate>
+      
       <guid>https://alimy.github.io/post/dev_202001100425/</guid>
       <description>&lt;p&gt;国内有些地区访问Rustup的服务器及registry(@github)不太顺畅，这里介绍配置中科大的Rust镜像。&lt;/p&gt;
 &lt;h4 id=&#34;科大-rust-crates-镜像&#34;&gt;科大 Rust Crates 镜像&lt;/h4&gt;
@@ -28,7 +28,19 @@ registry = &amp;#34;https://github.com/rust-lang/crates.io-index&amp;#34;
 replace-with = &amp;#39;ustc&amp;#39;
 [source.ustc]
 registry = &amp;#34;git://mirrors.ustc.edu.cn/crates.io-index&amp;#34;
-&lt;/code&gt;&lt;/pre&gt;</description>
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;配置rust系统环境变量&#34;&gt;配置Rust系统环境变量&lt;/h4&gt;
+&lt;p&gt;Linux 环境，在$HOME/.bashrc或$HOME/.bash_profile中添加如下内容：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# User specific environment and startup program
+export CARGO_HOME=$HOME/.cargo
+export RUSTUP_HOME=$HOME/.rustup
+export RUSTUP_DIST_SERVER=http://mirrors.ustc.edu.cn/rust-static
+export RUSTUP_UPDATE_ROOT=http://mirrors.ustc.edu.cn/rust-static/rustup
+export PATH=&amp;#34;$HOME/.cargo/bin:$PATH&amp;#34;
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;参考文档&#34;&gt;参考文档&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://lug.ustc.edu.cn/wiki/mirrors/help/rust-crates&#34; title=&#34;科大mirrors&#34;&gt;Rust Crates 镜像使用帮助&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</description>
     </item>
+    
   </channel>
 </rss>

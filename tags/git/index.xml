@@ -1,24 +1,24 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Git on 北野</title>
+      <title>Git on 北野 </title>
+      <generator uri="https://gohugo.io">Hugo</generator>
     <link>https://alimy.github.io/tags/git/</link>
-    <description>Recent content in Git on 北野</description>
-    <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
+    
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Sun, 27 Aug 2023 12:00:00 +0800</lastBuildDate>
-    <atom:link href="https://alimy.github.io/tags/git/index.xml" rel="self" type="application/rss+xml" />
+    <updated>Sun, 27 Aug 2023 12:00:00 CST</updated>
+    
     <item>
       <title>Add commits to another person&#39;s PR on Github repo</title>
       <link>https://alimy.github.io/post/dev_202308271200/</link>
-      <pubDate>Sun, 27 Aug 2023 12:00:00 +0800</pubDate>
+      <pubDate>Sun, 27 Aug 2023 12:00:00 CST</pubDate>
+      
       <guid>https://alimy.github.io/post/dev_202308271200/</guid>
       <description>&lt;h3 id=&#34;tldr&#34;&gt;TLDR;&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;git push git@github.com:remoteUser/remoteRepo localBranch:remoteBranch
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;git push git@github.com:remoteUser/remoteRepo localBranch:remoteBranch
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;explanation&#34;&gt;Explanation&lt;/h3&gt;
 &lt;p&gt;The normal &lt;code&gt;git push&lt;/code&gt; command usually looks like this:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;git push origin branch
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;git push origin branch
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Pushing to another developer&amp;rsquo;s branch follows a similar pattern: &lt;code&gt;origin&lt;/code&gt; is the other person&amp;rsquo;s repo, and &lt;code&gt;branch&lt;/code&gt; maps your local branch to the same branch on their remote repo.&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;origin&lt;/code&gt; = &lt;code&gt;git@github.com:remoteUser/remoteRepo&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;branch&lt;/code&gt; = &lt;code&gt;localBranch:remoteBranch&lt;/code&gt;&lt;/p&gt;
@@ -27,7 +27,23 @@
 &lt;p&gt;&lt;code&gt;remoteRepo&lt;/code&gt; refers to the name of the repo that the other developer is creating the PR from, usually, this is the same name as your repo.&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;localBranch&lt;/code&gt; refers to the branch name of your local copy of their remote branch&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;remoteBranch&lt;/code&gt; refers to the branch name of that their PR is originating from on their &lt;code&gt;remoteRepo&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;Keep in mind, that you can only push to PRs from other developers on your repo if that developer selected &amp;ldquo;Allow edits from maintainers&amp;rdquo; when they created their PR.&lt;/p&gt;</description>
+&lt;p&gt;Keep in mind, that you can only push to PRs from other developers on your repo if that developer selected &amp;ldquo;Allow edits from maintainers&amp;rdquo; when they created their PR.&lt;/p&gt;
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+&lt;p&gt;Let&amp;rsquo;s say you created the open source project, Material Bread. After releasing the project, another developer, with the Github username alburdette619, forks your project and creates a pull request with some new features. While reviewing &lt;code&gt;alburdette619&lt;/code&gt;&amp;rsquo;s PR you realize that his changes will need to be documented in the project&amp;rsquo;s README.&lt;/p&gt;
+&lt;p&gt;First, we need to fetch his changes into a branch on our local machine. We can do that using this command:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;git fetch origin pull/branch/head:branchName
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;In this case, the branch on his PR is number &lt;code&gt;306&lt;/code&gt;, and I want to name it &lt;code&gt;pr/306&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;git fetch origin pull/306/head:pr/306
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;We can now make changes on our local branch &lt;code&gt;pr/306&lt;/code&gt; and commit them:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;git commit -m &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Update Readme with feature xyz&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Finally, we can push these changes to &lt;code&gt;alburdette619&lt;/code&gt;&amp;rsquo;s PR with the new commit using the command defined at the top of the article.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;git push git@github.com:remoteUser/remoteRepo localBranch:remoteBranch
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The &lt;code&gt;remoteUser&lt;/code&gt; is &lt;code&gt;alburdette619&lt;/code&gt;, the &lt;code&gt;remoteRepo&lt;/code&gt; is &lt;code&gt;material-bread&lt;/code&gt;, the &lt;code&gt;localBranch&lt;/code&gt; is &lt;code&gt;pr/306&lt;/code&gt;, and the &lt;code&gt;remoteBranch&lt;/code&gt; is &lt;code&gt;306&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;git push git@github.com:alburdette619/material-bread pr/306:306
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;
+&lt;p&gt;（备注: 转载自&lt;a href=&#34;https://codinhood.com/micro/add-commits-persons-pr-on-your-repo/&#34; title=&#34;add-commits-persons-pr-on-your-repo&#34;&gt;网络&lt;/a&gt;）&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;声明：本站是个人开设维护的网站，主要用于收集网络美文、技术文章与原创生活记录等，系孤芳自赏、个人用途，内容如有侵权请联系站长删除。&lt;/em&gt;&lt;/p&gt;</description>
     </item>
+    
   </channel>
 </rss>

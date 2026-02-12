@@ -1,31 +1,99 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>paopao on 北野</title>
+      <title>Paopao on 北野 </title>
+      <generator uri="https://gohugo.io">Hugo</generator>
     <link>https://alimy.github.io/tags/paopao/</link>
-    <description>Recent content in paopao on 北野</description>
-    <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
+    
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Mon, 19 Dec 2022 10:32:00 +0800</lastBuildDate>
-    <atom:link href="https://alimy.github.io/tags/paopao/index.xml" rel="self" type="application/rss+xml" />
+    <updated>Mon, 19 Dec 2022 10:32:00 CST</updated>
+    
     <item>
       <title>paopao - 关于paopao-ce的设计定位</title>
       <link>https://alimy.github.io/post/dev_202212191032/</link>
-      <pubDate>Mon, 19 Dec 2022 10:32:00 +0800</pubDate>
+      <pubDate>Mon, 19 Dec 2022 10:32:00 CST</pubDate>
+      
       <guid>https://alimy.github.io/post/dev_202212191032/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://github.com/rocboss/paopao-ce&#34;&gt;paopao-ce&lt;/a&gt; 是一个清新文艺的微社区，提供类似Twitter/微博的推文分享服务。paopao-ce的运营形态有点类似WordPress，只不过WordPress是使用PHP语言开发的博客平台，提供的是博客服务，而paopao-ce提供的是类似Twitter的推文分享服务。paopao-ce 让 &lt;strong&gt;个人或小组织&lt;/strong&gt; 可以快速、方便的部署一个提供&lt;strong&gt;推文分享服务&lt;/strong&gt;的小站点，在有限范围内形成一个友善的社交小圈子微社区。   &lt;br&gt;
-&lt;img src=&#34;https://alimy.github.io/images/post/20221219103201.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;</description>
+&lt;img src=&#34;https://alimy.github.io/images/post/20221219103201.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;从运维角度思考&#34;&gt;从运维角度思考&lt;/h3&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;实例部署&lt;/th&gt;
+          &lt;th&gt;站点部署&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;img src=&#34;https://alimy.github.io/images/post/20221219103202.png&#34; alt=&#34;&#34;&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;img src=&#34;https://alimy.github.io/images/post/20221219103203.png&#34; alt=&#34;&#34;&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;部署paopao-ce实例 数据存储需要使用 关系数据库、对象存储、搜索引擎、缓存；paopao-ce支持多实例部署，具体详情请参考相应文档。&lt;/p&gt;
+&lt;h4 id=&#34;关系数据库&#34;&gt;关系数据库&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;本地(Native) -  部署 MySQL/PostgreSQL或者paopao-ce内嵌Sqlite3数据库 &lt;br&gt;
+MySQL/PostgreSQL 可以采用 一主多从+备、一主+备、多主+备 的模式部署，具体部署方式由运维者决定，paopao-ce本身不关心 关系数据库 的部署方式，仅仅使用标准的方式连接关系数据库使用其数据存储服务。&lt;/li&gt;
+&lt;li&gt;云关系数据库 - 部署 云关系数据库   &lt;br&gt;
+阿里云、腾讯云、华为云都提供云关系数据库服务，如何开启服务请参考相应文档进行部署。paopao-ce采用标准方式连接其相应的数据库使用数据存储服务。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;对象存储&#34;&gt;对象存储&lt;/h4&gt;
+&lt;p&gt;paopao-ce使用对象存储服务存储 图片/视频/附件 等推文资源。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;本地(Native) - 部署OBS(Object Blob Storage System) &lt;br&gt;
+目前开发环境可以使用&lt;code&gt;localoss&lt;/code&gt;功能提供简单的OBS服务, 也可以自行部署&lt;a href=&#34;https://github.com/minio/minio&#34;&gt;MinIO&lt;/a&gt;来提供对象存储服务。&lt;/li&gt;
+&lt;li&gt;云对象存储服务
+阿里云、腾讯云、华为云都提供云对象存储服务，如何开启服务请参考相应文档进行部署。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;搜索引擎&#34;&gt;搜索引擎&lt;/h4&gt;
+&lt;p&gt;paopao-ce目前支持 使用&lt;a href=&#34;https://github.com/zinclabs/zinc&#34;&gt;Zinc&lt;/a&gt; /&lt;a href=&#34;https://github.com/meilisearch/meilisearch&#34;&gt;Meilisearch&lt;/a&gt; 提供推文搜索服务，搜索引擎实例的部署请参考相应官方文档。&lt;/p&gt;
+&lt;h4 id=&#34;缓存&#34;&gt;缓存&lt;/h4&gt;
+&lt;p&gt;paopao-ce目前支持Redis作为缓存存储引擎提供缓存服务，请参考Redis官方文档进行实例部署。&lt;/p&gt;
+&lt;h3 id=&#34;从代码实现角度思考&#34;&gt;从代码实现角度思考&lt;/h3&gt;
+&lt;p&gt;paopao-ce在代码实现上采用 &lt;strong&gt;单体架构模式、分层设计、功能模块化&lt;/strong&gt;，架构设计上可能略显保守，但是在使用新技术上却非常积极，比如搜索引擎就采用了近来新星&lt;a href=&#34;https://github.com/zinclabs/zinc&#34;&gt;Zinc&lt;/a&gt; /&lt;a href=&#34;https://github.com/meilisearch/meilisearch&#34;&gt;Meilisearch&lt;/a&gt;，同时也不排斥各种云端服务，包括阿里云、腾讯云、华为云的对象存储服务、关系数据库服务等。paopao-ce始终秉持着 &lt;strong&gt;包容并蓄、能用就上、去繁就简&lt;/strong&gt; 的架构思维，努力打造一个能 &lt;strong&gt;稳定运行、代码清晰、功能可扩展&lt;/strong&gt; 的开源项目。&lt;br&gt;
+&lt;img src=&#34;https://alimy.github.io/images/post/20221219103204.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;从技术探索角度思考&#34;&gt;从技术探索角度思考&lt;/h3&gt;
+&lt;p&gt;IT世界是非常激动人心的，新技术层出不穷，在各自领域大展身手、大放异彩。作为开发者的我们首要目标当然是以产品为核心，不断的优化服务体验，也不吝啬于新技术的采用以达到更好的产品服务质量。新技术或者某种技术本身，是需要一个环境来支撑其运行、演进，脱离实际环境的技术演进，犹如纸上谈兵，实际效果是存疑的。开发者在研究一项(新)技术时，首先当然是知其然，了解其功能特性、适用场景；再而知其所以然，深入了解其设计原理、知悉其存在的局限等；进而知其不以为然，通过实践，找到技术的最适合场景、知悉其不适合的场景，或与其他技术配合使用，扬长避短，发挥各自的最佳效力以解决具体的事务。这些都是技术探索的通用流程，可以看出，一项技术的探索从陌生到一知半解再到了如指掌，需要一个漫长的过程以及一个技术探索的环境。有些技术的探索，确实需要一个具体的环境，才能更好的研究与实践，比如OBS、Search、Recommended discovery亦或各种云服务的使用、k8s的服务部署等，都需要一个具体的环境来进行技术探索。可以说以需求驱动的技术探索，也更能推进技术本身的不断演进。&lt;/p&gt;
+&lt;p&gt;说这么多，这就引出了本节所要说的一个观点了，paopao-ce不仅仅是作为一个提供推文分享服务的产品，也能作为一些（新）技术的探索环境。比如OBS(对象存储服务)、推文搜索服务、推文/用户推荐发现服务、广场推文消息流服务等，都可以作为相应技术领域的技术探索环境，从实践中去检验技术的有效性，更好的推进技术的学习、实践、演进。作为开发者/学习者，也能在理论学习与实际环境中实践(新)技术找到一个平衡，更好、更快的掌握一项(新)技术，这也是paopao-ce的另一价值所在。&lt;strong&gt;路漫漫其修远兮，吾将上下而求索&lt;/strong&gt;，用我们开发者的话来说，带着 &lt;strong&gt;上下文(环境/需求)&lt;/strong&gt; 去探索（新)技术，或能事半功倍、得心应手。&lt;/p&gt;
+&lt;h3 id=&#34;从人文角度思考&#34;&gt;从人文角度思考&lt;/h3&gt;
+&lt;p&gt;现在的互联网世界已经非常精彩，各种社交媒体平台琳琅满目，使用体验也非常友好。每个社交平台都有自己的运营方式，都有自己的核心用户群体，也有自己的产品灵魂，都在不断的进行生态演进。比如Twitter、微博都已经从最初的推文分享服务演进到一个成熟的传媒平台，注册用户非常庞大，日均访问PV也是一个惊人的数字，这就注定了平台的运营思维是多维度考量均衡的结果，只能做到让用户群体的大多数人用户体验友好，并不能满足所有人的需求。大平台有大平台的运营模式，小站点有小站点的维系空间。对于类似Twitter这样的推文分享服务，paopao-ce提供一种小站点部署模式，采用类似WordPress的运维模式，让 &lt;strong&gt;个人/小组织&lt;/strong&gt; 能快速、便捷的拥有一个提供推文分享服务的小站点，以填补那些在大平台下难以享受到的用户体验，享受小圈子内的自由空间。&lt;/p&gt;
+&lt;p&gt;就像许巍唱的「曾经的你」这首歌中所说: &lt;em&gt;&amp;ldquo;曾梦想仗剑走天涯～ 看一看世界的繁华～ 年少的心总有些轻狂～ 如今你四海为家～ &amp;hellip;&amp;hellip;&amp;rdquo;&lt;/em&gt; 曾经的你我也在 疯狂刷朋友圈、狂奔微博空间、畅游Twitter世界，但是随着环境的改变、岁月的洗礼、心路的淬炼后，你我可能已经不复当年的热情，逐渐淡出朋友圈、沦为微博的稀客，或许Twitter世界还有点吸引力，但是总感觉表达的欲望不复从前了。是什么原因变成这样的呢，原因可能很多，也各自有自己的不同情形所至于此；但是总归有一条，那就是 &lt;strong&gt;自由&lt;/strong&gt;。如果有那么一个有限空间内，可以自由的 &lt;em&gt;谈天说地、品头论足、唠唠叨叨亦或自言自语&lt;/em&gt;，你我是否又能燃起表达的激情呢？！从这个角度来说，paopao-ce就很契合这种需求，曾经你我想拥有一个自己的博客小站点而使用WordPress，那么今天想拥有一个自己的类似Twitter的推文分享服务小站点，部署paopao-ce或许也是一个不错的选择。&lt;/p&gt;
+&lt;p&gt;一个产品应该有一个&lt;strong&gt;属于自己的灵魂&lt;/strong&gt;，可以说 paopao-ce的宗旨就是 &lt;strong&gt;打造一个清新文艺的微社区&lt;/strong&gt;。&lt;/p&gt;
+&lt;h3 id=&#34;疑问&#34;&gt;疑问&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;paopao-ce主要针对哪些站点运营者？&lt;br&gt;
+其实paopao-ce的运营形态有点类似WordPress，只不过WordPress是使用PHP语言开发的博客平台，提供的是博客服务，而paopao-ce提供的是类似Twitter的推文分享服务。paopao-ce 让 &lt;strong&gt;个人或小组织&lt;/strong&gt; 可以快速、方便的部署一个提供&lt;strong&gt;推文分享服务&lt;/strong&gt;的小站点，有限范围内形成一个友善的社交小圈子微社区。&lt;/li&gt;
+&lt;li&gt;paopao-ce是一个清新文艺的微社区，微社区的 &lt;code&gt;微&lt;/code&gt; 是如何界定的？
+&lt;ul&gt;
+&lt;li&gt;首先从站点用户流量层面，paopao-ce的部署一般针对的是小站点，注册用户不是很多，用户流量(QPS)也不会很高，这种情形本身很契合paopao-ce对自身微社区的服务定位；&lt;/li&gt;
+&lt;li&gt;从代码实现层面思考，在数据存储层面的架构设计中已经假定paopao-ce提供服务的QPS不会很高，因此不会考虑类似数据库 &lt;strong&gt;分库分表&lt;/strong&gt; 这样的设计优化来应对数据库CRUD的流量冲击，对站点推文数据的总容量也假定是单个SQL数据库提供满足查询需求的数据容量极限。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;paopao-ce在代码实现上为什么采用单体架构模式？&lt;br&gt;
+一个项目的架构设计是多方面考量均衡的结果，最终的目的是满足项目的需求与长远发展。
+&lt;ul&gt;
+&lt;li&gt;从架构模式的角度来说，单体架构模式可以满足paopao-ce对自身服务定位的需求，完全有能力承载预期的用户流量QPS，所以采用单体模式架构设计是没有问题的；&lt;/li&gt;
+&lt;li&gt;从运营者的角度来说，在能保障服务质量的前提下，最看重的还是运营成本的考量。提供一项保质保量的服务，可持续性是评价一项服务的重要指标。单体架构模式的项目部署简单，成本相对于分布式架构模式的项目也更低，架设门槛也没有那么高。黑猫白猫，能抓老鼠就是好猫， 在什么阶段就用什么技术，根据部署运营场景选择适合的技术来支撑服务，才是运营者明智的选择。&lt;/li&gt;
+&lt;li&gt;现在不管是单体架构模式亦或是云原生的分布式架构模式，相应的技术栈生态都已经非常成熟，技术本身没有优劣之分，需要根据具体环境来适配合适的技术，这样才能在你确保服务质量的同时保证服务的可持续性与经济性。说白了就是paopao-ce目前采用单体架构模式的设计，满足优质服务的同时性价比最高。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;如果一个paopao-ce部署站点运营一段时间后QPS逐渐提高到一定程度，目前架构的paopao-ce无法满足进一步的用户流量冲击，是否会采用分布式技术栈进行优化？  &lt;br&gt;
+不会。paopao-ce将保守的采用目前的单体架构模式提供极致的QPS用户体验，如果确实需要超高QPS需求的实例部署，将另起炉灶开发另一款相应的产品，或许会采用云原生的分布式技术栈生态进行架构设计，这将是另一个paopao产品的故事序章了(前提是paopao能火出圈)。&lt;/li&gt;
+&lt;/ol&gt;</description>
     </item>
+    
     <item>
       <title>paopao - 关于功能项配置解析的设计</title>
       <link>https://alimy.github.io/post/dev_202212110949/</link>
-      <pubDate>Sun, 11 Dec 2022 09:49:00 +0800</pubDate>
+      <pubDate>Sun, 11 Dec 2022 09:49:00 CST</pubDate>
+      
       <guid>https://alimy.github.io/post/dev_202212110949/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://github.com/rocboss/paopao-ce&#34;&gt;paopao-ce&lt;/a&gt; 是使用Golang技术栈打造的一个清新文艺的微社区，编译后的可执行文件外加一个配置文件&lt;code&gt;conf.yml&lt;/code&gt;就可以简单部署一个节点实例提供类似Twitter的推文服务。&lt;/p&gt;
 &lt;p&gt;paopao-ce的配置文件中有一个功能项的配置用于自定义节点实例运行时提供哪些服务，对部署运维非常友好。本文简单解析&lt;code&gt;conf.yml&lt;/code&gt;中功能项配置的设计，了解其背后的实现细节。&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;conf.yml&lt;/code&gt;的功能项配置机制是参考&lt;a href=&#34;https://github.com/rust-lang/rust&#34;&gt;Rust&lt;/a&gt;包管理工具Cargo的 &lt;code&gt;Cargo.toml&lt;/code&gt; 中 &lt;code&gt;[features]&lt;/code&gt; 配置而设计的。如下示例：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-toml&#34; data-lang=&#34;toml&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;[&lt;span style=&#34;color:#a6e22e&#34;&gt;package&lt;/span&gt;]
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-toml&#34; data-lang=&#34;toml&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;[&lt;span style=&#34;color:#a6e22e&#34;&gt;package&lt;/span&gt;]
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;name&lt;/span&gt; = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;poem&amp;#34;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;version&lt;/span&gt; = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;1.3.50&amp;#34;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;authors&lt;/span&gt; = [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;sunli &amp;lt;scott_s829@163.com&amp;gt;&amp;#34;&lt;/span&gt;]
@@ -52,7 +120,158 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;unic-langid&amp;#34;&lt;/span&gt;,
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;intl-memoizer&amp;#34;&lt;/span&gt;,
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;]
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;在Rust中，使用&lt;code&gt;features&lt;/code&gt;的方式&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-rust&#34; data-lang=&#34;rust&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;pub&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;mod&lt;/span&gt; endpoint;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;pub&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;mod&lt;/span&gt; error;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#[cfg(feature = &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;i18n&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;)]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#[cfg_attr(docsrs, doc(cfg(feature = &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;i18n&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;)))]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;pub&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;mod&lt;/span&gt; i18n;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#[cfg(feature = &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;server&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;)]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#[cfg_attr(docsrs, doc(cfg(feature = &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;server&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;)))]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;pub&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;mod&lt;/span&gt; listener;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;pub&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;mod&lt;/span&gt; middleware;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#[cfg(feature = &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;session&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;)]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#[cfg_attr(docsrs, doc(cfg(feature = &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;session&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;)))]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;pub&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;mod&lt;/span&gt; session;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#[cfg(feature = &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;test&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;)]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#[cfg_attr(docsrs, doc(cfg(feature = &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;test&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;)))]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;pub&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;mod&lt;/span&gt; test;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;pub&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;mod&lt;/span&gt; web;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#[doc(inline)]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;pub&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;use&lt;/span&gt; http;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;没错，很简单，只要在需要feature时使用&lt;code&gt;#[cfg(feature = &amp;quot;some-feature&amp;quot;)]&lt;/code&gt;注解即可，Rust编译器会做相应处理。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/rocboss/paopao-ce&#34;&gt;paopao-ce&lt;/a&gt;使用YAML格式的配置文件&lt;code&gt;conf.yml&lt;/code&gt;,在[Features]小节中声明运行时开启哪些功能项/服务:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;Features&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;Default&lt;/span&gt;: [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Base&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;MySQL&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Option&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;LocalOSS&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;LoggerFile&amp;#34;&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;Develop&lt;/span&gt;: [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Base&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;MySQL&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Option&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Sms&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;AliOSS&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;LoggerZinc&amp;#34;&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;Demo&lt;/span&gt;: [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Base&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;MySQL&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Option&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Sms&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;MinIO&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;LoggerZinc&amp;#34;&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;Slim&lt;/span&gt;: [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Base&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Sqlite3&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;LocalOSS&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;LoggerFile&amp;#34;&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;Base&lt;/span&gt;: [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Zinc&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Redis&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Alipay&amp;#34;&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;Docs&lt;/span&gt;: [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Docs:OpenAPI&amp;#34;&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;Service&lt;/span&gt;: [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Admin&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;SpaceX&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Bot&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;LocalOSS&amp;#34;&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;Deprecated&lt;/span&gt;: [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Deprecated:OldWeb&amp;#34;&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;Option&lt;/span&gt;: [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;SimpleCacheIndex&amp;#34;&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;Sms&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;SmsJuhe&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;如上：
+Default/Develop/Demo/Slim 是不同 功能集套件(Features Suite)， Base/Option 是子功能套件， Sms是关于短信验证码功能的参数选项。&lt;/p&gt;
+&lt;p&gt;这里 &lt;code&gt;Default&lt;/code&gt;套件 代表的意思是： 使用&lt;code&gt;Base/Option&lt;/code&gt; 中的功能，外加 &lt;code&gt;MySQL/LocalOSS/LoggerFile&lt;/code&gt;功能，也就是说开启了&lt;code&gt;Zinc/Redis/Alipay/SimpleCacheIndex/MySQL/LocalOSS/LoggerFile&lt;/code&gt; 7项功能；
+&lt;code&gt;Develop&lt;/code&gt;套件依例类推。&lt;/p&gt;
+&lt;p&gt;使用Features:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;release/paopao-ce --help
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Usage of release/paopao-ce:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  -features value
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        use special features
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  -no-default-features
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        whether use default features
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 默认使用 Default 功能套件&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;release/paopao-ce 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 不包含 default 中的功能集，仅仅使用 develop 中声明的功能集&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;release/paopao-ce --no-default-features --features develop 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 使用 default 中的功能集，外加 sms 功能&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;release/paopao-ce --features sms  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 手动指定需要开启的功能集&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;release/paopao-ce --no-default-features --features sqlite3,localoss,loggerfile,redis 
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;a href=&#34;https://github.com/rocboss/paopao-ce&#34;&gt;paopao-ce&lt;/a&gt;在代码实现中是通过&lt;a href=&#34;https://github.com/alimy/cfg&#34;&gt;github.com/alimy/cfg&lt;/a&gt;解析Features配置：&lt;/p&gt;
+&lt;p&gt;初始化cfg&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// file: internal/conf/conf.go&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;package&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;conf&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; (
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;log&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;sync&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;time&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;github.com/alimy/cfg&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;setupSetting&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;suite&lt;/span&gt; []&lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;noDefault&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;bool&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;error&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;...&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#75715e&#34;&gt;// initialize features configure&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;ss&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;kv&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;setting&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;featuresInfoFrom&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Features&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;cfg&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Initial&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;ss&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;kv&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; len(&lt;span style=&#34;color:#a6e22e&#34;&gt;suite&lt;/span&gt;) &amp;gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#a6e22e&#34;&gt;cfg&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Use&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;suite&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;noDefault&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;...&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;cfg的参考使用&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// file: internal/service/service.go&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;package&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;service&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; (
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;log&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;github.com/alimy/cfg&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;github.com/rocboss/paopao-ce/pkg/types&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;newService&lt;/span&gt;() (&lt;span style=&#34;color:#a6e22e&#34;&gt;ss&lt;/span&gt; []&lt;span style=&#34;color:#a6e22e&#34;&gt;Service&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;ss&lt;/span&gt; = append(&lt;span style=&#34;color:#a6e22e&#34;&gt;ss&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;newWebService&lt;/span&gt;())
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#75715e&#34;&gt;// add oldWebService if not depredcated OldWebService&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;cfg&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Not&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Deprecated:OldWeb&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#a6e22e&#34;&gt;ss&lt;/span&gt; = append(&lt;span style=&#34;color:#a6e22e&#34;&gt;ss&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;newOldWebService&lt;/span&gt;())
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	})
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;cfg&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;In&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;cfg&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Actions&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Admin&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#a6e22e&#34;&gt;ss&lt;/span&gt; = append(&lt;span style=&#34;color:#a6e22e&#34;&gt;ss&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;newAdminService&lt;/span&gt;())
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;SpaceX&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#a6e22e&#34;&gt;ss&lt;/span&gt; = append(&lt;span style=&#34;color:#a6e22e&#34;&gt;ss&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;newSpaceXService&lt;/span&gt;())
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Bot&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#a6e22e&#34;&gt;ss&lt;/span&gt; = append(&lt;span style=&#34;color:#a6e22e&#34;&gt;ss&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;newBotService&lt;/span&gt;())
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;LocalOSS&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			&lt;span style=&#34;color:#a6e22e&#34;&gt;ss&lt;/span&gt; = append(&lt;span style=&#34;color:#a6e22e&#34;&gt;ss&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;newLocalossService&lt;/span&gt;())
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	})
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// file: internal/dao/dao.go &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;package&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;dao&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; (
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;sync&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;github.com/alimy/cfg&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;github.com/rocboss/paopao-ce/internal/core&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;github.com/rocboss/paopao-ce/internal/dao/jinzhu&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;github.com/rocboss/paopao-ce/internal/dao/sakila&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;github.com/rocboss/paopao-ce/internal/dao/search&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;github.com/rocboss/paopao-ce/internal/dao/slonik&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;github.com/rocboss/paopao-ce/internal/dao/storage&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;github.com/sirupsen/logrus&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;newAuthorizationManageService&lt;/span&gt;() (&lt;span style=&#34;color:#a6e22e&#34;&gt;s&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;core&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;AuthorizationManageService&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;cfg&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;If&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Gorm&amp;#34;&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#a6e22e&#34;&gt;s&lt;/span&gt; = &lt;span style=&#34;color:#a6e22e&#34;&gt;jinzhu&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;NewAuthorizationManageService&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	} &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;cfg&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;If&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Sqlx&amp;#34;&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;cfg&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;If&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;MySQL&amp;#34;&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#a6e22e&#34;&gt;s&lt;/span&gt; = &lt;span style=&#34;color:#a6e22e&#34;&gt;sakila&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;NewAuthorizationManageService&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	} &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;cfg&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;If&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Sqlx&amp;#34;&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; (&lt;span style=&#34;color:#a6e22e&#34;&gt;cfg&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;If&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Postgres&amp;#34;&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;||&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;cfg&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;If&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;PostgreSQL&amp;#34;&lt;/span&gt;)) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#a6e22e&#34;&gt;s&lt;/span&gt; = &lt;span style=&#34;color:#a6e22e&#34;&gt;slonik&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;NewAuthorizationManageService&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	} &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#a6e22e&#34;&gt;s&lt;/span&gt; = &lt;span style=&#34;color:#a6e22e&#34;&gt;jinzhu&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;NewAuthorizationManageService&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;a href=&#34;https://github.com/alimy/cfg&#34;&gt;github.com/alimy/cfg&lt;/a&gt;的API文档请参考 &lt;a href=&#34;https://pkg.go.dev/github.com/alimy/cfg&#34;&gt;&lt;img src=&#34;https://godoc.org/github.com/alimy/cfg?status.svg&#34; alt=&#34;GoDoc&#34;&gt;&lt;/a&gt;&lt;/p&gt;</description>
     </item>
+    
   </channel>
 </rss>

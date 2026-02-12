@@ -1,18 +1,18 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Microservice on 北野</title>
+      <title>Microservice on 北野 </title>
+      <generator uri="https://gohugo.io">Hugo</generator>
     <link>https://alimy.github.io/tags/microservice/</link>
-    <description>Recent content in Microservice on 北野</description>
-    <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
+    
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Sun, 28 Jan 2024 16:30:00 +0800</lastBuildDate>
-    <atom:link href="https://alimy.github.io/tags/microservice/index.xml" rel="self" type="application/rss+xml" />
+    <updated>Sun, 28 Jan 2024 16:30:00 CST</updated>
+    
     <item>
       <title>Kitex: Thrift-HTTP 映射的 IDL 规范</title>
       <link>https://alimy.github.io/post/dev_202401281630/</link>
-      <pubDate>Sun, 28 Jan 2024 16:30:00 +0800</pubDate>
+      <pubDate>Sun, 28 Jan 2024 16:30:00 CST</pubDate>
+      
       <guid>https://alimy.github.io/post/dev_202401281630/</guid>
       <description>&lt;p&gt;本规范是 &lt;code&gt;Thrift&lt;/code&gt; 与 &lt;code&gt;HTTP&lt;/code&gt; 接口映射的 IDL 定义标准，包括服务、接口以及请求 &lt;code&gt;request&lt;/code&gt;、&lt;code&gt;response&lt;/code&gt; 参数定义规范和错误码定义规范。Kitex 部分实现了该规范，注解说明有标注支持情况。&lt;/p&gt;
 &lt;h3 id=&#34;规范说明&#34;&gt;规范说明&lt;/h3&gt;
@@ -24,7 +24,290 @@
 &lt;li&gt;一个服务 service 对应一个 thrift 主文件，主文件里的 &lt;code&gt;method&lt;/code&gt; 都是针对当前服务对应接口，主文件可以引用其它 thrift 文件定义&lt;/li&gt;
 &lt;li&gt;每个 &lt;code&gt;Method&lt;/code&gt; 原则上对应一个 &lt;code&gt;Request&lt;/code&gt; 和 &lt;code&gt;Response&lt;/code&gt; 定义&lt;/li&gt;
 &lt;li&gt;原则上不建议 &lt;code&gt;Request&lt;/code&gt; 复用，可以复用 &lt;code&gt;Response&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;</description>
+&lt;/ul&gt;
+&lt;h3 id=&#34;request-规范&#34;&gt;Request 规范&lt;/h3&gt;
+&lt;h4 id=&#34;约束&#34;&gt;约束&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;接口请求字段需要使用注解关联到 HTTP 的某类参数和参数名称。如果无注解，&lt;code&gt;GET&lt;/code&gt; 方法接口关联&lt;code&gt;query&lt;/code&gt; 参数, &lt;code&gt;POST&lt;/code&gt; 方法关联 &lt;code&gt;body&lt;/code&gt; 参数, 字段名对应参数key&lt;/li&gt;
+&lt;li&gt;如果 HTTP 请求是采用 &lt;code&gt;GET&lt;/code&gt; 方式的，那么 &lt;code&gt;request&lt;/code&gt; 定义中出现的 &lt;code&gt;api.body&lt;/code&gt; 注解无效，只有&lt;code&gt;api.query&lt;/code&gt;, &lt;code&gt;api.path&lt;/code&gt;, &lt;code&gt;api.cookie&lt;/code&gt; 有效。&lt;/li&gt;
+&lt;li&gt;如果 HTTP 请求是采用 &lt;code&gt;POST&lt;/code&gt; 方式且序列化方式是 &lt;code&gt;form&lt;/code&gt; 的，那么 &lt;code&gt;request&lt;/code&gt; 的字段不能有复杂结构如&lt;code&gt;map&lt;/code&gt;，&lt;code&gt;object&lt;/code&gt;，否则该字段无效。Kitex 目前暂未支持 &lt;code&gt;form&lt;/code&gt; 格式，只支持 &lt;code&gt;json&lt;/code&gt; 格式。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id=&#34;注解说明&#34;&gt;注解说明&lt;/h4&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;注解&lt;/th&gt;
+          &lt;th&gt;说明&lt;/th&gt;
+          &lt;th&gt;字段约束&lt;/th&gt;
+          &lt;th&gt;Kitex 支持情况&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;api.query&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;api.query&lt;/code&gt; 对应 HTTP 请求的 url query 参数&lt;/td&gt;
+          &lt;td&gt;只支持基本类型(&lt;code&gt;object&lt;/code&gt;, &lt;code&gt;map&lt;/code&gt; 以外）和逗号分隔的 &lt;code&gt;list&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;支持&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;api.path&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;api.path&lt;/code&gt; 对应 HTTP 请求的 url path 参数&lt;/td&gt;
+          &lt;td&gt;支持基本类型&lt;/td&gt;
+          &lt;td&gt;支持&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;api.header&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;api.header&lt;/code&gt; 对应 HTTP 请求的 header 参数&lt;/td&gt;
+          &lt;td&gt;只支持基本类型和逗号分隔的&lt;code&gt;list&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;支持&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;api.cookie&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;api.cookie&lt;/code&gt; 对应 HTTP 的 cookie 参数&lt;/td&gt;
+          &lt;td&gt;支持基本类型&lt;/td&gt;
+          &lt;td&gt;支持&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;api.body&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;api.body&lt;/code&gt; 对应 HTTP 的 body 参数&lt;br&gt;支持 body 为 &lt;code&gt;json&lt;/code&gt; 和 &lt;code&gt;form&lt;/code&gt; 两种格式&lt;/td&gt;
+          &lt;td&gt;在未指定接口序列化方式下默认&lt;code&gt;json&lt;/code&gt;格式，也可以在&lt;code&gt;method&lt;/code&gt;注解中使用&lt;code&gt;api.serializer&lt;/code&gt;来指定&lt;code&gt;json/form&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;支持，但目前仅支持 &lt;code&gt;JSON&lt;/code&gt; 格式&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;api.raw_body&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;api.raw_body&lt;/code&gt; HTTP 原始 body，少数接口 body 加密了，可以拿到原始的 body（二进制数组)&lt;/td&gt;
+          &lt;td&gt;&lt;/td&gt;
+          &lt;td&gt;支持&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;api.vd&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;参数校验，使用了&lt;a href=&#34;HTTPs://github.com/bytedance/go-tagexpr/tree/master/validator&#34;&gt;HTTPs://github.com/bytedance/go-tagexpr/tree/master/validator&lt;/a&gt;库，检验表达式语法参见包内readme文件&lt;/td&gt;
+          &lt;td&gt;&lt;/td&gt;
+          &lt;td&gt;暂未支持&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;api.js_conv&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;api.js_conv&lt;/code&gt; 标识该字段传入参数需要进行 string to int64 转换，来解决前端 js 不支持 int64 的场景&lt;/td&gt;
+          &lt;td&gt;value通常写true，其它情况与不写该注解等价&lt;/td&gt;
+          &lt;td&gt;支持&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;api.raw_uri&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;api.raw_uri&lt;/code&gt; 用于 HTTP to RPC 协议转换，RPC 服务获取 HTTP接口对应的原始 uri&lt;/td&gt;
+          &lt;td&gt;只支持 &lt;code&gt;string&lt;/code&gt; 类型&lt;/td&gt;
+          &lt;td&gt;暂未支持&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;举例&#34;&gt;举例&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-thrift&#34; data-lang=&#34;thrift&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Item&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;optional&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;i64&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;id&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;go.tag &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;json:&amp;#34;id&amp;#34;&amp;#39;&lt;/span&gt;) &lt;span style=&#34;color:#75715e&#34;&gt;// 对于嵌套结构体，如果要设置序列化key,使用gotag 如 `json:&amp;#34;id&amp;#34;`
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;optional&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt; text
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;typedef&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt; JsonDict
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;BizRequest&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;optional&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;i64&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;v_int64&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;api.query &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;v_int64&amp;#39;&lt;/span&gt;) &lt;span style=&#34;color:#75715e&#34;&gt;// 对应HTTP query中的v_int64, 且值范围为(0,200)
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;optional&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;text&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;api.body &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;text&amp;#39;&lt;/span&gt;) &lt;span style=&#34;color:#75715e&#34;&gt;// 对应序列化key = text
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;optional&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;i32&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;token&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;api.header &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;token&amp;#39;&lt;/span&gt;) &lt;span style=&#34;color:#75715e&#34;&gt;// 对应HTTP header中的token
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;optional&lt;/span&gt; JsonDict &lt;span style=&#34;color:#a6e22e&#34;&gt;json_header&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;api.header &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;json_header&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;optional&lt;/span&gt; Item &lt;span style=&#34;color:#a6e22e&#34;&gt;some&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;api.body &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;some&amp;#39;&lt;/span&gt;) &lt;span style=&#34;color:#75715e&#34;&gt;// 对应一级key = some
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;optional&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;list&lt;/span&gt;&amp;lt;ReqItem&amp;gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;req_items&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;api.query &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;req_items&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// api.query仅支持逗号相隔的list,其他复杂类型不支持
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#ae81ff&#34;&gt;7&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;optional&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;i32&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;api_version&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;api.path &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;action&amp;#39;&lt;/span&gt;) &lt;span style=&#34;color:#75715e&#34;&gt;// 对应uri的path参数
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#ae81ff&#34;&gt;8&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;optional&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;i64&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;uid&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;api.path &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;biz&amp;#39;&lt;/span&gt;) &lt;span style=&#34;color:#75715e&#34;&gt;// 对应uri的path参数
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#ae81ff&#34;&gt;9&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;optional&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;list&lt;/span&gt;&amp;lt;&lt;span style=&#34;color:#66d9ef&#34;&gt;i64&lt;/span&gt;&amp;gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;cids&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;api.query &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;cids&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// 对应query里面逗号隔开的数字, 如 cids=1,2,3,4仅支持list&amp;lt;i64&amp;gt;、list&amp;lt;i32&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;optional&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;list&lt;/span&gt;&amp;lt;&lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt;&amp;gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;vids&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;api.query &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;vids&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;response-规范&#34;&gt;Response 规范&lt;/h3&gt;
+&lt;h4 id=&#34;约束-1&#34;&gt;约束&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;header&lt;/code&gt; 不支持除逗号相隔并且 &lt;code&gt;value&lt;/code&gt; 为基本类型的 &lt;code&gt;list&lt;/code&gt; 以外的复杂类型&lt;/li&gt;
+&lt;li&gt;直接按照业务自己定义的 &lt;code&gt;response。默认&lt;/code&gt; &lt;code&gt;json&lt;/code&gt; 序列化到 &lt;code&gt;body&lt;/code&gt;，&lt;code&gt;key&lt;/code&gt;为字段名，注解可为空&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;注解说明-1&#34;&gt;注解说明&lt;/h4&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;注解&lt;/th&gt;
+          &lt;th&gt;说明&lt;/th&gt;
+          &lt;th&gt;字段约束&lt;/th&gt;
+          &lt;th&gt;Kitex 支持情况&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;api.header&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;api.header&lt;/code&gt; 设置HTTP 请求回复中的header&lt;/td&gt;
+          &lt;td&gt;只支持基本类型和逗号分隔的&lt;code&gt;list&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;支持&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;api.http_code&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;api.http_code&lt;/code&gt; 对应HTTP 回复中的status code，200/500等&lt;/td&gt;
+          &lt;td&gt;value通常写&lt;code&gt;true&lt;/code&gt;，其它情况与不写该注解等价&lt;/td&gt;
+          &lt;td&gt;支持&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;api.body&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;api.body&lt;/code&gt; 对应HTTP 回复中的body参数&lt;/td&gt;
+          &lt;td&gt;&lt;/td&gt;
+          &lt;td&gt;支持&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;api.none&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;标识该字段在 &lt;code&gt;response&lt;/code&gt;中将会被忽略&lt;/td&gt;
+          &lt;td&gt;value通常写&lt;code&gt;true&lt;/code&gt;，其它情况与不写该注解等价&lt;/td&gt;
+          &lt;td&gt;支持&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;api.js_conv&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;兼容js int64问题，&lt;code&gt;response&lt;/code&gt;时需要将int64表示为string&lt;/td&gt;
+          &lt;td&gt;value通常写&lt;code&gt;true&lt;/code&gt;，其它情况与不写该注解等价&lt;/td&gt;
+          &lt;td&gt;支持&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;api.raw_body&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;api.raw_body&lt;/code&gt; 设置该字段&lt;code&gt;content&lt;/code&gt;作为HTTP response的完整body&lt;/td&gt;
+          &lt;td&gt;&lt;/td&gt;
+          &lt;td&gt;支持&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;api.cookie&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;api.cookie&lt;/code&gt; 设置HTTP 回复中的cookie （&lt;code&gt;string&lt;/code&gt;类型，后端自行拼接）&lt;/td&gt;
+          &lt;td&gt;&lt;/td&gt;
+          &lt;td&gt;支持&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;举例-1&#34;&gt;举例&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-thrift&#34; data-lang=&#34;thrift&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// 最终将把BizResponse json序列化之后作为给客户端的返包
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;RspItem&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;optional&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;i64&lt;/span&gt; item_id &lt;span style=&#34;color:#75715e&#34;&gt;// 默认被以字段名作key序列化，等价于使用gotag `json:&amp;#34;item_id&amp;#34;`
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;optional&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt; text
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;BizResponse&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;optional&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;T&lt;/span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;api.header&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;T&amp;#39;&lt;/span&gt;) 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// 该字段将填入给客户端返回的header中
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;optional&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;map&lt;/span&gt;&amp;lt;&lt;span style=&#34;color:#66d9ef&#34;&gt;i64&lt;/span&gt;, RspItem&amp;gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;rsp_items&lt;/span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;api.body&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;rsp_items&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// 一级key = &amp;#39;rsp_items&amp;#39;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;optional&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;i32&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;v_enum&lt;/span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;api.none &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;true&amp;#39;&lt;/span&gt;) &lt;span style=&#34;color:#75715e&#34;&gt;// 该注解value通常写true，其它情况与不写该注解等价
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;optional&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;list&lt;/span&gt;&amp;lt;RspItem&amp;gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;rsp_item_list&lt;/span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;api.body &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;rsp_item_list&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// 业务自己指定了HTTPCode,  如果没有指定, baseResp.StatusCode=0 -&amp;gt; HTTPCode=200,  其他 HTTPCode=500  
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;optional&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;i32&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;http_code&lt;/span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;api.http_code &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;true&amp;#39;&lt;/span&gt;)    &lt;span style=&#34;color:#75715e&#34;&gt;//对应 response HTTP Code
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;optional&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;list&lt;/span&gt;&amp;lt;&lt;span style=&#34;color:#66d9ef&#34;&gt;i64&lt;/span&gt;&amp;gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;item_count&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;api.header &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;item_count&amp;#39;&lt;/span&gt;) &lt;span style=&#34;color:#75715e&#34;&gt;// 当设置header时以逗号相隔的列表
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#ae81ff&#34;&gt;7&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;optional&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;token&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;api.cookie &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;token&amp;#39;&lt;/span&gt;) &lt;span style=&#34;color:#75715e&#34;&gt;// 对应 response Cookie 字段
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;method-规范&#34;&gt;Method 规范&lt;/h3&gt;
+&lt;h4 id=&#34;约束-2&#34;&gt;约束&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;如果是&lt;code&gt;GET&lt;/code&gt;请求，&lt;code&gt;api.serializer&lt;/code&gt;定义的序列化方式是无效的&lt;/li&gt;
+&lt;li&gt;每个URI对应IDL的一个&lt;code&gt;method&lt;/code&gt;，通过注解关联，注解不可为空&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;注解说明-2&#34;&gt;注解说明&lt;/h4&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;注解&lt;/th&gt;
+          &lt;th&gt;类型&lt;/th&gt;
+          &lt;th&gt;说明&lt;/th&gt;
+          &lt;th&gt;举例&lt;/th&gt;
+          &lt;th&gt;Kitex 支持情况&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;api.get&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;string&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;get&lt;/code&gt;请求，值为HTTP path，uri的语法与gin一致(参考 &lt;a href=&#34;https://github.com/julienschmidt/httprouter&#34;&gt;httprouter&lt;/a&gt;)&lt;/td&gt;
+          &lt;td&gt;例如  &lt;code&gt;api.get = &#39;/life/client/favorite/collect&#39;&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;支持&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;api.post&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;string&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;post&lt;/code&gt;请求，值为HTTP path，uri的语法与gin一致(参考 &lt;a href=&#34;https://github.com/julienschmidt/httprouter&#34;&gt;httprouter&lt;/a&gt;)&lt;/td&gt;
+          &lt;td&gt;例如 &lt;code&gt;api.post=&#39;/life/client/favorite/collect&#39;&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;支持&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;api.put&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;string&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;put&lt;/code&gt;请求，值为HTTP path，uri的语法与gin一致(参考 &lt;a href=&#34;https://github.com/julienschmidt/httprouter&#34;&gt;httprouter&lt;/a&gt;)&lt;/td&gt;
+          &lt;td&gt;例如 &lt;br&gt;&lt;code&gt;api.put=&#39;/life/client/favorite/collect&#39;&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;支持&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;api.delete&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;string&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;delete&lt;/code&gt;请求，值为HTTP path，uri的语法与gin一致(参考 &lt;a href=&#34;https://github.com/julienschmidt/httprouter&#34;&gt;httprouter&lt;/a&gt;)&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;api.delete=&#39;/life/client/favorite/collect&#39;&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;支持&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;api.patch&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;string&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;delete&lt;/code&gt;请求，值为HTTP path，uri的语法与gin一致(参考 &lt;a href=&#34;https://github.com/julienschmidt/httprouter&#34;&gt;httprouter&lt;/a&gt;)&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;api.patch=&#39;/life/client/favorite/collect&#39;&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;支持&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;api.serializer&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;string&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;客户端请求体序列化方式&lt;/td&gt;
+          &lt;td&gt;如&lt;code&gt;form&lt;/code&gt;, &lt;code&gt;json&lt;/code&gt;, &lt;code&gt;thrift&lt;/code&gt;, &lt;code&gt;pb&lt;/code&gt;等&lt;/td&gt;
+          &lt;td&gt;暂未支持&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;举例-2&#34;&gt;举例&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-thrift&#34; data-lang=&#34;thrift&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;service&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;BizService&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// 例子1： get请求
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    BizResponse &lt;span style=&#34;color:#a6e22e&#34;&gt;BizMethod1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;: biz.BizRequest req)(
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        api.get &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;/life/client/:action/:biz&amp;#39;&lt;/span&gt;, 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        api.baseurl &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;ib.snssdk.com&amp;#39;&lt;/span&gt;, 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        api.param &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;true&amp;#39;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        api.category &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;demo&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    )
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// 例子2:   post请求
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    BizResponse &lt;span style=&#34;color:#a6e22e&#34;&gt;BizMethod2&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;: biz.BizRequest req)(
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        api.post &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;/life/client/:action/:biz&amp;#39;&lt;/span&gt;, 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        api.baseurl &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;ib.snssdk.com&amp;#39;&lt;/span&gt;, 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        api.param &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;true&amp;#39;&lt;/span&gt;, 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        api.serializer &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;form&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    )
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// 例子3:   delete请求
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    BizResponse &lt;span style=&#34;color:#a6e22e&#34;&gt;BizMethod3&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;: biz.BizRequest req)(
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        api.post &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;/life/client/:action/:biz&amp;#39;&lt;/span&gt;, 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        api.baseurl &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;ib.snssdk.com&amp;#39;&lt;/span&gt;, 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        api.param &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;true&amp;#39;&lt;/span&gt;, 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        api.serializer &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;json&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    )
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;日期&lt;/th&gt;
+          &lt;th&gt;版本&lt;/th&gt;
+          &lt;th&gt;作者&lt;/th&gt;
+          &lt;th&gt;变更内容&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;2022-05-22&lt;/td&gt;
+          &lt;td&gt;v1.0&lt;/td&gt;
+          &lt;td&gt;王景佩&lt;/td&gt;
+          &lt;td&gt;第一版 Thrift-HTTP 映射的 IDL 规范&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;hr&gt;
+&lt;p&gt;（备注: 转载自&lt;a href=&#34;https://www.cloudwego.io/zh/docs/kitex/tutorials/advanced-feature/generic-call/thrift_idl_annotation_standards/&#34; title=&#34;Thrift-HTTP 映射的 IDL 规范&#34;&gt;网络&lt;/a&gt;）&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;声明：本站是个人开设维护的网站，主要用于收集网络美文、技术文章与原创生活记录等，系孤芳自赏、个人用途，内容如有侵权请联系站长删除。&lt;/em&gt;&lt;/p&gt;</description>
     </item>
+    
   </channel>
 </rss>

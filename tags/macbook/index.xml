@@ -1,21 +1,84 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>MacBook on 北野</title>
+      <title>MacBook on 北野 </title>
+      <generator uri="https://gohugo.io">Hugo</generator>
     <link>https://alimy.github.io/tags/macbook/</link>
-    <description>Recent content in MacBook on 北野</description>
-    <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
+    
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Fri, 10 Feb 2023 06:16:00 +0800</lastBuildDate>
-    <atom:link href="https://alimy.github.io/tags/macbook/index.xml" rel="self" type="application/rss+xml" />
+    <updated>Fri, 10 Feb 2023 06:16:00 CST</updated>
+    
     <item>
       <title>MacBook Pro清灰散热处理</title>
       <link>https://alimy.github.io/post/etc_202302100616/</link>
-      <pubDate>Fri, 10 Feb 2023 06:16:00 +0800</pubDate>
+      <pubDate>Fri, 10 Feb 2023 06:16:00 CST</pubDate>
+      
       <guid>https://alimy.github.io/post/etc_202302100616/</guid>
       <description>&lt;p&gt;&lt;img src=&#34;https://alimy.github.io/images/post/20230210061600.webp&#34; alt=&#34;&#34;&gt;
-Mac用了几年，明显感觉散热不佳，于是对Mac做了一次彻底的拆机清灰。下面就对详细讲一下拆机清灰的过程。&lt;/p&gt;</description>
+Mac用了几年，明显感觉散热不佳，于是对Mac做了一次彻底的拆机清灰。下面就对详细讲一下拆机清灰的过程。&lt;/p&gt;
+&lt;h3 id=&#34;1拆机准备&#34;&gt;1.拆机准备&lt;/h3&gt;
+&lt;p&gt;首先准备螺丝刀、硅脂、刷子、翘片等工具
+&lt;img src=&#34;https://alimy.github.io/images/post/20230210061601.webp&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;2拆后盖&#34;&gt;2.拆后盖&lt;/h3&gt;
+&lt;h4 id=&#34;21-松螺丝&#34;&gt;2.1 松螺丝&lt;/h4&gt;
+&lt;p&gt;松开后盖螺丝，上面两个螺丝为长螺丝，下面的为短螺丝，到时候安装的时候切记。
+&lt;img src=&#34;https://alimy.github.io/images/post/20230210061602.webp&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h4 id=&#34;22-打开卡扣&#34;&gt;2.2 打开卡扣&lt;/h4&gt;
+&lt;p&gt;（1）如下图所示，后盖处有四个卡扣，两个卡槽。
+&lt;img src=&#34;https://alimy.github.io/images/post/20230210061603.webp&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;（2）第一个就要开卡扣a，这个时候，拿出翘片，从右下角插入，向上滑，开启卡扣，右边卡扣A，也一样。右边卡扣开启后，从下面轻轻揭一点，中间的两个卡扣就开了。这个时候注意，要轻轻的揭，范围不要大，上面还有卡槽。
+&lt;img src=&#34;https://alimy.github.io/images/post/20230210061604.webp&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h4 id=&#34;23-打开卡槽&#34;&gt;2.3 打开卡槽&lt;/h4&gt;
+&lt;p&gt;打开中间死磕卡扣之后，从下图所示位置，用力向下拉后盖，让上面卡槽脱离，后盖就取下来了。这里向下拉的力道需要很大，建议两个人操作，一个人按住电脑，一个人向下拉。
+&lt;img src=&#34;https://alimy.github.io/images/post/20230210061605.webp&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h4 id=&#34;3拆主板&#34;&gt;3.拆主板&lt;/h4&gt;
+&lt;p&gt;拆下后盖，就看到了脏兮兮的主板，上面布满了杂灰等，风扇里也有不少灰尘。
+&lt;img src=&#34;https://alimy.github.io/images/post/20230210061606.webp&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h4 id=&#34;31拆电源排线&#34;&gt;3.1拆电源排线&lt;/h4&gt;
+&lt;p&gt;下图左侧红框是电源排线，务必先拧掉上面螺丝卡片，然后扣掉排线，再松掉右边螺丝，拔掉排线。
+&lt;img src=&#34;https://alimy.github.io/images/post/20230210061607.webp&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h4 id=&#34;32-拆电脑主板&#34;&gt;3.2 拆电脑主板&lt;/h4&gt;
+&lt;p&gt;下图所示，是你拆下主板需要拆掉的螺丝和拔掉的排线，数量很多，一一拆下，然后就可以拿下主板了。
+&lt;img src=&#34;https://alimy.github.io/images/post/20230210061608.webp&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;4清理风扇&#34;&gt;4.清理风扇&lt;/h3&gt;
+&lt;h4 id=&#34;41拆风扇&#34;&gt;4.1拆风扇&lt;/h4&gt;
+&lt;p&gt;拿下主板后，按照下图，拧掉螺丝，拔下排线，然后就可以拿下排线了。
+&lt;img src=&#34;https://alimy.github.io/images/post/20230210061609.webp&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;风扇拆掉后，如下图
+&lt;img src=&#34;https://alimy.github.io/images/post/20230210061610.webp&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h4 id=&#34;42清理风扇&#34;&gt;4.2清理风扇&lt;/h4&gt;
+&lt;p&gt;拆下来的风扇，是真的脏，里面布满了尘土。这个风扇盒子是不能拆开的，如果拆开就装不回去了。因此，只能用别的办法搞掉灰尘。这个时候，就可以发挥创造力了。我使用的是一个毛很长的牙刷，剪掉大部分，只留下一排，然后从中心顺着风扇走向插进去蠕动，刷掉灰尘。
+&lt;img src=&#34;https://alimy.github.io/images/post/20230210061611.webp&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;风扇清理之后，可以用面前带着湿巾等进去，擦干净灰尘，清理之后感觉爽爽的，一切都变得干净了
+&lt;img src=&#34;https://alimy.github.io/images/post/20230210061612.webp&#34; alt=&#34;&#34;&gt;
+&lt;img src=&#34;https://alimy.github.io/images/post/20230210061613.webp&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;5清洗热管&#34;&gt;5.清洗热管&lt;/h3&gt;
+&lt;p&gt;拿出刚才拆下来的主板，拧掉下面四个螺丝，然后就能拿下热管了。
+&lt;img src=&#34;https://alimy.github.io/images/post/20230210061614.webp&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;热管是可以用水清洗的，主要冲刷风扇的排风口，如果有杂物堵住了，水流可以最大化的冲干净。清理干净的热管，可以用视线或者灯光，查看排风口是否通畅。
+&lt;img src=&#34;https://alimy.github.io/images/post/20230210061615.webp&#34; alt=&#34;&#34;&gt;
+&lt;img src=&#34;https://alimy.github.io/images/post/20230210061616.webp&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;6换新硅脂&#34;&gt;6.换新硅脂&lt;/h3&gt;
+&lt;p&gt;用纸将CPU、GPU上之前残余的硅脂，然后挤上新的硅脂
+&lt;img src=&#34;https://alimy.github.io/images/post/20230210061617.webp&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;硅脂不在多，够用即可，然后用刮刀抹匀
+&lt;img src=&#34;https://alimy.github.io/images/post/20230210061618.webp&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;7安装热管&#34;&gt;7.安装热管&lt;/h3&gt;
+&lt;p&gt;涂抹好硅脂之后，重新安装好热管，按照步骤5，拧回螺丝即可&lt;/p&gt;
+&lt;h3 id=&#34;8安装散热风扇&#34;&gt;8.安装散热风扇&lt;/h3&gt;
+&lt;p&gt;按照步骤4.1安装好风扇，插好排线
+&lt;img src=&#34;https://alimy.github.io/images/post/20230210061619.webp&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;9安装主板&#34;&gt;9.安装主板&lt;/h3&gt;
+&lt;p&gt;安装主板的时候一定切记切记在切记，小心小心再小心，不要忘记把各处排线都拨到主板上面来，不要安装了一半，忘了，然后由重来，很麻烦的。此处参考步骤3。
+&lt;img src=&#34;https://alimy.github.io/images/post/20230216061620.webp&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;10测试开机&#34;&gt;10.测试开机&lt;/h3&gt;
+&lt;p&gt;安装完主板之后，先不要傻傻的直接安装后盖，万一有什么地方没有安装好，点不亮，还得重新开后盖。这个之后，先开电源，看看能不能电量电脑，确定可以点亮屏幕，没有任何问题，方可盖后盖。&lt;/p&gt;
+&lt;h3 id=&#34;11安装后盖&#34;&gt;11.安装后盖&lt;/h3&gt;
+&lt;p&gt;第10步，测试确定可以开机没有问题，安装后盖就完事了。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;（备注: 转载自&lt;a href=&#34;https://www.bilibili.com/read/cv18076720/&#34; title=&#34;手把手教你拆机MacBook Pro，作清灰散热处理&#34;&gt;bilibili&lt;/a&gt;）&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;声明：本站是个人开设维护的网站，主要用于收集网络美文、技术文章与原创生活记录等，系孤芳自赏、个人用途，内容如有侵权请联系站长删除。&lt;/em&gt;&lt;/p&gt;</description>
     </item>
+    
   </channel>
 </rss>

@@ -1,20 +1,20 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>dns on 北野</title>
+      <title>Dns on 北野 </title>
+      <generator uri="https://gohugo.io">Hugo</generator>
     <link>https://alimy.github.io/tags/dns/</link>
-    <description>Recent content in dns on 北野</description>
-    <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
+    
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Mon, 05 Apr 2021 01:20:00 +0800</lastBuildDate>
-    <atom:link href="https://alimy.github.io/tags/dns/index.xml" rel="self" type="application/rss+xml" />
+    <updated>Mon, 05 Apr 2021 01:20:00 CST</updated>
+    
     <item>
       <title>使用Dnsmasq 实现 hosts 泛解析</title>
       <link>https://alimy.github.io/post/dev_202104050200/</link>
-      <pubDate>Mon, 05 Apr 2021 01:20:00 +0800</pubDate>
+      <pubDate>Mon, 05 Apr 2021 01:20:00 CST</pubDate>
+      
       <guid>https://alimy.github.io/post/dev_202104050200/</guid>
-      <description>&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$&amp;gt; sudo dnf install dnsmasq -y &lt;span style=&#34;color:#75715e&#34;&gt;# 安装 Dnsmasq &lt;/span&gt;
+      <description>&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$&amp;gt; sudo dnf install dnsmasq -y &lt;span style=&#34;color:#75715e&#34;&gt;# 安装 Dnsmasq &lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$&amp;gt; sudo cp /etc/dnsmasq.conf&lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;,bak&lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;# 先把配置文件备份一份&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$&amp;gt; sudo vim /etc/dnsmasq.conf
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 严格按照 resolv-file 文件中的顺序从上到下进行 DNS 解析, 直到第一个成功解析成功为止&lt;/span&gt;
@@ -29,7 +29,18 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 泛域名解析，访问任何 baidu.com 域名都会被解析到 6.6.6.6&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;address&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;/baidu.com/6.6.6.6
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;域名解析默认读取 /etc/hosts 文件到本地域名配置文件（不支持泛域名）。&lt;/p&gt;
-&lt;p&gt;DNS 配置默认读取 /etc/resolv.conf 上游 DNS 配置文件，如果读取不到 /etc/hosts 的地址解析，就会转发给 resolv.conf 进行解析地址。&lt;/p&gt;</description>
+&lt;p&gt;DNS 配置默认读取 /etc/resolv.conf 上游 DNS 配置文件，如果读取不到 /etc/hosts 的地址解析，就会转发给 resolv.conf 进行解析地址。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ sudo vim /etc/resolv.conf &lt;span style=&#34;color:#75715e&#34;&gt;# DNS 配置文件&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 这些都是常用的DNS，可以配置很多&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;nameserver 127.0.0.1  &lt;span style=&#34;color:#75715e&#34;&gt;# 一定要放在第一个&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;nameserver 8.8.8.8
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;nameserver 8.8.4.4
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;nameserver 1.1.1.1
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$&amp;gt; sudo systemctl enable --now dnsmasq &lt;span style=&#34;color:#75715e&#34;&gt;# 启动服务&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Created symlink from /etc/systemd/system/multi-user.target.wants/dnsmasq.service to /usr/lib/systemd/system/dnsmasq.service.
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Dnsmasq 还有一项非常有用的功能就是可以对已经解析过的域名进行缓存，下次在访问这个域名的时候就可以直接返回 IP 地址，而不再需要经过 DNS 查询。&lt;/p&gt;</description>
     </item>
+    
   </channel>
 </rss>

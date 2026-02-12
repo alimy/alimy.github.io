@@ -1,18 +1,18 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>FAQs on 北野</title>
+      <title>FAQs on 北野 </title>
+      <generator uri="https://gohugo.io">Hugo</generator>
     <link>https://alimy.github.io/categories/faqs/</link>
-    <description>Recent content in FAQs on 北野</description>
-    <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
+    
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Wed, 01 Feb 2023 19:48:00 +0800</lastBuildDate>
-    <atom:link href="https://alimy.github.io/categories/faqs/index.xml" rel="self" type="application/rss+xml" />
+    <updated>Wed, 01 Feb 2023 19:48:00 CST</updated>
+    
     <item>
       <title>Mounty挂载NTFS硬盘报错</title>
       <link>https://alimy.github.io/post/faq_202302011948/</link>
-      <pubDate>Wed, 01 Feb 2023 19:48:00 +0800</pubDate>
+      <pubDate>Wed, 01 Feb 2023 19:48:00 CST</pubDate>
+      
       <guid>https://alimy.github.io/post/faq_202302011948/</guid>
       <description>&lt;h3 id=&#34;问题&#34;&gt;问题&lt;/h3&gt;
 &lt;p&gt;&lt;code&gt;The volume UNTITLEDis not re-mountable in read/write mode .Probably it was not clean unmounted before. &lt;/code&gt;&lt;/p&gt;
@@ -20,7 +20,18 @@
 &lt;h3 id=&#34;解决方法-1&#34;&gt;解决方法 (1)&lt;/h3&gt;
 &lt;p&gt;不能被重新挂载，是因为以前没有clean 卸载。&lt;/p&gt;
 &lt;p&gt;就是说磁盘在win下面没有安全删除就拔出来了，导致文件系统中有错误区块，所以在MAC中不能挂载成读写模式。&lt;/p&gt;
-&lt;p&gt;到win下面chkdsk /f 一下，再回到MacOS即可。&lt;/p&gt;</description>
+&lt;p&gt;到win下面chkdsk /f 一下，再回到MacOS即可。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;操作步骤&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;插入移动硬盘到win下面&lt;/li&gt;
+&lt;li&gt;打开dos命令行。输入 chkdsk /f ,然后回车 Y&lt;/li&gt;
+&lt;li&gt;下次拔出移动硬盘之前，记得点击右下角的「安全删除」即可&lt;/li&gt;
+&lt;li&gt;再回到Mac系统即可使用&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;p&gt;（备注: 转载自&lt;a href=&#34;https://www.jianshu.com/p/d7a5e0519dbe&#34; title=&#34;Mounty挂载NTFS硬盘报错&#34;&gt;网络&lt;/a&gt;）&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;声明：本站是个人开设维护的网站，主要用于收集网络美文、技术文章与原创生活记录等，系孤芳自赏、个人用途，内容如有侵权请联系站长删除。&lt;/em&gt;&lt;/p&gt;</description>
     </item>
+    
   </channel>
 </rss>

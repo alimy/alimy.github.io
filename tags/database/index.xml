@@ -1,29 +1,29 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>database on 北野</title>
+      <title>Database on 北野 </title>
+      <generator uri="https://gohugo.io">Hugo</generator>
     <link>https://alimy.github.io/tags/database/</link>
-    <description>Recent content in database on 北野</description>
-    <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
+    
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Fri, 31 Mar 2023 20:32:00 +0800</lastBuildDate>
-    <atom:link href="https://alimy.github.io/tags/database/index.xml" rel="self" type="application/rss+xml" />
+    <updated>Fri, 31 Mar 2023 20:32:00 CST</updated>
+    
     <item>
       <title>Yesql - Sqlx的好搭挡</title>
       <link>https://alimy.github.io/post/dev_202303312032/</link>
-      <pubDate>Fri, 31 Mar 2023 20:32:00 +0800</pubDate>
+      <pubDate>Fri, 31 Mar 2023 20:32:00 CST</pubDate>
+      
       <guid>https://alimy.github.io/post/dev_202303312032/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://github.com/alimy/yesql&#34;&gt;Yesql&lt;/a&gt; 解析一个SQL文件，提取出查询语句，自动生成对应的Go结构体，实现查询语句与代码分离，方便编写数据库查询逻辑。&lt;/p&gt;
 &lt;h3 id=&#34;安装&#34;&gt;安装&lt;/h3&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;go get github.com/alimy/yesql
-&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;使用-godochttpsgodocorggithubcomalimyyesqlstatussvghttpspkggodevgithubcomalimyyesql&#34;&gt;使用 &lt;a href=&#34;https://pkg.go.dev/github.com/alimy/yesql&#34;&gt;&lt;img src=&#34;https://godoc.org/github.com/alimy/yesql?status.svg&#34; alt=&#34;GoDoc&#34;&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;使用-godoc&#34;&gt;使用 &lt;a href=&#34;https://pkg.go.dev/github.com/alimy/yesql&#34;&gt;&lt;img src=&#34;https://godoc.org/github.com/alimy/yesql?status.svg&#34; alt=&#34;GoDoc&#34;&gt;&lt;/a&gt;&lt;/h3&gt;
 &lt;h4 id=&#34;创建sql文件&#34;&gt;创建sql文件&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- sql file yesql.sql
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- sql file yesql.sql
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- name: newest_tags@topic
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- get newest tag information
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; t.id id, t.user_id user_id, t.tag tag, t.quote_num quote_num, u.id, u.nickname, u.username, u.status, u.avatar, u.is_admin 
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; t.id id, t.user_id user_id, t.tag tag, t.quote_num quote_num, u.id, u.nickname, u.username, u.status, u.avatar, u.is_admin 
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tag t &lt;span style=&#34;color:#66d9ef&#34;&gt;JOIN&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;user&lt;/span&gt; u &lt;span style=&#34;color:#66d9ef&#34;&gt;ON&lt;/span&gt; t.user_id &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; u.id 
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; t.is_del &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;AND&lt;/span&gt; t.quote_num &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; 
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;ORDER&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;BY&lt;/span&gt; t.id &lt;span style=&#34;color:#66d9ef&#34;&gt;DESC&lt;/span&gt; 
@@ -31,7 +31,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- name: hot_tags@topic
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- get get host tag information
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; t.id id, t.user_id user_id, t.tag tag, t.quote_num quote_num, u.id, u.nickname, u.username, u.status, u.avatar, u.is_admin 
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; t.id id, t.user_id user_id, t.tag tag, t.quote_num quote_num, u.id, u.nickname, u.username, u.status, u.avatar, u.is_admin 
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tag t &lt;span style=&#34;color:#66d9ef&#34;&gt;JOIN&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;user&lt;/span&gt; u &lt;span style=&#34;color:#66d9ef&#34;&gt;ON&lt;/span&gt; t.user_id &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; u.id 
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; t.is_del &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;AND&lt;/span&gt; t.quote_num &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; 
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;ORDER&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;BY&lt;/span&gt; t.quote_num &lt;span style=&#34;color:#66d9ef&#34;&gt;DESC&lt;/span&gt; 
@@ -39,46 +39,210 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- name: tags_by_keyword_a@topic
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- get tags by keyword
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; id, user_id, tag, quote_num &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tag &lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; is_del &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;ORDER&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;BY&lt;/span&gt; quote_num &lt;span style=&#34;color:#66d9ef&#34;&gt;DESC&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;LIMIT&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; id, user_id, tag, quote_num &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tag &lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; is_del &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;ORDER&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;BY&lt;/span&gt; quote_num &lt;span style=&#34;color:#66d9ef&#34;&gt;DESC&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;LIMIT&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt;;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- name: tags_by_keyword_b@topic
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; id, user_id, tag, quote_num &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tag &lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; is_del &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;AND&lt;/span&gt; tag &lt;span style=&#34;color:#66d9ef&#34;&gt;LIKE&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;ORDER&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;BY&lt;/span&gt; quote_num &lt;span style=&#34;color:#66d9ef&#34;&gt;DESC&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;LIMIT&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; id, user_id, tag, quote_num &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tag &lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; is_del &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;AND&lt;/span&gt; tag &lt;span style=&#34;color:#66d9ef&#34;&gt;LIKE&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;ORDER&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;BY&lt;/span&gt; quote_num &lt;span style=&#34;color:#66d9ef&#34;&gt;DESC&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;LIMIT&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt;;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- name: insert_tag@topic
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;INSERT&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;INTO&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tag (user_id, tag, created_on, modified_on, quote_num) &lt;span style=&#34;color:#66d9ef&#34;&gt;VALUES&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;INSERT&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;INTO&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tag (user_id, tag, created_on, modified_on, quote_num) &lt;span style=&#34;color:#66d9ef&#34;&gt;VALUES&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;);
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- name: tags_by_id_a@topic
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- clause: in
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; id &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tag &lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; id &lt;span style=&#34;color:#66d9ef&#34;&gt;IN&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;AND&lt;/span&gt; is_del &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;AND&lt;/span&gt; quote_num &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; id &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tag &lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; id &lt;span style=&#34;color:#66d9ef&#34;&gt;IN&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;AND&lt;/span&gt; is_del &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;AND&lt;/span&gt; quote_num &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- name: tags_by_id_b@topic
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- clause: in
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; id, user_id, tag, quote_num &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tag &lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; id &lt;span style=&#34;color:#66d9ef&#34;&gt;IN&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; id, user_id, tag, quote_num &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tag &lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; id &lt;span style=&#34;color:#66d9ef&#34;&gt;IN&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;);
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- name: decr_tags_by_id@topic
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- clause: in
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;UPDATE&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tag &lt;span style=&#34;color:#66d9ef&#34;&gt;SET&lt;/span&gt; quote_num&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;quote_num&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, modified_on&lt;span style=&#34;color:#f92672&#34;&gt;=?&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; id &lt;span style=&#34;color:#66d9ef&#34;&gt;IN&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;UPDATE&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tag &lt;span style=&#34;color:#66d9ef&#34;&gt;SET&lt;/span&gt; quote_num&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;quote_num&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, modified_on&lt;span style=&#34;color:#f92672&#34;&gt;=?&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; id &lt;span style=&#34;color:#66d9ef&#34;&gt;IN&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;);
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- name: tags_for_incr@topic
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- clause: in
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; id, user_id, tag, quote_num &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tag &lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; tag &lt;span style=&#34;color:#66d9ef&#34;&gt;IN&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;SELECT&lt;/span&gt; id, user_id, tag, quote_num &lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tag &lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; tag &lt;span style=&#34;color:#66d9ef&#34;&gt;IN&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;);
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- name: incr_tags_by_id@topic
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;-- clause: in
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;UPDATE&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tag &lt;span style=&#34;color:#66d9ef&#34;&gt;SET&lt;/span&gt; quote_num&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;quote_num&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, is_del&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, modified_on&lt;span style=&#34;color:#f92672&#34;&gt;=?&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; id &lt;span style=&#34;color:#66d9ef&#34;&gt;IN&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;);
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;UPDATE&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;@&lt;/span&gt;tag &lt;span style=&#34;color:#66d9ef&#34;&gt;SET&lt;/span&gt; quote_num&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;quote_num&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, is_del&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, modified_on&lt;span style=&#34;color:#f92672&#34;&gt;=?&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;WHERE&lt;/span&gt; id &lt;span style=&#34;color:#66d9ef&#34;&gt;IN&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;使用scan模式方式一&#34;&gt;使用Scan模式(方式一)&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// file: topics.go&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;package&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;topics&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; (
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;context&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;_&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;embed&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;github.com/alimy/yesql&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;github.com/jmoiron/sqlx&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;//go:embed yesql.sql&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;yesqlBytes&lt;/span&gt; []&lt;span style=&#34;color:#66d9ef&#34;&gt;byte&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Topic&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;yesql&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Namespace&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;`yesql:&amp;#34;topic&amp;#34;`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;DecrTagsById&lt;/span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt;     &lt;span style=&#34;color:#e6db74&#34;&gt;`yesql:&amp;#34;decr_tags_by_id&amp;#34;`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;IncrTagsById&lt;/span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt;     &lt;span style=&#34;color:#e6db74&#34;&gt;`yesql:&amp;#34;incr_tags_by_id&amp;#34;`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;TagsByIdA&lt;/span&gt;       &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt;     &lt;span style=&#34;color:#e6db74&#34;&gt;`yesql:&amp;#34;tags_by_id_a&amp;#34;`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;TagsByIdB&lt;/span&gt;       &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt;     &lt;span style=&#34;color:#e6db74&#34;&gt;`yesql:&amp;#34;tags_by_id_b&amp;#34;`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;TagsForIncr&lt;/span&gt;     &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt;     &lt;span style=&#34;color:#e6db74&#34;&gt;`yesql:&amp;#34;tags_for_incr&amp;#34;`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;HotTags&lt;/span&gt;         &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;sqlx&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Stmt&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;`yesql:&amp;#34;hot_tags&amp;#34;`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;InsertTag&lt;/span&gt;       &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;sqlx&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Stmt&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;`yesql:&amp;#34;insert_tag&amp;#34;`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;NewestTags&lt;/span&gt;      &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;sqlx&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Stmt&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;`yesql:&amp;#34;newest_tags&amp;#34;`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;TagsByKeywordA&lt;/span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;sqlx&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Stmt&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;`yesql:&amp;#34;tags_by_keyword_a&amp;#34;`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;TagsByKeywordB&lt;/span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;sqlx&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Stmt&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;`yesql:&amp;#34;tags_by_keyword_b&amp;#34;`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;NewTopic&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;db&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;sqlx&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;DB&lt;/span&gt;) (&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;Topic&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;error&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#75715e&#34;&gt;// use *sqlx.DB as prepare context&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;yesql&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;UseSqlx&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;db&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#75715e&#34;&gt;// get sql query&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;query&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;yesql&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;MustParseBytes&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;yesqlBytes&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#75715e&#34;&gt;// scan object from sql query&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;obj&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;Topic&lt;/span&gt;{}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;yesql&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Scan&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;obj&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;query&lt;/span&gt;); &lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;nil&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;nil&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;obj&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;nil&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;使用代码生成模式方式二&#34;&gt;使用代码生成模式(方式二)&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;编写代码生成逻辑&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// file: gen.go&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;package&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; (
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;log&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;strings&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;github.com/alimy/yesql&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;//go:generate go run $GOFILE&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;log&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Println&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;[Yesql] generate code start&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;yesql&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;SetDefaultQueryHook&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;query&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;yesql&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Query&lt;/span&gt;) (&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;yesql&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Query&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;error&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#a6e22e&#34;&gt;query&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Query&lt;/span&gt; = &lt;span style=&#34;color:#a6e22e&#34;&gt;strings&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;TrimRight&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;query&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Query&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;;&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;query&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;nil&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	})
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;yesql&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Generate&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;yesql.sql&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;auto&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;yesql&amp;#34;&lt;/span&gt;); &lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;nil&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#a6e22e&#34;&gt;log&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Fatalf&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;generate code occurs error: %s&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;log&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Println&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;[Yesql] generate code finish&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;自动生成Go代码&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;% go generate gen.go
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023/03/31 19:34:44 &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;Yesql&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; generate code start
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2023/03/31 19:34:44 &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;Yesql&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; generate code finish
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;生成的代码如下(生成文件路径: auto/yesql.go)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// Code generated by Yesql. DO NOT EDIT.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// versions:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// - Yesql v1.1.2&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;package&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;yesql&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; (
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;context&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;github.com/alimy/yesql&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;github.com/jmoiron/sqlx&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; (
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;_TagsByKeywordB_Topic&lt;/span&gt; = &lt;span style=&#34;color:#e6db74&#34;&gt;`SELECT id, user_id, tag, quote_num FROM @tag WHERE is_del = 0 AND tag LIKE ? ORDER BY quote_num DESC LIMIT 6`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;_InsertTag_Topic&lt;/span&gt;      = &lt;span style=&#34;color:#e6db74&#34;&gt;`INSERT INTO @tag (user_id, tag, created_on, modified_on, quote_num) VALUES (?, ?, ?, ?, 1)`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;_TagsByIdA_Topic&lt;/span&gt;      = &lt;span style=&#34;color:#e6db74&#34;&gt;`SELECT id FROM @tag WHERE id IN (?) AND is_del = 0 AND quote_num &amp;gt; 0`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;_TagsByIdB_Topic&lt;/span&gt;      = &lt;span style=&#34;color:#e6db74&#34;&gt;`SELECT id, user_id, tag, quote_num FROM @tag WHERE id IN (?)`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;_TagsForIncr_Topic&lt;/span&gt;    = &lt;span style=&#34;color:#e6db74&#34;&gt;`SELECT id, user_id, tag, quote_num FROM @tag WHERE tag IN (?)`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;_IncrTagsById_Topic&lt;/span&gt;   = &lt;span style=&#34;color:#e6db74&#34;&gt;`UPDATE @tag SET quote_num=quote_num+1, is_del=0, modified_on=? WHERE id IN (?)`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;_NewestTags_Topic&lt;/span&gt;     = &lt;span style=&#34;color:#e6db74&#34;&gt;`SELECT t.id id, t.user_id user_id, t.tag tag, t.quote_num quote_num, u.id, u.nickname, u.username, u.status, u.avatar, u.is_admin FROM @tag t JOIN @user u ON t.user_id = u.id WHERE t.is_del = 0 AND t.quote_num &amp;gt; 0 ORDER BY t.id DESC LIMIT ? OFFSET ?`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;_TagsByKeywordA_Topic&lt;/span&gt; = &lt;span style=&#34;color:#e6db74&#34;&gt;`SELECT id, user_id, tag, quote_num FROM @tag WHERE is_del = 0 ORDER BY quote_num DESC LIMIT 6`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;_DecrTagsById_Topic&lt;/span&gt;   = &lt;span style=&#34;color:#e6db74&#34;&gt;`UPDATE @tag SET quote_num=quote_num-1, modified_on=? WHERE id IN (?)`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;_HotTags_Topic&lt;/span&gt;        = &lt;span style=&#34;color:#e6db74&#34;&gt;`SELECT t.id id, t.user_id user_id, t.tag tag, t.quote_num quote_num, u.id, u.nickname, u.username, u.status, u.avatar, u.is_admin FROM @tag t JOIN @user u ON t.user_id = u.id WHERE t.is_del = 0 AND t.quote_num &amp;gt; 0 ORDER BY t.quote_num DESC LIMIT ? OFFSET ?`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Topic&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;yesql&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Namespace&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;`yesql:&amp;#34;topic&amp;#34;`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;DecrTagsById&lt;/span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt;     &lt;span style=&#34;color:#e6db74&#34;&gt;`yesql:&amp;#34;decr_tags_by_id&amp;#34;`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;IncrTagsById&lt;/span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt;     &lt;span style=&#34;color:#e6db74&#34;&gt;`yesql:&amp;#34;incr_tags_by_id&amp;#34;`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;TagsByIdA&lt;/span&gt;       &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt;     &lt;span style=&#34;color:#e6db74&#34;&gt;`yesql:&amp;#34;tags_by_id_a&amp;#34;`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;TagsByIdB&lt;/span&gt;       &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt;     &lt;span style=&#34;color:#e6db74&#34;&gt;`yesql:&amp;#34;tags_by_id_b&amp;#34;`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;TagsForIncr&lt;/span&gt;     &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt;     &lt;span style=&#34;color:#e6db74&#34;&gt;`yesql:&amp;#34;tags_for_incr&amp;#34;`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;HotTags&lt;/span&gt;         &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;sqlx&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Stmt&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;`yesql:&amp;#34;hot_tags&amp;#34;`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;InsertTag&lt;/span&gt;       &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;sqlx&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Stmt&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;`yesql:&amp;#34;insert_tag&amp;#34;`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;NewestTags&lt;/span&gt;      &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;sqlx&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Stmt&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;`yesql:&amp;#34;newest_tags&amp;#34;`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;TagsByKeywordA&lt;/span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;sqlx&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Stmt&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;`yesql:&amp;#34;tags_by_keyword_a&amp;#34;`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;TagsByKeywordB&lt;/span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;sqlx&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Stmt&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;`yesql:&amp;#34;tags_by_keyword_b&amp;#34;`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;BuildTopic&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;p&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;yesql&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;PreparexBuilder&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;ctx&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;...&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;context&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Context&lt;/span&gt;) (&lt;span style=&#34;color:#a6e22e&#34;&gt;obj&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;Topic&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;error&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;c&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;context&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Context&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; len(&lt;span style=&#34;color:#a6e22e&#34;&gt;ctx&lt;/span&gt;) &amp;gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;ctx&lt;/span&gt;[&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;nil&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#a6e22e&#34;&gt;c&lt;/span&gt; = &lt;span style=&#34;color:#a6e22e&#34;&gt;ctx&lt;/span&gt;[&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	} &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#a6e22e&#34;&gt;c&lt;/span&gt; = &lt;span style=&#34;color:#a6e22e&#34;&gt;context&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Background&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;obj&lt;/span&gt; = &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;Topic&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#a6e22e&#34;&gt;DecrTagsById&lt;/span&gt;: &lt;span style=&#34;color:#a6e22e&#34;&gt;p&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;QueryHook&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;_DecrTagsById_Topic&lt;/span&gt;),
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#a6e22e&#34;&gt;IncrTagsById&lt;/span&gt;: &lt;span style=&#34;color:#a6e22e&#34;&gt;p&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;QueryHook&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;_IncrTagsById_Topic&lt;/span&gt;),
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#a6e22e&#34;&gt;TagsByIdA&lt;/span&gt;:    &lt;span style=&#34;color:#a6e22e&#34;&gt;p&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;QueryHook&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;_TagsByIdA_Topic&lt;/span&gt;),
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#a6e22e&#34;&gt;TagsByIdB&lt;/span&gt;:    &lt;span style=&#34;color:#a6e22e&#34;&gt;p&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;QueryHook&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;_TagsByIdB_Topic&lt;/span&gt;),
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#a6e22e&#34;&gt;TagsForIncr&lt;/span&gt;:  &lt;span style=&#34;color:#a6e22e&#34;&gt;p&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;QueryHook&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;_TagsForIncr_Topic&lt;/span&gt;),
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;obj&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;HotTags&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt; = &lt;span style=&#34;color:#a6e22e&#34;&gt;p&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;PreparexContext&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;c&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;p&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Rebind&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;p&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;QueryHook&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;_HotTags_Topic&lt;/span&gt;))); &lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;nil&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;obj&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;InsertTag&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt; = &lt;span style=&#34;color:#a6e22e&#34;&gt;p&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;PreparexContext&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;c&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;p&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Rebind&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;p&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;QueryHook&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;_InsertTag_Topic&lt;/span&gt;))); &lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;nil&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;obj&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;NewestTags&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt; = &lt;span style=&#34;color:#a6e22e&#34;&gt;p&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;PreparexContext&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;c&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;p&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Rebind&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;p&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;QueryHook&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;_NewestTags_Topic&lt;/span&gt;))); &lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;nil&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;obj&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;TagsByKeywordA&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt; = &lt;span style=&#34;color:#a6e22e&#34;&gt;p&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;PreparexContext&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;c&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;p&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Rebind&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;p&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;QueryHook&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;_TagsByKeywordA_Topic&lt;/span&gt;))); &lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;nil&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;obj&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;TagsByKeywordB&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt; = &lt;span style=&#34;color:#a6e22e&#34;&gt;p&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;PreparexContext&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;c&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;p&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Rebind&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;p&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;QueryHook&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;_TagsByKeywordB_Topic&lt;/span&gt;))); &lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;nil&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;使用-yesql-的项目&#34;&gt;使用 &lt;a href=&#34;https://github.com/alimy/yesql&#34;&gt;Yesql&lt;/a&gt; 的项目&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/alimy/yesql/tree/main/examples&#34;&gt;examples&lt;/a&gt; - 项目自带的Demo&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/rocboss/paopao-ce/tree/r/paopao-ce-plus&#34;&gt;paopao-ce&lt;/a&gt; - 一个清新文艺的微社区&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;后记： &lt;a href=&#34;https://github.com/alimy/yesql&#34;&gt;Yesql&lt;/a&gt; 是我两个通宵熬出来的成果，起于一时兴起，效果还是远超预期。一开始是在 &lt;a href=&#34;https://github.com/rocboss/paopao-ce/tree/r/paopao-ce-plus&#34;&gt;paopao-ce&lt;/a&gt; 与 &lt;a href=&#34;https://github.com/jmoiron/sqlx&#34;&gt;sqlx&lt;/a&gt; 集成的过程中，总感觉很别扭，代码不是很美观，想着肯定还有更好的方式来写sql查询语句，于是就有了 &lt;a href=&#34;https://github.com/alimy/yesql&#34;&gt;Yesql&lt;/a&gt; 的诞生，心情一下就舒畅了。对嘛，&lt;a href=&#34;https://github.com/jmoiron/sqlx&#34;&gt;sqlx&lt;/a&gt; 优雅的使用方式就应该是这样的，这才是我想要的感觉😎&lt;/p&gt;</description>
     </item>
+    
     <item>
       <title>MySQL和PostgreSQL的常用语法差异</title>
       <link>https://alimy.github.io/post/dev_202203051410/</link>
-      <pubDate>Sat, 05 Mar 2022 14:10:00 +0800</pubDate>
+      <pubDate>Sat, 05 Mar 2022 14:10:00 CST</pubDate>
+      
       <guid>https://alimy.github.io/post/dev_202203051410/</guid>
-      <description>&lt;p&gt;MySQL和PostgreSQL的常用语法差异，后续更新中&amp;hellip;&lt;/p&gt;</description>
+      <description>&lt;p&gt;MySQL和PostgreSQL的常用语法差异，后续更新中&amp;hellip;&lt;/p&gt;
+&lt;h3 id=&#34;图片加载中&#34;&gt;&lt;a href=&#34;https://alimy.github.io/images/post/20220305141000.png&#34; title=&#34;点击查看大图&#34;&gt;&lt;img src=&#34;https://alimy.github.io/images/post/20220305141000.png&#34; alt=&#34;图片加载中&amp;hellip;&#34;&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;hr&gt;
+&lt;p&gt;（备注: 转载自&lt;a href=&#34;https://developer.aliyun.com/article/348692&#34; title=&#34;MySQL和PostgreSQL的常用语法差异
+&#34;&gt;网络&lt;/a&gt;）&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;声明：本站是个人开设维护的网站，主要用于收集网络美文、技术文章与原创生活记录等，系孤芳自赏、个人用途，内容如有侵权请联系站长删除。&lt;/em&gt;&lt;/p&gt;</description>
     </item>
+    
     <item>
       <title>Mac通过brew本地安装Postgresql</title>
       <link>https://alimy.github.io/post/dev_202202231110/</link>
-      <pubDate>Wed, 23 Feb 2022 11:10:00 +0800</pubDate>
+      <pubDate>Wed, 23 Feb 2022 11:10:00 CST</pubDate>
+      
       <guid>https://alimy.github.io/post/dev_202202231110/</guid>
       <description>&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;%&amp;gt; brew install postgres
 %&amp;gt; psql -version
@@ -104,18 +268,37 @@
 %&amp;gt; psql -U username -d dbname -h 127.0.0.1
 &lt;/code&gt;&lt;/pre&gt;</description>
     </item>
+    
     <item>
       <title>Go - SQL实践</title>
       <link>https://alimy.github.io/post/dev_202112031525/</link>
-      <pubDate>Fri, 03 Dec 2021 15:25:00 +0800</pubDate>
+      <pubDate>Fri, 03 Dec 2021 15:25:00 CST</pubDate>
+      
       <guid>https://alimy.github.io/post/dev_202112031525/</guid>
-      <description>&lt;h3 id=&#34;标准库sql驱动接口-databasesqldriverhttpsgithubcomgolanggotreemastersrcdatabasesqldriver&#34;&gt;标准库SQL驱动接口 (&lt;a href=&#34;https://github.com/golang/go/tree/master/src/database/sql/driver&#34;&gt;database/sql/driver&lt;/a&gt;)&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&#34;https://alimy.github.io/images/post/20211203152500.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;</description>
+      <description>&lt;h3 id=&#34;标准库sql驱动接口-databasesqldriver&#34;&gt;标准库SQL驱动接口 (&lt;a href=&#34;https://github.com/golang/go/tree/master/src/database/sql/driver&#34;&gt;database/sql/driver&lt;/a&gt;)&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&#34;https://alimy.github.io/images/post/20211203152500.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;连接池&#34;&gt;连接池&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;std-&amp;gt; &lt;a href=&#34;https://github.com/golang/go/tree/master/src/database/sql&#34;&gt;database/sql&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://alimy.github.io/images/post/20211203152501.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;辅助库&#34;&gt;辅助库&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;sqlx-&amp;gt; github.com/jmoiron/sqlx&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;sql驱动&#34;&gt;SQL驱动&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;mysql-&amp;gt; github.com/go-sql-driver/mysql&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;状态: 未完待续!&lt;/p&gt;</description>
     </item>
+    
     <item>
       <title>乐观锁和悲观锁的区别</title>
       <link>https://alimy.github.io/post/dev_202303152242/</link>
-      <pubDate>Mon, 15 Mar 2021 22:42:00 +0800</pubDate>
+      <pubDate>Mon, 15 Mar 2021 22:42:00 CST</pubDate>
+      
       <guid>https://alimy.github.io/post/dev_202303152242/</guid>
       <description>&lt;h3 id=&#34;乐观锁&#34;&gt;乐观锁&lt;/h3&gt;
 &lt;p&gt;在关系数据库管理系统里，乐观并发控制（又名乐观锁，Optimistic Concurrency Control，缩写 OCC）是一种并发控制的方法。它假设多用户并发的事务在处理时不会彼此互相影响，各事务能够在不产生锁的情况下处理各自影响的那部分数据。在提交数据更新之前，每个事务会先检查在该事务读取数据后，有没有其他事务又修改了该数据。如果其他事务有更新的话，正在提交的事务会进行回滚。乐观事务控制最早是由孔祥重（H.T.Kung）教授提出。&lt;/p&gt;
@@ -130,18 +313,147 @@
 &lt;p&gt;相对于悲观锁，在对数据库进行处理的时候，乐观锁并不会使用数据库提供的锁机制。一般的实现乐观锁的方式就是记录数据版本。&lt;/p&gt;
 &lt;p&gt;数据版本,为数据增加的一个版本标识。当读取数据时，将版本标识的值一同读出，数据每更新一次，同时对版本标识进行更新。当我们提交更新的时候，判断数据库表对应记录的当前版本信息与第一次取出来的版本标识进行比对，如果数据库表当前版本号与第一次取出来的版本标识值相等，则予以更新，否则认为是过期数据。&lt;/p&gt;
 &lt;p&gt;实现数据版本有两种方式，第一种是使用版本号，第二种是使用时间戳。 使用版本号实现乐观锁&lt;/p&gt;
-&lt;p&gt;使用版本号时，可以在数据初始化时指定一个版本号，每次对数据的更新操作都对版本号执行+1操作。并判断当前版本号是不是该数据的最新的版本号。&lt;/p&gt;</description>
+&lt;p&gt;使用版本号时，可以在数据初始化时指定一个版本号，每次对数据的更新操作都对版本号执行+1操作。并判断当前版本号是不是该数据的最新的版本号。&lt;/p&gt;
+&lt;h3 id=&#34;使用版本号实现乐观锁&#34;&gt;使用版本号实现乐观锁&lt;/h3&gt;
+&lt;p&gt;使用版本号时，可以在数据初始化时指定一个版本号，每次对数据的更新操作都对版本号执行+1操作。并判断当前版本号是不是该数据的最新的版本号。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;查询出商品信息&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;select (status,status,version) from t_goods where id=#{id}
+&lt;/code&gt;&lt;/pre&gt;&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;
+&lt;p&gt;根据商品信息生成订单&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;修改商品 status 为 2&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;update t_goods
+set status=2,version=version+1
+where id=#{id} and version=#{version};
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;优点与不足&#34;&gt;优点与不足&lt;/h3&gt;
+&lt;p&gt;乐观并发控制相信事务之间的数据竞争（data race）的概率是比较小的，因此尽可能直接做下去，直到提交的时候才去锁定，所以不会产生任何锁和死锁。但如果直接简单这么做，还是有可能会遇到不可预期的结果，例如两个事务都读取了数据库的某一行，经过修改以后写回数据库，这时就遇到了问题。&lt;/p&gt;
+&lt;h3 id=&#34;悲观锁&#34;&gt;悲观锁&lt;/h3&gt;
+&lt;p&gt;在关系数据库管理系统里，悲观并发控制（又名”悲观锁”，Pessimistic Concurrency Control，缩写”PCC”）是一种并发控制的方法。它可以阻止一个事务以影响其他用户的方式来修改数据。如果一个事务执行的操作读某行数据应用了锁，那只有当这个事务把锁释放，其他事务才能够执行与该锁冲突的操作。
+悲观并发控制主要用于数据争用激烈的环境，以及发生并发冲突时使用锁保护数据的成本要低于回滚事务的成本的环境中。&lt;/p&gt;
+&lt;h3 id=&#34;使用&#34;&gt;使用&lt;/h3&gt;
+&lt;p&gt;MySQL InnoDB 中使用悲观锁&lt;/p&gt;
+&lt;p&gt;要使用悲观锁，我们必须关闭mysql数据库的自动提交属性，因为MySQL默认使用autocommit模式，也就是说，当你执行一个更新操作后，MySQL会立刻将结果进行提交。set autocommit=0;&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# 0. 开始事务
+begin;/begin work;/start transaction; (三者选一就可以)
+# 1. 查询出商品信息
+select status from t_goods where id=1 for update;
+# 2. 根据商品信息生成订单
+insert into t_orders (id,goods_id) values (null,1);
+# 3. 修改商品 status 为 2
+update t_goods set status=2;
+# 4. 提交事务
+commit;/commit work;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;上面的查询语句中，我们使用了 &lt;code&gt;select…for update&lt;/code&gt; 的方式，这样就通过开启排他锁的方式实现了悲观锁。此时在 &lt;code&gt;t_goods&lt;/code&gt; 表中，id 为 1 的那条数据就被我们锁定了，其它的事务必须等本次事务提交之后才能执行。这样我们可以保证当前的数据不会被其它事务修改。&lt;/p&gt;
+&lt;p&gt;上面我们提到，使用 &lt;code&gt;select…for update&lt;/code&gt; 会把数据给锁住，不过我们需要注意一些锁的级别，MySQL InnoDB 默认行级锁。行级锁都是基于索引的，如果一条 SQL 语句用不到索引是不会使用行级锁的，会使用表级锁把整张表锁住，这点需要注意。&lt;/p&gt;
+&lt;h3 id=&#34;优点与不足-1&#34;&gt;优点与不足&lt;/h3&gt;
+&lt;p&gt;悲观并发控制实际上是&lt;strong&gt;先取锁再访问&lt;/strong&gt;的保守策略，为数据处理的安全提供了保证。但是在效率方面，处理加锁的机制会让数据库产生额外的开销，还有增加产生死锁的机会；另外，在只读型事务处理中由于不会产生冲突，也没必要使用锁，这样做只能增加系统负载；还有会降低了并行性，一个事务如果锁定了某行数据，其他事务就必须等待该事务处理完才可以处理那行数&lt;/p&gt;
+&lt;h3 id=&#34;总结&#34;&gt;总结&lt;/h3&gt;
+&lt;p&gt;乐观锁适用于多读的应用类型，这样可以提高吞吐量，像数据库如果提供类似于 write_condition 机智的其实都是提供的乐观锁。 相反，如果经常发生冲突，上层应用会不断进行 retry，这样反而降低了性能，所以这种情况下用悲观锁比较合适。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;（备注: 转载自&lt;a href=&#34;https://www.wenjiangs.com/article/leguan-suo-beiguan-suo-qubie.html&#34; title=&#34;乐观锁和悲观锁的区别&#34;&gt;网络&lt;/a&gt;）&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;声明：本站是个人开设维护的网站，主要用于收集网络美文、技术文章与原创生活记录等，系孤芳自赏、个人用途，内容如有侵权请联系站长删除。&lt;/em&gt;&lt;/p&gt;</description>
     </item>
+    
     <item>
       <title>Intro to BoltDB: Painless Performant Persistence</title>
       <link>https://alimy.github.io/post/dev_201603192255/</link>
-      <pubDate>Sat, 19 Mar 2016 22:55:00 +0800</pubDate>
+      <pubDate>Sat, 19 Mar 2016 22:55:00 CST</pubDate>
+      
       <guid>https://alimy.github.io/post/dev_201603192255/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://github.com/boltdb/bolt&#34; title=&#34;BoltDB&#34;&gt;BoltDB&lt;/a&gt; is a pure Go persistence solution that saves data to a memory mapped file. I call it a persistence solution and not a database, because the word database has a lot of baggage associated with it that doesn’t apply to bolt. And that lack of baggage is what makes bolt so awesome.&lt;/p&gt;
 &lt;p&gt;Bolt is just a Go package. There’s nothing you need to install on the system, no configuration to figure out before you can start coding, nothing. You just go get github.com/boltdb/bolt and then import “github.com/boltdb/bolt”.&lt;/p&gt;
 &lt;p&gt;All you need to fully use bolt as storage is a file name. This is fantastic from both a developer’s point of view, and a user’s point of view. I don’t know about you, but I’ve spent months of work time over my career configuring and setting up databases and debugging configuration problems, users and permissions and all the other crap you get from more traditional databases like Postgres and Mongo. There’s none of that with bolt. No users, no setup, just a file name. This is also a boon for users of your application, because they don’t have to futz with all that crap either.&lt;/p&gt;
 &lt;p&gt;Bolt is not a relational database. It’s not even a document store, though you can sort of use it that way. It’s really just a key/value store… but don’t worry if you don’t really know what that means or how you’d use that for storage. It’s super simple and it’s incredibly flexible. Let’s take a look.&lt;/p&gt;
-&lt;p&gt;Storage in bolt is divided into buckets. A bucket is simply a named collection of key/value pairs, just like Go’s map. The name of the bucket, the keys, and the values are all of type []byte. Buckets can contain other buckets, also keyed by a []byte name.&lt;/p&gt;</description>
+&lt;p&gt;Storage in bolt is divided into buckets. A bucket is simply a named collection of key/value pairs, just like Go’s map. The name of the bucket, the keys, and the values are all of type []byte. Buckets can contain other buckets, also keyed by a []byte name.&lt;/p&gt;
+&lt;p&gt;… that’s it. No, really, that’s it. Bolt is basically a bunch of nested maps. And this simplicity is what makes it so easy to use. There’s no tables to set up, no schemas, no complex querying language to struggle with. Let’s look at a bolt hello world:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;package main
+
+import (
+    “fmt”
+    “log”
+
+    “github.com/boltdb/bolt”
+)
+
+var world = []byte(“world”)
+
+func main() {
+    db, err := bolt.Open(“/home/nate/foo/bolt.db”, 0644, nil)
+    if err != nil {
+        log.Fatal(err)
+    }
+    defer db.Close()
+
+    key := []byte(“hello”)
+    value := []byte(“Hello World!”)
+
+    // store some data
+    err = db.Update(func(tx *bolt.Tx) error {
+        bucket, err := tx.CreateBucketIfNotExists(world)
+        if err != nil {
+            return err
+        }
+
+        err = bucket.Put(key, value)
+        if err != nil {
+            return err
+        }
+        return nil
+    })
+
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    // retrieve the data
+    err = db.View(func(tx *bolt.Tx) error {
+        bucket := tx.Bucket(world)
+        if bucket == nil {
+            return fmt.Errorf(“Bucket %q not found!”, world)
+        }
+
+        val := bucket.Get(key)
+        fmt.Println(string(val))
+
+        return nil
+    })
+
+    if err != nil {
+        log.Fatal(err)
+    }
+}
+
+// output:
+// Hello World!
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;I know what you’re thinking - that seems kinda long. But keep in mind, I fully handled all errors in at least a semi-proper way, and we’re doing all this:&lt;/p&gt;
+&lt;p&gt;1.) creating a database&lt;br&gt;
+2.) creating some structure (the “world” bucket)&lt;br&gt;
+3.) storing data to the structure&lt;br&gt;
+4.) retrieving data from the structure.&lt;/p&gt;
+&lt;p&gt;I think that’s not too bad in 54 lines of code.&lt;/p&gt;
+&lt;p&gt;So let’s look at what that example is really doing. First we call bolt.Open to get the database. This will create the file if necessary, or open it if it exists.&lt;/p&gt;
+&lt;p&gt;All reads from or writes to the bolt database must be done within a transaction. You can have as many Readers in read-only transactions at the same time as you want, but only one Writer in a writable transaction at a time (readers maintain a consistent view of the DB while writers are writing).&lt;/p&gt;
+&lt;p&gt;To begin, we call db.Update, which takes a function to which it’ll pass a bolt.Tx - bolt’s transaction object. We then create a Bucket (since all data in bolt lives in buckets), and add our key/value pair to it. After the write transaction finishes, we start a read- only transaction with DB.View, and get the values back out.&lt;/p&gt;
+&lt;p&gt;What’s great about bolt’s transaction mechanism is that it’s super simple - the scope of the function is the scope of the transaction. If the function passed to Update returns nil, all updates from the transaction are atomically stored to the database. If the function passed to Update returns an error, the transaction is rolled back. This makes bolt’s transactions completely intuitive from a Go developer’s point of view. You just exit early out of your function by returning an error as usual, and bolt Does The Right Thing. No need to worry about manually rolling back updates or anything, just return an error.&lt;/p&gt;
+&lt;p&gt;The only other basic thing you may need is to iterate over key/value pairs in a Bucket, in which case, you just call bucket.Cursor(), which returns a Cursor value, which has functions like Next(), Prev() etc that return a key/value pair and work like you’d expect.&lt;/p&gt;
+&lt;p&gt;There’s a lot more to the bolt API, but most of the rest of it is more about database statistics and some stuff for more advanced usage scenarios… but the above is all you really need to know to start storing data in a bolt database.&lt;/p&gt;
+&lt;p&gt;For a more complex application, just storing strings in the database may not be sufficient, but that’s ok, Go has your back there, too. You can easily use encoding/json or encoding/gob to serialize structs into the database, keyed by a unique name or id. This is what makes it easy for bolt to go from a key/value store to a document store - just have one bucket per document type. Again, the benefit of bolt is low barrier of entry. You don’t have to figure out a whole database schema or install anything to be able to just start dumping data to disk in a performant and manageable way.&lt;/p&gt;
+&lt;p&gt;The main drawback of bolt is that there are no queries. You can’t say “give me all foo objects with a name that starts with bar”. You could make your own index in the database and keep it up to date manually. This could be as easy as a slice of IDs serialized into an “indices” bucket for a particular query. Obviously, this is where you start getting into the realm of developing your own relational database, but if you don’t go overboard, it can be nice that all this code is just that - code. It’s not queries in some external DSL, it’s just code like you’d write for an in-memory data store.&lt;/p&gt;
+&lt;p&gt;Bolt is not for every application. You must understand your application’s needs and if bolt’s key/value style will be sufficient to fulfill those needs. If it is, I think you’ll be very happy to use such a simple data store with so little mental overhead.&lt;/p&gt;
+&lt;p&gt;[edited to clarify reader/writer relationship] Bonus Gob vs. Json benchmark for storing structs in Bolt:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;BenchmarkGobEncode  1000000       2191 ns/op
+BenchmarkJsonEncode   500000       4738 ns/op
+BenchmarkGobDecode  1000000       2019 ns/op
+BenchmarkJsonDecode   200000      12993 ns/op
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;p&gt;(Note: This article’s original links is &lt;a href=&#34;http://npf.io/2014/07/intro-to-boltdb-painless-performant-persistence/&#34; title=&#34;Intro to BoltDB&#34;&gt;&lt;em&gt;here&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;</description>
     </item>
+    
   </channel>
 </rss>

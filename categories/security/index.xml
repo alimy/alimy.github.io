@@ -1,23 +1,23 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Security on 北野</title>
+      <title>Security on 北野 </title>
+      <generator uri="https://gohugo.io">Hugo</generator>
     <link>https://alimy.github.io/categories/security/</link>
-    <description>Recent content in Security on 北野</description>
-    <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
+    
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <lastBuildDate>Sat, 17 Nov 2018 14:35:00 +0800</lastBuildDate>
-    <atom:link href="https://alimy.github.io/categories/security/index.xml" rel="self" type="application/rss+xml" />
+    <updated>Sat, 17 Nov 2018 14:35:00 CST</updated>
+    
     <item>
       <title>AppArmor的前世今生和基本使用</title>
       <link>https://alimy.github.io/post/dev_201811171435/</link>
-      <pubDate>Sat, 17 Nov 2018 14:35:00 +0800</pubDate>
+      <pubDate>Sat, 17 Nov 2018 14:35:00 CST</pubDate>
+      
       <guid>https://alimy.github.io/post/dev_201811171435/</guid>
       <description>&lt;h4 id=&#34;一mac和dac-一些前置知识&#34;&gt;一：MAC和DAC (一些前置知识)&lt;/h4&gt;
 &lt;p&gt;DAC(Discretionary Access Control)，自主访问控制，是最常用的一类访问控制机制，意思为主体（文件所有者）可以自主指定系统中其它用户对其文件的所有权，最典型的就是Linux的&amp;quot;拥有者/同组用户/其他&amp;quot;。这种方式虽然为用户提供了很大的灵活性，但是缺乏必要的安全性&lt;/p&gt;
 &lt;p&gt;MAC(Mandatory Access Control)，强制访问控制,在这种机制下，系统中的每一个进程，每一个文件，每一个IPC主体都被管理员按照严格的规则设置了相应的安全属性，不能被用户和其它直接或间接的修改。&lt;/p&gt;
-&lt;h4 id=&#34;二apparmorhttpsgitlabcomapparmorapparmor-apparmor-in-gitlab&#34;&gt;二：&lt;a href=&#34;https://gitlab.com/apparmor/apparmor&#34; title=&#34;AppArmor in GitLab&#34;&gt;AppArmor&lt;/a&gt;&lt;/h4&gt;
+&lt;h4 id=&#34;二apparmor&#34;&gt;二：&lt;a href=&#34;https://gitlab.com/apparmor/apparmor&#34; title=&#34;AppArmor in GitLab&#34;&gt;AppArmor&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;由于SELinux使用复杂，适用于对安全要求特别高的企业或者组织，为了简化操作，就推出了AppArmor，所以可以说AppArmor脱胎于SELinux，但与SELinux基于角色的MAC不同的是，AppArmor是与程序绑定的基于路径的MAC，也就是说如果路径发生改变，策略就会失效。一般的Linux的系统，都会内置以上两种MAC其中的一种，这也意味着，你需要对文件（其它）进行操作，你需要同时通过DAC和 MAC的检测。&lt;/p&gt;
 &lt;p&gt;AppArmor有两种工作模式：enforcement、complain/learning&lt;/p&gt;
 &lt;ul&gt;
@@ -34,7 +34,83 @@
 &lt;li&gt;资源限制   例： set rlimit as&amp;lt;=1M ，表示该程序可以使用的虚拟内存小于等于1M&lt;/li&gt;
 &lt;li&gt;访问网络   例： network inet tcp ,表示该程序可以在IPV4的情况下使用TCP协议 　&lt;/li&gt;
 &lt;li&gt;capability条目 例：capability setgid，表示程序进行setgid操作。&lt;/li&gt;
-&lt;/ol&gt;</description>
+&lt;/ol&gt;
+&lt;h4 id=&#34;三基本使用&#34;&gt;三：基本使用&lt;/h4&gt;
+&lt;p&gt;ubuntu自带AppArmor，所以以ubuntu14.04为例。
+最好先安装了apparmor的管理工具套装：apt-get install apparmor-utils&lt;/p&gt;
+&lt;p&gt;测试程序源码如下：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include&amp;lt;stdio.h&amp;gt;  
+#include &amp;lt;string.h&amp;gt;  
+int main(int argc, char *argv[])  
+{  
+ 　　FILE *f;  
+ 　　int nn, i;   char ch;   
+ 　　if(3 == argc){   
+  　　　　f = fopen(argv[1], &amp;#34;w&amp;#34;);   
+  　 if(f == NULL){                          printf(&amp;#34;Open file %s with write ERROR\n&amp;#34;, argv[1]);  
+   　　return 2;  
+　　　}   
+  　nn = strlen(argv[2]);   
+   i = 0;   
+   while(i &amp;lt; nn){   
+   　　fputc(argv[2][i], f);  
+   　　++i; 
+  　}  
+  fclose(f); 
+  }else if(argc == 2){  
+  　　f = fopen(argv[1], &amp;#34;r&amp;#34;);  
+  　　if(NULL == f){  
+   　　　　printf(&amp;#34;Open file %s with read ERROR\n&amp;#34;, argv[1]);  
+   　　　　return 2;  
+  　　}   
+  　　while((ch=fgetc(f)) != EOF){   
+   　　　　printf(&amp;#34;%c&amp;#34;, ch);  
+ 　　 }   
+  　　printf(&amp;#34;\n&amp;#34;); 
+  　　fclose(f); 
+ }else{ 
+  　　printf(&amp;#34;Usage: test file **\n&amp;#34;);   
+  　　return 3;  
+ } 
+ 
+　　 return 0;  
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;基本功能是对，文件进行读写，使用如下：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;　$　./test a.c &amp;#34;hello,world&amp;#34;  #进行写
+　$　./test a.c  #进行读
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;可以根据 aa-genprof 生成配置文件，生成的文件在/etc/apparmor.d下，文件名为home.jdchen.test&lt;/p&gt;
+&lt;p&gt;生成的文件如下：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# Last Modified: Fri Nov 11 03:54:40 2016
+#include &amp;lt;tunables/global&amp;gt;
+
+/home/jdchen/test {
+  #include &amp;lt;abstractions/base&amp;gt;
+
+
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;由于apparmor采取类似于白名单的机制，所以不能进行任何操作。
+现在给配置文件添加可写的权限并重新加载。&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# Last Modified: Fri Nov 11 03:54:40 2016
+#include &amp;lt;tunables/global&amp;gt;
+
+/home/jdchen/test {
+  #include &amp;lt;abstractions/base&amp;gt;
+    /home/jdchen/a.c w，
+
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;然后介绍几个命令：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ Start : sudo /etc/init.d/apparmor start   #启动
+$ Stop : sudo /etc/init.d/apparmor stop   #停止
+$ reload: sudo /etc/init.d/apparmor reload 重新加载
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;在修改配置之后，需要重载：&lt;/p&gt;
+&lt;p&gt;可以试着查看一下日志，节选：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;ov 11 04:23:53 ubuntu kernel: [ 2419.881291] audit_printk_skb: 15 callbacks suppressed
+Nov 11 04:23:53 ubuntu kernel: [ 2419.881306] audit: type=1400 audit(1478867033.872:204): apparmor=&amp;#34;DENIED&amp;#34; operation=&amp;#34;open&amp;#34; profile=&amp;#34;/home/jdchen/test&amp;#34; name=&amp;#34;/home/jdchen/a.c&amp;#34; pid=4108 comm=&amp;#34;test&amp;#34; requested_mask=&amp;#34;r&amp;#34; denied_mask=&amp;#34;r&amp;#34; fsuid=0 ouid=0
+Nov 11 04:24:07 ubuntu kernel: [ 2433.212034] audit: type=1400 audit(1478867047.204:205): apparmor=&amp;#34;DENIED&amp;#34; operation=&amp;#34;open&amp;#34; profile=&amp;#34;/home/jdchen/test&amp;#34; name=&amp;#34;/home/jdchen/a.c&amp;#34; pid=4111 comm=&amp;#34;test&amp;#34; requested_mask=&amp;#34;r&amp;#34; denied_mask=&amp;#34;r&amp;#34; fsuid=0 ouid=0
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;如果不需要配置，可以直接将配置文件删除。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;(备注: 原文的链接在 &lt;a href=&#34;https://www.cnblogs.com/0xJDchen/p/6055531.html&#34; title=&#34;Apparmor的前世今生和基本使用&#34;&gt;&lt;em&gt;这里&lt;/em&gt;&lt;/a&gt; )&lt;/p&gt;</description>
     </item>
+    
   </channel>
 </rss>
