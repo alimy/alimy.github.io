@@ -1,30 +1,35 @@
-  {{ partial "head.html" . }}
-  <body>
-    {{ partial "sidebar.html" . }}
-    <div class="content-wrapper">
-      <div class="content-wrapper__inner">
-        <div class="post panel-wrapper">
-            <h2>{{ .Title }}</h2>
-          <!--<span class="post-date">{{ .Date.Format "Mon, Jan 2, 2006" }}</span>-->
-          {{ .Content }}
-				<div id="post-tags">
-				  {{ with .GetTerms "tags" }}
-				  	{{ range $index, $value := . }}
-						  <a href="{{ .Permalink }}" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;{{ .LinkTitle }}</a>
-						{{ end }}
-					{{ end }}
-				</div>
+{{ partial "head.html" . }}
+
+<body>
+  {{ partial "sidebar.html" . }}
+  <div class="content-wrapper">
+    <div class="content-wrapper__inner">
+      <div class="post panel-wrapper">
+        <h2>{{ .Title }}</h2>
+        <!--<span class="post-date">{{ .Date.Format "Mon, Jan 2, 2006" }}</span>-->
+        {{ .Content }}
+        <div id="post-tags">
+          {{ with .GetTerms "tags" }}
+          {{ range $index, $value := . }}
+          <a href="{{ .Permalink }}" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;{{
+            .LinkTitle }}</a>
+          {{ end }}
+          {{ end }}
         </div>
-        <div id="post-navigator">
-          {{with .PrevPage }}<a id="post-navigator-prev" href="{{ .Permalink }}" title="上一篇"><i class="fa fa-chevron-left" aria-hidden="true"></i>&nbsp;{{ .Title }}</a>{{ end }}
-          {{with .NextPage }}<a id="post-navigator-next" href="{{ .Permalink }}" title="下一篇">{{ .Title }}&nbsp;<i class="fa fa-chevron-right" aria-hidden="true"></i></a>{{ end }}
-        </div>
-        <div id="post-comments">
-          <h3>Comments</h3>
-          {{ partial "comments.html" . }}
-        </div>
-        {{ partial "footer.html" .}}
+      </div>
+      <div id="post-navigator">
+        {{with .Prev }}<a id="post-navigator-prev" href="{{ .Permalink }}" title="上一篇"><i class="fa fa-chevron-left"
+            aria-hidden="true"></i>&nbsp;{{ .Title }}</a>{{ end }}
+        {{with .Next }}<a id="post-navigator-next" href="{{ .Permalink }}" title="下一篇">{{ .Title }}&nbsp;<i
+            class="fa fa-chevron-right" aria-hidden="true"></i></a>{{ end }}
+      </div>
+      <div id="post-comments">
+        <h3>Comments</h3>
+        {{ partial "comments.html" . }}
+      </div>
+      {{ partial "footer.html" .}}
     </div>
     {{ partial "script.html" . }}
-  </body>
+</body>
+
 </html>

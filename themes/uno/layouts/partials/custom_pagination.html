@@ -7,7 +7,8 @@
   </li-->
   {{ end -}}
   <li class="page-item{{ if not $pag.HasPrev }} disabled{{ end }}">
-    <a {{ if $pag.HasPrev }}href="{{ $pag.Prev.URL }}"{{ end }} class="page-link" aria-label="Previous"><span aria-hidden="true"><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;&nbsp;Previous</span></a>
+    <a {{ if $pag.HasPrev }}href="{{ $pag.Prev.URL }}" {{ end }} class="page-link" aria-label="Previous"><span
+        aria-hidden="true"><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;&nbsp;上一页</span></a>
   </li>
   {{- $ellipsed := false -}}
   {{- $shouldEllipse := false -}}
@@ -15,13 +16,14 @@
   {{- $right := sub .TotalPages .PageNumber -}}
   {{- $showNumber := or (le .PageNumber 3) (eq $right 0) -}}
   {{- $showNumber := or $showNumber (le .TotalPages 5) -}}{{/* Issue #7523 */}}
-  {{- $showNumber := or $showNumber (and (gt .PageNumber (sub $pag.PageNumber 2)) (lt .PageNumber (add $pag.PageNumber 2))) -}}
+  {{- $showNumber := or $showNumber (and (gt .PageNumber (sub $pag.PageNumber 2)) (lt .PageNumber (add $pag.PageNumber
+  2))) -}}
   {{- if $showNumber -}}
-    {{- $ellipsed = false -}}
-    {{- $shouldEllipse = false -}}
+  {{- $ellipsed = false -}}
+  {{- $shouldEllipse = false -}}
   {{- else -}}
-    {{- $shouldEllipse = not $ellipsed -}}
-    {{- $ellipsed = true -}}
+  {{- $shouldEllipse = not $ellipsed -}}
+  {{- $ellipsed = true -}}
   {{- end -}}
   {{- if $showNumber }}
   <li class="page-item{{ if eq . $pag }} active{{ end }}">
@@ -34,7 +36,8 @@
   {{- end -}}
   {{- end }}
   <li class="page-item{{ if not $pag.HasNext }} disabled{{ end }}">
-    <a {{ if $pag.HasNext }}href="{{ $pag.Next.URL }}"{{ end }} class="page-link" aria-label="Next">Next&nbsp;&nbsp;<i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+    <a {{ if $pag.HasNext }}href="{{ $pag.Next.URL }}" {{ end }} class="page-link" aria-label="Next">下一页&nbsp;&nbsp;<i
+        class="fa fa-arrow-right" aria-hidden="true"></i></a>
   </li>
   {{- with $pag.Last }}
   <!--li class="page-item">

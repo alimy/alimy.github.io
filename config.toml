@@ -3,15 +3,24 @@ title = "北野"
 author = "Michael Li"
 copyright = "&copy;2018, Alimy; all rights reserved."
 canonifyurls = true
-paginate = 9
 theme = "uno"
+# ignoreLogs = ['warning-goldmark-raw-html']
 
 [params]
-    name = "Alimy"
-    logo = "/images/logo.jpg"
-    cover = "/images/cover.jpg"
-    description = "那年江湖，遇见你"
-    cv = "/pages/cv"
-    github = "alimy"
-    twitter = "bitriory"
-    disqus = "alimy"
+name = "Alimy"
+logo = "/images/logo.jpg"
+cover = "/images/cover.jpg"
+description = "那年江湖，遇见你"
+cv = "/pages/cv"
+github = "alimy"
+twitter = "bitriory"
+disqus = "alimy"
+
+[pagination]
+pagerSize = 10
+pagerPath = "page"
+
+[markup]
+[markup.goldmark]
+[markup.goldmark.renderer]
+unsafe = true
