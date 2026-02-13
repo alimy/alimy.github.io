@@ -307,6 +307,48 @@
                         
                             <article class="post panel-wrapper">
     <header>
+        <h2><a href="https://alimy.github.io/post/dev_202101042002/" title="阅读全文">Tg: Serialized binary TL-schema in vkext format(*.tlo) </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <pre tabindex="0"><code>---types---
+/////
+//
+// Serialized binary TL-schema in vkext format
+//
+/////
+
+tls.schema_v2 version:int date:int types_num:# types:types_num*[tls.Type] constructor_num:# constructors:constructor_num*[tls.Combinator] functions_num:# functions:functions_num*[tls.Combinator] = tls.Schema;
+
+tls.type name:int id:string constructors_num:int flags:int arity:int params_type:long = tls.Type;
+tls.combinator name:int id:string type_name:int left:tls.CombinatorLeft right:tls.CombinatorRight = tls.Combinator;
+tls.combinatorLeftBuiltin = tls.CombinatorLeft;
+tls.combinatorLeft args_num:# args:args_num*[tls.Arg] = tls.CombinatorLeft;
+
+tls.combinatorRight value:tls.TypeExpr = tls.CombinatorRight;
+
+tls.arg id:string flags:# var_num:flags.1?int exist_var_num:flags.2?int exist_var_bit:flags.2?int type:tls.TypeExpr = tls.Arg;
+
+tls.exprType _:tls.TypeExpr = tls.Expr;
+tls.exprNat _:tls.NatExpr = tls.Expr;
+
+tls.natConst value:int = tls.NatExpr;
+tls.natVar dif:int var_num:int = tls.NatExpr;
+
+tls.typeVar var_num:int flags:int = tls.TypeExpr;
+tls.array multiplicity:tls.NatExpr args_num:# args:args_num*[tls.Arg] = tls.TypeExpr;
+tls.typeExpr name:int flags:int children_num:# children:children_num*[tls.Expr] = tls.TypeExpr;
+---functions---
+</code></pre>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/dev_202101042002/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
+</article>
+                        
+                            <article class="post panel-wrapper">
+    <header>
         <h2><a href="https://alimy.github.io/post/dev_202012071348/" title="阅读全文">Tg:TL-formal </a> </h2>
         
     </header>
@@ -584,23 +626,6 @@ EndType
     </div>
     <footer id="more">
         <a href='https://alimy.github.io/post/dev_202011271705/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
-            </nobr></a>
-    </footer>
-</article>
-                        
-                            <article class="post panel-wrapper">
-    <header>
-        <h2><a href="https://alimy.github.io/post/etc_202601150217/" title="阅读全文">微信的历史 </a> </h2>
-        
-    </header>
-    <div class="summary">
-        <p>香港的《南华早报》有一个长篇报道，介绍了微信如何变成中国用户最多的手机 App。结合维基百科和其他公开的资料，总结了一份微信的发展史。</p>
-<p><a href="https://alimy.github.io/images/post/20250115021700.png" title="点击查看大图"><img src="https://alimy.github.io/images/post/20250115021700.png" alt=""></a></p>
-<p>2010年6月，苹果发布 iPhone 4。当年中国的智能手机销量是3610万部，2011年就猛增到9060万部，2012年更是飙升到2.142亿部。很显然，手机软件（尤其是即时通信软件）即将爆发。</p>
-<p>2010年10月，腾讯广州研发中心开始开发微信。研发负责人是张小龙，当时是 QQ 邮件移动版的负责人。2005年，他的前一个产品 Foxmail 被腾讯收购，他因此加入腾讯。他带领一支不到10人的团队，不到70天的时间内开发出了第一版微信，击败了另外两个内部同类项目。腾讯公司总裁马化腾确定这款产品的名称叫做&quot;微信&quot;。</p>
-    </div>
-    <footer id="more">
-        <a href='https://alimy.github.io/post/etc_202601150217/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
             </nobr></a>
     </footer>
 </article>

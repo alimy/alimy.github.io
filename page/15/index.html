@@ -307,6 +307,54 @@
                         
                             <article class="post panel-wrapper">
     <header>
+        <h2><a href="https://alimy.github.io/post/dev_201603081427/" title="阅读全文">XStream: XML To Java </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <p>In the earlier tutorial we looked at a way to <a href="https://alimy.github.io/post/dev_201603081411" title="Parsing an XML">convert Java to XML and back</a>. In this tutorial we look at some more examples of XML To Java Conversion. XStream can convert XML elements to multiple types depending on the type specified in the Java class. For example a series for similarly named elements can be converted to an array of String, a List of String or an enum. XStream uses an appropriate Converter based on type specified in the java class. Lets look at some examples.</p>
+<p>In this first example we have an XML that has a parent element called &lsquo;Music&rsquo;. It has a child element called type. We populate a Music object that has a &rsquo;type&rsquo; field which is an enum.</p>
+<pre tabindex="0"><code>package com.studytrails.xml.xstream;
+
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
+public class ConverterExample3 {
+    static String xml1 = &#34;&lt;Music&gt;&lt;type&gt;rock&lt;/type&gt;&lt;/Music&gt;&#34;;
+
+    public static void main(String[] args) {
+        XStream xStream = new XStream();
+        xStream.processAnnotations(Music.class);
+        Music musicObject = (Music) xStream.fromXML(xml1);
+        System.out.println(musicObject);
+        // prints Music [type=ROCK]
+    }
+
+}
+
+@XStreamAlias(&#34;Music&#34;)
+class Music {
+    public enum genre {
+        ROCK, JAZZ
+    };
+
+    genre type;
+
+    @Override
+    public String toString() {
+        return &#34;Music [type=&#34; + type + &#34;]&#34;;
+    }
+
+}     
+</code></pre>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/dev_201603081427/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
+</article>
+                        
+                            <article class="post panel-wrapper">
+    <header>
         <h2><a href="https://alimy.github.io/post/dev_201603081411/" title="阅读全文">XStream: Java to XML and Back </a> </h2>
         
     </header>
@@ -473,22 +521,6 @@ Version 1.8 [[GitHub]](https://github.com/Microsoft/TypeScript/blob/master/doc/s
     </div>
     <footer id="more">
         <a href='https://alimy.github.io/post/day_201601261406/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
-            </nobr></a>
-    </footer>
-</article>
-                        
-                            <article class="post panel-wrapper">
-    <header>
-        <h2><a href="https://alimy.github.io/post/day_202601251119/" title="阅读全文">诗集-途 </a> </h2>
-        
-    </header>
-    <div class="summary">
-        <p><strong>漫漫人生路，花开无尽天。</strong></p>
-<p><strong>莲步意随行，风清心亦欢。</strong></p>
-<p><a href="https://alimy.github.io/images/post/20160129222900.jpg" title="点击查看大图"><img src="https://alimy.github.io/images/post/20160129222900.webp" alt=""></a></p>
-    </div>
-    <footer id="more">
-        <a href='https://alimy.github.io/post/day_202601251119/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
             </nobr></a>
     </footer>
 </article>

@@ -307,6 +307,60 @@
                         
                             <article class="post panel-wrapper">
     <header>
+        <h2><a href="https://alimy.github.io/post/dev_202602131240/" title="阅读全文">妙用Go类型定义避免循环引用 </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <h4 id="类型定义type-definition">类型定义（Type Definition）</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">MyInt</span> <span style="color:#66d9ef">int</span>
+</span></span></code></pre></div><ul>
+<li>创建一个<strong>新类型</strong>，与底层类型（underlying type）不同。</li>
+<li>新类型拥有独立的类型集，<strong>不会继承底层类型的方法</strong>。</li>
+<li>需要进行<strong>显式类型转换才能与底层类型互用</strong>。</li>
+</ul>
+<h4 id="巧妙使用类型定义来避免对象实例方法循环调用">巧妙使用类型定义来避免对象实例方法循环调用</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// file: github.com/powerman/rpc-codec/blob/master/jsonrpc2/client.go</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">clientResponse</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Version</span> <span style="color:#66d9ef">string</span>           <span style="color:#e6db74">`json:&#34;jsonrpc&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">ID</span>      <span style="color:#f92672">*</span><span style="color:#66d9ef">uint64</span>          <span style="color:#e6db74">`json:&#34;id&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Result</span>  <span style="color:#f92672">*</span><span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">RawMessage</span> <span style="color:#e6db74">`json:&#34;result,omitempty&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Error</span>   <span style="color:#f92672">*</span><span style="color:#a6e22e">Error</span>           <span style="color:#e6db74">`json:&#34;error,omitempty&#34;`</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">clientResponse</span>) <span style="color:#a6e22e">reset</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Version</span> = <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">ID</span> = <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Result</span> = <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Error</span> = <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">clientResponse</span>) <span style="color:#a6e22e">UnmarshalJSON</span>(<span style="color:#a6e22e">raw</span> []<span style="color:#66d9ef">byte</span>) <span style="color:#66d9ef">error</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">reset</span>()
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">resp</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">clientResponse</span> <span style="color:#75715e">// 非常关键的一个动作，要身不要心</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">Unmarshal</span>(<span style="color:#a6e22e">raw</span>, <span style="color:#a6e22e">resp</span>(<span style="color:#a6e22e">r</span>)); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">errors</span>.<span style="color:#a6e22e">New</span>(<span style="color:#e6db74">&#34;bad response: &#34;</span> <span style="color:#f92672">+</span> string(<span style="color:#a6e22e">raw</span>))
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">o</span> = make(<span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#f92672">*</span><span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">RawMessage</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">Unmarshal</span>(<span style="color:#a6e22e">raw</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">o</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">errors</span>.<span style="color:#a6e22e">New</span>(<span style="color:#e6db74">&#34;bad response: &#34;</span> <span style="color:#f92672">+</span> string(<span style="color:#a6e22e">raw</span>))
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// ...other logic...</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/dev_202602131240/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
+</article>
+                        
+                            <article class="post panel-wrapper">
+    <header>
         <h2><a href="https://alimy.github.io/post/art_202602060918/" title="阅读全文">女孩 </a> </h2>
         
     </header>
@@ -572,28 +626,6 @@ folderPeer#e9baa668 peer:Peer folder_id:int = FolderPeer;
     </div>
     <footer id="more">
         <a href='https://alimy.github.io/post/dev_202303312032/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
-            </nobr></a>
-    </footer>
-</article>
-                        
-                            <article class="post panel-wrapper">
-    <header>
-        <h2><a href="https://alimy.github.io/post/arc_202303061412/" title="阅读全文">醉缘靡梦 (节选) </a> </h2>
-        
-    </header>
-    <div class="summary">
-        <p><a href="https://alimy.github.io/images/post/20230306141200.png"><img src="https://alimy.github.io/images/post/20230306141204.jpg" alt=""></a><br>
-　　很多事情似乎表面看来美丽安详，但这一切不过是虚幻的美丽&hellip;<br>
-　　横世国际地产案，牵涉银行，证券交易，受贿等，而张婉儿的父亲更是首要人物被双规。而我由于涉嫌骗贷违规操作被牵扯在其中。事情我当然十分清楚，横世地产是我一手扶持起来，涉嫌金额十几亿。尽管我自知我没有违法，但追究起责任我实在是脱不了干系，我最少也要在监狱中呆二十年不幸运的话也许会是死刑。警察询问我情况的时候，我什么也没说。只是默默的听这他们拍桌子踢椅子。其实我觉得这样很好笑，但我的表情却也依然如旧，并没有太大变化，冷静，彷徨。最后他们虽然对我用尽了方法，但我依然只有一句：我不知道。刚开始我还是有些担心害怕的，而后来连我自己也相信我是真的不知道，他们也只有放弃。案子从发生到今天也许已经一个月也许已经有两个月，但究竟是多久我已经并不在乎，以后在狱中我有很多时间，那是多漫长的结果。我等待的只能是一个我不愿意见到的判决，一些我不愿意见到的人。十一月三日终于开庭，来了很多人。也包括我的父母，我根本不敢抬头，那是多么羞耻的一件事。张婉儿与几个涉案人员坐在我旁边。<br>
-　　张婉儿，你在你的认罪书中，承认你所有的罪行对吗？<br>
-　　是的！张婉儿的声音让我抬起头，她的眼睛温柔的看这我。眼眶中滚滚的眼泪似乎就要崩泻，她苍老了许多。我只能看这她，我用那种哀伤的眼神看这她。<br>
-　　嫌疑人，还有什么要为自己辩护的吗？自公司成立起，孟云与我们不过是雇佣关系而已&hellip;&hellip;我的眼泪倾泻下来，那一刻是我一生也无法面对的时刻。我看这她，她只是摇了摇头。微微一笑，用手轻轻指了指自己的心。<br>
-　　张婉儿罪名成立，判处死刑，剥夺政治权利终身，缓刑一年&hellip;孟云做为协犯人员判处有期徒刑三年&hellip;当离开法庭的时候，我又一次听到那歇斯底里的哭喊声：孟云，我爱你！<br>
-　　今天的床有些潮湿，也许是因为刚下过雨的原因吧。三年来，看了很多书，也明白了很多道理，知道了自己为什么不成熟，也知道了自己为什么被欺骗，似乎跟我的性格太过与急功尽利有关，也或许我这个对感情的事情无法把握有关。事到如今我也只能这样想而已。<br>
-　　孟云，有人来看你。</p>
-    </div>
-    <footer id="more">
-        <a href='https://alimy.github.io/post/arc_202303061412/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
             </nobr></a>
     </footer>
 </article>

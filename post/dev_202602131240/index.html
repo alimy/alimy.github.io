@@ -5,7 +5,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-  <title> Tags &middot; 那年江湖，遇见你 </title>
+  <title> 妙用Go类型定义避免循环引用 &middot; 那年江湖，遇见你 </title>
   
   <link rel="stylesheet" type="text/css" href="https://alimy.github.io//css/uno.css" />
   <link rel="stylesheet" type="text/css" href="https://alimy.github.io//css/lightGallery.css" />
@@ -187,17 +187,16 @@
     }
   </style>
 </head>
+
 <body>
-    <div id="scriptHeader">
+  <div id="scriptHeader">
     <span class="mobile btn-mobile-menu">
             <i class="fa fa-bars btn-mobile-menu__icon"></i>
             <i class="fa fa-times btn-mobile-close__icon hidden"> </i>
     </span>
     <header class="
         
-        
             panel-cover panel-cover--collapsed
-        
         "  style="background-image: url(/images/cover.jpg)" >
     <div class="panel-main">
         <div class="panel-main__inner panel-inverted">
@@ -299,240 +298,88 @@
     </header>
 </noscript>
 
-    <div class="content-wrapper">
-        <div class="content-wrapper__inner">
-            <section id="main">
-              <div>
-                <h1 id="title">Tags</h1>
-                <style type="text/css">
-                        #double ul{
-                          width:760px;
-                          margin-bottom:20px;
-                          overflow:hidden;
-                        }
-                        #double li{
-                          line-height:1.5em;
-                          float:left;
-                          display:inline;
-                          width:50%;
-                        }
-                </style>
-                <ul id="double">
-                
-                
-                    <li>
-                        <a href="about">about</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="android">android</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="architecture">architecture</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="ark">ark</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="art">art</a> 23
-                    </li>
-                
-                    <li>
-                        <a href="bash">bash</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="cloud">cloud</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="database">database</a> 6
-                    </li>
-                
-                    <li>
-                        <a href="db">db</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="development">development</a> 120
-                    </li>
-                
-                    <li>
-                        <a href="dns">dns</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="faqs">faqs</a> 5
-                    </li>
-                
-                    <li>
-                        <a href="game">game</a> 4
-                    </li>
-                
-                    <li>
-                        <a href="git">git</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="github">github</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="go">go</a> 9
-                    </li>
-                
-                    <li>
-                        <a href="golang">golang</a> 6
-                    </li>
-                
-                    <li>
-                        <a href="gopher">gopher</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="grpc">grpc</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="history">history</a> 4
-                    </li>
-                
-                    <li>
-                        <a href="information">information</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="java">java</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="json">json</a> 23
-                    </li>
-                
-                    <li>
-                        <a href="kitex">kitex</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="kotin">kotin</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="kubernetes">kubernetes</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="language">language</a> 7
-                    </li>
-                
-                    <li>
-                        <a href="linux">linux</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="macbook">macbook</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="macos">macos</a> 3
-                    </li>
-                
-                    <li>
-                        <a href="microservice">microservice</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="mir">mir</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="mysql">mysql</a> 3
-                    </li>
-                
-                    <li>
-                        <a href="other">other</a> 15
-                    </li>
-                
-                    <li>
-                        <a href="paopao">paopao</a> 2
-                    </li>
-                
-                    <li>
-                        <a href="postgres">postgres</a> 2
-                    </li>
-                
-                    <li>
-                        <a href="rpc">rpc</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="sql">sql</a> 3
-                    </li>
-                
-                    <li>
-                        <a href="tg">tg</a> 11
-                    </li>
-                
-                    <li>
-                        <a href="tl">tl</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="transport">transport</a> 4
-                    </li>
-                
-                    <li>
-                        <a href="xml">xml</a> 14
-                    </li>
-                
-                    <li>
-                        <a href="%E4%BB%BB%E6%AD%A3%E9%9D%9E">任正非</a> 2
-                    </li>
-                
-                    <li>
-                        <a href="%E4%BB%BB%E6%AD%A3%E9%9D%9E%E8%AE%B2%E8%AF%9D%E7%A8%BF">任正非讲话稿</a> 2
-                    </li>
-                
-                    <li>
-                        <a href="%E5%8D%8E%E4%B8%BA">华为</a> 2
-                    </li>
-                
-                    <li>
-                        <a href="%E6%84%9F%E6%82%9F">感悟</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="%E6%BC%94%E8%AE%B2">演讲</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="%E7%BE%8E%E6%96%87">美文</a> 3
-                    </li>
-                
-                    <li>
-                        <a href="%E8%AF%97%E8%AF%8D">诗词</a> 1
-                    </li>
-                
-                    <li>
-                        <a href="%E8%AF%97%E9%9B%86">诗集</a> 3
-                    </li>
-                
-                    <li>
-                        <a href="%E9%9B%AA%E4%B8%AD%E6%82%8D%E5%88%80%E8%A1%8C">雪中悍刀行</a> 1
-                    </li>
-                
-               </ul>
-              </div>
-            </section>
-            </div>
+  <div class="content-wrapper">
+    <div class="content-wrapper__inner">
+      <div class="post panel-wrapper">
+        <h2>妙用Go类型定义避免循环引用</h2>
+        
+        <h4 id="类型定义type-definition">类型定义（Type Definition）</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">MyInt</span> <span style="color:#66d9ef">int</span>
+</span></span></code></pre></div><ul>
+<li>创建一个<strong>新类型</strong>，与底层类型（underlying type）不同。</li>
+<li>新类型拥有独立的类型集，<strong>不会继承底层类型的方法</strong>。</li>
+<li>需要进行<strong>显式类型转换才能与底层类型互用</strong>。</li>
+</ul>
+<h4 id="巧妙使用类型定义来避免对象实例方法循环调用">巧妙使用类型定义来避免对象实例方法循环调用</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// file: github.com/powerman/rpc-codec/blob/master/jsonrpc2/client.go</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">clientResponse</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Version</span> <span style="color:#66d9ef">string</span>           <span style="color:#e6db74">`json:&#34;jsonrpc&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">ID</span>      <span style="color:#f92672">*</span><span style="color:#66d9ef">uint64</span>          <span style="color:#e6db74">`json:&#34;id&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Result</span>  <span style="color:#f92672">*</span><span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">RawMessage</span> <span style="color:#e6db74">`json:&#34;result,omitempty&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Error</span>   <span style="color:#f92672">*</span><span style="color:#a6e22e">Error</span>           <span style="color:#e6db74">`json:&#34;error,omitempty&#34;`</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">clientResponse</span>) <span style="color:#a6e22e">reset</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Version</span> = <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">ID</span> = <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Result</span> = <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Error</span> = <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">clientResponse</span>) <span style="color:#a6e22e">UnmarshalJSON</span>(<span style="color:#a6e22e">raw</span> []<span style="color:#66d9ef">byte</span>) <span style="color:#66d9ef">error</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">reset</span>()
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">resp</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">clientResponse</span> <span style="color:#75715e">// 非常关键的一个动作，要身不要心</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">Unmarshal</span>(<span style="color:#a6e22e">raw</span>, <span style="color:#a6e22e">resp</span>(<span style="color:#a6e22e">r</span>)); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">errors</span>.<span style="color:#a6e22e">New</span>(<span style="color:#e6db74">&#34;bad response: &#34;</span> <span style="color:#f92672">+</span> string(<span style="color:#a6e22e">raw</span>))
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">o</span> = make(<span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#f92672">*</span><span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">RawMessage</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">Unmarshal</span>(<span style="color:#a6e22e">raw</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">o</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">errors</span>.<span style="color:#a6e22e">New</span>(<span style="color:#e6db74">&#34;bad response: &#34;</span> <span style="color:#f92672">+</span> string(<span style="color:#a6e22e">raw</span>))
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// ...other logic...</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>看上面代码， <code>clientResponse.UnmarshalJSON(...)</code> 自定义实现 <code>json.Unmarshaler</code> 接口来 反序列化自身，内部逻辑使用<code>json.Unmarshal(raw, resp(r))</code>执行解码操作，<code>type resp *clientResponse</code> 与 <code>resp(r)</code> 配合使用后，将 <code>(r *clientResponse)</code> 实例对象 变成了一个 纯 结构体对象，只包含数据结构，没有任何方法，这就避免了 原 <code>*clientResponse</code> 对象因为实现了 <code>json.Unmarshaler</code> 接口，如果直接调用 <code>json.Unmarshal(raw, r)</code>，就会出现循环调用该方法自身。</p>
+<p><code>type resp *clientResponse</code> 与 <code>resp(r)</code> 的作用就有点类似于 <strong>只要身子不要心</strong>，这么说来，有一点点 <em><strong><del>渣渣</del></strong></em> ～哈～</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// Unmarshaler is the interface implemented by types</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// that can unmarshal a JSON description of themselves.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// The input can be assumed to be a valid encoding of</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// a JSON value. UnmarshalJSON must copy the JSON data</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// if it wishes to retain the data after returning.</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Unmarshaler</span> <span style="color:#66d9ef">interface</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">UnmarshalJSON</span>([]<span style="color:#66d9ef">byte</span>) <span style="color:#66d9ef">error</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
+        <div id="post-tags">
+          
+          
+          <a href="https://alimy.github.io/tags/development/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;Development</a>
+          
+          <a href="https://alimy.github.io/tags/go/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;Go</a>
+          
+          
         </div>
-    </body>
+      </div>
+      <div id="post-navigator">
+        <a id="post-navigator-prev" href="https://alimy.github.io/post/art_202602060918/" title="上一篇"><i class="fa fa-chevron-left"
+            aria-hidden="true"></i>&nbsp;女孩</a>
+        
+      </div>
+      
+      <footer id="copyright">
+  <p>&copy;2015-至今 <a href="mailto:alimy@niubiu.com" title="Email:alimy@niubiu.com">北野 - Michael Li</a> All rights
+    reserved.&nbsp;&nbsp;<a href="https://riiffy.com/alimy.github.io" title="访问统计" target="_blank">Riiffy</p>
+</footer>
+    </div>
     <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
 if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
 var s=document.getElementsByTagName('script')[0];sc.src='https://alimy.github.io/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
 WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
+
+</body>
 
 </html>
