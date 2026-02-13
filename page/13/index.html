@@ -335,12 +335,12 @@
                     <div>
                         
                             <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/dev_201603112105/" title="阅读全文">Jackson: Json Polymorphism </a> </h2>
-
-</header>
-<div class="summary">
-    <p>Jackson provides a way to maintain sub type information while serializing java objects. It is possible to recreate the exact sub type. The type information can be embedded into the json as a property. In the example below we create a zoo, that has a list of animals. The animal may be an elephant or a lion, and they both extend the Animal abstract class. While deserializing we want to create the exact animal type. We also demonstrate the use of @JsonTypeInfo and @JsonSubTypes annotations.</p>
+    <header>
+        <h2><a href="https://alimy.github.io/post/dev_201603112105/" title="阅读全文">Jackson: Json Polymorphism </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <p>Jackson provides a way to maintain sub type information while serializing java objects. It is possible to recreate the exact sub type. The type information can be embedded into the json as a property. In the example below we create a zoo, that has a list of animals. The animal may be an elephant or a lion, and they both extend the Animal abstract class. While deserializing we want to create the exact animal type. We also demonstrate the use of @JsonTypeInfo and @JsonSubTypes annotations.</p>
 <h3 id="data-serialization-and-polymorphism-example">Data Serialization and Polymorphism Example</h3>
 <pre tabindex="0"><code>package com.studytrails.json.jackson;
 
@@ -372,20 +372,20 @@ public class SerializeExample1 {
     }
 }
 </code></pre>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/dev_201603112105/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/dev_201603112105/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
 </article>
-
                         
                             <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/dev_201603112100/" title="阅读全文">Jackson: jackson Mix- In Annotations </a> </h2>
-
-</header>
-<div class="summary">
-    <p>Annotations are a great way to manage serialization and deserialization in Jackson. However, what do you do if you want to annotate a third party class, or if you dont want to tightly couple your POJOs to jackson annotations. This is where Mix-in comes into play. You define a mix-in abstract class that is kind of a proxy to the actual class. Annotations are then definied over this proxy class</p>
+    <header>
+        <h2><a href="https://alimy.github.io/post/dev_201603112100/" title="阅读全文">Jackson: jackson Mix- In Annotations </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <p>Annotations are a great way to manage serialization and deserialization in Jackson. However, what do you do if you want to annotate a third party class, or if you dont want to tightly couple your POJOs to jackson annotations. This is where Mix-in comes into play. You define a mix-in abstract class that is kind of a proxy to the actual class. Annotations are then definied over this proxy class</p>
 <h3 id="jackson-mix-in-example">Jackson Mix-In Example</h3>
 <pre tabindex="0"><code>package com.studytrails.json.jackson;
 
@@ -409,20 +409,20 @@ public class SerializeExample3 {
 
 }
 </code></pre>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/dev_201603112100/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/dev_201603112100/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
 </article>
-
                         
                             <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/dev_201603112055/" title="阅读全文">Jackson: Json data binding filters </a> </h2>
-
-</header>
-<div class="summary">
-    <p>Jackson provides an effective an efficient way to bind json to POJOs. However, at times, certain properties may need to be ignored while converting a json to java ojbect and a java object to json string. Jackson provides three ways to filter properties.</p>
+    <header>
+        <h2><a href="https://alimy.github.io/post/dev_201603112055/" title="阅读全文">Jackson: Json data binding filters </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <p>Jackson provides an effective an efficient way to bind json to POJOs. However, at times, certain properties may need to be ignored while converting a json to java ojbect and a java object to json string. Jackson provides three ways to filter properties.</p>
 <ol>
 <li>@JsonIgnoreProperties- This annotation can be used at the type level to ignore json properties. In the example below we ignore the &rsquo;tags&rsquo; property from the albums dataset.</li>
 <li>@JsonIgnore - This annotation can be set at property level to ignore certain properties.</li>
@@ -460,39 +460,39 @@ public class AlbumsFilter {
     }
 }
 </code></pre>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/dev_201603112055/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/dev_201603112055/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
 </article>
-
                         
                             <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/dev_201603112050/" title="阅读全文">Jackson: Json annotations and dyna beans </a> </h2>
-
-</header>
-<div class="summary">
-    <p>The json string at times have a lot of properties. It seems a waste creating a POJO with all those properties. Wouldnt it be great if there was a catch&rsquo;all that could read all properties in a map? Jackson provides annotations to do just that. In the example below we have set two properties in the bean and the other properties are read into a map. These example also introduces some common annotations using in Jackson. Lets look at them briefly:</p>
+    <header>
+        <h2><a href="https://alimy.github.io/post/dev_201603112050/" title="阅读全文">Jackson: Json annotations and dyna beans </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <p>The json string at times have a lot of properties. It seems a waste creating a POJO with all those properties. Wouldnt it be great if there was a catch&rsquo;all that could read all properties in a map? Jackson provides annotations to do just that. In the example below we have set two properties in the bean and the other properties are read into a map. These example also introduces some common annotations using in Jackson. Lets look at them briefly:</p>
 <ol>
 <li>@JsonProperty-This annotation is used to mark a method as a getter or setter for a property. In other words, it associates a json field with a java property. If a name is specified (@JsonProperty(&ldquo;age&rdquo;)) then the java property that is annotated with this annotation is mapped to the &lsquo;age&rsquo; field of the json, If no name is specified the java property name is used.</li>
 <li>@JsonCreator-This annotation is used the define constructors that are used to create java objects from json string. It is used during data binding and specifies properties that will be used to create java objects during deserialization.</li>
 <li>@JsonAnyGetter and @JsonAnySetter - This annotations are used to mark methods that set or read fields that are not handled by any other java property. These act like catch-all and handle all fields that are not handled by any other java property. The fields are stored in a map as key value pairs.</li>
 </ol>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/dev_201603112050/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/dev_201603112050/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
 </article>
-
                         
                             <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/dev_201603112045/" title="阅读全文">Jackson: List serialization </a> </h2>
-
-</header>
-<div class="summary">
-    <p>In this tutorial we will see how to convert a java List to JSON. Serializing list is a little tricky since by default the type info is not stored while serializing and deserializing lists. In this tutorial we look at two examples. In the first example we serialize an Object that has a java List as one of its properties. In the second example we try and serialize the List directly. In both examples we use special configuration to preserve type info.</p>
+    <header>
+        <h2><a href="https://alimy.github.io/post/dev_201603112045/" title="阅读全文">Jackson: List serialization </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <p>In this tutorial we will see how to convert a java List to JSON. Serializing list is a little tricky since by default the type info is not stored while serializing and deserializing lists. In this tutorial we look at two examples. In the first example we serialize an Object that has a java List as one of its properties. In the second example we try and serialize the List directly. In both examples we use special configuration to preserve type info.</p>
 <h3 id="example-1--serializing-object-containing-a-list">Example 1 : Serializing Object containing a list</h3>
 <p>The example converts a Zoo class to json. the zoo class contains the name of zoo, its city and a list of animals. The list is of type &lsquo;Animal&rsquo;, i.e. the list contains elements that are subclass of the Abstract class Animal. Lets see what happens when we try to serialize zoo. First we create the Zoo class. Notice how the constructor looks. When we try to get the Zoo Object back from the JSON, Jackson has to know that it should create the Zoo Object using the constructor that takes in the name and city properties.</p>
 <pre tabindex="0"><code>class Zoo {
@@ -515,20 +515,20 @@ public class AlbumsFilter {
 
 }
 </code></pre>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/dev_201603112045/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/dev_201603112045/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
 </article>
-
                         
                             <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/dev_201603112040/" title="阅读全文">Jackson: Json Data Binding </a> </h2>
-
-</header>
-<div class="summary">
-    <p>A thing that most java developers love to deal with is &hellip;. Java POJO. Wouldn&rsquo;t you love a black box where you can see JSON string entering from one side and POJOs coming out from the other. That&rsquo;s what Jackson data binding does. This can be best explained by an example. We use the json from free music archive. It has an API to get latest albums in the form of JSON. we would read that json string (Click on this link to see the json) into Albums object. The Albums object contains an array of Dataset.</p>
+    <header>
+        <h2><a href="https://alimy.github.io/post/dev_201603112040/" title="阅读全文">Jackson: Json Data Binding </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <p>A thing that most java developers love to deal with is &hellip;. Java POJO. Wouldn&rsquo;t you love a black box where you can see JSON string entering from one side and POJOs coming out from the other. That&rsquo;s what Jackson data binding does. This can be best explained by an example. We use the json from free music archive. It has an API to get latest albums in the form of JSON. we would read that json string (Click on this link to see the json) into Albums object. The Albums object contains an array of Dataset.</p>
 <p>Here&rsquo;s how The JSON to Java conversion works</p>
 <ol>
 <li>The first step is to create the Java class that would hold the JSON data. Look at the json. we create an Albums object to hold the entire json. The json contains an array of &lsquo;dataset&rsquo; elements. We create a Java Object of type DataSet and in the Albums object we create a dataset property that is an array of type DataSet.</li>
@@ -536,49 +536,49 @@ public class AlbumsFilter {
 <li>We use the <em>readValue</em> method of the ObjectMapper to read. There are multiple versions of this method and we use the method that takes in a URL. However, there are method that read from a file, inputstream, String or a ByteArray.</li>
 <li>The ObjectMapper caches serializers and deserializers so it would be a good idea to reuse an ObjectMapper instance for multiple conversions</li>
 </ol>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/dev_201603112040/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/dev_201603112040/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
 </article>
-
                         
                             <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/dev_201603112035/" title="阅读全文">Jackson: build java tree model from json </a> </h2>
-
-</header>
-<div class="summary">
-    <p>Jackson provides a tree node called com.fasterxml.jackson.databind.JsonNode. The ObjectMapper provides a method to read the json into a tree with the root being a JsonNode. This can be thought of as being similar to DOM nodes in XML DOM trees. The example below demonstrates building a tree from the json string</p>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/dev_201603112035/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
+    <header>
+        <h2><a href="https://alimy.github.io/post/dev_201603112035/" title="阅读全文">Jackson: build java tree model from json </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <p>Jackson provides a tree node called com.fasterxml.jackson.databind.JsonNode. The ObjectMapper provides a method to read the json into a tree with the root being a JsonNode. This can be thought of as being similar to DOM nodes in XML DOM trees. The example below demonstrates building a tree from the json string</p>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/dev_201603112035/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
 </article>
-
                         
                             <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/dev_201603112030/" title="阅读全文">Jackson: json and java - Streaming </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="streaming-parser-and-generator">Streaming Parser and Generator</h3>
+    <header>
+        <h2><a href="https://alimy.github.io/post/dev_201603112030/" title="阅读全文">Jackson: json and java - Streaming </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <h3 id="streaming-parser-and-generator">Streaming Parser and Generator</h3>
 <p>Jackson provides a low level API to parse json string. The API provides token for each json object. For example, the start of json &lsquo;{&rsquo; is the first object that the parser provides. The key value pair is another single object. The client code can use the tokens and get the json properties or build a java object out of it if required. This low level API is extremely powerful but needs a lot of coding. For most cases, Jackson&rsquo;s tree traversing and data binding capability should be explored instead. We provide two examples below. The first example demonstrates json parsing and the second demonstrated json generation.</p>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/dev_201603112030/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/dev_201603112030/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
 </article>
-
                         
                             <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/dev_201603112025/" title="阅读全文">Jackson: Java to JSON and back </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="creating-json-from-java">Creating JSON from Java</h3>
+    <header>
+        <h2><a href="https://alimy.github.io/post/dev_201603112025/" title="阅读全文">Jackson: Java to JSON and back </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <h3 id="creating-json-from-java">Creating JSON from Java</h3>
 <p>Jackson provides classes that can be used to convert a Java Object to JSON and back. In this example we look at how to build a JSON construct from a Java Object. We will start with a simple class and gradually start adding complexities to it. Lets say that we are a music company and we want to publish an api where users can query for Album. We first build an Album class with a single property title.</p>
 <pre tabindex="0"><code>class Album {
     private String title;
@@ -592,20 +592,20 @@ public class AlbumsFilter {
     }
 }
 </code></pre>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/dev_201603112025/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/dev_201603112025/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
 </article>
-
                         
                             <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/dev_201603112020/" title="阅读全文">Jackson: Introduction </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="overview-of-the-jackson-api">Overview of The Jackson API</h3>
+    <header>
+        <h2><a href="https://alimy.github.io/post/dev_201603112020/" title="阅读全文">Jackson: Introduction </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <h3 id="overview-of-the-jackson-api">Overview of The Jackson API</h3>
 <p><a href="http://wiki.fasterxml.com/JacksonHome" title="Jackson Api">Jackson Api</a> contains a lot of functionalities to read and build json using java. It has very powerful data binding capabilities and provides a framework to serialize custom java objects to json string and deserialize json string back to java objects. Json written with jackson can contain embedded class information that helps in creating the complete object tree during deserialization.</p>
 <h3 id="creating-json-from-java">Creating JSON from JAVA</h3>
 <p>There are three ways to create JSON from JAVA:</p>
@@ -615,12 +615,12 @@ public class AlbumsFilter {
 <li>Building a Json Stream</li>
 </ul>
 <p>In the <a href="https://alimy.github.io/post/dev_201603112025" title="Java to JSON and back">first tutorial</a> we look at all the three ways of creating JSON. Note that if you are new to Jackson this is probably the best place to begin even if you are looking at a way to parse JSON.</p>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/dev_201603112020/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/dev_201603112020/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
 </article>
-
                         
                     </div>
                     </br>

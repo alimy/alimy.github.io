@@ -335,12 +335,12 @@
                     <div>
                         
                             <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/dev_202001100425/" title="阅读全文">Rust系统环境变量配置 </a> </h2>
-
-</header>
-<div class="summary">
-    <p>国内有些地区访问Rustup的服务器及registry(@github)不太顺畅，这里介绍配置中科大的Rust镜像。</p>
+    <header>
+        <h2><a href="https://alimy.github.io/post/dev_202001100425/" title="阅读全文">Rust系统环境变量配置 </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <p>国内有些地区访问Rustup的服务器及registry(@github)不太顺畅，这里介绍配置中科大的Rust镜像。</p>
 <h4 id="科大-rust-crates-镜像">科大 Rust Crates 镜像</h4>
 <p>在 $HOME/.cargo/config 中添加如下内容</p>
 <pre tabindex="0"><code>[registry]
@@ -355,20 +355,20 @@ replace-with = &#39;ustc&#39;
 [source.ustc]
 registry = &#34;git://mirrors.ustc.edu.cn/crates.io-index&#34;
 </code></pre>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/dev_202001100425/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/dev_202001100425/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
 </article>
-
                         
                             <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/dev_202001050047/" title="阅读全文">简单使用docker部署Tars </a> </h2>
-
-</header>
-<div class="summary">
-    <p><a href="https://github.com/TarsCloud/Tars">Tars</a>是腾讯从2008年到今天一直在使用的后台逻辑层的统一应用框架TAF（Total Application Framework），目前支持C++,Java,PHP,Nodejs,Go语言。该框架为用户提供了涉及到开发、运维、以及测试的一整套解决方案，帮助一个产品或者服务快速开发、部署、测试、上线。 它集可扩展协议编解码、高性能RPC通信框架、名字路由与发现、发布监控、日志统计、配置管理等于一体，通过它可以快速用微服务的方式构建自己的稳定可靠的分布式应用，并实现完整有效的服务治理，非参Nice。本文简单介绍通过docker部署一套用于开发测试的Tars尝尝滋味。</p>
+    <header>
+        <h2><a href="https://alimy.github.io/post/dev_202001050047/" title="阅读全文">简单使用docker部署Tars </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <p><a href="https://github.com/TarsCloud/Tars">Tars</a>是腾讯从2008年到今天一直在使用的后台逻辑层的统一应用框架TAF（Total Application Framework），目前支持C++,Java,PHP,Nodejs,Go语言。该框架为用户提供了涉及到开发、运维、以及测试的一整套解决方案，帮助一个产品或者服务快速开发、部署、测试、上线。 它集可扩展协议编解码、高性能RPC通信框架、名字路由与发现、发布监控、日志统计、配置管理等于一体，通过它可以快速用微服务的方式构建自己的稳定可靠的分布式应用，并实现完整有效的服务治理，非参Nice。本文简单介绍通过docker部署一套用于开发测试的Tars尝尝滋味。</p>
 <h4 id="配置清单">配置清单</h4>
 <p>单节点部署Tars：</p>
 <ul>
@@ -388,20 +388,20 @@ registry = &#34;git://mirrors.ustc.edu.cn/crates.io-index&#34;
 <pre tabindex="0"><code>% sudo systemctl enable docker
 % sudo systemctl start docker
 </code></pre>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/dev_202001050047/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/dev_202001050047/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
 </article>
-
                         
                             <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/dev_201909211645/" title="阅读全文">Protocol Buffers Messages Encoding </a> </h2>
-
-</header>
-<div class="summary">
-    <p>This document describes the binary wire format for protocol buffer messages. You don&rsquo;t need to understand this to use protocol buffers in your applications, but it can be very useful to know how different protocol buffer formats affect the size of your encoded messages.</p>
+    <header>
+        <h2><a href="https://alimy.github.io/post/dev_201909211645/" title="阅读全文">Protocol Buffers Messages Encoding </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <p>This document describes the binary wire format for protocol buffer messages. You don&rsquo;t need to understand this to use protocol buffers in your applications, but it can be very useful to know how different protocol buffer formats affect the size of your encoded messages.</p>
 <h3 id="a-simple-message">A Simple Message</h3>
 <p>Let&rsquo;s say you have the following very simple message definition:</p>
 <pre tabindex="0"><code>message Test1 {
@@ -410,39 +410,39 @@ registry = &#34;git://mirrors.ustc.edu.cn/crates.io-index&#34;
 </code></pre><p>In an application, you create a <code>Test1</code> message and set <code>a</code> to 150. You then serialize the message to an output stream. If you were able to examine the encoded message, you&rsquo;d see three bytes:</p>
 <pre tabindex="0"><code>08 96 01
 </code></pre><p>So far, so small and numeric – but what does it mean? Read on&hellip;</p>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/dev_201909211645/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/dev_201909211645/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
 </article>
-
                         
                             <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/dev_201909211630/" title="阅读全文">Cap&#39;n Proto Encoding Spec </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="organization">§Organization</h3>
+    <header>
+        <h2><a href="https://alimy.github.io/post/dev_201909211630/" title="阅读全文">Cap&#39;n Proto Encoding Spec </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <h3 id="organization">§Organization</h3>
 <h4 id="64-bit-words">64-bit Words</h4>
 <p>For the purpose of Cap’n Proto, a “word” is defined as 8 bytes, or 64 bits. Since alignment of data is important, all objects (structs, lists, and blobs) are aligned to word boundaries, and sizes are usually expressed in terms of words. (Primitive values are aligned to a multiple of their size within a struct or list.)</p>
 <h4 id="messages">Messages</h4>
 <p>The unit of communication in Cap’n Proto is a “message”. A message is a tree of objects, with the root always being a struct.</p>
 <p>Physically, messages may be split into several “segments”, each of which is a flat blob of bytes. Typically, a segment must be loaded into a contiguous block of memory before it can be accessed, so that the relative pointers within the segment can be followed quickly. However, when a message has multiple segments, it does not matter where those segments are located in memory relative to each other; inter-segment pointers are encoded differently, as we’ll see later.</p>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/dev_201909211630/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/dev_201909211630/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
 </article>
-
                         
                             <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/dev_201909211556/" title="阅读全文">Tars语言与协议 </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="目录">目录</h3>
+    <header>
+        <h2><a href="https://alimy.github.io/post/dev_201909211556/" title="阅读全文">Tars语言与协议 </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <h3 id="目录">目录</h3>
 <ul>
 <li><a href="#main-chapter-1">Tars语言</a></li>
 <li><a href="#main-chapter-2">Tars协议</a></li>
@@ -456,20 +456,20 @@ registry = &#34;git://mirrors.ustc.edu.cn/crates.io-index&#34;
 <li>对于结构定义，可以支持扩展字段，即可以增加字段而不影响原有结构的解析，可以在存储/协议等地方单独使用</li>
 <li>大小写敏感</li>
 </ul>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/dev_201909211556/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/dev_201909211556/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
 </article>
-
                         
                             <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/dev_201909211536/" title="阅读全文">Protocol Buffers Version 3 Language Specification </a> </h2>
-
-</header>
-<div class="summary">
-    <p>This is a language specification reference for version 3 of the Protocol Buffers language (proto3). The syntax is specified using Extended <a href="https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_Form" title="EBNF in WIKI">Backus-Naur Form (EBNF)</a>:</p>
+    <header>
+        <h2><a href="https://alimy.github.io/post/dev_201909211536/" title="阅读全文">Protocol Buffers Version 3 Language Specification </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <p>This is a language specification reference for version 3 of the Protocol Buffers language (proto3). The syntax is specified using Extended <a href="https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_Form" title="EBNF in WIKI">Backus-Naur Form (EBNF)</a>:</p>
 <pre tabindex="0"><code>|   alternation
 ()  grouping
 []  option (zero or one time)
@@ -482,20 +482,20 @@ decimalDigit = &#34;0&#34; … &#34;9&#34;
 octalDigit   = &#34;0&#34; … &#34;7&#34;
 hexDigit     = &#34;0&#34; … &#34;9&#34; | &#34;A&#34; … &#34;F&#34; | &#34;a&#34; … &#34;f&#34;
 </code></pre>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/dev_201909211536/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/dev_201909211536/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
 </article>
-
                         
                             <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/dev_201909211516/" title="阅读全文">Protocol Buffers Version 2 Language Specification </a> </h2>
-
-</header>
-<div class="summary">
-    <p>This is a language specification reference for version 2 of the Protocol Buffers language (proto2). The syntax is specified using Extended <a href="https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_Form" title="EBNF in WIKI">Backus-Naur Form (EBNF)</a>:</p>
+    <header>
+        <h2><a href="https://alimy.github.io/post/dev_201909211516/" title="阅读全文">Protocol Buffers Version 2 Language Specification </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <p>This is a language specification reference for version 2 of the Protocol Buffers language (proto2). The syntax is specified using Extended <a href="https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_Form" title="EBNF in WIKI">Backus-Naur Form (EBNF)</a>:</p>
 <pre tabindex="0"><code>|   alternation
 ()  grouping
 []  option (zero or one time)
@@ -509,20 +509,20 @@ decimalDigit = &#34;0&#34; … &#34;9&#34;
 octalDigit   = &#34;0&#34; … &#34;7&#34;
 hexDigit     = &#34;0&#34; … &#34;9&#34; | &#34;A&#34; … &#34;F&#34; | &#34;a&#34; … &#34;f&#34;
 </code></pre>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/dev_201909211516/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/dev_201909211516/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
 </article>
-
                         
                             <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/dev_201909211159/" title="阅读全文">Cap&#39;n Proto Schema Language </a> </h2>
-
-</header>
-<div class="summary">
-    <h2 id="schema-language">Schema Language</h2>
+    <header>
+        <h2><a href="https://alimy.github.io/post/dev_201909211159/" title="阅读全文">Cap&#39;n Proto Schema Language </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <h2 id="schema-language">Schema Language</h2>
 <p>Like Protocol Buffers and Thrift (but unlike JSON or MessagePack), Cap’n Proto messages are strongly-typed and not self-describing. You must define your message structure in a special language, then invoke the Cap’n Proto compiler (<code>capnp compile</code>) to generate source code to manipulate that message type in your desired language.</p>
 <h4 id="for-example">For example:</h4>
 <pre tabindex="0"><code>@0xdbb9ad1f14bf0b36;  # unique file ID, generated by `capnp id`
@@ -552,20 +552,20 @@ struct Date {
   day @2 :UInt8;
 }
 </code></pre>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/dev_201909211159/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/dev_201909211159/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
 </article>
-
                         
                             <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/dev_201904141055/" title="阅读全文">Tus Resumable Upload Protocol </a> </h2>
-
-</header>
-<div class="summary">
-    <p><strong>Version:</strong> 1.0.0 (<a href="http://semver.org">SemVer</a>)<br>
+    <header>
+        <h2><a href="https://alimy.github.io/post/dev_201904141055/" title="阅读全文">Tus Resumable Upload Protocol </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <p><strong>Version:</strong> 1.0.0 (<a href="http://semver.org">SemVer</a>)<br>
 <strong>Date:</strong> 2016-03-25<br>
 <strong>Authors:</strong> <a href="https://twitter.com/felixge">Felix Geisendörfer</a>, <a href="https://twitter.com/kvz">Kevin van
 Zonneveld</a>, <a href="https://twitter.com/tim_kos">Tim Koschützki</a>,
@@ -630,26 +630,26 @@ implementations (open source or commercial) if you&rsquo;d like to be listed on 
 <p>The protocol provides a mechanism for resumable file uploads via HTTP/1.1 (<a href="https://tools.ietf.org/html/rfc7230">RFC
 7230</a>) and HTTP/2 (<a href="https://tools.ietf.org/html/rfc7540">RFC
 7540</a>).</p>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/dev_201904141055/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/dev_201904141055/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
 </article>
-
                         
                             <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/art_201903151200/" title="阅读全文">熊猫人 </a> </h2>
-
-</header>
-<div class="summary">
-    <p><a href="https://alimy.github.io/images/post/20190315120000.webp" title="点击查看大图"><img src="https://alimy.github.io/images/post/20190315120000.webp" alt="图片加载中&hellip;请使用支持Webp的浏览器加速查看"></a></p>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/art_201903151200/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
+    <header>
+        <h2><a href="https://alimy.github.io/post/art_201903151200/" title="阅读全文">熊猫人 </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <p><a href="https://alimy.github.io/images/post/20190315120000.webp" title="点击查看大图"><img src="https://alimy.github.io/images/post/20190315120000.webp" alt="图片加载中&hellip;请使用支持Webp的浏览器加速查看"></a></p>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/art_201903151200/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
 </article>
-
                         
                     </div>
                     </br>

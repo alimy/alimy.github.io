@@ -335,47 +335,47 @@
                     <div>
                         
                             <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/dev_201603122040/" title="阅读全文">Gson: Exclusion Strategy </a> </h2>
-
-</header>
-<div class="summary">
-    <p>In this tutorial we look at how to selectively include fields from a java object to a json string. By default, Gson tries to map all fields in the java object to the corresponding property in json. However, in certain cases we may want to control that. There are a few ways to do this. It is also possible to excluse fields from third party packages where we have no access to the source code. The different ways to exclude fields are :</p>
+    <header>
+        <h2><a href="https://alimy.github.io/post/dev_201603122040/" title="阅读全文">Gson: Exclusion Strategy </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <p>In this tutorial we look at how to selectively include fields from a java object to a json string. By default, Gson tries to map all fields in the java object to the corresponding property in json. However, in certain cases we may want to control that. There are a few ways to do this. It is also possible to excluse fields from third party packages where we have no access to the source code. The different ways to exclude fields are :</p>
 <ol>
 <li>By defining a custom annotation and ignoring fields that are annotated with that.</li>
 <li>By Defining a custom exclusion class by extending the ExclusionStrategy interface and implementing the public boolean shouldSkipField(FieldAttributes f); and public boolean shouldSkipClass(Class clazz); methods</li>
 <li>By using the @Expose annotations and then using the excludeFieldsWithoutExposeAnnotation() method on the GsonBuilder. This will ignore all fields except the ones that have been exposed using the @Expose annotation.</li>
 </ol>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/dev_201603122040/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/dev_201603122040/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
 </article>
-
                         
                             <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/dev_201603122035/" title="阅读全文">Gson: Custom Serializer </a> </h2>
-
-</header>
-<div class="summary">
-    <p>Just as we saw in the <a href="https://alimy.github.io/post/dev_201603122030">previous</a> tutorial, Gson provides way to specify custom serializers and deserializers. Register a custom serializer with the GsonBuilder if you need you own way to convert a java object to json and you a custom deserializer if you dont like Gson&rsquo;s way of converting json to the java object. The first example below shows a custom serializer and the second example shows a custom deserializer.</p>
+    <header>
+        <h2><a href="https://alimy.github.io/post/dev_201603122035/" title="阅读全文">Gson: Custom Serializer </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <p>Just as we saw in the <a href="https://alimy.github.io/post/dev_201603122030">previous</a> tutorial, Gson provides way to specify custom serializers and deserializers. Register a custom serializer with the GsonBuilder if you need you own way to convert a java object to json and you a custom deserializer if you dont like Gson&rsquo;s way of converting json to the java object. The first example below shows a custom serializer and the second example shows a custom deserializer.</p>
 <h3 id="custom-serializer">Custom Serializer</h3>
 <p>Create a custom serializer by implementing a com.studytrails.json.gson.JsonSerializer and implementing the public JsonElement serialize(T src, Type typeOfSrc, JsonSerializationContext context); method. src is the source object and Type is the type of the source object. The example below demonstrates a custom Serializer.</p>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/dev_201603122035/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/dev_201603122035/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
 </article>
-
                         
                             <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/dev_201603122030/" title="阅读全文">Gson: Custom Type Adapter </a> </h2>
-
-</header>
-<div class="summary">
-    <p>In the earlier tutorials we have seen how gson can serialize and deserialize java classes with or without hierarchies. By default, it introspects the classes and comes with with a strategy for serializing and deserializing it. However, in some cases, you want to specify your own conversion strategy. That is, you want to control how the java object is converted to json string and the other way round. Gson provides a capability to specify a custom type adapter. You tell Gson that for a particular class, use the conversion strategy specified by your custom adapter. Lets look at how to write the type adapter :
+    <header>
+        <h2><a href="https://alimy.github.io/post/dev_201603122030/" title="阅读全文">Gson: Custom Type Adapter </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <p>In the earlier tutorials we have seen how gson can serialize and deserialize java classes with or without hierarchies. By default, it introspects the classes and comes with with a strategy for serializing and deserializing it. However, in some cases, you want to specify your own conversion strategy. That is, you want to control how the java object is converted to json string and the other way round. Gson provides a capability to specify a custom type adapter. You tell Gson that for a particular class, use the conversion strategy specified by your custom adapter. Lets look at how to write the type adapter :
 To write a custom adapter extend the com.google.gson.TypeAdapter abstract class. Implement the public abstract T read(JsonReader in) throws IOException; and public abstract void write(JsonWriter out, T value) throws IOException; methods. The adapter should also handle nulls. Create the Type adapter instance and then register it with the GsonBuilder. Create the Gson object from the GsonBuilder and then use that to serialize and deserialize. Lets look at an example</p>
 <pre tabindex="0"><code>package com.studytrails.json.gson;
 
@@ -406,20 +406,20 @@ public class DatasetTypeAdapterExample8 {
 	}
 }
 </code></pre>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/dev_201603122030/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/dev_201603122030/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
 </article>
-
                         
                             <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/dev_201603122028/" title="阅读全文">Gson: Serializing Inner Classes </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="serializing-inner-classes">Serializing inner classes</h3>
+    <header>
+        <h2><a href="https://alimy.github.io/post/dev_201603122028/" title="阅读全文">Gson: Serializing Inner Classes </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <h3 id="serializing-inner-classes">Serializing inner classes</h3>
 <p>Gson can serialize inner classes and static nested classes. The detailed example below demonstrates the following things.</p>
 <ol>
 <li>Serializing class containing static nested class</li>
@@ -430,20 +430,20 @@ public class DatasetTypeAdapterExample8 {
 <li>De-serializing json to a static nested class (without the enclosing type)</li>
 <li>De-serializing json to a non static nested class (without the enclosing type)</li>
 </ol>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/dev_201603122028/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/dev_201603122028/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
 </article>
-
                         
                             <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/dev_201603122025/" title="阅读全文">Gson: Serializing and deserializing Java Generic Classes </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="serializing-list">Serializing list</h3>
+    <header>
+        <h2><a href="https://alimy.github.io/post/dev_201603122025/" title="阅读全文">Gson: Serializing and deserializing Java Generic Classes </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <h3 id="serializing-list">Serializing list</h3>
 <p>As we saw in the previous tutorial serializing and deserializing classes with generic types is non trivial since generic type information is lost while serializing. Gson provides a class called com.google.gson.reflect.TypeToken to store generic types. The example below shows how to use the TypeToken class to serialize and deserialize Classes with generic types.</p>
 <pre tabindex="0"><code>package com.studytrails.json.gson;
 
@@ -482,20 +482,20 @@ public class GenericTypesExample8 {
 	}
 }
 </code></pre>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/dev_201603122025/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/dev_201603122025/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
 </article>
-
                         
                             <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/dev_201603122022/" title="阅读全文">Gson: Serializing Collections </a> </h2>
-
-</header>
-<div class="summary">
-    <h3 id="serializing-list">Serializing list</h3>
+    <header>
+        <h2><a href="https://alimy.github.io/post/dev_201603122022/" title="阅读全文">Gson: Serializing Collections </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <h3 id="serializing-list">Serializing list</h3>
 <p>Serializing Collections should have been similar to serializing other objects. However, the problem is that Collections are generic and the generic type information is not maintained in the json. We therefore pass the type while deserializing list. Note that if the Collection has different types of objects then there is no way to serialize it.</p>
 <pre tabindex="0"><code>package com.studytrails.json.gson;
 
@@ -527,48 +527,48 @@ public class DeSerializeListExample5 {
 	}
 }
 </code></pre>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/dev_201603122022/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/dev_201603122022/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
 </article>
-
                         
                             <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/dev_201603122020/" title="阅读全文">Gson: Convert json to a java object tree </a> </h2>
-
-</header>
-<div class="summary">
-    <p>In the <a href="https://alimy.github.io/post/dev_201603122010" title="Convert json to a java object">Earlier</a> tutorial we saw how to convert json to a java object. In this tutorial, we build a tree of com.google.gson.JsonElement from the json string. The tree can then be traversed to build java objects. JsonElement has methods such as isJsonObject(), isJsonNull(), etc that can be used to figure out the type of JsonElement. Then to get the actual object use the getAsJsonObject(), getAsJsonPrimitive() etc methods. We parse the response from the free music archive json API. Here&rsquo;s the class</p>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/dev_201603122020/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
+    <header>
+        <h2><a href="https://alimy.github.io/post/dev_201603122020/" title="阅读全文">Gson: Convert json to a java object tree </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <p>In the <a href="https://alimy.github.io/post/dev_201603122010" title="Convert json to a java object">Earlier</a> tutorial we saw how to convert json to a java object. In this tutorial, we build a tree of com.google.gson.JsonElement from the json string. The tree can then be traversed to build java objects. JsonElement has methods such as isJsonObject(), isJsonNull(), etc that can be used to figure out the type of JsonElement. Then to get the actual object use the getAsJsonObject(), getAsJsonPrimitive() etc methods. We parse the response from the free music archive json API. Here&rsquo;s the class</p>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/dev_201603122020/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
 </article>
-
                         
                             <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/dev_201603122015/" title="阅读全文">Gson: parsing json to java token by token </a> </h2>
-
-</header>
-<div class="summary">
-    <p>In the earlier tutorials we saw how to <a href="https://alimy.github.io/post/dev_201603122010" title="Convert json to a java object">convert json to a java object</a>. In This tutorial we see how to parse json and obtain individual tokens. Although this may seem like a cumbersome way to build java object from json, however it is extremely powerful and may be a good choice if you need a very high level of control over the parsing. We use the JsonReader class to read the json as a stream of tokens. The beginning of an object or an array is also a token. Here&rsquo;s a detailed example.</p>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/dev_201603122015/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
+    <header>
+        <h2><a href="https://alimy.github.io/post/dev_201603122015/" title="阅读全文">Gson: parsing json to java token by token </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <p>In the earlier tutorials we saw how to <a href="https://alimy.github.io/post/dev_201603122010" title="Convert json to a java object">convert json to a java object</a>. In This tutorial we see how to parse json and obtain individual tokens. Although this may seem like a cumbersome way to build java object from json, however it is extremely powerful and may be a good choice if you need a very high level of control over the parsing. We use the JsonReader class to read the json as a stream of tokens. The beginning of an object or an array is also a token. Here&rsquo;s a detailed example.</p>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/dev_201603122015/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
 </article>
-
                         
                             <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/dev_201603122010/" title="阅读全文">Gson: Convert json to a java object </a> </h2>
-
-</header>
-<div class="summary">
-    <p>Google json provides methods to convert the json string to java objects. The Java object may be hierarchical. For this example we consider java objects of non generic type only. Gson uses the name to match the json property to the java field. There are two ways to convert json to java.</p>
+    <header>
+        <h2><a href="https://alimy.github.io/post/dev_201603122010/" title="阅读全文">Gson: Convert json to a java object </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <p>Google json provides methods to convert the json string to java objects. The Java object may be hierarchical. For this example we consider java objects of non generic type only. Gson uses the name to match the json property to the java field. There are two ways to convert json to java.</p>
 <ul>
 <li>Using the com.google.gson.Gson class. Create a new instance of this class and use the method public <T> T fromJson(String json, Class<T> classOfT). classOfT is the java object to which the json is to be converted to.</li>
 <li>The other way is to use the com.google.gson.GsonBuilder class. This class allows setting up certain features, such as - allowing null serialization or setting up custom serializing policies. Create a GsonBuilder, apply the features and then obtain the Gson class from the builder.</li>
@@ -586,20 +586,20 @@ dataset: [
 {
 ......
 </code></pre>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/dev_201603122010/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/dev_201603122010/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
 </article>
-
                         
                             <article class="post panel-wrapper">
-<header>
-<h2 ><a href="https://alimy.github.io/post/dev_201603122005/" title="阅读全文">Gson: Introduction </a> </h2>
-
-</header>
-<div class="summary">
-    <p><a href="https://github.com/google/gson" title="Gson@github">google json</a> - gson is an open source java api for parsing and building json. It has extensive support for java generics. It also provides support for converting third party classes to json. It can be used to serialize and deserialize complex objects with deep hierarchies that may contain generic classes. In these tutorials we demonstrate, with examples, the following functionalities of gson.</p>
+    <header>
+        <h2><a href="https://alimy.github.io/post/dev_201603122005/" title="阅读全文">Gson: Introduction </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <p><a href="https://github.com/google/gson" title="Gson@github">google json</a> - gson is an open source java api for parsing and building json. It has extensive support for java generics. It also provides support for converting third party classes to json. It can be used to serialize and deserialize complex objects with deep hierarchies that may contain generic classes. In these tutorials we demonstrate, with examples, the following functionalities of gson.</p>
 <p>Gson 2.3: Look at <a href="http://www.studytrails.com/java/json/java-google-json-new-2.3.jsp" title="gson tutorial">this tutorial</a> to see the
 latest additions in Gson 2.3 (TypeAdapter Annotation, JsonPath support and new methods in JsonArray)</p>
 <ol>
@@ -610,12 +610,12 @@ latest additions in Gson 2.3 (TypeAdapter Annotation, JsonPath support and new m
 <p><a href="https://alimy.github.io/post/dev_201603122015" title="Java to JSON and Back - Streaming">Java to JSON and Back - Streaming</a> - At certain times you want more control on the way the parsing is done. Also there may be times when Gson automated conversion does not give you the result that you are looking for. For example, if you have a List that contains multiple kinds of Object then Gson may not be able to deserialize or parse the Json for you. In such cases Gson provides a streaming API. You can use the Streaming API and handle a token at a time. The token may be start and end of Json Object, start and end of json array, the key of a property and the String or Number value of a property.</p>
 </li>
 </ol>
-</div>
-<footer id="more">
-<a href='https://alimy.github.io/post/dev_201603122005/' title="继续阅读"><nobr>Read More&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i></nobr></a>
-</footer>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/dev_201603122005/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
 </article>
-
                         
                     </div>
                     </br>
