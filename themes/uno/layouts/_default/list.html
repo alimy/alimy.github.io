@@ -1,17 +1,18 @@
-    {{ partial "head.html" . }}
-    <body>
-        {{ partial "sidebar.html" . }}
-        <div class="content-wrapper">
-            <div class="content-wrapper__inner">
-                <h2>文章列表</h2>
-                {{ range .Data.Pages.GroupByDate "2006年 01月" }}
-                <div class="panel-wrapper">
+{{ partial "head.html" . }}
+
+<body>
+    {{ partial "sidebar.html" . }}
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <h2>文章列表</h2>
+            {{ range .Data.Pages.GroupByDate "2006年 01月" }}
+            <div class="panel-wrapper">
                 <div id="caption">
-                <h3>
-                  {{ .Key }}
-                  {{ $pages := len .Pages }}
-                  <span id="list-indicator" title="共{{ $pages }}篇文章">{{ len .Pages }} </span>
-                </h3>
+                    <h3>
+                        {{ .Key }}
+                        {{ $pages := len .Pages }}
+                        <span id="list-indicator" title="共{{ $pages }}篇文章">{{ len .Pages }} </span>
+                    </h3>
                 </div>
                 <ul id="list">
                     {{range .Pages }}
@@ -21,11 +22,12 @@
                     </li>
                     {{ end }}
                 </ul>
-                </div>
-                {{ end }}
-                {{ partial "footer.html" . }}
             </div>
+            {{ end }}
+            {{ partial "footer.html" . }}
         </div>
-    </body>
-    {{ partial "script.html" .}}
+    </div>
+</body>
+{{ partial "script.html" .}}
+
 </html>
