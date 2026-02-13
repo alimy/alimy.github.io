@@ -23,10 +23,10 @@
         {{with .Next }}<a id="post-navigator-next" href="{{ .Permalink }}" title="下一篇">{{ .Title }}&nbsp;<i
             class="fa fa-chevron-right" aria-hidden="true"></i></a>{{ end }}
       </div>
-      <div id="post-comments">
+      <!-- <div id="post-comments">
         <h3>Comments</h3>
         {{ partial "comments.html" . }}
-      </div>
+      </div> -->
       {{ partial "footer.html" .}}
     </div>
     {{ partial "script.html" . }}
