@@ -1,48 +1,56 @@
 <div id="scriptHeader">
     <span class="mobile btn-mobile-menu">
-            <i class="fa fa-bars btn-mobile-menu__icon"></i>
-            <i class="fa fa-times btn-mobile-close__icon hidden"> </i>
+        <i class="fa fa-bars btn-mobile-menu__icon"></i>
+        <i class="fa fa-times btn-mobile-close__icon hidden"> </i>
     </span>
     <header class="
         {{ if .IsNode }}
-        {{ if or (eq .Permalink "/post/") (in .Permalink "/tags/") (in .Permalink "/categories/") }}
-            panel-cover panel-cover--collapsed
-        {{ else }}
-                panel-cover panel-cover--collapsed
-        {{ end }}
-        {{ else }}
-            panel-cover panel-cover--collapsed
-        {{ end }}" {{ if .Site.Params.cover }} style="background-image: url({{ .Site.Params.cover }})" {{ end }}>
-    <div class="panel-main">
-        <div class="panel-main__inner panel-inverted">
-            <div class="panel-main__content"> 
-                {{ if .Site.Params.logo }}<a href="{{ .Site.BaseURL }}/"> <img src="{{ .Site.Params.logo }}" width="256" alt="{{ .Site.Title }} logo" class="panel-cover__logo logo" /> </a> {{ end }}
-                <h1 class="panel-cover__title panel-title">
-                    <a href="{{ .Site.BaseURL }}/">{{ .Site.Title }}</a>
-                </h1>
-                <hr class="panel-cover__divider" />
-                <p class="panel-cover__description"> {{ if .Site.Params.description }} {{ .Site.Params.description }} {{ else }} This site is built using <a href="http://gohugo.io">hugo</a> and the theme is built by <a href="http://fredrikloch.me">Fredrik</a> if you enjoy it, it is available at <a href="https://github.com/SenjinDarashiva/hugo-uno">github</a> {{end}} </p>
-                <hr class="panel-cover__divider panel-cover__divider--secondary" />
-                <div class="navigation-wrapper">
-                    <nav class="cover-navigation cover-navigation--primary">
-                        <ul class="navigation">
-                            <li class="navigation__item"><a href="{{ .Site.BaseURL }}" title="博客首页" class="blog-button">首页</a> </li> </br></br>
-                            <li class="navigation__item"><a href="{{ .Site.BaseURL }}/post/" title="文章列表" class="blog-button">文章列表</a> </li>
-                            </br> {{ if .Site.Params.cv }} </br>
-                            <li class="navigation__item"><a href="{{ .Site.Params.cv  }}" title="关于我 " class="blog-button">关于我</a> </li>
-                            </br> {{ end }} </ul>
+        {{ if or (eq .Permalink " /post/") (in .Permalink "/tags/" ) (in .Permalink "/categories/" ) }} panel-cover
+        panel-cover--collapsed {{ else }} panel-cover panel-cover--collapsed {{ end }} {{ else }} panel-cover
+        panel-cover--collapsed {{ end }}" {{ if .Site.Params.cover }}
+        style="background-image: url({{ .Site.Params.cover }})" {{ end }}>
+        <div class="panel-main">
+            <div class="panel-main__inner panel-inverted">
+                <div class="panel-main__content">
+                    {{ if .Site.Params.logo }}<a href="{{ .Site.BaseURL }}/"> <img src="{{ .Site.Params.logo }}"
+                            width="256" alt="{{ .Site.Title }} logo" class="panel-cover__logo logo" /> </a> {{ end }}
+                    <h1 class="panel-cover__title panel-title">
+                        <a href="{{ .Site.BaseURL }}/">{{ .Site.Title }}</a>
+                    </h1>
+                    <hr class="panel-cover__divider" />
+                    <p class="panel-cover__description"> {{ if .Site.Params.description }} {{ .Site.Params.description
+                        }} {{ else }} This site is built using <a href="http://gohugo.io">hugo</a> and the theme is
+                        built by <a href="http://fredrikloch.me">Fredrik</a> if you enjoy it, it is available at <a
+                            href="https://github.com/SenjinDarashiva/hugo-uno">github</a> {{end}} </p>
+                    <hr class="panel-cover__divider panel-cover__divider--secondary" />
+                    <div class="navigation-wrapper">
+                        <nav class="cover-navigation cover-navigation--primary">
+                            <ul class="navigation">
+                                <li class="navigation__item"><a href="{{ .Site.BaseURL }}" title="博客首页"
+                                        class="blog-button">首页</a> </li> </br></br>
+                                <li class="navigation__item"><a href="{{ .Site.BaseURL }}post" title="文章列表"
+                                        class="blog-button">文章列表</a> </li>
+                                </br> {{ if .Site.Params.cv }} </br>
+                                <li class="navigation__item"><a href="{{ .Site.Params.cv  }}" title="关于我 "
+                                        class="blog-button">关于我</a> </li>
+                                </br> {{ end }}
+                            </ul>
                             {{ partial "social.html" . }}
-                    </nav>  </div>
+                        </nav>
+                    </div>
+                </div>
             </div>
+            <div class="panel-cover--overlay"></div>
         </div>
-        <div class="panel-cover--overlay"></div>
-    </div>
-</header>
+    </header>
 </div>
 <noscript>
     <style>
-        #scriptHeader {display:none;}
-        .navigation-wrapper{
+        #scriptHeader {
+            display: none;
+        }
+
+        .navigation-wrapper {
             display: block;
             top: 0;
         }
@@ -52,22 +60,31 @@
         <div class="panel-main">
             <div class="panel-main__inner panel-inverted">
                 <div class="panel-main__content"> {{ if .Site.Params.logo }}
-                    <a href="{{ .Site.BaseURL }}/"> <img src="{{ .Site.Params.logo }}" width="80" alt="{{ .Site.Title }} logo" class="panel-cover__logo logo" /> </a> {{ end }}
+                    <a href="{{ .Site.BaseURL }}/"> <img src="{{ .Site.Params.logo }}" width="80"
+                            alt="{{ .Site.Title }} logo" class="panel-cover__logo logo" /> </a> {{ end }}
                     <h1 class="panel-cover__title panel-title">
                         <a href="{{ .Site.BaseURL }}/">{{ .Site.Title }}</a>
                     </h1>
                     <hr class="panel-cover__divider" />
-                    <p class="panel-cover__description"> {{ if .Site.Params.description }} {{ .Site.Params.description }} {{ else }} This site is built using <a href="http://gohugo.io">hugo</a> and the theme is built by <a href="http://fredrikloch.me">Fredrik</a> if you enjoy it, it is available at <a href="https://github.com/SenjinDarashiva/hugo-uno">github</a> {{end}} </p>
+                    <p class="panel-cover__description"> {{ if .Site.Params.description }} {{ .Site.Params.description
+                        }} {{ else }} This site is built using <a href="http://gohugo.io">hugo</a> and the theme is
+                        built by <a href="http://fredrikloch.me">Fredrik</a> if you enjoy it, it is available at <a
+                            href="https://github.com/SenjinDarashiva/hugo-uno">github</a> {{end}} </p>
                     <hr class="panel-cover__divider panel-cover__divider--secondary" />
                     <div class="navigation-wrapper">
                         <nav class="cover-navigation cover-navigation--primary">
                             <ul class="navigation">
-                                <li class="navigation__item"><a href="{{ .Site.BaseURL }}" title="博客首页" class="blog-button">Blog</a> </li></br></br>
-                                <li class="navigation__item"><a href="{{ .Site.BaseURL }}/post/" title="文章列表" class="blog-button">Articles</a> </li>
+                                <li class="navigation__item"><a href="{{ .Site.BaseURL }}" title="博客首页"
+                                        class="blog-button">Blog</a> </li></br></br>
+                                <li class="navigation__item"><a href="{{ .Site.BaseURL }}/post/" title="文章列表"
+                                        class="blog-button">Articles</a> </li>
                                 </br> {{ if .Site.Params.cv }} </br>
-                                <li class="navigation__item"><a href="{{ .Site.Params.cv }}" title="关于我 " class="blog-button">About Me</a> </li>
-                                </br> {{ end }} </ul>
-                        </nav> {{ partial "social.html" . }} </div>
+                                <li class="navigation__item"><a href="{{ .Site.Params.cv }}" title="关于我 "
+                                        class="blog-button">About Me</a> </li>
+                                </br> {{ end }}
+                            </ul>
+                        </nav> {{ partial "social.html" . }}
+                    </div>
                 </div>
             </div>
             <div class="panel-cover--overlay"></div>
