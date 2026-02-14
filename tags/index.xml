@@ -6,14 +6,50 @@
     <language>en</language>
     
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <updated>Thu, 12 Feb 2026 12:40:00 CST</updated>
+    <updated>Sat, 14 Feb 2026 19:00:00 CST</updated>
     
     <item>
       <title>Development</title>
       <link>https://alimy.github.io/tags/development/</link>
-      <pubDate>Thu, 12 Feb 2026 12:40:00 CST</pubDate>
+      <pubDate>Sat, 14 Feb 2026 19:00:00 CST</pubDate>
       
       <guid>https://alimy.github.io/tags/development/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Kitex</title>
+      <link>https://alimy.github.io/tags/kitex/</link>
+      <pubDate>Sat, 14 Feb 2026 19:00:00 CST</pubDate>
+      
+      <guid>https://alimy.github.io/tags/kitex/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Protocol</title>
+      <link>https://alimy.github.io/tags/protocol/</link>
+      <pubDate>Sat, 14 Feb 2026 19:00:00 CST</pubDate>
+      
+      <guid>https://alimy.github.io/tags/protocol/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>RPC</title>
+      <link>https://alimy.github.io/tags/rpc/</link>
+      <pubDate>Sat, 14 Feb 2026 19:00:00 CST</pubDate>
+      
+      <guid>https://alimy.github.io/tags/rpc/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Thrift</title>
+      <link>https://alimy.github.io/tags/thrift/</link>
+      <pubDate>Sat, 14 Feb 2026 19:00:00 CST</pubDate>
+      
+      <guid>https://alimy.github.io/tags/thrift/</guid>
       <description></description>
     </item>
     
@@ -54,15 +90,6 @@
     </item>
     
     <item>
-      <title>RPC</title>
-      <link>https://alimy.github.io/tags/rpc/</link>
-      <pubDate>Sat, 24 Jan 2026 12:58:00 CST</pubDate>
-      
-      <guid>https://alimy.github.io/tags/rpc/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>Tg</title>
       <link>https://alimy.github.io/tags/tg/</link>
       <pubDate>Sat, 24 Jan 2026 12:58:00 CST</pubDate>
@@ -77,15 +104,6 @@
       <pubDate>Sat, 24 Jan 2026 12:58:00 CST</pubDate>
       
       <guid>https://alimy.github.io/tags/tl/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Kitex</title>
-      <link>https://alimy.github.io/tags/kitex/</link>
-      <pubDate>Sun, 28 Jan 2024 16:30:00 CST</pubDate>
-      
-      <guid>https://alimy.github.io/tags/kitex/</guid>
       <description></description>
     </item>
     
@@ -122,24 +140,6 @@
       <pubDate>Fri, 31 Mar 2023 20:32:00 CST</pubDate>
       
       <guid>https://alimy.github.io/tags/database/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>美文</title>
-      <link>https://alimy.github.io/tags/%E7%BE%8E%E6%96%87/</link>
-      <pubDate>Mon, 06 Mar 2023 14:12:00 CST</pubDate>
-      
-      <guid>https://alimy.github.io/tags/%E7%BE%8E%E6%96%87/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>雪中悍刀行</title>
-      <link>https://alimy.github.io/tags/%E9%9B%AA%E4%B8%AD%E6%82%8D%E5%88%80%E8%A1%8C/</link>
-      <pubDate>Thu, 23 Feb 2023 16:07:00 CST</pubDate>
-      
-      <guid>https://alimy.github.io/tags/%E9%9B%AA%E4%B8%AD%E6%82%8D%E5%88%80%E8%A1%8C/</guid>
       <description></description>
     </item>
     

@@ -6,7 +6,163 @@
     <language>en</language>
     
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <updated>Thu, 12 Feb 2026 12:40:00 CST</updated>
+    <updated>Sat, 14 Feb 2026 19:00:00 CST</updated>
+    
+    <item>
+      <title>Kitex TTHeader协议</title>
+      <link>https://alimy.github.io/post/dev_202602141900/</link>
+      <pubDate>Sat, 14 Feb 2026 19:00:00 CST</pubDate>
+      
+      <guid>https://alimy.github.io/post/dev_202602141900/</guid>
+      <description>&lt;p&gt;参考 &lt;a href=&#34;https://github.com/apache/thrift/blob/master/doc/specs/HeaderFormat.md&#34;&gt;Thrift THeader 协议&lt;/a&gt; ，Kitex设计了 TTheader 协议。&lt;/p&gt;
+&lt;h4 id=&#34;协议编码&#34;&gt;协议编码&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;7&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;8&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;9&lt;/span&gt; a b c d e f &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;7&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;8&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;9&lt;/span&gt; a b c d e f
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;+----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;| 0|                          LENGTH                             |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;+----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;| 0|       HEADER MAGIC          |            FLAGS              |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;+----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|                         SEQUENCE NUMBER                        |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;+----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;| 0|     HEADER SIZE             | ...
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;+---------------------------------
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                  Header is of variable size:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                   &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;and starts at offset 14&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;+----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;| PROTOCOL ID  |NUM TRANSFORMS . |TRANSFORM &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; ID &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;uint8&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;|
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;+----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|  TRANSFORM &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; DATA ...
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;+----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|         ...                              ...                   |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;+----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;| INFO &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; ID &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;uint8&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;|       INFO &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;  DATA ...
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;+----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|         ...                              ...                   |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;+----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|                                                                |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|                              PAYLOAD                           |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|                                                                |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;+----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;其中：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;LENGTH&lt;/code&gt; 字段 32bits，包括数据包剩余部分的字节大小，不包含 &lt;code&gt;LENGTH&lt;/code&gt; 自身长度&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;HEADER MAGIC&lt;/code&gt; 字段 16bits，值为：0x1000，用于标识 TTHeaderTransport&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;FLAGS&lt;/code&gt; 字段 16bits，为预留字段，暂未使用，默认值为 &lt;code&gt;0x0000&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;SEQUENCE NUMBER&lt;/code&gt; 字段 32bits，表示数据包的 seqId，可用于多路复用，最好确保单个连接内递增&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;HEADER SIZE&lt;/code&gt; 字段 16bits，等于头部长度字节数 /4，头部长度计算从第 14 个字节开始计算，一直到 &lt;code&gt;PAYLOAD&lt;/code&gt; 前（备注：header 的最大长度为 64K）&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;PROTOCOL ID&lt;/code&gt; 字段 uint8 编码，取值有：
+&lt;ul&gt;
+&lt;li&gt;ProtocolIDBinary = 0&lt;/li&gt;
+&lt;li&gt;ProtocolIDCompact = 2&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;NUM TRANSFORMS&lt;/code&gt; 字段 uint8 编码，表示 &lt;code&gt;TRANSFORM&lt;/code&gt; 个数&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;TRANSFORM ID&lt;/code&gt; 字段 uint8 编码，具体取值参考下文&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;INFO ID&lt;/code&gt; 字段 uint8 编码，具体取值参考下文&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;PAYLOAD&lt;/code&gt; 消息内容&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;padding-填充&#34;&gt;PADDING 填充&lt;/h2&gt;
+&lt;p&gt;Header 部分长度 bytes 数必须是 4 的倍数，不足部分用 &lt;code&gt;0x00&lt;/code&gt; 填充&lt;/p&gt;
+&lt;h2 id=&#34;transform-ids&#34;&gt;Transform IDs&lt;/h2&gt;
+&lt;p&gt;表示压缩方式，为预留字段，暂不支持，取值有：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;ZLIB_TRANSFORM = 0x01，对应的 data 为空，表示用 &lt;code&gt;zlib&lt;/code&gt; 压缩数据；&lt;/li&gt;
+&lt;li&gt;SNAPPY_TRANSFORM = 0x03，对应的 data 为空，表示用 &lt;code&gt;snappy&lt;/code&gt; 压缩数据；&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;info-ids&#34;&gt;Info IDs&lt;/h2&gt;
+&lt;p&gt;用于传递一些 kv 对信息，取值有：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;INFO_KEYVALUE = 0x01，对应的 data 为 key/value 对的列表, 首先是列表大小(uint16)，之后是每个key value对, key 和 value 各自都是由 uint16 的长度加上 no-trailing-null 的字符串组成，一般用于传递一些常见的 meta 信息，例如 tracingId；&lt;/li&gt;
+&lt;li&gt;INFO_INTKEYVALUE = 0x10，对应的 data 为 key/value 对的列表, 首先是列表大小(uint16)，之后是每个key value对，key 为 uint16，value 由 uint16 的长度加上 no-trailing-null 的字符串组成，一般用于传递一些内部定制的 meta 信息，其中作为 request 有些 key 是必填的：
+&lt;ul&gt;
+&lt;li&gt;TRANSPORT_TYPE = 1（取值：framed/unframed）&lt;/li&gt;
+&lt;li&gt;LOG_ID = 2&lt;/li&gt;
+&lt;li&gt;FROM_SERVICE = 3&lt;/li&gt;
+&lt;li&gt;FROM_CLUSTER = 4（默认 default）&lt;/li&gt;
+&lt;li&gt;FROM_IDC = 5&lt;/li&gt;
+&lt;li&gt;TO_SERVICE = 6&lt;/li&gt;
+&lt;li&gt;TO_METHOD = 9&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;ACL_TOKEN_KEYVALUE = 0x11，对应的 data 为 key/value 对，key 和 value 各自都是由 uint16 的长度加上 no-trailing-null 的字符串组成，用于传递 ACL Token；&lt;/li&gt;
+&lt;/ul&gt;</description>
+    </item>
+    
+    <item>
+      <title>Thrift THeader协议</title>
+      <link>https://alimy.github.io/post/dev_202602141850/</link>
+      <pubDate>Sat, 14 Feb 2026 18:50:00 CST</pubDate>
+      
+      <guid>https://alimy.github.io/post/dev_202602141850/</guid>
+      <description>&lt;p&gt;Header format for the THeader.h&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;7&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;8&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;9&lt;/span&gt; a b c d e f &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;7&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;8&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;9&lt;/span&gt; a b c d e f
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    +----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    | 0|                          LENGTH                             |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    +----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    | 0|       HEADER MAGIC          |            FLAGS              |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    +----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    |                         SEQUENCE NUMBER                        |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    +----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    | 0|     Header Size&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;/32&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;        | ...
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    +---------------------------------
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                      Header is of variable size:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                       &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;and starts at offset 14&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    +----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    |         PROTOCOL ID  &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;varint&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;  |   NUM TRANSFORMS &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;varint&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;     |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    +----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    |      TRANSFORM &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; ID &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;varint&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;   |        TRANSFORM &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; DATA ...
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    +----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    |         ...                              ...                   |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    +----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    |        INFO &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; ID &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;varint&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;      |       INFO &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;  DATA ...
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    +----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    |         ...                              ...                   |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    +----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    |                                                                |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    |                              PAYLOAD                           |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    |                                                                |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    +----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The &lt;code&gt;LENGTH&lt;/code&gt; field is 32 bits, and counts the remaining bytes in the
+packet, NOT including the length field.  The header size field is 16
+bits, and defines the size of the header remaining NOT including the
+&lt;code&gt;HEADER MAGIC&lt;/code&gt;, &lt;code&gt;FLAGS&lt;/code&gt;, &lt;code&gt;SEQUENCE NUMBER&lt;/code&gt; and header size fields.  The
+Header size field is in bytes/4.&lt;/p&gt;
+&lt;p&gt;The transform ID&amp;rsquo;s are varints.  The data for each transform is
+defined by the transform ID in the code - no size is given in the
+header.  If a transform ID is specified from a client and the server
+doesn&amp;rsquo;t know about the transform ID, an error MUST be returned as we
+don&amp;rsquo;t know how to transform the data.&lt;/p&gt;
+&lt;p&gt;Conversely, data in the info headers is ignorable.  This should only
+be things like timestamps, debugging tracing, etc.  Using the header
+size you should be able to skip this data and read the payload safely
+if you don&amp;rsquo;t know the info ID.&lt;/p&gt;
+&lt;p&gt;Info&amp;rsquo;s should be oldest supported to newest supported order, so that
+if we read an info ID we don&amp;rsquo;t support, none of the remaining info
+ID&amp;rsquo;s will be supported either, and we can safely skip to the payload.&lt;/p&gt;
+&lt;p&gt;Info ID&amp;rsquo;s and transform ID&amp;rsquo;s should share the same ID space.&lt;/p&gt;
+&lt;h3 id=&#34;padding&#34;&gt;PADDING:&lt;/h3&gt;
+&lt;p&gt;Header will be padded out to next 4-byte boundary with &lt;code&gt;0x00&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Max frame size is &lt;code&gt;0x3FFFFFFF&lt;/code&gt;, which is slightly less than &lt;code&gt;HTTP_MAGIC&lt;/code&gt;.
+This allows us to distinguish between different (older) transports.&lt;/p&gt;
+&lt;h3 id=&#34;transform-ids&#34;&gt;Transform IDs:&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    ZLIB_TRANSFORM 0x01 - No data &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; this.  Use zlib to &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;de&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;compress the
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                          data.
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    HMAC_TRANSFORM 0x02 - Variable amount of mac data.  One byte to specify
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                          size. Mac data is appended at the end of the packet.
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    SNAPPY_TRANSFORM  0x03  - No data &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; this.  Use snappy to &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;de&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;compress the
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                          data.
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;info-ids&#34;&gt;Info IDs:&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    INFO_KEYVALUE 0x01 - varint32 number of headers.
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                       - key/value pairs of varstrings &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;varint16 length plus
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                         no-trailing-null string&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;. Implementations MUST NOT
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                         alter either key or value in any way.
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
     
     <item>
       <title>妙用Go类型定义避免循环引用</title>
@@ -1645,103 +1801,6 @@ folderPeer#e9baa668 peer:Peer folder_id:int = FolderPeer;
 &lt;p&gt;——谨记之，践行之，此为记。&lt;/p&gt;
 &lt;hr&gt;
 &lt;p&gt;（备注：来源于&lt;a href=&#34;https://nieyong.github.io/wiki_ny/%E8%BF%B7%E6%97%B6%E5%B8%88%E5%BA%A6%20%E6%82%9F%E4%BA%86%E8%87%AA%E5%BA%A6.html&#34;&gt;网络&lt;/a&gt;）&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;声明：本站是个人开设维护的网站，主要用于收集网络美文、技术文章与原创生活记录等，系孤芳自赏、个人用途，内容如有侵权请联系站长删除。&lt;/em&gt;&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>MacBook Pro清灰散热处理</title>
-      <link>https://alimy.github.io/post/etc_202302100616/</link>
-      <pubDate>Fri, 10 Feb 2023 06:16:00 CST</pubDate>
-      
-      <guid>https://alimy.github.io/post/etc_202302100616/</guid>
-      <description>&lt;p&gt;&lt;img src=&#34;https://alimy.github.io/images/post/20230210061600.webp&#34; alt=&#34;&#34;&gt;
-Mac用了几年，明显感觉散热不佳，于是对Mac做了一次彻底的拆机清灰。下面就对详细讲一下拆机清灰的过程。&lt;/p&gt;
-&lt;h3 id=&#34;1拆机准备&#34;&gt;1.拆机准备&lt;/h3&gt;
-&lt;p&gt;首先准备螺丝刀、硅脂、刷子、翘片等工具
-&lt;img src=&#34;https://alimy.github.io/images/post/20230210061601.webp&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;h3 id=&#34;2拆后盖&#34;&gt;2.拆后盖&lt;/h3&gt;
-&lt;h4 id=&#34;21-松螺丝&#34;&gt;2.1 松螺丝&lt;/h4&gt;
-&lt;p&gt;松开后盖螺丝，上面两个螺丝为长螺丝，下面的为短螺丝，到时候安装的时候切记。
-&lt;img src=&#34;https://alimy.github.io/images/post/20230210061602.webp&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;h4 id=&#34;22-打开卡扣&#34;&gt;2.2 打开卡扣&lt;/h4&gt;
-&lt;p&gt;（1）如下图所示，后盖处有四个卡扣，两个卡槽。
-&lt;img src=&#34;https://alimy.github.io/images/post/20230210061603.webp&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;p&gt;（2）第一个就要开卡扣a，这个时候，拿出翘片，从右下角插入，向上滑，开启卡扣，右边卡扣A，也一样。右边卡扣开启后，从下面轻轻揭一点，中间的两个卡扣就开了。这个时候注意，要轻轻的揭，范围不要大，上面还有卡槽。
-&lt;img src=&#34;https://alimy.github.io/images/post/20230210061604.webp&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;h4 id=&#34;23-打开卡槽&#34;&gt;2.3 打开卡槽&lt;/h4&gt;
-&lt;p&gt;打开中间死磕卡扣之后，从下图所示位置，用力向下拉后盖，让上面卡槽脱离，后盖就取下来了。这里向下拉的力道需要很大，建议两个人操作，一个人按住电脑，一个人向下拉。
-&lt;img src=&#34;https://alimy.github.io/images/post/20230210061605.webp&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;h4 id=&#34;3拆主板&#34;&gt;3.拆主板&lt;/h4&gt;
-&lt;p&gt;拆下后盖，就看到了脏兮兮的主板，上面布满了杂灰等，风扇里也有不少灰尘。
-&lt;img src=&#34;https://alimy.github.io/images/post/20230210061606.webp&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;h4 id=&#34;31拆电源排线&#34;&gt;3.1拆电源排线&lt;/h4&gt;
-&lt;p&gt;下图左侧红框是电源排线，务必先拧掉上面螺丝卡片，然后扣掉排线，再松掉右边螺丝，拔掉排线。
-&lt;img src=&#34;https://alimy.github.io/images/post/20230210061607.webp&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;h4 id=&#34;32-拆电脑主板&#34;&gt;3.2 拆电脑主板&lt;/h4&gt;
-&lt;p&gt;下图所示，是你拆下主板需要拆掉的螺丝和拔掉的排线，数量很多，一一拆下，然后就可以拿下主板了。
-&lt;img src=&#34;https://alimy.github.io/images/post/20230210061608.webp&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;h3 id=&#34;4清理风扇&#34;&gt;4.清理风扇&lt;/h3&gt;
-&lt;h4 id=&#34;41拆风扇&#34;&gt;4.1拆风扇&lt;/h4&gt;
-&lt;p&gt;拿下主板后，按照下图，拧掉螺丝，拔下排线，然后就可以拿下排线了。
-&lt;img src=&#34;https://alimy.github.io/images/post/20230210061609.webp&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;p&gt;风扇拆掉后，如下图
-&lt;img src=&#34;https://alimy.github.io/images/post/20230210061610.webp&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;h4 id=&#34;42清理风扇&#34;&gt;4.2清理风扇&lt;/h4&gt;
-&lt;p&gt;拆下来的风扇，是真的脏，里面布满了尘土。这个风扇盒子是不能拆开的，如果拆开就装不回去了。因此，只能用别的办法搞掉灰尘。这个时候，就可以发挥创造力了。我使用的是一个毛很长的牙刷，剪掉大部分，只留下一排，然后从中心顺着风扇走向插进去蠕动，刷掉灰尘。
-&lt;img src=&#34;https://alimy.github.io/images/post/20230210061611.webp&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;p&gt;风扇清理之后，可以用面前带着湿巾等进去，擦干净灰尘，清理之后感觉爽爽的，一切都变得干净了
-&lt;img src=&#34;https://alimy.github.io/images/post/20230210061612.webp&#34; alt=&#34;&#34;&gt;
-&lt;img src=&#34;https://alimy.github.io/images/post/20230210061613.webp&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;h3 id=&#34;5清洗热管&#34;&gt;5.清洗热管&lt;/h3&gt;
-&lt;p&gt;拿出刚才拆下来的主板，拧掉下面四个螺丝，然后就能拿下热管了。
-&lt;img src=&#34;https://alimy.github.io/images/post/20230210061614.webp&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;p&gt;热管是可以用水清洗的，主要冲刷风扇的排风口，如果有杂物堵住了，水流可以最大化的冲干净。清理干净的热管，可以用视线或者灯光，查看排风口是否通畅。
-&lt;img src=&#34;https://alimy.github.io/images/post/20230210061615.webp&#34; alt=&#34;&#34;&gt;
-&lt;img src=&#34;https://alimy.github.io/images/post/20230210061616.webp&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;h3 id=&#34;6换新硅脂&#34;&gt;6.换新硅脂&lt;/h3&gt;
-&lt;p&gt;用纸将CPU、GPU上之前残余的硅脂，然后挤上新的硅脂
-&lt;img src=&#34;https://alimy.github.io/images/post/20230210061617.webp&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;p&gt;硅脂不在多，够用即可，然后用刮刀抹匀
-&lt;img src=&#34;https://alimy.github.io/images/post/20230210061618.webp&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;h3 id=&#34;7安装热管&#34;&gt;7.安装热管&lt;/h3&gt;
-&lt;p&gt;涂抹好硅脂之后，重新安装好热管，按照步骤5，拧回螺丝即可&lt;/p&gt;
-&lt;h3 id=&#34;8安装散热风扇&#34;&gt;8.安装散热风扇&lt;/h3&gt;
-&lt;p&gt;按照步骤4.1安装好风扇，插好排线
-&lt;img src=&#34;https://alimy.github.io/images/post/20230210061619.webp&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;h3 id=&#34;9安装主板&#34;&gt;9.安装主板&lt;/h3&gt;
-&lt;p&gt;安装主板的时候一定切记切记在切记，小心小心再小心，不要忘记把各处排线都拨到主板上面来，不要安装了一半，忘了，然后由重来，很麻烦的。此处参考步骤3。
-&lt;img src=&#34;https://alimy.github.io/images/post/20230216061620.webp&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;h3 id=&#34;10测试开机&#34;&gt;10.测试开机&lt;/h3&gt;
-&lt;p&gt;安装完主板之后，先不要傻傻的直接安装后盖，万一有什么地方没有安装好，点不亮，还得重新开后盖。这个之后，先开电源，看看能不能电量电脑，确定可以点亮屏幕，没有任何问题，方可盖后盖。&lt;/p&gt;
-&lt;h3 id=&#34;11安装后盖&#34;&gt;11.安装后盖&lt;/h3&gt;
-&lt;p&gt;第10步，测试确定可以开机没有问题，安装后盖就完事了。&lt;/p&gt;
-&lt;hr&gt;
-&lt;p&gt;（备注: 转载自&lt;a href=&#34;https://www.bilibili.com/read/cv18076720/&#34; title=&#34;手把手教你拆机MacBook Pro，作清灰散热处理&#34;&gt;bilibili&lt;/a&gt;）&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;声明：本站是个人开设维护的网站，主要用于收集网络美文、技术文章与原创生活记录等，系孤芳自赏、个人用途，内容如有侵权请联系站长删除。&lt;/em&gt;&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Mounty挂载NTFS硬盘报错</title>
-      <link>https://alimy.github.io/post/faq_202302011948/</link>
-      <pubDate>Wed, 01 Feb 2023 19:48:00 CST</pubDate>
-      
-      <guid>https://alimy.github.io/post/faq_202302011948/</guid>
-      <description>&lt;h3 id=&#34;问题&#34;&gt;问题&lt;/h3&gt;
-&lt;p&gt;&lt;code&gt;The volume UNTITLEDis not re-mountable in read/write mode .Probably it was not clean unmounted before. &lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;卷不能在读/写模式下重新挂载。可能是因为先前没有完全卸载(安全删除)。&lt;/code&gt;&lt;/p&gt;
-&lt;h3 id=&#34;解决方法-1&#34;&gt;解决方法 (1)&lt;/h3&gt;
-&lt;p&gt;不能被重新挂载，是因为以前没有clean 卸载。&lt;/p&gt;
-&lt;p&gt;就是说磁盘在win下面没有安全删除就拔出来了，导致文件系统中有错误区块，所以在MAC中不能挂载成读写模式。&lt;/p&gt;
-&lt;p&gt;到win下面chkdsk /f 一下，再回到MacOS即可。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;操作步骤&lt;/strong&gt;&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;插入移动硬盘到win下面&lt;/li&gt;
-&lt;li&gt;打开dos命令行。输入 chkdsk /f ,然后回车 Y&lt;/li&gt;
-&lt;li&gt;下次拔出移动硬盘之前，记得点击右下角的「安全删除」即可&lt;/li&gt;
-&lt;li&gt;再回到Mac系统即可使用&lt;/li&gt;
-&lt;/ol&gt;
-&lt;hr&gt;
-&lt;p&gt;（备注: 转载自&lt;a href=&#34;https://www.jianshu.com/p/d7a5e0519dbe&#34; title=&#34;Mounty挂载NTFS硬盘报错&#34;&gt;网络&lt;/a&gt;）&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;声明：本站是个人开设维护的网站，主要用于收集网络美文、技术文章与原创生活记录等，系孤芳自赏、个人用途，内容如有侵权请联系站长删除。&lt;/em&gt;&lt;/p&gt;</description>
     </item>
     

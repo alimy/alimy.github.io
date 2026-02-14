@@ -5,7 +5,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-  <title> Kitex &middot; 那年江湖，遇见你 </title>
+  <title> Kitex TTHeader协议 &middot; 那年江湖，遇见你 </title>
   
   <link rel="stylesheet" type="text/css" href="https://alimy.github.io//css/uno.css" />
   <link rel="stylesheet" type="text/css" href="https://alimy.github.io//css/lightGallery.css" />
@@ -189,15 +189,14 @@
 </head>
 
 <body>
-    <div id="scriptHeader">
+  <div id="scriptHeader">
     <span class="mobile btn-mobile-menu">
         <i class="fa fa-bars btn-mobile-menu__icon"></i>
         <i class="fa fa-times btn-mobile-close__icon hidden"> </i>
     </span>
     <header class="
-        
          panel-cover
-        panel-cover--collapsed  " 
+        panel-cover--collapsed " 
         style="background-image: url(/images/cover.jpg)" >
         <div class="panel-main">
             <div class="panel-main__inner panel-inverted">
@@ -313,57 +312,117 @@
         </div>
     </header>
 </noscript>
-    <div class="content-wrapper">
-        <div class="content-wrapper__inner">
-            <h2>文章列表</h2>
-            
-            <div class="panel-wrapper">
-                <div id="caption">
-                    <h3>
-                        2026年 02月
-                        
-                        <span id="list-indicator" title="共1篇文章">1 </span>
-                    </h3>
-                </div>
-                <ul id="list">
-                    
-                    <li>
-                        <a href="https://alimy.github.io/post/dev_202602141900/">Kitex TTHeader协议 </a>&nbsp;
-                        <span id="list-date">(Sat, Feb 14, 2026)</span>
-                    </li>
-                    
-                </ul>
-            </div>
-            
-            <div class="panel-wrapper">
-                <div id="caption">
-                    <h3>
-                        2024年 01月
-                        
-                        <span id="list-indicator" title="共1篇文章">1 </span>
-                    </h3>
-                </div>
-                <ul id="list">
-                    
-                    <li>
-                        <a href="https://alimy.github.io/post/dev_202401281630/">Kitex: Thrift-HTTP 映射的 IDL 规范 </a>&nbsp;
-                        <span id="list-date">(Sun, Jan 28, 2024)</span>
-                    </li>
-                    
-                </ul>
-            </div>
-            
-            <footer id="copyright">
+  <div class="content-wrapper">
+    <div class="content-wrapper__inner">
+      <div class="post panel-wrapper">
+        <h2>Kitex TTHeader协议</h2>
+        
+        <p>参考 <a href="https://github.com/apache/thrift/blob/master/doc/specs/HeaderFormat.md">Thrift THeader 协议</a> ，Kitex设计了 TTheader 协议。</p>
+<h4 id="协议编码">协议编码</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span> <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">4</span> <span style="color:#ae81ff">5</span> <span style="color:#ae81ff">6</span> <span style="color:#ae81ff">7</span> <span style="color:#ae81ff">8</span> <span style="color:#ae81ff">9</span> a b c d e f <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">4</span> <span style="color:#ae81ff">5</span> <span style="color:#ae81ff">6</span> <span style="color:#ae81ff">7</span> <span style="color:#ae81ff">8</span> <span style="color:#ae81ff">9</span> a b c d e f
+</span></span><span style="display:flex;"><span>+----------------------------------------------------------------+
+</span></span><span style="display:flex;"><span>| 0|                          LENGTH                             |
+</span></span><span style="display:flex;"><span>+----------------------------------------------------------------+
+</span></span><span style="display:flex;"><span>| 0|       HEADER MAGIC          |            FLAGS              |
+</span></span><span style="display:flex;"><span>+----------------------------------------------------------------+
+</span></span><span style="display:flex;"><span>|                         SEQUENCE NUMBER                        |
+</span></span><span style="display:flex;"><span>+----------------------------------------------------------------+
+</span></span><span style="display:flex;"><span>| 0|     HEADER SIZE             | ...
+</span></span><span style="display:flex;"><span>+---------------------------------
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                  Header is of variable size:
+</span></span><span style="display:flex;"><span>                   <span style="color:#f92672">(</span>and starts at offset 14<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>+----------------------------------------------------------------+
+</span></span><span style="display:flex;"><span>| PROTOCOL ID  |NUM TRANSFORMS . |TRANSFORM <span style="color:#ae81ff">0</span> ID <span style="color:#f92672">(</span>uint8<span style="color:#f92672">)</span>|
+</span></span><span style="display:flex;"><span>+----------------------------------------------------------------+
+</span></span><span style="display:flex;"><span>|  TRANSFORM <span style="color:#ae81ff">0</span> DATA ...
+</span></span><span style="display:flex;"><span>+----------------------------------------------------------------+
+</span></span><span style="display:flex;"><span>|         ...                              ...                   |
+</span></span><span style="display:flex;"><span>+----------------------------------------------------------------+
+</span></span><span style="display:flex;"><span>| INFO <span style="color:#ae81ff">0</span> ID <span style="color:#f92672">(</span>uint8<span style="color:#f92672">)</span>|       INFO <span style="color:#ae81ff">0</span>  DATA ...
+</span></span><span style="display:flex;"><span>+----------------------------------------------------------------+
+</span></span><span style="display:flex;"><span>|         ...                              ...                   |
+</span></span><span style="display:flex;"><span>+----------------------------------------------------------------+
+</span></span><span style="display:flex;"><span>|                                                                |
+</span></span><span style="display:flex;"><span>|                              PAYLOAD                           |
+</span></span><span style="display:flex;"><span>|                                                                |
+</span></span><span style="display:flex;"><span>+----------------------------------------------------------------+
+</span></span></code></pre></div><p>其中：</p>
+<ol>
+<li><code>LENGTH</code> 字段 32bits，包括数据包剩余部分的字节大小，不包含 <code>LENGTH</code> 自身长度</li>
+<li><code>HEADER MAGIC</code> 字段 16bits，值为：0x1000，用于标识 TTHeaderTransport</li>
+<li><code>FLAGS</code> 字段 16bits，为预留字段，暂未使用，默认值为 <code>0x0000</code></li>
+<li><code>SEQUENCE NUMBER</code> 字段 32bits，表示数据包的 seqId，可用于多路复用，最好确保单个连接内递增</li>
+<li><code>HEADER SIZE</code> 字段 16bits，等于头部长度字节数 /4，头部长度计算从第 14 个字节开始计算，一直到 <code>PAYLOAD</code> 前（备注：header 的最大长度为 64K）</li>
+<li><code>PROTOCOL ID</code> 字段 uint8 编码，取值有：
+<ul>
+<li>ProtocolIDBinary = 0</li>
+<li>ProtocolIDCompact = 2</li>
+</ul>
+</li>
+<li><code>NUM TRANSFORMS</code> 字段 uint8 编码，表示 <code>TRANSFORM</code> 个数</li>
+<li><code>TRANSFORM ID</code> 字段 uint8 编码，具体取值参考下文</li>
+<li><code>INFO ID</code> 字段 uint8 编码，具体取值参考下文</li>
+<li><code>PAYLOAD</code> 消息内容</li>
+</ol>
+<h2 id="padding-填充">PADDING 填充</h2>
+<p>Header 部分长度 bytes 数必须是 4 的倍数，不足部分用 <code>0x00</code> 填充</p>
+<h2 id="transform-ids">Transform IDs</h2>
+<p>表示压缩方式，为预留字段，暂不支持，取值有：</p>
+<ul>
+<li>ZLIB_TRANSFORM = 0x01，对应的 data 为空，表示用 <code>zlib</code> 压缩数据；</li>
+<li>SNAPPY_TRANSFORM = 0x03，对应的 data 为空，表示用 <code>snappy</code> 压缩数据；</li>
+</ul>
+<h2 id="info-ids">Info IDs</h2>
+<p>用于传递一些 kv 对信息，取值有：</p>
+<ul>
+<li>INFO_KEYVALUE = 0x01，对应的 data 为 key/value 对的列表, 首先是列表大小(uint16)，之后是每个key value对, key 和 value 各自都是由 uint16 的长度加上 no-trailing-null 的字符串组成，一般用于传递一些常见的 meta 信息，例如 tracingId；</li>
+<li>INFO_INTKEYVALUE = 0x10，对应的 data 为 key/value 对的列表, 首先是列表大小(uint16)，之后是每个key value对，key 为 uint16，value 由 uint16 的长度加上 no-trailing-null 的字符串组成，一般用于传递一些内部定制的 meta 信息，其中作为 request 有些 key 是必填的：
+<ul>
+<li>TRANSPORT_TYPE = 1（取值：framed/unframed）</li>
+<li>LOG_ID = 2</li>
+<li>FROM_SERVICE = 3</li>
+<li>FROM_CLUSTER = 4（默认 default）</li>
+<li>FROM_IDC = 5</li>
+<li>TO_SERVICE = 6</li>
+<li>TO_METHOD = 9</li>
+</ul>
+</li>
+<li>ACL_TOKEN_KEYVALUE = 0x11，对应的 data 为 key/value 对，key 和 value 各自都是由 uint16 的长度加上 no-trailing-null 的字符串组成，用于传递 ACL Token；</li>
+</ul>
+        <div id="post-tags">
+          
+          
+          <a href="https://alimy.github.io/tags/development/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;Development</a>
+          
+          <a href="https://alimy.github.io/tags/thrift/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;Thrift</a>
+          
+          <a href="https://alimy.github.io/tags/protocol/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;Protocol</a>
+          
+          <a href="https://alimy.github.io/tags/rpc/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;RPC</a>
+          
+          <a href="https://alimy.github.io/tags/kitex/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;Kitex</a>
+          
+          
+        </div>
+      </div>
+      <div id="post-navigator">
+        <a id="post-navigator-prev" href="https://alimy.github.io/post/dev_202602141850/" title="上一篇"><i class="fa fa-chevron-left"
+            aria-hidden="true"></i>&nbsp;Thrift THeader协议</a>
+        
+      </div>
+      
+      <footer id="copyright">
   <p>&copy;2015-至今 <a href="mailto:alimy@niubiu.com" title="Email:alimy@niubiu.com">北野 - Michael Li</a> All rights
     reserved.&nbsp;&nbsp;<a href="https://riiffy.com/alimy.github.io" title="访问统计" target="_blank">Riiffy</p>
 </footer>
-        </div>
     </div>
-</body>
-<script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
+    <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
 if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
 var s=document.getElementsByTagName('script')[0];sc.src='https://alimy.github.io/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
 WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
 
+</body>
 
 </html>

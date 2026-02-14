@@ -319,6 +319,64 @@
                         
                             <article class="post panel-wrapper">
     <header>
+        <h2><a href="https://alimy.github.io/post/dev_202101191738/" title="阅读全文">Mac OS包管理软件brew和port介绍 </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <p>Mac OS中主要有三种包管理工具：MacPorts，Homebrew，Fink。这里简介Homebrew和MacPorts的区别：</p>
+<p><strong>MacPorts</strong>：<br>
+因为 Mac OS 源自 BSD，因此将 BSD 中的 Port 移植到 OS 成为 MacPorts 就一点不奇怪。MacPorts 会独立于 OS 自建一套仓库树，OS 的包执行目录为 /usr/local，而 MacPorts 的包执行目录为 /opt/local。MacPorts 尽量不影响系统现有程序，自然也就尽量少复用系统已有程序。MacPorts 安装包的过程是下载该程序的所有源文件及其依赖包，然后在本地进行 Build 生成最终的可执行文件。这样做的好处是在系统中存在一套独立的生态环境，从而不影响系统自身的生态环境，缺点就是浪费了系统自身的生态资源。</p>
+<p><strong>Homebrew</strong>：<br>
+在 Lion 之后兴起的包管理工具，工作方式与 MacPorts 类似，下载源代码然后本地 Build。不同之处在于 Homebrew 采取与 MacPorts 截然相反的态度，对系统资源是最大程度的利用，因此可以说 Homebrew 是直接对现有系统生态环境进行修改，所有包也是直接安装到现有的生态环境中，这样做的好处是节约了系统资源，但缺点是每一次操作都是直接对系统进行修改，严重依赖和影响现有系统。</p>
+<p>使用 MacPorts 和 Homebrew 都需要预装 XCode Command Line Tools，即意味着还需要提前预装 XCode。（根据官方文档来看，Fink 安装比较新的工具包时，因为提前编译完成所以无需依赖 XCode，但对于一些不是二进制的包，如果需要本地编译，还是需要依赖 XCode。换而言之，如果想在 OS 中编译源码，都需要 XCode 提供支持）</p>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/dev_202101191738/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
+</article>
+                        
+                            <article class="post panel-wrapper">
+    <header>
+        <h2><a href="https://alimy.github.io/post/dev_202101181248/" title="阅读全文">Kotlin: 几种设计模式 </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <h4 id="创建型模式">创建型模式</h4>
+<p>原始模型</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Computer</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">val</span> cpu: String
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PC</span>(<span style="color:#66d9ef">override</span> <span style="color:#66d9ef">val</span> cpu: String = <span style="color:#e6db74">&#34;Core&#34;</span>): Computer
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Server</span>(<span style="color:#66d9ef">override</span> <span style="color:#66d9ef">val</span> cpu: String = <span style="color:#e6db74">&#34;Xeon&#34;</span>): Computer
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">enum</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ComputerType</span> {
+</span></span><span style="display:flex;"><span>	PC, Server
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ComputerFactory</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">produce</span>(type: ComputerType): Computer {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">when</span>(type) {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">ComputerType</span>.PC <span style="color:#f92672">-&gt;</span> PC()
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">ComputerType</span>.Server <span style="color:#f92672">-&gt;</span> Server()
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&gt;&gt;&gt; <span style="color:#66d9ef">val</span> comp = ComputerFactory().produce(<span style="color:#a6e22e">ComputerType</span>.PC)
+</span></span><span style="display:flex;"><span>&gt;&gt;&gt; println(comp.cpu)
+</span></span><span style="display:flex;"><span>Core
+</span></span></code></pre></div>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/dev_202101181248/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
+</article>
+                        
+                            <article class="post panel-wrapper">
+    <header>
         <h2><a href="https://alimy.github.io/post/dev_202101042002/" title="阅读全文">Tg: Serialized binary TL-schema in vkext format(*.tlo) </a> </h2>
         
     </header>
@@ -596,48 +654,6 @@ EndType
     </div>
     <footer id="more">
         <a href='https://alimy.github.io/post/dev_202012071315/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
-            </nobr></a>
-    </footer>
-</article>
-                        
-                            <article class="post panel-wrapper">
-    <header>
-        <h2><a href="https://alimy.github.io/post/dev_202011271711/" title="阅读全文">Tg: MTProto v2 </a> </h2>
-        
-    </header>
-    <div class="summary">
-        <h2 id="mobile-protocol-detailed-description">Mobile Protocol: Detailed Description</h2>
-<p>This article describes the basic layer of the MTProto protocol version 2.0 (Cloud chats, server-client encryption). The principal differences from version 1.0 (<a href="https://alimy.github.io/post/dev_202011271705/" title="MTProto v1">described here</a> for reference) are as follows:</p>
-<ul>
-<li>SHA-256 is used instead of SHA-1;</li>
-<li>Padding bytes are involved in the computation of <code>msg_key</code>;</li>
-<li><code>msg_key</code> depends not only on the message to be encrypted, but on a portion of <code>auth_key</code> as well;
-12..1024 padding bytes are used instead of 0..15 padding bytes in v.1.0.</li>
-</ul>
-<h4 id="protocol-description">Protocol description</h4>
-<p>Before a message (or a multipart message) is transmitted over a network using a transport protocol, it is encrypted in a certain way, and an external header is added at the top of the message that consists of a 64-bit key identifier <code>auth_key_id</code> (that uniquely identifies an authorization key for the server as well as the user) and a 128-bit message key <code>msg_key</code>.</p>
-<p>The authorization key <code>auth_key</code> combined with the message key <code>msg_key</code> define an actual 256-bit key <code>aes_key</code> and a 256-bit initialization vector <code>aes_iv</code>, which are used to encrypt the message using AES-256 encryption in infinite garble extension (IGE) mode. Note that the initial part of the message to be encrypted contains variable data (session, message ID, sequence number, server salt) that obviously influences the message key (and thus the AES key and iv). In <strong>MTProto 2.0</strong>, the message key is defined as the 128 middle bits of the SHA-256 of the message body (including session, message ID, padding, etc.) prepended by 32 bytes taken from the authorization key. In the older <strong>MTProto 1.0</strong>, the message key was computed as the lower 128 bits of SHA-1 of the message body, excluding the padding bytes.</p>
-<p>Multipart messages are encrypted as a single message.</p>
-    </div>
-    <footer id="more">
-        <a href='https://alimy.github.io/post/dev_202011271711/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
-            </nobr></a>
-    </footer>
-</article>
-                        
-                            <article class="post panel-wrapper">
-    <header>
-        <h2><a href="https://alimy.github.io/post/dev_202011271705/" title="阅读全文">Tg: MTProto v1 </a> </h2>
-        
-    </header>
-    <div class="summary">
-        <h2 id="mobile-protocol-detailed-description">Mobile Protocol: Detailed Description</h2>
-<p>Prior to a message (or a multipart message) being transmitted over a network using a transport protocol, it is encrypted in a certain way, and an external header is added at the top of the message which is: a 64-bit key identifier (that uniquely identifies an authorization key for the server as well as the user) and a 128-bit message key.</p>
-<p>A user key together with the message key define an actual 256-bit key and a 256-bit initialization vector, which is what encrypts the message using AES-256 encryption with infinite garble extension (IGE). Note that the initial part of the message to be encrypted contains variable data (session, message ID, sequence number, server salt) that obviously influences the message key (and thus the AES key and iv). The message key is defined as the 128 lower-order bits of the SHA1 of the message body (including session, message ID, etc.) Multipart messages are encrypted as a single message.
-<img src="https://alimy.github.io/images/post/20201127170500.png" alt=""></p>
-    </div>
-    <footer id="more">
-        <a href='https://alimy.github.io/post/dev_202011271705/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
             </nobr></a>
     </footer>
 </article>

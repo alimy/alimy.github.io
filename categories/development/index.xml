@@ -6,7 +6,163 @@
     <language>en</language>
     
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <updated>Thu, 12 Feb 2026 12:40:00 CST</updated>
+    <updated>Sat, 14 Feb 2026 19:00:00 CST</updated>
+    
+    <item>
+      <title>Kitex TTHeader协议</title>
+      <link>https://alimy.github.io/post/dev_202602141900/</link>
+      <pubDate>Sat, 14 Feb 2026 19:00:00 CST</pubDate>
+      
+      <guid>https://alimy.github.io/post/dev_202602141900/</guid>
+      <description>&lt;p&gt;参考 &lt;a href=&#34;https://github.com/apache/thrift/blob/master/doc/specs/HeaderFormat.md&#34;&gt;Thrift THeader 协议&lt;/a&gt; ，Kitex设计了 TTheader 协议。&lt;/p&gt;
+&lt;h4 id=&#34;协议编码&#34;&gt;协议编码&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;7&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;8&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;9&lt;/span&gt; a b c d e f &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;7&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;8&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;9&lt;/span&gt; a b c d e f
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;+----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;| 0|                          LENGTH                             |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;+----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;| 0|       HEADER MAGIC          |            FLAGS              |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;+----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|                         SEQUENCE NUMBER                        |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;+----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;| 0|     HEADER SIZE             | ...
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;+---------------------------------
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                  Header is of variable size:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                   &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;and starts at offset 14&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;+----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;| PROTOCOL ID  |NUM TRANSFORMS . |TRANSFORM &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; ID &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;uint8&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;|
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;+----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|  TRANSFORM &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; DATA ...
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;+----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|         ...                              ...                   |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;+----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;| INFO &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; ID &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;uint8&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;|       INFO &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;  DATA ...
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;+----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|         ...                              ...                   |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;+----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|                                                                |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|                              PAYLOAD                           |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|                                                                |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;+----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;其中：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;LENGTH&lt;/code&gt; 字段 32bits，包括数据包剩余部分的字节大小，不包含 &lt;code&gt;LENGTH&lt;/code&gt; 自身长度&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;HEADER MAGIC&lt;/code&gt; 字段 16bits，值为：0x1000，用于标识 TTHeaderTransport&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;FLAGS&lt;/code&gt; 字段 16bits，为预留字段，暂未使用，默认值为 &lt;code&gt;0x0000&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;SEQUENCE NUMBER&lt;/code&gt; 字段 32bits，表示数据包的 seqId，可用于多路复用，最好确保单个连接内递增&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;HEADER SIZE&lt;/code&gt; 字段 16bits，等于头部长度字节数 /4，头部长度计算从第 14 个字节开始计算，一直到 &lt;code&gt;PAYLOAD&lt;/code&gt; 前（备注：header 的最大长度为 64K）&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;PROTOCOL ID&lt;/code&gt; 字段 uint8 编码，取值有：
+&lt;ul&gt;
+&lt;li&gt;ProtocolIDBinary = 0&lt;/li&gt;
+&lt;li&gt;ProtocolIDCompact = 2&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;NUM TRANSFORMS&lt;/code&gt; 字段 uint8 编码，表示 &lt;code&gt;TRANSFORM&lt;/code&gt; 个数&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;TRANSFORM ID&lt;/code&gt; 字段 uint8 编码，具体取值参考下文&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;INFO ID&lt;/code&gt; 字段 uint8 编码，具体取值参考下文&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;PAYLOAD&lt;/code&gt; 消息内容&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;padding-填充&#34;&gt;PADDING 填充&lt;/h2&gt;
+&lt;p&gt;Header 部分长度 bytes 数必须是 4 的倍数，不足部分用 &lt;code&gt;0x00&lt;/code&gt; 填充&lt;/p&gt;
+&lt;h2 id=&#34;transform-ids&#34;&gt;Transform IDs&lt;/h2&gt;
+&lt;p&gt;表示压缩方式，为预留字段，暂不支持，取值有：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;ZLIB_TRANSFORM = 0x01，对应的 data 为空，表示用 &lt;code&gt;zlib&lt;/code&gt; 压缩数据；&lt;/li&gt;
+&lt;li&gt;SNAPPY_TRANSFORM = 0x03，对应的 data 为空，表示用 &lt;code&gt;snappy&lt;/code&gt; 压缩数据；&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;info-ids&#34;&gt;Info IDs&lt;/h2&gt;
+&lt;p&gt;用于传递一些 kv 对信息，取值有：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;INFO_KEYVALUE = 0x01，对应的 data 为 key/value 对的列表, 首先是列表大小(uint16)，之后是每个key value对, key 和 value 各自都是由 uint16 的长度加上 no-trailing-null 的字符串组成，一般用于传递一些常见的 meta 信息，例如 tracingId；&lt;/li&gt;
+&lt;li&gt;INFO_INTKEYVALUE = 0x10，对应的 data 为 key/value 对的列表, 首先是列表大小(uint16)，之后是每个key value对，key 为 uint16，value 由 uint16 的长度加上 no-trailing-null 的字符串组成，一般用于传递一些内部定制的 meta 信息，其中作为 request 有些 key 是必填的：
+&lt;ul&gt;
+&lt;li&gt;TRANSPORT_TYPE = 1（取值：framed/unframed）&lt;/li&gt;
+&lt;li&gt;LOG_ID = 2&lt;/li&gt;
+&lt;li&gt;FROM_SERVICE = 3&lt;/li&gt;
+&lt;li&gt;FROM_CLUSTER = 4（默认 default）&lt;/li&gt;
+&lt;li&gt;FROM_IDC = 5&lt;/li&gt;
+&lt;li&gt;TO_SERVICE = 6&lt;/li&gt;
+&lt;li&gt;TO_METHOD = 9&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;ACL_TOKEN_KEYVALUE = 0x11，对应的 data 为 key/value 对，key 和 value 各自都是由 uint16 的长度加上 no-trailing-null 的字符串组成，用于传递 ACL Token；&lt;/li&gt;
+&lt;/ul&gt;</description>
+    </item>
+    
+    <item>
+      <title>Thrift THeader协议</title>
+      <link>https://alimy.github.io/post/dev_202602141850/</link>
+      <pubDate>Sat, 14 Feb 2026 18:50:00 CST</pubDate>
+      
+      <guid>https://alimy.github.io/post/dev_202602141850/</guid>
+      <description>&lt;p&gt;Header format for the THeader.h&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;7&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;8&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;9&lt;/span&gt; a b c d e f &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;7&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;8&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;9&lt;/span&gt; a b c d e f
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    +----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    | 0|                          LENGTH                             |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    +----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    | 0|       HEADER MAGIC          |            FLAGS              |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    +----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    |                         SEQUENCE NUMBER                        |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    +----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    | 0|     Header Size&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;/32&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;        | ...
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    +---------------------------------
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                      Header is of variable size:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                       &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;and starts at offset 14&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    +----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    |         PROTOCOL ID  &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;varint&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;  |   NUM TRANSFORMS &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;varint&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;     |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    +----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    |      TRANSFORM &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; ID &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;varint&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;   |        TRANSFORM &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; DATA ...
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    +----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    |         ...                              ...                   |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    +----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    |        INFO &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; ID &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;varint&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;      |       INFO &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;  DATA ...
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    +----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    |         ...                              ...                   |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    +----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    |                                                                |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    |                              PAYLOAD                           |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    |                                                                |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    +----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The &lt;code&gt;LENGTH&lt;/code&gt; field is 32 bits, and counts the remaining bytes in the
+packet, NOT including the length field.  The header size field is 16
+bits, and defines the size of the header remaining NOT including the
+&lt;code&gt;HEADER MAGIC&lt;/code&gt;, &lt;code&gt;FLAGS&lt;/code&gt;, &lt;code&gt;SEQUENCE NUMBER&lt;/code&gt; and header size fields.  The
+Header size field is in bytes/4.&lt;/p&gt;
+&lt;p&gt;The transform ID&amp;rsquo;s are varints.  The data for each transform is
+defined by the transform ID in the code - no size is given in the
+header.  If a transform ID is specified from a client and the server
+doesn&amp;rsquo;t know about the transform ID, an error MUST be returned as we
+don&amp;rsquo;t know how to transform the data.&lt;/p&gt;
+&lt;p&gt;Conversely, data in the info headers is ignorable.  This should only
+be things like timestamps, debugging tracing, etc.  Using the header
+size you should be able to skip this data and read the payload safely
+if you don&amp;rsquo;t know the info ID.&lt;/p&gt;
+&lt;p&gt;Info&amp;rsquo;s should be oldest supported to newest supported order, so that
+if we read an info ID we don&amp;rsquo;t support, none of the remaining info
+ID&amp;rsquo;s will be supported either, and we can safely skip to the payload.&lt;/p&gt;
+&lt;p&gt;Info ID&amp;rsquo;s and transform ID&amp;rsquo;s should share the same ID space.&lt;/p&gt;
+&lt;h3 id=&#34;padding&#34;&gt;PADDING:&lt;/h3&gt;
+&lt;p&gt;Header will be padded out to next 4-byte boundary with &lt;code&gt;0x00&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Max frame size is &lt;code&gt;0x3FFFFFFF&lt;/code&gt;, which is slightly less than &lt;code&gt;HTTP_MAGIC&lt;/code&gt;.
+This allows us to distinguish between different (older) transports.&lt;/p&gt;
+&lt;h3 id=&#34;transform-ids&#34;&gt;Transform IDs:&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    ZLIB_TRANSFORM 0x01 - No data &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; this.  Use zlib to &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;de&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;compress the
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                          data.
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    HMAC_TRANSFORM 0x02 - Variable amount of mac data.  One byte to specify
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                          size. Mac data is appended at the end of the packet.
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    SNAPPY_TRANSFORM  0x03  - No data &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; this.  Use snappy to &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;de&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;compress the
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                          data.
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;info-ids&#34;&gt;Info IDs:&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    INFO_KEYVALUE 0x01 - varint32 number of headers.
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                       - key/value pairs of varstrings &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;varint16 length plus
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                         no-trailing-null string&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;. Implementations MUST NOT
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                         alter either key or value in any way.
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
     
     <item>
       <title>妙用Go类型定义避免循环引用</title>
@@ -1637,382 +1793,6 @@ Default/Develop/Demo/Slim 是不同 功能集套件(Features Suite)， Base/Opti
 %&amp;gt; # 进入交互模式
 %&amp;gt; psql -U username -d dbname -h 127.0.0.1
 &lt;/code&gt;&lt;/pre&gt;</description>
-    </item>
-    
-    <item>
-      <title>Go - SQL实践</title>
-      <link>https://alimy.github.io/post/dev_202112031525/</link>
-      <pubDate>Fri, 03 Dec 2021 15:25:00 CST</pubDate>
-      
-      <guid>https://alimy.github.io/post/dev_202112031525/</guid>
-      <description>&lt;h3 id=&#34;标准库sql驱动接口-databasesqldriver&#34;&gt;标准库SQL驱动接口 (&lt;a href=&#34;https://github.com/golang/go/tree/master/src/database/sql/driver&#34;&gt;database/sql/driver&lt;/a&gt;)&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&#34;https://alimy.github.io/images/post/20211203152500.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;h3 id=&#34;连接池&#34;&gt;连接池&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;std-&amp;gt; &lt;a href=&#34;https://github.com/golang/go/tree/master/src/database/sql&#34;&gt;database/sql&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;img src=&#34;https://alimy.github.io/images/post/20211203152501.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;h3 id=&#34;辅助库&#34;&gt;辅助库&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;sqlx-&amp;gt; github.com/jmoiron/sqlx&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&#34;sql驱动&#34;&gt;SQL驱动&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;mysql-&amp;gt; github.com/go-sql-driver/mysql&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr&gt;
-&lt;p&gt;状态: 未完待续!&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>MySQL 8.0直方图</title>
-      <link>https://alimy.github.io/post/dev_202106300750/</link>
-      <pubDate>Wed, 30 Jun 2021 07:50:00 CST</pubDate>
-      
-      <guid>https://alimy.github.io/post/dev_202106300750/</guid>
-      <description>&lt;h3 id=&#34;0-什么是直方图&#34;&gt;0. 什么是直方图&lt;/h3&gt;
-&lt;p&gt;直方图（Histogram）是数据库提供的一种（索引之外的）基础统计信息，用于描述列上的数据分布情况。它最典型的场景是估算查询谓词的选择率，以便选择合适的执行计划。&lt;/p&gt;
-&lt;p&gt;也就是说，某个列可以不创建索引但创建直方图，也可以帮助提升查询效率。
-MySQL 8.0开始支持直方图，这是个很大的进步。&lt;/p&gt;
-&lt;p&gt;直方图可以针对某个列记录其数据分布统计信息，例如有个列的值是从1到1万，那么可以利用直方图分成100个桶（bucket），每个桶中统计这1万个值是怎么分布的，以及每个桶中的最大值、最小值、占比等信息。&lt;/p&gt;
-&lt;p&gt;虽然可以利用索引优化SQL效率，但索引维护的代价更高，索引要保持更新，而直方图可以按需手动更新。&lt;/p&gt;
-&lt;p&gt;索引统计信息也有不可靠的时候，例如存在数据倾斜，或者统计延迟等问题。&lt;/p&gt;
-&lt;p&gt;另外，在有需要的时候，可以在每个有需要的列上创建直方图，但却不太可能同时创建多个单列索引，那样代价太高了。&lt;/p&gt;
-&lt;p&gt;例如下面这个执行计划：&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;[root@yejr.run]&amp;gt; explain select * from t1 where seq = 1234;
-+------+---------------+------+---------+------+--------+----------+-------------+
-| type | possible_keys | key  | key_len | ref  | rows   | filtered | Extra       |
-+------+---------------+------+---------+------+--------+----------+-------------+
-| ALL  | NULL          | NULL | NULL    | NULL | 299876 |    10.00 | Using where |
-+------+---------------+------+---------+------+--------+----------+-------------+
-
-[root@yejr.run]&amp;gt; select * from t1 where seq = 1234;
-Empty set (0.097 sec)
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;在还没创建直方图之前，seq列上同时也没有索引，这时是全表扫描，注意到 filtered 列的值是10%。&lt;/p&gt;
-&lt;p&gt;创建完直方图之后，再看这个执行计划：&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;[root@yejr.run]&amp;gt; explain select * from t1 where seq = 1234;
-+------+---------------+------+---------+------+--------+----------+-------------+
-| type | possible_keys | key  | key_len | ref  | rows   | filtered | Extra       |
-+------+---------------+------+---------+------+--------+----------+-------------+
-| ALL  | NULL          | NULL | NULL    | NULL | 299876 |     0.00 | Using where |
-+------+---------------+------+---------+------+--------+----------+-------------+
-
-[root@yejr.run]&amp;gt; select * from t1 where seq = 1234;
-Empty set (0.079 sec)
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;注意到 filtered 列值变成了 0%，并且实际耗时是原来的81%，虽然绝对值也不算小，但相对于原来的全表扫描也还是要节省了将近20%耗时。&lt;/p&gt;
-&lt;p&gt;所以说，直方图还是很有意义的，当然了，直方图还是无法代替索引，只在一些特定的场景里比较有用。&lt;/p&gt;
-&lt;h3 id=&#34;1-直方图怎么工作&#34;&gt;1. 直方图怎么工作&lt;/h3&gt;
-&lt;p&gt;MySQL支持两种直方图模式：等宽、等高。等宽直方图是每个桶保存一个值以及这个值累积频率，等高直方图每个桶需要保存不同值的个数，上下限以及累积频率等。MySQL会自动选用哪种类型的直方图，无需也不能指定。一般来说，数据数据分布范围比较大的话就采用等高，反之，如果数据分布比较小就采用等宽。&lt;/p&gt;
-&lt;p&gt;直方图的统计信息物理表 column_statistics 存储在mysql表空间中，无法直接读写，但可以访问 information_schema.COLUMN_STATISTICS 视图来查看统计结果。&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;[root@yejr.run]&amp;gt; show create view column_statistics\G
-*************************** 1. row ***************************
-                View: COLUMN_STATISTICS
-         Create View: CREATE ALGORITHM=UNDEFINED DEFINER=`mysql.infoschema`@`localhost` SQL SECURITY DEFINER VIEW `COLUMN_STATISTICS` AS select `mysql`.`column_statistics`.`schema_name` AS ...
-character_set_client: utf8
-collation_connection: utf8_general_ci
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;每条记录对应一个直方图统计结果，用JSON格式保存。&lt;/p&gt;
-&lt;p&gt;此外，还有个参数 &lt;code&gt;histogram_generation_max_mem_size&lt;/code&gt; 用来控制创建直方图时可用的内存，该参数很重要，后面会讲到。&lt;/p&gt;
-&lt;p&gt;截止MySQL 8.0.19版本，直方图支持多种数据类型和场景，甚至包括虚拟列。但不支持以下几种情况：&lt;/p&gt;
-&lt;p&gt;加密表、临时表。
-JSON数据类型、空间（spatial）数据类型。
-已创建唯一索引的单列。
-来个一个创建失败的例子：&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;[root@yejr.run]&amp;gt; analyze table t2 update histogram on nu;
-+---------+-----------+----------+-----------------------------------------------------------+
-| Table   | Op        | Msg_type | Msg_text                                                  |
-+---------+-----------+----------+-----------------------------------------------------------+
-| yejr.t2 | histogram | Error    | The column &amp;#39;nu&amp;#39; is covered by a single-part unique index. |
-+---------+-----------+----------+-----------------------------------------------------------+
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;MySQL干脆利落地拒绝了这种反智行为。&lt;/p&gt;
-&lt;p&gt;当然了，如果是一个列创建了非唯一辅助索引，就可以创建直方图，不会冲突。&lt;/p&gt;
-&lt;p&gt;来创建个正式直方图：&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;+---------+-----------+----------+------------------------------------------------+
-| Table   | Op        | Msg_type | Msg_text                                       |
-+---------+-----------+----------+------------------------------------------------+
-| yejr.t1 | histogram | status   | Histogram statistics created for column &amp;#39;seq&amp;#39;. |
-+---------+-----------+----------+------------------------------------------------+
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;再看下 COLUMN_STATISTICS 中存储的统计信息：&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;[root@yejr.run]&amp;gt; select SCHEMA_NAME, TABLE_NAME, COLUMN_NAME, JSON_PRETTY(HISTOGRAM) from COLUMN_STATISTICS\G
-*************************** 1. row ***************************
-           SCHEMA_NAME: yejr   --库
-            TABLE_NAME: t1     --表
-           COLUMN_NAME: seq    --列
-JSON_PRETTY(HISTOGRAM): {
-  &amp;#34;buckets&amp;#34;: [
-    [       --第一个桶(bucket)中的统计信息
-      1,    --最小值
-      9710, --最大值
-      0.009996666666666666, --累积占比，0.99%
-      2571  --第一个桶中累积几个值
-    ],
-...
-    [       --第100个桶中的统计信息
-      989875,
-      999994,
-      0.9996666666666667,  --因为该列包含部分NULL值，所以这里不是1.0（100%）
-      2580
-    ]
-  ],
-  &amp;#34;data-type&amp;#34;: &amp;#34;int&amp;#34;,   --该列数据类型，是INT
-  &amp;#34;null-values&amp;#34;: 0.0003333333333333333, --是否包含NULL值，或者NULL值的占比
-  &amp;#34;collation-id&amp;#34;: 8,
-  &amp;#34;last-updated&amp;#34;: &amp;#34;2020-04-21 07:21:53.084054&amp;#34;,  --直方图最后更新时间
-  &amp;#34;sampling-rate&amp;#34;: 1.0,  --采样比例 100%
-  &amp;#34;histogram-type&amp;#34;: &amp;#34;equi-height&amp;#34;,  --等高直方图
-  &amp;#34;number-of-buckets-specified&amp;#34;: 100  --共有100个桶
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;上面这个等高直方图，共100个桶，每个桶的数据量从2571 ~ 2620不等，总数据量259550，占比99.9667%。此外，还有大约0.033%为NULL的记录。&lt;/p&gt;
-&lt;p&gt;再来个等宽的直方图&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;  &amp;#34;buckets&amp;#34;: [
-    [
-      5,   --存储每个值
-      0.07692307692307693 ---该值频率
-    ],
-    [
-      25,
-      0.15384615384615385
-    ],
-......
-  ],
-  &amp;#34;data-type&amp;#34;: “int&amp;#34;,
-  &amp;#34;null-values&amp;#34;: 0.0,
-  &amp;#34;collation-id&amp;#34;: 8,
-  &amp;#34;last-updated&amp;#34;: &amp;#34;2019-07-02 06:44:15.134130”,
-  &amp;#34;sampling-rate&amp;#34;: 1.0,   --数据采样比例
-  &amp;#34;histogram-type&amp;#34;: “singleton&amp;#34;, --等宽
-  &amp;#34;number-of-buckets-specified&amp;#34;: 100
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;等宽直方图里，每个桶里记录是各个值的分布信息。&lt;/p&gt;
-&lt;h3 id=&#34;2-同时有索引和直方图会怎样&#34;&gt;2. 同时有索引和直方图会怎样&lt;/h3&gt;
-&lt;p&gt;某天，群里有同学在问，假如有个列同时创建了直方图和索引，优化器会怎么选择呢？&lt;/p&gt;
-&lt;p&gt;在回答之前，可以先开通脑筋想几秒钟…&lt;/p&gt;
-&lt;p&gt;事实上，真是这样的话，优化器会选择索引而非直方图。因为索引的统计信息相对&amp;quot;更及时&amp;quot;，也可能&amp;quot;更精确&amp;quot;，因为直方图是需要手动更新的，没办法保证&amp;quot;及时性&amp;quot;。当然了，我没去看源码，仅是我猜的，并通过试验确认的。&lt;/p&gt;
-&lt;p&gt;假设上面创建直方图的列 seq，同时也创建了索引，在开启 optimizer_trace 之后，可以看到两个执行计划之间的区别（我只选取了部分内容）&lt;/p&gt;
-&lt;p&gt;无索引时，走直方图&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;&amp;#34;considered_execution_plans&amp;#34;: [
-  {
-    &amp;#34;table&amp;#34;: &amp;#34;`t1`&amp;#34;,
-    &amp;#34;chosen&amp;#34;: true,
-    &amp;#34;plan_prefix&amp;#34;: [],
-    &amp;#34;cost_for_plan&amp;#34;: 35080,
-    &amp;#34;rows_for_plan&amp;#34;: 1,
-    &amp;#34;best_access_path&amp;#34;: {
-      &amp;#34;considered_access_paths&amp;#34;: [
-        {
-          &amp;#34;cost&amp;#34;: 35080,   --cost看起来好高
-          &amp;#34;chosen&amp;#34;: true,  --但还是被选中了
-          &amp;#34;access_type&amp;#34;: &amp;#34;scan&amp;#34;,   --全表扫描
-          &amp;#34;rows_to_scan&amp;#34;: 347352,  --预计需要扫描行数
-          &amp;#34;resulting_rows&amp;#34;: 1,   --预计返回行数
-          &amp;#34;filtering_effect&amp;#34;: [   
-            {
-              &amp;#34;condition&amp;#34;: &amp;#34;(`t1`.`seq` = 1234)&amp;#34;,
-              &amp;#34;histogram_selectivity&amp;#34;: 0.000001   --直方图过滤效果
-            }
-          ],
-          &amp;#34;final_filtering_effect&amp;#34;: 0.0000029
-        }
-      ]
-    },
-    &amp;#34;condition_filtering_pct&amp;#34;: 100
-  }
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;虽然看起来是要走全表扫描，但因为有了直方图，实际上还是很快就能返回结果的。&lt;/p&gt;
-&lt;p&gt;有索引时，优先走索引&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;&amp;#34;considered_execution_plans&amp;#34;: [
- {
-   &amp;#34;table&amp;#34;: &amp;#34;`t1`&amp;#34;,
-   &amp;#34;chosen&amp;#34;: true,
-   &amp;#34;plan_prefix&amp;#34;: [],
-   &amp;#34;cost_for_plan&amp;#34;: 0.35,
-   &amp;#34;rows_for_plan&amp;#34;: 1,
-   &amp;#34;best_access_path&amp;#34;: {
-     &amp;#34;considered_access_paths&amp;#34;: [
-       {
-         &amp;#34;cost&amp;#34;: 0.35,   --相当上面直方图的cost，这个就非常低了，所以毫无悬念的选择索引
-         &amp;#34;rows&amp;#34;: 1,
-         &amp;#34;index&amp;#34;: &amp;#34;k1&amp;#34;,
-         &amp;#34;chosen&amp;#34;: true,
-         &amp;#34;access_type&amp;#34;: &amp;#34;ref&amp;#34;
-       },
-       {
-         &amp;#34;cause&amp;#34;: &amp;#34;heuristic_index_cheaper&amp;#34;,
-         &amp;#34;chosen&amp;#34;: false,
-         &amp;#34;access_type&amp;#34;: &amp;#34;range&amp;#34;,
-         &amp;#34;range_details&amp;#34;: {
-           &amp;#34;used_index&amp;#34;: &amp;#34;k1&amp;#34;
-         }
-       }
-     ]
-   },
-   &amp;#34;condition_filtering_pct&amp;#34;: 100
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;如果有源码大佬，也请帮忙确认下是不是这样吧。&lt;/p&gt;
-&lt;h3 id=&#34;3-如何提高直方图的统计精确度&#34;&gt;3. 如何提高直方图的统计精确度&lt;/h3&gt;
-&lt;p&gt;前文我们提到过参数 histogram_generation_max_mem_size，其作用是控制在创建/更新直方图时所需的内存大小。&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;The maximum amount of memory available for generating histogram statistics.
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;该参数默认值是 20000000（不到20MB），最小值 1000000（约976KB），这是个会话级（session）分配的内存，而且是每次创建/更新直方图都需要分配，执行结束后就释放。&lt;/p&gt;
-&lt;p&gt;介绍完前置信息，该说重点了，在直方图里如何提高统计精确度。&lt;/p&gt;
-&lt;p&gt;在扫描InnoDB data page进行直方图数据统计时，大致是这样的步骤：&lt;/p&gt;
-&lt;p&gt;估算要统计的列数据类型长度，记为 row_size_bytes。
-可用内存除以每条记录长度，得到预计可以采样的数据量 rows_in_memory = histogram_generation_max_mem_size / row_size_bytes。
-计算得到采样比例 sample_percentage = rows_in_memory / rows_in_table。其中 rows_in_table 是表预估总记录数。
-依照采样比例，扫描data page，得到采样结果。例如，采样比例是10%，那么就是扫描1个page后，跳过9个page，然后继续采样。
-这几个步骤是以我的三脚猫源码阅读水平得到的结果，若有出入，还请留言指正。
-上述步骤所对应的代码是 sql/histograms/histogram.cc，约868行附近的 update_histogram 函数。
-MySQL目前对数据长度处理的非常粗粒度，只区分了下面几种情况，这就导致了直方图列实际所需要的内存可能要比它定义的类型长度要更大，也可以看下源码中的定义：&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;vim sql/histograms/histogram.cc +113
-
-/**
-  Convert from enum_field_types to Value_map_type.
-  @param field_type the field type
-  @param is_unsigned whether the field type is unsigned or not. This is only
-                     considered if the field type is LONGLONG
-  @return A Value_map_type. May be INVALID if the Value_map does not support
-          the field type.
-*/
-static Value_map_type field_type_to_value_map_type(
-    const enum_field_types field_type, const bool is_unsigned) {
-  switch (field_type) {
-    case MYSQL_TYPE_DECIMAL:
-    case MYSQL_TYPE_NEWDECIMAL:
-      return Value_map_type::DECIMAL;
-    case MYSQL_TYPE_TINY:
-    case MYSQL_TYPE_SHORT:
-    case MYSQL_TYPE_LONG:
-    case MYSQL_TYPE_INT24:
-    case MYSQL_TYPE_YEAR:
-    case MYSQL_TYPE_BIT:
-      return Value_map_type::INT;
-    case MYSQL_TYPE_ENUM:
-      return Value_map_type::ENUM;
-    case MYSQL_TYPE_SET:
-      return Value_map_type::SET;
-    case MYSQL_TYPE_LONGLONG:
-      return is_unsigned ? Value_map_type::UINT : Value_map_type::INT;
-    case MYSQL_TYPE_FLOAT:
-    case MYSQL_TYPE_DOUBLE:
-      return Value_map_type::DOUBLE;
-    case MYSQL_TYPE_TIME:
-    case MYSQL_TYPE_TIME2:
-      return Value_map_type::TIME;
-    case MYSQL_TYPE_DATE:
-    case MYSQL_TYPE_NEWDATE:
-      return Value_map_type::DATE;
-    case MYSQL_TYPE_DATETIME:
-    case MYSQL_TYPE_TIMESTAMP:
-    case MYSQL_TYPE_TIMESTAMP2:
-    case MYSQL_TYPE_DATETIME2:
-      return Value_map_type::DATETIME;
-    case MYSQL_TYPE_TINY_BLOB:
-    case MYSQL_TYPE_MEDIUM_BLOB:
-    case MYSQL_TYPE_LONG_BLOB:
-    case MYSQL_TYPE_BLOB:
-    case MYSQL_TYPE_VAR_STRING:
-    case MYSQL_TYPE_STRING:
-    case MYSQL_TYPE_VARCHAR:
-      return Value_map_type::STRING;
-    case MYSQL_TYPE_JSON:
-    case MYSQL_TYPE_GEOMETRY:
-    case MYSQL_TYPE_NULL:
-    default:
-      return Value_map_type::INVALID;
-  }
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;可以看到，把TINYINT（1字节）、SMALLINT（2字节）等都统统按 Value_map_type::INT 来处理了，而这个类型实际上是 longlong 的，也就是 16字节。&lt;/p&gt;
-&lt;p&gt;另外，每条记录还需要约42字节的额外开销（比大多数据类型长度还要大，尴尬）。&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;vim sql/histograms/value_map.h +262
-
-  /// @return the overhead in bytes for each distinct value stored in the
-  ///         Value_map. The value 32 is obtained from both GCC 8.2 and
-  ///         Clang 8.0 (same as sizeof(value_map_type::node_type) in C++17).
-  size_t element_overhead() const override {
-    // TODO: Replace this with sizeof(value_map_type::node_type) when we have
-    // full C++17 support.
-    return sizeof(typename value_map_type::value_type) +
-           sizeof(typename value_map_type::key_type) + 32;
-  }
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;其他的几个数据类型也是很粗犷的处理了，在以后的版本应该会改进吧。&lt;/p&gt;
-&lt;p&gt;如果 histogram_generation_max_mem_size 不够大，则采样比例比较低，就会影响准确度，那么应该设置多少合理呢，可以按照下面这个方法：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;先设置最小值。&lt;/li&gt;
-&lt;li&gt;执行一次采样。&lt;/li&gt;
-&lt;li&gt;查看采样比例。&lt;/li&gt;
-&lt;li&gt;反推出要全部采样所需的内存。
-当然了，如果表数据量特别大，也没必要全部采样，毕竟消耗的内存比较多，而且也需要更多的物理读。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;来个实例演示。&lt;/p&gt;
-&lt;p&gt;设置 histogram_generation_max_mem_size 为最小值&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;[root@yejr.run]&amp;gt; set session histogram_generation_max_mem_size = 1000000;
-
-# 重置InnoDB Metric计数器
-[root@yejr.run]&amp;gt; SET GLOBAL innodb_monitor_enable = &amp;#39;sampled%&amp;#39;;
-
-# 来一发，创建个直方图
-[root@yejr.run]&amp;gt; analyze table t1 update histogram on seq;
-1 row in set (0.16 sec)   --耗时0.16秒
-
-# 查看采样统计比例
-[root@yejr.run]&amp;gt; SELECT HISTOGRAM-&amp;gt;&amp;gt;&amp;#39;$.&amp;#34;sampling-rate&amp;#34;&amp;#39; FROM INFORMATION_SCHEMA.COLUMN_STATISTICS;
-+---------------------------------+
-| HISTOGRAM-&amp;gt;&amp;gt;&amp;#39;$.&amp;#34;sampling-rate&amp;#34;&amp;#39; |
-+---------------------------------+
-| 0.059548422871929935            |
-+---------------------------------+
-
-# 查看innodb data page扫描统计
-[root@yejr.run]&amp;gt; SELECT NAME, COUNT FROM information_schema.INNODB_METRICS WHERE NAME LIKE &amp;#39;sampled%&amp;#39;;
-+-----------------------+-------+
-| NAME                  | COUNT |
-+-----------------------+-------+
-| sampled_pages_read    |    51 |  --扫描了51个page
-| sampled_pages_skipped |   760 |  --跳过了760个page
-+-----------------------+-------+
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;与此同时，我在另一个session中，分别在之前和之后查询上面创建直方图的线程内存消耗情况。&lt;/p&gt;
-&lt;p&gt;第一次查询&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;[root@yejr.run]&amp;gt; select * from sys.x$memory_by_thread_by_current_bytes where thread_id = 286;
-+-----------+-------------------------------+--------------------+-------------------+-------------------+-------------------+-----------------+
-| thread_id | user                          | current_count_used | current_allocated | current_avg_alloc | current_max_alloc | total_allocated |
-+-----------+-------------------------------+--------------------+-------------------+-------------------+-------------------+-----------------+
-|       286 | thread_pool/tp_one_connection |                163 |            345036 |         2116.7853 |            260280 |       212710814 |
-+-----------+-------------------------------+--------------------+-------------------+-------------------+-------------------+-----------------+
-1 row in set (0.07 sec)
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;第二次查询&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;[root@yejr.run]&amp;gt; select * from sys.x$memory_by_thread_by_current_bytes where thread_id = 286;
-+-----------+-------------------------------+--------------------+-------------------+-------------------+-------------------+-----------------+
-| thread_id | user                          | current_count_used | current_allocated | current_avg_alloc | current_max_alloc | total_allocated |
-+-----------+-------------------------------+--------------------+-------------------+-------------------+-------------------+-----------------+
-|       286 | thread_pool/tp_one_connection |                165 |            346502 |         2100.0121 |            261712 |       213946226 |
-+-----------+-------------------------------+--------------------+-------------------+-------------------+-------------------+-----------------+
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;两次查询 total_allocated 的差值 1235412（1.17MB） 主要就是由于创建直方图所需的内存。&lt;/p&gt;
-&lt;p&gt;现在，可以推算所需要的内存大约是&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;[root@yejr.run]&amp;gt; select 1235412 / 0.059548422871929935;
-+--------------------------------+
-| 1235412 / 0.059548422871929935 |
-+--------------------------------+
-|                  20746342.8991 |
-+--------------------------------+
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;现在加大内存设置后，再做一次看看&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;[root@yejr.run]&amp;gt; set session histogram_generation_max_mem_size = 1000000;
-[root@yejr.run]&amp;gt; SET GLOBAL innodb_monitor_enable = &amp;#39;sampled%&amp;#39;;
-[root@yejr.run]&amp;gt; analyze table t1 update histogram on seq;
-1 row in set (3.78 sec)   --耗时3.78秒，是上面的23.6倍
-
-[root@yejr.run]&amp;gt; SELECT HISTOGRAM-&amp;gt;&amp;gt;&amp;#39;$.&amp;#34;sampling-rate&amp;#34;&amp;#39; FROM INFORMATION_SCHEMA.COLUMN_STATISTICS;
-+---------------------------------+
-| HISTOGRAM-&amp;gt;&amp;gt;&amp;#39;$.&amp;#34;sampling-rate&amp;#34;&amp;#39; |
-+---------------------------------+
-| 1.0                             |
-+---------------------------------+
-
-[root@yejr.run]&amp;gt; SELECT NAME, COUNT FROM information_schema.INNODB_METRICS WHERE NAME LIKE &amp;#39;sampled%&amp;#39;;
-+-----------------------+-------+
-| NAME                  | COUNT |
-+-----------------------+-------+
-| sampled_pages_read    |   811 |
-| sampled_pages_skipped |     0 |   --的确，没有被跳过的page了
-+-----------------------+-------+
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;再次提醒，并不是非得所有page都要被采集到，否则代价可能无法承受。。。&lt;/p&gt;
-&lt;hr&gt;
-&lt;p&gt;(备注: 转载自 &lt;a href=&#34;https://cloud.tencent.com/developer/article/1628479&#34; title=&#34;一文读懂MySQL 8.0直方图&#34;&gt;&lt;em&gt;这里&lt;/em&gt;&lt;/a&gt;)&lt;/p&gt;</description>
     </item>
     
   </channel>

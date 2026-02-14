@@ -6,7 +6,89 @@
     <language>en</language>
     
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <updated>Sun, 28 Jan 2024 16:30:00 CST</updated>
+    <updated>Sat, 14 Feb 2026 19:00:00 CST</updated>
+    
+    <item>
+      <title>Kitex TTHeader协议</title>
+      <link>https://alimy.github.io/post/dev_202602141900/</link>
+      <pubDate>Sat, 14 Feb 2026 19:00:00 CST</pubDate>
+      
+      <guid>https://alimy.github.io/post/dev_202602141900/</guid>
+      <description>&lt;p&gt;参考 &lt;a href=&#34;https://github.com/apache/thrift/blob/master/doc/specs/HeaderFormat.md&#34;&gt;Thrift THeader 协议&lt;/a&gt; ，Kitex设计了 TTheader 协议。&lt;/p&gt;
+&lt;h4 id=&#34;协议编码&#34;&gt;协议编码&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;7&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;8&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;9&lt;/span&gt; a b c d e f &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;7&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;8&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;9&lt;/span&gt; a b c d e f
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;+----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;| 0|                          LENGTH                             |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;+----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;| 0|       HEADER MAGIC          |            FLAGS              |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;+----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|                         SEQUENCE NUMBER                        |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;+----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;| 0|     HEADER SIZE             | ...
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;+---------------------------------
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                  Header is of variable size:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                   &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;and starts at offset 14&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;+----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;| PROTOCOL ID  |NUM TRANSFORMS . |TRANSFORM &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; ID &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;uint8&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;|
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;+----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|  TRANSFORM &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; DATA ...
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;+----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|         ...                              ...                   |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;+----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;| INFO &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; ID &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;uint8&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;|       INFO &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;  DATA ...
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;+----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|         ...                              ...                   |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;+----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|                                                                |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|                              PAYLOAD                           |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|                                                                |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;+----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;其中：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;LENGTH&lt;/code&gt; 字段 32bits，包括数据包剩余部分的字节大小，不包含 &lt;code&gt;LENGTH&lt;/code&gt; 自身长度&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;HEADER MAGIC&lt;/code&gt; 字段 16bits，值为：0x1000，用于标识 TTHeaderTransport&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;FLAGS&lt;/code&gt; 字段 16bits，为预留字段，暂未使用，默认值为 &lt;code&gt;0x0000&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;SEQUENCE NUMBER&lt;/code&gt; 字段 32bits，表示数据包的 seqId，可用于多路复用，最好确保单个连接内递增&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;HEADER SIZE&lt;/code&gt; 字段 16bits，等于头部长度字节数 /4，头部长度计算从第 14 个字节开始计算，一直到 &lt;code&gt;PAYLOAD&lt;/code&gt; 前（备注：header 的最大长度为 64K）&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;PROTOCOL ID&lt;/code&gt; 字段 uint8 编码，取值有：
+&lt;ul&gt;
+&lt;li&gt;ProtocolIDBinary = 0&lt;/li&gt;
+&lt;li&gt;ProtocolIDCompact = 2&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;NUM TRANSFORMS&lt;/code&gt; 字段 uint8 编码，表示 &lt;code&gt;TRANSFORM&lt;/code&gt; 个数&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;TRANSFORM ID&lt;/code&gt; 字段 uint8 编码，具体取值参考下文&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;INFO ID&lt;/code&gt; 字段 uint8 编码，具体取值参考下文&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;PAYLOAD&lt;/code&gt; 消息内容&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;padding-填充&#34;&gt;PADDING 填充&lt;/h2&gt;
+&lt;p&gt;Header 部分长度 bytes 数必须是 4 的倍数，不足部分用 &lt;code&gt;0x00&lt;/code&gt; 填充&lt;/p&gt;
+&lt;h2 id=&#34;transform-ids&#34;&gt;Transform IDs&lt;/h2&gt;
+&lt;p&gt;表示压缩方式，为预留字段，暂不支持，取值有：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;ZLIB_TRANSFORM = 0x01，对应的 data 为空，表示用 &lt;code&gt;zlib&lt;/code&gt; 压缩数据；&lt;/li&gt;
+&lt;li&gt;SNAPPY_TRANSFORM = 0x03，对应的 data 为空，表示用 &lt;code&gt;snappy&lt;/code&gt; 压缩数据；&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;info-ids&#34;&gt;Info IDs&lt;/h2&gt;
+&lt;p&gt;用于传递一些 kv 对信息，取值有：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;INFO_KEYVALUE = 0x01，对应的 data 为 key/value 对的列表, 首先是列表大小(uint16)，之后是每个key value对, key 和 value 各自都是由 uint16 的长度加上 no-trailing-null 的字符串组成，一般用于传递一些常见的 meta 信息，例如 tracingId；&lt;/li&gt;
+&lt;li&gt;INFO_INTKEYVALUE = 0x10，对应的 data 为 key/value 对的列表, 首先是列表大小(uint16)，之后是每个key value对，key 为 uint16，value 由 uint16 的长度加上 no-trailing-null 的字符串组成，一般用于传递一些内部定制的 meta 信息，其中作为 request 有些 key 是必填的：
+&lt;ul&gt;
+&lt;li&gt;TRANSPORT_TYPE = 1（取值：framed/unframed）&lt;/li&gt;
+&lt;li&gt;LOG_ID = 2&lt;/li&gt;
+&lt;li&gt;FROM_SERVICE = 3&lt;/li&gt;
+&lt;li&gt;FROM_CLUSTER = 4（默认 default）&lt;/li&gt;
+&lt;li&gt;FROM_IDC = 5&lt;/li&gt;
+&lt;li&gt;TO_SERVICE = 6&lt;/li&gt;
+&lt;li&gt;TO_METHOD = 9&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;ACL_TOKEN_KEYVALUE = 0x11，对应的 data 为 key/value 对，key 和 value 各自都是由 uint16 的长度加上 no-trailing-null 的字符串组成，用于传递 ACL Token；&lt;/li&gt;
+&lt;/ul&gt;</description>
+    </item>
     
     <item>
       <title>Kitex: Thrift-HTTP 映射的 IDL 规范</title>

@@ -319,6 +319,99 @@
                         
                             <article class="post panel-wrapper">
     <header>
+        <h2><a href="https://alimy.github.io/post/dev_202602141900/" title="阅读全文">Kitex TTHeader协议 </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <p>参考 <a href="https://github.com/apache/thrift/blob/master/doc/specs/HeaderFormat.md">Thrift THeader 协议</a> ，Kitex设计了 TTheader 协议。</p>
+<h4 id="协议编码">协议编码</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span> <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">4</span> <span style="color:#ae81ff">5</span> <span style="color:#ae81ff">6</span> <span style="color:#ae81ff">7</span> <span style="color:#ae81ff">8</span> <span style="color:#ae81ff">9</span> a b c d e f <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">4</span> <span style="color:#ae81ff">5</span> <span style="color:#ae81ff">6</span> <span style="color:#ae81ff">7</span> <span style="color:#ae81ff">8</span> <span style="color:#ae81ff">9</span> a b c d e f
+</span></span><span style="display:flex;"><span>+----------------------------------------------------------------+
+</span></span><span style="display:flex;"><span>| 0|                          LENGTH                             |
+</span></span><span style="display:flex;"><span>+----------------------------------------------------------------+
+</span></span><span style="display:flex;"><span>| 0|       HEADER MAGIC          |            FLAGS              |
+</span></span><span style="display:flex;"><span>+----------------------------------------------------------------+
+</span></span><span style="display:flex;"><span>|                         SEQUENCE NUMBER                        |
+</span></span><span style="display:flex;"><span>+----------------------------------------------------------------+
+</span></span><span style="display:flex;"><span>| 0|     HEADER SIZE             | ...
+</span></span><span style="display:flex;"><span>+---------------------------------
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                  Header is of variable size:
+</span></span><span style="display:flex;"><span>                   <span style="color:#f92672">(</span>and starts at offset 14<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>+----------------------------------------------------------------+
+</span></span><span style="display:flex;"><span>| PROTOCOL ID  |NUM TRANSFORMS . |TRANSFORM <span style="color:#ae81ff">0</span> ID <span style="color:#f92672">(</span>uint8<span style="color:#f92672">)</span>|
+</span></span><span style="display:flex;"><span>+----------------------------------------------------------------+
+</span></span><span style="display:flex;"><span>|  TRANSFORM <span style="color:#ae81ff">0</span> DATA ...
+</span></span><span style="display:flex;"><span>+----------------------------------------------------------------+
+</span></span><span style="display:flex;"><span>|         ...                              ...                   |
+</span></span><span style="display:flex;"><span>+----------------------------------------------------------------+
+</span></span><span style="display:flex;"><span>| INFO <span style="color:#ae81ff">0</span> ID <span style="color:#f92672">(</span>uint8<span style="color:#f92672">)</span>|       INFO <span style="color:#ae81ff">0</span>  DATA ...
+</span></span><span style="display:flex;"><span>+----------------------------------------------------------------+
+</span></span><span style="display:flex;"><span>|         ...                              ...                   |
+</span></span><span style="display:flex;"><span>+----------------------------------------------------------------+
+</span></span><span style="display:flex;"><span>|                                                                |
+</span></span><span style="display:flex;"><span>|                              PAYLOAD                           |
+</span></span><span style="display:flex;"><span>|                                                                |
+</span></span><span style="display:flex;"><span>+----------------------------------------------------------------+
+</span></span></code></pre></div>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/dev_202602141900/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
+</article>
+                        
+                            <article class="post panel-wrapper">
+    <header>
+        <h2><a href="https://alimy.github.io/post/dev_202602141850/" title="阅读全文">Thrift THeader协议 </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <p>Header format for the THeader.h</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>      <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">4</span> <span style="color:#ae81ff">5</span> <span style="color:#ae81ff">6</span> <span style="color:#ae81ff">7</span> <span style="color:#ae81ff">8</span> <span style="color:#ae81ff">9</span> a b c d e f <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">4</span> <span style="color:#ae81ff">5</span> <span style="color:#ae81ff">6</span> <span style="color:#ae81ff">7</span> <span style="color:#ae81ff">8</span> <span style="color:#ae81ff">9</span> a b c d e f
+</span></span><span style="display:flex;"><span>    +----------------------------------------------------------------+
+</span></span><span style="display:flex;"><span>    | 0|                          LENGTH                             |
+</span></span><span style="display:flex;"><span>    +----------------------------------------------------------------+
+</span></span><span style="display:flex;"><span>    | 0|       HEADER MAGIC          |            FLAGS              |
+</span></span><span style="display:flex;"><span>    +----------------------------------------------------------------+
+</span></span><span style="display:flex;"><span>    |                         SEQUENCE NUMBER                        |
+</span></span><span style="display:flex;"><span>    +----------------------------------------------------------------+
+</span></span><span style="display:flex;"><span>    | 0|     Header Size<span style="color:#f92672">(</span>/32<span style="color:#f92672">)</span>        | ...
+</span></span><span style="display:flex;"><span>    +---------------------------------
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                      Header is of variable size:
+</span></span><span style="display:flex;"><span>                       <span style="color:#f92672">(</span>and starts at offset 14<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    +----------------------------------------------------------------+
+</span></span><span style="display:flex;"><span>    |         PROTOCOL ID  <span style="color:#f92672">(</span>varint<span style="color:#f92672">)</span>  |   NUM TRANSFORMS <span style="color:#f92672">(</span>varint<span style="color:#f92672">)</span>     |
+</span></span><span style="display:flex;"><span>    +----------------------------------------------------------------+
+</span></span><span style="display:flex;"><span>    |      TRANSFORM <span style="color:#ae81ff">0</span> ID <span style="color:#f92672">(</span>varint<span style="color:#f92672">)</span>   |        TRANSFORM <span style="color:#ae81ff">0</span> DATA ...
+</span></span><span style="display:flex;"><span>    +----------------------------------------------------------------+
+</span></span><span style="display:flex;"><span>    |         ...                              ...                   |
+</span></span><span style="display:flex;"><span>    +----------------------------------------------------------------+
+</span></span><span style="display:flex;"><span>    |        INFO <span style="color:#ae81ff">0</span> ID <span style="color:#f92672">(</span>varint<span style="color:#f92672">)</span>      |       INFO <span style="color:#ae81ff">0</span>  DATA ...
+</span></span><span style="display:flex;"><span>    +----------------------------------------------------------------+
+</span></span><span style="display:flex;"><span>    |         ...                              ...                   |
+</span></span><span style="display:flex;"><span>    +----------------------------------------------------------------+
+</span></span><span style="display:flex;"><span>    |                                                                |
+</span></span><span style="display:flex;"><span>    |                              PAYLOAD                           |
+</span></span><span style="display:flex;"><span>    |                                                                |
+</span></span><span style="display:flex;"><span>    +----------------------------------------------------------------+
+</span></span></code></pre></div><p>The <code>LENGTH</code> field is 32 bits, and counts the remaining bytes in the
+packet, NOT including the length field.  The header size field is 16
+bits, and defines the size of the header remaining NOT including the
+<code>HEADER MAGIC</code>, <code>FLAGS</code>, <code>SEQUENCE NUMBER</code> and header size fields.  The
+Header size field is in bytes/4.</p>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/dev_202602141850/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
+</article>
+                        
+                            <article class="post panel-wrapper">
+    <header>
         <h2><a href="https://alimy.github.io/post/dev_202602131240/" title="阅读全文">妙用Go类型定义避免循环引用 </a> </h2>
         
     </header>
@@ -545,99 +638,6 @@ folderPeer#e9baa668 peer:Peer folder_id:int = FolderPeer;
     </div>
     <footer id="more">
         <a href='https://alimy.github.io/post/dev_202401281630/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
-            </nobr></a>
-    </footer>
-</article>
-                        
-                            <article class="post panel-wrapper">
-    <header>
-        <h2><a href="https://alimy.github.io/post/dev_202308271200/" title="阅读全文">Add commits to another person&#39;s PR on Github repo </a> </h2>
-        
-    </header>
-    <div class="summary">
-        <h3 id="tldr">TLDR;</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>git push git@github.com:remoteUser/remoteRepo localBranch:remoteBranch
-</span></span></code></pre></div><h3 id="explanation">Explanation</h3>
-<p>The normal <code>git push</code> command usually looks like this:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>git push origin branch
-</span></span></code></pre></div><p>Pushing to another developer&rsquo;s branch follows a similar pattern: <code>origin</code> is the other person&rsquo;s repo, and <code>branch</code> maps your local branch to the same branch on their remote repo.</p>
-<p><code>origin</code> = <code>git@github.com:remoteUser/remoteRepo</code></p>
-<p><code>branch</code> = <code>localBranch:remoteBranch</code></p>
-<p>Breaking down each variable:</p>
-<p><code>remoteUser</code> refers to the username of the developer who made the pr on your repo</p>
-<p><code>remoteRepo</code> refers to the name of the repo that the other developer is creating the PR from, usually, this is the same name as your repo.</p>
-<p><code>localBranch</code> refers to the branch name of your local copy of their remote branch</p>
-<p><code>remoteBranch</code> refers to the branch name of that their PR is originating from on their <code>remoteRepo</code></p>
-<p>Keep in mind, that you can only push to PRs from other developers on your repo if that developer selected &ldquo;Allow edits from maintainers&rdquo; when they created their PR.</p>
-    </div>
-    <footer id="more">
-        <a href='https://alimy.github.io/post/dev_202308271200/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
-            </nobr></a>
-    </footer>
-</article>
-                        
-                            <article class="post panel-wrapper">
-    <header>
-        <h2><a href="https://alimy.github.io/post/dev_202303312032/" title="阅读全文">Yesql - Sqlx的好搭挡 </a> </h2>
-        
-    </header>
-    <div class="summary">
-        <p><a href="https://github.com/alimy/yesql">Yesql</a> 解析一个SQL文件，提取出查询语句，自动生成对应的Go结构体，实现查询语句与代码分离，方便编写数据库查询逻辑。</p>
-<h3 id="安装">安装</h3>
-<pre tabindex="0"><code>go get github.com/alimy/yesql
-</code></pre><h3 id="使用-godoc">使用 <a href="https://pkg.go.dev/github.com/alimy/yesql"><img src="https://godoc.org/github.com/alimy/yesql?status.svg" alt="GoDoc"></a></h3>
-<h4 id="创建sql文件">创建sql文件</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- sql file yesql.sql
-</span></span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">-- name: newest_tags@topic
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">-- get newest tag information
-</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> t.id id, t.user_id user_id, t.tag tag, t.quote_num quote_num, u.id, u.nickname, u.username, u.status, u.avatar, u.is_admin 
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> <span style="color:#f92672">@</span>tag t <span style="color:#66d9ef">JOIN</span> <span style="color:#f92672">@</span><span style="color:#66d9ef">user</span> u <span style="color:#66d9ef">ON</span> t.user_id <span style="color:#f92672">=</span> u.id 
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> t.is_del <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span> <span style="color:#66d9ef">AND</span> t.quote_num <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> 
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> t.id <span style="color:#66d9ef">DESC</span> 
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">LIMIT</span> <span style="color:#f92672">?</span> <span style="color:#66d9ef">OFFSET</span> <span style="color:#f92672">?</span>;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">-- name: hot_tags@topic
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">-- get get host tag information
-</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> t.id id, t.user_id user_id, t.tag tag, t.quote_num quote_num, u.id, u.nickname, u.username, u.status, u.avatar, u.is_admin 
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> <span style="color:#f92672">@</span>tag t <span style="color:#66d9ef">JOIN</span> <span style="color:#f92672">@</span><span style="color:#66d9ef">user</span> u <span style="color:#66d9ef">ON</span> t.user_id <span style="color:#f92672">=</span> u.id 
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> t.is_del <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span> <span style="color:#66d9ef">AND</span> t.quote_num <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> 
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> t.quote_num <span style="color:#66d9ef">DESC</span> 
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">LIMIT</span> <span style="color:#f92672">?</span> <span style="color:#66d9ef">OFFSET</span> <span style="color:#f92672">?</span>;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">-- name: tags_by_keyword_a@topic
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">-- get tags by keyword
-</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> id, user_id, tag, quote_num <span style="color:#66d9ef">FROM</span> <span style="color:#f92672">@</span>tag <span style="color:#66d9ef">WHERE</span> is_del <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span> <span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> quote_num <span style="color:#66d9ef">DESC</span> <span style="color:#66d9ef">LIMIT</span> <span style="color:#ae81ff">6</span>;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">-- name: tags_by_keyword_b@topic
-</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> id, user_id, tag, quote_num <span style="color:#66d9ef">FROM</span> <span style="color:#f92672">@</span>tag <span style="color:#66d9ef">WHERE</span> is_del <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span> <span style="color:#66d9ef">AND</span> tag <span style="color:#66d9ef">LIKE</span> <span style="color:#f92672">?</span> <span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> quote_num <span style="color:#66d9ef">DESC</span> <span style="color:#66d9ef">LIMIT</span> <span style="color:#ae81ff">6</span>;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">-- name: insert_tag@topic
-</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> <span style="color:#f92672">@</span>tag (user_id, tag, created_on, modified_on, quote_num) <span style="color:#66d9ef">VALUES</span> (<span style="color:#f92672">?</span>, <span style="color:#f92672">?</span>, <span style="color:#f92672">?</span>, <span style="color:#f92672">?</span>, <span style="color:#ae81ff">1</span>);
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">-- name: tags_by_id_a@topic
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">-- clause: in
-</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> id <span style="color:#66d9ef">FROM</span> <span style="color:#f92672">@</span>tag <span style="color:#66d9ef">WHERE</span> id <span style="color:#66d9ef">IN</span> (<span style="color:#f92672">?</span>) <span style="color:#66d9ef">AND</span> is_del <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span> <span style="color:#66d9ef">AND</span> quote_num <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">-- name: tags_by_id_b@topic
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">-- clause: in
-</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> id, user_id, tag, quote_num <span style="color:#66d9ef">FROM</span> <span style="color:#f92672">@</span>tag <span style="color:#66d9ef">WHERE</span> id <span style="color:#66d9ef">IN</span> (<span style="color:#f92672">?</span>);
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">-- name: decr_tags_by_id@topic
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">-- clause: in
-</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">UPDATE</span> <span style="color:#f92672">@</span>tag <span style="color:#66d9ef">SET</span> quote_num<span style="color:#f92672">=</span>quote_num<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, modified_on<span style="color:#f92672">=?</span> <span style="color:#66d9ef">WHERE</span> id <span style="color:#66d9ef">IN</span> (<span style="color:#f92672">?</span>);
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">-- name: tags_for_incr@topic
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">-- clause: in
-</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> id, user_id, tag, quote_num <span style="color:#66d9ef">FROM</span> <span style="color:#f92672">@</span>tag <span style="color:#66d9ef">WHERE</span> tag <span style="color:#66d9ef">IN</span> (<span style="color:#f92672">?</span>);
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">-- name: incr_tags_by_id@topic
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">-- clause: in
-</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">UPDATE</span> <span style="color:#f92672">@</span>tag <span style="color:#66d9ef">SET</span> quote_num<span style="color:#f92672">=</span>quote_num<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, is_del<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, modified_on<span style="color:#f92672">=?</span> <span style="color:#66d9ef">WHERE</span> id <span style="color:#66d9ef">IN</span> (<span style="color:#f92672">?</span>);
-</span></span></code></pre></div>
-    </div>
-    <footer id="more">
-        <a href='https://alimy.github.io/post/dev_202303312032/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
             </nobr></a>
     </footer>
 </article>

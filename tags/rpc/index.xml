@@ -6,7 +6,163 @@
     <language>en</language>
     
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <updated>Sat, 24 Jan 2026 12:58:00 CST</updated>
+    <updated>Sat, 14 Feb 2026 19:00:00 CST</updated>
+    
+    <item>
+      <title>Kitex TTHeader协议</title>
+      <link>https://alimy.github.io/post/dev_202602141900/</link>
+      <pubDate>Sat, 14 Feb 2026 19:00:00 CST</pubDate>
+      
+      <guid>https://alimy.github.io/post/dev_202602141900/</guid>
+      <description>&lt;p&gt;参考 &lt;a href=&#34;https://github.com/apache/thrift/blob/master/doc/specs/HeaderFormat.md&#34;&gt;Thrift THeader 协议&lt;/a&gt; ，Kitex设计了 TTheader 协议。&lt;/p&gt;
+&lt;h4 id=&#34;协议编码&#34;&gt;协议编码&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;7&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;8&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;9&lt;/span&gt; a b c d e f &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;7&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;8&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;9&lt;/span&gt; a b c d e f
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;+----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;| 0|                          LENGTH                             |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;+----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;| 0|       HEADER MAGIC          |            FLAGS              |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;+----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|                         SEQUENCE NUMBER                        |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;+----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;| 0|     HEADER SIZE             | ...
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;+---------------------------------
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                  Header is of variable size:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                   &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;and starts at offset 14&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;+----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;| PROTOCOL ID  |NUM TRANSFORMS . |TRANSFORM &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; ID &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;uint8&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;|
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;+----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|  TRANSFORM &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; DATA ...
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;+----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|         ...                              ...                   |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;+----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;| INFO &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; ID &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;uint8&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;|       INFO &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;  DATA ...
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;+----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|         ...                              ...                   |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;+----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|                                                                |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|                              PAYLOAD                           |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|                                                                |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;+----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;其中：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;LENGTH&lt;/code&gt; 字段 32bits，包括数据包剩余部分的字节大小，不包含 &lt;code&gt;LENGTH&lt;/code&gt; 自身长度&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;HEADER MAGIC&lt;/code&gt; 字段 16bits，值为：0x1000，用于标识 TTHeaderTransport&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;FLAGS&lt;/code&gt; 字段 16bits，为预留字段，暂未使用，默认值为 &lt;code&gt;0x0000&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;SEQUENCE NUMBER&lt;/code&gt; 字段 32bits，表示数据包的 seqId，可用于多路复用，最好确保单个连接内递增&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;HEADER SIZE&lt;/code&gt; 字段 16bits，等于头部长度字节数 /4，头部长度计算从第 14 个字节开始计算，一直到 &lt;code&gt;PAYLOAD&lt;/code&gt; 前（备注：header 的最大长度为 64K）&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;PROTOCOL ID&lt;/code&gt; 字段 uint8 编码，取值有：
+&lt;ul&gt;
+&lt;li&gt;ProtocolIDBinary = 0&lt;/li&gt;
+&lt;li&gt;ProtocolIDCompact = 2&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;NUM TRANSFORMS&lt;/code&gt; 字段 uint8 编码，表示 &lt;code&gt;TRANSFORM&lt;/code&gt; 个数&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;TRANSFORM ID&lt;/code&gt; 字段 uint8 编码，具体取值参考下文&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;INFO ID&lt;/code&gt; 字段 uint8 编码，具体取值参考下文&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;PAYLOAD&lt;/code&gt; 消息内容&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;padding-填充&#34;&gt;PADDING 填充&lt;/h2&gt;
+&lt;p&gt;Header 部分长度 bytes 数必须是 4 的倍数，不足部分用 &lt;code&gt;0x00&lt;/code&gt; 填充&lt;/p&gt;
+&lt;h2 id=&#34;transform-ids&#34;&gt;Transform IDs&lt;/h2&gt;
+&lt;p&gt;表示压缩方式，为预留字段，暂不支持，取值有：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;ZLIB_TRANSFORM = 0x01，对应的 data 为空，表示用 &lt;code&gt;zlib&lt;/code&gt; 压缩数据；&lt;/li&gt;
+&lt;li&gt;SNAPPY_TRANSFORM = 0x03，对应的 data 为空，表示用 &lt;code&gt;snappy&lt;/code&gt; 压缩数据；&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;info-ids&#34;&gt;Info IDs&lt;/h2&gt;
+&lt;p&gt;用于传递一些 kv 对信息，取值有：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;INFO_KEYVALUE = 0x01，对应的 data 为 key/value 对的列表, 首先是列表大小(uint16)，之后是每个key value对, key 和 value 各自都是由 uint16 的长度加上 no-trailing-null 的字符串组成，一般用于传递一些常见的 meta 信息，例如 tracingId；&lt;/li&gt;
+&lt;li&gt;INFO_INTKEYVALUE = 0x10，对应的 data 为 key/value 对的列表, 首先是列表大小(uint16)，之后是每个key value对，key 为 uint16，value 由 uint16 的长度加上 no-trailing-null 的字符串组成，一般用于传递一些内部定制的 meta 信息，其中作为 request 有些 key 是必填的：
+&lt;ul&gt;
+&lt;li&gt;TRANSPORT_TYPE = 1（取值：framed/unframed）&lt;/li&gt;
+&lt;li&gt;LOG_ID = 2&lt;/li&gt;
+&lt;li&gt;FROM_SERVICE = 3&lt;/li&gt;
+&lt;li&gt;FROM_CLUSTER = 4（默认 default）&lt;/li&gt;
+&lt;li&gt;FROM_IDC = 5&lt;/li&gt;
+&lt;li&gt;TO_SERVICE = 6&lt;/li&gt;
+&lt;li&gt;TO_METHOD = 9&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;ACL_TOKEN_KEYVALUE = 0x11，对应的 data 为 key/value 对，key 和 value 各自都是由 uint16 的长度加上 no-trailing-null 的字符串组成，用于传递 ACL Token；&lt;/li&gt;
+&lt;/ul&gt;</description>
+    </item>
+    
+    <item>
+      <title>Thrift THeader协议</title>
+      <link>https://alimy.github.io/post/dev_202602141850/</link>
+      <pubDate>Sat, 14 Feb 2026 18:50:00 CST</pubDate>
+      
+      <guid>https://alimy.github.io/post/dev_202602141850/</guid>
+      <description>&lt;p&gt;Header format for the THeader.h&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;7&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;8&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;9&lt;/span&gt; a b c d e f &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;7&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;8&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;9&lt;/span&gt; a b c d e f
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    +----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    | 0|                          LENGTH                             |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    +----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    | 0|       HEADER MAGIC          |            FLAGS              |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    +----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    |                         SEQUENCE NUMBER                        |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    +----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    | 0|     Header Size&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;/32&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;        | ...
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    +---------------------------------
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                      Header is of variable size:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                       &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;and starts at offset 14&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    +----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    |         PROTOCOL ID  &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;varint&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;  |   NUM TRANSFORMS &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;varint&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;     |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    +----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    |      TRANSFORM &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; ID &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;varint&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;   |        TRANSFORM &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; DATA ...
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    +----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    |         ...                              ...                   |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    +----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    |        INFO &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; ID &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;varint&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;      |       INFO &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;  DATA ...
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    +----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    |         ...                              ...                   |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    +----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    |                                                                |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    |                              PAYLOAD                           |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    |                                                                |
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    +----------------------------------------------------------------+
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The &lt;code&gt;LENGTH&lt;/code&gt; field is 32 bits, and counts the remaining bytes in the
+packet, NOT including the length field.  The header size field is 16
+bits, and defines the size of the header remaining NOT including the
+&lt;code&gt;HEADER MAGIC&lt;/code&gt;, &lt;code&gt;FLAGS&lt;/code&gt;, &lt;code&gt;SEQUENCE NUMBER&lt;/code&gt; and header size fields.  The
+Header size field is in bytes/4.&lt;/p&gt;
+&lt;p&gt;The transform ID&amp;rsquo;s are varints.  The data for each transform is
+defined by the transform ID in the code - no size is given in the
+header.  If a transform ID is specified from a client and the server
+doesn&amp;rsquo;t know about the transform ID, an error MUST be returned as we
+don&amp;rsquo;t know how to transform the data.&lt;/p&gt;
+&lt;p&gt;Conversely, data in the info headers is ignorable.  This should only
+be things like timestamps, debugging tracing, etc.  Using the header
+size you should be able to skip this data and read the payload safely
+if you don&amp;rsquo;t know the info ID.&lt;/p&gt;
+&lt;p&gt;Info&amp;rsquo;s should be oldest supported to newest supported order, so that
+if we read an info ID we don&amp;rsquo;t support, none of the remaining info
+ID&amp;rsquo;s will be supported either, and we can safely skip to the payload.&lt;/p&gt;
+&lt;p&gt;Info ID&amp;rsquo;s and transform ID&amp;rsquo;s should share the same ID space.&lt;/p&gt;
+&lt;h3 id=&#34;padding&#34;&gt;PADDING:&lt;/h3&gt;
+&lt;p&gt;Header will be padded out to next 4-byte boundary with &lt;code&gt;0x00&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Max frame size is &lt;code&gt;0x3FFFFFFF&lt;/code&gt;, which is slightly less than &lt;code&gt;HTTP_MAGIC&lt;/code&gt;.
+This allows us to distinguish between different (older) transports.&lt;/p&gt;
+&lt;h3 id=&#34;transform-ids&#34;&gt;Transform IDs:&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    ZLIB_TRANSFORM 0x01 - No data &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; this.  Use zlib to &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;de&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;compress the
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                          data.
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    HMAC_TRANSFORM 0x02 - Variable amount of mac data.  One byte to specify
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                          size. Mac data is appended at the end of the packet.
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    SNAPPY_TRANSFORM  0x03  - No data &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; this.  Use snappy to &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;de&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;compress the
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                          data.
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;info-ids&#34;&gt;Info IDs:&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    INFO_KEYVALUE 0x01 - varint32 number of headers.
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                       - key/value pairs of varstrings &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;varint16 length plus
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                         no-trailing-null string&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;. Implementations MUST NOT
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                         alter either key or value in any way.
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
     
     <item>
       <title>TL在Go如何实现oneof语义</title>
@@ -153,6 +309,821 @@ folderPeer#e9baa668 peer:Peer folder_id:int = FolderPeer;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	_ &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; None
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    
+    <item>
+      <title>Tg: Serialized binary TL-schema in vkext format(*.tlo)</title>
+      <link>https://alimy.github.io/post/dev_202101042002/</link>
+      <pubDate>Mon, 04 Jan 2021 20:02:00 CST</pubDate>
+      
+      <guid>https://alimy.github.io/post/dev_202101042002/</guid>
+      <description>&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;---types---
+/////
+//
+// Serialized binary TL-schema in vkext format
+//
+/////
+
+tls.schema_v2 version:int date:int types_num:# types:types_num*[tls.Type] constructor_num:# constructors:constructor_num*[tls.Combinator] functions_num:# functions:functions_num*[tls.Combinator] = tls.Schema;
+
+tls.type name:int id:string constructors_num:int flags:int arity:int params_type:long = tls.Type;
+tls.combinator name:int id:string type_name:int left:tls.CombinatorLeft right:tls.CombinatorRight = tls.Combinator;
+tls.combinatorLeftBuiltin = tls.CombinatorLeft;
+tls.combinatorLeft args_num:# args:args_num*[tls.Arg] = tls.CombinatorLeft;
+
+tls.combinatorRight value:tls.TypeExpr = tls.CombinatorRight;
+
+tls.arg id:string flags:# var_num:flags.1?int exist_var_num:flags.2?int exist_var_bit:flags.2?int type:tls.TypeExpr = tls.Arg;
+
+tls.exprType _:tls.TypeExpr = tls.Expr;
+tls.exprNat _:tls.NatExpr = tls.Expr;
+
+tls.natConst value:int = tls.NatExpr;
+tls.natVar dif:int var_num:int = tls.NatExpr;
+
+tls.typeVar var_num:int flags:int = tls.TypeExpr;
+tls.array multiplicity:tls.NatExpr args_num:# args:args_num*[tls.Arg] = tls.TypeExpr;
+tls.typeExpr name:int flags:int children_num:# children:children_num*[tls.Expr] = tls.TypeExpr;
+---functions---
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    
+    <item>
+      <title>Tg:TL-formal</title>
+      <link>https://alimy.github.io/post/dev_202012071348/</link>
+      <pubDate>Fri, 18 Dec 2020 16:30:00 CST</pubDate>
+      
+      <guid>https://alimy.github.io/post/dev_202012071348/</guid>
+      <description>&lt;p&gt;See also &lt;a href=&#34;https://core.telegram.org/mtproto/TL&#34;&gt;TL Language&lt;/a&gt;. For the syntax of declaring combinators, see in article &lt;a href=&#34;https://core.telegram.org/mtproto/TL-combinators&#34;&gt;Formal declaration of TL combinators&lt;/a&gt;. For the syntax of patterns, see in article &lt;a href=&#34;https://core.telegram.org/mtproto/TL-patterns&#34;&gt;Formal declaration of TL patterns&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id=&#34;tokens&#34;&gt;Tokens&lt;/h3&gt;
+&lt;p&gt;Comments are the same as in C/C++. They are removed by a lexical parser (for example, being replaced by a single space). Whitespace separates tokens. Except for string constants, tokens cannot contain spaces.&lt;/p&gt;
+&lt;p&gt;Character classes:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;lc-letter ::= `a` | `b` | ... | `z`
+uc-letter ::= `A` | `B` | ... | `Z`
+digit ::= `0` | `1` | ... | `9`
+hex-digit ::= digit | `a` | `b` | `c` | `d` | `e` | `f`
+underscore ::= `_`
+letter ::= lc-letter | uc-letter
+ident-char ::= letter | digit | underscore
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Simple identifiers and keywords:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;lc-ident ::= lc-letter { ident-char }
+uc-ident ::= uc-letter { ident-char }
+namespace-ident ::= lc-ident
+lc-ident-ns ::= [ namespace-ident `.` ] lc-ident
+uc-ident-ns ::= [ namespace-ident `.` ] uc-ident
+lc-ident-full ::= lc-ident-ns [ `#` hex-digit *8 ]
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Tokens:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;underscore ::= `_`
+colon ::= `:`
+semicolon ::= `;`
+open-par ::= `(`
+close-par ::= `)`
+open-bracket ::= `[`
+close-bracket ::= `]`
+open-brace ::= `{`
+close-brace ::= `}`
+triple-minus ::= `---`
+nat-const ::= *digit* { *digit* }
+lc-ident-full
+lc-ident
+uc-ident-ns
+equals ::= `=`
+hash ::= `#`
+question-mark ::= `?`
+percent ::= `%`
+plus ::= `+`
+langle ::= `&amp;lt;`
+rangle ::= `&amp;gt;`
+comma ::= `,`
+dot ::= `.`
+asterisk ::= `*`
+excl-mark ::= `!`
+Final-kw ::= `Final`
+New-kw ::= `New`
+Empty-kw ::= `Empty`
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;code&gt;Final&lt;/code&gt; is a reserved keyword, e.g. a special token. Words like &lt;code&gt;Type&lt;/code&gt; are not keywords, rather they are identifiers with preset values.&lt;/p&gt;
+&lt;p&gt;Tokens consisting of one or more constant symbols shall be hereafter denoted using terms in quotation marks (for example, &lt;code&gt;---&lt;/code&gt; replaces &lt;em&gt;triple-minus&lt;/em&gt;).&lt;/p&gt;
+&lt;h2 id=&#34;syntax&#34;&gt;Syntax&lt;/h2&gt;
+&lt;h3 id=&#34;general-syntax-of-a-tl-program&#34;&gt;General syntax of a TL program&lt;/h3&gt;
+&lt;p&gt;Syntactically, a TL program consists of a stream of tokens (separated by spaces, which are ignored at this stage). General program structure:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;TL-program ::= constr-declarations { `---` `functions` `---` fun-declarations | `---` `types` `---` constr-declarations }
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Here the constructor- and function declarations are nearly identical in their syntax (they are both combinators):&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;constr-declarations ::= { declaration }
+fun-declarations ::= { declaration }
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;There are various declarations:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;declaration ::= combinator-decl | partial-app-decl | final-decl
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Before explaining how declarations of combinators, partial applications, and type &lt;code&gt;finalization&lt;/code&gt; are given, we will introduce additional syntactical categories:&lt;/p&gt;
+&lt;h3 id=&#34;syntactical-categories-and-constructions&#34;&gt;Syntactical categories and constructions&lt;/h3&gt;
+&lt;p&gt;The concept of an expression (&lt;em&gt;expr&lt;/em&gt;) is important. There are type expressions (&lt;em&gt;type-expr&lt;/em&gt;) and numeric expressions (&lt;em&gt;nat-expr&lt;/em&gt;). However, they are defined the same way. Their correctness as type- or numeric expressions is checked when the type of the analyzed expression is checked.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;type-expr ::= expr
+nat-expr ::= expr
+expr ::= { subexpr }
+subexpr ::= term | nat-const `+` subexpr | subexpr `+` nat-const
+term ::= `(` expr `)` | type-ident | var-ident | nat-const | `%` term | type-ident `&amp;lt;` expr { `,` expr } `&amp;gt;`
+type-ident ::= boxed-type-ident | lc-ident-ns | `#`
+boxed-type-ident ::= uc-ident-ns
+var-ident ::= lc-ident | uc-ident
+type-term ::= term
+nat-term ::= term
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Note that writing &lt;code&gt;E = E_1 E_2 ... E_n&lt;/code&gt; in the expression for &lt;em&gt;expr&lt;/em&gt; means applying the function &lt;em&gt;E_1&lt;/em&gt; to the argument &lt;em&gt;E_2&lt;/em&gt;, applying the result to &lt;em&gt;E_3&lt;/em&gt;, etc. Specifically, &lt;code&gt;E_1 E_2 E_3 = (E_1 E_2) E_3&lt;/code&gt;. A solitary &lt;code&gt;#&lt;/code&gt; is included in &lt;em&gt;type-ident&lt;/em&gt;, because it is actually the identifier for a built-in type (&lt;code&gt;#&lt;/code&gt; alias &lt;code&gt;nat&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;The expression &lt;code&gt;E&amp;lt;E_1,...,E_n&amp;gt;&lt;/code&gt; is syntactic sugar for &lt;code&gt;(E (E_1) ... (E_n))&lt;/code&gt;, i.e. both expressions are transformed into the same internal representation.&lt;/p&gt;
+&lt;h3 id=&#34;combinator-declarations&#34;&gt;Combinator declarations&lt;/h3&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;combinator-decl ::= full-combinator-id { opt-args } { args } `=` result-type `;`
+full-combinator-id ::= lc-ident-full | `_`
+combinator-id ::= lc-ident-ns | `_`
+opt-args ::= `{` var-ident { var-ident } : [excl-mark] type-expr `}`
+args ::= var-ident-opt `:` [ conditional-def ] [ `!` ] type-term
+args ::= [ var-ident-opt `:` ] [ multiplicity `*`] `[` { args } `]`
+args ::= `(` var-ident-opt { var-ident-opt } `:` [`!`] type-term `)`
+args ::= [ `!` ] type-term
+multiplicity ::= nat-term
+var-ident-opt ::= var-ident | `_`
+conditional-def ::= var-ident [ `.` nat-const ] `?`
+result-type ::= boxed-type-ident { subexpr }
+result-type ::= boxed-type-ident `&amp;lt;` subexpr { `,` subexpr } `&amp;gt;`
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;See &lt;a href=&#34;https://core.telegram.org/mtproto/TL-combinators&#34;&gt;Formal declaration of TL combinators&lt;/a&gt; for a description of what exactly this means. Here we will only note that when declaring the type of a combinator’s next argument, only the names of previously arranged (more to the left) arguments of the same combinator may be used as variables, but when declaring the result type you can use all of its parameters (of type &lt;code&gt;Type&lt;/code&gt; and &lt;code&gt;#&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;Note that the names of combinators declared in this way may be used in TL itself only as the corresponding bare types. The only combinators that appear in declarations are built-in: &lt;code&gt;O : #&lt;/code&gt; and &lt;code&gt;S : # -&amp;gt; #&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;There are also “pseudo-declarations” that are allowed only to declare built-in types (such as &lt;code&gt;int ? = Int;&lt;/code&gt;):&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;builtin-combinator-decl ::= full-combinator-id `?` `=` boxed-type-ident `;`
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;partial-applications-patterns&#34;&gt;Partial applications (patterns)&lt;/h3&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;partial-app-decl ::= partial-type-app-decl | partial-comb-app-decl
+partial-type-app-decl ::= boxed-type-ident subexpr { subexpr } `;` | boxed-type-ident `&amp;lt;` expr { `,` expr } `&amp;gt;` `;`
+partial-comb-app-decl ::= combinator-id subexpr { subexpr } `;`
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;See &lt;a href=&#34;https://core.telegram.org/mtproto/TL-patterns&#34;&gt;Formal declaration of TL patterns&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id=&#34;type-finalization&#34;&gt;Type finalization&lt;/h3&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;final-decl ::= `New` boxed-type-ident `;` | `Final` boxed-type-ident `;` | `Empty` boxed-type-ident `;`
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This type of declaration means that there must not be any constructor for the indicated type: before the declaration for &lt;code&gt;New&lt;/code&gt; and after the declaration for &lt;code&gt;Final&lt;/code&gt;. The keyword &lt;code&gt;Empty&lt;/code&gt; enables both effects.&lt;/p&gt;
+&lt;h3 id=&#34;predefined-identifiers&#34;&gt;Predefined identifiers&lt;/h3&gt;
+&lt;p&gt;Nearly all predefined identifiers may be given using the following schema (usually located in &lt;code&gt;common.tl&lt;/code&gt;):&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;/////
+//
+// Common Types
+//
+/////
+
+// Built-in types
+int ? = Int;
+long ? = Long;
+double ? = Double;
+string ? = String;
+
+// Boolean emulation
+boolFalse = Bool;
+boolTrue = Bool;
+
+// Boolean for diagonal queries
+boolStat statTrue:int statFalse:int statUnknown:int = BoolStat;
+
+// Vector
+vector {t:Type} # [t] = Vector t;
+tuple {t:Type} {n:#} [t] = Tuple t n;
+vectorTotal {t:Type} total_count:int vector:%(Vector t) = VectorTotal t;
+
+/////
+//
+// Result- (Maybe-) types
+//
+/////
+
+resultFalse {t:Type} = Maybe t;
+resultTrue {t:Type} result:t = Maybe t;
+
+pair {X:Type} {Y:Type} a:X b:Y = Pair X Y;
+map {X:Type} {Y:Type} key:X value:Y = Map X Y;
+
+Empty False;
+true = True;
+
+unit = Unit;
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;Predefined identifier &lt;code&gt;Type&lt;/code&gt;: This type signifies the type of all types. It is usually used to specify the types of optional parameters in the constructors of polymorphic types. If strongly desired, it can be used in its own right, but this is very rarely needed in practice.&lt;/li&gt;
+&lt;li&gt;Identifier &lt;code&gt;#&lt;/code&gt;: This type is used to specify a special type of nonnegative integers in the range from 0 to 2^31-1; its main purpose is the same as that of &lt;code&gt;Type&lt;/code&gt;. There are two built-in constructors: &lt;code&gt;O&lt;/code&gt; : # and &lt;code&gt;S&lt;/code&gt; : # -&amp;gt; # (“null” and “next number”, respectively), which work as if &lt;code&gt;#&lt;/code&gt; was defined using the schema&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;O = #;
+S # = #;
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;Identifier &lt;code&gt;Tuple&lt;/code&gt;: Type -&amp;gt; # -&amp;gt; Type denotes a set of the specified number of values of the indicated type. In other words, &lt;em&gt;Tuple X n&lt;/em&gt; means “a set of &lt;em&gt;n&lt;/em&gt; values of type &lt;em&gt;X&lt;/em&gt;&amp;quot;.&lt;/li&gt;
+&lt;li&gt;The type&lt;code&gt;Bool&lt;/code&gt;, with two constructors &lt;code&gt;boolTrue&lt;/code&gt; and &lt;code&gt;boolFalse&lt;/code&gt;, is used to transmit Boolean values.&lt;/li&gt;
+&lt;li&gt;The constructor-less type &lt;code&gt;False&lt;/code&gt; may be used instead of undeclared or invalid types in the construction of a TL schema, because any attempt to (de)serialize a value of type &lt;code&gt;False&lt;/code&gt; will produce an error. Usage Example:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;user {flags:#} id:flags.0?string first_name:flags.1?string last_name:flags.2?string reserved3:flags.3?False reserved4:flags.4?False = User flags;
+user_present {flags:#} info:%(User flags) = UserInfo flags;
+user_absent {flags:#} = UserInfo flags;
+getUser flags:# id:int = !UserInfo flags;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In the future, bits 3 and 4 in the &lt;code&gt;flags&lt;/code&gt; field may be used to transmit new fields after changing the names and types of the &lt;code&gt;reserved3&lt;/code&gt; and &lt;code&gt;reserved4&lt;/code&gt; fields. This will change the &lt;code&gt;user&lt;/code&gt; constructor’s number, but this isn’t too important, since the &lt;code&gt;User flags&lt;/code&gt; type is only used as a bare type. Transmitting bits 3 or 4 in the &lt;code&gt;flags&lt;/code&gt; field in a &lt;code&gt;getUser&lt;/code&gt; query before these fields have actually been defined will lead to an error in the (de)serialization of the request.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The type &lt;code&gt;True&lt;/code&gt; with a single null constructor &lt;code&gt;true&lt;/code&gt; plays a role similar to the void type in C/C++. It is especially useful as a bare type &lt;code&gt;%True&lt;/code&gt;, alias &lt;code&gt;true&lt;/code&gt;, because its serialization has zero length. For example, the &lt;code&gt;first_name:flags.1?string&lt;/code&gt; constructor used above is in fact shorthand for (the as-yet unsupported) alternative-type general constructor &lt;code&gt;first_name:(flags.1?string:true)&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;When directly used in a &lt;a href=&#34;https://core.telegram.org/mtproto/TL-combinators#conditional-fields&#34;&gt;conditional field&lt;/a&gt; it may simply indicate the presence (absence) of a certain parameter with void type. If the conditional field exists, the associated parameter will not be populated; the conditional field simply exists and the existance value can be used to perform certain operations, example:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;user {flags:#} id:flags.0?string first_name:flags.1?string last_name:flags.2?string bot:flags.3?true reserved4:flags.4?False = User flags;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If bit 3 of the &lt;code&gt;flags&lt;/code&gt; parameter isn&amp;rsquo;t set, the user is a normal user. If bit 3 of the &lt;code&gt;flags&lt;/code&gt; parameter is set, this indicates that the specified user is a bot: however, during deserialization, the &lt;code&gt;bot&lt;/code&gt; parameter must not be assigned any value, since &lt;code&gt;true&lt;/code&gt; is actually a &lt;code&gt;void&lt;/code&gt; type.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The type&lt;code&gt;Unit&lt;/code&gt; with a single null constructor &lt;code&gt;Unit&lt;/code&gt; is similar to the previous type.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;antlr-definition&#34;&gt;ANTLR definition&lt;/h4&gt;
+&lt;p&gt;An &lt;a href=&#34;https://www.antlr.org/&#34;&gt;ANLTR&lt;/a&gt; definition of TL grammar can be found &lt;a href=&#34;https://gitlab.com/telekram/telekram/-/blob/master/generator/src/commonMain/antlr/TL.g4&#34;&gt;here »&lt;/a&gt;.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;grammar TL;
+
+/* +++ Tokens +++ */
+
+/* === Character classes and Simple identifiers and keywords === */
+NUMBER_ : [0-9]+ ;
+HEX_CONST_ : ([a-f0-9] | NUMBER_)+ ;
+LC_IDENT_ : [a-z] ([_a-zA-Z] | HEX_CONST_)* ;
+UC_IDENT_ : [A-Z] ([_a-zA-Z] | HEX_CONST_)* ;
+namespace_ident : LC_IDENT_ ;
+lc_ident_ns : (namespace_ident DOT)* LC_IDENT_ ;
+uc_ident_ns : (namespace_ident DOT)* UC_IDENT_ ;
+hex_const : HEX_CONST_ | NUMBER_ ;
+lc_ident_full : lc_ident_ns (HASH hex_const)? ;
+var_ident : LC_IDENT_ | UC_IDENT_ ;
+
+/* === Tokens === */
+UNDERSCORE : &amp;#39;_&amp;#39; ;
+COLON : &amp;#39;:&amp;#39; ;
+SEMICOLON : &amp;#39;;&amp;#39; ;
+OPEN_PAR : &amp;#39;(&amp;#39; ;
+CLOSE_PAR : &amp;#39;)&amp;#39; ;
+OPEN_BRACKET : &amp;#39;[&amp;#39; ;
+CLOSE_BRACKET : &amp;#39;]&amp;#39; ;
+OPEN_BRACE : &amp;#39;{&amp;#39; ;
+CLOSE_BRACE : &amp;#39;}&amp;#39; ;
+TYPES : &amp;#39;---&amp;#39; WS? &amp;#39;TYPES&amp;#39; WS? &amp;#39;---&amp;#39; ;
+FUNCTIONS : &amp;#39;---&amp;#39; WS? &amp;#39;functions&amp;#39; WS? &amp;#39;---&amp;#39; ;
+nat_const : NUMBER_ ;
+EQUALS : &amp;#39;=&amp;#39; ;
+HASH : &amp;#39;#&amp;#39; ;
+QUESTION_MARK : &amp;#39;?&amp;#39; ;
+PERCENT : &amp;#39;%&amp;#39; ;
+PLUS : &amp;#39;+&amp;#39; ;
+LANGLE : &amp;#39;&amp;lt;&amp;#39; ;
+RANGLE : &amp;#39;&amp;gt;&amp;#39; ;
+COMMA : &amp;#39;,&amp;#39; ;
+DOT : &amp;#39;.&amp;#39; ;
+ASTERISK : &amp;#39;*&amp;#39; ;
+EXCL_MARK : &amp;#39;!&amp;#39; ;
+FINAL_KW : &amp;#39;Final&amp;#39; WS ;
+NEW_KW : &amp;#39;New&amp;#39; WS ;
+EMPTY_KW : &amp;#39;Empty&amp;#39; WS ;
+/* +++ Syntax +++ */
+/* === General syntax of a TL program === */
+tl_program : constr_declarations ((TYPES WS? constr_declarations) | (FUNCTIONS WS? fun_declarations))* ;
+constr_declarations : declaration* ;
+fun_declarations : declaration* ;
+// Note this is modified from the original to add `builtin_combinator_decl` - see https://t.me/c/1147847827/36700
+declaration : (combinator_decl | builtin_combinator_decl | partial_app_decl | final_decl) WS? SEMICOLON WS? ;
+
+/* === Syntactical categories and constructions === */
+type_expr : EXCL_MARK? expr ;
+nat_expr : expr ;
+expr : subexpr (WS subexpr)* ;
+subexpr : term | nat_const WS? PLUS WS? subexpr | subexpr WS? PLUS WS? nat_const ;
+term
+    : OPEN_PAR WS? expr WS? CLOSE_PAR
+    | type_ident
+    | var_ident
+    | nat_const
+    | PERCENT term
+    | type_ident WS? LANGLE WS? expr (WS? COMMA WS? expr)* WS? RANGLE
+    ;
+type_ident : boxed_type_ident | lc_ident_ns | HASH ;
+boxed_type_ident : uc_ident_ns ;
+type_term : EXCL_MARK? term;
+nat_term : term;
+
+/* === Combinator declarations === */
+combinator_decl : full_combinator_id WS opt_args* args* WS? EQUALS WS? result_type ;
+full_combinator_id : lc_ident_full | UNDERSCORE ;
+combinator_id : lc_ident_ns | UNDERSCORE ;
+opt_args : OPEN_BRACE var_ident (WS var_ident)* WS? COLON type_expr CLOSE_BRACE WS ;
+args
+    : simple_arg
+    | bracket_arg
+    | par_arg
+    | type_arg
+    ;
+simple_arg : var_ident_opt COLON conditional_def? type_term WS ;
+bracket_arg : (var_ident_opt WS? COLON WS?)? (multiplicity WS? ASTERISK WS?)? OPEN_BRACKET WS? args* WS? CLOSE_BRACKET ;
+par_arg : OPEN_PAR var_ident_opt (WS var_ident_opt)* WS? COLON WS? type_term WS ;
+type_arg : type_term WS ;
+multiplicity : nat_term ;
+var_ident_opt : var_ident | UNDERSCORE ;
+conditional_def : var_ident (DOT nat_const)? QUESTION_MARK ;
+result_type
+    : boxed_type_ident (WS subexpr (WS subexpr)*)?
+    | boxed_type_ident WS? LANGLE WS? subexpr (WS? COMMA WS? subexpr)* WS? RANGLE
+    ;
+builtin_combinator_decl : full_combinator_id WS QUESTION_MARK WS? EQUALS WS? boxed_type_ident ;
+
+/* === Partial applications (patterns) === */
+partial_app_decl : partial_type_app_decl | partial_comb_app_decl ;
+partial_type_app_decl
+    : boxed_type_ident WS subexpr (WS subexpr)*
+    | boxed_type_ident WS? LANGLE WS? expr (WS? COMMA WS? expr)* WS? RANGLE
+    ;
+partial_comb_app_decl : combinator_id WS subexpr (WS subexpr)* ;
+
+/* === Type finalization === */
+final_decl
+    : NEW_KW boxed_type_ident
+    | FINAL_KW boxed_type_ident
+    | EMPTY_KW boxed_type_ident
+    ;
+
+/* +++ Other +++ */
+/* === Root program definition === */
+tl_file : WS? tl_program WS? EOF ;
+
+/* === Whitespace handling === */
+WS : [ \r\n\t]+ ;
+
+/* === Comments === */
+LINE_COMMENT : &amp;#39;//&amp;#39; .+? (&amp;#39;\n&amp;#39;|EOF) -&amp;gt; skip ;
+MULTILINE_COMMENT : &amp;#39;/*&amp;#39; .+? &amp;#39;*/&amp;#39; -&amp;gt; skip ;
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;p&gt;(Notice: Origin official document is &lt;a href=&#34;https://core.telegram.org/mtproto/TL-formal&#34; title=&#34; TL-formal&#34;&gt;&lt;em&gt;Here&lt;/em&gt;&lt;/a&gt;)&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Tg: Current MTProto TL-schema</title>
+      <link>https://alimy.github.io/post/dev_202012081630/</link>
+      <pubDate>Mon, 07 Dec 2020 13:48:00 CST</pubDate>
+      
+      <guid>https://alimy.github.io/post/dev_202012081630/</guid>
+      <description>&lt;p&gt;Below you will find the current MTProto TL-schema. More detais on &lt;a href=&#34;https://alimy.github.io/post/dev_202012071315/&#34;&gt;TL&lt;/a&gt;.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;int ? = Int;
+long ? = Long;
+double ? = Double;
+string ? = String;
+
+vector {t:Type} # [ t ] = Vector t;
+
+int128 4*[ int ] = Int128;
+int256 8*[ int ] = Int256;
+
+resPQ#05162463 nonce:int128 server_nonce:int128 pq:bytes server_public_key_fingerprints:Vector&amp;lt;long&amp;gt; = ResPQ;
+
+p_q_inner_data#83c95aec pq:bytes p:bytes q:bytes nonce:int128 server_nonce:int128 new_nonce:int256 = P_Q_inner_data;
+
+server_DH_params_fail#79cb045d nonce:int128 server_nonce:int128 new_nonce_hash:int128 = Server_DH_Params;
+server_DH_params_ok#d0e8075c nonce:int128 server_nonce:int128 encrypted_answer:bytes = Server_DH_Params;
+
+server_DH_inner_data#b5890dba nonce:int128 server_nonce:int128 g:int dh_prime:bytes g_a:bytes server_time:int = Server_DH_inner_data;
+
+client_DH_inner_data#6643b654 nonce:int128 server_nonce:int128 retry_id:long g_b:bytes = Client_DH_Inner_Data;
+
+dh_gen_ok#3bcbf734 nonce:int128 server_nonce:int128 new_nonce_hash1:int128 = Set_client_DH_params_answer;
+dh_gen_retry#46dc1fb9 nonce:int128 server_nonce:int128 new_nonce_hash2:int128 = Set_client_DH_params_answer;
+dh_gen_fail#a69dae02 nonce:int128 server_nonce:int128 new_nonce_hash3:int128 = Set_client_DH_params_answer;
+
+rpc_result#f35c6d01 req_msg_id:long result:Object = RpcResult;
+rpc_error#2144ca19 error_code:int error_message:string = RpcError;
+
+rpc_answer_unknown#5e2ad36e = RpcDropAnswer;
+rpc_answer_dropped_running#cd78e586 = RpcDropAnswer;
+rpc_answer_dropped#a43ad8b7 msg_id:long seq_no:int bytes:int = RpcDropAnswer;
+
+future_salt#0949d9dc valid_since:int valid_until:int salt:long = FutureSalt;
+future_salts#ae500895 req_msg_id:long now:int salts:vector&amp;lt;future_salt&amp;gt; = FutureSalts;
+
+pong#347773c5 msg_id:long ping_id:long = Pong;
+
+destroy_session_ok#e22045fc session_id:long = DestroySessionRes;
+destroy_session_none#62d350c9 session_id:long = DestroySessionRes;
+
+new_session_created#9ec20908 first_msg_id:long unique_id:long server_salt:long = NewSession;
+
+msg_container#73f1f8dc messages:vector&amp;lt;%Message&amp;gt; = MessageContainer;
+message msg_id:long seqno:int bytes:int body:Object = Message;
+msg_copy#e06046b2 orig_message:Message = MessageCopy;
+
+gzip_packed#3072cfa1 packed_data:bytes = Object;
+
+msgs_ack#62d6b459 msg_ids:Vector&amp;lt;long&amp;gt; = MsgsAck;
+
+bad_msg_notification#a7eff811 bad_msg_id:long bad_msg_seqno:int error_code:int = BadMsgNotification;
+bad_server_salt#edab447b bad_msg_id:long bad_msg_seqno:int error_code:int new_server_salt:long = BadMsgNotification;
+
+msg_resend_req#7d861a08 msg_ids:Vector&amp;lt;long&amp;gt; = MsgResendReq;
+msgs_state_req#da69fb52 msg_ids:Vector&amp;lt;long&amp;gt; = MsgsStateReq;
+msgs_state_info#04deb57d req_msg_id:long info:bytes = MsgsStateInfo;
+msgs_all_info#8cc0d131 msg_ids:Vector&amp;lt;long&amp;gt; info:bytes = MsgsAllInfo;
+msg_detailed_info#276d3ec6 msg_id:long answer_msg_id:long bytes:int status:int = MsgDetailedInfo;
+msg_new_detailed_info#809db6df answer_msg_id:long bytes:int status:int = MsgDetailedInfo;
+
+---functions---
+
+req_pq#60469778 nonce:int128 = ResPQ;
+
+req_DH_params#d712e4be nonce:int128 server_nonce:int128 p:bytes q:bytes public_key_fingerprint:long encrypted_data:bytes = Server_DH_Params;
+
+set_client_DH_params#f5045f1f nonce:int128 server_nonce:int128 encrypted_data:bytes = Set_client_DH_params_answer;
+
+rpc_drop_answer#58e4a740 req_msg_id:long = RpcDropAnswer;
+get_future_salts#b921bd04 num:int = FutureSalts;
+ping#7abe77ec ping_id:long = Pong;
+ping_delay_disconnect#f3427b8c ping_id:long disconnect_delay:int = Pong;
+destroy_session#e7512126 session_id:long = DestroySessionRes;
+
+http_wait#9299359f max_delay:int wait_after:int max_wait:int = HttpWait;
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;p&gt;(Notice: Origin official document is &lt;a href=&#34;https://core.telegram.org/mtproto/description&#34; title=&#34; Current MTProto TL-schema&#34;&gt;&lt;em&gt;Here&lt;/em&gt;&lt;/a&gt;)&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Tg: Service Messages</title>
+      <link>https://alimy.github.io/post/dev_202012071337/</link>
+      <pubDate>Mon, 07 Dec 2020 13:37:00 CST</pubDate>
+      
+      <guid>https://alimy.github.io/post/dev_202012071337/</guid>
+      <description>&lt;h4 id=&#34;response-to-an-rpc-query&#34;&gt;Response to an RPC query&lt;/h4&gt;
+&lt;p&gt;A response to an RPC query is normally wrapped as follows:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;rpc_result#f35c6d01 req_msg_id:long result:Object = RpcResult;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Here req_msg_id is the identifier of the message sent by the other party and containing an RPC query. This way, the recipient knows that the result is a response to the specific RPC query in question. At the same time, this response serves as acknowledgment of the other party’s receipt of the req_msg_id message.&lt;/p&gt;
+&lt;p&gt;Note that the response to an RPC query must also be acknowledged. Most frequently, this coincides with the transmission of the next message (which may have a container attached to it carrying a service message with the acknowledgment).&lt;/p&gt;
+&lt;h4 id=&#34;rpc-error&#34;&gt;RPC Error&lt;/h4&gt;
+&lt;p&gt;The result field returned in response to any RPC query may also contain an error message in the following format:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;rpc_error#2144ca19 error_code:int error_message:string = RpcError;
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;cancellation-of-an-rpc-query&#34;&gt;Cancellation of an RPC Query&lt;/h4&gt;
+&lt;p&gt;In certain situations, the client does not want to receive a response to an already transmitted RPC query, for example because the response turns out to be long and the client has decided to do without it because of insufficient link capacity. Simply interrupting the TCP connection will not have any effect because the server would re-send the missing response at the first opportunity. Therefore, the client needs a way to cancel receipt of the RPC response message, actually acknowledging its receipt prior to it being in fact received, which will settle the server down and prevent it from re-sending the response. However, the client does not know the RPC response’s msg_id prior to receiving the response; the only thing it knows is the req_msg_id. i. e. the msg_id of the relevant RPC query. Therefore, a special query is used:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;rpc_drop_answer#58e4a740 req_msg_id:long = RpcDropAnswer;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The response to this query returns as one of the following messages wrapped in rpc_result and requiring an acknowledgment:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;rpc_answer_unknown#5e2ad36e = RpcDropAnswer;
+rpc_answer_dropped_running#cd78e586 = RpcDropAnswer;
+rpc_answer_dropped#a43ad8b7 msg_id:long seq_no:int bytes:int = RpcDropAnswer;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The first version of the response is used if the server remembers nothing of the incoming req_msg_id (if it has already been responded to, for example). The second version is used if the response was canceled while the RPC query was being processed (where the RPC query itself was still fully processed); in this case, the same rpc_answer_dropped_running is also returned in response to the original query, and both of these responses require an acknowledgment from the client. The final version means that the RPC response was removed from the server’s outgoing queue, and its msg_id, seq_no, and length in bytes are transmitted to the client.&lt;/p&gt;
+&lt;p&gt;Note that rpc_answer_dropped_running and rpc_answer_dropped serve as acknowledgments of the server’s receipt of the original query (the same one, the response to which we wish to forget). In addition, same as for any RPC queries, any response to rpc_drop_answer is an acknowledgment for rpc_drop_answer itself.&lt;/p&gt;
+&lt;p&gt;As an alternative to using rpc_drop_answer, a new session may be created after the connection is reset and the old session is removed through destroy_session.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Messages associated with querying, changing, and receiving the status of other messages
+See &lt;a href=&#34;service_messages_about_messages.md&#34;&gt;Mobile Protocol: Service Messages about Messages&lt;/a&gt;&lt;/strong&gt;.&lt;/p&gt;
+&lt;h4 id=&#34;request-for-several-future-salts&#34;&gt;Request for several future salts&lt;/h4&gt;
+&lt;p&gt;The client may at any time request from the server several (between 1 and 64) future server salts together with their validity periods. Having stored them in persistent memory, the client may use them to send messages in the future even if he changes sessions (a server salt is attached to the authorization key rather than being session-specific).&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;get_future_salts#b921bd04 num:int = FutureSalts;
+future_salt#0949d9dc valid_since:int valid_until:int salt:long = FutureSalt;
+future_salts#ae500895 req_msg_id:long now:int salts:vector&amp;lt;future_salt&amp;gt; = FutureSalts;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The client must check to see that the response’s req_msg_id in fact coincides with msg_id of the query for get_future_salts. The server returns a maximum of num future server salts (may return fewer). The response serves as the acknowledgment of the query and does not require an acknowledgment itself.&lt;/p&gt;
+&lt;h4 id=&#34;ping-messages-pingpong&#34;&gt;Ping Messages (PING/PONG)&lt;/h4&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;ping#7abe77ec ping_id:long = Pong;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;A response is usually returned to the same connection:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;pong#347773c5 msg_id:long ping_id:long = Pong;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;These messages do not require acknowledgments. A pong is transmitted only in response to a ping while a ping can be initiated by either side.&lt;/p&gt;
+&lt;h4 id=&#34;deferred-connection-closure--ping&#34;&gt;Deferred Connection Closure + PING&lt;/h4&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;ping_delay_disconnect#f3427b8c ping_id:long disconnect_delay:int = Pong;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Works like ping. In addition, after this is received, the server starts a timer which will close the current connection disconnect_delay seconds later unless it receives a new message of the same type which automatically resets all previous timers. If the client sends these pings once every 60 seconds, for example, it may set disconnect_delay equal to 75 seconds.&lt;/p&gt;
+&lt;h4 id=&#34;request-to-destroy-session&#34;&gt;Request to Destroy Session&lt;/h4&gt;
+&lt;p&gt;Used by the client to notify the server that it may forget the data from a different session belonging to the same user (i. e. with the same auth_key_id). The result of this being applied to the current session is undefined.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;destroy_session#e7512126 session_id:long = DestroySessionRes;
+destroy_session_ok#e22045fc session_id:long = DestroySessionRes;
+destroy_session_none#62d350c9 session_id:long = DestroySessionRes;
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;new-session-creation-notification&#34;&gt;New Session Creation Notification&lt;/h4&gt;
+&lt;p&gt;The server notifies the client that a new session (from the server’s standpoint) had to be created to handle a client message. If, after this, the server receives a message with an even smaller msg_id within the same session, a similar notification will be generated for this msg_id as well. No such notifications are generated for high msg_id values.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;new_session_created#9ec20908 first_msg_id:long unique_id:long server_salt:long = NewSession
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The unique_id parameter is generated by the server every time a session is (re-)created.&lt;/p&gt;
+&lt;p&gt;This notification must be acknowledged by the client. It is necessary, for instance, for the client to understand that there is, in fact, a “gap” in the stream of long poll notifications received from the server (the user may have failed to receive notifications during some period of time).&lt;/p&gt;
+&lt;p&gt;Notice that the server may unilaterally destroy (close) any existing client sessions with all pending messages and notifications, without sending any notifications. This happens, for example, if the session is inactive for a long time, and the server runs out of memory. If the client at some point decides to send new messages to the server using the old session, already forgotten by the server, such a &amp;ldquo;new session created&amp;rdquo; notification will be generated. The client is expected to handle such situations gracefully.&lt;/p&gt;
+&lt;h4 id=&#34;containers&#34;&gt;Containers&lt;/h4&gt;
+&lt;p&gt;&lt;em&gt;Containers&lt;/em&gt; are messages containing several other messages. Used for the ability to transmit several RPC queries and/or service messages at the same time, using HTTP or even TCP or UDP protocol. A container may only be accepted or rejected by the other party as a whole.&lt;/p&gt;
+&lt;p&gt;Simple Container
+A simple container carries several messages as follows:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;msg_container#73f1f8dc messages:vector message = MessageContainer;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Here message refers to any message together with its length and msg_id:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;message msg_id:long seqno:int bytes:int body:Object = Message;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;bytes&lt;/strong&gt; is the number of bytes in the body serialization. All messages in a container must have msg_id lower than that of the container itself. A container does not require an acknowledgment and may not carry other simple containers. When messages are re-sent, they may be combined into a container in a different manner or sent individually.&lt;/p&gt;
+&lt;p&gt;MTProto container payloads have a limit of &lt;code&gt;2^15&lt;/code&gt; bytes or &lt;code&gt;1020&lt;/code&gt; messages, whichever limit is reached first.
+Clients should group acknowledgments, state requests and message resend requests into three separate &lt;code&gt;msgs_ack&lt;/code&gt;, &lt;code&gt;msgs_state_req&lt;/code&gt;, &lt;code&gt;msg_resend_req&lt;/code&gt; service messages with at most 8192 IDs each; these three messages will not be included in the &lt;code&gt;1020&lt;/code&gt; message limit.&lt;/p&gt;
+&lt;p&gt;Empty containers are also allowed. They are used by the server, for example, to respond to an HTTP request when the timeout specified in http_wait expires, and there are no messages to transmit.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/tdlib/td/blob/master/td/mtproto/SessionConnection.cpp&#34;&gt;Example implementation&lt;/a&gt;.&lt;/p&gt;
+&lt;h4 id=&#34;message-copies&#34;&gt;Message Copies&lt;/h4&gt;
+&lt;p&gt;In some situations, an old message with a msg_id that is no longer valid needs to be re-sent. Then, it is wrapped in a copy container:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;msg_copy#e06046b2 orig_message:Message = MessageCopy;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Once received, the message is processed as if the wrapper were not there. However, if it is known for certain that the message orig_message.msg_id was received, then the new message is not processed (while at the same time, it and orig_message.msg_id are acknowledged). The value of orig_message.msg_id must be lower than the container’s msg_id.&lt;/p&gt;
+&lt;p&gt;This is not used at this time, because an old message can be wrapped in a simple container with the same result.&lt;/p&gt;
+&lt;h4 id=&#34;packed-object&#34;&gt;Packed Object&lt;/h4&gt;
+&lt;p&gt;Used to replace any other object (or rather, a serialization thereof) with its archived (gzipped) representation:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;gzip_packed#3072cfa1 packed_data:string = Object;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;At the present time, it is supported in the body of an RPC response (i.e., as result in rpc_result) and generated by the server for a limited number of high-level queries. In addition, in the future it may be used to transmit non-service messages (i. e. RPC queries) from client to server.&lt;/p&gt;
+&lt;h4 id=&#34;http-waitlong-poll&#34;&gt;HTTP Wait/Long Poll&lt;/h4&gt;
+&lt;p&gt;The following special service query not requiring an acknowledgement (which must be transmitted only through an HTTP connection) is used to enable the server to send messages in the future to the client using HTTP protocol:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;http_wait#9299359f max_delay:int wait_after:int max_wait:int = HttpWait;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;When such a message (or a container carrying such a message) is received, the server either waits &lt;code&gt;max_delay&lt;/code&gt; milliseconds, whereupon it forwards all the messages that it is holding on to the client if there is at least one message queued in session (if needed, by placing them into a container to which acknowledgments may also be added); or else waits no more than &lt;code&gt;max_wait&lt;/code&gt; milliseconds until such a message is available. If a message never appears, an empty container is transmitted.&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;max_delay&lt;/code&gt; parameter denotes the maximum number of milliseconds that has elapsed between the first message for this session and the transmission of an HTTP response. The &lt;code&gt;wait_after&lt;/code&gt; parameter works as follows: after the receipt of the latest message for a particular session, the server waits another wait_after milliseconds in case there are more messages. If there are no additional messages, the result is transmitted (a container with all the messages). If more messages appear, the wait_after timer is reset.&lt;/p&gt;
+&lt;p&gt;At the same time, the &lt;code&gt;max_delay&lt;/code&gt; parameter has higher priority than &lt;code&gt;wait_after&lt;/code&gt;, and &lt;code&gt;max_wait&lt;/code&gt; has higher priority than &lt;code&gt;max_delay&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;This message does not require a response or an acknowledgement. If the container transmitted over HTTP carries several such messages, the behavior is undefined (in fact, the latest parameter will be used).&lt;/p&gt;
+&lt;p&gt;If no &lt;code&gt;http_wait&lt;/code&gt; is present in container, default values &lt;code&gt;max_delay=0&lt;/code&gt; (milliseconds), &lt;code&gt;wait_after=0&lt;/code&gt; (milliseconds), and &lt;code&gt;max_wait=25000&lt;/code&gt; (milliseconds) are used.&lt;/p&gt;
+&lt;p&gt;If the client’s ping of the server takes a long time, it may make sense to set max_delay to a value that is comparable in magnitude to ping time.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;(Notice: Origin official document is &lt;a href=&#34;https://core.telegram.org/mtproto/description&#34; title=&#34; Service Messages&#34;&gt;&lt;em&gt;Here&lt;/em&gt;&lt;/a&gt;)&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Tg: Binary Data Serialization</title>
+      <link>https://alimy.github.io/post/dev_202012071333/</link>
+      <pubDate>Mon, 07 Dec 2020 13:33:00 CST</pubDate>
+      
+      <guid>https://alimy.github.io/post/dev_202012071333/</guid>
+      <description>&lt;p&gt;MTProto operation requires that elementary and composite data types as well as queries to which such data types are passed as arguments or by which they are returned, be transmitted in binary format (i. e. serialized) . The &lt;a href=&#34;https://alimy.github.io/post/dev_202012071315/&#34;&gt;TL language&lt;/a&gt; is used to describe the data types to be serialized.&lt;/p&gt;
+&lt;h4 id=&#34;general-definitions&#34;&gt;General Definitions&lt;/h4&gt;
+&lt;p&gt;For our purposes, we can identify a type with the set of its (serialized) values understood as strings (finite sequences) of 32-bit numbers (transmitted in little endian order).&lt;/p&gt;
+&lt;p&gt;Therefore:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Alphabet (A), in this case, is a set of 32-bit numbers (normally, signed, i. e. between &lt;code&gt;-2^31&lt;/code&gt; and &lt;code&gt;2^31 - 1)&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Value, in this case, is the same as a string in Alphabet A, i. e. a finite (possibly, empty) sequence of 32-bit numbers. The set of all such sequences is designated as A*.&lt;/li&gt;
+&lt;li&gt;Type, for our purposes, is the same as the set of legal values of a type, i. e. some set T which is a subset of A* and is a prefix code (i. e. no element of T may be a prefix for any other element). Therefore, any sequence from A* can contain no more than one prefix that is a member of T.&lt;/li&gt;
+&lt;li&gt;Value of Type T is any sequence (value) which is a member of T as a subset of A*.&lt;/li&gt;
+&lt;li&gt;Compatible Types are the types T and T’ not intersecting as subsets of A*, such that the union of T and T&amp;rsquo; is a prefix code.&lt;/li&gt;
+&lt;li&gt;Coordinated System of Types is a finite or infinite set of types T_1, &amp;hellip;, T_n, &amp;hellip;, such that any two types from this set are compatible.&lt;/li&gt;
+&lt;li&gt;Data Type is the same as type in the sense of the definition above.&lt;/li&gt;
+&lt;li&gt;Functional Type is a type describing a function; it is not a type in the sense of the definition above. Initially, we ignore the existence of functional types and describe only the data types; however, in reality, functional types will later be implemented in some extension of this system using the so-called temporary combinators.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;combinators-constructors-composite-data-types&#34;&gt;Combinators, Constructors, Composite Data Types&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Combinator is a function that takes arguments of certain types and returns a value of some other type. We normally look at combinators whose argument and result types are data types (rather than functional types).&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Arity (of combinator) is a non-negative integer, the number of combinator arguments.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Combinator identifier is an identifier beginning with a lowercase Roman letter that uniquely identifies a combinator.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Combinator number or combinator name is a 32-bit number (i.e., an element of A) that uniquely identifies a combinator. Most often, it is CRC32 of the string containing the combinator description without the final semicolon, and with one space between contiguous lexemes. This always falls in the range from &lt;code&gt;0x01000000&lt;/code&gt; to &lt;code&gt;0xffffff00&lt;/code&gt;. The highest 256 values are reserved for the so-called temporal-logic combinators used to transmit functions. We frequently denote as combinator the combinator name with single quotes: ‘combinator’.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Combinator description is a string of format combinator_name &lt;code&gt;type_arg_1 ... type_arg_N = type_res;&lt;/code&gt; where N stands for the arity of the combinator, type_arg_i is the type of the i-th argument (or rather, a string with the combinator name), and type_res is the combinator value type.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Constructor is a combinator that cannot be computed (reduced). This is used to represent composite data types. For example, combinator ‘int_tree’ with description &lt;code&gt;int_tree IntTree int IntTree = IntTree&lt;/code&gt;, alongside combinator &lt;code&gt;empty_tree = IntTree&lt;/code&gt;, may be used to define a composite data type called “IntTree” that takes on values in the form of binary trees with integers as nodes.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Function (functional combinator) is a combinator which may be computed (reduced) on condition that the requisite number of arguments of requisite types are provided. The result of the computation is an expression consisting of constructors and base type values only.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Normal form is an expression consisting only of constructors and base type values; that which is normally the result of computing a function.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Type identifier is an identifier that normally starts with a capital letter in Roman script and uniquely identifies the type.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Type number or type name is a 32-bit number that uniquely identifies a type; it normally is the sum of the CRC32 values of the descriptions of the type constructors.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Description of (composite) Type T is a collection of the descriptions of all constructors that take on Type T values. This is normally written as text with each string containing the description of a single constructor. Here is a description of Type ‘IntTree’, for example:&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;int_tree IntTree int IntTree = IntTree; empty_tree = IntTree;
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;Polymorphic type is a type whose description contains parameters (type variables) in lieu of actual types; approximately, what would be a template in C++. Here is a description of Type List alpha where List is a polymorphic type of arity 1 (i. e., dependent on a single argument), and alpha is a type variable which appears as the constructor’s optional parameter (in curly braces):&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;cons {alpha:Type} alpha (List alpha) = List alpha; nil {alpha:Type} = List alpha;
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Value of (composite) Type T is any sequence from A* in the format &lt;code&gt;constr_num arg1 ... argN&lt;/code&gt;, where &lt;code&gt;constr_num&lt;/code&gt; is the index number of some Constructor C which takes on values of Type T, and arg_i is a value of Type T_i which is the type of the i-th argument to Constructor C. For example, let Combinator int_tree have the index number 17, whereas Combinator empty_tree has the index number 239. Then, the value of Type IntTree is, for example, 17 17 239 1 239 2 239 which is more conveniently written as &amp;lsquo;int_tree&amp;rsquo; &amp;lsquo;int_tree&amp;rsquo; &amp;rsquo;empty_tree&amp;rsquo; 1 &amp;rsquo;empty_tree&amp;rsquo; 2 ‘empty_tree’. From the standpoint of a high-level language, this is int_tree (int_tree (empty_tree) 1 (empty_tree)) 2 (empty_tree): IntTree.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Schema is a collection of all the (composite) data type descriptions. This is used to define some agreed-to system of types.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;boxed-and-bare-types&#34;&gt;Boxed and Bare Types&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Boxed type is a type any value of which starts with the constructor number. Since every constructor has a uniquely determined value type, the first number in any boxed type value uniquely defines its type. This guarantees that the various boxed types in totality make up a coordinated system of types. A boxed type identifier is always capitalized.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Bare type is a type whose values do not contain a constructor number, which is implied instead. A bare type identifier always coincides with the name of the implied constructor (and therefore, begins with a lowercase letter) which may be padded at the front by the percentage sign (%). In addition, if &lt;code&gt;X&lt;/code&gt; is a boxed type with no more than a single constructor, then &lt;code&gt;%X&lt;/code&gt; refers to the corresponding bare type. The values of a bare type are identical with the set of number sequences obtained by dropping the first number (i. e., the external constructor index number) from the set of values of the corresponding boxed type (which is the result type of the selected constructor), starting with the selected constructor index number. For example, 3 4 is a value of the int_couple bare type, defined using int_couple int int = IntCouple. The corresponding boxed type is IntCouple; if 404 is the constructor index number for int_couple, then 404 3 4 is the value for the IntCouple boxed type which corresponds to the value of the bare type int_couple (also known as %int_couple and %IntCouple; the latter form is conceptually preferable but longer).&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Conceptually, only boxed types should be used everywhere. However, for speed and compactness, bare types have to be used (for instance, an array of 10,000 bare int values is 40,000 bytes long, whereas boxed Int values take up twice as much space; therefore, when transmitting a large array of integer identifiers, say, it is more efficient to use the Vector int type rather than Vector Int). In addition, all base types (int, long, double, string) are bare.&lt;/p&gt;
+&lt;p&gt;If a boxed type is polymorphic of type arity r, this is also true of any derived bare type. In other words, if one were to define intCouple &lt;code&gt;{alpha:Type} int alpha = IntCouple alpha&lt;/code&gt;, then, thereafter, intCouple as an identifier would also be a polymorphic type of arity 1 in combinator (and consequently, in constructor and type) descriptions. The notations intCouple X, %(IntCouple X), and %IntCouple X are equivalent.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Base Types
+Base types exist both as bare (int, long, double, string) and as boxed (Int, Long, Double, String) versions. Their constructor identifiers coincide with the names of the relevant bare types. Their pseudodescriptions have the following appearance:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;int ? = Int;
+long ? = Long;
+double ? = Double;
+string ? = String;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Consequently, the int constructor index number, for example, is the CRC32 of the string &amp;ldquo;int ? = Int&amp;rdquo;.&lt;/p&gt;
+&lt;p&gt;The values of bare type int are exactly all the single-element sequences, i. e. numbers between -2^31 and 2^31-1 represent themselves in this case. Values of type long are two-element sequences that are 64-bit signed numbers (little endian again). Values of type double, again, are two-element sequences containing 64-bit real numbers in a standard double format. And finally, the values of type string look differently depending on the length L of the string being serialized:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;If L &amp;lt;= 253, the serialization contains one byte with the value of L, then L bytes of the string followed by 0 to 3 characters containing 0, such that the overall length of the value be divisible by 4, whereupon all of this is interpreted as a sequence of int(L/4)+1 32-bit numbers.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;If L &amp;gt;= 254, the serialization contains byte 254, followed by 3 bytes with the string length L, followed by L bytes of the string, further followed by 0 to 3 null padding bytes.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;object-pseudotype&#34;&gt;Object Pseudotype&lt;/h4&gt;
+&lt;p&gt;The Object pseudotype is a “type” which can take on values that belong to any boxed type in the schema. This helps quickly define such types as list of random items without using polymorphic types. It is best not to abuse this capability since it results in the use of dynamic typing. Nonetheless, it is hard to imagine the data structures that we know from PHP and JSON without using the Object pseudotype.&lt;/p&gt;
+&lt;p&gt;It is recommended to use TypedObject instead whenever possible:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;object X:Type value:X = TypedObject;
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;built-in-composite-types-vectors-and-associative-arrays&#34;&gt;Built-In Composite Types: Vectors and Associative Arrays&lt;/h4&gt;
+&lt;p&gt;The Vector t polymorphic pseudotype is a “type” whose value is a sequence of values of any type t, either boxed or bare.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;vector {t:Type} # [ t ] = Vector t;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Serialization always uses the same constructor “vector” (const 0x1cb5c415 = crc32(&amp;ldquo;vector t:Type # [ t ] = Vector t”) that is not dependent on the specific value of the variable of type t. The value of the Vector t type is the index number of the relevant constructor number followed by N, the number of elements in the vector, and then by N values of type t. The value of the optional parameter t is not involved in the serialization since it is derived from the result type (always known prior to deserialization).&lt;/p&gt;
+&lt;p&gt;Polymorphic pseudotypes IntHash t and StrHash t are associative arrays mapping integer and string keys to values of type t. They are, in fact, vectors containing bare 2-tuples (int, t) or (string, t):&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;coupleInt {t:Type} int t = CoupleInt t;
+intHash {t:Type} (vector %(CoupleInt t)) = IntHash t;
+coupleStr {t:Type} string t = CoupleStr t;
+strHash {t:Type} (vector %(CoupleStr t)) = StrHash t;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The percentage sign, in this case, means that a bare type that corresponds to the boxed type in parentheses is taken; the boxed type in question must have no more than a single constructor, whatever the values of the parameters.&lt;/p&gt;
+&lt;p&gt;The keys may be sorted or be in some other order (as in PHP arrays). For associative arrays with sorted keys, the IntSortedHash or StrSortedHash alias is used:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;intSortedHash {t:Type} (intHash t) = IntSortedHash t;
+strSortedHash {t:Type} (strHash t) = StrSortedHash t;
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;polymorphic-type-constructors&#34;&gt;Polymorphic Type Constructors&lt;/h4&gt;
+&lt;p&gt;The constructor of a polymorphic type does not depend on the specific types to which the polymorphic type is applied. When it is computed, optional parameters (normally containing type variables and placed in curly braces) cease to be optional (the curly braces are removed), and, in addition to that, all parenthesis are also removed. Therefore,&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;vector {t:Type} # [ t ] = Vector t;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;corresponds to the constructor number &lt;code&gt;crc32(&amp;quot;vector t:Type # [ t ] = Vector t&amp;quot;) = 0x1cb5c415&lt;/code&gt;. During (de)serialization, the specific values of the optional variable t are derived from the result type (i. e. the object being serialized or deserialized) that is always known, and are never serialized explicitly.&lt;/p&gt;
+&lt;p&gt;Previously, it had to be known which specific variable types each polymorphic type will apply to. To accomplish this, the type system used strings of the form&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;polymorphic_type_name type_1 ... type_N;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For example,&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Vector int;
+Vector string;
+Vector Object;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Now they are ignored.&lt;/p&gt;
+&lt;p&gt;See also &lt;a href=&#34;tl-polymorph.md&#34;&gt;polymorphism in TL&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;In this case, the Object pseudotype permits using Vector Object to store lists of anything (the values of any boxed types). Since bare types are efficient when short, in practice it is unlikely that cases more complex than the ones cited above will be required.&lt;/p&gt;
+&lt;h4 id=&#34;field-names&#34;&gt;Field Names&lt;/h4&gt;
+&lt;p&gt;Let us say that we need to represent users as triplets containing one integer (user ID) and two strings (first and last names). The requisite data structure is the triplet int, string, string which may be declared as follows:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;user int string string = User;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;On the other hand, a group may be described by a similar triplet consisting of a group ID, its name, and description:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;group int string string = Group;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For the difference between User and Group to be clear, it is convenient to assign names to some or all of the fields:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;user id:int first_name:string last_name:string = User;
+group id:int title:string description:string = Group;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If the User type needs to be extended at a later time by having records with some additional field added to it, it could be accomplished as follows:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;userv2 id:int unread_messages:int first_name:string last_name:string in_groups:vector int = User;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Aside from other things, this approach helps define correct mappings between fields that belong to different constructors of the same type, convert between them as well as convert type values into an associative array with string keys (field names, if defined, are natural choices for such keys).&lt;/p&gt;
+&lt;h4 id=&#34;tl-language&#34;&gt;TL Language&lt;/h4&gt;
+&lt;p&gt;See &lt;a href=&#34;post/dev_202012071315/&#34;&gt;TL Language&lt;/a&gt;.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;(Notice: Origin official document is &lt;a href=&#34;https://core.telegram.org/mtproto/description&#34; title=&#34;Binary Data Serialization&#34;&gt;&lt;em&gt;Here&lt;/em&gt;&lt;/a&gt;)&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Tg: Type serialization</title>
+      <link>https://alimy.github.io/post/dev_202012071330/</link>
+      <pubDate>Mon, 07 Dec 2020 13:30:00 CST</pubDate>
+      
+      <guid>https://alimy.github.io/post/dev_202012071330/</guid>
+      <description>&lt;p&gt;See &lt;a href=&#34;https://alimy.github.io/post/dev_202012071321/&#34;&gt;Polymorphism in TL&lt;/a&gt; and &lt;a href=&#34;https://alimy.github.io/post/dev_202012071315&#34;&gt;TL Language&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;It remains to describe how types, e.g. values of type Type, are transmitted (serialized). In general, there is nothing unexpected going on here: we have type constructors of various arities (for example, List is an arity-1 constructor, but IntList is a 0-arity constructor); and if we know that a 32-bit “name” is assigned to each type constructor, there are no further questions &amp;ndash; values of type Type are serialized exactly like values of any other recursive type with a defined set of constructors of differing arity.&lt;/p&gt;
+&lt;p&gt;How can a 32-bit “name” be assigned to a type (a type constructor, to be more exact) such as List or IntList? It is proposed to use the sum of the names of all of its constructors, plus the CRC32 of the string with the designation of the type&amp;rsquo;s name and all of its parameters such as “IntList = Type” or “List X:Type = Type”. This way, the List constructor’s “name” is the sum of the CRC32s of the three strings &amp;ldquo;List X:Type = Type&amp;rdquo;, &amp;ldquo;cons X:Type hd:X tl:List X = List X&amp;rdquo;, and &amp;ldquo;nil X:Type = List X&amp;rdquo;. For “bare” types (which, formally speaking, are subtypes of the corresponding “boxed” type), the situation is somewhat more complicated; the logical negation of the corresponding constructor’s name is used. For built-in bareand boxed types (for example, int and Int), a pseudo-declaration is used (for example, int ? = Int&amp;quot;).&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;This description is somewhat outdated and may be updated in the future. Specifically, how to treat the ! modifier has not been explained.*&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;(Notice: Origin official document is &lt;a href=&#34;https://core.telegram.org/mtproto/description&#34; title=&#34;Type serialization&#34;&gt;&lt;em&gt;Here&lt;/em&gt;&lt;/a&gt;)&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Tg: Polymorphism in TL</title>
+      <link>https://alimy.github.io/post/dev_202012071321/</link>
+      <pubDate>Mon, 07 Dec 2020 13:21:00 CST</pubDate>
+      
+      <guid>https://alimy.github.io/post/dev_202012071321/</guid>
+      <description>&lt;p&gt;It should be noted that in the TL schema of the overwhelming majority of API calls the use of polymorphic types is restricted to the Vector type. Nevertheless, having a view of the big picture is still helpful.&lt;/p&gt;
+&lt;h4 id=&#34;ordinary-inductive-types&#34;&gt;Ordinary inductive types&lt;/h4&gt;
+&lt;p&gt;For example, let us consider the IntList, which is defined as follows:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;int_cons hd:int tl:IntList = IntList;
+int_nil = IntList;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The “int_cons” and “int_nil” constructors as well as the “IntList” type itself are expressions of the following types (writing A : X means that A is an expression of type X):&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;IntList : Type;
+int_cons : int -&amp;gt; IntList -&amp;gt; IntList;
+int_nil : IntList;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The keyword Type is used to denote the type of all types. Note that Type is not Object (Object is the type of all terms). Here is alternative syntax that could be used in some other functional programming language (but not in TL):&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;NewType IntList :=
+| int_cons hd:int tl:IntList
+| int_nil
+EndType
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;polymorphic-type&#34;&gt;Polymorphic type&lt;/h4&gt;
+&lt;p&gt;TL supports the following version (curly brackets indicate optional fields, see below):&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;cons {X:Type} hd:X tl:(List X) = List X;
+nil {X:Type} = List X
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Here is an alternative formulation in other functional languages with dependent types:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;NewType List {X:Type} :=
+| cons {X:Type} hd:X tl:(List X)
+| nil {X:Type}
+EndType
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In any event, these variations are equivalent to one another from the point of view of the formal theory of types and lead to the definition of the following terms:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;List : Type -&amp;gt; Type;
+cons : forall (X:Type), X -&amp;gt; List X -&amp;gt; List X;
+nil : forall (X:Type), X -&amp;gt; List X;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In each case, remember that writing “A -&amp;gt; B” is shorthand for “forall (x : A), B” for any variable x not entering into A and B. For example, the “cons” type could be written as follows:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;cons : forall (X:Type), forall (hd : X), forall (tl : List X), List X
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;or more compactly:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;cons : forall (X : Type) (hd : X) (tl : List X), List X
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;See &lt;a href=&#34;https://en.wikipedia.org/wiki/Calculus_of_constructions&#34;&gt;Calculus of constructions&lt;/a&gt;. Examples of functional languages with dependent types, which support similar constructions are &lt;a href=&#34;https://en.wikipedia.org/wiki/Coq&#34;&gt;Coq&lt;/a&gt; and &lt;a href=&#34;https://en.wikipedia.org/wiki/Agda_%28programming_language%29&#34;&gt;Agda&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;In this case, the entry after a universal quantifier proves to be more content-related than that after an arrow, because the name of a variable bound by the quantifier is used to transmit the name of the corresponding field in the constructor, even if this variable is not used anywhere as it pertains to the expression under the quantifier. Structurally, all of these entries of the “cons” type are equivalent.&lt;/p&gt;
+&lt;h4 id=&#34;serialization-of-types-values-of-type-type&#34;&gt;Serialization of types (values of type Type)&lt;/h4&gt;
+&lt;p&gt;As we can see, to serialize a value of type List X, which has been obtained by applying the combinator “cons X:Type hd:X tl:(List X) = List X”, we need to:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;serialize the name of the “cons” combinator into a 32-bit number;&lt;/li&gt;
+&lt;li&gt;serialize X (as a type, i.e. as a value of type Type) if X is a required parameter;&lt;/li&gt;
+&lt;li&gt;serialize the head of the list (hd) as a value of type X;&lt;/li&gt;
+&lt;li&gt;serialize the tail of the list as a value of the polymorphic type List X.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;In the first step, the natural question is which string exactly will be used to calculate the CRC32. It is proposed to take &lt;code&gt;&amp;quot;cons X:Type hd:X tl:List X = List X”&lt;/code&gt; without the terminating semicolon and without any parentheses (closed type expressions are unambiguously reconstructed based on their construction’s prefix).&lt;/p&gt;
+&lt;p&gt;In the last step, we recursively resolve the very same problem of serializing a value of type List X; we will consider it resolved based on the assumption of induction in the construction of the value being serialized. We will similarly consider the third step understandable (induction in the construction of the value being serialized).&lt;/p&gt;
+&lt;p&gt;We still need to describe how to transmit (serialize) types, e.g. values of type &lt;code&gt;Type&lt;/code&gt;. Types in TL schemas currently appear only as constructors’ optional parameters and are therefore never serialized explicitly. Rather, their values are inferred from the previously known type of the value being serialized.&lt;/p&gt;
+&lt;p&gt;For completeness we will describe how it would be possible to serialize types (values of type Type). However, keep in mind that for now this information is not useful. See &lt;a href=&#34;tl-types.md&#34;&gt;Type serialization&lt;/a&gt;.&lt;/p&gt;
+&lt;h4 id=&#34;optional-arguments-in-polymorphic-constructors&#34;&gt;Optional arguments in polymorphic constructors&lt;/h4&gt;
+&lt;p&gt;It was stated above that any subset of (the first few) parameters of any constructor can be identified as optional (by enclosing their declarations in curly brackets), but this is not actually entirely accurate. First, these optional parameters can only be of type &lt;code&gt;Type&lt;/code&gt; or &lt;code&gt;#&lt;/code&gt; (natural numbers). Second, optional parameters must share the return value’s type, otherwise their value cannot be determined.&lt;/p&gt;
+&lt;p&gt;Note that &lt;code&gt;@&#39;&#39;&#39;constr-id&#39;&#39;&#39;&lt;/code&gt; means the constructor’s “full form” (in which all optional parameters become required), while &lt;code&gt;&#39;&#39;&#39;constr-id&#39;’&lt;/code&gt; denotes its abbreviated form (without the optional arguments). If there are no optional arguments, then these two forms are the same. Constructors’ full forms are never used at present.&lt;/p&gt;
+&lt;h4 id=&#34;bare-polymorphic-types&#34;&gt;Bare polymorphic types&lt;/h4&gt;
+&lt;p&gt;There is a small problem: if we want to serialize the value of the bare type ‘%pair string int’ or ‘%pair string Y’ (which in TL is usually denoted simply as “pair”, though the form “%Pair” is preferable), we cannot simultaneously use both the full constructor @pair and the partial pair, because the constructor’s name will not be serialized. Therefore, we must differentiate the bare types %@pair (type X, type Y, value x:X, and value y:Y are serialized) and %pair (only x:X and y:Y are serialized; types X and Y are known from the context). In practice, we nearly almost always need the bare type %pair, and this is precisely what “pair” means in the type’s context in TL. Therefore,&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;record name:string map:(List (pair int string)) = Record;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;will be serialized approximately like we want it to be (the serialization of list elements will consist of the serialization of int and the serialization of string, without any additional headers, types, or combinator names). Incidentally, when calculating the “record” combinator’s name &amp;lsquo;record&amp;rsquo; in the example given above, the CRC32 of &lt;code&gt;record name:string map:List pair int string = Record&lt;/code&gt; will be computed.&lt;/p&gt;
+&lt;p&gt;Also note that a more precise description of this type would be&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;record name:string map:(List %(Pair int string)) = Record
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;p&gt;(Notice: Origin official document is &lt;a href=&#34;https://core.telegram.org/mtproto/description&#34; title=&#34; Polymorphism in TL&#34;&gt;&lt;em&gt;Here&lt;/em&gt;&lt;/a&gt;)&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Tg: TL Language</title>
+      <link>https://alimy.github.io/post/dev_202012071315/</link>
+      <pubDate>Mon, 07 Dec 2020 13:15:00 CST</pubDate>
+      
+      <guid>https://alimy.github.io/post/dev_202012071315/</guid>
+      <description>&lt;p&gt;TL (Type Language) serves to describe the used system of types, constructors, and existing functions. In fact, the combinator description format presented in Binary Data Serialization is used.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;See also:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://alimy.github.io/post/dev_202012071321/&#34;&gt;Polymorphism in TL&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Advanced topics:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;tl-dependent.md&#34;&gt;Dependent types in TL&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;tl-formal.md&#34;&gt;Formal description of TL&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;tl-combinators.md&#34;&gt;Formal description of TL combinators&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;post/dev_202012071330/&#34;&gt;Type serialization&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;tl-tl.md&#34;&gt;TL schema for serialization of TL schemas&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;tl-optargs.md&#34;&gt;Optional combinator parameters and their values&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;tl-abstract-types.md&#34;&gt;Binary serialization and abstract TL types&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;tl-patterns.md&#34;&gt;Formal description of templates in TL&lt;/a&gt;&lt;/p&gt;
+&lt;h4 id=&#34;overview&#34;&gt;Overview&lt;/h4&gt;
+&lt;p&gt;A TL program usually consists of two sections separated by keyword &lt;code&gt;---functions---&lt;/code&gt;. The first section consists of declarations of built-in types and aggregate types (i.e. their constructors). The second section consists of the declared functions, i.e. functional combinators.&lt;/p&gt;
+&lt;p&gt;Actually, both the first and second sections consist of combinator declarations, each of which ends with a semicolon. However, the first section contains only constructors, while the second section only involves functions. Each combinator is declared using a “combinator declaration” in the format explained above. However, the combinator number and field names may be explicitly assigned.&lt;/p&gt;
+&lt;p&gt;If additional type declarations are required after functions have been declared, the keyword (section divider) &lt;code&gt;---types---&lt;/code&gt; is used. Furthermore, a functional combinator may be declared in the type section if its result type begins with an exclamation point (in fact, when the function section is interpreted, this exclamation point is added automatically).&lt;/p&gt;
+&lt;p&gt;To explicitly define 32-bit names of combinators, a hash mark (&lt;code&gt;#&lt;/code&gt;) is added immediately after the combinator’s name, followed by 8 hexadecimal digits.&lt;/p&gt;
+&lt;h4 id=&#34;namespaces&#34;&gt;Namespaces&lt;/h4&gt;
+&lt;p&gt;Composite constructions like &lt;code&gt;&amp;lt;namespace_identifier&amp;gt;.&amp;lt;constructor_identifier&amp;gt;&lt;/code&gt; and &lt;code&gt;&amp;lt;namespace_identifier&amp;gt;.&amp;lt;Type_identifier&amp;gt;&lt;/code&gt; can be used as constructor- or type identifiers. The portion of the identifier to the left of the period is called the namespace. Moreover, the rule about a first uppercase letter in type identifiers and lowercase letter in constructor identifiers applies to the part of the construction after the period. For example, &lt;code&gt;auth.Message&lt;/code&gt; would be a type, while &lt;code&gt;auth.std_message&lt;/code&gt; would be a constructor.&lt;/p&gt;
+&lt;p&gt;Namespaces do not require a special declaration.&lt;/p&gt;
+&lt;h4 id=&#34;comments&#34;&gt;Comments&lt;/h4&gt;
+&lt;p&gt;Comments are the same as in C++.&lt;/p&gt;
+&lt;p&gt;Example&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;// built-in types
+int#a8509bda ? = Int;
+long ? = Long;
+double ? = Double;
+string ? = String;
+null = Null;
+
+vector {t:Type} # [ t ] = Vector t;
+coupleInt {alpha:Type} int alpha = CoupleInt&amp;lt;alpha&amp;gt;;
+coupleStr {gamma:Type} string gamma = CoupleStr gamma;  
+/* The name of the type variable is irrelevant: &amp;#34;gamma&amp;#34; could be replaced with &amp;#34;alpha&amp;#34;; 
+   However, the combinator number will depend on the specific choice. */
+
+intHash {alpha:Type} vector&amp;lt;coupleInt&amp;lt;alpha&amp;gt;&amp;gt; = IntHash&amp;lt;alpha&amp;gt;;
+strHash {alpha:Type} (vector (coupleStr alpha)) = StrHash alpha;
+intSortedHash {alpha:Type} intHash&amp;lt;alpha&amp;gt; = IntSortedHash&amp;lt;alpha&amp;gt;;
+strSortedHash {alpha:Type} (strHash alpha) = StrSortedHash alpha;
+
+// custom types
+pair x:Object y:Object = Pair;
+triple x:Object y:Object z:Object = Triple;
+
+user#d23c81a3 id:int first_name:string last_name:string = User;
+no_user#c67599d1 id:int = User;
+group id:int title:string last_name:string = Group;
+no_group = Group;
+
+---functions---
+
+// Maybe some built-in arithmetic functions; inverse quotes make &amp;#34;identifiers&amp;#34; out of arbitrary non-alphanumeric strings
+`+` Int Int = Int;
+`-` Int Int = Int;
+`+` Double Double = Double;
+// ...
+
+// API functions (aka RPC functions)
+getUser#b0f732d5 int = User;
+getUsers#2d84d5f5 (Vector int) = Vector User;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In this case, the user constructor has been explicitly assigned a number (&lt;code&gt;0xd23c81a3&lt;/code&gt;); In fact, this was not necessary, since this value is the CRC32 of the string &lt;code&gt;&amp;quot;user id:int first_name:string last_name:string = User&amp;quot;&lt;/code&gt;, which would have been used by default.&lt;/p&gt;
+&lt;p&gt;Special constructors are not required for Vector int, Vector User, Vector Object, etc. &amp;ndash; the same universal constructor can be used everywhere:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;vector#1cb5c415 {t:Type} # [ t ] = Vector t;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Note that when the &lt;code&gt;getUsers (Vector int) = Vector User;&lt;/code&gt; constructor number is calculated, the CRC32 of the string &lt;code&gt;&amp;quot;getUsers Vector int = Vector User”&lt;/code&gt; is computed (from which all parentheses have been removed).&lt;/p&gt;
+&lt;p&gt;Notation &lt;code&gt;T0&amp;lt;T1,T2,...,Tn&amp;gt;&lt;/code&gt; is syntactic sugar for &lt;code&gt;(T0 (T1) (T2) ... (Tn))&lt;/code&gt;. For example, &lt;code&gt;Vector&amp;lt;User&amp;gt;&lt;/code&gt; and &lt;code&gt;(Vector User)&lt;/code&gt; are entirely interchangeable.&lt;/p&gt;
+&lt;h4 id=&#34;example-of-an-rpc-query&#34;&gt;Example of an RPC query&lt;/h4&gt;
+&lt;p&gt;Suppose we want to call &lt;code&gt;getUsers([2,3,4])&lt;/code&gt;. This query will be serialized into a sequence of 32-bit integers as follows:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;0x2d84d5f5 0x1cb5c415 0x3 0x2 0x3 0x4
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Please note that TL serialization yields sequences of 32-bit integers. When it has to be embedded into a byte stream, for example a network packet, each 32-bit integer is represented by four bytes in little-endian order. In this way the above query corresponds to the following byte stream:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;F5 D5 84 2D 15 C4 B5 1C 03 00 00 00 02 00 00 00 03 00 00 00 04 00 00 00
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The response might look something like this:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;0x1cb5c415 0x3 0xd23c81a3 0x2 0x74655005 0x00007265 0x72615006 0x72656b 0xc67599d1 0x3 0xd23c81a3 0x4 0x686f4a04 0x6e 0x656f4403
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This roughly corresponds to&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;[{&amp;#34;id&amp;#34;:2,&amp;#34;first_name&amp;#34;:&amp;#34;Peter&amp;#34;, &amp;#34;last_name&amp;#34;:&amp;#34;Parker&amp;#34;},{},{&amp;#34;id&amp;#34;:4,&amp;#34;first_name&amp;#34;:&amp;#34;John&amp;#34;,&amp;#34;last_name&amp;#34;:&amp;#34;Doe&amp;#34;}]
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Note that in both cases the same universal constructor &lt;code&gt;vector#1cb5c415&lt;/code&gt; is used: in the request to serialize the value of type &lt;code&gt;Vector int&lt;/code&gt;, and in the serialization of the value of type &lt;code&gt;Vector User&lt;/code&gt; in the response. There is no ambiguity because in both cases the type of the value being (de)serialized is known before its (de)serialization begins. For example, after receiving the query, the server sees that the first part is &lt;code&gt;0x2d84d5f5&lt;/code&gt;, which corresponds to the combinator &lt;code&gt;getUsers#2d84d5f5 (Vector int) = Vector User&lt;/code&gt;. Thus, it is understood that what follows will be a value of type &lt;code&gt;Vector int&lt;/code&gt;. After receiving the response to this query, the client knows that it must receive a value of type &lt;code&gt;Vector User&lt;/code&gt; and it deserializes the response accordingly.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;(Notice: Origin official document is &lt;a href=&#34;https://core.telegram.org/mtproto/description&#34; title=&#34; MTProto v2&#34;&gt;&lt;em&gt;Here&lt;/em&gt;&lt;/a&gt;)&lt;/p&gt;</description>
     </item>
     
   </channel>

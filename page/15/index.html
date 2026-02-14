@@ -319,6 +319,57 @@
                         
                             <article class="post panel-wrapper">
     <header>
+        <h2><a href="https://alimy.github.io/post/dev_201603081441/" title="阅读全文">XStream: Java to XML Using Annotation </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <p>In the previous tutorials we saw an example of how to <a href="https://alimy.github.io/post/dev_201603081411">create a java object from XML</a>. That tutorial also explained the concept of aliases and implicit collection. In this tutorial we continue with that but use annotation on the java class. The advantage with annotation is that it is faster to code and develop. the disadvantage is that you bind the java class to XStream.</p>
+<p>In the example below we convert an object of type JazzArtist to XML. JazzArtist contains fields name, isAlive, a url and a list of albums. This example uses the following annotations</p>
+<ul>
+<li>@XStreamAlias - Used on the type, field or attribute. To understand &lsquo;aliases&rsquo; look at this tutorial</li>
+<li>@XStreamImplicit - Used on Collections or array. To understand &lsquo;Implicit Collections/Arrays&rsquo; look at the this tutorial.</li>
+<li>@XStreamAsAttribute - Used to mark a field as an attribute.</li>
+<li>@XStreamConverter - Use a specific converter for this field. We will look at Converters in detail in a later tutorial. In this example we use a Boolean converter for &lsquo;isAlive&rsquo; field, we want the XML to have values yes or no instead of true or false.</li>
+</ul>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/dev_201603081441/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
+</article>
+                        
+                            <article class="post panel-wrapper">
+    <header>
+        <h2><a href="https://alimy.github.io/post/dev_201603081433/" title="阅读全文">XStream: Java to XML </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <p>In the <a href="https://alimy.github.io/post/dev_201603081411">previous</a> example we saw how to convert a Java Object to XML and back. In this example we look at another example of Java Object to XML Conversion. The example uses an object called a &lsquo;JazzArtist&rsquo;. This object has a list of &lsquo;Album&rsquo; objects besides some other properties. We see here another example of Alias and implicit collection. (To understand alias and implicit collections look at this tutorial) We divide the example in three parts. In the first part we do not use aliases or implicit collections. In the second part we use aliases and in the third part we use an implicit Collection. Note the output from the three parts and observe how aliases and implicit collection change the way the output xml looks.</p>
+<pre tabindex="0"><code>package com.studytrails.xml.xstream;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.thoughtworks.xstream.XStream;
+
+public class CreateXMLFromMusicArtistObject {
+
+    public static void main(String[] args) {
+        CreateXMLFromMusicArtistObject marshaller = new CreateXMLFromMusicArtistObject();
+        marshaller.createXMlFromObject();
+        marshaller.createXMLFromObjectUsingAlias();
+        marshaller.createXMLFromObjectUsingAliasAndImplicitCollection();
+    }
+</code></pre>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/dev_201603081433/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
+</article>
+                        
+                            <article class="post panel-wrapper">
+    <header>
         <h2><a href="https://alimy.github.io/post/dev_201603081427/" title="阅读全文">XStream: XML To Java </a> </h2>
         
     </header>
@@ -495,44 +546,6 @@ Version 1.8 [[GitHub]](https://github.com/Microsoft/TypeScript/blob/master/doc/s
     </div>
     <footer id="more">
         <a href='https://alimy.github.io/post/etc_201602011221/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
-            </nobr></a>
-    </footer>
-</article>
-                        
-                            <article class="post panel-wrapper">
-    <header>
-        <h2><a href="https://alimy.github.io/post/day_201601292229/" title="阅读全文">无题 </a> </h2>
-        
-    </header>
-    <div class="summary">
-        <p><em>漫漫人生路，花开无尽天。</em></p>
-<p><em>莲步意随行，风清心亦欢。</em></p>
-    </div>
-    <footer id="more">
-        <a href='https://alimy.github.io/post/day_201601292229/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
-            </nobr></a>
-    </footer>
-</article>
-                        
-                            <article class="post panel-wrapper">
-    <header>
-        <h2><a href="https://alimy.github.io/post/day_201601261406/" title="阅读全文">电脑配置单 </a> </h2>
-        
-    </header>
-    <div class="summary">
-        <h4 id="配置清单">配置清单</h4>
-<ul>
-<li>CPU : AMD APU系列 A6-7400K 双核 R5核显 FM2+接口 盒装CPU处理器 <a href="http://item.jd.com/1239472.html" title="AMD APU系列 A6-7400K 双核 R5核显 FM2+接口 盒装CPU处理器 ￥399">【京东】</a></li>
-<li>主板 : 微星（MSI)A88XM-E45 V2 <a href="http://item.jd.com/1029497.html" title="微星（MSI)A88XM-E45 V2 ￥449">【京东】</a></li>
-<li>内存 : 金士顿(Kingston)DDR3 1600 4GB 台式机内存 <a href="http://item.jd.com/652351.html" title="金士顿(Kingston)DDR3 1600 4GB 台式机内存 ￥139">【京东】</a></li>
-<li>硬盘 : 希捷(ST1000DM003) 1TB 7200转64M SATA3 台式机硬盘<a href="http://item.jd.com/544026.html" title="希捷（Seagate）1TB 7200转64M SATA3 台式机硬盘(ST1000DM003) ￥359">【京东】</a></li>
-<li>机箱 : 爱国者 魔武者D1 中塔机箱电源套装（标配250W电源/USB3.0）<a href="http://item.jd.com/878583.html" title="爱国者（aigo）魔武者D1 中塔机箱电源套装 黑色（标配250W电源/USB3.0）￥149">【京东】</a></li>
-<li>显示器 : AOC I2260SWD 21.5英寸IPS广视角炫彩硬屏LED背光显示器 <a href="http://item.jd.com/1255209.html" title="AOC I2260SWD 21.5英寸IPS广视角炫彩硬屏LED背光显示器（黑色）￥639">【京东】</a></li>
-<li>键鼠套装 : 罗技（Logitech）MK120 键鼠套装 黑色 <a href="http://item.jd.com/584300.html" title="罗技（Logitech）MK120 键鼠套装 黑色 ￥79">【京东】</a></li>
-</ul>
-    </div>
-    <footer id="more">
-        <a href='https://alimy.github.io/post/day_201601261406/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
             </nobr></a>
     </footer>
 </article>

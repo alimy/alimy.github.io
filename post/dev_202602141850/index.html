@@ -5,7 +5,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-  <title> Kitex &middot; 那年江湖，遇见你 </title>
+  <title> Thrift THeader协议 &middot; 那年江湖，遇见你 </title>
   
   <link rel="stylesheet" type="text/css" href="https://alimy.github.io//css/uno.css" />
   <link rel="stylesheet" type="text/css" href="https://alimy.github.io//css/lightGallery.css" />
@@ -189,15 +189,14 @@
 </head>
 
 <body>
-    <div id="scriptHeader">
+  <div id="scriptHeader">
     <span class="mobile btn-mobile-menu">
         <i class="fa fa-bars btn-mobile-menu__icon"></i>
         <i class="fa fa-times btn-mobile-close__icon hidden"> </i>
     </span>
     <header class="
-        
          panel-cover
-        panel-cover--collapsed  " 
+        panel-cover--collapsed " 
         style="background-image: url(/images/cover.jpg)" >
         <div class="panel-main">
             <div class="panel-main__inner panel-inverted">
@@ -313,57 +312,108 @@
         </div>
     </header>
 </noscript>
-    <div class="content-wrapper">
-        <div class="content-wrapper__inner">
-            <h2>文章列表</h2>
-            
-            <div class="panel-wrapper">
-                <div id="caption">
-                    <h3>
-                        2026年 02月
-                        
-                        <span id="list-indicator" title="共1篇文章">1 </span>
-                    </h3>
-                </div>
-                <ul id="list">
-                    
-                    <li>
-                        <a href="https://alimy.github.io/post/dev_202602141900/">Kitex TTHeader协议 </a>&nbsp;
-                        <span id="list-date">(Sat, Feb 14, 2026)</span>
-                    </li>
-                    
-                </ul>
-            </div>
-            
-            <div class="panel-wrapper">
-                <div id="caption">
-                    <h3>
-                        2024年 01月
-                        
-                        <span id="list-indicator" title="共1篇文章">1 </span>
-                    </h3>
-                </div>
-                <ul id="list">
-                    
-                    <li>
-                        <a href="https://alimy.github.io/post/dev_202401281630/">Kitex: Thrift-HTTP 映射的 IDL 规范 </a>&nbsp;
-                        <span id="list-date">(Sun, Jan 28, 2024)</span>
-                    </li>
-                    
-                </ul>
-            </div>
-            
-            <footer id="copyright">
+  <div class="content-wrapper">
+    <div class="content-wrapper__inner">
+      <div class="post panel-wrapper">
+        <h2>Thrift THeader协议</h2>
+        
+        <p>Header format for the THeader.h</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>      <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">4</span> <span style="color:#ae81ff">5</span> <span style="color:#ae81ff">6</span> <span style="color:#ae81ff">7</span> <span style="color:#ae81ff">8</span> <span style="color:#ae81ff">9</span> a b c d e f <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">4</span> <span style="color:#ae81ff">5</span> <span style="color:#ae81ff">6</span> <span style="color:#ae81ff">7</span> <span style="color:#ae81ff">8</span> <span style="color:#ae81ff">9</span> a b c d e f
+</span></span><span style="display:flex;"><span>    +----------------------------------------------------------------+
+</span></span><span style="display:flex;"><span>    | 0|                          LENGTH                             |
+</span></span><span style="display:flex;"><span>    +----------------------------------------------------------------+
+</span></span><span style="display:flex;"><span>    | 0|       HEADER MAGIC          |            FLAGS              |
+</span></span><span style="display:flex;"><span>    +----------------------------------------------------------------+
+</span></span><span style="display:flex;"><span>    |                         SEQUENCE NUMBER                        |
+</span></span><span style="display:flex;"><span>    +----------------------------------------------------------------+
+</span></span><span style="display:flex;"><span>    | 0|     Header Size<span style="color:#f92672">(</span>/32<span style="color:#f92672">)</span>        | ...
+</span></span><span style="display:flex;"><span>    +---------------------------------
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                      Header is of variable size:
+</span></span><span style="display:flex;"><span>                       <span style="color:#f92672">(</span>and starts at offset 14<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    +----------------------------------------------------------------+
+</span></span><span style="display:flex;"><span>    |         PROTOCOL ID  <span style="color:#f92672">(</span>varint<span style="color:#f92672">)</span>  |   NUM TRANSFORMS <span style="color:#f92672">(</span>varint<span style="color:#f92672">)</span>     |
+</span></span><span style="display:flex;"><span>    +----------------------------------------------------------------+
+</span></span><span style="display:flex;"><span>    |      TRANSFORM <span style="color:#ae81ff">0</span> ID <span style="color:#f92672">(</span>varint<span style="color:#f92672">)</span>   |        TRANSFORM <span style="color:#ae81ff">0</span> DATA ...
+</span></span><span style="display:flex;"><span>    +----------------------------------------------------------------+
+</span></span><span style="display:flex;"><span>    |         ...                              ...                   |
+</span></span><span style="display:flex;"><span>    +----------------------------------------------------------------+
+</span></span><span style="display:flex;"><span>    |        INFO <span style="color:#ae81ff">0</span> ID <span style="color:#f92672">(</span>varint<span style="color:#f92672">)</span>      |       INFO <span style="color:#ae81ff">0</span>  DATA ...
+</span></span><span style="display:flex;"><span>    +----------------------------------------------------------------+
+</span></span><span style="display:flex;"><span>    |         ...                              ...                   |
+</span></span><span style="display:flex;"><span>    +----------------------------------------------------------------+
+</span></span><span style="display:flex;"><span>    |                                                                |
+</span></span><span style="display:flex;"><span>    |                              PAYLOAD                           |
+</span></span><span style="display:flex;"><span>    |                                                                |
+</span></span><span style="display:flex;"><span>    +----------------------------------------------------------------+
+</span></span></code></pre></div><p>The <code>LENGTH</code> field is 32 bits, and counts the remaining bytes in the
+packet, NOT including the length field.  The header size field is 16
+bits, and defines the size of the header remaining NOT including the
+<code>HEADER MAGIC</code>, <code>FLAGS</code>, <code>SEQUENCE NUMBER</code> and header size fields.  The
+Header size field is in bytes/4.</p>
+<p>The transform ID&rsquo;s are varints.  The data for each transform is
+defined by the transform ID in the code - no size is given in the
+header.  If a transform ID is specified from a client and the server
+doesn&rsquo;t know about the transform ID, an error MUST be returned as we
+don&rsquo;t know how to transform the data.</p>
+<p>Conversely, data in the info headers is ignorable.  This should only
+be things like timestamps, debugging tracing, etc.  Using the header
+size you should be able to skip this data and read the payload safely
+if you don&rsquo;t know the info ID.</p>
+<p>Info&rsquo;s should be oldest supported to newest supported order, so that
+if we read an info ID we don&rsquo;t support, none of the remaining info
+ID&rsquo;s will be supported either, and we can safely skip to the payload.</p>
+<p>Info ID&rsquo;s and transform ID&rsquo;s should share the same ID space.</p>
+<h3 id="padding">PADDING:</h3>
+<p>Header will be padded out to next 4-byte boundary with <code>0x00</code>.</p>
+<p>Max frame size is <code>0x3FFFFFFF</code>, which is slightly less than <code>HTTP_MAGIC</code>.
+This allows us to distinguish between different (older) transports.</p>
+<h3 id="transform-ids">Transform IDs:</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>    ZLIB_TRANSFORM 0x01 - No data <span style="color:#66d9ef">for</span> this.  Use zlib to <span style="color:#f92672">(</span>de<span style="color:#f92672">)</span>compress the
+</span></span><span style="display:flex;"><span>                          data.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    HMAC_TRANSFORM 0x02 - Variable amount of mac data.  One byte to specify
+</span></span><span style="display:flex;"><span>                          size. Mac data is appended at the end of the packet.
+</span></span><span style="display:flex;"><span>    SNAPPY_TRANSFORM  0x03  - No data <span style="color:#66d9ef">for</span> this.  Use snappy to <span style="color:#f92672">(</span>de<span style="color:#f92672">)</span>compress the
+</span></span><span style="display:flex;"><span>                          data.
+</span></span></code></pre></div><h3 id="info-ids">Info IDs:</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>    INFO_KEYVALUE 0x01 - varint32 number of headers.
+</span></span><span style="display:flex;"><span>                       - key/value pairs of varstrings <span style="color:#f92672">(</span>varint16 length plus
+</span></span><span style="display:flex;"><span>                         no-trailing-null string<span style="color:#f92672">)</span>. Implementations MUST NOT
+</span></span><span style="display:flex;"><span>                         alter either key or value in any way.
+</span></span></code></pre></div>
+        <div id="post-tags">
+          
+          
+          <a href="https://alimy.github.io/tags/development/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;Development</a>
+          
+          <a href="https://alimy.github.io/tags/thrift/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;Thrift</a>
+          
+          <a href="https://alimy.github.io/tags/protocol/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;Protocol</a>
+          
+          <a href="https://alimy.github.io/tags/rpc/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;RPC</a>
+          
+          
+        </div>
+      </div>
+      <div id="post-navigator">
+        <a id="post-navigator-prev" href="https://alimy.github.io/post/dev_202602131240/" title="上一篇"><i class="fa fa-chevron-left"
+            aria-hidden="true"></i>&nbsp;妙用Go类型定义避免循环引用</a>
+        <a id="post-navigator-next" href="https://alimy.github.io/post/dev_202602141900/" title="下一篇">Kitex TTHeader协议&nbsp;<i
+            class="fa fa-chevron-right" aria-hidden="true"></i></a>
+      </div>
+      
+      <footer id="copyright">
   <p>&copy;2015-至今 <a href="mailto:alimy@niubiu.com" title="Email:alimy@niubiu.com">北野 - Michael Li</a> All rights
     reserved.&nbsp;&nbsp;<a href="https://riiffy.com/alimy.github.io" title="访问统计" target="_blank">Riiffy</p>
 </footer>
-        </div>
     </div>
-</body>
-<script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
+    <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
 if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
 var s=document.getElementsByTagName('script')[0];sc.src='https://alimy.github.io/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
 WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
 
+</body>
 
 </html>

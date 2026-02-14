@@ -319,6 +319,37 @@
                         
                             <article class="post panel-wrapper">
     <header>
+        <h2><a href="https://alimy.github.io/post/art_202106031901/" title="阅读全文">最温暖的晚安 </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <p><a href="https://alimy.github.io/images/post/20210603190101.png" title="点击查看大图"><img src="https://alimy.github.io/images/post/20210603190101.png" alt=""></a></p>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/art_202106031901/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
+</article>
+                        
+                            <article class="post panel-wrapper">
+    <header>
+        <h2><a href="https://alimy.github.io/post/ark_202105221307/" title="阅读全文">袁隆平院士给妈妈的信《妈妈，稻子熟了》 </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <p>稻子熟了，妈妈，我来看您了。</p>
+<p>本来想一个人静静地陪您说会话，安江的乡亲们实在是太热情了，天这么热，他们还一直陪着，谢谢他们了。</p>
+<p>妈妈，您在安江，我在长沙，隔得很远很远。我在梦里总是想着您，想着安江这个地方。</p>
+<p><a href="https://alimy.github.io/images/post/20210522130700.jpg"><img src="https://alimy.github.io/images/post/20210522130700.jpg" alt=""></a></p>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/ark_202105221307/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
+</article>
+                        
+                            <article class="post panel-wrapper">
+    <header>
         <h2><a href="https://alimy.github.io/post/dev_202105220948/" title="阅读全文">解决GitHub官网打不开问题 </a> </h2>
         
     </header>
@@ -562,64 +593,6 @@
     </div>
     <footer id="more">
         <a href='https://alimy.github.io/post/dev_202101191805/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
-            </nobr></a>
-    </footer>
-</article>
-                        
-                            <article class="post panel-wrapper">
-    <header>
-        <h2><a href="https://alimy.github.io/post/dev_202101191738/" title="阅读全文">Mac OS包管理软件brew和port介绍 </a> </h2>
-        
-    </header>
-    <div class="summary">
-        <p>Mac OS中主要有三种包管理工具：MacPorts，Homebrew，Fink。这里简介Homebrew和MacPorts的区别：</p>
-<p><strong>MacPorts</strong>：<br>
-因为 Mac OS 源自 BSD，因此将 BSD 中的 Port 移植到 OS 成为 MacPorts 就一点不奇怪。MacPorts 会独立于 OS 自建一套仓库树，OS 的包执行目录为 /usr/local，而 MacPorts 的包执行目录为 /opt/local。MacPorts 尽量不影响系统现有程序，自然也就尽量少复用系统已有程序。MacPorts 安装包的过程是下载该程序的所有源文件及其依赖包，然后在本地进行 Build 生成最终的可执行文件。这样做的好处是在系统中存在一套独立的生态环境，从而不影响系统自身的生态环境，缺点就是浪费了系统自身的生态资源。</p>
-<p><strong>Homebrew</strong>：<br>
-在 Lion 之后兴起的包管理工具，工作方式与 MacPorts 类似，下载源代码然后本地 Build。不同之处在于 Homebrew 采取与 MacPorts 截然相反的态度，对系统资源是最大程度的利用，因此可以说 Homebrew 是直接对现有系统生态环境进行修改，所有包也是直接安装到现有的生态环境中，这样做的好处是节约了系统资源，但缺点是每一次操作都是直接对系统进行修改，严重依赖和影响现有系统。</p>
-<p>使用 MacPorts 和 Homebrew 都需要预装 XCode Command Line Tools，即意味着还需要提前预装 XCode。（根据官方文档来看，Fink 安装比较新的工具包时，因为提前编译完成所以无需依赖 XCode，但对于一些不是二进制的包，如果需要本地编译，还是需要依赖 XCode。换而言之，如果想在 OS 中编译源码，都需要 XCode 提供支持）</p>
-    </div>
-    <footer id="more">
-        <a href='https://alimy.github.io/post/dev_202101191738/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
-            </nobr></a>
-    </footer>
-</article>
-                        
-                            <article class="post panel-wrapper">
-    <header>
-        <h2><a href="https://alimy.github.io/post/dev_202101181248/" title="阅读全文">Kotlin: 几种设计模式 </a> </h2>
-        
-    </header>
-    <div class="summary">
-        <h4 id="创建型模式">创建型模式</h4>
-<p>原始模型</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Computer</span> {
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">val</span> cpu: String
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PC</span>(<span style="color:#66d9ef">override</span> <span style="color:#66d9ef">val</span> cpu: String = <span style="color:#e6db74">&#34;Core&#34;</span>): Computer
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Server</span>(<span style="color:#66d9ef">override</span> <span style="color:#66d9ef">val</span> cpu: String = <span style="color:#e6db74">&#34;Xeon&#34;</span>): Computer
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">enum</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ComputerType</span> {
-</span></span><span style="display:flex;"><span>	PC, Server
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ComputerFactory</span> {
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">produce</span>(type: ComputerType): Computer {
-</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">when</span>(type) {
-</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">ComputerType</span>.PC <span style="color:#f92672">-&gt;</span> PC()
-</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">ComputerType</span>.Server <span style="color:#f92672">-&gt;</span> Server()
-</span></span><span style="display:flex;"><span>		}
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>&gt;&gt;&gt; <span style="color:#66d9ef">val</span> comp = ComputerFactory().produce(<span style="color:#a6e22e">ComputerType</span>.PC)
-</span></span><span style="display:flex;"><span>&gt;&gt;&gt; println(comp.cpu)
-</span></span><span style="display:flex;"><span>Core
-</span></span></code></pre></div>
-    </div>
-    <footer id="more">
-        <a href='https://alimy.github.io/post/dev_202101181248/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
             </nobr></a>
     </footer>
 </article>
