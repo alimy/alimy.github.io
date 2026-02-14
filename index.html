@@ -319,6 +319,22 @@
                         
                             <article class="post panel-wrapper">
     <header>
+        <h2><a href="https://alimy.github.io/post/dev_202602141920/" title="阅读全文">rpcx-消息协议 </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <p>rpcx 的 请求(request)和响应(response)使用相同的数据结构。</p>
+<p><img src="https://alimy.github.io/images/post/20260214192000.jpg" alt=""></p>
+<p>一个消息由下面的项组成:</p>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/dev_202602141920/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
+</article>
+                        
+                            <article class="post panel-wrapper">
+    <header>
         <h2><a href="https://alimy.github.io/post/dev_202602141900/" title="阅读全文">Kitex TTHeader协议 </a> </h2>
         
     </header>
@@ -614,30 +630,6 @@ folderPeer#e9baa668 peer:Peer folder_id:int = FolderPeer;
     </div>
     <footer id="more">
         <a href='https://alimy.github.io/post/dev_202601181258/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
-            </nobr></a>
-    </footer>
-</article>
-                        
-                            <article class="post panel-wrapper">
-    <header>
-        <h2><a href="https://alimy.github.io/post/dev_202401281630/" title="阅读全文">Kitex: Thrift-HTTP 映射的 IDL 规范 </a> </h2>
-        
-    </header>
-    <div class="summary">
-        <p>本规范是 <code>Thrift</code> 与 <code>HTTP</code> 接口映射的 IDL 定义标准，包括服务、接口以及请求 <code>request</code>、<code>response</code> 参数定义规范和错误码定义规范。Kitex 部分实现了该规范，注解说明有标注支持情况。</p>
-<h3 id="规范说明">规范说明</h3>
-<p>（1）本规范采用注解方式来描述接口信息，包括接口的 <code>method</code>, <code>path</code> 以及接口请求参数，返回参数位置（如 <code>header</code>，<code>cookie</code> )、名称等信息</p>
-<p>（2）本规范所述注解采用 <code>api.{key}={value}</code> 的形式，其中<code>key</code>通常用于指定该字段出现的位置如（<code>header</code>，<code>cookie</code>，<code>query</code>，<code>body</code> 等), <code>value</code> 用于指定该字段在对应位置的实际名称, 一些功能性注解（如<code>api.none</code>, <code>api.js_conv</code>, <code>api.http_code</code>) 除外</p>
-<p>（3）本规范中定义的IDL注解如 <code>api.get</code>, <code>api.header</code> 等，只支持小写，不支持大写或者大小写混用如<code>api.GET</code>, <code>api.Header</code></p>
-<h3 id="文件整体规范">文件整体规范</h3>
-<ul>
-<li>一个服务 service 对应一个 thrift 主文件，主文件里的 <code>method</code> 都是针对当前服务对应接口，主文件可以引用其它 thrift 文件定义</li>
-<li>每个 <code>Method</code> 原则上对应一个 <code>Request</code> 和 <code>Response</code> 定义</li>
-<li>原则上不建议 <code>Request</code> 复用，可以复用 <code>Response</code></li>
-</ul>
-    </div>
-    <footer id="more">
-        <a href='https://alimy.github.io/post/dev_202401281630/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
             </nobr></a>
     </footer>
 </article>

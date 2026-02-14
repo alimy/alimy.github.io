@@ -6,7 +6,78 @@
     <language>en</language>
     
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <updated>Sat, 14 Feb 2026 19:00:00 CST</updated>
+    <updated>Sat, 14 Feb 2026 19:20:00 CST</updated>
+    
+    <item>
+      <title>rpcx-消息协议</title>
+      <link>https://alimy.github.io/post/dev_202602141920/</link>
+      <pubDate>Sat, 14 Feb 2026 19:20:00 CST</pubDate>
+      
+      <guid>https://alimy.github.io/post/dev_202602141920/</guid>
+      <description>&lt;p&gt;rpcx 的 请求(request)和响应(response)使用相同的数据结构。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://alimy.github.io/images/post/20260214192000.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;一个消息由下面的项组成:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;1. Header: &lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt; 字节
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2. Message ID: &lt;span style=&#34;color:#ae81ff&#34;&gt;8&lt;/span&gt; 字节
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;3. total size: &lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt; 字节, 不包含header和它本身, uint32类型
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;4. servicePath值的长度: &lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt; 字节, uint32类型
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;5. servicePath的值: UTF-8 字符串
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;6. serviceMethod值的长度: &lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt; 字节, uint32类型
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;7. serviceMethod的值: UTF-8 字符串
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;8. metadata的大小: &lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt; 字节, uint32类型
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;9. metadata: 格式: &lt;span style=&#34;color:#e6db74&#34;&gt;`&lt;/span&gt;size&lt;span style=&#34;color:#e6db74&#34;&gt;`&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;`&lt;/span&gt;key1 string&lt;span style=&#34;color:#e6db74&#34;&gt;`&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;`&lt;/span&gt;size&lt;span style=&#34;color:#e6db74&#34;&gt;`&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;`&lt;/span&gt;value1 string&lt;span style=&#34;color:#e6db74&#34;&gt;`&lt;/span&gt;, 可以包含多个
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;10. playload的大小: &lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt; 字节, uint32类型
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;11. playload的值: slice of byte
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;#4&lt;/code&gt; + &lt;code&gt;#6&lt;/code&gt; + &lt;code&gt;#8&lt;/code&gt; + &lt;code&gt;#10 + (4 + 4 + 4 + 4)&lt;/code&gt; 的字节数加起来等于 &lt;code&gt;#3&lt;/code&gt;的值。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;servicePath&lt;/code&gt;、&lt;code&gt;serviceMethod&lt;/code&gt;、&lt;code&gt;和 &lt;/code&gt;meta&lt;code&gt;中的key&lt;/code&gt; 、 &lt;code&gt;value&lt;/code&gt; 都是UTF-8 字符串。&lt;/p&gt;
+&lt;p&gt;rpcx 使用 &lt;code&gt;size of an element&lt;/code&gt; + &lt;code&gt;element&lt;/code&gt; 的格式定义可变长的元素， 就像 &lt;a href=&#34;https://en.wikipedia.org/wiki/Type-length-value&#34;&gt;TLV&lt;/a&gt;， 但是 rpcx 不需要 &lt;code&gt;Type&lt;/code&gt;字段， 这是因为 元素的&lt;code&gt;Type&lt;/code&gt; 要么是 UTF-8 字符串，要么就是明确的slice。&lt;/p&gt;
+&lt;p&gt;对整数使用大端 &lt;code&gt;BigEndian&lt;/code&gt; 编码 (integer type, int64, uint32 等等)&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;第一个字节是 &lt;code&gt;0x08&lt;/code&gt;, 它是一个魔数 (magic number)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;第二个字节是 &lt;code&gt;version&lt;/code&gt;. 当前的版本是 0.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;、MessageType 可以是:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;0: Request&lt;/li&gt;
+&lt;li&gt;1: Response&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;、Heartbeat: bool. 指示这个消息是否是heartbeat消息&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;、Oneway: bool. true的话意味着服务不需要返回response&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;、CompressType:  压缩类型&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;0: don&amp;rsquo;t compress&lt;/li&gt;
+&lt;li&gt;1: Gzip&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;、MessageStatusType: 指示 response 是一个错误还是正常的返回值&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;0: Normal&lt;/li&gt;
+&lt;li&gt;1: Error&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;、SerializeType: 编解码格式&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;0: 使用原始的byte slice&lt;/li&gt;
+&lt;li&gt;1: JSON&lt;/li&gt;
+&lt;li&gt;2: Protobuf&lt;/li&gt;
+&lt;li&gt;3: MessagePack&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;如果服务处理请求失败，它会返回error response， 它会设置 response 的 MessageStatusType为 &lt;code&gt;1&lt;/code&gt;, 并且在meta中设置错误信息， meta中的 key值是 &lt;strong&gt;rpcx_error&lt;/strong&gt;， 值是错误信息。&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Kitex TTHeader协议</title>

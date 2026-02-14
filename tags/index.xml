@@ -6,14 +6,41 @@
     <language>en</language>
     
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <updated>Sat, 14 Feb 2026 19:00:00 CST</updated>
+    <updated>Sat, 14 Feb 2026 19:20:00 CST</updated>
     
     <item>
       <title>Development</title>
       <link>https://alimy.github.io/tags/development/</link>
-      <pubDate>Sat, 14 Feb 2026 19:00:00 CST</pubDate>
+      <pubDate>Sat, 14 Feb 2026 19:20:00 CST</pubDate>
       
       <guid>https://alimy.github.io/tags/development/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Protocol</title>
+      <link>https://alimy.github.io/tags/protocol/</link>
+      <pubDate>Sat, 14 Feb 2026 19:20:00 CST</pubDate>
+      
+      <guid>https://alimy.github.io/tags/protocol/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>RPC</title>
+      <link>https://alimy.github.io/tags/rpc/</link>
+      <pubDate>Sat, 14 Feb 2026 19:20:00 CST</pubDate>
+      
+      <guid>https://alimy.github.io/tags/rpc/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Thrift</title>
+      <link>https://alimy.github.io/tags/thrift/</link>
+      <pubDate>Sat, 14 Feb 2026 19:20:00 CST</pubDate>
+      
+      <guid>https://alimy.github.io/tags/thrift/</guid>
       <description></description>
     </item>
     
@@ -23,33 +50,6 @@
       <pubDate>Sat, 14 Feb 2026 19:00:00 CST</pubDate>
       
       <guid>https://alimy.github.io/tags/kitex/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Protocol</title>
-      <link>https://alimy.github.io/tags/protocol/</link>
-      <pubDate>Sat, 14 Feb 2026 19:00:00 CST</pubDate>
-      
-      <guid>https://alimy.github.io/tags/protocol/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>RPC</title>
-      <link>https://alimy.github.io/tags/rpc/</link>
-      <pubDate>Sat, 14 Feb 2026 19:00:00 CST</pubDate>
-      
-      <guid>https://alimy.github.io/tags/rpc/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Thrift</title>
-      <link>https://alimy.github.io/tags/thrift/</link>
-      <pubDate>Sat, 14 Feb 2026 19:00:00 CST</pubDate>
-      
-      <guid>https://alimy.github.io/tags/thrift/</guid>
       <description></description>
     </item>
     
