@@ -1,11 +1,12 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 
 <head>
+	<meta name="generator" content="Hugo 0.155.3">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-  <title> Thrift THeader协议 &middot; 那年江湖，遇见你 </title>
+  <title> 北野 &middot; 那年江湖，遇见你 </title>
   
   <link rel="stylesheet" type="text/css" href="https://alimy.github.io//css/uno.css" />
   <link rel="stylesheet" type="text/css" href="https://alimy.github.io//css/lightGallery.css" />
@@ -187,16 +188,15 @@
     }
   </style>
 </head>
-
-<body>
-  <div id="scriptHeader">
+    <body>
+        <div id="scriptHeader">
     <span class="mobile btn-mobile-menu">
         <i class="fa fa-bars btn-mobile-menu__icon"></i>
         <i class="fa fa-times btn-mobile-close__icon hidden"> </i>
     </span>
     <header class="
-         panel-cover
-        panel-cover--collapsed " 
+        
+         panel-cover panel-cover--collapsed  " 
         style="background-image: url(/images/cover.jpg)" >
         <div class="panel-main">
             <div class="panel-main__inner panel-inverted">
@@ -312,109 +312,83 @@
         </div>
     </header>
 </noscript>
-  <div class="content-wrapper">
-    <div class="content-wrapper__inner">
-      <div class="post panel-wrapper">
-        <h2>Thrift THeader协议</h2>
+        <div class="content-wrapper">
+            <div class="content-wrapper__inner">
+                <section id="main">
+                    <div>
+                        
+                            <article class="post panel-wrapper">
+    <header>
+        <h2><a href="https://alimy.github.io/post/are_199401180000/" title="阅读全文">任正非：赴美考察散记 </a> </h2>
         
-        <p>Header format for the THeader.h</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>      <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">4</span> <span style="color:#ae81ff">5</span> <span style="color:#ae81ff">6</span> <span style="color:#ae81ff">7</span> <span style="color:#ae81ff">8</span> <span style="color:#ae81ff">9</span> a b c d e f <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">4</span> <span style="color:#ae81ff">5</span> <span style="color:#ae81ff">6</span> <span style="color:#ae81ff">7</span> <span style="color:#ae81ff">8</span> <span style="color:#ae81ff">9</span> a b c d e f
-</span></span><span style="display:flex;"><span>    +----------------------------------------------------------------+
-</span></span><span style="display:flex;"><span>    | 0|                          LENGTH                             |
-</span></span><span style="display:flex;"><span>    +----------------------------------------------------------------+
-</span></span><span style="display:flex;"><span>    | 0|       HEADER MAGIC          |            FLAGS              |
-</span></span><span style="display:flex;"><span>    +----------------------------------------------------------------+
-</span></span><span style="display:flex;"><span>    |                         SEQUENCE NUMBER                        |
-</span></span><span style="display:flex;"><span>    +----------------------------------------------------------------+
-</span></span><span style="display:flex;"><span>    | 0|     Header Size<span style="color:#f92672">(</span>/32<span style="color:#f92672">)</span>        | ...
-</span></span><span style="display:flex;"><span>    +---------------------------------
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>                      Header is of variable size:
-</span></span><span style="display:flex;"><span>                       <span style="color:#f92672">(</span>and starts at offset 14<span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    +----------------------------------------------------------------+
-</span></span><span style="display:flex;"><span>    |         PROTOCOL ID  <span style="color:#f92672">(</span>varint<span style="color:#f92672">)</span>  |   NUM TRANSFORMS <span style="color:#f92672">(</span>varint<span style="color:#f92672">)</span>     |
-</span></span><span style="display:flex;"><span>    +----------------------------------------------------------------+
-</span></span><span style="display:flex;"><span>    |      TRANSFORM <span style="color:#ae81ff">0</span> ID <span style="color:#f92672">(</span>varint<span style="color:#f92672">)</span>   |        TRANSFORM <span style="color:#ae81ff">0</span> DATA ...
-</span></span><span style="display:flex;"><span>    +----------------------------------------------------------------+
-</span></span><span style="display:flex;"><span>    |         ...                              ...                   |
-</span></span><span style="display:flex;"><span>    +----------------------------------------------------------------+
-</span></span><span style="display:flex;"><span>    |        INFO <span style="color:#ae81ff">0</span> ID <span style="color:#f92672">(</span>varint<span style="color:#f92672">)</span>      |       INFO <span style="color:#ae81ff">0</span>  DATA ...
-</span></span><span style="display:flex;"><span>    +----------------------------------------------------------------+
-</span></span><span style="display:flex;"><span>    |         ...                              ...                   |
-</span></span><span style="display:flex;"><span>    +----------------------------------------------------------------+
-</span></span><span style="display:flex;"><span>    |                                                                |
-</span></span><span style="display:flex;"><span>    |                              PAYLOAD                           |
-</span></span><span style="display:flex;"><span>    |                                                                |
-</span></span><span style="display:flex;"><span>    +----------------------------------------------------------------+
-</span></span></code></pre></div><p>The <code>LENGTH</code> field is 32 bits, and counts the remaining bytes in the
-packet, NOT including the length field.  The header size field is 16
-bits, and defines the size of the header remaining NOT including the
-<code>HEADER MAGIC</code>, <code>FLAGS</code>, <code>SEQUENCE NUMBER</code> and header size fields.  The
-Header size field is in bytes/4.</p>
-<p>The transform ID&rsquo;s are varints.  The data for each transform is
-defined by the transform ID in the code - no size is given in the
-header.  If a transform ID is specified from a client and the server
-doesn&rsquo;t know about the transform ID, an error MUST be returned as we
-don&rsquo;t know how to transform the data.</p>
-<p>Conversely, data in the info headers is ignorable.  This should only
-be things like timestamps, debugging tracing, etc.  Using the header
-size you should be able to skip this data and read the payload safely
-if you don&rsquo;t know the info ID.</p>
-<p>Info&rsquo;s should be oldest supported to newest supported order, so that
-if we read an info ID we don&rsquo;t support, none of the remaining info
-ID&rsquo;s will be supported either, and we can safely skip to the payload.</p>
-<p>Info ID&rsquo;s and transform ID&rsquo;s should share the same ID space.</p>
-<h3 id="padding">PADDING:</h3>
-<p>Header will be padded out to next 4-byte boundary with <code>0x00</code>.</p>
-<p>Max frame size is <code>0x3FFFFFFF</code>, which is slightly less than <code>HTTP_MAGIC</code>.
-This allows us to distinguish between different (older) transports.</p>
-<h3 id="transform-ids">Transform IDs:</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>    ZLIB_TRANSFORM 0x01 - No data <span style="color:#66d9ef">for</span> this.  Use zlib to <span style="color:#f92672">(</span>de<span style="color:#f92672">)</span>compress the
-</span></span><span style="display:flex;"><span>                          data.
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    HMAC_TRANSFORM 0x02 - Variable amount of mac data.  One byte to specify
-</span></span><span style="display:flex;"><span>                          size. Mac data is appended at the end of the packet.
-</span></span><span style="display:flex;"><span>    SNAPPY_TRANSFORM  0x03  - No data <span style="color:#66d9ef">for</span> this.  Use snappy to <span style="color:#f92672">(</span>de<span style="color:#f92672">)</span>compress the
-</span></span><span style="display:flex;"><span>                          data.
-</span></span></code></pre></div><h3 id="info-ids">Info IDs:</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>    INFO_KEYVALUE 0x01 - varint32 number of headers.
-</span></span><span style="display:flex;"><span>                       - key/value pairs of varstrings <span style="color:#f92672">(</span>varint16 length plus
-</span></span><span style="display:flex;"><span>                         no-trailing-null string<span style="color:#f92672">)</span>. Implementations MUST NOT
-</span></span><span style="display:flex;"><span>                         alter either key or value in any way.
-</span></span></code></pre></div><hr>
-<p><em>声明：本站是个人开设维护的网站，主要用于收集网络美文、技术文章与原创生活记录等，系孤芳自赏、个人用途，内容如有侵权请联系站长删除。</em></p>
-        <div id="post-tags">
-          
-          
-          <a href="https://alimy.github.io/tags/development/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;Development</a>
-          
-          <a href="https://alimy.github.io/tags/thrift/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;Thrift</a>
-          
-          <a href="https://alimy.github.io/tags/protocol/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;Protocol</a>
-          
-          <a href="https://alimy.github.io/tags/rpc/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;RPC</a>
-          
-          
-        </div>
-      </div>
-      <div id="post-navigator">
-        <a id="post-navigator-prev" href="https://alimy.github.io/post/dev_202602131240/" title="上一篇"><i class="fa fa-chevron-left"
-            aria-hidden="true"></i>&nbsp;妙用Go类型定义避免循环引用</a>
-        <a id="post-navigator-next" href="https://alimy.github.io/post/dev_202602141900/" title="下一篇">Kitex TTHeader协议&nbsp;<i
-            class="fa fa-chevron-right" aria-hidden="true"></i></a>
-      </div>
-      
-      <footer id="copyright">
+    </header>
+    <div class="summary">
+        <p>——发表于1994年1月18日的《华为人》报。</p>
+<p>三年前还年销售35亿美元的美国知名王安电脑公司，为什么现在宣布破产保护？日本三菱这么强大的集团，为何会退出电脑生产？</p>
+<p>带着这样的疑问，我前往美国考察。</p>
+<p>飞机经东京，飞越太平洋及美国大陆，抵达大西洋彼岸的波士顿。一出国门我就生病了，在香港机场开始呕吐，又加上连续二十多小时的时差反应，一直折腾到美国中部城市达拉斯。</p>
+<h2 id="1">1</h2>
+<p>波士顿是座美丽的城市，而且是南北战争的策源地，也是当年欧洲人开发美洲大陆的窗口。古老的房屋收拾得十分整齐，外表都刷着朴实的油漆。</p>
+<p>这个城市的美，在于城市中处处都保留着小片小片的森林。</p>
+<p>沿街全是绿菌菌的草地，草地上种着阔叶树。这些枫树、橡树，冬天叶子都要掉得光光的。现在是秋天，树叶红的、绿的、黄的、黄绿的、褐色的、深红色的……，在阳光的照耀下，全透明了，如诗如画，纷纷飘落的树叶，铺满了绿草地，好象一条五彩斑斓的地毯。</p>
+<p>我们年轻时慕名几千里跑到香山看红叶，这次我们乘灰狗（长途汽车），奔驰几千里，处处都香山般美妙，自然风光还要盖过香山。</p>
+<p>美国人民数百年来对环境的保护，令人惊叹。在纽约街边的树上，小松鼠跑来跑去；一些旅馆门前，一到傍晚，每颗树上都落下几百上千只鸟，小鸟飞到人群中、房子里是十分自然的。</p>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/are_199401180000/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
+</article>
+                        
+                    </div>
+                    </br>
+                    
+                </section>
+                <div class="pages">
+  
+<ul class="pagination">
+  
+  <li class="page-item">
+    <a href="https://alimy.github.io/page/18/"  class="page-link" aria-label="Previous"><span
+        aria-hidden="true"><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;&nbsp;上一页</span></a>
+  </li>
+  <li class="page-item">
+    <a class="page-link" href="https://alimy.github.io/">1</a>
+  </li>
+  <li class="page-item">
+    <a class="page-link" href="https://alimy.github.io/page/2/">2</a>
+  </li>
+  <li class="page-item">
+    <a class="page-link" href="https://alimy.github.io/page/3/">3</a>
+  </li>
+  <li class="page-item disabled">
+    <span aria-hidden="true">&nbsp;&hellip;&nbsp;</span>
+  </li>
+  <li class="page-item">
+    <a class="page-link" href="https://alimy.github.io/page/18/">18</a>
+  </li>
+  <li class="page-item active">
+    <a class="page-link" href="https://alimy.github.io/page/19/">19</a>
+  </li>
+  <li class="page-item disabled">
+    <a  class="page-link" aria-label="Next">下一页&nbsp;&nbsp;<i
+        class="fa fa-arrow-right" aria-hidden="true"></i></a>
+  </li>
+  
+</ul>
+
+</div>
+
+            <footer id="copyright">
   <p>&copy;2015-至今 <a href="mailto:alimy@niubiu.com" title="Email:alimy@niubiu.com">北野 - Michael Li</a> All rights
     reserved.&nbsp;&nbsp;<a href="https://riiffy.com/alimy.github.io" title="访问统计" target="_blank">Riiffy</p>
 </footer>
-    </div>
-    <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
+            </div>
+        </div>
+        <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
 if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
 var s=document.getElementsByTagName('script')[0];sc.src='https://alimy.github.io/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
 WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
 
-</body>
-
+    </body>
 </html>

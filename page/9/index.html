@@ -319,6 +319,26 @@
                         
                             <article class="post panel-wrapper">
     <header>
+        <h2><a href="https://alimy.github.io/post/info_201805210818/" title="阅读全文">收藏: 技术相关网站 </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <h3 id="kubernetes"><a href="https://kubernetes.io/" title="Kubernetes官网">Kubernetes</a></h3>
+<ul>
+<li><a href="https://kubernetes.io/cn/docs/" title="官方中文文档">官方中文文档</a></li>
+<li><a href="https://kubernetes.feisky.xyz/zh/" title="feisky版 Kubernetes指南">Kubernetes指南</a></li>
+<li><a href="https://jimmysong.io/kubernetes-handbook/" title="Jimmy版 Kubernetes指南">Kubernetes指南</a></li>
+<li><a href="https://feisky.gitbooks.io/sdn/" title="SDN指南">SDN指南</a></li>
+</ul>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/info_201805210818/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
+</article>
+                        
+                            <article class="post panel-wrapper">
+    <header>
         <h2><a href="https://alimy.github.io/post/dev_201805021940/" title="阅读全文">NewSQL: 分布式数据库TiDB、CockroachDB </a> </h2>
         
     </header>
@@ -518,46 +538,6 @@ Local:  rsync [OPTION&hellip;] SRC&hellip; [DEST]</p>
     </footer>
 </article>
                         
-                            <article class="post panel-wrapper">
-    <header>
-        <h2><a href="https://alimy.github.io/post/dev_201803031932/" title="阅读全文">Golang Tutorial: What&#39;s DefaultServeMux in net/http </a> </h2>
-        
-    </header>
-    <div class="summary">
-        <p>craete a HTTPS Server use net/http and route handle function by DefaultServeMux, see code below:</p>
-<pre tabindex="0"><code>package main
-
-import (
-	&#34;net/http&#34;
-	&#34;fmt&#34;
-	&#34;log&#34;
-)
-
-func hello(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, &#34;[%s]: hello!&#34;, r.Host)
-}
-
-func world(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, &#34;[%s]: world!&#34;, r.Host)
-}
-
-func main() {
-	server := http.Server{
-		Addr: &#34;127.0.0.1:8080&#34;,
-	}
-	http.HandleFunc(&#34;/hello&#34;, hello)
-	http.HandleFunc(&#34;/world&#34;, world)
-
-	log.Fatal(server.ListenAndServe())
-}
-</code></pre>
-    </div>
-    <footer id="more">
-        <a href='https://alimy.github.io/post/dev_201803031932/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
-            </nobr></a>
-    </footer>
-</article>
-                        
                     </div>
                     </br>
                     
@@ -595,7 +575,7 @@ func main() {
     <span aria-hidden="true">&nbsp;&hellip;&nbsp;</span>
   </li>
   <li class="page-item">
-    <a class="page-link" href="https://alimy.github.io/page/18/">18</a>
+    <a class="page-link" href="https://alimy.github.io/page/19/">19</a>
   </li>
   <li class="page-item">
     <a href="https://alimy.github.io/page/10/"  class="page-link" aria-label="Next">下一页&nbsp;&nbsp;<i

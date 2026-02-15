@@ -319,6 +319,32 @@
                         
                             <article class="post panel-wrapper">
     <header>
+        <h2><a href="https://alimy.github.io/post/dev_202601181258/" title="阅读全文">使用Test来生成代码 </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <p>一般我们会起一个main函数的go主文件来写逻辑用于生成代码，但有的时候不太方便在一个包里面有main函数，而生成代码的逻辑又是必须的且最好是就在同一个包内或临近包中，此时，可以利用Test的编译机制，将我们需要的代码生成逻辑写在<code>TestAbc</code>函数中。</p>
+<h4 id="辅助脚本">辅助脚本</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>// file: github.com/cloudwego/frugal/internal/reflect/append_gen.sh
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>FRUGAL_GEN_APPEND_MAP_FILE<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;append_map_gen.go&#34;</span>
+</span></span><span style="display:flex;"><span>FRUGAL_GEN_APPEND_LIST_FILE<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;append_list_gen.go&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>rm -f $FRUGAL_GEN_APPEND_MAP_FILE
+</span></span><span style="display:flex;"><span>rm -f $FRUGAL_GEN_APPEND_LIST_FILE
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>exec go test -v -run<span style="color:#f92672">=</span>TestGenAppend -gencode<span style="color:#f92672">=</span>true
+</span></span></code></pre></div>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/dev_202601181258/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
+</article>
+                        
+                            <article class="post panel-wrapper">
+    <header>
         <h2><a href="https://alimy.github.io/post/dev_202401281630/" title="阅读全文">Kitex: Thrift-HTTP 映射的 IDL 规范 </a> </h2>
         
     </header>
@@ -553,21 +579,6 @@ Mac用了几年，明显感觉散热不佳，于是对Mac做了一次彻底的�
     </footer>
 </article>
                         
-                            <article class="post panel-wrapper">
-    <header>
-        <h2><a href="https://alimy.github.io/post/dev_202212191032/" title="阅读全文">paopao - 关于paopao-ce的设计定位 </a> </h2>
-        
-    </header>
-    <div class="summary">
-        <p><a href="https://github.com/rocboss/paopao-ce">paopao-ce</a> 是一个清新文艺的微社区，提供类似Twitter/微博的推文分享服务。paopao-ce的运营形态有点类似WordPress，只不过WordPress是使用PHP语言开发的博客平台，提供的是博客服务，而paopao-ce提供的是类似Twitter的推文分享服务。paopao-ce 让 <strong>个人或小组织</strong> 可以快速、方便的部署一个提供<strong>推文分享服务</strong>的小站点，在有限范围内形成一个友善的社交小圈子微社区。   <br>
-<img src="https://alimy.github.io/images/post/20221219103201.png" alt=""></p>
-    </div>
-    <footer id="more">
-        <a href='https://alimy.github.io/post/dev_202212191032/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
-            </nobr></a>
-    </footer>
-</article>
-                        
                     </div>
                     </br>
                     
@@ -593,7 +604,7 @@ Mac用了几年，明显感觉散热不佳，于是对Mac做了一次彻底的�
     <span aria-hidden="true">&nbsp;&hellip;&nbsp;</span>
   </li>
   <li class="page-item">
-    <a class="page-link" href="https://alimy.github.io/page/18/">18</a>
+    <a class="page-link" href="https://alimy.github.io/page/19/">19</a>
   </li>
   <li class="page-item">
     <a href="https://alimy.github.io/page/3/"  class="page-link" aria-label="Next">下一页&nbsp;&nbsp;<i

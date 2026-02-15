@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <title> Building a message queue with only two UNIX signals &middot; 那年江湖，遇见你 </title>
+  
+  <link rel="stylesheet" type="text/css" href="https://alimy.github.io//css/uno.css" />
+  <link rel="stylesheet" type="text/css" href="https://alimy.github.io//css/lightGallery.css" />
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://alimy.github.io/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="https://alimy.github.io/favicon.png">
+  
+  <script src="https://alimy.github.io//js/jquery.min.js"></script>
+  <script src="https://alimy.github.io//js/main.min.js"></script>
+
+  <script data-host="https://riiffy.com" data-dnt="false" src="https://riiffy.com/js/script.js" id="ZwSg9rf6GA" async
+    defer></script>
+
+  <style type="text/css">
+    body {
+      background-color: #f9f9f9;
+    }
+
+    .panel-wrapper {
+      box-shadow: 0px 0px 8px rgba(68, 68, 68, .6);
+      -moz-box-shadow: 0px 0px 8px rgba(68, 68, 68, .6);
+      border-radius: 4px;
+      -moz-border-radius: 4px;
+      padding: 16px 24px;
+      margin-top: 32px;
+      background-color: #fff
+    }
+
+    .panel-wrapper:hover {
+      box-shadow: 0px 0px 12px rgba(68, 68, 68, .6);
+      -moz-box-shadow: 0px 0px 12px rgba(68, 68, 68, .6);
+    }
+
+    #more {
+      margin-top: 16px;
+    }
+
+    #copyright {
+      padding: 2em 0 0;
+      display: block;
+      font-size: .9em;
+      color: #b3b3b3;
+      width: 100%;
+      text-align: center
+    }
+
+    #list-indicator {
+      min-width: 48px;
+      text-align: center;
+      float: right;
+      margin-right: 64px;
+      background: rgba(68, 68, 68, .2);
+      border-radius: 4px;
+      -moz-border-radius: 4px;
+      padding: 8px;
+    }
+
+    #list-date {
+      color: #999;
+      font-size: .9em;
+      font-style: italic;
+    }
+
+    .post-tags-item {
+      padding-left: .75rem !important;
+      padding-right: .75rem !important;
+      padding-top: .25rem !important;
+      padding-bottom: .25rem !important;
+      margin-right: .5rem !important;
+      margin-top: .25rem !important;
+      margin-bottom: .25rem !important;
+      font-size: .875rem !important;
+      color: #666666;
+      display: inline-block !important;
+      border-radius: .25rem !important;
+      background-color: rgb(242 242 247) !important;
+    }
+
+    .post-tags-item:hover {
+      color: #38b2ac;
+    }
+
+    #post-navigator {
+      padding: 24px 0px 16px 0px;
+      vertical-align: middle;
+    }
+
+    #post-navigator>a {
+      display: block;
+      color: #2479cc;
+      text-decoration: none;
+    }
+
+    #post-navigator-prev {
+      float: left;
+    }
+
+    #post-navigator-next {
+      float: right;
+    }
+
+    .pages {
+      text-align: center;
+      margin-right: -15px;
+      margin-left: -15px;
+    }
+
+    .pages>ul {
+      font-weight: lighter;
+    }
+
+    .pages>.pagination {
+      display: inline-block;
+      padding-left: 0;
+      margin: 20px 0px;
+      border-radius: 4px;
+    }
+
+    .pages .pagination>li {
+      display: inline;
+    }
+
+    .pagination>.active>a,
+    .pagination>.active>span,
+    .pagination>.active>a:hover,
+    .pagination>.active>span:hover,
+    .pagination>.active>a:focus,
+    .pagination>.active>span:focus {
+      z-index: 2;
+      color: #fff;
+      cursor: default;
+      background-color: #428bca;
+      border-color: #428bca;
+    }
+
+    .pagination>li>a,
+    .pagination>li>span {
+      position: relative;
+      float: left;
+      padding: 6px 12px;
+      margin-left: -1px;
+      line-height: 1.428571429;
+      text-decoration: none;
+      background-color: #fff;
+      border: 1px solid #ddd;
+    }
+
+    .pagination>li:first-child>a,
+    .pagination>li:first-child>span {
+      margin-left: 0;
+      border-bottom-left-radius: 4px;
+      border-top-left-radius: 4px;
+    }
+
+    .pagination>.disabled>span,
+    .pagination>.disabled>span:hover,
+    .pagination>.disabled>span:focus,
+    .pagination>.disabled>a,
+    .pagination>.disabled>a:hover,
+    .pagination>.disabled>a:focus {
+      color: #999;
+      cursor: not-allowed;
+      background-color: #fff;
+      border-color: #ddd;
+    }
+
+    .pagination>li:last-child>a,
+    .pagination>li:last-child>span {
+      border-top-right-radius: 4px;
+      border-bottom-right-radius: 4px;
+    }
+
+    *,
+    *:before,
+    *:after {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="scriptHeader">
+    <span class="mobile btn-mobile-menu">
+        <i class="fa fa-bars btn-mobile-menu__icon"></i>
+        <i class="fa fa-times btn-mobile-close__icon hidden"> </i>
+    </span>
+    <header class="
+         panel-cover
+        panel-cover--collapsed " 
+        style="background-image: url(/images/cover.jpg)" >
+        <div class="panel-main">
+            <div class="panel-main__inner panel-inverted">
+                <div class="panel-main__content">
+                    <a href="https://alimy.github.io//"> <img src="https://alimy.github.io/images/logo.jpg"
+                            width="256" alt="北野 logo" class="panel-cover__logo logo" /> </a> 
+                    <h1 class="panel-cover__title panel-title">
+                        <a href="https://alimy.github.io//">北野</a>
+                    </h1>
+                    <hr class="panel-cover__divider" />
+                    <p class="panel-cover__description">  那年江湖，遇见你  </p>
+                    <hr class="panel-cover__divider panel-cover__divider--secondary" />
+                    <div class="navigation-wrapper">
+                        <nav class="cover-navigation cover-navigation--primary">
+                            <ul class="navigation">
+                                <li class="navigation__item"><a href="https://alimy.github.io/" title="博客首页"
+                                        class="blog-button">首页</a> </li> </br></br>
+                                <li class="navigation__item"><a href="https://alimy.github.io/post" title="文章列表"
+                                        class="blog-button">文章列表</a> </li>
+                                </br>  </br>
+                                <li class="navigation__item"><a href="https://alimy.github.io/pages/cv" title="关于我 "
+                                        class="blog-button">关于我</a> </li>
+                                </br> 
+                            </ul>
+                            <nav class="cover-navigation navigation--social">
+</br>
+    <ul class="navigation"> 
+        
+        <li class="navigation__item">
+            <a href="https://iibiubiu.com" title="@iiBiuBiu" target="_blank"> <i class='fa fa-anchor'></i> <span class="label">Twitter</span> </a>
+        </li>
+        <li class="navigation__item">
+            <a href="https://www.paopao.info/#/u?s=alimy" title="@paopao" target="_blank"> <i class='fa fa-leaf'></i> <span class="label">Twitter</span> </a>
+        </li><br>
+        
+        
+        
+          
+        
+        <li class="navigation__item">
+            <a href="https://github.com/alimy" title="@GitHub" target="_blank"> <i class='fa fa-github'></i> <span class="label">Github</span> </a>
+        </li>   </br>    </ul>
+</nav>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-cover--overlay"></div>
+        </div>
+    </header>
+</div>
+<noscript>
+    <style>
+        #scriptHeader {
+            display: none;
+        }
+
+        .navigation-wrapper {
+            display: block;
+            top: 0;
+        }
+    </style>
+
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url(/images/cover.jpg)">
+        <div class="panel-main">
+            <div class="panel-main__inner panel-inverted">
+                <div class="panel-main__content"> 
+                    <a href="https://alimy.github.io//"> <img src="https://alimy.github.io/images/logo.jpg" width="80"
+                            alt="北野 logo" class="panel-cover__logo logo" /> </a> 
+                    <h1 class="panel-cover__title panel-title">
+                        <a href="https://alimy.github.io//">北野</a>
+                    </h1>
+                    <hr class="panel-cover__divider" />
+                    <p class="panel-cover__description">  那年江湖，遇见你  </p>
+                    <hr class="panel-cover__divider panel-cover__divider--secondary" />
+                    <div class="navigation-wrapper">
+                        <nav class="cover-navigation cover-navigation--primary">
+                            <ul class="navigation">
+                                <li class="navigation__item"><a href="https://alimy.github.io/" title="博客首页"
+                                        class="blog-button">Blog</a> </li></br></br>
+                                <li class="navigation__item"><a href="https://alimy.github.io//post/" title="文章列表"
+                                        class="blog-button">Articles</a> </li>
+                                </br>  </br>
+                                <li class="navigation__item"><a href="https://alimy.github.io/pages/cv" title="关于我 "
+                                        class="blog-button">About Me</a> </li>
+                                </br> 
+                            </ul>
+                        </nav> <nav class="cover-navigation navigation--social">
+</br>
+    <ul class="navigation"> 
+        
+        <li class="navigation__item">
+            <a href="https://iibiubiu.com" title="@iiBiuBiu" target="_blank"> <i class='fa fa-anchor'></i> <span class="label">Twitter</span> </a>
+        </li>
+        <li class="navigation__item">
+            <a href="https://www.paopao.info/#/u?s=alimy" title="@paopao" target="_blank"> <i class='fa fa-leaf'></i> <span class="label">Twitter</span> </a>
+        </li><br>
+        
+        
+        
+          
+        
+        <li class="navigation__item">
+            <a href="https://github.com/alimy" title="@GitHub" target="_blank"> <i class='fa fa-github'></i> <span class="label">Github</span> </a>
+        </li>   </br>    </ul>
+</nav>
+
+                    </div>
+                </div>
+            </div>
+            <div class="panel-cover--overlay"></div>
+        </div>
+    </header>
+</noscript>
+  <div class="content-wrapper">
+    <div class="content-wrapper__inner">
+      <div class="post panel-wrapper">
+        <h2>Building a message queue with only two UNIX signals</h2>
+        
+        <p>Have you ever asked yourself what if we could replace any message broker with a very simple one using only two UNIX signals? Well, I’m not surprised if you didn’t. But I did. And I want to share my journey of how I achieved it.</p>
+<p>If you want to learn about UNIX signals, binary operations the easy way, how a message broker works under the hood, and a bit of Ruby, this post is for you.</p>
+<p>And if you came here just because of the clickbait title, I apologize and invite you to keep reading. It’ll be fun, I promise.</p>
+<p><img src="https://alimy.github.io/images/post/20260215170500.png" alt="image"></p>
+<h3 id="its-all-about-unix">It’s all about UNIX</h3>
+<p>A few days ago, I saw some discussion on the internet about how we could send messages between processes. Many people think of sockets, which are the most common way to send messages, even allowing communication across different machines and networks. Some don’t even realize that pipes are another way to send messages between processes:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ echo <span style="color:#e6db74">&#39;hello&#39;</span> | base64
+</span></span><span style="display:flex;"><span>aGVsbG8K
+</span></span></code></pre></div><p>Here’s what’s happening:</p>
+<ul>
+<li>The process <code>echo</code> is started with the content “hello”</li>
+<li><code>echo</code> is a program that prints the message to <em>STDOUT</em></li>
+<li>Through the pipe, the content in <em>STDOUT</em> is <strong>sent</strong> directly to the <em>STDIN</em> of the <code>base64</code> process</li>
+<li>The <code>base64</code> process encodes its input to Base64 and then puts the result in <em>STDOUT</em></li>
+</ul>
+<p>Note the word “send”. Yes, anonymous pipes are a form of <strong>IPC (Inter-process communication).</strong> Other forms of IPC in UNIX include:</p>
+<ul>
+<li>named pipes (mkfifo)</li>
+<li>sockets</li>
+<li>regular files</li>
+<li>or even a simple <strong>signal</strong></li>
+</ul>
+<h3 id="unix-signals">UNIX signals</h3>
+<p>According to Wikipedia:</p>
+<p><em><strong>A UNIX signal is a standardized message sent to a program to trigger specific behaviour, such as quitting or error handling</strong></em></p>
+<p>There are many signals we can send to a process, including:</p>
+<ul>
+<li>SIGTERM - sends a notification to the process to terminate. It can be “trapped,” which means the process can do some cleanup work before termination, like releasing OS resources and closing file descriptors</li>
+<li>SIGKILL - sends a termination signal that cannot be trapped or ignored, forcing immediate termination</li>
+<li>SIGINT - the interrupt signal, typically sent when you press <code>Ctrl+C</code> in the terminal. It can be trapped, allowing the process to perform cleanup before exiting gracefully</li>
+<li>SIGHUP - the hangup signal, originally sent when a terminal connection was lost. Modern applications often use it to reload configuration files without restarting the process</li>
+<li>SIGQUIT - similar to SIGINT but also generates a core dump for debugging</li>
+<li>SIGSTOP - pauses (suspends) a process. Cannot be trapped or ignored</li>
+<li>SIGCONT - resumes a process that was paused by <em>SIGSTOP</em></li>
+<li>SIGCHLD - sent to a parent process when a child process terminates or stops</li>
+<li><strong>SIGUSR1</strong> and <strong>SIGUSR2</strong> - user-defined signals that applications can use for custom purposes</li>
+</ul>
+<h3 id="sending-messages-using-signals">Sending messages using signals</h3>
+<p>Okay, we know that signals are a primitive form of IPC. UNIX-like systems provide a syscall called <code>kill</code> that sends signals to processes. Historically, this syscall was created solely to terminate processes. But over time, they needed to accommodate other types of signals, so they reused the same syscall for different purposes.</p>
+<p>For instance, let’s create a simple Ruby script <code>sleeper.rb</code> which sleeps for 60 seconds, nothing more:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span>puts <span style="color:#e6db74">&#34;Process ID: </span><span style="color:#e6db74">#{</span><span style="color:#66d9ef">Process</span><span style="color:#f92672">.</span>pid<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>puts <span style="color:#e6db74">&#34;Sleeping for 60 seconds...&#34;</span>
+</span></span><span style="display:flex;"><span>sleep <span style="color:#ae81ff">60</span>
+</span></span></code></pre></div><p>After running we see:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-plaintext" data-lang="plaintext"><span style="display:flex;"><span>Process ID: 55402
+</span></span><span style="display:flex;"><span>Sleeping for 60 seconds...
+</span></span></code></pre></div><p>In another window, we can <strong>send</strong> the <code>SIGTERM</code> signal to the process <code>55402</code> via syscall <code>kill</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ kill -SIGTERM <span style="color:#ae81ff">55402</span>
+</span></span></code></pre></div><p>And then, in the script session:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-plaintext" data-lang="plaintext"><span style="display:flex;"><span>[1]    55402 terminated  ruby sleeper.rb
+</span></span></code></pre></div><h4 id="signal-traps">Signal traps</h4>
+<p>In Ruby, we can also <em>trap</em> a signal using the <code>trap</code> method in Ruby:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span>puts <span style="color:#e6db74">&#34;Process ID: </span><span style="color:#e6db74">#{</span><span style="color:#66d9ef">Process</span><span style="color:#f92672">.</span>pid<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>puts <span style="color:#e6db74">&#34;Sleeping for 60 seconds...&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>trap(<span style="color:#e6db74">&#39;SIGTERM&#39;</span>) <span style="color:#66d9ef">do</span> 
+</span></span><span style="display:flex;"><span>  puts <span style="color:#e6db74">&#34;Received SIGTERM, exiting gracefully...&#34;</span>
+</span></span><span style="display:flex;"><span>  exit
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sleep <span style="color:#ae81ff">60</span>
+</span></span></code></pre></div><p>Which in turn, after sending the signal, will gracefully:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-plaintext" data-lang="plaintext"><span style="display:flex;"><span>Process ID: 55536
+</span></span><span style="display:flex;"><span>Sleeping for 60 seconds...
+</span></span><span style="display:flex;"><span>Received SIGTERM, exiting gracefully...
+</span></span></code></pre></div><p>After all, we <em>cannot send messages using signals</em>. They are a primitive way of sending <em>standardized messages</em> which will trigger specific behaviours. At most, we can trap some signals, but nothing more.</p>
+<p><em><strong>Okay Leandro, but what’s the purpose of this article then?</strong></em></p>
+<p><em>Hold on</em>. That’s exactly why I’m here. To prove points by doing useless stuff, like when I <a href="https://leandronsp.com/articles/simulating-oop-in-bash-3mop">simulated OOP in Bash</a> a couple of years ago (it was fun though).</p>
+<p>To understand how we can “hack” UNIX signals and send messages between processes, let’s first talk a bit about <strong>binary operations</strong>. Yes, those “zeros” and “ones” you were scared of when you saw them for the first time. But they don’t bite (🥁 LOL), I promise.</p>
+<h3 id="what-is-a-message">What is a message?</h3>
+<p>If we model a message as a sequence of characters, we could say that at a high-level, messages are simply <em>strings</em>. But in memory, they are stored as <strong>bytes</strong>.</p>
+<p>We know that bytes are made of bits. In computer terms, what’s a bit? It’s simply an abstraction representing <strong>only two states</strong>:</p>
+<ul>
+<li>zero</li>
+<li>one</li>
+</ul>
+<p>That’s it. For instance, using ASCII, we know that the letter “h” has the following codes:</p>
+<ul>
+<li>104 in decimal</li>
+<li><code>0x68</code> in hexadecimal</li>
+<li><code>01101000</code> in binary</li>
+</ul>
+<p>Binary-wise, what if we represented each “0” with a specific signal and each “1” with another? We know that some signals such as SIGTERM, SIGINT, and SIGCONT can be trapped, but intercepting them would harm their original purpose.</p>
+<p>But thankfully, UNIX provides two user-defined signals that are perfect for our hacking experiment.</p>
+<h3 id="sending-sigusr1-and-sigusr2">Sending SIGUSR1 and SIGUSR2</h3>
+<p>First things first, let’s trap those signals in the code:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span>puts <span style="color:#e6db74">&#34;Process ID: </span><span style="color:#e6db74">#{</span><span style="color:#66d9ef">Process</span><span style="color:#f92672">.</span>pid<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>puts <span style="color:#e6db74">&#34;Sleeping forever. Send signals to this process to see how it responds.&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>trap(<span style="color:#e6db74">&#39;SIGUSR1&#39;</span>) <span style="color:#66d9ef">do</span> 
+</span></span><span style="display:flex;"><span>  puts <span style="color:#e6db74">&#34;Received SIGUSR1 signal&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>trap(<span style="color:#e6db74">&#39;SIGUSR2&#39;</span>) <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>  puts <span style="color:#e6db74">&#34;Received SIGUSR2 signal&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sleep
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-plaintext" data-lang="plaintext"><span style="display:flex;"><span>Process ID: 56172
+</span></span><span style="display:flex;"><span>Sleeping forever. Send signals to this process to see how it responds.
+</span></span></code></pre></div><p>After sending some <code>kill -SIGUSR1 56172</code> and <code>kill -SIGUSR2 56172</code>, we can see that the process prints the following content:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-plaintext" data-lang="plaintext"><span style="display:flex;"><span>Process ID: 56172
+</span></span><span style="display:flex;"><span>Sleeping forever. Send signals to this process to see how it responds.
+</span></span><span style="display:flex;"><span>Received SIGUSR1 signal
+</span></span><span style="display:flex;"><span>Received SIGUSR2 signal
+</span></span><span style="display:flex;"><span>Received SIGUSR2 signal
+</span></span><span style="display:flex;"><span>Received SIGUSR1 signal
+</span></span><span style="display:flex;"><span>Received SIGUSR1 signal
+</span></span><span style="display:flex;"><span>Received SIGUSR2 signal
+</span></span></code></pre></div><p><strong>Signals don’t carry data</strong>. But the example we have is perfect for changing to bits, uh?</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-plaintext" data-lang="plaintext"><span style="display:flex;"><span>Received SIGUSR1 signal # 0
+</span></span><span style="display:flex;"><span>Received SIGUSR2 signal # 1
+</span></span><span style="display:flex;"><span>Received SIGUSR2 signal # 1
+</span></span><span style="display:flex;"><span>Received SIGUSR1 signal # 0
+</span></span><span style="display:flex;"><span>Received SIGUSR2 signal # 1
+</span></span><span style="display:flex;"><span>Received SIGUSR1 signal # 0
+</span></span><span style="display:flex;"><span>Received SIGUSR1 signal # 0
+</span></span><span style="display:flex;"><span>Received SIGUSR1 signal # 0
+</span></span></code></pre></div><p>That’s exactly <code>01101000</code>, the binary representation of the letter “h”. We’re simply <strong>encoding</strong> the letter as a binary representation and sending it via signals</p>
+<p>Again, we’re <strong>encoding it as a binary</strong> and sending it <strong>via signals</strong>.</p>
+<p><em>How cool is that</em>?</p>
+<p><img src="https://alimy.github.io/images/post/20260215170501.png" alt="image"></p>
+<h4 id="decoding-the-binary-data">Decoding the binary data</h4>
+<p>On the other side, the receiver should be capable of decoding the message and converting it back to the letter “h”:</p>
+<ul>
+<li>sender <em>encodes</em> the message</li>
+<li>receiver <em>decodes</em> the message</li>
+</ul>
+<p>So, how do we decode <code>01101000</code> (the letter “h” in ASCII)? Let’s break it down into a few steps:</p>
+<ol>
+<li>First, we need to see the 8 bits as individual digits in their respective positions</li>
+<li>The rightmost bit is at position 0, whereas the leftmost bit is at position 7. This is how we define the most significant bit (<strong>MSB</strong>, the leftmost) and the least significant bit (<strong>LSB</strong>, the rightmost)</li>
+<li>For this example, we perform a <strong>left shift</strong> operation on each bit and then sum all the values, in this case from MSB to LSB (the order doesn’t matter much for now): <code>(0 &lt;&lt; 7) + (1 &lt;&lt; 6) + (1 &lt;&lt; 5) + (0 &lt;&lt; 4) + ... + (0 &lt;&lt; 0)</code>:<br>
+<em>left shift on <em>zeros</em> will always produce a <em>zero</em></em></li>
+</ol>
+<ul>
+<li><code>0 &lt;&lt; 7</code> = <code>(2 ** 7) * 0</code> = <code>128 * 0</code> = 0</li>
+<li><code>1 &lt;&lt; 6</code> = <code>(2 ** 6) * 1</code> = <code>64 * 1</code> = 64</li>
+</ul>
+<p>Similarly to the remaining bits:</p>
+<ul>
+<li><code>1 &lt;&lt; 5</code> = 32</li>
+<li><code>0 &lt;&lt; 4</code> = 0</li>
+<li><code>1 &lt;&lt; 3</code> = 8</li>
+<li><code>0 &lt;&lt; 2</code> = 0</li>
+<li><code>0 &lt;&lt; 1</code> = 0</li>
+<li><code>0 &lt;&lt; 0</code> = 0</li>
+</ul>
+<p>So, our sum becomes, from MSB to LSB:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-plaintext" data-lang="plaintext"><span style="display:flex;"><span>MSB                          LSB
+</span></span><span style="display:flex;"><span>0   1    1    0   1   0   0   0
+</span></span><span style="display:flex;"><span>0 + 64 + 32 + 0 + 8 + 0 + 0 + 0 = 104
+</span></span></code></pre></div><p>104 is exactly the <strong>decimal representation</strong> of the letter “h” in ASCII.</p>
+<p><em>How wonderful is that?</em></p>
+<h4 id="sending-the-letter-h">Sending the letter “h”</h4>
+<p>Now let’s convert these operations to Ruby code. We’ll write a simple program <code>receiver.rb</code> that receives signals in order from LSB to MSB (positions 0 to 7) and then converts them back to ASCII characters, printing to <code>STDOUT</code>.</p>
+<p>Basically, we’ll <strong>accumulate</strong> bits and whenever we form a complete byte, we’ll decode it to its ASCII representation. The very basic implementation of our <code>accumulate_bit(bit)</code> method would look like as follows:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span>@position <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span> <span style="color:#75715e"># start with the LSB</span>
+</span></span><span style="display:flex;"><span>@accumulator <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">accumulate_bit</span>(bit)
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># The left shift operator (&lt;&lt;) is used to </span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># shift the bits of the number to the left.</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># This is equivalent of: (2 ** @position) * bit</span>
+</span></span><span style="display:flex;"><span>  @accumulator <span style="color:#f92672">+=</span> (bit <span style="color:#f92672">&lt;&lt;</span> @position)
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> @accumulator <span style="color:#66d9ef">if</span> @position <span style="color:#f92672">==</span> <span style="color:#ae81ff">7</span> <span style="color:#75715e"># stop accumulating after 8 bits (byte)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  @position <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span> <span style="color:#75715e"># move to the next bit position: 0 becomes 1, 1 becomes 2, etc.</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Letter &#34;h&#34; in binary is 01101000</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># But we&#39;ll send from the LSB to the MSB</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 0110 1000 (MSB -&gt; LSB) becomes 0001 0110 (LSB -&gt; MSB)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># The order doesn&#39;t matter that much, it&#39;ll depend on </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># the receiver&#39;s implementation.</span>
+</span></span><span style="display:flex;"><span>accumulate_bit(<span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>accumulate_bit(<span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>accumulate_bit(<span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>accumulate_bit(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>accumulate_bit(<span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>accumulate_bit(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>accumulate_bit(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>accumulate_bit(<span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>puts @accumulator <span style="color:#75715e"># should print 104, which is the ASCII code for &#34;h&#34;</span>
+</span></span></code></pre></div><p><em>Pay attention to this code. It’s very important and builds the foundation for the next steps. If you didn’t get it, go back and read it again. Try it yourself in the terminal or using your preferred programming language.</em></p>
+<p>Now, how to convert the decimal <code>104</code> to the ASCII character representation? Luckily, Ruby provides a method called <code>chr</code> which does the job:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span>irb<span style="color:#f92672">&gt;</span> puts <span style="color:#ae81ff">104</span><span style="color:#f92672">.</span>chr
+</span></span><span style="display:flex;"><span><span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#34;h&#34;</span>
+</span></span></code></pre></div><p>We could do the same job for the rest of the word “hello”, for instance. According to the <a href="https://www.ascii-code.com/">ASCII table</a>, it should be the following:</p>
+<ul>
+<li><code>e</code> in decimal is <code>101</code></li>
+<li><code>l</code> in decimal is <code>108</code></li>
+<li><code>o</code> in decimal is <code>111</code></li>
+</ul>
+<p>Let’s check if Ruby knows that:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span><span style="color:#ae81ff">104</span><span style="color:#f92672">.</span>chr    <span style="color:#75715e"># &#34;h&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">101</span><span style="color:#f92672">.</span>chr    <span style="color:#75715e"># &#34;e&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">108</span><span style="color:#f92672">.</span>chr    <span style="color:#75715e"># &#34;l&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">111</span><span style="color:#f92672">.</span>chr    <span style="color:#75715e"># &#34;o&#34;</span>
+</span></span></code></pre></div><p>We can even “decode” the word to the decimal representation in ASCII:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span>irb<span style="color:#f92672">&gt;</span> <span style="color:#e6db74">&#34;hello&#34;</span><span style="color:#f92672">.</span>bytes
+</span></span><span style="display:flex;"><span><span style="color:#f92672">=&gt;</span> <span style="color:#f92672">[</span><span style="color:#ae81ff">104</span>, <span style="color:#ae81ff">101</span>, <span style="color:#ae81ff">108</span>, <span style="color:#ae81ff">108</span>, <span style="color:#ae81ff">111</span><span style="color:#f92672">]</span>
+</span></span></code></pre></div><p>Now, time to finish our receiver implementation to properly print the letter “h”:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span>@position <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span> <span style="color:#75715e"># start with the LSB</span>
+</span></span><span style="display:flex;"><span>@accumulator <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>trap(<span style="color:#e6db74">&#39;SIGUSR1&#39;</span>) { decode_signal(<span style="color:#ae81ff">0</span>) }
+</span></span><span style="display:flex;"><span>trap(<span style="color:#e6db74">&#39;SIGUSR2&#39;</span>) { decode_signal(<span style="color:#ae81ff">1</span>) }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">decode_signal</span>(bit)
+</span></span><span style="display:flex;"><span>  accumulate_bit(bit)
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">unless</span> @position <span style="color:#f92672">==</span> <span style="color:#ae81ff">8</span> <span style="color:#75715e"># if not yet accumulated a byte, keep accumulating</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  print <span style="color:#e6db74">&#34;Received byte: </span><span style="color:#e6db74">#{</span>@accumulator<span style="color:#e6db74">}</span><span style="color:#e6db74"> (</span><span style="color:#e6db74">#{</span>@accumulator<span style="color:#f92672">.</span>chr<span style="color:#e6db74">}</span><span style="color:#e6db74">)</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  @accumulator <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span> <span style="color:#75715e"># reset the accumulator</span>
+</span></span><span style="display:flex;"><span>  @position <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span> <span style="color:#75715e"># reset position for the next byte</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">accumulate_bit</span>(bit)
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># The left shift operator (&lt;&lt;) is used to </span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># shift the bits of the number to the left.</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># This is equivalent of: (2 ** @position) * bit</span>
+</span></span><span style="display:flex;"><span>  @accumulator <span style="color:#f92672">+=</span> (bit <span style="color:#f92672">&lt;&lt;</span> @position)
+</span></span><span style="display:flex;"><span>  @position <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span> <span style="color:#75715e"># move to the next bit position: 0 becomes 1, 1 becomes 2, etc.</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>puts <span style="color:#e6db74">&#34;Process ID: </span><span style="color:#e6db74">#{</span><span style="color:#66d9ef">Process</span><span style="color:#f92672">.</span>pid<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>sleep
+</span></span></code></pre></div><p><em>Read that code and its comments. It’s very important. Do not continue reading until you really get what’s happening here.</em></p>
+<ul>
+<li>Whenever we get <code>SIGUSR1</code>, we accumulate the bit <code>0</code></li>
+<li>When getting <code>SIGUSR2</code>, accumulate then the bit <code>1</code></li>
+<li>When accumulator reaches the position<code>8</code>, it means we have a byte. At this moment we should print the ASCII representation using the <code>.chr</code> we seen earlier. Then, reset bit position and accumulator</li>
+</ul>
+<p>Let’s see our receiver in action! Start the receiver in one terminal:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ ruby receiver.rb
+</span></span><span style="display:flex;"><span>Process ID: <span style="color:#ae81ff">58219</span>
+</span></span></code></pre></div><p>Great! Now the receiver is listening for signals. In another terminal, let’s manually send signals<br>
+to form the letter “h” (which is <code>01101000</code> in binary, remember?):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-plaintext" data-lang="plaintext"><span style="display:flex;"><span>  # Sending from LSB to MSB: 0, 0, 0, 1, 0, 1, 1, 0
+</span></span><span style="display:flex;"><span>  $ kill -SIGUSR1 58219  # 0
+</span></span><span style="display:flex;"><span>  $ kill -SIGUSR1 58219  # 0
+</span></span><span style="display:flex;"><span>  $ kill -SIGUSR1 58219  # 0
+</span></span><span style="display:flex;"><span>  $ kill -SIGUSR2 58219  # 1
+</span></span><span style="display:flex;"><span>  $ kill -SIGUSR1 58219  # 0
+</span></span><span style="display:flex;"><span>  $ kill -SIGUSR2 58219  # 1
+</span></span><span style="display:flex;"><span>  $ kill -SIGUSR2 58219  # 1
+</span></span><span style="display:flex;"><span>  $ kill -SIGUSR1 58219  # 0
+</span></span></code></pre></div><p>And in the receiver terminal, we should see:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-plaintext" data-lang="plaintext"><span style="display:flex;"><span>Received byte: 104 (h)
+</span></span></code></pre></div><p><em>How amazing is that?</em> We just sent the letter “h” using only two UNIX signals!</p>
+<p>But wait. Manually sending 8 signals for each character? That’s tedious and error-prone. What if we wanted to send the word “hello”? That’s 5 characters × 8 bits = 40 signals to send manually. No way.</p>
+<p><em>We need a sender.</em></p>
+<h4 id="building-the-sender">Building the sender</h4>
+<p>The sender’s job is the opposite of the receiver: it should encode a message (string) into bits and send them as signals to the receiver process.</p>
+<p>Let’s think about what we need:</p>
+<ol>
+<li>Take a message as input (like “hello”)</li>
+<li>Convert each character to its byte representation</li>
+<li>Extract the 8 bits from each byte</li>
+<li>Send <code>SIGUSR1</code> for bit 0, <code>SIGUSR2</code> for bit 1</li>
+<li>Repeat for all characters</li>
+</ol>
+<p>The tricky part here is the step 3: <strong>how do we extract individual bits from a byte?</strong> To extract the bit at position <code>i</code>, we can use the following formula:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-plaintext" data-lang="plaintext"><span style="display:flex;"><span>bit = (byte &gt;&gt; i) &amp; 1
+</span></span></code></pre></div><p>Let me break this down:</p>
+<ul>
+<li><code>byte &gt;&gt; i</code> performs a <em>right shift</em> by <code>i</code> positions</li>
+<li><code>&amp; 1</code> is a bitwise <code>AND</code> operation that extracts only the <em>rightmost</em> bit</li>
+</ul>
+<p>For the letter “h” (<code>01101000</code> in binary, <code>104</code> in decimal):</p>
+<p><strong>Position 0 (LSB):</strong></p>
+<ul>
+<li><code>(104 &gt;&gt; 0)</code> = <code>104 / (2 ** 0)</code> = <code>104 / 1</code> = 104</li>
+<li><code>01101000</code> &raquo; 0 = <code>01101000</code></li>
+<li><code>01101000</code> &amp; <code>00000001</code> = 0 (<em>one</em> AND <em>zero</em> is <em>zero</em>)</li>
+</ul>
+<p><strong>Position 1:</strong></p>
+<ul>
+<li><code>(104 &gt;&gt; 1)</code> = <code>104 / (2 ** 1)</code> = <code>104 / 2</code> = 52</li>
+<li><code>01101000</code> &raquo; 1 = <code>00110100</code></li>
+<li><code>00110100</code> &amp; <code>00000001</code> = 0</li>
+</ul>
+<p><strong>Position 2:</strong></p>
+<ul>
+<li><code>(104 &gt;&gt; 2)</code> = <code>104 / (2 ** 2)</code> = <code>104 / 4</code> = 26</li>
+<li><code>01101000</code> &raquo; 2 = <code>00011010</code></li>
+<li><code>00011010</code> &amp; <code>00000001</code> = 0</li>
+</ul>
+<p><strong>Position 3:</strong></p>
+<ul>
+<li><code>(104 &gt;&gt; 3)</code> = <code>104 / (2 ** 3)</code> = <code>104 / 8</code> = 13</li>
+<li><code>01101000</code> &raquo; 3 = <code>00001101</code></li>
+<li><code>00001101</code> &amp; <code>00000001</code> = 1 (<em>one</em> AND <em>one</em> equals <em>one</em>)</li>
+</ul>
+<p>And so on for positions 4, 5, 6, and 7. This gives us: <code>0, 0, 0, 1, 0, 1, 1, 0</code> — exactly the bits we need from LSB to MSB!</p>
+<ul>
+<li><code>(104 &gt;&gt; 0) &amp; 1</code> = <code>104 &amp; 1</code> = 0</li>
+<li><code>(104 &gt;&gt; 1) &amp; 1</code> = <code>52 &amp; 1</code> = 0</li>
+<li><code>(104 &gt;&gt; 2) &amp; 1</code> = <code>26 &amp; 1</code> = 0</li>
+<li><code>(104 &gt;&gt; 3) &amp; 1</code> = <code>13 &amp; 1</code> = 1</li>
+<li><code>(104 &gt;&gt; 4) &amp; 1</code> = <code>6 &amp; 1</code> = 0</li>
+<li><code>(104 &gt;&gt; 5) &amp; 1</code> = <code>3 &amp; 1</code> = 1</li>
+<li><code>(104 &gt;&gt; 6) &amp; 1</code> = <code>1 &amp; 1</code> = 1</li>
+<li><code>(104 &gt;&gt; 7) &amp; 1</code> = <code>0 &amp; 1</code> = 0</li>
+</ul>
+<p><em><strong>Pay close attention to this technique. It’s a fundamental operation in low-level programming.</strong></em></p>
+<p>So now time to build the <code>sender.rb</code> which is pretty simple:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span>receiver_pid <span style="color:#f92672">=</span> <span style="color:#66d9ef">ARGV</span><span style="color:#f92672">[</span><span style="color:#ae81ff">0</span><span style="color:#f92672">].</span>to_i
+</span></span><span style="display:flex;"><span>message <span style="color:#f92672">=</span> <span style="color:#66d9ef">ARGV</span><span style="color:#f92672">[</span><span style="color:#ae81ff">1</span><span style="color:#f92672">..-</span><span style="color:#ae81ff">1</span><span style="color:#f92672">].</span>join(<span style="color:#e6db74">&#39; &#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">encode_byte</span>(byte)
+</span></span><span style="display:flex;"><span>  <span style="color:#ae81ff">8</span><span style="color:#f92672">.</span>times<span style="color:#f92672">.</span>map <span style="color:#66d9ef">do</span> <span style="color:#f92672">|</span>i<span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Extract each bit from the byte, starting from the LSB</span>
+</span></span><span style="display:flex;"><span>    (byte <span style="color:#f92672">&gt;&gt;</span> i) <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>message<span style="color:#f92672">.</span>bytes<span style="color:#f92672">.</span>each <span style="color:#66d9ef">do</span> <span style="color:#f92672">|</span>byte<span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span>  encode_byte(byte)<span style="color:#f92672">.</span>each <span style="color:#66d9ef">do</span> <span style="color:#f92672">|</span>bit<span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span>    signal <span style="color:#f92672">=</span> bit <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">?</span> <span style="color:#e6db74">&#39;SIGUSR1&#39;</span> : <span style="color:#e6db74">&#39;SIGUSR2&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">Process</span><span style="color:#f92672">.</span>kill(signal, receiver_pid)
+</span></span><span style="display:flex;"><span>    sleep <span style="color:#ae81ff">0</span><span style="color:#f92672">.</span><span style="color:#ae81ff">001</span> <span style="color:#75715e"># Delay to allow the receiver to process the signal</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span></code></pre></div><p>For each byte (8-bit structure) we extract the bit performing the <em>right shift</em> + <em>AND</em> oprerations. The result is the extracted bit.</p>
+<p>In the receiver window:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ ruby receiver.rb
+</span></span><span style="display:flex;"><span>Process ID: <span style="color:#ae81ff">68968</span>
+</span></span></code></pre></div><p>And in the sender window:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ ruby sender.rb <span style="color:#ae81ff">68968</span> h
+</span></span></code></pre></div><p>The receiver will print:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ ruby receiver.rb
+</span></span><span style="display:flex;"><span>Process ID: <span style="color:#ae81ff">68968</span>
+</span></span><span style="display:flex;"><span>Received byte: <span style="color:#ae81ff">104</span> <span style="color:#f92672">(</span>h<span style="color:#f92672">)</span>
+</span></span></code></pre></div><p><em>Processes sending messages with only two signals!</em> How wonderful is that?</p>
+<h4 id="sending-the-hello-message">Sending the “hello” message</h4>
+<p>Now, sending the hello message is super easy. The sender is already able to send not only a letter but any message using signals:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ ruby sender.rb <span style="color:#ae81ff">68968</span> hello
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># And the receiver:</span>
+</span></span><span style="display:flex;"><span>Received byte: <span style="color:#ae81ff">104</span> <span style="color:#f92672">(</span>h<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>Received byte: <span style="color:#ae81ff">101</span> <span style="color:#f92672">(</span>e<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>Received byte: <span style="color:#ae81ff">108</span> <span style="color:#f92672">(</span>l<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>Received byte: <span style="color:#ae81ff">108</span> <span style="color:#f92672">(</span>l<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>Received byte: <span style="color:#ae81ff">111</span> <span style="color:#f92672">(</span>o<span style="color:#f92672">)</span>
+</span></span></code></pre></div><p>Just change the <code>receiver</code> implementation a little bit:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">decode_signal</span>(bit)
+</span></span><span style="display:flex;"><span>  accumulate_bit(bit)
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">unless</span> @position <span style="color:#f92672">==</span> <span style="color:#ae81ff">8</span> <span style="color:#75715e"># if not yet accumulated a byte, keep accumulating</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  print @accumulator<span style="color:#f92672">.</span>chr <span style="color:#75715e"># print the byte as a character</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  @accumulator <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span> <span style="color:#75715e"># reset the accumulator</span>
+</span></span><span style="display:flex;"><span>  @position <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span> <span style="color:#75715e"># reset position for the next byte</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span></code></pre></div><p>And then:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ ruby sender.rb <span style="color:#ae81ff">96875</span> Hello
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># In the receiver&#39;s terminal</span>
+</span></span><span style="display:flex;"><span>Process ID: <span style="color:#ae81ff">96875</span>
+</span></span><span style="display:flex;"><span>Hello
+</span></span></code></pre></div><p>However, if we send the message again, the receiver will print everything in the same line:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">$</span> ruby sender<span style="color:#f92672">.</span>rb <span style="color:#ae81ff">96875</span> <span style="color:#66d9ef">Hello</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">$</span> ruby sender<span style="color:#f92672">.</span>rb <span style="color:#ae81ff">96875</span> <span style="color:#66d9ef">Hello</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># In the receiver&#39;s terminal</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">Process</span> <span style="color:#e6db74">ID</span>: <span style="color:#ae81ff">96875</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">HelloHello</span>
+</span></span></code></pre></div><p>It’s obvious: the receiver doesn’t know where the sender finished the message, so it’s impossible to know where we should stop one message and print the next one on a new line with <code>\n</code>.</p>
+<p>We should then determine how the sender indicates the end of the message. How about being it all <em>zeroes</em> (<code>0000 0000</code>)?</p>
+<ul>
+<li>We send the message: first 5 bytes representing the “hello” message</li>
+<li>Then we send a “NULL terminator”, just one byte <em>0</em> (<code>0000 0000</code>)</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-plaintext" data-lang="plaintext"><span style="display:flex;"><span>0110 1000 # h
+</span></span><span style="display:flex;"><span>0110 0101 # e
+</span></span><span style="display:flex;"><span>0110 1000 # l
+</span></span><span style="display:flex;"><span>0110 1000 # l
+</span></span><span style="display:flex;"><span>0110 1111 # o
+</span></span><span style="display:flex;"><span>0000 0000 # NULL
+</span></span></code></pre></div><p>Hence, when the <em>receiver</em> gets a NULL terminator, it will print a line feed <code>\n</code>. Let’s change the <code>sender.rb</code> first:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span>receiver_pid <span style="color:#f92672">=</span> <span style="color:#66d9ef">ARGV</span><span style="color:#f92672">[</span><span style="color:#ae81ff">0</span><span style="color:#f92672">].</span>to_i
+</span></span><span style="display:flex;"><span>message <span style="color:#f92672">=</span> <span style="color:#66d9ef">ARGV</span><span style="color:#f92672">[</span><span style="color:#ae81ff">1</span><span style="color:#f92672">..-</span><span style="color:#ae81ff">1</span><span style="color:#f92672">].</span>join(<span style="color:#e6db74">&#39; &#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">encode_byte</span>(byte)
+</span></span><span style="display:flex;"><span>  <span style="color:#ae81ff">8</span><span style="color:#f92672">.</span>times<span style="color:#f92672">.</span>map <span style="color:#66d9ef">do</span> <span style="color:#f92672">|</span>i<span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Extract each bit from the byte, starting from the LSB</span>
+</span></span><span style="display:flex;"><span>    (byte <span style="color:#f92672">&gt;&gt;</span> i) <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>message<span style="color:#f92672">.</span>bytes<span style="color:#f92672">.</span>each <span style="color:#66d9ef">do</span> <span style="color:#f92672">|</span>byte<span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span>  encode_byte(byte)<span style="color:#f92672">.</span>each <span style="color:#66d9ef">do</span> <span style="color:#f92672">|</span>bit<span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span>    signal <span style="color:#f92672">=</span> bit <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">?</span> <span style="color:#e6db74">&#39;SIGUSR1&#39;</span> : <span style="color:#e6db74">&#39;SIGUSR2&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">Process</span><span style="color:#f92672">.</span>kill(signal, receiver_pid)
+</span></span><span style="display:flex;"><span>    sleep <span style="color:#ae81ff">0</span><span style="color:#f92672">.</span><span style="color:#ae81ff">001</span> <span style="color:#75715e"># Delay to allow the receiver to process the signal</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Send NULL terminator (0000 0000)</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">8</span><span style="color:#f92672">.</span>times <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">Process</span><span style="color:#f92672">.</span>kill(<span style="color:#e6db74">&#39;SIGUSR1&#39;</span>, receiver_pid)
+</span></span><span style="display:flex;"><span>  sleep <span style="color:#ae81ff">0</span><span style="color:#f92672">.</span><span style="color:#ae81ff">001</span> <span style="color:#75715e"># Delay to allow the receiver to process the signal</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>puts <span style="color:#e6db74">&#34;Message sent to receiver (PID: </span><span style="color:#e6db74">#{</span>receiver_pid<span style="color:#e6db74">}</span><span style="color:#e6db74">)&#34;</span>
+</span></span></code></pre></div><p>Then, the <code>receiver.rb</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span>@position <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span> <span style="color:#75715e"># start with the LSB</span>
+</span></span><span style="display:flex;"><span>@accumulator <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>trap(<span style="color:#e6db74">&#39;SIGUSR1&#39;</span>) { decode_signal(<span style="color:#ae81ff">0</span>) }
+</span></span><span style="display:flex;"><span>trap(<span style="color:#e6db74">&#39;SIGUSR2&#39;</span>) { decode_signal(<span style="color:#ae81ff">1</span>) }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">decode_signal</span>(bit)
+</span></span><span style="display:flex;"><span>  accumulate_bit(bit)
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">unless</span> @position <span style="color:#f92672">==</span> <span style="color:#ae81ff">8</span> <span style="color:#75715e"># if not yet accumulated a byte, keep accumulating</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> @accumulator<span style="color:#f92672">.</span>zero? <span style="color:#75715e"># NULL terminator received</span>
+</span></span><span style="display:flex;"><span>    print <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>    print @accumulator<span style="color:#f92672">.</span>chr <span style="color:#75715e"># print the byte as a character</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  @accumulator <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span> <span style="color:#75715e"># reset the accumulator</span>
+</span></span><span style="display:flex;"><span>  @position <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span> <span style="color:#75715e"># reset position for the next byte</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">accumulate_bit</span>(bit)
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># The left shift operator (&lt;&lt;) is used to </span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># shift the bits of the number to the left.</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># This is equivalent of: (2 ** @position) * bit</span>
+</span></span><span style="display:flex;"><span>  @accumulator <span style="color:#f92672">+=</span> (bit <span style="color:#f92672">&lt;&lt;</span> @position)
+</span></span><span style="display:flex;"><span>  @position <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span> <span style="color:#75715e"># move to the next bit position: 0 becomes 1, 1 becomes 2, etc.</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>puts <span style="color:#e6db74">&#34;Process ID: </span><span style="color:#e6db74">#{</span><span style="color:#66d9ef">Process</span><span style="color:#f92672">.</span>pid<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>sleep
+</span></span></code></pre></div><p>Output:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-plaintext" data-lang="plaintext"><span style="display:flex;"><span>$ ruby sender.rb 96875 Hello, World!
+</span></span><span style="display:flex;"><span>$ ruby sender.rb 96875 You&#39;re welcome
+</span></span><span style="display:flex;"><span>$ ruby sender.rb 96875 How are you?
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span># Receiver
+</span></span><span style="display:flex;"><span>Process ID: 97176
+</span></span><span style="display:flex;"><span>Hello, World!
+</span></span><span style="display:flex;"><span>You&#39;re welcome
+</span></span><span style="display:flex;"><span>How are you?
+</span></span></code></pre></div><p><em><strong>OMG Leandro! That’s amazing!</strong></em></p>
+<p><em>Amazing, right?</em> We just built an entire communication system between two processes using one of the most primitive methods available: <strong>UNIX signals.</strong></p>
+<p>The sky’s the limit now! Why not build a <em>full-fledged message broker</em> using this crazy technique?</p>
+<h3 id="a-modest-message-broker-using-unix-signals">A modest message broker using UNIX signals</h3>
+<p>We’ll break down the development into three components:</p>
+<ol>
+<li><strong>Broker</strong>: the intermediary that routes messages</li>
+<li><strong>Consumer</strong>: processes that receive messages</li>
+<li><strong>Producer</strong>: processes that send messages</li>
+</ol>
+<p><img src="https://alimy.github.io/images/post/20260215170502.png" alt="image"></p>
+<ol>
+<li>Let’s start with the Broker. It should register itself with the producer, then trap incoming signals, decode them, and enqueue the messages for delivery to consumers via outgoing signals:</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/env ruby</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>require_relative <span style="color:#e6db74">&#39;signal_codec&#39;</span>
+</span></span><span style="display:flex;"><span>require_relative <span style="color:#e6db74">&#39;consumer&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Broker</span> 
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">PID</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;broker.pid&#39;</span><span style="color:#f92672">.</span>freeze
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">initialize</span>
+</span></span><span style="display:flex;"><span>    @codec <span style="color:#f92672">=</span> <span style="color:#66d9ef">SignalCodec</span><span style="color:#f92672">.</span>new
+</span></span><span style="display:flex;"><span>    @queue <span style="color:#f92672">=</span> <span style="color:#66d9ef">Queue</span><span style="color:#f92672">.</span>new
+</span></span><span style="display:flex;"><span>    @consumer_index <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">start</span> 
+</span></span><span style="display:flex;"><span>    register_broker
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    trap(<span style="color:#e6db74">&#39;SIGUSR1&#39;</span>) { process_bit(<span style="color:#ae81ff">0</span>) }
+</span></span><span style="display:flex;"><span>    trap(<span style="color:#e6db74">&#39;SIGUSR2&#39;</span>) { process_bit(<span style="color:#ae81ff">1</span>) }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    puts <span style="color:#e6db74">&#34;Broker PID: </span><span style="color:#e6db74">#{</span><span style="color:#66d9ef">Process</span><span style="color:#f92672">.</span>pid<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>    puts <span style="color:#e6db74">&#34;Waiting for messages...&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    distribute_messages
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    sleep <span style="color:#75715e"># Keep alive</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span> 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">private</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">process_bit</span>(bit)
+</span></span><span style="display:flex;"><span>    @codec<span style="color:#f92672">.</span>accumulate_bit(bit) <span style="color:#66d9ef">do</span> <span style="color:#f92672">|</span>message<span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span>      @queue<span style="color:#f92672">.</span>push(message) <span style="color:#66d9ef">unless</span> message<span style="color:#f92672">.</span>empty?
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">register_broker</span> 
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">File</span><span style="color:#f92672">.</span>write(<span style="color:#66d9ef">PID</span>, <span style="color:#66d9ef">Process</span><span style="color:#f92672">.</span>pid)
+</span></span><span style="display:flex;"><span>    at_exit { <span style="color:#66d9ef">File</span><span style="color:#f92672">.</span>delete(<span style="color:#66d9ef">PID</span>) <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">File</span><span style="color:#f92672">.</span>exist?(<span style="color:#66d9ef">PID</span>) }
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">distribute_messages</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">Thread</span><span style="color:#f92672">.</span>new <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">loop</span> <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>        sleep <span style="color:#ae81ff">0</span><span style="color:#f92672">.</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">next</span> <span style="color:#66d9ef">if</span> @queue<span style="color:#f92672">.</span>empty?
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        consumers <span style="color:#f92672">=</span> <span style="color:#66d9ef">File</span><span style="color:#f92672">.</span>exist?(<span style="color:#66d9ef">Consumer</span><span style="color:#f92672">::</span><span style="color:#66d9ef">FILE</span>) ? <span style="color:#66d9ef">File</span><span style="color:#f92672">.</span>readlines(<span style="color:#66d9ef">Consumer</span><span style="color:#f92672">::</span><span style="color:#66d9ef">FILE</span>)<span style="color:#f92672">.</span>map(<span style="color:#f92672">&amp;</span><span style="color:#e6db74">:to_i</span>) : <span style="color:#f92672">[]</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">next</span> <span style="color:#66d9ef">if</span> consumers<span style="color:#f92672">.</span>empty?
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        message <span style="color:#f92672">=</span> @queue<span style="color:#f92672">.</span>pop(<span style="color:#66d9ef">true</span>) <span style="color:#66d9ef">rescue</span> <span style="color:#66d9ef">next</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        consumer_pid <span style="color:#f92672">=</span> consumers<span style="color:#f92672">[</span>@consumer_index <span style="color:#f92672">%</span> consumers<span style="color:#f92672">.</span>size<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>        @consumer_index <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        puts <span style="color:#e6db74">&#34;[SEND] </span><span style="color:#e6db74">#{</span>message<span style="color:#e6db74">}</span><span style="color:#e6db74"> → Consumer </span><span style="color:#e6db74">#{</span>consumer_pid<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        @codec<span style="color:#f92672">.</span>send_message(message, consumer_pid)
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> __FILE__ <span style="color:#f92672">==</span> $0 
+</span></span><span style="display:flex;"><span>  broker <span style="color:#f92672">=</span> <span style="color:#66d9ef">Broker</span><span style="color:#f92672">.</span>new
+</span></span><span style="display:flex;"><span>  broker<span style="color:#f92672">.</span>start
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span></code></pre></div><ul>
+<li>The broker registers itself</li>
+<li>Traps incoming signals <code>USR1</code> (bit 0) and <code>USR2</code> (bit 1)</li>
+<li>Enqueues the messages</li>
+<li>Send messages to consumers using outgoing signals (<code>USR1</code> and <code>USR2</code> too)</li>
+</ul>
+<p><em>Note that we’re using a module called <code>SignalCodec</code> which will be explained soon. Basically this module contains all core components to encode/decode signals and perform bitwise operations.</em></p>
+<ol start="2">
+<li>Now the <code>Consumer</code> implementation:</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/env ruby</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>require_relative <span style="color:#e6db74">&#39;signal_codec&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Consumer</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">FILE</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;consumers.txt&#39;</span><span style="color:#f92672">.</span>freeze
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">initialize</span>
+</span></span><span style="display:flex;"><span>    @codec <span style="color:#f92672">=</span> <span style="color:#66d9ef">SignalCodec</span><span style="color:#f92672">.</span>new
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">start</span>
+</span></span><span style="display:flex;"><span>    register_consumer
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    trap(<span style="color:#e6db74">&#39;SIGUSR1&#39;</span>) { process_bit(<span style="color:#ae81ff">0</span>) }
+</span></span><span style="display:flex;"><span>    trap(<span style="color:#e6db74">&#39;SIGUSR2&#39;</span>) { process_bit(<span style="color:#ae81ff">1</span>) }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    puts <span style="color:#e6db74">&#34;Consumer PID: </span><span style="color:#e6db74">#{</span><span style="color:#66d9ef">Process</span><span style="color:#f92672">.</span>pid<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>    puts <span style="color:#e6db74">&#34;Waiting for messages...&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    sleep <span style="color:#75715e"># Keep alive</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">private</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">process_bit</span>(bit)
+</span></span><span style="display:flex;"><span>    @codec<span style="color:#f92672">.</span>accumulate_bit(bit) <span style="color:#66d9ef">do</span> <span style="color:#f92672">|</span>message<span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span>      puts <span style="color:#e6db74">&#34;[RECEIVE] </span><span style="color:#e6db74">#{</span>message<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">register_consumer</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">File</span><span style="color:#f92672">.</span>open(<span style="color:#66d9ef">FILE</span>, <span style="color:#e6db74">&#39;a&#39;</span>) { <span style="color:#f92672">|</span>f<span style="color:#f92672">|</span> f<span style="color:#f92672">.</span>puts <span style="color:#66d9ef">Process</span><span style="color:#f92672">.</span>pid }
+</span></span><span style="display:flex;"><span>    at_exit { deregister_consumer }
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">deregister_consumer</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">File</span><span style="color:#f92672">.</span>exist?(<span style="color:#66d9ef">FILE</span>)
+</span></span><span style="display:flex;"><span>      consumers <span style="color:#f92672">=</span> <span style="color:#66d9ef">File</span><span style="color:#f92672">.</span>readlines(<span style="color:#66d9ef">FILE</span>)<span style="color:#f92672">.</span>map(<span style="color:#f92672">&amp;</span><span style="color:#e6db74">:strip</span>)<span style="color:#f92672">.</span>reject { <span style="color:#f92672">|</span>pid<span style="color:#f92672">|</span> pid<span style="color:#f92672">.</span>to_i <span style="color:#f92672">==</span> <span style="color:#66d9ef">Process</span><span style="color:#f92672">.</span>pid }
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">File</span><span style="color:#f92672">.</span>write(<span style="color:#66d9ef">FILE</span>, consumers<span style="color:#f92672">.</span>join(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>))
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> __FILE__ <span style="color:#f92672">==</span> $0
+</span></span><span style="display:flex;"><span>  consumer <span style="color:#f92672">=</span> <span style="color:#66d9ef">Consumer</span><span style="color:#f92672">.</span>new
+</span></span><span style="display:flex;"><span>  consumer<span style="color:#f92672">.</span>start
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span></code></pre></div><ul>
+<li>The consumer starts and registers itself with the broker</li>
+<li>Consumer then traps incoming signals (bit 0 and bit 1)</li>
+<li>Decodes and prints messages</li>
+</ul>
+<ol start="3">
+<li>Last but not least, the <code>Producer</code> implementation, which is pretty straightforward:</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/env ruby</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>require_relative <span style="color:#e6db74">&#39;signal_codec&#39;</span>
+</span></span><span style="display:flex;"><span>require_relative <span style="color:#e6db74">&#39;broker&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">unless</span> <span style="color:#66d9ef">File</span><span style="color:#f92672">.</span>exist?(<span style="color:#66d9ef">Broker</span><span style="color:#f92672">::</span><span style="color:#66d9ef">PID</span>)
+</span></span><span style="display:flex;"><span>  abort <span style="color:#e6db74">&#34;Error: Broker not running (</span><span style="color:#e6db74">#{</span><span style="color:#66d9ef">Broker</span><span style="color:#f92672">::</span><span style="color:#66d9ef">PID</span><span style="color:#e6db74">}</span><span style="color:#e6db74"> not found)&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>broker_pid <span style="color:#f92672">=</span> <span style="color:#66d9ef">File</span><span style="color:#f92672">.</span>read(<span style="color:#66d9ef">Broker</span><span style="color:#f92672">::</span><span style="color:#66d9ef">PID</span>)<span style="color:#f92672">.</span>strip<span style="color:#f92672">.</span>to_i
+</span></span><span style="display:flex;"><span>message <span style="color:#f92672">=</span> <span style="color:#66d9ef">ARGV</span><span style="color:#f92672">.</span>join(<span style="color:#e6db74">&#39; &#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> message<span style="color:#f92672">.</span>empty?
+</span></span><span style="display:flex;"><span>  puts <span style="color:#e6db74">&#34;Usage: ruby producer.rb &lt;message&gt;&#34;</span>
+</span></span><span style="display:flex;"><span>  exit <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>codec <span style="color:#f92672">=</span> <span style="color:#66d9ef">SignalCodec</span><span style="color:#f92672">.</span>new
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>puts <span style="color:#e6db74">&#34;Sending: </span><span style="color:#e6db74">#{</span>message<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>codec<span style="color:#f92672">.</span>send_message(message, broker_pid)
+</span></span><span style="display:flex;"><span>puts <span style="color:#e6db74">&#34;Message sent to broker (PID: </span><span style="color:#e6db74">#{</span>broker_pid<span style="color:#e6db74">}</span><span style="color:#e6db74">)&#34;</span>
+</span></span></code></pre></div><ul>
+<li>Producer receives a ASCII message from the <em>STDIN</em></li>
+<li>Encode and sends the message to the broker via outgoing signals</li>
+</ul>
+<p>So far, this architecture should look familiar. Many broker implementations follow these basic foundations.</p>
+<p><em><strong>Of course, production-ready implementations are far more robust than this one. Here, we’re just poking around with hacking and experimentation</strong></em></p>
+<p>The coolest part is the <code>SignalCodec</code> though:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SignalCodec</span> 
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">SIGNAL_DELAY</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">.</span><span style="color:#ae81ff">001</span> <span style="color:#75715e"># Delay between signals to allow processing</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">initialize</span>
+</span></span><span style="display:flex;"><span>    @accumulator <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>    @position <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>    @buffer <span style="color:#f92672">=</span> <span style="color:#f92672">[]</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">accumulate_bit</span>(bit)
+</span></span><span style="display:flex;"><span>    @accumulator <span style="color:#f92672">+=</span> (bit <span style="color:#f92672">&lt;&lt;</span> @position)
+</span></span><span style="display:flex;"><span>    @position <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> @position <span style="color:#f92672">==</span> <span style="color:#ae81ff">8</span> <span style="color:#75715e"># Byte is complete</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> @accumulator<span style="color:#f92672">.</span>zero? <span style="color:#75715e"># Message complete - NULL terminator</span>
+</span></span><span style="display:flex;"><span>        decoded <span style="color:#f92672">=</span> @buffer<span style="color:#f92672">.</span>pack(<span style="color:#e6db74">&#34;C*&#34;</span>)<span style="color:#f92672">.</span>force_encoding(<span style="color:#e6db74">&#39;UTF-8&#39;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">yield</span>(decoded) <span style="color:#66d9ef">if</span> block_given?
+</span></span><span style="display:flex;"><span>        @buffer<span style="color:#f92672">.</span>clear
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">else</span> 
+</span></span><span style="display:flex;"><span>        @buffer <span style="color:#f92672">&lt;&lt;</span> @accumulator
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      @position <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>      @accumulator <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">send_message</span>(message, pid)
+</span></span><span style="display:flex;"><span>    message<span style="color:#f92672">.</span>each_byte <span style="color:#66d9ef">do</span> <span style="color:#f92672">|</span>byte<span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#ae81ff">8</span><span style="color:#f92672">.</span>times <span style="color:#66d9ef">do</span> <span style="color:#f92672">|</span>i<span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span>        bit <span style="color:#f92672">=</span> (byte <span style="color:#f92672">&gt;&gt;</span> i) <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>        signal <span style="color:#f92672">=</span> bit <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">?</span> <span style="color:#e6db74">&#39;SIGUSR1&#39;</span> : <span style="color:#e6db74">&#39;SIGUSR2&#39;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">Process</span><span style="color:#f92672">.</span>kill(signal, pid)
+</span></span><span style="display:flex;"><span>        sleep <span style="color:#66d9ef">SIGNAL_DELAY</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Send NULL terminator (0000 0000)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">8</span><span style="color:#f92672">.</span>times <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">Process</span><span style="color:#f92672">.</span>kill(<span style="color:#e6db74">&#39;SIGUSR1&#39;</span>, pid)
+</span></span><span style="display:flex;"><span>      sleep <span style="color:#66d9ef">SIGNAL_DELAY</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span></code></pre></div><p>If you’ve been following along, this shouldn’t be hard to understand, but I’ll break down how this beautiful piece of code works:</p>
+<ul>
+<li>The codec is initialized with the bit position at zero, as well as the accumulator</li>
+<li>A buffer is also initialized to store accumulated bits until a complete byte is formed</li>
+<li>The <code>accumulate_bit</code> method should be familiar from our earlier implementation, but it now accepts a closure (block) that lets the caller decide what to do with each decoded byte</li>
+<li><code>send_message</code> encodes a message into bits and sends them via UNIX signals</li>
+</ul>
+<p>Everything in action:</p>
+<p><img src="https://alimy.github.io/images/post/20260215170503.png" alt="image"></p>
+<p><em>How cool, amazing, wonderful, impressive, astonishing is that?</em></p>
+<h3 id="conclusion">Conclusion</h3>
+<p>Yes, we built a message broker using nothing but <strong>UNIX signals</strong> and a bit of Ruby magic. Sure, <strong>it’s not production-ready</strong>, and you definitely shouldn’t use this in your next startup (please don’t), but that was never the point.</p>
+<p>The real takeaway here isn’t the broker itself: it’s understanding how the fundamentals work. We explored binary operations, UNIX signals, and IPC in a hands-on way that most people never bother with.
+`
+We took something “useless” and made it work, just for fun. So next time someone asks you about message brokers, you can casually mention that you once built (or saw) one using just two signals. And if they look at you weird, well, that’s their problem. Now go build something equally useless and amazing. The world needs more hackers who experiment just for the fun of it.</p>
+<p><em>Happy hacking!</em></p>
+<hr>
+<p>（备注: 转载自<a href="https://leandronsp.com/articles/you-dont-need-kafka-building-a-message-queue-with-only-two-unix-signals" title="Building a message queue with only two UNIX signals">网络</a>）</p>
+<p><em>声明：本站是个人开设维护的网站，主要用于收集网络美文、技术文章与原创生活记录等，系孤芳自赏、个人用途，内容如有侵权请联系站长删除。</em></p>
+        <div id="post-tags">
+          
+          
+          <a href="https://alimy.github.io/tags/development/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;Development</a>
+          
+          <a href="https://alimy.github.io/tags/mq/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;Mq</a>
+          
+          <a href="https://alimy.github.io/tags/kafka/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;Kafka</a>
+          
+          
+        </div>
+      </div>
+      <div id="post-navigator">
+        <a id="post-navigator-prev" href="https://alimy.github.io/post/dev_202602141920/" title="上一篇"><i class="fa fa-chevron-left"
+            aria-hidden="true"></i>&nbsp;rpcx-消息协议</a>
+        
+      </div>
+      
+      <footer id="copyright">
+  <p>&copy;2015-至今 <a href="mailto:alimy@niubiu.com" title="Email:alimy@niubiu.com">北野 - Michael Li</a> All rights
+    reserved.&nbsp;&nbsp;<a href="https://riiffy.com/alimy.github.io" title="访问统计" target="_blank">Riiffy</p>
+</footer>
+    </div>
+    <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
+if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
+var s=document.getElementsByTagName('script')[0];sc.src='https://alimy.github.io/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
+WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
+
+</body>
+
+</html>

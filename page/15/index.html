@@ -319,6 +319,29 @@
                         
                             <article class="post panel-wrapper">
     <header>
+        <h2><a href="https://alimy.github.io/post/dev_201603092051/" title="阅读全文">XStream: Referencing Objects </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <p>XStream allows you to store references while converting a java object to XML. Consider a case where you have an Artist Object. The object contains albums that the artist has released, but you also want to store a reference to a &lsquo;similar artist&rsquo;. People listening to an artist might be interested in listening to a similar artist. When you convert this object to XML, XStream preserves the reference to the similar artist. It also manages circular references, so if there are no similar artist then the &lsquo;similar artist&rsquo; field could store a reference to the Owner Artist.</p>
+<p>XStream has multiple ways to store references. you need to use the setMode(int mode) method to set the mode. XStream allows following modes:</p>
+<ul>
+<li>NO_REFERENCES</li>
+<li>ID_REFERENCES</li>
+<li>XPATH_RELATIVE_REFERENCES</li>
+<li>XPATH_ABSOLUTE_REFERENCES</li>
+<li>SINGLE_NODE_XPATH_RELATIVE_REFERENCES</li>
+<li>SINGLE_NODE_XPATH_ABSOLUTE_REFERENCES</li>
+</ul>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/dev_201603092051/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
+</article>
+                        
+                            <article class="post panel-wrapper">
+    <header>
         <h2><a href="https://alimy.github.io/post/dev_201603092041/" title="阅读全文">XStream: Handling Attributes in XML </a> </h2>
         
     </header>
@@ -525,24 +548,6 @@ public class Example {
     </footer>
 </article>
                         
-                            <article class="post panel-wrapper">
-    <header>
-        <h2><a href="https://alimy.github.io/post/dev_201602021955/" title="阅读全文">TypeScript Language Specification </a> </h2>
-        
-    </header>
-    <div class="summary">
-        <br/>
-Version 1.8 [[GitHub]](https://github.com/Microsoft/TypeScript/blob/master/doc/spec.md "Microsoft/TypeScript@GitHub")
-<p>January, 2016</p>
-<p>Microsoft is making this Specification available under the Open Web Foundation Final Specification Agreement Version 1.0 (&ldquo;OWF 1.0&rdquo;) as of October 1, 2012. The OWF 1.0 is available at <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" title="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0">here</a>.</p>
-<p>TypeScript is a trademark of Microsoft Corporation.</p>
-    </div>
-    <footer id="more">
-        <a href='https://alimy.github.io/post/dev_201602021955/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
-            </nobr></a>
-    </footer>
-</article>
-                        
                     </div>
                     </br>
                     
@@ -580,7 +585,7 @@ Version 1.8 [[GitHub]](https://github.com/Microsoft/TypeScript/blob/master/doc/s
     <span aria-hidden="true">&nbsp;&hellip;&nbsp;</span>
   </li>
   <li class="page-item">
-    <a class="page-link" href="https://alimy.github.io/page/18/">18</a>
+    <a class="page-link" href="https://alimy.github.io/page/19/">19</a>
   </li>
   <li class="page-item">
     <a href="https://alimy.github.io/page/16/"  class="page-link" aria-label="Next">下一页&nbsp;&nbsp;<i

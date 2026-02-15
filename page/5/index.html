@@ -319,6 +319,24 @@
                         
                             <article class="post panel-wrapper">
     <header>
+        <h2><a href="https://alimy.github.io/post/dev_202101311010/" title="阅读全文">Uber’s Real-Time Push Platform </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <p><img src="https://alimy.github.io/images/post/20210131101000.png" alt=""></p>
+<p>Uber builds multi-sided marketplaces handling millions of trips every day across the globe. We strive to build real-time experiences for all our users.</p>
+<p>The nature of real time marketplaces make them very lively. Over the course of a trip, there are multiple participants that can modify and view the state of an ongoing trip and need real-time updates. This creates the need to keep all active participants and apps synced with real-time information, whether it’s through pickup time, arrival time, and route lines on the screen, or nearby drivers when you open the app.</p>
+<p>A key dimension of growth was feature explosion in critical user screens and the need for developers across the company to build real-time mobile features in a decentralized way on a shared app screen.</p>
+<p>This article describes how we went from polling for refreshing the app to a gRPC-based bi-directional streaming protocol to build our app experience.</p>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/dev_202101311010/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
+</article>
+                        
+                            <article class="post panel-wrapper">
+    <header>
         <h2><a href="https://alimy.github.io/post/dev_202101191805/" title="阅读全文">MacOS /usr/bin/目录下 Operation not permitted的解决 </a> </h2>
         
     </header>
@@ -629,34 +647,6 @@ http_wait#9299359f max_delay:int wait_after:int max_wait:int = HttpWait;
     </footer>
 </article>
                         
-                            <article class="post panel-wrapper">
-    <header>
-        <h2><a href="https://alimy.github.io/post/dev_202012071321/" title="阅读全文">Tg: Polymorphism in TL </a> </h2>
-        
-    </header>
-    <div class="summary">
-        <p>It should be noted that in the TL schema of the overwhelming majority of API calls the use of polymorphic types is restricted to the Vector type. Nevertheless, having a view of the big picture is still helpful.</p>
-<h4 id="ordinary-inductive-types">Ordinary inductive types</h4>
-<p>For example, let us consider the IntList, which is defined as follows:</p>
-<pre tabindex="0"><code>int_cons hd:int tl:IntList = IntList;
-int_nil = IntList;
-</code></pre><p>The “int_cons” and “int_nil” constructors as well as the “IntList” type itself are expressions of the following types (writing A : X means that A is an expression of type X):</p>
-<pre tabindex="0"><code>IntList : Type;
-int_cons : int -&gt; IntList -&gt; IntList;
-int_nil : IntList;
-</code></pre><p>The keyword Type is used to denote the type of all types. Note that Type is not Object (Object is the type of all terms). Here is alternative syntax that could be used in some other functional programming language (but not in TL):</p>
-<pre tabindex="0"><code>NewType IntList :=
-| int_cons hd:int tl:IntList
-| int_nil
-EndType
-</code></pre>
-    </div>
-    <footer id="more">
-        <a href='https://alimy.github.io/post/dev_202012071321/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
-            </nobr></a>
-    </footer>
-</article>
-                        
                     </div>
                     </br>
                     
@@ -691,7 +681,7 @@ EndType
     <span aria-hidden="true">&nbsp;&hellip;&nbsp;</span>
   </li>
   <li class="page-item">
-    <a class="page-link" href="https://alimy.github.io/page/18/">18</a>
+    <a class="page-link" href="https://alimy.github.io/page/19/">19</a>
   </li>
   <li class="page-item">
     <a href="https://alimy.github.io/page/6/"  class="page-link" aria-label="Next">下一页&nbsp;&nbsp;<i

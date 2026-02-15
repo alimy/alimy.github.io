@@ -6,7 +6,709 @@
     <language>en</language>
     
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <updated>Sat, 14 Feb 2026 19:20:00 CST</updated>
+    <updated>Sun, 15 Feb 2026 17:05:00 CST</updated>
+    
+    <item>
+      <title>Building a message queue with only two UNIX signals</title>
+      <link>https://alimy.github.io/post/dev_202602151705/</link>
+      <pubDate>Sun, 15 Feb 2026 17:05:00 CST</pubDate>
+      
+      <guid>https://alimy.github.io/post/dev_202602151705/</guid>
+      <description>&lt;p&gt;Have you ever asked yourself what if we could replace any message broker with a very simple one using only two UNIX signals? Well, I’m not surprised if you didn’t. But I did. And I want to share my journey of how I achieved it.&lt;/p&gt;
+&lt;p&gt;If you want to learn about UNIX signals, binary operations the easy way, how a message broker works under the hood, and a bit of Ruby, this post is for you.&lt;/p&gt;
+&lt;p&gt;And if you came here just because of the clickbait title, I apologize and invite you to keep reading. It’ll be fun, I promise.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://alimy.github.io/images/post/20260215170500.png&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;its-all-about-unix&#34;&gt;It’s all about UNIX&lt;/h3&gt;
+&lt;p&gt;A few days ago, I saw some discussion on the internet about how we could send messages between processes. Many people think of sockets, which are the most common way to send messages, even allowing communication across different machines and networks. Some don’t even realize that pipes are another way to send messages between processes:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ echo &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;hello&amp;#39;&lt;/span&gt; | base64
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;aGVsbG8K
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Here’s what’s happening:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The process &lt;code&gt;echo&lt;/code&gt; is started with the content “hello”&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;echo&lt;/code&gt; is a program that prints the message to &lt;em&gt;STDOUT&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Through the pipe, the content in &lt;em&gt;STDOUT&lt;/em&gt; is &lt;strong&gt;sent&lt;/strong&gt; directly to the &lt;em&gt;STDIN&lt;/em&gt; of the &lt;code&gt;base64&lt;/code&gt; process&lt;/li&gt;
+&lt;li&gt;The &lt;code&gt;base64&lt;/code&gt; process encodes its input to Base64 and then puts the result in &lt;em&gt;STDOUT&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Note the word “send”. Yes, anonymous pipes are a form of &lt;strong&gt;IPC (Inter-process communication).&lt;/strong&gt; Other forms of IPC in UNIX include:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;named pipes (mkfifo)&lt;/li&gt;
+&lt;li&gt;sockets&lt;/li&gt;
+&lt;li&gt;regular files&lt;/li&gt;
+&lt;li&gt;or even a simple &lt;strong&gt;signal&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;unix-signals&#34;&gt;UNIX signals&lt;/h3&gt;
+&lt;p&gt;According to Wikipedia:&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;A UNIX signal is a standardized message sent to a program to trigger specific behaviour, such as quitting or error handling&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;There are many signals we can send to a process, including:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;SIGTERM - sends a notification to the process to terminate. It can be “trapped,” which means the process can do some cleanup work before termination, like releasing OS resources and closing file descriptors&lt;/li&gt;
+&lt;li&gt;SIGKILL - sends a termination signal that cannot be trapped or ignored, forcing immediate termination&lt;/li&gt;
+&lt;li&gt;SIGINT - the interrupt signal, typically sent when you press &lt;code&gt;Ctrl+C&lt;/code&gt; in the terminal. It can be trapped, allowing the process to perform cleanup before exiting gracefully&lt;/li&gt;
+&lt;li&gt;SIGHUP - the hangup signal, originally sent when a terminal connection was lost. Modern applications often use it to reload configuration files without restarting the process&lt;/li&gt;
+&lt;li&gt;SIGQUIT - similar to SIGINT but also generates a core dump for debugging&lt;/li&gt;
+&lt;li&gt;SIGSTOP - pauses (suspends) a process. Cannot be trapped or ignored&lt;/li&gt;
+&lt;li&gt;SIGCONT - resumes a process that was paused by &lt;em&gt;SIGSTOP&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;SIGCHLD - sent to a parent process when a child process terminates or stops&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;SIGUSR1&lt;/strong&gt; and &lt;strong&gt;SIGUSR2&lt;/strong&gt; - user-defined signals that applications can use for custom purposes&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;sending-messages-using-signals&#34;&gt;Sending messages using signals&lt;/h3&gt;
+&lt;p&gt;Okay, we know that signals are a primitive form of IPC. UNIX-like systems provide a syscall called &lt;code&gt;kill&lt;/code&gt; that sends signals to processes. Historically, this syscall was created solely to terminate processes. But over time, they needed to accommodate other types of signals, so they reused the same syscall for different purposes.&lt;/p&gt;
+&lt;p&gt;For instance, let’s create a simple Ruby script &lt;code&gt;sleeper.rb&lt;/code&gt; which sleeps for 60 seconds, nothing more:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-ruby&#34; data-lang=&#34;ruby&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;puts &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Process ID: &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;#{&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Process&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;pid&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;puts &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Sleeping for 60 seconds...&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sleep &lt;span style=&#34;color:#ae81ff&#34;&gt;60&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;After running we see:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-plaintext&#34; data-lang=&#34;plaintext&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Process ID: 55402
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Sleeping for 60 seconds...
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;In another window, we can &lt;strong&gt;send&lt;/strong&gt; the &lt;code&gt;SIGTERM&lt;/code&gt; signal to the process &lt;code&gt;55402&lt;/code&gt; via syscall &lt;code&gt;kill&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ kill -SIGTERM &lt;span style=&#34;color:#ae81ff&#34;&gt;55402&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;And then, in the script session:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-plaintext&#34; data-lang=&#34;plaintext&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;[1]    55402 terminated  ruby sleeper.rb
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;signal-traps&#34;&gt;Signal traps&lt;/h4&gt;
+&lt;p&gt;In Ruby, we can also &lt;em&gt;trap&lt;/em&gt; a signal using the &lt;code&gt;trap&lt;/code&gt; method in Ruby:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-ruby&#34; data-lang=&#34;ruby&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;puts &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Process ID: &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;#{&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Process&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;pid&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;puts &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Sleeping for 60 seconds...&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;trap(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;SIGTERM&amp;#39;&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;do&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  puts &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Received SIGTERM, exiting gracefully...&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  exit
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sleep &lt;span style=&#34;color:#ae81ff&#34;&gt;60&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Which in turn, after sending the signal, will gracefully:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-plaintext&#34; data-lang=&#34;plaintext&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Process ID: 55536
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Sleeping for 60 seconds...
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Received SIGTERM, exiting gracefully...
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;After all, we &lt;em&gt;cannot send messages using signals&lt;/em&gt;. They are a primitive way of sending &lt;em&gt;standardized messages&lt;/em&gt; which will trigger specific behaviours. At most, we can trap some signals, but nothing more.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;Okay Leandro, but what’s the purpose of this article then?&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Hold on&lt;/em&gt;. That’s exactly why I’m here. To prove points by doing useless stuff, like when I &lt;a href=&#34;https://leandronsp.com/articles/simulating-oop-in-bash-3mop&#34;&gt;simulated OOP in Bash&lt;/a&gt; a couple of years ago (it was fun though).&lt;/p&gt;
+&lt;p&gt;To understand how we can “hack” UNIX signals and send messages between processes, let’s first talk a bit about &lt;strong&gt;binary operations&lt;/strong&gt;. Yes, those “zeros” and “ones” you were scared of when you saw them for the first time. But they don’t bite (🥁 LOL), I promise.&lt;/p&gt;
+&lt;h3 id=&#34;what-is-a-message&#34;&gt;What is a message?&lt;/h3&gt;
+&lt;p&gt;If we model a message as a sequence of characters, we could say that at a high-level, messages are simply &lt;em&gt;strings&lt;/em&gt;. But in memory, they are stored as &lt;strong&gt;bytes&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;We know that bytes are made of bits. In computer terms, what’s a bit? It’s simply an abstraction representing &lt;strong&gt;only two states&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;zero&lt;/li&gt;
+&lt;li&gt;one&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;That’s it. For instance, using ASCII, we know that the letter “h” has the following codes:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;104 in decimal&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;0x68&lt;/code&gt; in hexadecimal&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;01101000&lt;/code&gt; in binary&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Binary-wise, what if we represented each “0” with a specific signal and each “1” with another? We know that some signals such as SIGTERM, SIGINT, and SIGCONT can be trapped, but intercepting them would harm their original purpose.&lt;/p&gt;
+&lt;p&gt;But thankfully, UNIX provides two user-defined signals that are perfect for our hacking experiment.&lt;/p&gt;
+&lt;h3 id=&#34;sending-sigusr1-and-sigusr2&#34;&gt;Sending SIGUSR1 and SIGUSR2&lt;/h3&gt;
+&lt;p&gt;First things first, let’s trap those signals in the code:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-ruby&#34; data-lang=&#34;ruby&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;puts &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Process ID: &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;#{&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Process&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;pid&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;puts &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Sleeping forever. Send signals to this process to see how it responds.&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;trap(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;SIGUSR1&amp;#39;&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;do&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  puts &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Received SIGUSR1 signal&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;trap(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;SIGUSR2&amp;#39;&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;do&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  puts &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Received SIGUSR2 signal&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sleep
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-plaintext&#34; data-lang=&#34;plaintext&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Process ID: 56172
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Sleeping forever. Send signals to this process to see how it responds.
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;After sending some &lt;code&gt;kill -SIGUSR1 56172&lt;/code&gt; and &lt;code&gt;kill -SIGUSR2 56172&lt;/code&gt;, we can see that the process prints the following content:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-plaintext&#34; data-lang=&#34;plaintext&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Process ID: 56172
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Sleeping forever. Send signals to this process to see how it responds.
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Received SIGUSR1 signal
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Received SIGUSR2 signal
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Received SIGUSR2 signal
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Received SIGUSR1 signal
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Received SIGUSR1 signal
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Received SIGUSR2 signal
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;Signals don’t carry data&lt;/strong&gt;. But the example we have is perfect for changing to bits, uh?&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-plaintext&#34; data-lang=&#34;plaintext&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Received SIGUSR1 signal # 0
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Received SIGUSR2 signal # 1
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Received SIGUSR2 signal # 1
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Received SIGUSR1 signal # 0
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Received SIGUSR2 signal # 1
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Received SIGUSR1 signal # 0
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Received SIGUSR1 signal # 0
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Received SIGUSR1 signal # 0
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;That’s exactly &lt;code&gt;01101000&lt;/code&gt;, the binary representation of the letter “h”. We’re simply &lt;strong&gt;encoding&lt;/strong&gt; the letter as a binary representation and sending it via signals&lt;/p&gt;
+&lt;p&gt;Again, we’re &lt;strong&gt;encoding it as a binary&lt;/strong&gt; and sending it &lt;strong&gt;via signals&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;How cool is that&lt;/em&gt;?&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://alimy.github.io/images/post/20260215170501.png&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;h4 id=&#34;decoding-the-binary-data&#34;&gt;Decoding the binary data&lt;/h4&gt;
+&lt;p&gt;On the other side, the receiver should be capable of decoding the message and converting it back to the letter “h”:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;sender &lt;em&gt;encodes&lt;/em&gt; the message&lt;/li&gt;
+&lt;li&gt;receiver &lt;em&gt;decodes&lt;/em&gt; the message&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;So, how do we decode &lt;code&gt;01101000&lt;/code&gt; (the letter “h” in ASCII)? Let’s break it down into a few steps:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;First, we need to see the 8 bits as individual digits in their respective positions&lt;/li&gt;
+&lt;li&gt;The rightmost bit is at position 0, whereas the leftmost bit is at position 7. This is how we define the most significant bit (&lt;strong&gt;MSB&lt;/strong&gt;, the leftmost) and the least significant bit (&lt;strong&gt;LSB&lt;/strong&gt;, the rightmost)&lt;/li&gt;
+&lt;li&gt;For this example, we perform a &lt;strong&gt;left shift&lt;/strong&gt; operation on each bit and then sum all the values, in this case from MSB to LSB (the order doesn’t matter much for now): &lt;code&gt;(0 &amp;lt;&amp;lt; 7) + (1 &amp;lt;&amp;lt; 6) + (1 &amp;lt;&amp;lt; 5) + (0 &amp;lt;&amp;lt; 4) + ... + (0 &amp;lt;&amp;lt; 0)&lt;/code&gt;:&lt;br&gt;
+&lt;em&gt;left shift on &lt;em&gt;zeros&lt;/em&gt; will always produce a &lt;em&gt;zero&lt;/em&gt;&lt;/em&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;0 &amp;lt;&amp;lt; 7&lt;/code&gt; = &lt;code&gt;(2 ** 7) * 0&lt;/code&gt; = &lt;code&gt;128 * 0&lt;/code&gt; = 0&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;1 &amp;lt;&amp;lt; 6&lt;/code&gt; = &lt;code&gt;(2 ** 6) * 1&lt;/code&gt; = &lt;code&gt;64 * 1&lt;/code&gt; = 64&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Similarly to the remaining bits:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;1 &amp;lt;&amp;lt; 5&lt;/code&gt; = 32&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;0 &amp;lt;&amp;lt; 4&lt;/code&gt; = 0&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;1 &amp;lt;&amp;lt; 3&lt;/code&gt; = 8&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;0 &amp;lt;&amp;lt; 2&lt;/code&gt; = 0&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;0 &amp;lt;&amp;lt; 1&lt;/code&gt; = 0&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;0 &amp;lt;&amp;lt; 0&lt;/code&gt; = 0&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;So, our sum becomes, from MSB to LSB:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-plaintext&#34; data-lang=&#34;plaintext&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;MSB                          LSB
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;0   1    1    0   1   0   0   0
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;0 + 64 + 32 + 0 + 8 + 0 + 0 + 0 = 104
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;104 is exactly the &lt;strong&gt;decimal representation&lt;/strong&gt; of the letter “h” in ASCII.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;How wonderful is that?&lt;/em&gt;&lt;/p&gt;
+&lt;h4 id=&#34;sending-the-letter-h&#34;&gt;Sending the letter “h”&lt;/h4&gt;
+&lt;p&gt;Now let’s convert these operations to Ruby code. We’ll write a simple program &lt;code&gt;receiver.rb&lt;/code&gt; that receives signals in order from LSB to MSB (positions 0 to 7) and then converts them back to ASCII characters, printing to &lt;code&gt;STDOUT&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Basically, we’ll &lt;strong&gt;accumulate&lt;/strong&gt; bits and whenever we form a complete byte, we’ll decode it to its ASCII representation. The very basic implementation of our &lt;code&gt;accumulate_bit(bit)&lt;/code&gt; method would look like as follows:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-ruby&#34; data-lang=&#34;ruby&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;@position &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;# start with the LSB&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;@accumulator &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;accumulate_bit&lt;/span&gt;(bit)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;# The left shift operator (&amp;lt;&amp;lt;) is used to &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;# shift the bits of the number to the left.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;#&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;# This is equivalent of: (2 ** @position) * bit&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  @accumulator &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; (bit &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; @position)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; @accumulator &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; @position &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;7&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;# stop accumulating after 8 bits (byte)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  @position &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;# move to the next bit position: 0 becomes 1, 1 becomes 2, etc.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Letter &amp;#34;h&amp;#34; in binary is 01101000&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# But we&amp;#39;ll send from the LSB to the MSB&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 0110 1000 (MSB -&amp;gt; LSB) becomes 0001 0110 (LSB -&amp;gt; MSB)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# The order doesn&amp;#39;t matter that much, it&amp;#39;ll depend on &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# the receiver&amp;#39;s implementation.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;accumulate_bit(&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;accumulate_bit(&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;accumulate_bit(&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;accumulate_bit(&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;accumulate_bit(&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;accumulate_bit(&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;accumulate_bit(&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;accumulate_bit(&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;puts @accumulator &lt;span style=&#34;color:#75715e&#34;&gt;# should print 104, which is the ASCII code for &amp;#34;h&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;em&gt;Pay attention to this code. It’s very important and builds the foundation for the next steps. If you didn’t get it, go back and read it again. Try it yourself in the terminal or using your preferred programming language.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Now, how to convert the decimal &lt;code&gt;104&lt;/code&gt; to the ASCII character representation? Luckily, Ruby provides a method called &lt;code&gt;chr&lt;/code&gt; which does the job:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-ruby&#34; data-lang=&#34;ruby&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;irb&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; puts &lt;span style=&#34;color:#ae81ff&#34;&gt;104&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;chr
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;h&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;We could do the same job for the rest of the word “hello”, for instance. According to the &lt;a href=&#34;https://www.ascii-code.com/&#34;&gt;ASCII table&lt;/a&gt;, it should be the following:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;e&lt;/code&gt; in decimal is &lt;code&gt;101&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;l&lt;/code&gt; in decimal is &lt;code&gt;108&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;o&lt;/code&gt; in decimal is &lt;code&gt;111&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Let’s check if Ruby knows that:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-ruby&#34; data-lang=&#34;ruby&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;104&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;chr    &lt;span style=&#34;color:#75715e&#34;&gt;# &amp;#34;h&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;101&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;chr    &lt;span style=&#34;color:#75715e&#34;&gt;# &amp;#34;e&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;108&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;chr    &lt;span style=&#34;color:#75715e&#34;&gt;# &amp;#34;l&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;111&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;chr    &lt;span style=&#34;color:#75715e&#34;&gt;# &amp;#34;o&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;We can even “decode” the word to the decimal representation in ASCII:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-ruby&#34; data-lang=&#34;ruby&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;irb&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;hello&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;bytes
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;104&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;101&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;108&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;108&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;111&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Now, time to finish our receiver implementation to properly print the letter “h”:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-ruby&#34; data-lang=&#34;ruby&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;@position &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;# start with the LSB&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;@accumulator &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;trap(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;SIGUSR1&amp;#39;&lt;/span&gt;) { decode_signal(&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;) }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;trap(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;SIGUSR2&amp;#39;&lt;/span&gt;) { decode_signal(&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;decode_signal&lt;/span&gt;(bit)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  accumulate_bit(bit)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;unless&lt;/span&gt; @position &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;8&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;# if not yet accumulated a byte, keep accumulating&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  print &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Received byte: &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;#{&lt;/span&gt;@accumulator&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; (&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;#{&lt;/span&gt;@accumulator&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;chr&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  @accumulator &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;# reset the accumulator&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  @position &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;# reset position for the next byte&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;accumulate_bit&lt;/span&gt;(bit)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;# The left shift operator (&amp;lt;&amp;lt;) is used to &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;# shift the bits of the number to the left.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;#&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;# This is equivalent of: (2 ** @position) * bit&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  @accumulator &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; (bit &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; @position)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  @position &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;# move to the next bit position: 0 becomes 1, 1 becomes 2, etc.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;puts &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Process ID: &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;#{&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Process&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;pid&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sleep
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;em&gt;Read that code and its comments. It’s very important. Do not continue reading until you really get what’s happening here.&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Whenever we get &lt;code&gt;SIGUSR1&lt;/code&gt;, we accumulate the bit &lt;code&gt;0&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;When getting &lt;code&gt;SIGUSR2&lt;/code&gt;, accumulate then the bit &lt;code&gt;1&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;When accumulator reaches the position&lt;code&gt;8&lt;/code&gt;, it means we have a byte. At this moment we should print the ASCII representation using the &lt;code&gt;.chr&lt;/code&gt; we seen earlier. Then, reset bit position and accumulator&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Let’s see our receiver in action! Start the receiver in one terminal:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ ruby receiver.rb
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Process ID: &lt;span style=&#34;color:#ae81ff&#34;&gt;58219&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Great! Now the receiver is listening for signals. In another terminal, let’s manually send signals&lt;br&gt;
+to form the letter “h” (which is &lt;code&gt;01101000&lt;/code&gt; in binary, remember?):&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-plaintext&#34; data-lang=&#34;plaintext&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  # Sending from LSB to MSB: 0, 0, 0, 1, 0, 1, 1, 0
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  $ kill -SIGUSR1 58219  # 0
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  $ kill -SIGUSR1 58219  # 0
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  $ kill -SIGUSR1 58219  # 0
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  $ kill -SIGUSR2 58219  # 1
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  $ kill -SIGUSR1 58219  # 0
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  $ kill -SIGUSR2 58219  # 1
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  $ kill -SIGUSR2 58219  # 1
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  $ kill -SIGUSR1 58219  # 0
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;And in the receiver terminal, we should see:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-plaintext&#34; data-lang=&#34;plaintext&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Received byte: 104 (h)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;em&gt;How amazing is that?&lt;/em&gt; We just sent the letter “h” using only two UNIX signals!&lt;/p&gt;
+&lt;p&gt;But wait. Manually sending 8 signals for each character? That’s tedious and error-prone. What if we wanted to send the word “hello”? That’s 5 characters × 8 bits = 40 signals to send manually. No way.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;We need a sender.&lt;/em&gt;&lt;/p&gt;
+&lt;h4 id=&#34;building-the-sender&#34;&gt;Building the sender&lt;/h4&gt;
+&lt;p&gt;The sender’s job is the opposite of the receiver: it should encode a message (string) into bits and send them as signals to the receiver process.&lt;/p&gt;
+&lt;p&gt;Let’s think about what we need:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Take a message as input (like “hello”)&lt;/li&gt;
+&lt;li&gt;Convert each character to its byte representation&lt;/li&gt;
+&lt;li&gt;Extract the 8 bits from each byte&lt;/li&gt;
+&lt;li&gt;Send &lt;code&gt;SIGUSR1&lt;/code&gt; for bit 0, &lt;code&gt;SIGUSR2&lt;/code&gt; for bit 1&lt;/li&gt;
+&lt;li&gt;Repeat for all characters&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;The tricky part here is the step 3: &lt;strong&gt;how do we extract individual bits from a byte?&lt;/strong&gt; To extract the bit at position &lt;code&gt;i&lt;/code&gt;, we can use the following formula:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-plaintext&#34; data-lang=&#34;plaintext&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;bit = (byte &amp;gt;&amp;gt; i) &amp;amp; 1
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Let me break this down:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;byte &amp;gt;&amp;gt; i&lt;/code&gt; performs a &lt;em&gt;right shift&lt;/em&gt; by &lt;code&gt;i&lt;/code&gt; positions&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;amp; 1&lt;/code&gt; is a bitwise &lt;code&gt;AND&lt;/code&gt; operation that extracts only the &lt;em&gt;rightmost&lt;/em&gt; bit&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For the letter “h” (&lt;code&gt;01101000&lt;/code&gt; in binary, &lt;code&gt;104&lt;/code&gt; in decimal):&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Position 0 (LSB):&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;(104 &amp;gt;&amp;gt; 0)&lt;/code&gt; = &lt;code&gt;104 / (2 ** 0)&lt;/code&gt; = &lt;code&gt;104 / 1&lt;/code&gt; = 104&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;01101000&lt;/code&gt; &amp;raquo; 0 = &lt;code&gt;01101000&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;01101000&lt;/code&gt; &amp;amp; &lt;code&gt;00000001&lt;/code&gt; = 0 (&lt;em&gt;one&lt;/em&gt; AND &lt;em&gt;zero&lt;/em&gt; is &lt;em&gt;zero&lt;/em&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Position 1:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;(104 &amp;gt;&amp;gt; 1)&lt;/code&gt; = &lt;code&gt;104 / (2 ** 1)&lt;/code&gt; = &lt;code&gt;104 / 2&lt;/code&gt; = 52&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;01101000&lt;/code&gt; &amp;raquo; 1 = &lt;code&gt;00110100&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;00110100&lt;/code&gt; &amp;amp; &lt;code&gt;00000001&lt;/code&gt; = 0&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Position 2:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;(104 &amp;gt;&amp;gt; 2)&lt;/code&gt; = &lt;code&gt;104 / (2 ** 2)&lt;/code&gt; = &lt;code&gt;104 / 4&lt;/code&gt; = 26&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;01101000&lt;/code&gt; &amp;raquo; 2 = &lt;code&gt;00011010&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;00011010&lt;/code&gt; &amp;amp; &lt;code&gt;00000001&lt;/code&gt; = 0&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Position 3:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;(104 &amp;gt;&amp;gt; 3)&lt;/code&gt; = &lt;code&gt;104 / (2 ** 3)&lt;/code&gt; = &lt;code&gt;104 / 8&lt;/code&gt; = 13&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;01101000&lt;/code&gt; &amp;raquo; 3 = &lt;code&gt;00001101&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;00001101&lt;/code&gt; &amp;amp; &lt;code&gt;00000001&lt;/code&gt; = 1 (&lt;em&gt;one&lt;/em&gt; AND &lt;em&gt;one&lt;/em&gt; equals &lt;em&gt;one&lt;/em&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;And so on for positions 4, 5, 6, and 7. This gives us: &lt;code&gt;0, 0, 0, 1, 0, 1, 1, 0&lt;/code&gt; — exactly the bits we need from LSB to MSB!&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;(104 &amp;gt;&amp;gt; 0) &amp;amp; 1&lt;/code&gt; = &lt;code&gt;104 &amp;amp; 1&lt;/code&gt; = 0&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(104 &amp;gt;&amp;gt; 1) &amp;amp; 1&lt;/code&gt; = &lt;code&gt;52 &amp;amp; 1&lt;/code&gt; = 0&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(104 &amp;gt;&amp;gt; 2) &amp;amp; 1&lt;/code&gt; = &lt;code&gt;26 &amp;amp; 1&lt;/code&gt; = 0&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(104 &amp;gt;&amp;gt; 3) &amp;amp; 1&lt;/code&gt; = &lt;code&gt;13 &amp;amp; 1&lt;/code&gt; = 1&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(104 &amp;gt;&amp;gt; 4) &amp;amp; 1&lt;/code&gt; = &lt;code&gt;6 &amp;amp; 1&lt;/code&gt; = 0&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(104 &amp;gt;&amp;gt; 5) &amp;amp; 1&lt;/code&gt; = &lt;code&gt;3 &amp;amp; 1&lt;/code&gt; = 1&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(104 &amp;gt;&amp;gt; 6) &amp;amp; 1&lt;/code&gt; = &lt;code&gt;1 &amp;amp; 1&lt;/code&gt; = 1&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(104 &amp;gt;&amp;gt; 7) &amp;amp; 1&lt;/code&gt; = &lt;code&gt;0 &amp;amp; 1&lt;/code&gt; = 0&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;Pay close attention to this technique. It’s a fundamental operation in low-level programming.&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;So now time to build the &lt;code&gt;sender.rb&lt;/code&gt; which is pretty simple:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-ruby&#34; data-lang=&#34;ruby&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;receiver_pid &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;ARGV&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;].&lt;/span&gt;to_i
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;message &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;ARGV&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;..-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;].&lt;/span&gt;join(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39; &amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;encode_byte&lt;/span&gt;(byte)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#ae81ff&#34;&gt;8&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;times&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;map &lt;span style=&#34;color:#66d9ef&#34;&gt;do&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt;i&lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;# Extract each bit from the byte, starting from the LSB&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    (byte &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; i) &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;message&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;bytes&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;each &lt;span style=&#34;color:#66d9ef&#34;&gt;do&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt;byte&lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  encode_byte(byte)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;each &lt;span style=&#34;color:#66d9ef&#34;&gt;do&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt;bit&lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    signal &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; bit &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;SIGUSR1&amp;#39;&lt;/span&gt; : &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;SIGUSR2&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;Process&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;kill(signal, receiver_pid)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    sleep &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;001&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;# Delay to allow the receiver to process the signal&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;For each byte (8-bit structure) we extract the bit performing the &lt;em&gt;right shift&lt;/em&gt; + &lt;em&gt;AND&lt;/em&gt; oprerations. The result is the extracted bit.&lt;/p&gt;
+&lt;p&gt;In the receiver window:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ ruby receiver.rb
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Process ID: &lt;span style=&#34;color:#ae81ff&#34;&gt;68968&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;And in the sender window:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ ruby sender.rb &lt;span style=&#34;color:#ae81ff&#34;&gt;68968&lt;/span&gt; h
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The receiver will print:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ ruby receiver.rb
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Process ID: &lt;span style=&#34;color:#ae81ff&#34;&gt;68968&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Received byte: &lt;span style=&#34;color:#ae81ff&#34;&gt;104&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;h&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;em&gt;Processes sending messages with only two signals!&lt;/em&gt; How wonderful is that?&lt;/p&gt;
+&lt;h4 id=&#34;sending-the-hello-message&#34;&gt;Sending the “hello” message&lt;/h4&gt;
+&lt;p&gt;Now, sending the hello message is super easy. The sender is already able to send not only a letter but any message using signals:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ ruby sender.rb &lt;span style=&#34;color:#ae81ff&#34;&gt;68968&lt;/span&gt; hello
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# And the receiver:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Received byte: &lt;span style=&#34;color:#ae81ff&#34;&gt;104&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;h&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Received byte: &lt;span style=&#34;color:#ae81ff&#34;&gt;101&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;e&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Received byte: &lt;span style=&#34;color:#ae81ff&#34;&gt;108&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;l&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Received byte: &lt;span style=&#34;color:#ae81ff&#34;&gt;108&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;l&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Received byte: &lt;span style=&#34;color:#ae81ff&#34;&gt;111&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;o&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Just change the &lt;code&gt;receiver&lt;/code&gt; implementation a little bit:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-ruby&#34; data-lang=&#34;ruby&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;decode_signal&lt;/span&gt;(bit)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  accumulate_bit(bit)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;unless&lt;/span&gt; @position &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;8&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;# if not yet accumulated a byte, keep accumulating&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  print @accumulator&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;chr &lt;span style=&#34;color:#75715e&#34;&gt;# print the byte as a character&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  @accumulator &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;# reset the accumulator&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  @position &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;# reset position for the next byte&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;And then:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ ruby sender.rb &lt;span style=&#34;color:#ae81ff&#34;&gt;96875&lt;/span&gt; Hello
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# In the receiver&amp;#39;s terminal&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Process ID: &lt;span style=&#34;color:#ae81ff&#34;&gt;96875&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Hello
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;However, if we send the message again, the receiver will print everything in the same line:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-ruby&#34; data-lang=&#34;ruby&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;$&lt;/span&gt; ruby sender&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;rb &lt;span style=&#34;color:#ae81ff&#34;&gt;96875&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Hello&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;$&lt;/span&gt; ruby sender&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;rb &lt;span style=&#34;color:#ae81ff&#34;&gt;96875&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Hello&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# In the receiver&amp;#39;s terminal&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Process&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;ID&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;96875&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;HelloHello&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;It’s obvious: the receiver doesn’t know where the sender finished the message, so it’s impossible to know where we should stop one message and print the next one on a new line with &lt;code&gt;\n&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;We should then determine how the sender indicates the end of the message. How about being it all &lt;em&gt;zeroes&lt;/em&gt; (&lt;code&gt;0000 0000&lt;/code&gt;)?&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;We send the message: first 5 bytes representing the “hello” message&lt;/li&gt;
+&lt;li&gt;Then we send a “NULL terminator”, just one byte &lt;em&gt;0&lt;/em&gt; (&lt;code&gt;0000 0000&lt;/code&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-plaintext&#34; data-lang=&#34;plaintext&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;0110 1000 # h
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;0110 0101 # e
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;0110 1000 # l
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;0110 1000 # l
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;0110 1111 # o
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;0000 0000 # NULL
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Hence, when the &lt;em&gt;receiver&lt;/em&gt; gets a NULL terminator, it will print a line feed &lt;code&gt;\n&lt;/code&gt;. Let’s change the &lt;code&gt;sender.rb&lt;/code&gt; first:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-ruby&#34; data-lang=&#34;ruby&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;receiver_pid &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;ARGV&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;].&lt;/span&gt;to_i
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;message &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;ARGV&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;..-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;].&lt;/span&gt;join(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39; &amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;encode_byte&lt;/span&gt;(byte)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#ae81ff&#34;&gt;8&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;times&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;map &lt;span style=&#34;color:#66d9ef&#34;&gt;do&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt;i&lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;# Extract each bit from the byte, starting from the LSB&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    (byte &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; i) &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;message&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;bytes&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;each &lt;span style=&#34;color:#66d9ef&#34;&gt;do&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt;byte&lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  encode_byte(byte)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;each &lt;span style=&#34;color:#66d9ef&#34;&gt;do&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt;bit&lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    signal &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; bit &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;SIGUSR1&amp;#39;&lt;/span&gt; : &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;SIGUSR2&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;Process&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;kill(signal, receiver_pid)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    sleep &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;001&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;# Delay to allow the receiver to process the signal&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Send NULL terminator (0000 0000)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;8&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;times &lt;span style=&#34;color:#66d9ef&#34;&gt;do&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;Process&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;kill(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;SIGUSR1&amp;#39;&lt;/span&gt;, receiver_pid)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  sleep &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;001&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;# Delay to allow the receiver to process the signal&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;puts &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Message sent to receiver (PID: &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;#{&lt;/span&gt;receiver_pid&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;)&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Then, the &lt;code&gt;receiver.rb&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-ruby&#34; data-lang=&#34;ruby&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;@position &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;# start with the LSB&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;@accumulator &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;trap(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;SIGUSR1&amp;#39;&lt;/span&gt;) { decode_signal(&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;) }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;trap(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;SIGUSR2&amp;#39;&lt;/span&gt;) { decode_signal(&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;decode_signal&lt;/span&gt;(bit)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  accumulate_bit(bit)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;unless&lt;/span&gt; @position &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;8&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;# if not yet accumulated a byte, keep accumulating&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; @accumulator&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;zero? &lt;span style=&#34;color:#75715e&#34;&gt;# NULL terminator received&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    print &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    print @accumulator&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;chr &lt;span style=&#34;color:#75715e&#34;&gt;# print the byte as a character&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  @accumulator &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;# reset the accumulator&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  @position &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;# reset position for the next byte&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;accumulate_bit&lt;/span&gt;(bit)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;# The left shift operator (&amp;lt;&amp;lt;) is used to &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;# shift the bits of the number to the left.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;#&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;# This is equivalent of: (2 ** @position) * bit&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  @accumulator &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; (bit &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; @position)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  @position &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;# move to the next bit position: 0 becomes 1, 1 becomes 2, etc.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;puts &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Process ID: &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;#{&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Process&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;pid&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sleep
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Output:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-plaintext&#34; data-lang=&#34;plaintext&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ ruby sender.rb 96875 Hello, World!
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ ruby sender.rb 96875 You&amp;#39;re welcome
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ ruby sender.rb 96875 How are you?
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;# Receiver
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Process ID: 97176
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Hello, World!
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;You&amp;#39;re welcome
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;How are you?
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;em&gt;&lt;strong&gt;OMG Leandro! That’s amazing!&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Amazing, right?&lt;/em&gt; We just built an entire communication system between two processes using one of the most primitive methods available: &lt;strong&gt;UNIX signals.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;The sky’s the limit now! Why not build a &lt;em&gt;full-fledged message broker&lt;/em&gt; using this crazy technique?&lt;/p&gt;
+&lt;h3 id=&#34;a-modest-message-broker-using-unix-signals&#34;&gt;A modest message broker using UNIX signals&lt;/h3&gt;
+&lt;p&gt;We’ll break down the development into three components:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Broker&lt;/strong&gt;: the intermediary that routes messages&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Consumer&lt;/strong&gt;: processes that receive messages&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Producer&lt;/strong&gt;: processes that send messages&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&#34;https://alimy.github.io/images/post/20260215170502.png&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Let’s start with the Broker. It should register itself with the producer, then trap incoming signals, decode them, and enqueue the messages for delivery to consumers via outgoing signals:&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-ruby&#34; data-lang=&#34;ruby&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#!/usr/bin/env ruby&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;require_relative &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;signal_codec&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;require_relative &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;consumer&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Broker&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;PID&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;broker.pid&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;freeze
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;initialize&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    @codec &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;SignalCodec&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;new
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    @queue &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Queue&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;new
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    @consumer_index &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;start&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    register_broker
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    trap(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;SIGUSR1&amp;#39;&lt;/span&gt;) { process_bit(&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;) }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    trap(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;SIGUSR2&amp;#39;&lt;/span&gt;) { process_bit(&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    puts &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Broker PID: &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;#{&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Process&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;pid&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    puts &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Waiting for messages...&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    distribute_messages
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    sleep &lt;span style=&#34;color:#75715e&#34;&gt;# Keep alive&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;private&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;process_bit&lt;/span&gt;(bit)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    @codec&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;accumulate_bit(bit) &lt;span style=&#34;color:#66d9ef&#34;&gt;do&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt;message&lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      @queue&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;push(message) &lt;span style=&#34;color:#66d9ef&#34;&gt;unless&lt;/span&gt; message&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;empty?
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;register_broker&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;File&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;write(&lt;span style=&#34;color:#66d9ef&#34;&gt;PID&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;Process&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;pid)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    at_exit { &lt;span style=&#34;color:#66d9ef&#34;&gt;File&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;delete(&lt;span style=&#34;color:#66d9ef&#34;&gt;PID&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;File&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;exist?(&lt;span style=&#34;color:#66d9ef&#34;&gt;PID&lt;/span&gt;) }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;distribute_messages&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;Thread&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;new &lt;span style=&#34;color:#66d9ef&#34;&gt;do&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#66d9ef&#34;&gt;loop&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;do&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        sleep &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;next&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; @queue&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;empty?
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        consumers &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;File&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;exist?(&lt;span style=&#34;color:#66d9ef&#34;&gt;Consumer&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;FILE&lt;/span&gt;) ? &lt;span style=&#34;color:#66d9ef&#34;&gt;File&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;readlines(&lt;span style=&#34;color:#66d9ef&#34;&gt;Consumer&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;FILE&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;map(&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;:to_i&lt;/span&gt;) : &lt;span style=&#34;color:#f92672&#34;&gt;[]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;next&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; consumers&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;empty?
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        message &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; @queue&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;pop(&lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;rescue&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;next&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        consumer_pid &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; consumers&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;@consumer_index &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; consumers&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;size&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        @consumer_index &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        puts &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;[SEND] &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;#{&lt;/span&gt;message&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; → Consumer &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;#{&lt;/span&gt;consumer_pid&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        @codec&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;send_message(message, consumer_pid)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; __FILE__ &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; $0 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  broker &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Broker&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;new
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  broker&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;start
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;The broker registers itself&lt;/li&gt;
+&lt;li&gt;Traps incoming signals &lt;code&gt;USR1&lt;/code&gt; (bit 0) and &lt;code&gt;USR2&lt;/code&gt; (bit 1)&lt;/li&gt;
+&lt;li&gt;Enqueues the messages&lt;/li&gt;
+&lt;li&gt;Send messages to consumers using outgoing signals (&lt;code&gt;USR1&lt;/code&gt; and &lt;code&gt;USR2&lt;/code&gt; too)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;em&gt;Note that we’re using a module called &lt;code&gt;SignalCodec&lt;/code&gt; which will be explained soon. Basically this module contains all core components to encode/decode signals and perform bitwise operations.&lt;/em&gt;&lt;/p&gt;
+&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;Now the &lt;code&gt;Consumer&lt;/code&gt; implementation:&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-ruby&#34; data-lang=&#34;ruby&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#!/usr/bin/env ruby&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;require_relative &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;signal_codec&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Consumer&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;FILE&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;consumers.txt&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;freeze
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;initialize&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    @codec &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;SignalCodec&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;new
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;start&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    register_consumer
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    trap(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;SIGUSR1&amp;#39;&lt;/span&gt;) { process_bit(&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;) }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    trap(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;SIGUSR2&amp;#39;&lt;/span&gt;) { process_bit(&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    puts &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Consumer PID: &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;#{&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Process&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;pid&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    puts &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Waiting for messages...&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    sleep &lt;span style=&#34;color:#75715e&#34;&gt;# Keep alive&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;private&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;process_bit&lt;/span&gt;(bit)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    @codec&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;accumulate_bit(bit) &lt;span style=&#34;color:#66d9ef&#34;&gt;do&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt;message&lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      puts &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;[RECEIVE] &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;#{&lt;/span&gt;message&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;register_consumer&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;File&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;open(&lt;span style=&#34;color:#66d9ef&#34;&gt;FILE&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;a&amp;#39;&lt;/span&gt;) { &lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt;f&lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt; f&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;puts &lt;span style=&#34;color:#66d9ef&#34;&gt;Process&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;pid }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    at_exit { deregister_consumer }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;deregister_consumer&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;File&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;exist?(&lt;span style=&#34;color:#66d9ef&#34;&gt;FILE&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      consumers &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;File&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;readlines(&lt;span style=&#34;color:#66d9ef&#34;&gt;FILE&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;map(&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;:strip&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;reject { &lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt;pid&lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt; pid&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;to_i &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Process&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;pid }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#66d9ef&#34;&gt;File&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;write(&lt;span style=&#34;color:#66d9ef&#34;&gt;FILE&lt;/span&gt;, consumers&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;join(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; __FILE__ &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; $0
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  consumer &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Consumer&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;new
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  consumer&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;start
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;The consumer starts and registers itself with the broker&lt;/li&gt;
+&lt;li&gt;Consumer then traps incoming signals (bit 0 and bit 1)&lt;/li&gt;
+&lt;li&gt;Decodes and prints messages&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol start=&#34;3&#34;&gt;
+&lt;li&gt;Last but not least, the &lt;code&gt;Producer&lt;/code&gt; implementation, which is pretty straightforward:&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-ruby&#34; data-lang=&#34;ruby&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#!/usr/bin/env ruby&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;require_relative &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;signal_codec&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;require_relative &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;broker&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;unless&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;File&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;exist?(&lt;span style=&#34;color:#66d9ef&#34;&gt;Broker&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;PID&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  abort &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Error: Broker not running (&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;#{&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Broker&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;PID&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; not found)&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;broker_pid &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;File&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;read(&lt;span style=&#34;color:#66d9ef&#34;&gt;Broker&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;PID&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;strip&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;to_i
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;message &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;ARGV&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;join(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39; &amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; message&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;empty?
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  puts &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Usage: ruby producer.rb &amp;lt;message&amp;gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  exit &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;codec &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;SignalCodec&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;new
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;puts &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Sending: &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;#{&lt;/span&gt;message&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;codec&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;send_message(message, broker_pid)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;puts &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Message sent to broker (PID: &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;#{&lt;/span&gt;broker_pid&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;)&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Producer receives a ASCII message from the &lt;em&gt;STDIN&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Encode and sends the message to the broker via outgoing signals&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;So far, this architecture should look familiar. Many broker implementations follow these basic foundations.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;Of course, production-ready implementations are far more robust than this one. Here, we’re just poking around with hacking and experimentation&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;The coolest part is the &lt;code&gt;SignalCodec&lt;/code&gt; though:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-ruby&#34; data-lang=&#34;ruby&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;SignalCodec&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;SIGNAL_DELAY&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;001&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;# Delay between signals to allow processing&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;initialize&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    @accumulator &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    @position &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    @buffer &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;[]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;accumulate_bit&lt;/span&gt;(bit)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    @accumulator &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; (bit &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; @position)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    @position &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; @position &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;8&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;# Byte is complete&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; @accumulator&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;zero? &lt;span style=&#34;color:#75715e&#34;&gt;# Message complete - NULL terminator&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        decoded &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; @buffer&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;pack(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;C*&amp;#34;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;force_encoding(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;UTF-8&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;yield&lt;/span&gt;(decoded) &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; block_given?
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        @buffer&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;clear
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        @buffer &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; @accumulator
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      @position &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      @accumulator &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;send_message&lt;/span&gt;(message, pid)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    message&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;each_byte &lt;span style=&#34;color:#66d9ef&#34;&gt;do&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt;byte&lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#ae81ff&#34;&gt;8&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;times &lt;span style=&#34;color:#66d9ef&#34;&gt;do&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt;i&lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        bit &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; (byte &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; i) &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        signal &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; bit &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;SIGUSR1&amp;#39;&lt;/span&gt; : &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;SIGUSR2&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;Process&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;kill(signal, pid)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        sleep &lt;span style=&#34;color:#66d9ef&#34;&gt;SIGNAL_DELAY&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;# Send NULL terminator (0000 0000)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#ae81ff&#34;&gt;8&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;times &lt;span style=&#34;color:#66d9ef&#34;&gt;do&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#66d9ef&#34;&gt;Process&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;kill(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;SIGUSR1&amp;#39;&lt;/span&gt;, pid)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      sleep &lt;span style=&#34;color:#66d9ef&#34;&gt;SIGNAL_DELAY&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;If you’ve been following along, this shouldn’t be hard to understand, but I’ll break down how this beautiful piece of code works:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The codec is initialized with the bit position at zero, as well as the accumulator&lt;/li&gt;
+&lt;li&gt;A buffer is also initialized to store accumulated bits until a complete byte is formed&lt;/li&gt;
+&lt;li&gt;The &lt;code&gt;accumulate_bit&lt;/code&gt; method should be familiar from our earlier implementation, but it now accepts a closure (block) that lets the caller decide what to do with each decoded byte&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;send_message&lt;/code&gt; encodes a message into bits and sends them via UNIX signals&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Everything in action:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://alimy.github.io/images/post/20260215170503.png&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;How cool, amazing, wonderful, impressive, astonishing is that?&lt;/em&gt;&lt;/p&gt;
+&lt;h3 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h3&gt;
+&lt;p&gt;Yes, we built a message broker using nothing but &lt;strong&gt;UNIX signals&lt;/strong&gt; and a bit of Ruby magic. Sure, &lt;strong&gt;it’s not production-ready&lt;/strong&gt;, and you definitely shouldn’t use this in your next startup (please don’t), but that was never the point.&lt;/p&gt;
+&lt;p&gt;The real takeaway here isn’t the broker itself: it’s understanding how the fundamentals work. We explored binary operations, UNIX signals, and IPC in a hands-on way that most people never bother with.
+`
+We took something “useless” and made it work, just for fun. So next time someone asks you about message brokers, you can casually mention that you once built (or saw) one using just two signals. And if they look at you weird, well, that’s their problem. Now go build something equally useless and amazing. The world needs more hackers who experiment just for the fun of it.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Happy hacking!&lt;/em&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;（备注: 转载自&lt;a href=&#34;https://leandronsp.com/articles/you-dont-need-kafka-building-a-message-queue-with-only-two-unix-signals&#34; title=&#34;Building a message queue with only two UNIX signals&#34;&gt;网络&lt;/a&gt;）&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;声明：本站是个人开设维护的网站，主要用于收集网络美文、技术文章与原创生活记录等，系孤芳自赏、个人用途，内容如有侵权请联系站长删除。&lt;/em&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>rpcx-消息协议</title>
@@ -76,7 +778,9 @@
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;如果服务处理请求失败，它会返回error response， 它会设置 response 的 MessageStatusType为 &lt;code&gt;1&lt;/code&gt;, 并且在meta中设置错误信息， meta中的 key值是 &lt;strong&gt;rpcx_error&lt;/strong&gt;， 值是错误信息。&lt;/p&gt;</description>
+&lt;p&gt;如果服务处理请求失败，它会返回error response， 它会设置 response 的 MessageStatusType为 &lt;code&gt;1&lt;/code&gt;, 并且在meta中设置错误信息， meta中的 key值是 &lt;strong&gt;rpcx_error&lt;/strong&gt;， 值是错误信息。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;em&gt;声明：本站是个人开设维护的网站，主要用于收集网络美文、技术文章与原创生活记录等，系孤芳自赏、个人用途，内容如有侵权请联系站长删除。&lt;/em&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -158,7 +862,9 @@
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;ACL_TOKEN_KEYVALUE = 0x11，对应的 data 为 key/value 对，key 和 value 各自都是由 uint16 的长度加上 no-trailing-null 的字符串组成，用于传递 ACL Token；&lt;/li&gt;
-&lt;/ul&gt;</description>
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;em&gt;声明：本站是个人开设维护的网站，主要用于收集网络美文、技术文章与原创生活记录等，系孤芳自赏、个人用途，内容如有侵权请联系站长删除。&lt;/em&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -232,7 +938,8 @@ This allows us to distinguish between different (older) transports.&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                       - key/value pairs of varstrings &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;varint16 length plus
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                         no-trailing-null string&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;. Implementations MUST NOT
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                         alter either key or value in any way.
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;
+&lt;p&gt;&lt;em&gt;声明：本站是个人开设维护的网站，主要用于收集网络美文、技术文章与原创生活记录等，系孤芳自赏、个人用途，内容如有侵权请联系站长删除。&lt;/em&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -1600,191 +2307,6 @@ folderPeer#e9baa668 peer:Peer folder_id:int = FolderPeer;
 　　此文节选自一部网络小说，小说名字比较敏感，不细说了。记不清是什么时候，反正是老久老久之前，大概是大学那会儿？也是无意间听的广播剧才结识了这部微型小说。当时感觉挺有意思的，许久之后也是有很深的印象。前不久书荒的时候，记起这么一部小说，翻遍全网，终于找到一个略微删减版本，重新看了一遍，味道还是那么醇正。要说为什么费老鼻子劲才找到这部小说，其小说名字就比较那个有成人感，带点鬼魅诱惑，但是其实吧，其内容并不如何成年。作为一个成年人，这么点东西远谈不上那么的有诱惑。结合内容，我给起了个俗一点的名字作为小说名『&lt;a href=&#34;https://alimy.github.io/dl/%E9%86%89%E7%BC%98%E9%9D%A1%E6%A2%A6.zip&#34; title=&#34;醉缘靡梦.zip&#34;&gt;醉缘靡梦&lt;/a&gt;』，仅略点题而已。&lt;br&gt;
 　　这部小说我相信知道的人可能不多，那都是在那个盗版横行、管制奇松的网络时代，才有可能冒出这么一个有点限制级别的广播剧，当下是没的这个环境了。其实吧小说大致框架很简单，就描述一个小伙子与几个小姑凉的迷糊有点乱的关系逐步演进的过程形成的话本。以小伙子的视角来看，经过的这一切，犹如一场稀里糊涂的梦，谈不上美，至少有点迷糊。从几个女主角的视角来看，其言行可比小伙子成熟多了，但是也感性多于理性。这让我想起了一部美国电影《本能》 人啊，最终还是难逃本能的驱使，或许这才是妥协的本心吧。&lt;br&gt;
 　　情，难以琢磨；缘，妙不可言！&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;声明：本站是个人开设维护的网站，主要用于收集网络美文、技术文章与原创生活记录等，系孤芳自赏、个人用途，内容如有侵权请联系站长删除。&lt;/em&gt;&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>雪中悍刀行 - 恼姜泥青衣相随 (节选)</title>
-      <link>https://alimy.github.io/post/arc_202302231607/</link>
-      <pubDate>Thu, 23 Feb 2023 16:07:00 CST</pubDate>
-      
-      <guid>https://alimy.github.io/post/arc_202302231607/</guid>
-      <description>&lt;p&gt;&lt;img src=&#34;https://alimy.github.io/images/post/20230223160700.webp&#34; alt=&#34;&#34;&gt;&lt;br&gt;
-　　一个下午有世子殿下插科打诨，徐脂虎欢声笑语不断，她这样发自肺腑的妩媚笑颜，足以让江南道那帮假道学们神魂颠倒，可惜他们见不着。徐脂虎很钟情木剑温华的几句口头禅。&lt;br&gt;
-　　“小年，我当下很忧郁啊！”&lt;br&gt;
-　　“老子能饿得不想吃饭，也是本事嘛。”&lt;br&gt;
-　　“小年，你瞅瞅，那小娘子还没你长得白，没你好看，你给兄弟笑一个，解解馋呗？”&lt;br&gt;
-　　徐凤年说起这个曾经一起偷鸡摸狗的哥们，嘴上恼火，眼神却是柔和。而世子殿下说到李子姑娘和王东厢，可以明显察觉到大姐徐脂虎的喜好程度有一个鲜明高下，出乎意料，徐脂虎被《头场雪》勾去不少眼泪，但似乎对胸有锦绣的王初冬并不看好，反而倒是对那个名字古怪的李子姑娘十分喜欢，说这丫头做侧妃是极好的，娇憨可掬福嘛，而王东厢，对女子来说，惊才绝艳不是幸事啊，说不定会难逃薄福短寿的下场。&lt;br&gt;
-　　这些话徐脂虎都是直言以对，想说什么就说什么，半点不隐瞒，徐凤年笑着说不会的，王丫头既然能引来魁鼋出水，肯定福缘不浅，徐脂虎一听这个解释，点了点头。&lt;br&gt;
-　　她看了眼窗外天色，临近黄昏，该晚饭了，写意园与退步园在卢府一直特立独行，两个园子都可以不参与家族宴席，徐脂虎嫁到江南后，入乡随俗，逐渐习惯了这边的饮食，但照顾弟弟的口味，专门让二乔请了城中酒楼两位名家厨子来写意园做一桌辣烈北凉菜，不是行家可不敢尝试北凉独有的石烹法与温炝法，做地道了，才是大俗出大雅，做差了，就难登大雅之堂。&lt;br&gt;
-　　江南道胭脂虎徐寡妇的两百两银子可烫手得很，其中一位听说是要给那当街杀人的北凉世子做菜，临行前赶忙跑回家对着妻儿一顿痛哭流涕，再看那成天就知道唠叨鸡毛蒜皮的媳妇就格外顺眼，许诺若是能活着走出卢府，以后再不去窑子里挥霍银子。&lt;br&gt;
-　　卢氏府邸气象不大，胜在格局巧妙，深谙藏风聚水的韵味。&lt;br&gt;
-　　一袭青衫踩踏墙头山头与亭尖，翩然而至，恍若仙人，期间俯视卢府山水楼榭布置，这位青衣略微点头，最终在湖畔落下，脚尖才落地，一人一剑奔袭而至，剑气森寒，青衫文士略皱眉头，身形也不后掠，双足站定，一指敲在剑尖上，硬生生压弯了这柄榜上有名的霸秀古剑，两者之间横着一把弯曲成弧的剑，双鬓白霜点点的儒士单指看似不离霸秀，实则瞬间一敲再敲，指玄一十二次，霸秀剑终于撤离，中年儒士不动如山，身后整座小湖竟掀起巨大波澜，层层推去，将对岸花木冲击得摇晃不止，卢府出面拒敌的当然是棠溪剑仙卢白颉，一剑无功而返，已经猜出眼前儒士身份，立即收剑入鞘，面露惊讶道：“曹官子？”&lt;/p&gt;
-&lt;p&gt;曹青衣微笑道：“棠溪剑仙果真深得羊豫章剑道精髓，巍然正气。曹长卿不虚此行。”&lt;br&gt;
-　　卢白颉将霸秀剑交给小跑而来的书童，面朝青衣，行礼恭敬道：“曹先生谬赞，卢白颉惶恐不安。”&lt;br&gt;
-　　怪不得棠溪剑仙如此谦恭，此时面对的，可是那个在皇宫内匹夫一怒双手撼城的曹青衣。若说一般江湖人士，哪怕如强如王明寅这些散仙式的高人，也都不会轻易启衅官府与豪阀，徐骁当年马踏江湖后，向皇帝陛下建议树立起一支半军半武的秘密机构，被武林中人胆战心惊称作“赵勾”，专门针对以武乱禁的江湖莽夫，一旦有人惹祸犯事，就要应付这个机构里刺客不知疲倦的追杀。&lt;br&gt;
-　　这十多年，多少自恃武力超群的武夫被格杀后“传首江湖”了？&lt;br&gt;
-　　传首一说原本出自边境重镇的严酷军法，将领反叛，尸首就会被送去边镇示众，此举乃人屠徐骁首创，搁在江湖中，震慑效果一样巨大，传首江湖的具体地点又有讲究，大江南北不幸被点名的宗门教派共计十六个，其中起初连龙虎山这等道统仙地都难逃羞辱，后来天师府这些年在京城运作，不知道献了多少仙丹妙药给达官显贵，才好不容易免去传首地，除了龙虎山，东海武帝城也赫然在列，不过在赵勾特使连续六次传首东海都被杀后，传首依然传首，不耽误，但都不入城，只是在城外象征性宣示一下即可返回，应该是朝廷与武帝城双方都互退一步。但这些鲜血淋漓堆出来的规矩，对曹青衣来说太不痛不痒了，早些年赵勾整整有一半规模都在焦头烂额地追剿大官子，但哪次侥幸碰头，不是被曹官子一杀再杀？到最后这个刽子手机构干脆不再让属下直接参与扑杀行动，而是传递消息到总部，再由赵勾里的四位最拔尖的杀手集体出动。&lt;br&gt;
-　　所以说曹长卿如果此行而来是要寻江心卢氏的晦气，事后如何姑且不言，当下卢白颉肯定拦不住，棠溪剑仙几近宗师境界，可惜对上曹官子何来半分胜算！&lt;br&gt;
-　　卢白颉难免喟叹，武道一途，最忌心有旁骛。他幼年偶遇羊豫章，也算一桩奇缘，羊豫章非世间最顶尖的剑术高手，却是一流剑道大家，学识驳杂，并不拘于剑道一域，见识往往高屋建瓴，卢白颉本就是家学渊源的世家子，修道讲究苛求法财侣地，习武也是如此，棠溪先生自然都不缺，天赋异禀，得到羊豫章倾囊相授，自然事半功倍，在剑道江河上一日千里，最终隐约有要独树一帜的气象。这么多年清心寡欲，不沾俗务，很大程度上是不得已而为之，委实是武道修为唯有如此才有气候，可惜几近大宗师境界时，还是不能免俗，要入仕朝廷，以后多半是无法百尺竿头更进一步，对于立志于登顶江湖的武夫来说，这种抉择，无异于自断一臂。&lt;br&gt;
-　　棠溪先生在这里头的付出，许慧扑当下有怎会知晓？等到明白卢白颉的苦心，那时候他已身在京城，两人又能如何？世间不如意事七八九，能与人言一二三都无，才算坎坷。&lt;br&gt;
-　　卢白颉稳了稳心神，挥手示意远处一批卢府武士退下，这才问道：“不知曹先生此行所为何？”
-　　曹长卿淡然道：“看看而已，逗留不会太久。”&lt;br&gt;
-　　卢白颉松了口气，既然曹官子不是来卢府兴风作浪，卢白颉当然就不需如临大敌，泱州谁都没这份底气，唯独棠溪剑仙有，故而卢白颉盛情邀请道：“曹先生能否去退步园一叙，白颉有许多剑道结症想要向先生请教，希望先生可以解惑，白颉感激不尽。”&lt;br&gt;
-　　曹长卿笑道：“劳烦棠溪剑仙带路。”&lt;br&gt;
-　　写意园很写意，退步园里卢白颉果真向曹长卿询问了许多积郁心中的剑道疑难，曹官子知无不言言无不尽，言谈举止俱是风流，卢白颉是第一次与曹长卿见面，起先更抱有戒心，才寥寥几个时辰，便心生佩服。曹长卿全无门户之见，讲解疑惑，深入浅出，娓娓道来，且半点不以前辈自居。圣人有云独学而无友必孤陋寡闻。这道理谁都懂，可类似棠溪先生这个境界的人物，如何去找那值得相谈甚欢推诚布公的友人？&lt;br&gt;
-　　在剑道上豁然开朗的卢白颉心中感慨，曹长卿不愧曹八斗的名号。&lt;br&gt;
-　　黄昏中，卢白颉正襟危坐，再一次问道：“曹先生所要何物？”&lt;br&gt;
-　　这一次，棠溪先生心诚正意。&lt;br&gt;
-　　曹长卿摇了摇头，只是问道：“相信棠溪先生比我更了解世子殿下徐凤年，若是他极为在意一样东西，有人想拿走，他会不会给？”&lt;br&gt;
-　　卢白颉记起了卢府门口那一幕，思量以后沉声说道：“若是重要如他至亲，此人绝不会给。除此之外，并不是小气的人物。此子心机城府极轻又极重，不好妄言。”&lt;br&gt;
-　　曹长卿笑了笑，道：“那就行了。”&lt;br&gt;
-　　姜姒对他来说才是西楚公主，对那世子殿下来说，算得了什么？&lt;br&gt;
-　　卢白颉和曹长卿结伴而至写意园，棠溪先生这份魄力，让徐凤年刮目相看，连自己都要视曹青衣如豺狼虎豹，卢家根基在江南，虽说离京千里之外，终归不如北凉那般天高皇帝远，如今豪阀式微，由谋略江山自主转为内部倾轧，皇帝陛下对高门世族的掌控愈发称心如意，一旦卢氏被获知与曹长卿“有染”，指不定就要连累家主卢道林丢了国子监祭酒的清贵权位不说，能否活着走得出京城都难说。&lt;br&gt;
-　　如此一来，有卢白颉和曹长卿大驾光临，写意园的晚宴变得更加热闹，这一桌子，武评登榜的便有两位，加上一位棠溪剑仙，传出去很能吓唬江湖人士，桌上北凉菜占了三分之二，经典江南菜也有三分之一，碗碟俱是出自江南大官窑烧造，春秋时碗瓷上不兴题款，此时海晏清平，再兴题字风气，曹长卿低头望着眼前一只紫口铁足小瓷碗上的“天地同春”抹红款，叹了口气，神情颇为遗憾，碗瓷易碎，碗碎字亡，哪里称得上一桩雅事，只不过外人不知曹长卿的书生意气，只当作高人心思不可揣度。&lt;br&gt;
-　　徐脂虎左边徐凤年右边姜泥，也不偏袒，都给夹菜，北凉世子偶尔与太平公主下筷到了同一个菜盘，按照以往情形，徐凤年多半是要经历一番龙争虎斗才能胜出，这次姜泥却霜打茄子，见到徐凤年伸出筷子就缩回手，一顿饭吃得不温不火，这张桌子上反而是鱼幼薇瞧着最淡泊平静，明眼人都看得出徐脂虎对这位花魁出身的女子并不亲近，进卢府以后，竟并无说上一句话。&lt;br&gt;
-　　一顿丰盛晚宴过后，徐脂虎拉着弟弟去散步，姜泥和老剑神曹青衣以及卢白颉四人留在写意园中乘凉，徐脂虎坐在湖畔凉亭中，忧心忡忡说道：“曹长卿对姜泥志在必得啊。”&lt;br&gt;
-　　徐凤年揉了揉脸颊，见附近没外人，平淡道：“这位曹官子放话说只要肯交出他的太平公主，就去杀陈芝豹。”&lt;br&gt;
-　　徐脂虎倒抽一口冷气，皱眉道：“当真？”&lt;br&gt;
-　　徐凤年自嘲道：“以曹官子身份，岂会跟我这个后辈开玩笑。”&lt;br&gt;
-　　徐脂虎自言自语道：“你说这是不是咱们爹早就想好的路子？”&lt;br&gt;
-　　徐凤年皱眉道：“姐，你是说徐骁预料到了会有今天？由曹官子这个外人去破局？会不会太神了点？要知道徐骁的棋力实在不堪入目啊，跟上阴学宫的王祭酒都能杀得你来我往的。再说了，徐骁也未必对陈芝豹有必杀之心。”&lt;br&gt;
-　　徐脂虎想了想，小心翼翼字斟句酌说道：“若是在可杀不可杀之间，留着陈芝豹，大可以让你慢慢去较量争锋，若是心存必杀，再让你出面当刽子手，兴许可以立威，但对咱们北凉损耗太大，陈芝豹除了义子身份，还是北凉仅次于咱们爹的第二号实权人物，这位白衣战仙可不是省油的灯，甘心给咱们爹做义子，可不一定情愿做你的踏脚石啊，一旦北凉内乱，朝廷可就彻底没忌惮了，张巨鹿顾剑棠是死敌，两人暗中眉来眼去已久，到时候陈芝豹不说别的，便是仅仅单身逃出，对北凉来说，不单单是三分五裂和军心涣散，陈芝豹说不准就是第二个顾剑棠啊！”&lt;br&gt;
-　　徐凤年点头笑道：“确实，顾剑棠这辈子都斗不过徐骁，不代表另立门户的陈芝豹斗不过我这个庸碌世子。看来曹官子出手，最符合北凉的长远利益。徐骁要么是有李义山这样的高人指点，要么纯粹是一记没头没脑的无理手，被他歪打正着了。”&lt;br&gt;
-　　徐脂虎轻声问道：“凤年，你打算放人了？”&lt;br&gt;
-　　徐凤年转头望着暮色，自言自语道：“说不放，就有点死鸭子嘴硬的嫌疑了。谁都能不知死活跟曹长卿对着干，大不了就是丢一条命，我似乎不太行，毕竟徐骁一大把年纪了，总不能光给他添堵。何况与曹长卿私交一事，肯定过了京城那位的底线，哪怕徐骁不敢说全部扛不下。这趟算是被曹长卿真正给打蛇打七寸，笃定我不是真无知到大无畏的世子殿下，加以投下杀陈白衣的天大诱饵，估计当下正心里偷着乐吧？”&lt;br&gt;
-　　徐脂虎小声问道：“很喜欢那丫头？”&lt;br&gt;
-　　徐凤年没心没肺做了个鬼脸笑道：“能不喜欢吗，看了这么多年，越长越好看，总看不厌，当然喜欢。”&lt;br&gt;
-　　徐脂虎叹息道：“只是喜欢吗？”&lt;br&gt;
-　　徐凤年顿时愣了愣，这个不是问题的问题，似乎从未深思过。&lt;br&gt;
-　　徐脂虎摸了摸弟弟眉头，笑问道：“姐姐很好奇你会怕谁吗？”&lt;br&gt;
-　　徐凤年笑道：“当然，怕大姐你不开心，怕二姐生气。”&lt;br&gt;
-　　徐脂虎摇了摇头，认真说道：“姐不是说这个，是你真的怕，睡不着觉的那种人。”&lt;br&gt;
-　　徐凤年犹豫了一下，缓缓说道：“怕京城那位，怕他觉着连借刀杀人都嫌麻烦，终于撕破脸亲自举刀杀人。”&lt;br&gt;
-　　徐脂虎嗯了一声，深以为然。京城那位若是一般意义上的明君也就罢了，可事情并不简单，勤政几乎到了病态的境界，按理说这种畸形的勤恳理政行径唯有出现在那些布衣出身的开国皇帝身上，但是那位登基继位以来，治理天下的劲头就跟一位毕生积蓄攒买了几亩田地的老农一般，简直就是兢兢业业不知疲倦，去年礼部便有一份可以管中窥豹的惊人记录，元旦过后七天中，共计收到内外三省六部诸司奏札一千五百余件、三千六百余事！事实上这位九五至尊的御书房几乎夜夜灯火通明到三更，以至于传闻大太监韩貂寺不得不数次冒死直谏，恳求稍多雨露后宫。这位一次在宫中召见江南外戚，作诗一首，其中便笑言百官已睡朕未睡，百官未起朕已起。传言此诗一出，朝廷再无人敢质疑首辅张巨鹿的整顿吏治。这等雄才大略更是勤勉非凡的天子，哪位功勋权臣不怕？忠臣怕昏君，得势权臣却是最怕明君啊。所谓一朝天子一朝臣，只是比狡兔死走狗烹说得更光鲜温淡一些罢了，但也道破所有玄机，有几个旧臣不陪着旧君去地下继续“尽忠”的？&lt;br&gt;
-　　徐凤年继续说道：“怕徐骁。”&lt;br&gt;
-　　徐脂虎讶异打趣道：“奇了怪了，天底下谁都可以怕北凉王，可你都会怕咱们老爹？”&lt;br&gt;
-　　徐凤年喃喃道：“怕，怕徐骁老了。”&lt;br&gt;
-　　徐脂虎默然。&lt;br&gt;
-　　徐凤年平静道：“再就是怕陈芝豹反了。”&lt;br&gt;
-　　徐脂虎点头，这个答案在情理之中。陈芝豹既有将将大才，也有将兵中才，除了资历，当真是不输北凉王徐骁半分，否则也捞不到战仙和小人屠的两个绰号。如果是论对敌的手段阴狠，更胜过徐骁。这样的枭雄，做朋友无疑是幸事，做敌人，则是莫大的不幸。西垒壁前，姜兵圣目睹妻儿被活活拖死而嘴角渗血的一幕，虽不见于任何正史野史，但春秋落幕以后的所有当局者，都心有余悸。上阴学宫曾有兵学执牛耳者坦言，给陈芝豹和硕果仅存的兵法大家顾剑棠各自十万兵马，胜负在五五分，但给三十万甲士以后，却是陈芝豹稳操胜券，当然这是不考虑战场以外的前提下，但足以证明陈芝豹的可怕。朝廷不敢过度弹压徐骁，里头未尝没有生怕陈芝豹借着理由举旗造反的原因，需知京城那一位对白衣战仙可是神往已久。&lt;br&gt;
-　　徐凤年突然笑了笑，眯眼柔声道：“最后就是怕老黄了。”&lt;br&gt;
-　　徐脂虎彻底懵了，一脸疑惑。&lt;br&gt;
-　　徐凤年微笑道：“跟他一起游历时，整天提心吊胆，生怕他死了，没了老黄，我哪里走得下来六千里，六百里就累死饿死无聊死了。”&lt;br&gt;
-　　徐凤年望着大姐徐脂虎，说道：“六千里都熬过来了，老黄没死我没死，都没死，可老黄怎么到头来就跑去那狗屁武帝城死了？”&lt;br&gt;
-　　徐脂虎自然给不出答案。&lt;br&gt;
-　　徐凤年抬起头说道：“死在西蜀也好啊，好歹是故乡。”&lt;br&gt;
-　　徐脂虎哭了。&lt;br&gt;
-　　徐凤年哑然失笑，帮忙擦去泪水，“姐你哭什么，当年老黄给你喂马，你每次见着这缺门牙的老家伙，可都没好脸色。”&lt;br&gt;
-　　徐脂虎瞪了一眼。&lt;br&gt;
-　　徐凤年终于说道：“姜泥啊，记得第一次见面还是那么小的小丫头，就背着国仇家恨了，其实国仇什么的，她也不懂，但家恨，要她去跟徐骁报仇，她那么个怕打雷怕鬼怪什么都怕的胆小鬼哪里敢，瞪大眼睛找来找去，还不就数我这个无良无品还好色的世子殿下最好对付了？不找我找谁去？她除了太平公主的身份，哪里有啥出奇的，堆个雪人会手冷，洗个衣服会怕累，看到我在武当山上练刀的场景后更是怕死了习武的苦头，小心眼的妮子，也不算太笨，有我撑腰，就敢跟隋珠公主不依不饶的，还真当大家都是平起平坐的公主了啊。后来怕心软了，就写了个誓杀贴，到头来又被回到北凉的二姐给狠狠拾掇了一通，还不是记仇记到我头上？不仅小心眼，还小气，没事就偷偷数铜板，但说她小气也不对，神符说送就送出去了，说到底，她就是一个简简单单的小女子，她的那些自以为隐藏很好的心机，我都看得出来，明明白白的，我也不说破，就觉得挺好玩。小时候娘亲曾拉着姜泥的手指着丫头的脸颊跟我说过，那两小酒窝儿，是过了鬼门关黄泉路来到那奈何桥，不愿忘却前世牵挂人，才没有喝下老婆婆的孟婆汤，跳入桥下忘川水受十世水淹火炙才投胎转世，只为了能找到牵挂之人，我当时也小，就懵懵懂懂想啊，可不就是我站在她眼前吗，就想着不管怎么样，这辈子都不能让这小脸蛋上有两酒坑儿的丫头被外人欺负了。”&lt;br&gt;
-　　徐凤年眯眼笑道：“现在看来，她要能后悔，一定在奈何桥上下决心跟我来生相见不识了。”&lt;br&gt;
-　　徐脂虎无奈道：“这个说法你也信？”&lt;br&gt;
-　　徐凤年点头道：“娘说的，都信。”&lt;br&gt;
-　　徐脂虎刚要调侃，看到姜泥在亭外扭捏着不敢走入，起身走出亭子，把她推上台阶，徐脂虎笑着摇了摇头，然后径直离开。&lt;br&gt;
-　　曹官子搅局以后，气氛微妙的两人相对无言。&lt;br&gt;
-　　徐凤年率先没好气说道：“干什么，要债来了？本世子付了银子好一拍两散？”&lt;br&gt;
-　　姜泥撇过头，伸出一只小手，气呼呼道：“两百一十二两银子七十二文钱。”&lt;br&gt;
-　　徐凤年冷笑道：“行啊，本世子都折算成一颗颗铜钱，让你背着大麻袋离开这里。”&lt;br&gt;
-　　姜泥冷哼一声，转身就走。&lt;br&gt;
-　　走出亭子，她转了转头，看到他面朝湖水，背影有些冷清。&lt;br&gt;
-　　许久，徐凤年出声道：“你还不走？曹官子再厉害，逼急了本世子，大不了玉石俱焚，谁生谁死，就看他和李淳罡谁更牛气了。”&lt;br&gt;
-　　姜泥声若细蚊道：“是不是我走了，就杀不了你了？”&lt;br&gt;
-　　徐凤年转身笑道：“当然不会，有曹官子和老剑神两位高人教你，说不定过个几年就能杀我了。走吧走吧，省得天天在本世子面前晃荡，没你在，记得杀我之前通知一声，我也好睡安稳觉，我能睡几年是几年。”&lt;br&gt;
-　　姜泥咬着嘴唇道：“那我就不走！”&lt;br&gt;
-　　八斗风流的曹官子要是听到这话，还不得吐血？&lt;br&gt;
-　　徐脂虎是知人情冷暖，让青鸟给凉亭这边送了几份沁着凉意的点心瓜果，很能解暑，徐凤年盘膝而坐，与重新入亭站着的姜泥面对面，徐凤年仰头目不转睛盯着胸口景象已彻底不太平的太平公主，没来由想起北凉王府书房中一幅《春雷恶蛟惊蛰图》，蛟龙踞江心大石而蹲，自然壮观，但徐凤年却在意江畔一位窃眸欲语不语的执炉天女，与眼前女子根本就是一个模子里刻出来的，那幅天王天女图据说出自前朝大炼气士之手，暗藏谶语，谶语分佳谶和恶谶两种，徐凤年幼时常与娘亲一起观摩，也看不出什么玄机名堂，只觉得恶蛟气势凌人，估摸着大抵逃不过恶谶的下场。&lt;br&gt;
-　　徐凤年捡起一片冰镇西瓜，边啃边问道：“你知不知道那位棋诏叔叔到底是谁？”&lt;br&gt;
-　　姜泥犹豫了一下，靠着朱漆廊柱坐下，摇头道：“只知道棋诏叔叔姓曹，娘说他才高八斗。”&lt;br&gt;
-　　说到娘这个字时，神情黯然。本该是称呼母后的。&lt;br&gt;
-　　徐凤年白眼嗤笑道：“何止是才高八斗，老剑神在武评上排第八，曹长卿已经做了连续两届的探花郎，江湖人称曹无敌曹官子，现在你发达了，有老剑神青睐，哭着喊着收你做徒，加上这会儿曹官子屁颠屁颠跑来给你当侍卫，比我这个世子殿下可排场大了无数倍，我就纳闷了，常人求师学艺像条狗，你倒好，高人们跟路边大白菜一样不值钱，难怪李义山说你身负气运，不服气不行。我琢磨着你娇躯一震是不是就可以引来天生异象？小泥人，要不你震一震？”&lt;br&gt;
-　　姜泥晚宴上动筷极少，看着琳琅点心难免嘴馋，碍于脸皮薄，不好意思伸手，本来饿着肚子心情就不好，听到世子殿下的促狭打趣，蓦地一股怒气从心中来，瞪眼道：“震你个大头鬼！”&lt;br&gt;
-　　徐凤年先把装满各色点心的虾青官窑餐盘推向姜泥，冷不丁正色道：“跟你说些正经事，练武如修道，都逃不过根法侣财地五字，根是根骨，居首位，自身资质下乘，一切休言。不过相信你的天赋再差也差不到哪里去。接下来是法，即法门，入道无门，便是滴水浇顽石，人生不过百年，如何能有成就？有名师领路，事半功倍，这点上，你比我还要幸运，我得了武当大黄庭才能在芦苇荡活下来，你有曹长卿李淳罡两大百年一遇的高人倾心传授，算起来你的机遇怎么着都是五百年一遇了。侣财地三项，对你来说自然更无妨碍，无侣不可安心治生，无财不可一心养道，你我相比，我侣财胜你，地，却要输你，例如在这卢府，我便不能轻易向老剑神讨教两袖青蛇，以后若是进了北凉军，也未必能专心习武，你不一样，有曹长卿遮挡，哪怕他存心要打着你太平公主的旗号去复国，你照样可以无忧无虑，输了，无非是遁走江湖，万一赢了，你说不定就是百年以来第二位女皇帝了。到时候你即便学武不成气候，要杀我，也不过是弹指的小事。这种没啥本钱的大买卖，傻子才不做。”&lt;br&gt;
-　　姜泥才将一块小软脂塞进嘴里，腮帮鼓鼓，梨涡撑起，含糊不清气哼哼道：“你说得天花乱坠，其实不就是想我走吗，我可不笨，棋诏叔叔是很了不起，但复国何其难，北凉王有三十万北凉铁骑都不敢自己做皇帝，棋诏叔叔是天下第三又如何，就打得过三十万人啦？我要是走了，才是一辈子都杀不掉你，你以为会让你得逞？”&lt;br&gt;
-　　徐凤年笑眯眯道：“呦，你不是真的笨嘛。”&lt;br&gt;
-　　姜泥咽下点心，从餐盘中端起一碗冰糖莲子百合，入口入腹后只觉得沁人心脾，徐凤年双手交叉，膝盖抵在春雷绣冬刀身上，笑道：“那你留在我身边就能杀我了？你扳指头数数，我们一路行来，都碰上多少个美人了，我身边现在就有鱼姐姐，还有舒大娘，她们这里，何等来势汹汹，你再瞧瞧你自己。”&lt;br&gt;
-　　徐凤年松开十指在胸口做了个捧起的姿势，姜泥恼羞成怒，拿袖子擦了擦嘴角，挑眉气怒道：“累赘！”&lt;br&gt;
-　　“咦？莲子百合到你嘴里还能吃出酸味来？”&lt;br&gt;
-　　徐凤年白了个眼，继续说道：“好，不说这个。就说容颜身段好了，靖安王妃裴南苇长得不漂亮？人家可是胭脂评上的大美人！她读书还不收钱呢，还能陪我下棋解闷，完全没你什么事情嘛。”&lt;br&gt;
-　　姜泥置若罔闻，很聪明地没有跟世子殿下斗嘴，只是狼吞虎咽。徐凤年扭头望向湖水，亭边附近有几十尾锦鲤游曳，与北凉王府没法比，不过聊胜于无，从餐盘里虎口夺食抢了些螺丝酥糕，丢入湖中。&lt;br&gt;
-　　小泥人可以对那些个榜上有名的高手无动于衷，他不行，以往遇到那些个，不管是背匣老黄还是白发老魁，或者是李淳罡和王重楼，终究不是需要自己正面对付的敌人，感触不深，直到襄樊城外见到第十一王明寅，以及现在敌友仅在一线间的曹官子，才知道这些个顶尖人物的恐怖，当时王明寅硬抗两袖青蛇前冲而来，杀意扑面，曹长卿看似温文尔雅，同样杀机四伏，要是能选择，徐凤年宁肯与靖安王赵衡同桌而坐，再如履薄冰，总不至于当场被杀毙。&lt;br&gt;
-　　湖亭中与写意园中双方都是偷得浮生半日闲，写意园走了个早已被人忘记的太平公主，曹长卿和卢白颉所谈就显得汪洋恣肆无所顾忌，不知如何提起了张巨鹿双手翻天覆地的治政。离阳王朝沿袭旧历施三省六部制，三省中以尚书省职责最大，分六部，六部尚书皆是朝廷当之无愧的第一线实权重臣，其余两省中内史省在俗称黄门省，大小黄门郎之所以被誉作清流显贵，便是出自这里，在京城做官大体而言有两条路数，一条是入尚书省六部，做到极致顶点便是六部尚书，短期来看，相比入其余两省进阶要快，获利要多，油水丰足，不需削尖脑袋去积攒太多清誉口碑好名声，兢兢业业做个能吏即可，但对大多士族儒生来说，心底却要更看重内史省入职，因为一旦登阁入殿，获封大学士头衔，不说首辅次辅这两个超一品位置，随便拿下个六部尚书轻而易举，都算是屈尊了，可由六部攀爬到了头再转身去争学士身份，却十分罕见，京城流传武当执金吾文做黄门郎的说法，道尽了百官心态，京辅都尉金吾郎大多由皇亲贵族出身的高门子弟担任，大小黄门郎则更难获批，当朝在位与已退的殿阁大学士十有八九都出身黄门侍郎，而这个地位超然的一小撮群体如何晋升，往常都是以文章诗赋取人，这套官场规则十分含糊不清，出自黄门的首辅张巨鹿手执权柄后整顿吏治，第一个目标竟不是尚书省六部，而是黄门！当时马上就招来漫天非议，一说这个紫髯碧眼儿忘本，二说他只敢拣软柿子捏。&lt;br&gt;
-　　曹长卿轻声道：“诗赋取士是古法，固然流于空疏，诗写得好未必能治理得好天下，但若按照张碧眼的八段文考究经义来筛选儒生，利弊大小，也不好说。”&lt;br&gt;
-　　棠溪先生卢白颉笑道：“本以为曹先生对张首辅此法是大力鞭挞的。”&lt;br&gt;
-　　曹长卿摇头道：“鲤鱼跳龙门，张巨鹿是亲手给读书人竖起一道龙门啊，这般气象宏伟的大手笔，只输黄龙士。此法一出，若能功成，再推广到全天下，等于替寒门士子谋了条坦途，豪阀门第的根基就要再度松动。与兵书上的围城三阙空出一门有异曲同工之妙，张巨鹿确有经济才华，深谙民意堵不如疏的道理，春秋便是彻底堵死了百姓晋身的路子，才有乱象。只不过那些个世族门阀，也不都是睁眼瞎。”&lt;br&gt;
-　　说到这里，曹长卿不再言语。&lt;br&gt;
-　　卢白颉情不自禁泛起苦笑，开明如长兄卢道林，不一样对八段取士深恶痛绝？更别说袁疆燕之流。只是迫于张巨鹿时下得宠如日中天，有皇帝陛下不遗余力的支持，才忍气吞声，恩宠再盛终有淡薄日，到时候豪阀激愤迸发，张巨鹿的下场如何，天知晓。以张巨鹿的眼光，未必没有看到这股潜伏越深反弹越大的危机，只是不知为何这名王朝第一栋梁始终执意而为。曹长卿身在局外，再者不像卢白颉那样多年专注于武道修为，对天下大势看得要更透彻，他之所以推崇那碧眼儿，在于此人对北凉徐骁深有忌惮，甚至与以顾剑棠为首的兵部大佬都怀有成见，却不局限于庙堂争权，真正意义上为王朝长治久安而雷厉风行地布局，若是稍稍念权的翘楚人物，就会花许多精力去对付异姓王徐骁甚至六大藩王来稳固皇帝心中地位，但张巨鹿不同，为了大局，可以与顾剑棠为伍共同谋事，可以与八国遗老推诚置腹，曹长卿善观象察地擅审时度势，大致看得出张巨鹿生前兴许可以有大恩于离阳王朝，以至于授首席大学士和谥号文正都不足以表其丰功伟绩，但死后多半就要祸及家族，远不如黑衣病虎杨太岁智慧圆滑，曹长卿心中感慨，释门修己身自有气象法门，可要说救民于水火，如何比得儒生！&lt;br&gt;
-　　我辈书生当仁不让！&lt;br&gt;
-　　只可惜张巨鹿没有早生在西楚。&lt;br&gt;
-　　卢白颉欲言又止。&lt;br&gt;
-　　曹长卿微笑道：“棠溪有话直说。”&lt;br&gt;
-　　已经猜出内幕的卢白颉开门见山问道：“就不怕世子殿下主动与赵勾联手，既可留下太平公主，又能向朝廷表忠吗？”&lt;br&gt;
-　　曹长卿哈哈笑道：“如此正好，实不相瞒，这种看似有理的无理手，正中曹长卿下怀。”&lt;br&gt;
-　　在一旁扣脚的老剑神冷笑着插话道：“你放心，徐小子没这么蠢。”&lt;br&gt;
-　　曹长卿不以为然，缓缓起身，走出写意园。&lt;br&gt;
-　　羊皮裘老头儿啧啧叹息道：“老夫大致猜出这家伙是如何收官了。读书人就是一肚子坏水，唉，看来这次徐小子是要输了。”&lt;br&gt;
-　　青衣曹官子来到凉亭。&lt;br&gt;
-　　姜泥正巧出了亭子站在台阶上。&lt;br&gt;
-　　曹长卿作揖道：“公主若想嫁入北凉王府，曹长卿今日便可离去。”&lt;br&gt;
-　　姜泥如遭雷击，脸色苍白。&lt;br&gt;
-　　有些话不说透，自欺欺人，就可以糊涂一世，打打闹闹轻轻松松。&lt;br&gt;
-　　可挑明了，便是仙人也断然没有斡旋余地。&lt;br&gt;
-　　亭中徐凤年下意识抬起手，好似想要去拉住什么，但还是放下。&lt;br&gt;
-　　拿起什么不算重，放下，才吃力。&lt;br&gt;
-　　姜泥转头看了一眼总是玩世不恭总能嬉皮笑脸的世子殿下。&lt;br&gt;
-　　盘膝坐在长椅上的徐凤年嘴角扯起一个笑意，挥了挥手。&lt;br&gt;
-　　曹长卿面无表情，说道：“曹长卿定会信守承诺。”&lt;br&gt;
-　　徐凤年收敛笑意，只说了一个字。&lt;br&gt;
-　　“滚！”&lt;/p&gt;
-&lt;p&gt;　　世子殿下咬牙切齿说了个大快人心的滚字，结果整座凉亭便寸寸龟裂，曹官子陪着这一日重新恢复太平公主身份的姜泥背对亭子缓步而行，等徐脂虎老剑神等人闻声赶来，只看到徐凤年坐在尘埃碎屑中，脸上神情瞧不出是狼狈还是愤懑。最心疼这弟弟的徐脂虎遮掩不住满脸怒意，恨不得调动兵符围剿了那行事悖逆的曹官子，这两日阳春城有两件大事，一件是报国寺名士荟萃，曲水谈王霸，再就是顾剑棠旧部嫡系心腹领兵入城，无疑是要针对北凉世子，以徐脂虎这些年在江南道上积蓄的人脉，不是不可以借力打力，最不济也能让那曹长卿无法继续闲庭信步地装神弄鬼。&lt;br&gt;
-　　但被毁亭示警的徐凤年没有丧心病狂地跟曹长卿死磕，起身后走向大姐徐脂虎，握了握她的手，挤出一个笑脸，看得徐脂虎心里更难受，但她总算勉强隐去脸上的怒容，姐弟俩人回到写意园房中坐下，没过多久，青鸟站在门口禀告道：“长郡主，殿下，姜泥与曹长卿已经坐上棠溪剑仙安排的马车离去。”&lt;br&gt;
-　　徐凤年问道：“李淳罡跟着走了？”&lt;br&gt;
-　　青鸟摇头道：“没有，老剑神让我捎话给殿下，哪天返回北凉了他才会离去。”&lt;br&gt;
-　　徐凤年呵呵笑道：“好大一颗定心丸。”&lt;br&gt;
-　　徐脂虎犹豫了一下，从袖中拿出一封信，笑道：“真是屋漏偏逢连夜雨，你二姐刚寄信过来，说让你别去上阴学宫，即使去了，她也闭门不见。看来是这次是真生气你先来湖亭郡而不是她那里了哦，咋办？要不姐帮你求个情？”&lt;br&gt;
-　　徐凤年苦笑道：“别，千万别火上浇油，大不了我先绕道去龙虎山找黄蛮儿，既然没有先去看二姐，好歹弄出个把上阴学宫当作压轴的心诚架势，否则二姐说不见我，就肯定会给我吃闭门羹。”&lt;br&gt;
-　　徐脂虎提及徐渭熊也是刀子嘴豆腐心，终归是亲姐妹，点头柔声道：“你这二姐心气高，独独对你，是很在意的，你见过黄蛮儿后也别寄信说要去学宫探望，给她个惊喜，她也就没法板着脸给你看了。”&lt;br&gt;
-　　徐凤年思绪偏离，皱眉问道：“这次我在阳春城大打出手，会不会让卢道林很难堪？”&lt;br&gt;
-　　徐脂虎胸有成竹道：“这事不打紧，国子监祭酒的位置当然清贵，可到底不如六部尚书来得实在，以往要顾忌儒士风范，放不下身段去做，这次吃了亏，说不准就会因祸得福，而且小叔已经打定主意去兵部任职，虽说豪阀之间相互争权，可一直在有顾剑棠坐镇的兵部讨不到半点好，六部中就数兵部世族子弟最说不上话，这回小叔出马，哪怕是跟卢氏不对路的，估计都得捏着鼻子点头答应下来，若是卢氏家主再能执掌一部，卢氏就算上了个台阶，不至于跟以往般做个小媳妇两头受气。各大殿阁学士，两省主官，六位尚书，加上六部侍郎二十余人，这几类称得上是第一线京官，一个家族是否得势，关键就看能否在这里头占据一两个位置了。中书省因为长久不舍中书令，十几位大黄门各有山头，况且京城那位也不允许这些人抱作一团，反而不如尚书六部来得势大。”&lt;br&gt;
-　　徐凤年叹道：“想想就头疼。”&lt;br&gt;
-　　徐脂虎问道：“就让他们这么走了？”&lt;br&gt;
-　　徐凤年无奈道：“曹长卿这家伙是春神湖上的老麻雀，什么大风大浪没见过，没对我出手已经是看在姜泥的面子上。摆在我面前就两条路，一条是寄希望于李淳罡出死力，拉上赵勾和官府和军队三大势力，一同剿杀曹长卿，这样往死里得罪的话，坏了曹长卿的大局，一旦被他逃脱，别说是我，可能连徐骁都要硬着头皮应对他的刺杀，我是知道这种高手偷袭的无解，一个呵呵姑娘数次让我命悬一线，曹官子要杀谁，也就京城那位勉强可以撑着不胜不负的场面。另外一条就是眼不见心不烦，认命了，谁让自己技不如人，没办法的事情。江湖险恶，所以人在江湖飘，哪能不挨刀，这话是温华说的，真他娘的有道理。要不然我倒是想豪气地跟曹官子说一句有本事来跟本世子互砍，可我能吗？保不齐才说完就被人家拿脑袋蹴鞠去了。”&lt;br&gt;
-　　徐脂虎拍了拍世子殿下的手背，安慰道：“早点掌握了北凉铁骑，谁都不怕。”&lt;br&gt;
-　　徐凤年笑了笑，“姐，你放心好了，跟老黄走的六千里不是白走的，小心肝没那么容易碎。温华狗嘴里吐不出象牙，但哪能不挨刀后头还有句话，很有嚼劲。”&lt;br&gt;
-　　徐脂虎好奇问道：“说来听听。”&lt;br&gt;
-　　徐凤年哈哈笑道：“人在江湖飘，哪能总挨刀！”&lt;br&gt;
-　　徐脂虎捧腹大笑，猛地笑出了眼泪，不知是被逗乐，还是心酸。&lt;br&gt;
-　　徐凤年今天是第二次帮着大姐擦去泪水，温柔道：“姐，差不多我也该走了，再哭我可就走不了。”&lt;br&gt;
-　　徐脂虎压抑下心中的恋恋不舍，故作大度道：“去去去，本来想帮你引荐一些身世清白的美人儿，江南道上的女子，可都水灵灵的，你走了更好，省得我家二乔魂不守舍。”&lt;br&gt;
-　　徐凤年哑然失笑道：“二乔那丫头犯浑了还是瞎了眼，会看上我？”&lt;br&gt;
-　　徐脂虎眼眶中不知不觉又泛起泪花，带着哭腔气极而笑道：“你以为谁都跟姜泥那丫头没良心？！说走就走，就是养一条狗，都养出感情了！”&lt;br&gt;
-　　徐凤年叹气道：“姐，这话说过头了啊。”&lt;br&gt;
-　　徐脂虎重重呼出一口气，愤愤不平道：“她也不容易，那么小小的肩头就得扛着整个西楚。说来说去，曹长卿才不是个东西，要说这些年三入皇宫听着挺英雄气概，到头来还是要拿姜泥这么个小闺女顶缸，当真是一世英名晚节不保！”&lt;br&gt;
-　　徐凤年起身道：“我出去走走。”&lt;br&gt;
-　　徐脂虎担忧道：“没事了？”&lt;br&gt;
-　　徐凤年做了个猪头鬼脸，徐脂虎这才放行。&lt;br&gt;
-　　青鸟没有跟着，徐凤年独自走到院门口，缩回脚，走回院中一间厢房，雅淡洁净，房中角落放着一只大书箱，徐凤年看到桌上凌乱放着十几枚铜钱，坐下后一枚一枚拾起握在手心。当年她孤苦伶仃走入北凉王府，今天也是不带一物走出院子。徐凤年将铜钱叠在桌上，下巴搁在桌上怔怔出神，察觉到下巴有些湿润，骤然醒悟，苦笑一声，继而眼神坚毅起来，一抹手将铜钱收起，急急走出房间，去拿了剑匣，去马厩牵马，单骑而出。&lt;br&gt;
-　　在官道追上曹长卿亲自做马夫的那驾马车。&lt;br&gt;
-　　曹长卿缓缓停下马车，并未再度刻意为难这名言语不敬的世子殿下。&lt;br&gt;
-　　只是单骑而来，已经足够诚意。&lt;br&gt;
-　　曹长卿连皇帝陛下都可杀，岂会真去斤斤计较一个滚字？&lt;br&gt;
-　　若非惊觉真相，曹官子大可以徐徐收官，不至于当下这幅看似相安无事其实两败俱伤的最坏场景。&lt;br&gt;
-　　曹官子可以不在乎全天下人眼光，唯独不愿让太平公主记恨。&lt;br&gt;
-　　徐凤年等姜泥掀起帘子探出脑袋，送出装有大凉龙雀的剑匣，云淡风轻道：“送你的。”&lt;br&gt;
-　　她眼神涣散，没有伸手，马上要放下帘子，看也不看一眼紫檀剑匣。&lt;br&gt;
-　　徐凤年弯腰放在曹长卿身后，她眼前。&lt;br&gt;
-　　剑匣上还摆有一串铜钱，世子殿下笑眯眯道：“本世子委实没有随身携带银子的习惯，其余铜钱先欠着，什么时候穷得叮当响揭不开锅了，来北凉找本世子，管饱。报仇是报仇，两码事。”&lt;br&gt;
-　　小泥人怔怔望着剑匣上的铜钱，眼睛一亮。&lt;br&gt;
-　　双鬓霜白的曹长卿虽是背对两人，但仍是轻轻叹息。&lt;br&gt;
-　　徐凤年深深看了一眼没能擦干净泪痕的太平公主，玩笑道：“都要分别了，有棋诏叔叔在身边，以后恐怕就找不到谁来欺负你了，要不笑一个？”&lt;br&gt;
-　　姜泥下意识瞪眼，但如何都凶不起来也笑不出来。&lt;br&gt;
-　　马背上徐凤年直起身，不再犹豫，掉转马头，策马缓行，骏马才踏出几步，世子殿下一拉马缰，停马沉声道：“曹长卿！”&lt;br&gt;
-　　青衣曹官子不需徐凤年说话，便平静道：“赵勾算得了什么，以前公主不在，曹长卿就容得他们蹦跳，这次出行，就让他们死绝。”&lt;br&gt;
-　　徐凤年不再言语，策马狂奔而去。&lt;br&gt;
-　　姜泥捧着剑匣坐回车厢，悄悄将一枚紧紧攥在手心沾满汗水的铜钱与那十几枚放在一起。&lt;br&gt;
-　　曹长卿喃喃道：“此子大气。”&lt;/p&gt;
-&lt;hr&gt;
-&lt;p&gt;（备注：此文节选自 烽火戏诸侯 的《雪中悍刀行》，很喜欢这一段，特记之~）&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;声明：本站是个人开设维护的网站，主要用于收集网络美文、技术文章与原创生活记录等，系孤芳自赏、个人用途，内容如有侵权请联系站长删除。&lt;/em&gt;&lt;/p&gt;</description>
     </item>
     
