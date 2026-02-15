@@ -87,9 +87,7 @@
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;ACL_TOKEN_KEYVALUE = 0x11，对应的 data 为 key/value 对，key 和 value 各自都是由 uint16 的长度加上 no-trailing-null 的字符串组成，用于传递 ACL Token；&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr&gt;
-&lt;p&gt;&lt;em&gt;声明：本站是个人开设维护的网站，主要用于收集网络美文、技术文章与原创生活记录等，系孤芳自赏、个人用途，内容如有侵权请联系站长删除。&lt;/em&gt;&lt;/p&gt;</description>
+&lt;/ul&gt;</description>
     </item>
     
     <item>

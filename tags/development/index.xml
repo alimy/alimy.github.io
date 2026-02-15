@@ -707,7 +707,7 @@ We took something “useless” and made it work, just for fun. So next time som
 &lt;p&gt;&lt;em&gt;Happy hacking!&lt;/em&gt;&lt;/p&gt;
 &lt;hr&gt;
 &lt;p&gt;（备注: 转载自&lt;a href=&#34;https://leandronsp.com/articles/you-dont-need-kafka-building-a-message-queue-with-only-two-unix-signals&#34; title=&#34;Building a message queue with only two UNIX signals&#34;&gt;网络&lt;/a&gt;）&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;声明：本站是个人开设维护的网站，主要用于收集网络美文、技术文章与原创生活记录等，系孤芳自赏、个人用途，内容如有侵权请联系站长删除。&lt;/em&gt;&lt;/p&gt;</description>
+&lt;p&gt;&lt;em&gt;本站为个人网站，集网络美文、技术文章与原创生活记录等，系孤芳自赏、个人用途，内容如有侵权请联系站长删除。&lt;/em&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -778,9 +778,7 @@ We took something “useless” and made it work, just for fun. So next time som
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;如果服务处理请求失败，它会返回error response， 它会设置 response 的 MessageStatusType为 &lt;code&gt;1&lt;/code&gt;, 并且在meta中设置错误信息， meta中的 key值是 &lt;strong&gt;rpcx_error&lt;/strong&gt;， 值是错误信息。&lt;/p&gt;
-&lt;hr&gt;
-&lt;p&gt;&lt;em&gt;声明：本站是个人开设维护的网站，主要用于收集网络美文、技术文章与原创生活记录等，系孤芳自赏、个人用途，内容如有侵权请联系站长删除。&lt;/em&gt;&lt;/p&gt;</description>
+&lt;p&gt;如果服务处理请求失败，它会返回error response， 它会设置 response 的 MessageStatusType为 &lt;code&gt;1&lt;/code&gt;, 并且在meta中设置错误信息， meta中的 key值是 &lt;strong&gt;rpcx_error&lt;/strong&gt;， 值是错误信息。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -862,9 +860,7 @@ We took something “useless” and made it work, just for fun. So next time som
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;ACL_TOKEN_KEYVALUE = 0x11，对应的 data 为 key/value 对，key 和 value 各自都是由 uint16 的长度加上 no-trailing-null 的字符串组成，用于传递 ACL Token；&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr&gt;
-&lt;p&gt;&lt;em&gt;声明：本站是个人开设维护的网站，主要用于收集网络美文、技术文章与原创生活记录等，系孤芳自赏、个人用途，内容如有侵权请联系站长删除。&lt;/em&gt;&lt;/p&gt;</description>
+&lt;/ul&gt;</description>
     </item>
     
     <item>
@@ -938,8 +934,7 @@ This allows us to distinguish between different (older) transports.&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                       - key/value pairs of varstrings &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;varint16 length plus
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                         no-trailing-null string&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;. Implementations MUST NOT
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                         alter either key or value in any way.
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;
-&lt;p&gt;&lt;em&gt;声明：本站是个人开设维护的网站，主要用于收集网络美文、技术文章与原创生活记录等，系孤芳自赏、个人用途，内容如有侵权请联系站长删除。&lt;/em&gt;&lt;/p&gt;</description>
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
     </item>
     
     <item>
