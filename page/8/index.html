@@ -319,6 +319,25 @@
                         
                             <article class="post panel-wrapper">
     <header>
+        <h2><a href="https://alimy.github.io/post/dev_201901101804/" title="阅读全文">OpenAPI Specification </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <h4 id="version-302">Version 3.0.2</h4>
+<p>The key words &ldquo;MUST&rdquo;, &ldquo;MUST NOT&rdquo;, &ldquo;REQUIRED&rdquo;, &ldquo;SHALL&rdquo;, &ldquo;SHALL NOT&rdquo;, &ldquo;SHOULD&rdquo;, &ldquo;SHOULD NOT&rdquo;, &ldquo;RECOMMENDED&rdquo;, &ldquo;NOT RECOMMENDED&rdquo;, &ldquo;MAY&rdquo;, and &ldquo;OPTIONAL&rdquo; in this document are to be interpreted as described in <a href="https://tools.ietf.org/html/bcp14">BCP 14</a> <a href="https://tools.ietf.org/html/rfc2119">RFC2119</a> <a href="https://tools.ietf.org/html/rfc8174">RFC8174</a> when, and only when, they appear in all capitals, as shown here.</p>
+<p>This document is licensed under <a href="https://www.apache.org/licenses/LICENSE-2.0.html">The Apache License, Version 2.0</a>.</p>
+<h2 id="introduction">Introduction</h2>
+<p>The OpenAPI Specification (OAS) defines a standard, language-agnostic interface to RESTful APIs which allows both humans and computers to discover and understand the capabilities of the service without access to source code, documentation, or through network traffic inspection. When properly defined, a consumer can understand and interact with the remote service with a minimal amount of implementation logic.</p>
+<p>An OpenAPI definition can then be used by documentation generation tools to display the API, code generation tools to generate servers and clients in various programming languages, testing tools, and many other use cases.</p>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/dev_201901101804/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
+</article>
+                        
+                            <article class="post panel-wrapper">
+    <header>
         <h2><a href="https://alimy.github.io/post/dev_201901091450/" title="阅读全文">YAML 简明参考 </a> </h2>
         
     </header>
@@ -657,47 +676,6 @@ or other conditions. The main features are:</p>
     </div>
     <footer id="more">
         <a href='https://alimy.github.io/post/dev_201807151843/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
-            </nobr></a>
-    </footer>
-</article>
-                        
-                            <article class="post panel-wrapper">
-    <header>
-        <h2><a href="https://alimy.github.io/post/dev_201807012219/" title="阅读全文">Docker: 对Docker Remote API进行认证 </a> </h2>
-        
-    </header>
-    <div class="summary">
-        <ul>
-<li>建立证书授权中心</li>
-</ul>
-<pre tabindex="0"><code>$ sudo mkdir /etc/docker
-$ cd /etc/docker
-$ echo 01 | sudo tee ca.csl
-$ sudo openssl genrsa -des3 -out ca-key.pem
-$ sudo openssl req -new -x509 -days 365 -key ca-key.pem -out ca.pem
-</code></pre><ul>
-<li>创建服务器的证书签名请求和密钥</li>
-</ul>
-<pre tabindex="0"><code>$ sudo openssl genrsa -des3 -out server-key.pem
-$ sudo openssl req -new -key server-key.pem -out server.csr
-$ sudo openssl x509 -req -days 365 -in server.csr -CA ca.pem -CAkey ca-key.pem -out server-cert.pem
-$ sudo openssl rsa -in server-key.pem -out server-key.pem
-$ sudo chmod 0600 /etc/docker/server-key.pem /etc/docker/server-cert.pem /etc/docker/ca-key.pem /etc/docker/ca.pem
-</code></pre><ul>
-<li>配置Docker守护进程 (/etc/docker/daemon.json on Linux systems, or C:\ProgramData\docker\config\daemon.json on Windows.)</li>
-</ul>
-<pre tabindex="0"><code>{
-  &#34;debug&#34;: true,
-  &#34;tls&#34;: true,
-  &#34;tlscacert&#34;: &#34;/etc/docker/ca.pem&#34;,
-  &#34;tlscert&#34;: &#34;/etc/docker/server-cert.pem&#34;,
-  &#34;tlskey&#34;: &#34;/etc/docker/server-key.pem&#34;,
-  &#34;hosts&#34;: [&#34;tcp://&lt;config of CN&gt;:2376&#34;]
-}
-</code></pre>
-    </div>
-    <footer id="more">
-        <a href='https://alimy.github.io/post/dev_201807012219/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
             </nobr></a>
     </footer>
 </article>

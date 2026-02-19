@@ -319,6 +319,39 @@
                         
                             <article class="post panel-wrapper">
     <header>
+        <h2><a href="https://alimy.github.io/post/dev_202001050047/" title="阅读全文">简单使用docker部署Tars </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <p><a href="https://github.com/TarsCloud/Tars">Tars</a>是腾讯从2008年到今天一直在使用的后台逻辑层的统一应用框架TAF（Total Application Framework），目前支持C++,Java,PHP,Nodejs,Go语言。该框架为用户提供了涉及到开发、运维、以及测试的一整套解决方案，帮助一个产品或者服务快速开发、部署、测试、上线。 它集可扩展协议编解码、高性能RPC通信框架、名字路由与发现、发布监控、日志统计、配置管理等于一体，通过它可以快速用微服务的方式构建自己的稳定可靠的分布式应用，并实现完整有效的服务治理，非参Nice。本文简单介绍通过docker部署一套用于开发测试的Tars尝尝滋味。</p>
+<h4 id="配置清单">配置清单</h4>
+<p>单节点部署Tars：</p>
+<ul>
+<li>操作系统: CentOS 7</li>
+<li>MySQL: 5.7</li>
+<li>Tars: v1.0.1 (bitbus/tars:latest)</li>
+</ul>
+<h4 id="docker安装">Docker安装</h4>
+<p>安装CentOS官方版本：</p>
+<pre tabindex="0"><code>% sudo yum install -y docker
+</code></pre><p>或者 安装Docker官方版本：</p>
+<pre tabindex="0"><code>% sudo su
+% yum install -y yum-utils device-mapper-persistent-data lvm2
+% yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+% yum install -y docker-ce 
+</code></pre><p>启动Docker服务：</p>
+<pre tabindex="0"><code>% sudo systemctl enable docker
+% sudo systemctl start docker
+</code></pre>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/dev_202001050047/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
+</article>
+                        
+                            <article class="post panel-wrapper">
+    <header>
         <h2><a href="https://alimy.github.io/post/dev_201909211645/" title="阅读全文">Protocol Buffers Messages Encoding </a> </h2>
         
     </header>
@@ -583,25 +616,6 @@ implementations (open source or commercial) if you&rsquo;d like to be listed on 
     </div>
     <footer id="more">
         <a href='https://alimy.github.io/post/art_201903101706/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
-            </nobr></a>
-    </footer>
-</article>
-                        
-                            <article class="post panel-wrapper">
-    <header>
-        <h2><a href="https://alimy.github.io/post/dev_201901101804/" title="阅读全文">OpenAPI Specification </a> </h2>
-        
-    </header>
-    <div class="summary">
-        <h4 id="version-302">Version 3.0.2</h4>
-<p>The key words &ldquo;MUST&rdquo;, &ldquo;MUST NOT&rdquo;, &ldquo;REQUIRED&rdquo;, &ldquo;SHALL&rdquo;, &ldquo;SHALL NOT&rdquo;, &ldquo;SHOULD&rdquo;, &ldquo;SHOULD NOT&rdquo;, &ldquo;RECOMMENDED&rdquo;, &ldquo;NOT RECOMMENDED&rdquo;, &ldquo;MAY&rdquo;, and &ldquo;OPTIONAL&rdquo; in this document are to be interpreted as described in <a href="https://tools.ietf.org/html/bcp14">BCP 14</a> <a href="https://tools.ietf.org/html/rfc2119">RFC2119</a> <a href="https://tools.ietf.org/html/rfc8174">RFC8174</a> when, and only when, they appear in all capitals, as shown here.</p>
-<p>This document is licensed under <a href="https://www.apache.org/licenses/LICENSE-2.0.html">The Apache License, Version 2.0</a>.</p>
-<h2 id="introduction">Introduction</h2>
-<p>The OpenAPI Specification (OAS) defines a standard, language-agnostic interface to RESTful APIs which allows both humans and computers to discover and understand the capabilities of the service without access to source code, documentation, or through network traffic inspection. When properly defined, a consumer can understand and interact with the remote service with a minimal amount of implementation logic.</p>
-<p>An OpenAPI definition can then be used by documentation generation tools to display the API, code generation tools to generate servers and clients in various programming languages, testing tools, and many other use cases.</p>
-    </div>
-    <footer id="more">
-        <a href='https://alimy.github.io/post/dev_201901101804/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
             </nobr></a>
     </footer>
 </article>
