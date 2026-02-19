@@ -1,0 +1,59 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+      <title>Memcached on 北野 </title>
+      <generator uri="https://gohugo.io">Hugo</generator>
+    <link>https://alimy.github.io/tags/memcached/</link>
+    <language>en</language>
+    
+    <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
+    <updated>Thu, 19 Feb 2026 10:15:00 CST</updated>
+    
+    <item>
+      <title>Cache your sessions. Don&#39;t piss off your users</title>
+      <link>https://alimy.github.io/post/dev_202602191015/</link>
+      <pubDate>Thu, 19 Feb 2026 10:15:00 CST</pubDate>
+      
+      <guid>https://alimy.github.io/post/dev_202602191015/</guid>
+      <description>&lt;p&gt;I hope you&amp;rsquo;re all enjoying the &lt;a href=&#34;http://danga.com/memcached/news.bml&#34;&gt;1.2.6&lt;/a&gt; stable release of memcached. Don&amp;rsquo;t want to hear no whining about it crashing!&lt;/p&gt;
+&lt;p&gt;One of the most common questions in memcached land is the ever obnoxious &amp;ldquo;how do I put my sessions in memcached?&amp;rdquo;. The long standing answer is usually &amp;ldquo;you don&amp;rsquo;t&amp;rdquo;, or &amp;ldquo;carefully&amp;rdquo;, but people often walk the dark path instead. Many libraries do this as well, although I&amp;rsquo;ve seen at least one which gets it.&lt;/p&gt;
+&lt;p&gt;This isn&amp;rsquo;t as huge of a deal as people make it out to be. I&amp;rsquo;ve been asked about this over the mailing list, in IRC, in person, and even in job interviews. What people end up doing gives me the willies! Why! Why why why&amp;hellip; Well, I know why.&lt;/p&gt;
+&lt;p&gt;So what &lt;em&gt;is&lt;/em&gt; the deal with sessions? Why does everyone want to jettison them from mysql/postgres/disk/whatever? Well, a session is:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Almost always larger than 250 bytes, and almost always smaller than 5 kilobytes.&lt;/li&gt;
+&lt;li&gt;Read from datastore for every logged in (and often logged out) user for every dynamic page load.&lt;/li&gt;
+&lt;li&gt;Written &lt;em&gt;to&lt;/em&gt; the datastore for every dynamic page load.&lt;/li&gt;
+&lt;li&gt;Eventually reaped from the database after N minutes of inactivity.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Ok well that sucks I guess. Every time a user loads a page we read a blob row from mysql, then write a blob row back. This is a lot slower than row without blobs. Alright, so I see it now. Memcached to the rescue!&lt;/p&gt;
+&lt;p&gt;Er, except maybe it&amp;rsquo;s a little complicated to actually memcached these things, since we need a write for every read&amp;hellip; Why not &lt;strong&gt;just&lt;/strong&gt; use memcached for sessions!? It lines up perfectly! Check it out:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Set a memcached expire time for the max inactivity for a session. Say 30 minutes&amp;hellip;&lt;/li&gt;
+&lt;li&gt;Read from memcached.&lt;/li&gt;
+&lt;li&gt;Write to memcached.&lt;/li&gt;
+&lt;li&gt;A miss from memcached means the user is logged out.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Voila! ZERO reads or writes to the database, fantastic! Fast. Except I really don&amp;rsquo;t like the tradeoffs here. This is one example where I believe the experience of both your users and your operations team is cheapened. Users now get logged out when &lt;em&gt;anything&lt;/em&gt; goes wrong with memcached! Operations has to dance on eggshells. Or needles. Painful.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Evictions are serious business. Even if you disable them (-M), out of memory errors means no one can log into your site.&lt;/li&gt;
+&lt;li&gt;Upgrading memcached, OS kernel, hardware, etc, now means kicking &lt;strong&gt;everyone&lt;/strong&gt; off your site.&lt;/li&gt;
+&lt;li&gt;Adding/removing memcached servers kicks people off your site. Even with consistent hashing, while the miss rate is low it&amp;rsquo;s not going to be zero.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;So now what? Well we have zero accesses on our database, so it&amp;rsquo;s fast! But we can&amp;rsquo;t ever touch memcached again in fear of ticking off users. Progress be damned! Before you all think I&amp;rsquo;m completely off my rocker, I will admit there are some legitimate reasons to do this. If the way your site works doesn&amp;rsquo;t really impact users on loss of a session, or impacts few enough users, you can use this design pattern. How many people are actually affected if you get logged out of wikipedia.org? Well, the people writing revisions certainly mind, but the greater userbase is unaffected. They&amp;rsquo;re a non profit, they understand the tradeoff, etc. So that&amp;rsquo;s fine. It&amp;rsquo;s not fine for a lot of the people I see suggesting it or doing it. As developers get more comfy with memcached the session issue will become more of an obvious bottleneck.&lt;/p&gt;
+&lt;p&gt;The memcached/mysql hybrid really isn&amp;rsquo;t that bad at all. You can get rid of over 90% of the database reads, a lot of the writes, and leave your users logged in during rolling upgrades of memcached.&lt;/p&gt;
+&lt;p&gt;First, recap the components involved: The page session handler itself, and some batch job which reaps dead sessions. For small websites (like a vbulletin forum) these batch jobs are often run during page loads. For larger sites they will be crons and so forth. This batch job can also be used to save data about sessions for later analysis.&lt;/p&gt;
+&lt;p&gt;The pattern is simple. For reads fetch from memcached first, database second. For writes write to memcached, unless you haven&amp;rsquo;t synced the session to the database in the last N seconds. So if a user is clicking around they will only write to the database once every 120 seconds, and write to memcached every time.&lt;/p&gt;
+&lt;p&gt;Now modify the batch job. Crawl all expired sessions, and check memcached for the latest data. If session is not really expired don&amp;rsquo;t expire it then, if it is use the latest possible data from memcached. Write back to the database. Easy.&lt;/p&gt;
+&lt;p&gt;You take the tradeoff of sessions being mildly lossy for recent information, but you gain reliability back in your system. Reads against the database should be almost nonexistent, and write load should drop significantly, but not as much as reads.&lt;/p&gt;
+&lt;p&gt;So please, if you run some website I might eventually use, don&amp;rsquo;t put memcached in a place where restarting individual servers might piss me off. Thanks :)&lt;/p&gt;
+&lt;p&gt;I&amp;rsquo;d like to also challenge maintainers of session libraries for all languages to turn this design pattern into tunable (note all the places where I wrote N) libraries folks can plug in and use.&lt;/p&gt;
+&lt;p&gt;The more standard this stuff is the more likely the next fancy startup is going to get it right. Reuse is a great thing. I can&amp;rsquo;t say enough about how great efforts like &lt;a href=&#34;https://krow.livejournal.com/profile/&#34;&gt;&lt;img src=&#34;https://l-stat.livejournal.net/img/userinfo_v8.svg?v=17080&amp;amp;v=909&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;a href=&#34;https://krow.livejournal.com/&#34;&gt;&lt;strong&gt;krow&lt;/strong&gt;&lt;/a&gt;&amp;lsquo;s &lt;a href=&#34;http://tangent.org/552/libmemcached.html&#34;&gt;libmemcached&lt;/a&gt; go for standardizing how we use memcached, but it&amp;rsquo;s also a great help to ship libraries for common design patterns.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;本文转载自&lt;a href=&#34;https://dormando.livejournal.com/495593.html&#34; title=&#34;Cache your sessions - Dont piss off your users&#34;&gt;网络&lt;/a&gt;，是在看memcached文档时看到的。文章发表的时间很早，是2008年的，但是内容很有意思，说的是要不要用memcahced来缓存用户会话信息。&lt;br&gt;
+文章罗列了一些使用memcached缓存用户会话信息将会遇到的一些问题，有些还可能会很严重，所以作者是不太推荐直接使用memcached来缓存用户会话信息。究其原因就是memcached仅仅是内存数据库，一旦发生故障停止工作了，缓存的所有信息就不存在了，重新起来后就是一个啥都没有的新实例。文章下面有评论说，这是单点故障问题，有其他避免措施可缓解故障，比如多点备份缓存，定时同步重要的信息到（mysql/postgres）数据库中等等。&lt;/p&gt;
+&lt;p&gt;Redis因为自带有同步缓存数据到disk的功能，只要配置好了，重新起来后会自动重建所有缓存信息，所以可以不用在意文章所述问题。还有就是，对于用户会话信息，对于轻量级别的认证信息，可以有很多其他机制在客户端/服务端传递，比如 &lt;em&gt;&lt;strong&gt;JWT&lt;/strong&gt;&lt;/em&gt; 就是其中之一，其本身可以包含额外信息，最重要的是对于验证该会话的有效性（是否本站签发、是否过期等等）提供了校验机制，而且不依赖缓存等存储机制。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;em&gt;本站为个人网站，集网络美文、技术文章与原创生活记录等，系孤芳自赏、个人用途，内容如有侵权请联系站长删除。&lt;/em&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

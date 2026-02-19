@@ -319,6 +319,39 @@
                         
                             <article class="post panel-wrapper">
     <header>
+        <h2><a href="https://alimy.github.io/post/dev_202601221258/" title="阅读全文">在go库包中包含main包的方式 </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// file: golang.org/x/tools/go/cfg/cfg.go</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">cfg</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;bytes&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;go/ast&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;go/format&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;go/token&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// A CFG represents the control-flow graph of a single function.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// The entry point is Blocks[0]; there may be multiple return blocks.</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">CFG</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Blocks</span> []<span style="color:#f92672">*</span><span style="color:#a6e22e">Block</span> <span style="color:#75715e">// block[0] is entry; order otherwise undefined</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">noreturn</span> <span style="color:#66d9ef">bool</span> <span style="color:#75715e">// function body lacks a reachable return statement</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ...</span>
+</span></span></code></pre></div>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/dev_202601221258/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
+</article>
+                        
+                            <article class="post panel-wrapper">
+    <header>
         <h2><a href="https://alimy.github.io/post/dev_202601181258/" title="阅读全文">使用Test来生成代码 </a> </h2>
         
     </header>
@@ -560,21 +593,6 @@ Mac用了几年，明显感觉散热不佳，于是对Mac做了一次彻底的�
     </div>
     <footer id="more">
         <a href='https://alimy.github.io/post/faq_202302011948/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
-            </nobr></a>
-    </footer>
-</article>
-                        
-                            <article class="post panel-wrapper">
-    <header>
-        <h2><a href="https://alimy.github.io/post/dev_202301160906/" title="阅读全文">Mir - go-mir的设计演进 </a> </h2>
-        
-    </header>
-    <div class="summary">
-        <p><a href="https://github.com/alimy/mir">Mir</a> 是一套提供类似gRPC服务开发体验的快速开发RESTful API <strong>后端开发脚手架</strong>，适配多种HTTP框架，包括 <a href="https://github.com/gin-gonic/gin">Gin</a>, <a href="https://github.com/go-chi/chi">Chi</a>, <a href="https://github.com/cloudwego/hertz">Hertz</a>, <a href="https://github.com/labstack/echo">Echo</a>, <a href="https://github.com/kataras/iris">Iris</a>, <a href="https://github.com/gofiber/fiber">Fiber</a>, <a href="https://github.com/go-macaron/macaron">Macaron</a>, <a href="https://github.com/gorilla/mux">Mux</a>, <a href="https://github.com/julienschmidt/httprouter">httprouter</a>。</p>
-<p><a href="https://github.com/alimy/mir">Mir</a> 的演进历经了版本 <a href="https://github.com/alimy/mir/tree/v1">v1</a>、<a href="https://github.com/alimy/mir/tree/v2">v2</a>，目前已经演进到版本<a href="https://github.com/alimy/mir">v3</a>。本文简要概述<a href="https://github.com/alimy/mir">Mir</a>的具体演进过程，一窥设计的要点所在。</p>
-    </div>
-    <footer id="more">
-        <a href='https://alimy.github.io/post/dev_202301160906/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
             </nobr></a>
     </footer>
 </article>

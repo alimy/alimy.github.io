@@ -319,6 +319,30 @@
                         
                             <article class="post panel-wrapper">
     <header>
+        <h2><a href="https://alimy.github.io/post/dev_202602191015/" title="阅读全文">Cache your sessions. Don&#39;t piss off your users </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <p>I hope you&rsquo;re all enjoying the <a href="http://danga.com/memcached/news.bml">1.2.6</a> stable release of memcached. Don&rsquo;t want to hear no whining about it crashing!</p>
+<p>One of the most common questions in memcached land is the ever obnoxious &ldquo;how do I put my sessions in memcached?&rdquo;. The long standing answer is usually &ldquo;you don&rsquo;t&rdquo;, or &ldquo;carefully&rdquo;, but people often walk the dark path instead. Many libraries do this as well, although I&rsquo;ve seen at least one which gets it.</p>
+<p>This isn&rsquo;t as huge of a deal as people make it out to be. I&rsquo;ve been asked about this over the mailing list, in IRC, in person, and even in job interviews. What people end up doing gives me the willies! Why! Why why why&hellip; Well, I know why.</p>
+<p>So what <em>is</em> the deal with sessions? Why does everyone want to jettison them from mysql/postgres/disk/whatever? Well, a session is:</p>
+<ul>
+<li>Almost always larger than 250 bytes, and almost always smaller than 5 kilobytes.</li>
+<li>Read from datastore for every logged in (and often logged out) user for every dynamic page load.</li>
+<li>Written <em>to</em> the datastore for every dynamic page load.</li>
+<li>Eventually reaped from the database after N minutes of inactivity.</li>
+</ul>
+<p>Ok well that sucks I guess. Every time a user loads a page we read a blob row from mysql, then write a blob row back. This is a lot slower than row without blobs. Alright, so I see it now. Memcached to the rescue!</p>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/dev_202602191015/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
+</article>
+                        
+                            <article class="post panel-wrapper">
+    <header>
         <h2><a href="https://alimy.github.io/post/dev_202602151705/" title="阅读全文">Building a message queue with only two UNIX signals </a> </h2>
         
     </header>
@@ -593,39 +617,6 @@ folderPeer#e9baa668 peer:Peer folder_id:int = FolderPeer;
     </div>
     <footer id="more">
         <a href='https://alimy.github.io/post/dev_202601241258/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
-            </nobr></a>
-    </footer>
-</article>
-                        
-                            <article class="post panel-wrapper">
-    <header>
-        <h2><a href="https://alimy.github.io/post/dev_202601221258/" title="阅读全文">在go库包中包含main包的方式 </a> </h2>
-        
-    </header>
-    <div class="summary">
-        <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// file: golang.org/x/tools/go/cfg/cfg.go</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">cfg</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
-</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;bytes&#34;</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;fmt&#34;</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;go/ast&#34;</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;go/format&#34;</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;go/token&#34;</span>
-</span></span><span style="display:flex;"><span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// A CFG represents the control-flow graph of a single function.</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">//
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// The entry point is Blocks[0]; there may be multiple return blocks.</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">CFG</span> <span style="color:#66d9ef">struct</span> {
-</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Blocks</span> []<span style="color:#f92672">*</span><span style="color:#a6e22e">Block</span> <span style="color:#75715e">// block[0] is entry; order otherwise undefined</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">noreturn</span> <span style="color:#66d9ef">bool</span> <span style="color:#75715e">// function body lacks a reachable return statement</span>
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// ...</span>
-</span></span></code></pre></div>
-    </div>
-    <footer id="more">
-        <a href='https://alimy.github.io/post/dev_202601221258/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
             </nobr></a>
     </footer>
 </article>

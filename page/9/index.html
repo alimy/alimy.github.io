@@ -319,6 +319,39 @@
                         
                             <article class="post panel-wrapper">
     <header>
+        <h2><a href="https://alimy.github.io/post/dev_201806040842/" title="阅读全文">Gogs: PR-5262 </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <h3 id="fix-make-build-failure-when-enviroment-of-gopath-have-multiple-items">Fix make build failure when enviroment of <code>GOPATH</code> have multiple items</h3>
+<pre tabindex="0"><code>[alimy@rover gogs]$ pwd
+/home/alimy/art/arg/src/github.com/gogs/gogs
+[alimy@rover gogs]$ echo $GOPATH
+/home/alimy/art/ago:/home/alimy/art/arg
+[alimy@rover gogs]$ make
+go install &#34;-v&#34; -ldflags &#39;-X &#34;github.com/gogs/gogs/pkg/setting.BuildTime=2018-06-04 06:17:19 UTC&#34; -X &#34;github.com/gogs/gogs/pkg/setting.BuildGitHash=c08aab90ec696b7fcc56b8da0a468e74d266b89e&#34;&#39; -tags &#39;&#34;&#34;&#39;
+cp &#39;/home/alimy/art/ago:/home/alimy/art/arg/bin/gogs&#39; .
+cp: cannot stat &#39;/home/alimy/art/ago:/home/alimy/art/arg/bin/gogs&#39;: No such file or directory
+Makefile:36: recipe for target &#39;build&#39; failed
+make: *** [build] Error 1
+</code></pre><p>In this scene <code>GOPATH</code> have two item (/home/alimy/art/ago and /home/alimy/art/arg) and gogs source is not in first <code>GOPATH</code> items, when excecute <code>go install ...</code> will install to path that contain the source of gogs&rsquo;s <code>GOPATH</code> items. when cp gogs file back will occur error like above.
+this patch fixed this problem.</p>
+<pre tabindex="0"><code>[alimy@rover gogs]$ echo $GOPATH
+/home/alimy/art/ago:/home/alimy/art/arg
+[alimy@rover gogs]$ pwd
+/home/alimy/art/arg/src/github.com/gogs/gogs
+[alimy@rover gogs]$ echo ${PWD%%src*}
+/home/alimy/art/arg/
+</code></pre>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/dev_201806040842/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
+</article>
+                        
+                            <article class="post panel-wrapper">
+    <header>
         <h2><a href="https://alimy.github.io/post/info_201805210818/" title="阅读全文">收藏: 技术相关网站 </a> </h2>
         
     </header>
@@ -517,23 +550,6 @@ Local:  rsync [OPTION&hellip;] SRC&hellip; [DEST]</p>
     </div>
     <footer id="more">
         <a href='https://alimy.github.io/post/dev_201803122215/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
-            </nobr></a>
-    </footer>
-</article>
-                        
-                            <article class="post panel-wrapper">
-    <header>
-        <h2><a href="https://alimy.github.io/post/dev_201803122145/" title="阅读全文">RFC: TLS 1.0/1.1/1.2/1.3 </a> </h2>
-        
-    </header>
-    <div class="summary">
-        <p><a href="https://tools.ietf.org/html/rfc2246" title="TLS 1.0"><strong>TLS 1.0</strong> RFC http://www.ietf.org/rfc/rfc2246.txt </a></p>
-<p><a href="https://tools.ietf.org/html/rfc4346" title="TLS 1.1"><strong>TLS 1.1</strong> RFC http://www.ietf.org/rfc/rfc4346.txt </a></p>
-<p><a href="https://tools.ietf.org/html/rfc5246" title="TLS 1.2"><strong>TLS 1.2</strong> RFC http://www.ietf.org/rfc/rfc5246.txt </a></p>
-<p><a href="https://tools.ietf.org/html/rfc8446" title="TLS 1.3"><strong>TLS 1.3</strong> RFC http://www.ietf.org/rfc/rfc8446.txt </a></p>
-    </div>
-    <footer id="more">
-        <a href='https://alimy.github.io/post/dev_201803122145/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
             </nobr></a>
     </footer>
 </article>

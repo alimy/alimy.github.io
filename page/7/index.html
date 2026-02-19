@@ -319,6 +319,33 @@
                         
                             <article class="post panel-wrapper">
     <header>
+        <h2><a href="https://alimy.github.io/post/dev_201909211556/" title="阅读全文">Tars语言与协议 </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <h3 id="目录">目录</h3>
+<ul>
+<li><a href="#main-chapter-1">Tars语言</a></li>
+<li><a href="#main-chapter-2">Tars协议</a></li>
+</ul>
+<h2 id="1-tars语言">1. Tars语言 <a id="main-chapter-1"></a></h2>
+<h3 id="11-接口文件">1.1. 接口文件</h3>
+<ul>
+<li>Tars语言是一种类c++标识符的语言，用于生成具体的服务接口文件</li>
+<li>Tars文件是Tars框架中客户端和服务端的通信接口，通过Tars的映射实现远程对象调用</li>
+<li>Tars文件的扩展名必须以.tars为扩展名</li>
+<li>对于结构定义，可以支持扩展字段，即可以增加字段而不影响原有结构的解析，可以在存储/协议等地方单独使用</li>
+<li>大小写敏感</li>
+</ul>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/dev_201909211556/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
+</article>
+                        
+                            <article class="post panel-wrapper">
+    <header>
         <h2><a href="https://alimy.github.io/post/dev_201909211536/" title="阅读全文">Protocol Buffers Version 3 Language Specification </a> </h2>
         
     </header>
@@ -621,40 +648,6 @@ YAML在使用逗号及冒号时，后面都必须接一个空白字符，所以�
     </div>
     <footer id="more">
         <a href='https://alimy.github.io/post/dev_201811252059/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
-            </nobr></a>
-    </footer>
-</article>
-                        
-                            <article class="post panel-wrapper">
-    <header>
-        <h2><a href="https://alimy.github.io/post/dev_201811250757/" title="阅读全文">sshuttle：不需配置的 VPN </a> </h2>
-        
-    </header>
-    <div class="summary">
-        <p>sshuttle 被其作者称为 “穷人的 VPN”（A poor man’s instant VPN），甚至不需要远端服务器的 root 权限就可以用（只需要一个普通 SSH 帐号），和在 Mac/Linux 客户端直接用 ssh -D 的方式有点类似。如果不想花钱买 VPN，又懒得自己在 VPS 上安装和设置复杂的 VPN 服务，又不想用 ssh -D 这么朴素的技巧的话可以试一下这个 sshuttle，按照作者的说法 sshuttle 比 sshd -D 的方式快一点，因为 It’s just data-over-TCP，而不是 TCP-over-TCP，TCP-over-TCP 的方式会带来不必要的性能问题，因为 TCP 本身就是可靠传输协议，保证了包的有序性和无差错，并确保包被接受，如果有包丢失的话 TCP 协议可以自己立即重传弥补，所以没必要两层都 TCP，一层 TCP 就比较安全了。</p>
-<p>sshuttle 的用法很简单，在客户端下载和运行就可以了（需要有 Python 的支持），无需在服务器端做任何配置（但是需要一个 ssh 帐号和 Python 支持）：</p>
-<pre tabindex="0"><code>$ git clone https://github.com/sshuttle/sshuttle
-$ cd sshuttle
-$ sudo ./setup.py install
-$ sshuttle -r username@sshserver 0.0.0.0/0 -vv
-Starting sshuttle proxy.
-[local sudo] Password: 
-firewall manager: Starting firewall with Python version 2.7.15
-firewall manager: ready method name nat.
-IPv6 enabled: False
-UDP enabled: False
-DNS enabled: False
-User enabled: False
-Binding redirector: 12300 12299
-TCP redirector listening on (&#39;127.0.0.1&#39;, 12299).
-TCP redirector listening with &lt;socket._socketobject object at 0x7f5eb68b1c90&gt;.
-Starting client with Python version 2.7.15
-c : connecting to server...
-...
-</code></pre>
-    </div>
-    <footer id="more">
-        <a href='https://alimy.github.io/post/dev_201811250757/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
             </nobr></a>
     </footer>
 </article>
