@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <title> Memcached - Meta Text Protocol &middot; 那年江湖，遇见你 </title>
+  
+  <link rel="stylesheet" type="text/css" href="https://alimy.github.io//css/uno.css" />
+  <link rel="stylesheet" type="text/css" href="https://alimy.github.io//css/lightGallery.css" />
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://alimy.github.io/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="https://alimy.github.io/favicon.png">
+  
+  <script src="https://alimy.github.io//js/jquery.min.js"></script>
+  <script src="https://alimy.github.io//js/main.min.js"></script>
+
+  <script data-host="https://riiffy.com" data-dnt="false" src="https://riiffy.com/js/script.js" id="ZwSg9rf6GA" async
+    defer></script>
+
+  <style type="text/css">
+    body {
+      background-color: #f9f9f9;
+    }
+
+    .panel-wrapper {
+      box-shadow: 0px 0px 8px rgba(68, 68, 68, .6);
+      -moz-box-shadow: 0px 0px 8px rgba(68, 68, 68, .6);
+      border-radius: 4px;
+      -moz-border-radius: 4px;
+      padding: 16px 24px;
+      margin-top: 32px;
+      background-color: #fff
+    }
+
+    .panel-wrapper:hover {
+      box-shadow: 0px 0px 12px rgba(68, 68, 68, .6);
+      -moz-box-shadow: 0px 0px 12px rgba(68, 68, 68, .6);
+    }
+
+    #more {
+      margin-top: 16px;
+    }
+
+    #copyright {
+      padding: 2em 0 0;
+      display: block;
+      font-size: .9em;
+      color: #b3b3b3;
+      width: 100%;
+      text-align: center
+    }
+
+    #list-indicator {
+      min-width: 48px;
+      text-align: center;
+      float: right;
+      margin-right: 64px;
+      background: rgba(68, 68, 68, .2);
+      border-radius: 4px;
+      -moz-border-radius: 4px;
+      padding: 8px;
+    }
+
+    #list-date {
+      color: #999;
+      font-size: .9em;
+      font-style: italic;
+    }
+
+    .post-tags-item {
+      padding-left: .75rem !important;
+      padding-right: .75rem !important;
+      padding-top: .25rem !important;
+      padding-bottom: .25rem !important;
+      margin-right: .5rem !important;
+      margin-top: .25rem !important;
+      margin-bottom: .25rem !important;
+      font-size: .875rem !important;
+      color: #666666;
+      display: inline-block !important;
+      border-radius: .25rem !important;
+      background-color: rgb(242 242 247) !important;
+    }
+
+    .post-tags-item:hover {
+      color: #38b2ac;
+    }
+
+    #post-navigator {
+      padding: 24px 0px 16px 0px;
+      vertical-align: middle;
+    }
+
+    #post-navigator>a {
+      display: block;
+      color: #2479cc;
+      text-decoration: none;
+    }
+
+    #post-navigator-prev {
+      float: left;
+    }
+
+    #post-navigator-next {
+      float: right;
+    }
+
+    .pages {
+      text-align: center;
+      margin-right: -15px;
+      margin-left: -15px;
+    }
+
+    .pages>ul {
+      font-weight: lighter;
+    }
+
+    .pages>.pagination {
+      display: inline-block;
+      padding-left: 0;
+      margin: 20px 0px;
+      border-radius: 4px;
+    }
+
+    .pages .pagination>li {
+      display: inline;
+    }
+
+    .pagination>.active>a,
+    .pagination>.active>span,
+    .pagination>.active>a:hover,
+    .pagination>.active>span:hover,
+    .pagination>.active>a:focus,
+    .pagination>.active>span:focus {
+      z-index: 2;
+      color: #fff;
+      cursor: default;
+      background-color: #428bca;
+      border-color: #428bca;
+    }
+
+    .pagination>li>a,
+    .pagination>li>span {
+      position: relative;
+      float: left;
+      padding: 6px 12px;
+      margin-left: -1px;
+      line-height: 1.428571429;
+      text-decoration: none;
+      background-color: #fff;
+      border: 1px solid #ddd;
+    }
+
+    .pagination>li:first-child>a,
+    .pagination>li:first-child>span {
+      margin-left: 0;
+      border-bottom-left-radius: 4px;
+      border-top-left-radius: 4px;
+    }
+
+    .pagination>.disabled>span,
+    .pagination>.disabled>span:hover,
+    .pagination>.disabled>span:focus,
+    .pagination>.disabled>a,
+    .pagination>.disabled>a:hover,
+    .pagination>.disabled>a:focus {
+      color: #999;
+      cursor: not-allowed;
+      background-color: #fff;
+      border-color: #ddd;
+    }
+
+    .pagination>li:last-child>a,
+    .pagination>li:last-child>span {
+      border-top-right-radius: 4px;
+      border-bottom-right-radius: 4px;
+    }
+
+    *,
+    *:before,
+    *:after {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="scriptHeader">
+    <span class="mobile btn-mobile-menu">
+        <i class="fa fa-bars btn-mobile-menu__icon"></i>
+        <i class="fa fa-times btn-mobile-close__icon hidden"> </i>
+    </span>
+    <header class="
+         panel-cover
+        panel-cover--collapsed " 
+        style="background-image: url(/images/cover.jpg)" >
+        <div class="panel-main">
+            <div class="panel-main__inner panel-inverted">
+                <div class="panel-main__content">
+                    <a href="https://alimy.github.io//"> <img src="https://alimy.github.io/images/logo.jpg"
+                            width="256" alt="北野 logo" class="panel-cover__logo logo" /> </a> 
+                    <h1 class="panel-cover__title panel-title">
+                        <a href="https://alimy.github.io//">北野</a>
+                    </h1>
+                    <hr class="panel-cover__divider" />
+                    <p class="panel-cover__description">  那年江湖，遇见你  </p>
+                    <hr class="panel-cover__divider panel-cover__divider--secondary" />
+                    <div class="navigation-wrapper">
+                        <nav class="cover-navigation cover-navigation--primary">
+                            <ul class="navigation">
+                                <li class="navigation__item"><a href="https://alimy.github.io/" title="博客首页"
+                                        class="blog-button">首页</a> </li> </br></br>
+                                <li class="navigation__item"><a href="https://alimy.github.io/post" title="文章列表"
+                                        class="blog-button">文章列表</a> </li>
+                                </br>  </br>
+                                <li class="navigation__item"><a href="https://alimy.github.io/pages/cv" title="关于我 "
+                                        class="blog-button">关于我</a> </li>
+                                </br> 
+                            </ul>
+                            <nav class="cover-navigation navigation--social">
+</br>
+    <ul class="navigation"> 
+        
+        <li class="navigation__item">
+            <a href="https://iibiubiu.com" title="@iiBiuBiu" target="_blank"> <i class='fa fa-anchor'></i> <span class="label">Twitter</span> </a>
+        </li>
+        <li class="navigation__item">
+            <a href="https://www.paopao.info/#/u?s=alimy" title="@paopao" target="_blank"> <i class='fa fa-leaf'></i> <span class="label">Twitter</span> </a>
+        </li><br>
+        
+        
+        
+          
+        
+        <li class="navigation__item">
+            <a href="https://github.com/alimy" title="@GitHub" target="_blank"> <i class='fa fa-github'></i> <span class="label">Github</span> </a>
+        </li>   </br>    </ul>
+</nav>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-cover--overlay"></div>
+        </div>
+    </header>
+</div>
+<noscript>
+    <style>
+        #scriptHeader {
+            display: none;
+        }
+
+        .navigation-wrapper {
+            display: block;
+            top: 0;
+        }
+    </style>
+
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url(/images/cover.jpg)">
+        <div class="panel-main">
+            <div class="panel-main__inner panel-inverted">
+                <div class="panel-main__content"> 
+                    <a href="https://alimy.github.io//"> <img src="https://alimy.github.io/images/logo.jpg" width="80"
+                            alt="北野 logo" class="panel-cover__logo logo" /> </a> 
+                    <h1 class="panel-cover__title panel-title">
+                        <a href="https://alimy.github.io//">北野</a>
+                    </h1>
+                    <hr class="panel-cover__divider" />
+                    <p class="panel-cover__description">  那年江湖，遇见你  </p>
+                    <hr class="panel-cover__divider panel-cover__divider--secondary" />
+                    <div class="navigation-wrapper">
+                        <nav class="cover-navigation cover-navigation--primary">
+                            <ul class="navigation">
+                                <li class="navigation__item"><a href="https://alimy.github.io/" title="博客首页"
+                                        class="blog-button">Blog</a> </li></br></br>
+                                <li class="navigation__item"><a href="https://alimy.github.io//post/" title="文章列表"
+                                        class="blog-button">Articles</a> </li>
+                                </br>  </br>
+                                <li class="navigation__item"><a href="https://alimy.github.io/pages/cv" title="关于我 "
+                                        class="blog-button">About Me</a> </li>
+                                </br> 
+                            </ul>
+                        </nav> <nav class="cover-navigation navigation--social">
+</br>
+    <ul class="navigation"> 
+        
+        <li class="navigation__item">
+            <a href="https://iibiubiu.com" title="@iiBiuBiu" target="_blank"> <i class='fa fa-anchor'></i> <span class="label">Twitter</span> </a>
+        </li>
+        <li class="navigation__item">
+            <a href="https://www.paopao.info/#/u?s=alimy" title="@paopao" target="_blank"> <i class='fa fa-leaf'></i> <span class="label">Twitter</span> </a>
+        </li><br>
+        
+        
+        
+          
+        
+        <li class="navigation__item">
+            <a href="https://github.com/alimy" title="@GitHub" target="_blank"> <i class='fa fa-github'></i> <span class="label">Github</span> </a>
+        </li>   </br>    </ul>
+</nav>
+
+                    </div>
+                </div>
+            </div>
+            <div class="panel-cover--overlay"></div>
+        </div>
+    </header>
+</noscript>
+  <div class="content-wrapper">
+    <div class="content-wrapper__inner">
+      <div class="post panel-wrapper">
+        <h2>Memcached - Meta Text Protocol</h2>
+        
+        <p>NOTE: These commands are new. Please let us know if you run into any trouble with the API or the documentation! The meta protocol is no longer considered experimental, please give it a shot!</p>
+<p>NOTE: binary protocol is deprecated. meta protocol is cross-compatible with the text protocol, includes every feature the binary protocol has, and has many enhancements.</p>
+<p>Memcached has additional commands which are used to reduce bytes on the wire, reduce network roundtrips required for complex queries (such as anti-dogpiling techniques), expose previously hidden item information, and add many new features. These are in addition to the existing Text Protocol, and can do everything the Binary Protocol could do before.</p>
+<p>The full description of the Meta commands are available in the Text Protocol documentation:</p>
+<ul>
+<li><a href="http://github.com/memcached/memcached/blob/master/doc/protocol.txt">Text Protocol</a></li>
+</ul>
+<p>This wiki serves as a companion to protocol.txt with use cases and examples of the new commands.</p>
+<h3 id="command-basics">Command Basics </h3>
+<p>Commands and responses start with a two character code then a set of flags, and potentially value data. Flags may have token data attached to them.</p>
+<pre tabindex="0"><code>set request:
+ ms foo 2 T90 F1\r\n
+ hi\r\n
+response:
+ HD\r\n
+
+get request:
+ mg foo t f v\r\n
+
+response:
+ VA 2 t78 f1\r\n
+ hi\r\n
+
+delete request:
+ md foo\r\n
+
+response:
+ HD\r\n
+</code></pre><p>Commands are 2 characters, followed by key, flags, and tokens requested by flags. Responses are a 2 character code, any additional flags added (for mg), and any requested tokens. Flag responses are in the order set by the order in the client request.</p>
+<p>For full detail please see <a href="http://github.com/memcached/memcached/blob/master/doc/protocol.txt">Text Protocol</a> documentation.</p>
+<h3 id="replacing-getgetstouchgatgats">Replacing GET/GETS/TOUCH/GAT/GATS </h3>
+<p>Standard GET:</p>
+<pre tabindex="0"><code>mg foo f v\r\n -- ask for client flags, value
+VA 2 f30\r\n -- get length, client flags, value
+hi\r\n
+</code></pre><p>… will return client flags, value. Add <code>k</code> to also get the key back.</p>
+<p>GETS (get with CAS):</p>
+<pre tabindex="0"><code>mg foo f c v\r\n
+VA 2 f30 c3\r\n -- also gets the CAS value back
+hi\r\n
+</code></pre><p>TOUCH (just update TTL, no response data):</p>
+<pre tabindex="0"><code>mg foo T30\r\n -- update the TTL to be 30 seconds from now.
+HD\r\n -- no flags or value requested, get HD return code
+</code></pre><p>GAT (get and touch):</p>
+<p><code>mg foo f v T90</code></p>
+<p>… will fetch client flags, value and update the TTL to be 90 seconds from now.</p>
+<p>GATS (get and touch with CAS):</p>
+<p><code>mg foo f c v T100</code></p>
+<p>… same as above, but also gets the CAS value.</p>
+<h3 id="new-metadata-flags">New MetaData Flags </h3>
+<ul>
+<li><code>l</code> flag will show the number of seconds since the item was last accessed.</li>
+<li><code>h</code> flag will return 0 or 1 based on if the item has ever been fetched since being stored.</li>
+<li><code>t</code> flag will return the number of seconds remaining until the item expires (-1 for infinite)</li>
+</ul>
+<p>Others will be documented in protocol.txt</p>
+<h3 id="binary-encoded-keys">Binary Encoded Keys </h3>
+<p>With meta protocol it is possible store and retrieve non-ascii keys. This can save RAM on servers if you have keys that are very long, but data that are very short. You can also store UTF8 strings this way.</p>
+<p>For example, your key may look like: “string-12345678910-9999313149” or “reallylongidentifierstringbecausewehavealotofthese-[ID number]. To save memory the string identifier can be encoded into a small number, and ID’s can be 32bit or 64bit integers.</p>
+<p>In order to store/retrieve encoded keys, they must be BASE64 encoded. This adds some overhead on the network portion but typically extreme fast to encode or decode on modern hardware.</p>
+<pre tabindex="0"><code>
+binary key set request: (&#34;tesuto&#34; in japanese characters)
+ ms 44OG44K544OI 2 b\r\n
+ hi\r\n
+
+ mg 44OG44K544OI b v k\r\n
+ VA 2 k44OG44K544OI b\r\n
+ hi\r\n
+</code></pre><h3 id="atomic-stampeding-herd-handling">Atomic Stampeding Herd Handling </h3>
+<p>We can use the CAS value and some new flags to do stampeding herd (dogpiling) protection with a minimal number of round trips to the server:</p>
+<pre tabindex="0"><code>request:
+ mg foo f c v N30\r\n
+response:
+ VA 0 f0 c2 W\r\n
+\r\n
+</code></pre><p>The <code>N</code> flag instructs memcached to automatically create an item on miss, with a supplied TTL, which is 30 seconds in this example.</p>
+<p>In the flags returned a new flag <code>W</code> has been added. This is instructing the client that it has received a miss and has “Won” the right to recache the item. The client may then directly update the value once it has been fetched or calculated, or set back using the CAS value it retrieved.</p>
+<p>If a different client requests the same item in this time, it will see a slightly different response:</p>
+<pre tabindex="0"><code>request:
+ mg foo f c v N30\r\n
+response:
+ VA 0 f0 c2 Z\r\n
+\r\n
+</code></pre><p>The <code>Z</code> flag indicates to the client that a <code>W</code> flag has already been sent, and this is a special non-data item. The client may then retry, wait, or try something else.</p>
+<p>This approach was done in the past by having clients race with an <code>add</code> command after a miss, using special response values, or so on. It is now collapsed into the normal request/response workflow, and has additional features.</p>
+<h3 id="early-recache">Early Recache </h3>
+<p>The ‘R’ flag can be used to do an anti-herd early recache of objects nearing their expiration time. This can be used to reduce misses for frequently accessed objects. Infrequently accessed objects can be left to expire.</p>
+<pre tabindex="0"><code>request:
+ mg foo v t R30\r\n
+response:
+ VA 2 t29 W\r\n
+hi\r\n
+</code></pre><p>In this example, the R flag is supplied a token of ‘30’, meaning if the TTL remaining on an item is less than 30 seconds, attempt to refresh the item.</p>
+<p>In the response we see the extra ‘W’ (win) flag has been returned, indicating to this client that it should recache the item. Any further clients will instead see a ‘Z’ flag, indicating a request has already been sent.</p>
+<p>We also see the TTL remaining, via the ’t’ flag, confirming that the TTL is below 30 seconds.</p>
+<p>The CAS value may also be requested via the ‘c’ flag, which allows honoring the recache only if the object hasn’t changed since the win token was received.</p>
+<pre tabindex="0"><code>get request:
+ mg foo v c R30\r\n
+response:
+ VA 0 c999\r\n
+\r\n
+
+set request:
+ ms foo 3 C999
+ new\r\n
+response:
+ HD\r\n
+</code></pre><h3 id="serve-stale">Serve Stale </h3>
+<p>Intentionally serving stale but usable data is possible with the meta commands, similar to Stale-While-Revalidate or Stale-While-Error in HTTP.</p>
+<p>In some cases you would want to actively mark an in-memory item as stale. You can then either have the first client fetching the stale value also handle revalidation, or kick off an asynchronous recache but still inform clients that the data may not be up to date.</p>
+<p>We use the meta delete command to mark an item as stale.</p>
+<pre tabindex="0"><code>request:
+ md foo I T30\r\n
+response:
+ HD\r\n
+</code></pre><p>We also optionally change the TTL. In this instance stale data will be served for a maximum of 30 seconds. Marking an item as stale also changes its CAS ID number.</p>
+<pre tabindex="0"><code>request:
+ mg foo t c v
+response:
+ VA 4 t29 c777 W X\r\n
+ data\r\n
+</code></pre><p>The next metaget gets the ‘W’ flag, indicating it has rights to exclusively recache the item. It also gets the ‘X’ flag, indicating that the item is stale. How this is handled is up to the application; it can use the data as-is, adjust it, warn a user, or quietly re-fetch later.</p>
+<p>If another metadelete comes in before the item above is recached, the CAS will change to 778 (or higher), and the later metaset call will fail.</p>
+<p>However, it is possible to still update the item but keep it marked as stale, via the ‘I’ flag with metaset.</p>
+<pre tabindex="0"><code>request:
+ ms foo S3 T360 C777 I\r\n
+ new\r\n
+response:
+ ST\r\n
+</code></pre><p>The next metaget will continue to see the item as stale, with its previous TTL and previous CAS:</p>
+<pre tabindex="0"><code>request:
+ mg foo t c v\r\n
+response:
+ VA 3 t25 c778 X\r\n
+ new\r\n
+</code></pre><p>The CAS value must be <em>lower</em> than the real CAS value for this to apply. Once a set matching the CAS value comes in, all data is overwritten and the TTL is updated properly.</p>
+<h3 id="pipelining-quiet-mode-with-opaque-or-key">Pipelining Quiet mode with Opaque or Key </h3>
+<p>Pipelining with meta commands is done with combinations of the ‘q’, ‘O’, and ‘k’ flags. These flags work for all of the metaget, metaset, and metadelete commands.</p>
+<p>In the normal text protocol, the requested key is reflected back to the client. This makes it possible to differentiate responses when requesting many keys.</p>
+<pre tabindex="0"><code>get bar foooooooooooooooooooooooooooooooo baz
+VALUE foooooooooooooooooooooooooooooooo 0 2
+hi
+END
+</code></pre><p>In the above, only foo+ exists. The rest of the values don’t have lines indicating a miss, only the END token after all keys are fetched.</p>
+<p>This is still true even when fetching a single key:</p>
+<pre tabindex="0"><code>get foooooooooooooooooooooooooooooooo
+VALUE foooooooooooooooooooooooooooooooo 0 2
+hi
+END
+</code></pre><p>Metagets do not have a multi-key interface. Requesting many keys at once requires pipelining the commands:</p>
+<pre tabindex="0"><code>mg foo v\r\nmg bar v\r\nmg baz v\r\n
+</code></pre><p>Metaget will also not return the key by default. Clients should look for the response codes to count responses.</p>
+<p>It’s possible to optimize fetching many keys by using the ‘q’ flag, which will hide the “EN” code on miss. There is a problem with this: you can no longer differentiate the responses to match item data to requested keys.</p>
+<p>There are two options for optimizing pipelined requests:</p>
+<pre tabindex="0"><code>request:
+ mg foo t c v q k\r\n
+response:
+ VA 2 s2 t-1 c2 kfoo\r\n
+ hi\r\n
+</code></pre><p>The ‘k’ flag will add the key as a token in the response. This works for <code>mg</code>, as well as <code>ms</code> and <code>md</code>.</p>
+<p>This is still not ideal if your keys are very long, especially if the data stored is very small (perhaps even 0 bytes!). Returning 200 byte keys with 8 bytes of data is a lot of extra bytes on the wire.</p>
+<p>There is one more option, the ‘O’ (opaque) flag. Tokens supplied with this flag are reflected back in the response as-is. Opaque tokens can be up to 32 bytes in length as of this writing. They can be alphanumeric but numbers are likely the common use case.</p>
+<pre tabindex="0"><code>request:
+ mg foo v q Oopaque\r\n
+response:
+ VA 2 Oopaque\r\n
+ hi\r\n
+</code></pre><p>In this example the string “opaque” is used as a token to make it stand out more in the response. This can be any (short) ascii string. A simple approach would be to simply count the number of outstanding requests, using numerics and resetting after receiving the responses. This keeps the numbers short, with some benefit from hex encoding if desired.</p>
+<p>Finally, it’s still impossible to tell when all of the keys have been processed if they were all misses. There are two options:</p>
+<ol>
+<li>Send the final mg without the ‘q’ flag, which will add an EN response code.</li>
+<li>Use the <code>mn</code> meta no-op command. All this command does is respond with a bare MN code.</li>
+</ol>
+<pre tabindex="0"><code>request:
+ mn\r\n
+response:
+ MN\r\n
+</code></pre><p>Stick it at the end of a pipeline:</p>
+<p><code>mg [etc]\r\nmg [etc]\r\nmg [etc]\r\nmn\r\n</code></p>
+<h3 id="quiet-mode-semantics">Quiet mode semantics </h3>
+<p>The ‘q’ flag is described briefly in the section about Pipelining, but what else does it do?</p>
+<p>In general, the ‘q’ flag will hide “nominal” responses. If you wish to pipeline a bunch of sets together but don’t want all of the “ST” code responses, pass the ‘q’ flag with it. If a set results in a code other than “ST” (ie; “EX” for a failed CAS), the response will still be returned.</p>
+<p>Any syntax errors will still result in a response as well (<code>CLIENT_ERROR</code>).</p>
+<h3 id="data-consistency-with-cas-overrides">Data consistency with CAS overrides </h3>
+<h4 id="data-version-or-time-based-consistency">Data version or time based consistency </h4>
+<p>After version 1.6.27 the meta protocol supports directly providing a CAS value during mutation operations. By default the CAS value (or CAS id) for an item is generated directly by memcached using a globally incrementing counter, but we can now override this with the <code>E</code> flag.</p>
+<p>For example, if the data you are caching has a “version id” or “row version” we can provide that:</p>
+<pre tabindex="0"><code>ms foo 2 E73 -- directly provide the CAS value
+hi
+HD
+mg foo c v -- later able to retrieve it
+VA 2 c73
+hi
+</code></pre><p>We have directly set this value’s CAS id to <code>73</code>. Now we can use standard CAS operations to update the data. For example, attempting to update the data with an older version will now fail:</p>
+<pre tabindex="0"><code>ms foo 2 C72 E73
+hi
+EX
+</code></pre><p>The above could be the result of a race condition: two processes are trying to move the data from version 72 to 73 at the same time. Since the underlying version is already 73, the second command will fail.</p>
+<p>Note that any command which can generate a new cas id also accepts the <code>E</code> flag. IE: delete with invalidate, ma for incr/decr, and so on.</p>
+<h4 id="time-and-types">Time and types </h4>
+<p>Anything that fits in an 8 byte <em>incrementing</em> number can be used as a CAS id: versions, clocks, HLC’s, and so on. So long as the next number is higher than the previous number.</p>
+<h3 id="data-consistency-across-multiple-pools">Data consistency across multiple pools </h3>
+<p>If you are attempting to keep multiple pools of memcached servers in sync, we can use the CAS override to help improve our consistency results. Please note this system is not strict.</p>
+<h4 id="leader-and-follower-pools">Leader and follower pools </h4>
+<p>Assume you have pools A, B, C, and one pool is designated as a “leader”, we can provide general consistency which can be also be repaired:</p>
+<pre tabindex="0"><code>-- against pool A:
+mg foo c v\r\n
+VA 2 C50\r\n
+hi\r\n
+-- we fetched a value. we have a new row version (or timestamp):
+ms foo 2 C50 E51\r\n
+ih\r\n
+HD\r\n
+-- Success. Now, against pools B and C we issue &#34;blind sets&#34;:
+-- pool B:
+ms foo 2 E51\r\n
+ih\r\n
+HD\r\n
+-- pool C:
+ms foo 2 E51\r\n
+ih\r\n
+HD\r\n
+</code></pre><p>If all is well all copies will have the same CAS ID as data in pool A. This is again, not strict, but can help verify if data is consistent or not. If the data in pool A has gone missing, you can decide on quorum or highest ID to repair data from B/C. Or simply not allow data to change until A has been repaired, but in the meantime data can be read from B/C.</p>
+<h4 id="full-cross-consistency">Full cross consistency </h4>
+<p>It is difficult if not impossible to guarantee consistency across multiple pools. You can attempt this by:</p>
+<pre tabindex="0"><code>-- against pool A:
+mg foo c v\r\n -- if we need the value. else drop the v.
+-- against pools B/C:
+mg foo c\r\n -- don&#39;t necessarily need the value
+-- use the same set command across all three hosts:
+ms foo 2 Cnnnn E90\r\n
+hi\r\n
+</code></pre><p>If this fails on any host, do the whole routine again. If a value is being frequently updated this can be problematic or permanently blocking.</p>
+<p>You can augment this with the stale/win flags by picking a “leader” pool and issuing an invalidation:</p>
+<pre tabindex="0"><code>md foo I E74\r\n -- invalidate the key if it exists, prep it for the new ver
+HD\r\n
+mg foo c v\r\n
+VA 2 c75 X W\r\n -- data is stale (X) and we atomically win (W)
+hi\r\n
+</code></pre><p>Now this client has the exclusive right to update this value across all pools. If updates to pools B/C end up coming <em>out of order</em> the highest CAS value should eventually succeed if the updates are asynchronous:</p>
+<ul>
+<li>If pool B starts at version 70, then gets updated to 75 as above</li>
+<li>A later update to 73 will fail (CAS too old)</li>
+<li>If pool C starts at version 70, gets updated to 73, then gets updated to 75</li>
+<li>The final result will be the correct version</li>
+</ul>
+<p>If the client waits for either quorum (2/3 in this case) or all (3/3) hosts to respond before responding to its user, the data should be the same.</p>
+<p>Problems where this fails should be relatively obscure, for example:</p>
+<ul>
+<li>Pool A is our leader, we get win flag (W) and successfully update it.</li>
+<li>We update Pools B, C, but in the meantime pool A has failed.</li>
+<li>Depending on how new leaders are elected and how long updates take, we can end up with inconsistent data.</li>
+</ul>
+<p>In reality host or pool election is slow and cross-stream updates are relatively fast, so it should be unusual.</p>
+<h3 id="probabilistic-hot-cache">Probabilistic Hot Cache </h3>
+<p>A new technique made possible with the meta commands is a probabilistic client-side hot key cache. This means a coordination-free method of populating a local cache to avoid making requests to memcached for very frequently accessed items.</p>
+<p>Using the new <code>h</code> and <code>l</code> flags, we can see if an item has been hit before, and how many seconds it’s been since it was last hit. Lets combine these:</p>
+<pre tabindex="0"><code>request:
+ mg foo v h l\r\n
+response:
+ VA 4 h1 l5\r\n
+ data\r\n
+</code></pre><p>Breaking down the flags:</p>
+<ul>
+<li><code>s</code> is data size, getting a 4 in the response.</li>
+<li><code>v</code> means return the value, getting “data\r\n” in the response block.</li>
+<li><code>h</code> means return a 0 or 1 depending on if the item has been requested since it was stored.</li>
+<li><code>l</code> means the time in seconds since last access, which here shows 5 seconds.</li>
+</ul>
+<p>We can weight these values to create a probabilistic cache: <code>if (h == 1 &amp;&amp; l &lt; 5 &amp;&amp; random(1000) == 0) { add_to_local_cache(it); }</code></p>
+<p>The random factor here is a weight that could be other factors (database/network/system load/local cache hit rate/etc). Keys which suddenly get a lot of traffic will filter in slowly, with the highest traffic keys being cached very quickly.</p>
+<p>This approach requires no live coordination between servers to discover or communicate “hot keys”. Implementations of this method do need to make a decision on how validation is done.</p>
+<h3 id="hot-key-cache-invalidation">Hot Key Cache Invalidation </h3>
+<p>For truly hot keys, the simplest approach is to only cache them in a client for a couple seconds. A “shadow key” with a slightly longer expiration time (30 seconds or so) could be left in its place to signal to a client to immediately recache a key if seen again, This covers a wide number of use cases. The total number of requests to memcached will be higher than in a perfect system, but the zero coordination effort and natural key discovery without server overhead is a huge bonus.</p>
+<p>Another approach, especially useful for items which are large or are CPU intensive to deserialize, is to periodically revalidate items.</p>
+<pre tabindex="0"><code>request:
+ mg foo v h l c\r\n
+response:
+ VA 4 h1 l5 c500\r\n
+ data\r\n
+</code></pre><p>This time we also request the CAS value. A client could schedule asynchronous periodic revalidations for hot keys in the background. Metaget can fetch items without the value.</p>
+<pre tabindex="0"><code>request:
+ mg foo c\r\n
+response:
+ HD c500
+</code></pre><p>(the <code>HD</code> status code indicates no value is being received; only a header)</p>
+<p>In this case, we only care about finding if the CAS value is identical.</p>
+<p>We may add support for conditionally fetching the value if CAS does or does not match, to further improve this use case. Check doc/protocol.txt with your tarball for the most up to date information.</p>
+<hr>
+<p>本文转载自<a href="https://docs.memcached.org/protocols/meta/" title="Meta Text Protocol">网络</a>.</p>
+<p><em>本站为个人网站，集网络美文、技术文章与原创生活记录等，系孤芳自赏、个人用途，内容如有侵权请联系站长删除。</em></p>
+        <div id="post-tags">
+          
+          
+          <a href="https://alimy.github.io/tags/development/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;Development</a>
+          
+          <a href="https://alimy.github.io/tags/cache/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;Cache</a>
+          
+          <a href="https://alimy.github.io/tags/memcached/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;Memcached</a>
+          
+          
+        </div>
+      </div>
+      <div id="post-navigator">
+        <a id="post-navigator-prev" href="https://alimy.github.io/post/dev_202102191100/" title="上一篇"><i class="fa fa-chevron-left"
+            aria-hidden="true"></i>&nbsp;Memcached - Basic Text Protocol</a>
+        <a id="post-navigator-next" href="https://alimy.github.io/post/dev_202102191130/" title="下一篇">Memcached - A Story of Caching&nbsp;<i
+            class="fa fa-chevron-right" aria-hidden="true"></i></a>
+      </div>
+      
+      <footer id="copyright">
+  <p>&copy;2015-至今 <a href="mailto:alimy@niubiu.com" title="Email:alimy@niubiu.com">北野 - Michael Li</a> All rights
+    reserved.&nbsp;&nbsp;<a href="https://riiffy.com/alimy.github.io" title="访问统计" target="_blank">Riiffy</p>
+</footer>
+    </div>
+    <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
+if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
+var s=document.getElementsByTagName('script')[0];sc.src='https://alimy.github.io/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
+WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
+
+</body>
+
+</html>

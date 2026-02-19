@@ -319,121 +319,92 @@
                         
                             <article class="post panel-wrapper">
     <header>
-        <h2><a href="https://alimy.github.io/post/dev_202104050200/" title="阅读全文">使用Dnsmasq 实现 hosts 泛解析 </a> </h2>
+        <h2><a href="https://alimy.github.io/post/dev_202102191130/" title="阅读全文">Memcached - A Story of Caching </a> </h2>
         
     </header>
     <div class="summary">
-        <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$&gt; sudo dnf install dnsmasq -y <span style="color:#75715e"># 安装 Dnsmasq </span>
-</span></span><span style="display:flex;"><span>$&gt; sudo cp /etc/dnsmasq.conf<span style="color:#f92672">{</span>,bak<span style="color:#f92672">}</span> <span style="color:#75715e"># 先把配置文件备份一份</span>
-</span></span><span style="display:flex;"><span>$&gt; sudo vim /etc/dnsmasq.conf
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 严格按照 resolv-file 文件中的顺序从上到下进行 DNS 解析, 直到第一个成功解析成功为止</span>
-</span></span><span style="display:flex;"><span>strict-order
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 监听的 IP 地址</span>
-</span></span><span style="display:flex;"><span>listen-address<span style="color:#f92672">=</span>127.0.0.1
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 设置缓存大小</span>
-</span></span><span style="display:flex;"><span>cache-size<span style="color:#f92672">=</span><span style="color:#ae81ff">10240</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 泛域名解析，访问任何 baidu.com 域名都会被解析到 6.6.6.6</span>
-</span></span><span style="display:flex;"><span>address<span style="color:#f92672">=</span>/baidu.com/6.6.6.6
-</span></span></code></pre></div><p>域名解析默认读取 /etc/hosts 文件到本地域名配置文件（不支持泛域名）。</p>
-<p>DNS 配置默认读取 /etc/resolv.conf 上游 DNS 配置文件，如果读取不到 /etc/hosts 的地址解析，就会转发给 resolv.conf 进行解析地址。</p>
+        <p><em>ed note: this is an overview of basic memcached use case, and how memcached clients work</em></p>
+<p>Two plucky adventurers, Programmer and Sysadmin, set out on a journey. Together they make websites. Websites with webservers and databases. Users from all over the Internet talk to the webservers and ask them to make pages for them. The webservers ask the databases for junk they need to make the pages. Programmer codes, Sysadmin adds webservers and database servers.</p>
+<p>One day the Sysadmin realizes that their database is sick! It’s spewing bile and red stuff all over! Sysadmin declares it has a fever, a load average of 20! Programmer asks Sysadmin, “well, what can we do?” Sysadmin says, “I heard about this great thing called memcached. It really helped livejournal!” “Okay, let’s try it!” says the Programmer.</p>
+<p>Our plucky Sysadmin eyes his webservers, of which he has six. He decides to use three of them to run the ‘memcached’ server. Sysadmin adds a gigabyte of ram to each webserver, and starts up memcached with a limit of 1 gigabyte each. So he has three memcached instances, each can hold up to 1 gigabyte of data. So the Programmer and the Sysadmin step back and behold their glorious memcached!</p>
+<p>“So now what?” they say, “it’s not DOING anything!” The memcacheds aren’t talking to anything and they certainly don’t have any data. And NOW their database has a load of 25!</p>
     </div>
     <footer id="more">
-        <a href='https://alimy.github.io/post/dev_202104050200/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+        <a href='https://alimy.github.io/post/dev_202102191130/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
             </nobr></a>
     </footer>
 </article>
                         
                             <article class="post panel-wrapper">
     <header>
-        <h2><a href="https://alimy.github.io/post/dev_202104042045/" title="阅读全文">如何在Fedora 33命令行模式下禁止睡眠 </a> </h2>
+        <h2><a href="https://alimy.github.io/post/dev_202102191110/" title="阅读全文">Memcached - Meta Text Protocol </a> </h2>
         
     </header>
     <div class="summary">
-        <p>切换启动模式：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>%&gt; systemctl get-default <span style="color:#75715e"># 获取当前启动模式</span>
-</span></span><span style="display:flex;"><span>%&gt; systemctl set-default multi-user.target <span style="color:#75715e"># 默认命令行模式启动</span>
-</span></span><span style="display:flex;"><span>%&gt; systemctl set-default graphical.target <span style="color:#75715e"># 默认图形模式启动</span>
-</span></span></code></pre></div><p>笔记本进入睡眠状态后，很多服务不能远程连接使用，例如 SSH 会连接不上，需要修改一下配置：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>%&gt; systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target <span style="color:#75715e"># 禁止睡眠</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>%&gt; systemctl unmask sleep.target suspend.target hibernate.target hybrid-sleep.target <span style="color:#75715e"># 启用睡眠</span>
-</span></span><span style="display:flex;"><span> 
-</span></span><span style="display:flex;"><span>%&gt; vi /etc/systemd/logind.conf <span style="color:#75715e"># 配置盖子（笔记本）</span>
-</span></span><span style="display:flex;"><span> 
-</span></span><span style="display:flex;"><span>找到该行#HandleLidSwitch<span style="color:#f92672">=</span>suspend,将该行更改为以下所需的设置之一：
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#关闭盖子时关闭计算机</span>
-</span></span><span style="display:flex;"><span>HandleLidSwitch<span style="color:#f92672">=</span>poweroff
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#在合上盖子时到休眠计算机</span>
-</span></span><span style="display:flex;"><span>HandleLidSwitch<span style="color:#f92672">=</span>hibernate
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#关闭盖子时暂停计算机</span>
-</span></span><span style="display:flex;"><span>HandleLidSwitch<span style="color:#f92672">=</span>suspend
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#不执行任何操作</span>
-</span></span><span style="display:flex;"><span>HandleLidSwitch<span style="color:#f92672">=</span>ignore
-</span></span><span style="display:flex;"><span> 
-</span></span><span style="display:flex;"><span>%&gt; systemctl restart systemd-logind <span style="color:#75715e"># 保存文件，然后重新启动服务</span>
-</span></span><span style="display:flex;"><span>%&gt; service systemd-logind restart <span style="color:#75715e"># 同上</span>
-</span></span></code></pre></div>
-    </div>
-    <footer id="more">
-        <a href='https://alimy.github.io/post/dev_202104042045/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
-            </nobr></a>
-    </footer>
-</article>
-                        
-                            <article class="post panel-wrapper">
-    <header>
-        <h2><a href="https://alimy.github.io/post/dev_202303152242/" title="阅读全文">乐观锁和悲观锁的区别 </a> </h2>
-        
-    </header>
-    <div class="summary">
-        <h3 id="乐观锁">乐观锁</h3>
-<p>在关系数据库管理系统里，乐观并发控制（又名乐观锁，Optimistic Concurrency Control，缩写 OCC）是一种并发控制的方法。它假设多用户并发的事务在处理时不会彼此互相影响，各事务能够在不产生锁的情况下处理各自影响的那部分数据。在提交数据更新之前，每个事务会先检查在该事务读取数据后，有没有其他事务又修改了该数据。如果其他事务有更新的话，正在提交的事务会进行回滚。乐观事务控制最早是由孔祥重（H.T.Kung）教授提出。</p>
-<h3 id="乐观并发控制的阶段">乐观并发控制的阶段</h3>
-<p>乐观并发控制的事务包括以下阶段：</p>
-<ol>
-<li>读取：事务将数据读入缓存，这时系统会给事务分派一个时间戳。</li>
-<li>校验：事务执行完毕后，进行提交。这时同步校验所有事务，如果事务所读取的数据在读取之后又被其他事务修改，则产生冲突，事务被中断回滚。</li>
-<li>写入：通过校验阶段后，将更新的数据写入数据库。</li>
-</ol>
-<p>乐观并发控制多数用于数据争用不大、冲突较少的环境中，这种环境中，偶尔回滚事务的成本会低于读取数据时锁定数据的成本，因此可以获得比其他并发控制方法更高的吞吐量。</p>
-<p>相对于悲观锁，在对数据库进行处理的时候，乐观锁并不会使用数据库提供的锁机制。一般的实现乐观锁的方式就是记录数据版本。</p>
-<p>数据版本,为数据增加的一个版本标识。当读取数据时，将版本标识的值一同读出，数据每更新一次，同时对版本标识进行更新。当我们提交更新的时候，判断数据库表对应记录的当前版本信息与第一次取出来的版本标识进行比对，如果数据库表当前版本号与第一次取出来的版本标识值相等，则予以更新，否则认为是过期数据。</p>
-<p>实现数据版本有两种方式，第一种是使用版本号，第二种是使用时间戳。 使用版本号实现乐观锁</p>
-<p>使用版本号时，可以在数据初始化时指定一个版本号，每次对数据的更新操作都对版本号执行+1操作。并判断当前版本号是不是该数据的最新的版本号。</p>
-    </div>
-    <footer id="more">
-        <a href='https://alimy.github.io/post/dev_202303152242/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
-            </nobr></a>
-    </footer>
-</article>
-                        
-                            <article class="post panel-wrapper">
-    <header>
-        <h2><a href="https://alimy.github.io/post/dev_202103151521/" title="阅读全文">部署v1.20版的Kubernetes集群 </a> </h2>
-        
-    </header>
-    <div class="summary">
-        <h3 id="主机环境预设">主机环境预设</h3>
-<p>本示例中的Kubernetes集群部署将基于以下环境进行。</p>
+        <p>NOTE: These commands are new. Please let us know if you run into any trouble with the API or the documentation! The meta protocol is no longer considered experimental, please give it a shot!</p>
+<p>NOTE: binary protocol is deprecated. meta protocol is cross-compatible with the text protocol, includes every feature the binary protocol has, and has many enhancements.</p>
+<p>Memcached has additional commands which are used to reduce bytes on the wire, reduce network roundtrips required for complex queries (such as anti-dogpiling techniques), expose previously hidden item information, and add many new features. These are in addition to the existing Text Protocol, and can do everything the Binary Protocol could do before.</p>
+<p>The full description of the Meta commands are available in the Text Protocol documentation:</p>
 <ul>
-<li>OS: Ubuntu 20.04.1</li>
-<li>Kubernetes：v1.20</li>
-<li>Container Runtime:  Docker CE 20.10.0</li>
+<li><a href="http://github.com/memcached/memcached/blob/master/doc/protocol.txt">Text Protocol</a></li>
 </ul>
-<h4 id="测试环境说明">测试环境说明</h4>
-<p>测试使用的Kubernetes集群可由一个master主机及一个以上（建议至少两个）node主机组成，这些主机可以是物理服务器，也可以运行于vmware、virtualbox或kvm等虚拟化平台上的虚拟机，甚至是公有云上的VPS主机。</p>
-<p>本测试环境将由master01、node01、node02和node03四个独立的主机组成，它们分别拥有4核心的CPU及4G的内存资源，操作系统环境均为仅小化部署的Ubuntu Server 20.04.1 LTS，启用了SSH服务，域名为magedu.com。此外，各主机需要预设的系统环境如下：</p>
-<p>（1）借助于chronyd服务（程序包名称chrony）设定各节点时间精确同步；</p>
-<p>（2）通过DNS完成各节点的主机名称解析；</p>
-<p>（3）各节点禁用所有的Swap设备；</p>
-<p>（4）各节点禁用默认配置的iptables防火墙服务；</p>
-<p>注意：为了便于操作，后面将在各节点直接以系统管理员root用户进行操作。若用户使用了普通用户，建议将如下各命令以sudo方式运行。</p>
+<p>This wiki serves as a companion to protocol.txt with use cases and examples of the new commands.</p>
+<h3 id="command-basics">Command Basics </h3>
+<p>Commands and responses start with a two character code then a set of flags, and potentially value data. Flags may have token data attached to them.</p>
     </div>
     <footer id="more">
-        <a href='https://alimy.github.io/post/dev_202103151521/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+        <a href='https://alimy.github.io/post/dev_202102191110/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
+</article>
+                        
+                            <article class="post panel-wrapper">
+    <header>
+        <h2><a href="https://alimy.github.io/post/dev_202102191100/" title="阅读全文">Memcached - Basic Text Protocol </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <p>Memcached handles a small number of basic commands.</p>
+<p>Full documentation can be found in the <a href="https://docs.memcached.org/protocols/">Protocol Documentation</a>.</p>
+<h3 id="standard-protocol">Standard Protocol </h3>
+<p>The “standard protocol stuff” of memcached involves running a command against an “item”. An item consists of:</p>
+<ul>
+<li>A key (arbitrary string up to 250 bytes in length. No space or newlines for ASCII mode)</li>
+<li>A 32bit “flag” value</li>
+<li>An expiration time, in seconds. ‘0’ means never expire. Can be up to 30 days. After 30 days, is treated as a unix timestamp of an exact date.</li>
+<li>A 64bit “CAS” value, which is kept unique.</li>
+<li>Arbitrary data</li>
+</ul>
+<p>CAS is optional (can be disabled entirely with <code>-C</code>, and there are more fields that internally make up an item, but these are what your client interacts with.</p>
+<h4 id="no-reply">No Reply </h4>
+<p>Most ASCII commands allow a “noreply” version. One should not normally use this with the ASCII protocol, as it is impossible to align errors with requests. The intent is to avoid having to wait for a return packet after executing a mutation command (such as a set or add).</p>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/dev_202102191100/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
+</article>
+                        
+                            <article class="post panel-wrapper">
+    <header>
+        <h2><a href="https://alimy.github.io/post/dev_202102191015/" title="阅读全文">Cache your sessions. Don&#39;t piss off your users </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <p>I hope you&rsquo;re all enjoying the <a href="http://danga.com/memcached/news.bml">1.2.6</a> stable release of memcached. Don&rsquo;t want to hear no whining about it crashing!</p>
+<p>One of the most common questions in memcached land is the ever obnoxious &ldquo;how do I put my sessions in memcached?&rdquo;. The long standing answer is usually &ldquo;you don&rsquo;t&rdquo;, or &ldquo;carefully&rdquo;, but people often walk the dark path instead. Many libraries do this as well, although I&rsquo;ve seen at least one which gets it.</p>
+<p>This isn&rsquo;t as huge of a deal as people make it out to be. I&rsquo;ve been asked about this over the mailing list, in IRC, in person, and even in job interviews. What people end up doing gives me the willies! Why! Why why why&hellip; Well, I know why.</p>
+<p>So what <em>is</em> the deal with sessions? Why does everyone want to jettison them from mysql/postgres/disk/whatever? Well, a session is:</p>
+<ul>
+<li>Almost always larger than 250 bytes, and almost always smaller than 5 kilobytes.</li>
+<li>Read from datastore for every logged in (and often logged out) user for every dynamic page load.</li>
+<li>Written <em>to</em> the datastore for every dynamic page load.</li>
+<li>Eventually reaped from the database after N minutes of inactivity.</li>
+</ul>
+<p>Ok well that sucks I guess. Every time a user loads a page we read a blob row from mysql, then write a blob row back. This is a lot slower than row without blobs. Alright, so I see it now. Memcached to the rescue!</p>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/dev_202102191015/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
             </nobr></a>
     </footer>
 </article>

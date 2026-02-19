@@ -6,14 +6,14 @@
     <language>en</language>
     
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <updated>Thu, 19 Feb 2026 11:30:00 CST</updated>
+    <updated>Fri, 19 Feb 2021 11:30:00 CST</updated>
     
     <item>
       <title>Memcached - A Story of Caching</title>
-      <link>https://alimy.github.io/post/dev_202602191130/</link>
-      <pubDate>Thu, 19 Feb 2026 11:30:00 CST</pubDate>
+      <link>https://alimy.github.io/post/dev_202102191130/</link>
+      <pubDate>Fri, 19 Feb 2021 11:30:00 CST</pubDate>
       
-      <guid>https://alimy.github.io/post/dev_202602191130/</guid>
+      <guid>https://alimy.github.io/post/dev_202102191130/</guid>
       <description>&lt;p&gt;&lt;em&gt;ed note: this is an overview of basic memcached use case, and how memcached clients work&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;Two plucky adventurers, Programmer and Sysadmin, set out on a journey. Together they make websites. Websites with webservers and databases. Users from all over the Internet talk to the webservers and ask them to make pages for them. The webservers ask the databases for junk they need to make the pages. Programmer codes, Sysadmin adds webservers and database servers.&lt;/p&gt;
 &lt;p&gt;One day the Sysadmin realizes that their database is sick! It’s spewing bile and red stuff all over! Sysadmin declares it has a fever, a load average of 20! Programmer asks Sysadmin, “well, what can we do?” Sysadmin says, “I heard about this great thing called memcached. It really helped livejournal!” “Okay, let’s try it!” says the Programmer.&lt;/p&gt;
@@ -67,10 +67,10 @@ if($huge_data_for_front_page === false){
     
     <item>
       <title>Memcached - Meta Text Protocol</title>
-      <link>https://alimy.github.io/post/dev_202602191110/</link>
-      <pubDate>Thu, 19 Feb 2026 11:10:00 CST</pubDate>
+      <link>https://alimy.github.io/post/dev_202102191110/</link>
+      <pubDate>Fri, 19 Feb 2021 11:10:00 CST</pubDate>
       
-      <guid>https://alimy.github.io/post/dev_202602191110/</guid>
+      <guid>https://alimy.github.io/post/dev_202102191110/</guid>
       <description>&lt;p&gt;NOTE: These commands are new. Please let us know if you run into any trouble with the API or the documentation! The meta protocol is no longer considered experimental, please give it a shot!&lt;/p&gt;
 &lt;p&gt;NOTE: binary protocol is deprecated. meta protocol is cross-compatible with the text protocol, includes every feature the binary protocol has, and has many enhancements.&lt;/p&gt;
 &lt;p&gt;Memcached has additional commands which are used to reduce bytes on the wire, reduce network roundtrips required for complex queries (such as anti-dogpiling techniques), expose previously hidden item information, and add many new features. These are in addition to the existing Text Protocol, and can do everything the Binary Protocol could do before.&lt;/p&gt;
@@ -366,10 +366,10 @@ response:
     
     <item>
       <title>Memcached - Basic Text Protocol</title>
-      <link>https://alimy.github.io/post/dev_202602191100/</link>
-      <pubDate>Thu, 19 Feb 2026 11:00:00 CST</pubDate>
+      <link>https://alimy.github.io/post/dev_202102191100/</link>
+      <pubDate>Fri, 19 Feb 2021 11:00:00 CST</pubDate>
       
-      <guid>https://alimy.github.io/post/dev_202602191100/</guid>
+      <guid>https://alimy.github.io/post/dev_202102191100/</guid>
       <description>&lt;p&gt;Memcached handles a small number of basic commands.&lt;/p&gt;
 &lt;p&gt;Full documentation can be found in the &lt;a href=&#34;https://docs.memcached.org/protocols/&#34;&gt;Protocol Documentation&lt;/a&gt;.&lt;/p&gt;
 &lt;h3 id=&#34;standard-protocol&#34;&gt;Standard Protocol &lt;/h3&gt;
@@ -429,10 +429,10 @@ response:
     
     <item>
       <title>Cache your sessions. Don&#39;t piss off your users</title>
-      <link>https://alimy.github.io/post/dev_202602191015/</link>
-      <pubDate>Thu, 19 Feb 2026 10:15:00 CST</pubDate>
+      <link>https://alimy.github.io/post/dev_202102191015/</link>
+      <pubDate>Fri, 19 Feb 2021 10:15:00 CST</pubDate>
       
-      <guid>https://alimy.github.io/post/dev_202602191015/</guid>
+      <guid>https://alimy.github.io/post/dev_202102191015/</guid>
       <description>&lt;p&gt;I hope you&amp;rsquo;re all enjoying the &lt;a href=&#34;http://danga.com/memcached/news.bml&#34;&gt;1.2.6&lt;/a&gt; stable release of memcached. Don&amp;rsquo;t want to hear no whining about it crashing!&lt;/p&gt;
 &lt;p&gt;One of the most common questions in memcached land is the ever obnoxious &amp;ldquo;how do I put my sessions in memcached?&amp;rdquo;. The long standing answer is usually &amp;ldquo;you don&amp;rsquo;t&amp;rdquo;, or &amp;ldquo;carefully&amp;rdquo;, but people often walk the dark path instead. Many libraries do this as well, although I&amp;rsquo;ve seen at least one which gets it.&lt;/p&gt;
 &lt;p&gt;This isn&amp;rsquo;t as huge of a deal as people make it out to be. I&amp;rsquo;ve been asked about this over the mailing list, in IRC, in person, and even in job interviews. What people end up doing gives me the willies! Why! Why why why&amp;hellip; Well, I know why.&lt;/p&gt;

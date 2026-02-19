@@ -5,7 +5,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-  <title> Memcached &middot; 那年江湖，遇见你 </title>
+  <title> Cache your sessions. Don&#39;t piss off your users &middot; 那年江湖，遇见你 </title>
   
   <link rel="stylesheet" type="text/css" href="https://alimy.github.io//css/uno.css" />
   <link rel="stylesheet" type="text/css" href="https://alimy.github.io//css/lightGallery.css" />
@@ -189,15 +189,14 @@
 </head>
 
 <body>
-    <div id="scriptHeader">
+  <div id="scriptHeader">
     <span class="mobile btn-mobile-menu">
         <i class="fa fa-bars btn-mobile-menu__icon"></i>
         <i class="fa fa-times btn-mobile-close__icon hidden"> </i>
     </span>
     <header class="
-        
          panel-cover
-        panel-cover--collapsed  " 
+        panel-cover--collapsed " 
         style="background-image: url(/images/cover.jpg)" >
         <div class="panel-main">
             <div class="panel-main__inner panel-inverted">
@@ -313,54 +312,79 @@
         </div>
     </header>
 </noscript>
-    <div class="content-wrapper">
-        <div class="content-wrapper__inner">
-            <h2>文章列表</h2>
-            
-            <div class="panel-wrapper">
-                <div id="caption">
-                    <h3>
-                        2021年 02月
-                        
-                        <span id="list-indicator" title="共4篇文章">4 </span>
-                    </h3>
-                </div>
-                <ul id="list">
-                    
-                    <li>
-                        <a href="https://alimy.github.io/post/dev_202102191130/">Memcached - A Story of Caching </a>&nbsp;
-                        <span id="list-date">(Fri, Feb 19, 2021)</span>
-                    </li>
-                    
-                    <li>
-                        <a href="https://alimy.github.io/post/dev_202102191110/">Memcached - Meta Text Protocol </a>&nbsp;
-                        <span id="list-date">(Fri, Feb 19, 2021)</span>
-                    </li>
-                    
-                    <li>
-                        <a href="https://alimy.github.io/post/dev_202102191100/">Memcached - Basic Text Protocol </a>&nbsp;
-                        <span id="list-date">(Fri, Feb 19, 2021)</span>
-                    </li>
-                    
-                    <li>
-                        <a href="https://alimy.github.io/post/dev_202102191015/">Cache your sessions. Don&#39;t piss off your users </a>&nbsp;
-                        <span id="list-date">(Fri, Feb 19, 2021)</span>
-                    </li>
-                    
-                </ul>
-            </div>
-            
-            <footer id="copyright">
+  <div class="content-wrapper">
+    <div class="content-wrapper__inner">
+      <div class="post panel-wrapper">
+        <h2>Cache your sessions. Don&#39;t piss off your users</h2>
+        
+        <p>I hope you&rsquo;re all enjoying the <a href="http://danga.com/memcached/news.bml">1.2.6</a> stable release of memcached. Don&rsquo;t want to hear no whining about it crashing!</p>
+<p>One of the most common questions in memcached land is the ever obnoxious &ldquo;how do I put my sessions in memcached?&rdquo;. The long standing answer is usually &ldquo;you don&rsquo;t&rdquo;, or &ldquo;carefully&rdquo;, but people often walk the dark path instead. Many libraries do this as well, although I&rsquo;ve seen at least one which gets it.</p>
+<p>This isn&rsquo;t as huge of a deal as people make it out to be. I&rsquo;ve been asked about this over the mailing list, in IRC, in person, and even in job interviews. What people end up doing gives me the willies! Why! Why why why&hellip; Well, I know why.</p>
+<p>So what <em>is</em> the deal with sessions? Why does everyone want to jettison them from mysql/postgres/disk/whatever? Well, a session is:</p>
+<ul>
+<li>Almost always larger than 250 bytes, and almost always smaller than 5 kilobytes.</li>
+<li>Read from datastore for every logged in (and often logged out) user for every dynamic page load.</li>
+<li>Written <em>to</em> the datastore for every dynamic page load.</li>
+<li>Eventually reaped from the database after N minutes of inactivity.</li>
+</ul>
+<p>Ok well that sucks I guess. Every time a user loads a page we read a blob row from mysql, then write a blob row back. This is a lot slower than row without blobs. Alright, so I see it now. Memcached to the rescue!</p>
+<p>Er, except maybe it&rsquo;s a little complicated to actually memcached these things, since we need a write for every read&hellip; Why not <strong>just</strong> use memcached for sessions!? It lines up perfectly! Check it out:</p>
+<ul>
+<li>Set a memcached expire time for the max inactivity for a session. Say 30 minutes&hellip;</li>
+<li>Read from memcached.</li>
+<li>Write to memcached.</li>
+<li>A miss from memcached means the user is logged out.</li>
+</ul>
+<p>Voila! ZERO reads or writes to the database, fantastic! Fast. Except I really don&rsquo;t like the tradeoffs here. This is one example where I believe the experience of both your users and your operations team is cheapened. Users now get logged out when <em>anything</em> goes wrong with memcached! Operations has to dance on eggshells. Or needles. Painful.</p>
+<ul>
+<li>Evictions are serious business. Even if you disable them (-M), out of memory errors means no one can log into your site.</li>
+<li>Upgrading memcached, OS kernel, hardware, etc, now means kicking <strong>everyone</strong> off your site.</li>
+<li>Adding/removing memcached servers kicks people off your site. Even with consistent hashing, while the miss rate is low it&rsquo;s not going to be zero.</li>
+</ul>
+<p>So now what? Well we have zero accesses on our database, so it&rsquo;s fast! But we can&rsquo;t ever touch memcached again in fear of ticking off users. Progress be damned! Before you all think I&rsquo;m completely off my rocker, I will admit there are some legitimate reasons to do this. If the way your site works doesn&rsquo;t really impact users on loss of a session, or impacts few enough users, you can use this design pattern. How many people are actually affected if you get logged out of wikipedia.org? Well, the people writing revisions certainly mind, but the greater userbase is unaffected. They&rsquo;re a non profit, they understand the tradeoff, etc. So that&rsquo;s fine. It&rsquo;s not fine for a lot of the people I see suggesting it or doing it. As developers get more comfy with memcached the session issue will become more of an obvious bottleneck.</p>
+<p>The memcached/mysql hybrid really isn&rsquo;t that bad at all. You can get rid of over 90% of the database reads, a lot of the writes, and leave your users logged in during rolling upgrades of memcached.</p>
+<p>First, recap the components involved: The page session handler itself, and some batch job which reaps dead sessions. For small websites (like a vbulletin forum) these batch jobs are often run during page loads. For larger sites they will be crons and so forth. This batch job can also be used to save data about sessions for later analysis.</p>
+<p>The pattern is simple. For reads fetch from memcached first, database second. For writes write to memcached, unless you haven&rsquo;t synced the session to the database in the last N seconds. So if a user is clicking around they will only write to the database once every 120 seconds, and write to memcached every time.</p>
+<p>Now modify the batch job. Crawl all expired sessions, and check memcached for the latest data. If session is not really expired don&rsquo;t expire it then, if it is use the latest possible data from memcached. Write back to the database. Easy.</p>
+<p>You take the tradeoff of sessions being mildly lossy for recent information, but you gain reliability back in your system. Reads against the database should be almost nonexistent, and write load should drop significantly, but not as much as reads.</p>
+<p>So please, if you run some website I might eventually use, don&rsquo;t put memcached in a place where restarting individual servers might piss me off. Thanks :)</p>
+<p>I&rsquo;d like to also challenge maintainers of session libraries for all languages to turn this design pattern into tunable (note all the places where I wrote N) libraries folks can plug in and use.</p>
+<p>The more standard this stuff is the more likely the next fancy startup is going to get it right. Reuse is a great thing. I can&rsquo;t say enough about how great efforts like <a href="https://krow.livejournal.com/profile/"><img src="https://l-stat.livejournal.net/img/userinfo_v8.svg?v=17080&amp;v=909" alt=""></a><a href="https://krow.livejournal.com/"><strong>krow</strong></a>&lsquo;s <a href="http://tangent.org/552/libmemcached.html">libmemcached</a> go for standardizing how we use memcached, but it&rsquo;s also a great help to ship libraries for common design patterns.</p>
+<hr>
+<p>本文转载自<a href="https://dormando.livejournal.com/495593.html" title="Cache your sessions - Dont piss off your users">网络</a>，是在看memcached文档时看到的。文章发表的时间很早，是2008年的，但是内容很有意思，说的是要不要用memcahced来缓存用户会话信息。<br>
+文章罗列了一些使用memcached缓存用户会话信息将会遇到的一些问题，有些还可能会很严重，所以作者是不太推荐直接使用memcached来缓存用户会话信息。究其原因就是memcached仅仅是内存数据库，一旦发生故障停止工作了，缓存的所有信息就不存在了，重新起来后就是一个啥都没有的新实例。文章下面有评论说，这是单点故障问题，有其他避免措施可缓解故障，比如多点备份缓存，定时同步重要的信息到（mysql/postgres）数据库中等等。</p>
+<p>Redis因为自带有同步缓存数据到disk的功能，只要配置好了，重新起来后会自动重建所有缓存信息，所以可以不用在意文章所述问题。还有就是，对于用户会话信息，对于轻量级别的认证信息，可以有很多其他机制在客户端/服务端传递，比如 <em><strong>JWT</strong></em> 就是其中之一，其本身可以包含额外信息，最重要的是对于验证该会话的有效性（是否本站签发、是否过期等等）提供了校验机制，而且不依赖缓存等存储机制。</p>
+<hr>
+<p><em>本站为个人网站，集网络美文、技术文章与原创生活记录等，系孤芳自赏、个人用途，内容如有侵权请联系站长删除。</em></p>
+        <div id="post-tags">
+          
+          
+          <a href="https://alimy.github.io/tags/development/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;Development</a>
+          
+          <a href="https://alimy.github.io/tags/cache/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;Cache</a>
+          
+          <a href="https://alimy.github.io/tags/memcached/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;Memcached</a>
+          
+          
+        </div>
+      </div>
+      <div id="post-navigator">
+        <a id="post-navigator-prev" href="https://alimy.github.io/post/dev_202101311010/" title="上一篇"><i class="fa fa-chevron-left"
+            aria-hidden="true"></i>&nbsp;Uber’s Real-Time Push Platform</a>
+        <a id="post-navigator-next" href="https://alimy.github.io/post/dev_202102191100/" title="下一篇">Memcached - Basic Text Protocol&nbsp;<i
+            class="fa fa-chevron-right" aria-hidden="true"></i></a>
+      </div>
+      
+      <footer id="copyright">
   <p>&copy;2015-至今 <a href="mailto:alimy@niubiu.com" title="Email:alimy@niubiu.com">北野 - Michael Li</a> All rights
     reserved.&nbsp;&nbsp;<a href="https://riiffy.com/alimy.github.io" title="访问统计" target="_blank">Riiffy</p>
 </footer>
-        </div>
     </div>
-</body>
-<script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
+    <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
 if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
 var s=document.getElementsByTagName('script')[0];sc.src='https://alimy.github.io/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
 WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
 
+</body>
 
 </html>

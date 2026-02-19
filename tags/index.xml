@@ -6,32 +6,14 @@
     <language>en</language>
     
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <updated>Thu, 19 Feb 2026 11:30:00 CST</updated>
-    
-    <item>
-      <title>Cache</title>
-      <link>https://alimy.github.io/tags/cache/</link>
-      <pubDate>Thu, 19 Feb 2026 11:30:00 CST</pubDate>
-      
-      <guid>https://alimy.github.io/tags/cache/</guid>
-      <description></description>
-    </item>
+    <updated>Sun, 15 Feb 2026 17:05:00 CST</updated>
     
     <item>
       <title>Development</title>
       <link>https://alimy.github.io/tags/development/</link>
-      <pubDate>Thu, 19 Feb 2026 11:30:00 CST</pubDate>
+      <pubDate>Sun, 15 Feb 2026 17:05:00 CST</pubDate>
       
       <guid>https://alimy.github.io/tags/development/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Memcached</title>
-      <link>https://alimy.github.io/tags/memcached/</link>
-      <pubDate>Thu, 19 Feb 2026 11:30:00 CST</pubDate>
-      
-      <guid>https://alimy.github.io/tags/memcached/</guid>
       <description></description>
     </item>
     
@@ -140,6 +122,24 @@
       <pubDate>Sat, 24 Jan 2026 12:58:00 CST</pubDate>
       
       <guid>https://alimy.github.io/tags/tl/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Microservice</title>
+      <link>https://alimy.github.io/tags/microservice/</link>
+      <pubDate>Sun, 28 Jan 2024 16:30:00 CST</pubDate>
+      
+      <guid>https://alimy.github.io/tags/microservice/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Git</title>
+      <link>https://alimy.github.io/tags/git/</link>
+      <pubDate>Sun, 27 Aug 2023 12:00:00 CST</pubDate>
+      
+      <guid>https://alimy.github.io/tags/git/</guid>
       <description></description>
     </item>
     
