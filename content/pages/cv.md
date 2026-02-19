@@ -31,3 +31,23 @@ menu = "About"
 - [mux](https://github.com/gorilla/mux) - A powerful HTTP router and URL matcher for building Go web servers with 🦍
 - [go-bindata](https://github.com/go-bindata/go-bindata) - Turn data file into go code.
 - [KubeKey](https://github.com/kubesphere/kubekey) - 一个开源的轻量级工具，用于部署Kubernetes集群.
+
+### 收藏项目
+
+- [Logseq](https://logseq.com/) - 🔥A privacy-first, open-source platform for knowledge management and collaboration.
+- [Penpot](https://penpot.app/) - 🔥The open-source design tool for design and code collaboration.
+- [Metabase](https://metabase.com/) - 🔥Business Intelligence and Embedded Analytics tool that lets everyone work with data 📊
+- [Lynx](https://lynxjs.org/) - Empower the Web community and invite more to build across platforms.
+- [gpui-component](https://github.com/longbridge/gpui-component) - Rust GUI components for building fantastic cross-platform desktop application by using [GPUI](https://www.gpui.rs/).
+- [RustFS](https://github.com/rustfs/rustfs) - 🔥S3-compatible high-performance, distributed object storage system built in Rust.
+- [Redpanda](https://github.com/redpanda-data/redpanda) - The most complete, Apache Kafka®-compatible streaming data platform.
+- [EMQX](https://github.com/emqx/emqx) - The most scalable and reliable MQTT broker for AI, IoT, IIoT and connected vehicles.
+- [ScyllaDB](https://github.com/scylladb/scylladb) - The real-time big data database that is API-compatible with Apache Cassandra and Amazon DynamoDB.
+- [Aerospike](https://github.com/aerospike/aerospike-server) - Flash-optimized, in-memory, distributed, scalable NoSQL database.
+- [Pingora](https://github.com/cloudflare/pingora) - A library for building fast, reliable and evolvable network services.
+- [TiDB](https://github.com/pingcap/tidb) - The open-source, cloud-native, distributed SQL database designed for modern applications.
+
+### 趣味项目
+
+- [Clock Dashboard](https://alimy.github.io/clock-dashboard) - 天气时钟看板.
+ 
