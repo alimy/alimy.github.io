@@ -45,6 +45,7 @@ menu = "About"
 - [ScyllaDB](https://github.com/scylladb/scylladb) - The real-time big data database that is API-compatible with Apache Cassandra and Amazon DynamoDB.
 - [Aerospike](https://github.com/aerospike/aerospike-server) - Flash-optimized, in-memory, distributed, scalable NoSQL database.
 - [Pingora](https://github.com/cloudflare/pingora) - A library for building fast, reliable and evolvable network services.
+- [Meilisearch](https://github.com/meilisearch/meilisearch) - 🔥A lightning-fast search engine API bringing AI-powered hybrid search to your sites and applications.
 - [TiDB](https://github.com/pingcap/tidb) - The open-source, cloud-native, distributed SQL database designed for modern applications.
 
 ### 趣味项目
