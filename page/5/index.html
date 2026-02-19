@@ -319,6 +319,70 @@
                         
                             <article class="post panel-wrapper">
     <header>
+        <h2><a href="https://alimy.github.io/post/dev_202104042045/" title="阅读全文">如何在Fedora 33命令行模式下禁止睡眠 </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <p>切换启动模式：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>%&gt; systemctl get-default <span style="color:#75715e"># 获取当前启动模式</span>
+</span></span><span style="display:flex;"><span>%&gt; systemctl set-default multi-user.target <span style="color:#75715e"># 默认命令行模式启动</span>
+</span></span><span style="display:flex;"><span>%&gt; systemctl set-default graphical.target <span style="color:#75715e"># 默认图形模式启动</span>
+</span></span></code></pre></div><p>笔记本进入睡眠状态后，很多服务不能远程连接使用，例如 SSH 会连接不上，需要修改一下配置：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>%&gt; systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target <span style="color:#75715e"># 禁止睡眠</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>%&gt; systemctl unmask sleep.target suspend.target hibernate.target hybrid-sleep.target <span style="color:#75715e"># 启用睡眠</span>
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>%&gt; vi /etc/systemd/logind.conf <span style="color:#75715e"># 配置盖子（笔记本）</span>
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>找到该行#HandleLidSwitch<span style="color:#f92672">=</span>suspend,将该行更改为以下所需的设置之一：
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#关闭盖子时关闭计算机</span>
+</span></span><span style="display:flex;"><span>HandleLidSwitch<span style="color:#f92672">=</span>poweroff
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#在合上盖子时到休眠计算机</span>
+</span></span><span style="display:flex;"><span>HandleLidSwitch<span style="color:#f92672">=</span>hibernate
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#关闭盖子时暂停计算机</span>
+</span></span><span style="display:flex;"><span>HandleLidSwitch<span style="color:#f92672">=</span>suspend
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#不执行任何操作</span>
+</span></span><span style="display:flex;"><span>HandleLidSwitch<span style="color:#f92672">=</span>ignore
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>%&gt; systemctl restart systemd-logind <span style="color:#75715e"># 保存文件，然后重新启动服务</span>
+</span></span><span style="display:flex;"><span>%&gt; service systemd-logind restart <span style="color:#75715e"># 同上</span>
+</span></span></code></pre></div>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/dev_202104042045/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
+</article>
+                        
+                            <article class="post panel-wrapper">
+    <header>
+        <h2><a href="https://alimy.github.io/post/dev_202303152242/" title="阅读全文">乐观锁和悲观锁的区别 </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <h3 id="乐观锁">乐观锁</h3>
+<p>在关系数据库管理系统里，乐观并发控制（又名乐观锁，Optimistic Concurrency Control，缩写 OCC）是一种并发控制的方法。它假设多用户并发的事务在处理时不会彼此互相影响，各事务能够在不产生锁的情况下处理各自影响的那部分数据。在提交数据更新之前，每个事务会先检查在该事务读取数据后，有没有其他事务又修改了该数据。如果其他事务有更新的话，正在提交的事务会进行回滚。乐观事务控制最早是由孔祥重（H.T.Kung）教授提出。</p>
+<h3 id="乐观并发控制的阶段">乐观并发控制的阶段</h3>
+<p>乐观并发控制的事务包括以下阶段：</p>
+<ol>
+<li>读取：事务将数据读入缓存，这时系统会给事务分派一个时间戳。</li>
+<li>校验：事务执行完毕后，进行提交。这时同步校验所有事务，如果事务所读取的数据在读取之后又被其他事务修改，则产生冲突，事务被中断回滚。</li>
+<li>写入：通过校验阶段后，将更新的数据写入数据库。</li>
+</ol>
+<p>乐观并发控制多数用于数据争用不大、冲突较少的环境中，这种环境中，偶尔回滚事务的成本会低于读取数据时锁定数据的成本，因此可以获得比其他并发控制方法更高的吞吐量。</p>
+<p>相对于悲观锁，在对数据库进行处理的时候，乐观锁并不会使用数据库提供的锁机制。一般的实现乐观锁的方式就是记录数据版本。</p>
+<p>数据版本,为数据增加的一个版本标识。当读取数据时，将版本标识的值一同读出，数据每更新一次，同时对版本标识进行更新。当我们提交更新的时候，判断数据库表对应记录的当前版本信息与第一次取出来的版本标识进行比对，如果数据库表当前版本号与第一次取出来的版本标识值相等，则予以更新，否则认为是过期数据。</p>
+<p>实现数据版本有两种方式，第一种是使用版本号，第二种是使用时间戳。 使用版本号实现乐观锁</p>
+<p>使用版本号时，可以在数据初始化时指定一个版本号，每次对数据的更新操作都对版本号执行+1操作。并判断当前版本号是不是该数据的最新的版本号。</p>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/dev_202303152242/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
+</article>
+                        
+                            <article class="post panel-wrapper">
+    <header>
         <h2><a href="https://alimy.github.io/post/dev_202103151521/" title="阅读全文">部署v1.20版的Kubernetes集群 </a> </h2>
         
     </header>
@@ -603,55 +667,6 @@ http_wait#9299359f max_delay:int wait_after:int max_wait:int = HttpWait;
     </div>
     <footer id="more">
         <a href='https://alimy.github.io/post/dev_202012081630/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
-            </nobr></a>
-    </footer>
-</article>
-                        
-                            <article class="post panel-wrapper">
-    <header>
-        <h2><a href="https://alimy.github.io/post/dev_202012071337/" title="阅读全文">Tg: Service Messages </a> </h2>
-        
-    </header>
-    <div class="summary">
-        <h4 id="response-to-an-rpc-query">Response to an RPC query</h4>
-<p>A response to an RPC query is normally wrapped as follows:</p>
-<pre tabindex="0"><code>rpc_result#f35c6d01 req_msg_id:long result:Object = RpcResult;
-</code></pre><p>Here req_msg_id is the identifier of the message sent by the other party and containing an RPC query. This way, the recipient knows that the result is a response to the specific RPC query in question. At the same time, this response serves as acknowledgment of the other party’s receipt of the req_msg_id message.</p>
-<p>Note that the response to an RPC query must also be acknowledged. Most frequently, this coincides with the transmission of the next message (which may have a container attached to it carrying a service message with the acknowledgment).</p>
-<h4 id="rpc-error">RPC Error</h4>
-<p>The result field returned in response to any RPC query may also contain an error message in the following format:</p>
-<pre tabindex="0"><code>rpc_error#2144ca19 error_code:int error_message:string = RpcError;
-</code></pre>
-    </div>
-    <footer id="more">
-        <a href='https://alimy.github.io/post/dev_202012071337/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
-            </nobr></a>
-    </footer>
-</article>
-                        
-                            <article class="post panel-wrapper">
-    <header>
-        <h2><a href="https://alimy.github.io/post/dev_202012071333/" title="阅读全文">Tg: Binary Data Serialization </a> </h2>
-        
-    </header>
-    <div class="summary">
-        <p>MTProto operation requires that elementary and composite data types as well as queries to which such data types are passed as arguments or by which they are returned, be transmitted in binary format (i. e. serialized) . The <a href="https://alimy.github.io/post/dev_202012071315/">TL language</a> is used to describe the data types to be serialized.</p>
-<h4 id="general-definitions">General Definitions</h4>
-<p>For our purposes, we can identify a type with the set of its (serialized) values understood as strings (finite sequences) of 32-bit numbers (transmitted in little endian order).</p>
-<p>Therefore:</p>
-<ul>
-<li>Alphabet (A), in this case, is a set of 32-bit numbers (normally, signed, i. e. between <code>-2^31</code> and <code>2^31 - 1)</code>.</li>
-<li>Value, in this case, is the same as a string in Alphabet A, i. e. a finite (possibly, empty) sequence of 32-bit numbers. The set of all such sequences is designated as A*.</li>
-<li>Type, for our purposes, is the same as the set of legal values of a type, i. e. some set T which is a subset of A* and is a prefix code (i. e. no element of T may be a prefix for any other element). Therefore, any sequence from A* can contain no more than one prefix that is a member of T.</li>
-<li>Value of Type T is any sequence (value) which is a member of T as a subset of A*.</li>
-<li>Compatible Types are the types T and T’ not intersecting as subsets of A*, such that the union of T and T&rsquo; is a prefix code.</li>
-<li>Coordinated System of Types is a finite or infinite set of types T_1, &hellip;, T_n, &hellip;, such that any two types from this set are compatible.</li>
-<li>Data Type is the same as type in the sense of the definition above.</li>
-<li>Functional Type is a type describing a function; it is not a type in the sense of the definition above. Initially, we ignore the existence of functional types and describe only the data types; however, in reality, functional types will later be implemented in some extension of this system using the so-called temporary combinators.</li>
-</ul>
-    </div>
-    <footer id="more">
-        <a href='https://alimy.github.io/post/dev_202012071333/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
             </nobr></a>
     </footer>
 </article>

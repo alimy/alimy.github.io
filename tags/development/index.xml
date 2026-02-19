@@ -6,7 +6,369 @@
     <language>en</language>
     
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <updated>Thu, 19 Feb 2026 10:15:00 CST</updated>
+    <updated>Thu, 19 Feb 2026 11:10:00 CST</updated>
+    
+    <item>
+      <title>Memcached - Meta Text Protocol</title>
+      <link>https://alimy.github.io/post/dev_202602191110/</link>
+      <pubDate>Thu, 19 Feb 2026 11:10:00 CST</pubDate>
+      
+      <guid>https://alimy.github.io/post/dev_202602191110/</guid>
+      <description>&lt;p&gt;NOTE: These commands are new. Please let us know if you run into any trouble with the API or the documentation! The meta protocol is no longer considered experimental, please give it a shot!&lt;/p&gt;
+&lt;p&gt;NOTE: binary protocol is deprecated. meta protocol is cross-compatible with the text protocol, includes every feature the binary protocol has, and has many enhancements.&lt;/p&gt;
+&lt;p&gt;Memcached has additional commands which are used to reduce bytes on the wire, reduce network roundtrips required for complex queries (such as anti-dogpiling techniques), expose previously hidden item information, and add many new features. These are in addition to the existing Text Protocol, and can do everything the Binary Protocol could do before.&lt;/p&gt;
+&lt;p&gt;The full description of the Meta commands are available in the Text Protocol documentation:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://github.com/memcached/memcached/blob/master/doc/protocol.txt&#34;&gt;Text Protocol&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This wiki serves as a companion to protocol.txt with use cases and examples of the new commands.&lt;/p&gt;
+&lt;h3 id=&#34;command-basics&#34;&gt;Command Basics &lt;/h3&gt;
+&lt;p&gt;Commands and responses start with a two character code then a set of flags, and potentially value data. Flags may have token data attached to them.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;set request:
+ ms foo 2 T90 F1\r\n
+ hi\r\n
+response:
+ HD\r\n
+
+get request:
+ mg foo t f v\r\n
+
+response:
+ VA 2 t78 f1\r\n
+ hi\r\n
+
+delete request:
+ md foo\r\n
+
+response:
+ HD\r\n
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Commands are 2 characters, followed by key, flags, and tokens requested by flags. Responses are a 2 character code, any additional flags added (for mg), and any requested tokens. Flag responses are in the order set by the order in the client request.&lt;/p&gt;
+&lt;p&gt;For full detail please see &lt;a href=&#34;http://github.com/memcached/memcached/blob/master/doc/protocol.txt&#34;&gt;Text Protocol&lt;/a&gt; documentation.&lt;/p&gt;
+&lt;h3 id=&#34;replacing-getgetstouchgatgats&#34;&gt;Replacing GET/GETS/TOUCH/GAT/GATS &lt;/h3&gt;
+&lt;p&gt;Standard GET:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;mg foo f v\r\n -- ask for client flags, value
+VA 2 f30\r\n -- get length, client flags, value
+hi\r\n
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;… will return client flags, value. Add &lt;code&gt;k&lt;/code&gt; to also get the key back.&lt;/p&gt;
+&lt;p&gt;GETS (get with CAS):&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;mg foo f c v\r\n
+VA 2 f30 c3\r\n -- also gets the CAS value back
+hi\r\n
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;TOUCH (just update TTL, no response data):&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;mg foo T30\r\n -- update the TTL to be 30 seconds from now.
+HD\r\n -- no flags or value requested, get HD return code
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;GAT (get and touch):&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;mg foo f v T90&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;… will fetch client flags, value and update the TTL to be 90 seconds from now.&lt;/p&gt;
+&lt;p&gt;GATS (get and touch with CAS):&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;mg foo f c v T100&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;… same as above, but also gets the CAS value.&lt;/p&gt;
+&lt;h3 id=&#34;new-metadata-flags&#34;&gt;New MetaData Flags &lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;l&lt;/code&gt; flag will show the number of seconds since the item was last accessed.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;h&lt;/code&gt; flag will return 0 or 1 based on if the item has ever been fetched since being stored.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;t&lt;/code&gt; flag will return the number of seconds remaining until the item expires (-1 for infinite)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Others will be documented in protocol.txt&lt;/p&gt;
+&lt;h3 id=&#34;binary-encoded-keys&#34;&gt;Binary Encoded Keys &lt;/h3&gt;
+&lt;p&gt;With meta protocol it is possible store and retrieve non-ascii keys. This can save RAM on servers if you have keys that are very long, but data that are very short. You can also store UTF8 strings this way.&lt;/p&gt;
+&lt;p&gt;For example, your key may look like: “string-12345678910-9999313149” or “reallylongidentifierstringbecausewehavealotofthese-[ID number]. To save memory the string identifier can be encoded into a small number, and ID’s can be 32bit or 64bit integers.&lt;/p&gt;
+&lt;p&gt;In order to store/retrieve encoded keys, they must be BASE64 encoded. This adds some overhead on the network portion but typically extreme fast to encode or decode on modern hardware.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;
+binary key set request: (&amp;#34;tesuto&amp;#34; in japanese characters)
+ ms 44OG44K544OI 2 b\r\n
+ hi\r\n
+
+ mg 44OG44K544OI b v k\r\n
+ VA 2 k44OG44K544OI b\r\n
+ hi\r\n
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;atomic-stampeding-herd-handling&#34;&gt;Atomic Stampeding Herd Handling &lt;/h3&gt;
+&lt;p&gt;We can use the CAS value and some new flags to do stampeding herd (dogpiling) protection with a minimal number of round trips to the server:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;request:
+ mg foo f c v N30\r\n
+response:
+ VA 0 f0 c2 W\r\n
+\r\n
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The &lt;code&gt;N&lt;/code&gt; flag instructs memcached to automatically create an item on miss, with a supplied TTL, which is 30 seconds in this example.&lt;/p&gt;
+&lt;p&gt;In the flags returned a new flag &lt;code&gt;W&lt;/code&gt; has been added. This is instructing the client that it has received a miss and has “Won” the right to recache the item. The client may then directly update the value once it has been fetched or calculated, or set back using the CAS value it retrieved.&lt;/p&gt;
+&lt;p&gt;If a different client requests the same item in this time, it will see a slightly different response:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;request:
+ mg foo f c v N30\r\n
+response:
+ VA 0 f0 c2 Z\r\n
+\r\n
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The &lt;code&gt;Z&lt;/code&gt; flag indicates to the client that a &lt;code&gt;W&lt;/code&gt; flag has already been sent, and this is a special non-data item. The client may then retry, wait, or try something else.&lt;/p&gt;
+&lt;p&gt;This approach was done in the past by having clients race with an &lt;code&gt;add&lt;/code&gt; command after a miss, using special response values, or so on. It is now collapsed into the normal request/response workflow, and has additional features.&lt;/p&gt;
+&lt;h3 id=&#34;early-recache&#34;&gt;Early Recache &lt;/h3&gt;
+&lt;p&gt;The ‘R’ flag can be used to do an anti-herd early recache of objects nearing their expiration time. This can be used to reduce misses for frequently accessed objects. Infrequently accessed objects can be left to expire.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;request:
+ mg foo v t R30\r\n
+response:
+ VA 2 t29 W\r\n
+hi\r\n
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In this example, the R flag is supplied a token of ‘30’, meaning if the TTL remaining on an item is less than 30 seconds, attempt to refresh the item.&lt;/p&gt;
+&lt;p&gt;In the response we see the extra ‘W’ (win) flag has been returned, indicating to this client that it should recache the item. Any further clients will instead see a ‘Z’ flag, indicating a request has already been sent.&lt;/p&gt;
+&lt;p&gt;We also see the TTL remaining, via the ’t’ flag, confirming that the TTL is below 30 seconds.&lt;/p&gt;
+&lt;p&gt;The CAS value may also be requested via the ‘c’ flag, which allows honoring the recache only if the object hasn’t changed since the win token was received.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;get request:
+ mg foo v c R30\r\n
+response:
+ VA 0 c999\r\n
+\r\n
+
+set request:
+ ms foo 3 C999
+ new\r\n
+response:
+ HD\r\n
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;serve-stale&#34;&gt;Serve Stale &lt;/h3&gt;
+&lt;p&gt;Intentionally serving stale but usable data is possible with the meta commands, similar to Stale-While-Revalidate or Stale-While-Error in HTTP.&lt;/p&gt;
+&lt;p&gt;In some cases you would want to actively mark an in-memory item as stale. You can then either have the first client fetching the stale value also handle revalidation, or kick off an asynchronous recache but still inform clients that the data may not be up to date.&lt;/p&gt;
+&lt;p&gt;We use the meta delete command to mark an item as stale.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;request:
+ md foo I T30\r\n
+response:
+ HD\r\n
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;We also optionally change the TTL. In this instance stale data will be served for a maximum of 30 seconds. Marking an item as stale also changes its CAS ID number.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;request:
+ mg foo t c v
+response:
+ VA 4 t29 c777 W X\r\n
+ data\r\n
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The next metaget gets the ‘W’ flag, indicating it has rights to exclusively recache the item. It also gets the ‘X’ flag, indicating that the item is stale. How this is handled is up to the application; it can use the data as-is, adjust it, warn a user, or quietly re-fetch later.&lt;/p&gt;
+&lt;p&gt;If another metadelete comes in before the item above is recached, the CAS will change to 778 (or higher), and the later metaset call will fail.&lt;/p&gt;
+&lt;p&gt;However, it is possible to still update the item but keep it marked as stale, via the ‘I’ flag with metaset.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;request:
+ ms foo S3 T360 C777 I\r\n
+ new\r\n
+response:
+ ST\r\n
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The next metaget will continue to see the item as stale, with its previous TTL and previous CAS:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;request:
+ mg foo t c v\r\n
+response:
+ VA 3 t25 c778 X\r\n
+ new\r\n
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The CAS value must be &lt;em&gt;lower&lt;/em&gt; than the real CAS value for this to apply. Once a set matching the CAS value comes in, all data is overwritten and the TTL is updated properly.&lt;/p&gt;
+&lt;h3 id=&#34;pipelining-quiet-mode-with-opaque-or-key&#34;&gt;Pipelining Quiet mode with Opaque or Key &lt;/h3&gt;
+&lt;p&gt;Pipelining with meta commands is done with combinations of the ‘q’, ‘O’, and ‘k’ flags. These flags work for all of the metaget, metaset, and metadelete commands.&lt;/p&gt;
+&lt;p&gt;In the normal text protocol, the requested key is reflected back to the client. This makes it possible to differentiate responses when requesting many keys.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;get bar foooooooooooooooooooooooooooooooo baz
+VALUE foooooooooooooooooooooooooooooooo 0 2
+hi
+END
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In the above, only foo+ exists. The rest of the values don’t have lines indicating a miss, only the END token after all keys are fetched.&lt;/p&gt;
+&lt;p&gt;This is still true even when fetching a single key:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;get foooooooooooooooooooooooooooooooo
+VALUE foooooooooooooooooooooooooooooooo 0 2
+hi
+END
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Metagets do not have a multi-key interface. Requesting many keys at once requires pipelining the commands:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;mg foo v\r\nmg bar v\r\nmg baz v\r\n
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Metaget will also not return the key by default. Clients should look for the response codes to count responses.&lt;/p&gt;
+&lt;p&gt;It’s possible to optimize fetching many keys by using the ‘q’ flag, which will hide the “EN” code on miss. There is a problem with this: you can no longer differentiate the responses to match item data to requested keys.&lt;/p&gt;
+&lt;p&gt;There are two options for optimizing pipelined requests:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;request:
+ mg foo t c v q k\r\n
+response:
+ VA 2 s2 t-1 c2 kfoo\r\n
+ hi\r\n
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The ‘k’ flag will add the key as a token in the response. This works for &lt;code&gt;mg&lt;/code&gt;, as well as &lt;code&gt;ms&lt;/code&gt; and &lt;code&gt;md&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;This is still not ideal if your keys are very long, especially if the data stored is very small (perhaps even 0 bytes!). Returning 200 byte keys with 8 bytes of data is a lot of extra bytes on the wire.&lt;/p&gt;
+&lt;p&gt;There is one more option, the ‘O’ (opaque) flag. Tokens supplied with this flag are reflected back in the response as-is. Opaque tokens can be up to 32 bytes in length as of this writing. They can be alphanumeric but numbers are likely the common use case.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;request:
+ mg foo v q Oopaque\r\n
+response:
+ VA 2 Oopaque\r\n
+ hi\r\n
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In this example the string “opaque” is used as a token to make it stand out more in the response. This can be any (short) ascii string. A simple approach would be to simply count the number of outstanding requests, using numerics and resetting after receiving the responses. This keeps the numbers short, with some benefit from hex encoding if desired.&lt;/p&gt;
+&lt;p&gt;Finally, it’s still impossible to tell when all of the keys have been processed if they were all misses. There are two options:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Send the final mg without the ‘q’ flag, which will add an EN response code.&lt;/li&gt;
+&lt;li&gt;Use the &lt;code&gt;mn&lt;/code&gt; meta no-op command. All this command does is respond with a bare MN code.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;request:
+ mn\r\n
+response:
+ MN\r\n
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Stick it at the end of a pipeline:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;mg [etc]\r\nmg [etc]\r\nmg [etc]\r\nmn\r\n&lt;/code&gt;&lt;/p&gt;
+&lt;h3 id=&#34;quiet-mode-semantics&#34;&gt;Quiet mode semantics &lt;/h3&gt;
+&lt;p&gt;The ‘q’ flag is described briefly in the section about Pipelining, but what else does it do?&lt;/p&gt;
+&lt;p&gt;In general, the ‘q’ flag will hide “nominal” responses. If you wish to pipeline a bunch of sets together but don’t want all of the “ST” code responses, pass the ‘q’ flag with it. If a set results in a code other than “ST” (ie; “EX” for a failed CAS), the response will still be returned.&lt;/p&gt;
+&lt;p&gt;Any syntax errors will still result in a response as well (&lt;code&gt;CLIENT_ERROR&lt;/code&gt;).&lt;/p&gt;
+&lt;h3 id=&#34;data-consistency-with-cas-overrides&#34;&gt;Data consistency with CAS overrides &lt;/h3&gt;
+&lt;h4 id=&#34;data-version-or-time-based-consistency&#34;&gt;Data version or time based consistency &lt;/h4&gt;
+&lt;p&gt;After version 1.6.27 the meta protocol supports directly providing a CAS value during mutation operations. By default the CAS value (or CAS id) for an item is generated directly by memcached using a globally incrementing counter, but we can now override this with the &lt;code&gt;E&lt;/code&gt; flag.&lt;/p&gt;
+&lt;p&gt;For example, if the data you are caching has a “version id” or “row version” we can provide that:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;ms foo 2 E73 -- directly provide the CAS value
+hi
+HD
+mg foo c v -- later able to retrieve it
+VA 2 c73
+hi
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;We have directly set this value’s CAS id to &lt;code&gt;73&lt;/code&gt;. Now we can use standard CAS operations to update the data. For example, attempting to update the data with an older version will now fail:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;ms foo 2 C72 E73
+hi
+EX
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The above could be the result of a race condition: two processes are trying to move the data from version 72 to 73 at the same time. Since the underlying version is already 73, the second command will fail.&lt;/p&gt;
+&lt;p&gt;Note that any command which can generate a new cas id also accepts the &lt;code&gt;E&lt;/code&gt; flag. IE: delete with invalidate, ma for incr/decr, and so on.&lt;/p&gt;
+&lt;h4 id=&#34;time-and-types&#34;&gt;Time and types &lt;/h4&gt;
+&lt;p&gt;Anything that fits in an 8 byte &lt;em&gt;incrementing&lt;/em&gt; number can be used as a CAS id: versions, clocks, HLC’s, and so on. So long as the next number is higher than the previous number.&lt;/p&gt;
+&lt;h3 id=&#34;data-consistency-across-multiple-pools&#34;&gt;Data consistency across multiple pools &lt;/h3&gt;
+&lt;p&gt;If you are attempting to keep multiple pools of memcached servers in sync, we can use the CAS override to help improve our consistency results. Please note this system is not strict.&lt;/p&gt;
+&lt;h4 id=&#34;leader-and-follower-pools&#34;&gt;Leader and follower pools &lt;/h4&gt;
+&lt;p&gt;Assume you have pools A, B, C, and one pool is designated as a “leader”, we can provide general consistency which can be also be repaired:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;-- against pool A:
+mg foo c v\r\n
+VA 2 C50\r\n
+hi\r\n
+-- we fetched a value. we have a new row version (or timestamp):
+ms foo 2 C50 E51\r\n
+ih\r\n
+HD\r\n
+-- Success. Now, against pools B and C we issue &amp;#34;blind sets&amp;#34;:
+-- pool B:
+ms foo 2 E51\r\n
+ih\r\n
+HD\r\n
+-- pool C:
+ms foo 2 E51\r\n
+ih\r\n
+HD\r\n
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If all is well all copies will have the same CAS ID as data in pool A. This is again, not strict, but can help verify if data is consistent or not. If the data in pool A has gone missing, you can decide on quorum or highest ID to repair data from B/C. Or simply not allow data to change until A has been repaired, but in the meantime data can be read from B/C.&lt;/p&gt;
+&lt;h4 id=&#34;full-cross-consistency&#34;&gt;Full cross consistency &lt;/h4&gt;
+&lt;p&gt;It is difficult if not impossible to guarantee consistency across multiple pools. You can attempt this by:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;-- against pool A:
+mg foo c v\r\n -- if we need the value. else drop the v.
+-- against pools B/C:
+mg foo c\r\n -- don&amp;#39;t necessarily need the value
+-- use the same set command across all three hosts:
+ms foo 2 Cnnnn E90\r\n
+hi\r\n
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If this fails on any host, do the whole routine again. If a value is being frequently updated this can be problematic or permanently blocking.&lt;/p&gt;
+&lt;p&gt;You can augment this with the stale/win flags by picking a “leader” pool and issuing an invalidation:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;md foo I E74\r\n -- invalidate the key if it exists, prep it for the new ver
+HD\r\n
+mg foo c v\r\n
+VA 2 c75 X W\r\n -- data is stale (X) and we atomically win (W)
+hi\r\n
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Now this client has the exclusive right to update this value across all pools. If updates to pools B/C end up coming &lt;em&gt;out of order&lt;/em&gt; the highest CAS value should eventually succeed if the updates are asynchronous:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;If pool B starts at version 70, then gets updated to 75 as above&lt;/li&gt;
+&lt;li&gt;A later update to 73 will fail (CAS too old)&lt;/li&gt;
+&lt;li&gt;If pool C starts at version 70, gets updated to 73, then gets updated to 75&lt;/li&gt;
+&lt;li&gt;The final result will be the correct version&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;If the client waits for either quorum (2/3 in this case) or all (3/3) hosts to respond before responding to its user, the data should be the same.&lt;/p&gt;
+&lt;p&gt;Problems where this fails should be relatively obscure, for example:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Pool A is our leader, we get win flag (W) and successfully update it.&lt;/li&gt;
+&lt;li&gt;We update Pools B, C, but in the meantime pool A has failed.&lt;/li&gt;
+&lt;li&gt;Depending on how new leaders are elected and how long updates take, we can end up with inconsistent data.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In reality host or pool election is slow and cross-stream updates are relatively fast, so it should be unusual.&lt;/p&gt;
+&lt;h3 id=&#34;probabilistic-hot-cache&#34;&gt;Probabilistic Hot Cache &lt;/h3&gt;
+&lt;p&gt;A new technique made possible with the meta commands is a probabilistic client-side hot key cache. This means a coordination-free method of populating a local cache to avoid making requests to memcached for very frequently accessed items.&lt;/p&gt;
+&lt;p&gt;Using the new &lt;code&gt;h&lt;/code&gt; and &lt;code&gt;l&lt;/code&gt; flags, we can see if an item has been hit before, and how many seconds it’s been since it was last hit. Lets combine these:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;request:
+ mg foo v h l\r\n
+response:
+ VA 4 h1 l5\r\n
+ data\r\n
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Breaking down the flags:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;s&lt;/code&gt; is data size, getting a 4 in the response.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;v&lt;/code&gt; means return the value, getting “data\r\n” in the response block.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;h&lt;/code&gt; means return a 0 or 1 depending on if the item has been requested since it was stored.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;l&lt;/code&gt; means the time in seconds since last access, which here shows 5 seconds.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;We can weight these values to create a probabilistic cache: &lt;code&gt;if (h == 1 &amp;amp;&amp;amp; l &amp;lt; 5 &amp;amp;&amp;amp; random(1000) == 0) { add_to_local_cache(it); }&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;The random factor here is a weight that could be other factors (database/network/system load/local cache hit rate/etc). Keys which suddenly get a lot of traffic will filter in slowly, with the highest traffic keys being cached very quickly.&lt;/p&gt;
+&lt;p&gt;This approach requires no live coordination between servers to discover or communicate “hot keys”. Implementations of this method do need to make a decision on how validation is done.&lt;/p&gt;
+&lt;h3 id=&#34;hot-key-cache-invalidation&#34;&gt;Hot Key Cache Invalidation &lt;/h3&gt;
+&lt;p&gt;For truly hot keys, the simplest approach is to only cache them in a client for a couple seconds. A “shadow key” with a slightly longer expiration time (30 seconds or so) could be left in its place to signal to a client to immediately recache a key if seen again, This covers a wide number of use cases. The total number of requests to memcached will be higher than in a perfect system, but the zero coordination effort and natural key discovery without server overhead is a huge bonus.&lt;/p&gt;
+&lt;p&gt;Another approach, especially useful for items which are large or are CPU intensive to deserialize, is to periodically revalidate items.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;request:
+ mg foo v h l c\r\n
+response:
+ VA 4 h1 l5 c500\r\n
+ data\r\n
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This time we also request the CAS value. A client could schedule asynchronous periodic revalidations for hot keys in the background. Metaget can fetch items without the value.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;request:
+ mg foo c\r\n
+response:
+ HD c500
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;(the &lt;code&gt;HD&lt;/code&gt; status code indicates no value is being received; only a header)&lt;/p&gt;
+&lt;p&gt;In this case, we only care about finding if the CAS value is identical.&lt;/p&gt;
+&lt;p&gt;We may add support for conditionally fetching the value if CAS does or does not match, to further improve this use case. Check doc/protocol.txt with your tarball for the most up to date information.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;本文转载自&lt;a href=&#34;https://docs.memcached.org/protocols/meta/&#34; title=&#34;Meta Text Protocol&#34;&gt;网络&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;本站为个人网站，集网络美文、技术文章与原创生活记录等，系孤芳自赏、个人用途，内容如有侵权请联系站长删除。&lt;/em&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Memcached - Basic Text Protocol</title>
+      <link>https://alimy.github.io/post/dev_202602191100/</link>
+      <pubDate>Thu, 19 Feb 2026 11:00:00 CST</pubDate>
+      
+      <guid>https://alimy.github.io/post/dev_202602191100/</guid>
+      <description>&lt;p&gt;Memcached handles a small number of basic commands.&lt;/p&gt;
+&lt;p&gt;Full documentation can be found in the &lt;a href=&#34;https://docs.memcached.org/protocols/&#34;&gt;Protocol Documentation&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id=&#34;standard-protocol&#34;&gt;Standard Protocol &lt;/h3&gt;
+&lt;p&gt;The “standard protocol stuff” of memcached involves running a command against an “item”. An item consists of:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A key (arbitrary string up to 250 bytes in length. No space or newlines for ASCII mode)&lt;/li&gt;
+&lt;li&gt;A 32bit “flag” value&lt;/li&gt;
+&lt;li&gt;An expiration time, in seconds. ‘0’ means never expire. Can be up to 30 days. After 30 days, is treated as a unix timestamp of an exact date.&lt;/li&gt;
+&lt;li&gt;A 64bit “CAS” value, which is kept unique.&lt;/li&gt;
+&lt;li&gt;Arbitrary data&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;CAS is optional (can be disabled entirely with &lt;code&gt;-C&lt;/code&gt;, and there are more fields that internally make up an item, but these are what your client interacts with.&lt;/p&gt;
+&lt;h4 id=&#34;no-reply&#34;&gt;No Reply &lt;/h4&gt;
+&lt;p&gt;Most ASCII commands allow a “noreply” version. One should not normally use this with the ASCII protocol, as it is impossible to align errors with requests. The intent is to avoid having to wait for a return packet after executing a mutation command (such as a set or add).&lt;/p&gt;
+&lt;p&gt;The binary protocol properly implements noreply (quiet) statements. If you have a client which supports or uses the binary protocol, odds are good you may take advantage of this.&lt;/p&gt;
+&lt;h3 id=&#34;storage-commands&#34;&gt;Storage Commands &lt;/h3&gt;
+&lt;h4 id=&#34;set&#34;&gt;set &lt;/h4&gt;
+&lt;p&gt;Most common command. Store this data, possibly overwriting any existing data. New items are at the top of the LRU.&lt;/p&gt;
+&lt;h4 id=&#34;add&#34;&gt;add &lt;/h4&gt;
+&lt;p&gt;Store this data, only if it does not already exist. New items are at the top of the LRU. If an item already exists and an add fails, it promotes the item to the front of the LRU anyway.&lt;/p&gt;
+&lt;h4 id=&#34;replace&#34;&gt;replace &lt;/h4&gt;
+&lt;p&gt;Store this data, but only if the data already exists. Almost never used, and exists for protocol completeness (set, add, replace, etc)&lt;/p&gt;
+&lt;h4 id=&#34;append&#34;&gt;append &lt;/h4&gt;
+&lt;p&gt;Add this data after the last byte in an existing item. This does not allow you to extend past the item limit. Useful for managing lists.&lt;/p&gt;
+&lt;h4 id=&#34;prepend&#34;&gt;prepend &lt;/h4&gt;
+&lt;p&gt;Same as append, but adding new data before existing data.&lt;/p&gt;
+&lt;h4 id=&#34;cas&#34;&gt;cas &lt;/h4&gt;
+&lt;p&gt;Check And Set (or Compare And Swap). An operation that stores data, but only if no one else has updated the data since you read it last. Useful for resolving race conditions on updating cache data.&lt;/p&gt;
+&lt;h3 id=&#34;retrieval-commands&#34;&gt;Retrieval Commands&lt;/h3&gt;
+&lt;h4 id=&#34;get&#34;&gt;get&lt;/h4&gt;
+&lt;p&gt;Command for retrieving data. Takes one or more keys and returns all found items.&lt;/p&gt;
+&lt;h4 id=&#34;gets&#34;&gt;gets&lt;/h4&gt;
+&lt;p&gt;An alternative get command for using with CAS. Returns a CAS identifier (a unique 64bit number) with the item. Return this value with the &lt;code&gt;cas&lt;/code&gt; command. If the item’s CAS value has changed since you &lt;code&gt;gets&lt;/code&gt;‘ed it, it will not be stored.&lt;/p&gt;
+&lt;h3 id=&#34;delete&#34;&gt;delete&lt;/h3&gt;
+&lt;p&gt;Removes an item from the cache, if it exists.&lt;/p&gt;
+&lt;h3 id=&#34;incrdecr&#34;&gt;incr/decr&lt;/h3&gt;
+&lt;p&gt;Increment and Decrement. If an item stored is the string representation of an unsigned 64bit integer, you may run incr or decr commands to modify that number. You may only incr by positive values, or decr by positive values. They do not accept negative values.&lt;/p&gt;
+&lt;p&gt;If a value does not already exist, incr/decr will fail.&lt;/p&gt;
+&lt;h3 id=&#34;statistics&#34;&gt;Statistics &lt;/h3&gt;
+&lt;p&gt;There’re a handful of commands that return counters and settings of the memcached server. These can be inspected via a large array of tools or simply by telnet or netcat. These are further explained in the protocol docs.&lt;/p&gt;
+&lt;h4 id=&#34;stats&#34;&gt;stats &lt;/h4&gt;
+&lt;p&gt;ye ‘ole basic stats command.&lt;/p&gt;
+&lt;h4 id=&#34;stats-items&#34;&gt;stats items&lt;/h4&gt;
+&lt;p&gt;Returns some information, broken down by slab, about items stored in memcached.&lt;/p&gt;
+&lt;h4 id=&#34;stats-slabs&#34;&gt;stats slabs &lt;/h4&gt;
+&lt;p&gt;Returns more information, broken down by slab, about items stored in memcached. More centered to performance of a slab rather than counts of particular items.&lt;/p&gt;
+&lt;h4 id=&#34;stats-sizes&#34;&gt;stats sizes &lt;/h4&gt;
+&lt;p&gt;A special command that shows you how items would be distributed if slabs were broken into 32byte buckets instead of your current number of slabs. Useful for determining how efficient your slab sizing is.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;WARNING&lt;/em&gt; this is a development command. As of 1.4 it is still the only command which will lock your memcached instance for some time. If you have many millions of stored items, it can become unresponsive for several minutes. Run this at your own risk. It is roadmapped to either make this feature optional or at least speed it up.&lt;/p&gt;
+&lt;h3 id=&#34;flush_all&#34;&gt;flush_all&lt;/h3&gt;
+&lt;p&gt;Invalidate all existing cache items. Optionally takes a parameter, which means to invalidate all items after N seconds have passed.&lt;/p&gt;
+&lt;p&gt;This command does not pause the server, as it returns immediately. It does not free up or flush memory at all, it just causes all items to expire.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;本文转载自&lt;a href=&#34;https://docs.memcached.org/protocols/basic/&#34; title=&#34;Basic Text Protocol&#34;&gt;网络&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;本站为个人网站，集网络美文、技术文章与原创生活记录等，系孤芳自赏、个人用途，内容如有侵权请联系站长删除。&lt;/em&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Cache your sessions. Don&#39;t piss off your users</title>
@@ -2287,98 +2649,6 @@ folderPeer#e9baa668 peer:Peer folder_id:int = FolderPeer;
 &lt;/ul&gt;
 &lt;hr&gt;
 &lt;p&gt;后记： &lt;a href=&#34;https://github.com/alimy/yesql&#34;&gt;Yesql&lt;/a&gt; 是我两个通宵熬出来的成果，起于一时兴起，效果还是远超预期。一开始是在 &lt;a href=&#34;https://github.com/rocboss/paopao-ce/tree/r/paopao-ce-plus&#34;&gt;paopao-ce&lt;/a&gt; 与 &lt;a href=&#34;https://github.com/jmoiron/sqlx&#34;&gt;sqlx&lt;/a&gt; 集成的过程中，总感觉很别扭，代码不是很美观，想着肯定还有更好的方式来写sql查询语句，于是就有了 &lt;a href=&#34;https://github.com/alimy/yesql&#34;&gt;Yesql&lt;/a&gt; 的诞生，心情一下就舒畅了。对嘛，&lt;a href=&#34;https://github.com/jmoiron/sqlx&#34;&gt;sqlx&lt;/a&gt; 优雅的使用方式就应该是这样的，这才是我想要的感觉😎&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Mir - go-mir的设计演进</title>
-      <link>https://alimy.github.io/post/dev_202301160906/</link>
-      <pubDate>Mon, 16 Jan 2023 09:06:00 CST</pubDate>
-      
-      <guid>https://alimy.github.io/post/dev_202301160906/</guid>
-      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/alimy/mir&#34;&gt;Mir&lt;/a&gt; 是一套提供类似gRPC服务开发体验的快速开发RESTful API &lt;strong&gt;后端开发脚手架&lt;/strong&gt;，适配多种HTTP框架，包括 &lt;a href=&#34;https://github.com/gin-gonic/gin&#34;&gt;Gin&lt;/a&gt;, &lt;a href=&#34;https://github.com/go-chi/chi&#34;&gt;Chi&lt;/a&gt;, &lt;a href=&#34;https://github.com/cloudwego/hertz&#34;&gt;Hertz&lt;/a&gt;, &lt;a href=&#34;https://github.com/labstack/echo&#34;&gt;Echo&lt;/a&gt;, &lt;a href=&#34;https://github.com/kataras/iris&#34;&gt;Iris&lt;/a&gt;, &lt;a href=&#34;https://github.com/gofiber/fiber&#34;&gt;Fiber&lt;/a&gt;, &lt;a href=&#34;https://github.com/go-macaron/macaron&#34;&gt;Macaron&lt;/a&gt;, &lt;a href=&#34;https://github.com/gorilla/mux&#34;&gt;Mux&lt;/a&gt;, &lt;a href=&#34;https://github.com/julienschmidt/httprouter&#34;&gt;httprouter&lt;/a&gt;。&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://github.com/alimy/mir&#34;&gt;Mir&lt;/a&gt; 的演进历经了版本 &lt;a href=&#34;https://github.com/alimy/mir/tree/v1&#34;&gt;v1&lt;/a&gt;、&lt;a href=&#34;https://github.com/alimy/mir/tree/v2&#34;&gt;v2&lt;/a&gt;，目前已经演进到版本&lt;a href=&#34;https://github.com/alimy/mir&#34;&gt;v3&lt;/a&gt;。本文简要概述&lt;a href=&#34;https://github.com/alimy/mir&#34;&gt;Mir&lt;/a&gt;的具体演进过程，一窥设计的要点所在。&lt;/p&gt;
-&lt;h3 id=&#34;版本v1的由来&#34;&gt;版本&lt;a href=&#34;https://github.com/alimy/mir/tree/v1&#34;&gt;v1&lt;/a&gt;的由来&lt;/h3&gt;
-&lt;p&gt;TODO;&lt;/p&gt;
-&lt;h3 id=&#34;版本v2的设计要点&#34;&gt;版本&lt;a href=&#34;https://github.com/alimy/mir/tree/v2&#34;&gt;v2&lt;/a&gt;的设计要点&lt;/h3&gt;
-&lt;p&gt;TODO;&lt;/p&gt;
-&lt;h3 id=&#34;版本v3的意外出山&#34;&gt;版本&lt;a href=&#34;https://github.com/alimy/mir&#34;&gt;v3&lt;/a&gt;的意外出山&lt;/h3&gt;
-&lt;p&gt;TODO;&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>paopao - 关于paopao-ce的设计定位</title>
-      <link>https://alimy.github.io/post/dev_202212191032/</link>
-      <pubDate>Mon, 19 Dec 2022 10:32:00 CST</pubDate>
-      
-      <guid>https://alimy.github.io/post/dev_202212191032/</guid>
-      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/rocboss/paopao-ce&#34;&gt;paopao-ce&lt;/a&gt; 是一个清新文艺的微社区，提供类似Twitter/微博的推文分享服务。paopao-ce的运营形态有点类似WordPress，只不过WordPress是使用PHP语言开发的博客平台，提供的是博客服务，而paopao-ce提供的是类似Twitter的推文分享服务。paopao-ce 让 &lt;strong&gt;个人或小组织&lt;/strong&gt; 可以快速、方便的部署一个提供&lt;strong&gt;推文分享服务&lt;/strong&gt;的小站点，在有限范围内形成一个友善的社交小圈子微社区。   &lt;br&gt;
-&lt;img src=&#34;https://alimy.github.io/images/post/20221219103201.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;h3 id=&#34;从运维角度思考&#34;&gt;从运维角度思考&lt;/h3&gt;
-&lt;table&gt;
-  &lt;thead&gt;
-      &lt;tr&gt;
-          &lt;th&gt;实例部署&lt;/th&gt;
-          &lt;th&gt;站点部署&lt;/th&gt;
-      &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-      &lt;tr&gt;
-          &lt;td&gt;&lt;img src=&#34;https://alimy.github.io/images/post/20221219103202.png&#34; alt=&#34;&#34;&gt;&lt;/td&gt;
-          &lt;td&gt;&lt;img src=&#34;https://alimy.github.io/images/post/20221219103203.png&#34; alt=&#34;&#34;&gt;&lt;/td&gt;
-      &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-&lt;p&gt;部署paopao-ce实例 数据存储需要使用 关系数据库、对象存储、搜索引擎、缓存；paopao-ce支持多实例部署，具体详情请参考相应文档。&lt;/p&gt;
-&lt;h4 id=&#34;关系数据库&#34;&gt;关系数据库&lt;/h4&gt;
-&lt;ul&gt;
-&lt;li&gt;本地(Native) -  部署 MySQL/PostgreSQL或者paopao-ce内嵌Sqlite3数据库 &lt;br&gt;
-MySQL/PostgreSQL 可以采用 一主多从+备、一主+备、多主+备 的模式部署，具体部署方式由运维者决定，paopao-ce本身不关心 关系数据库 的部署方式，仅仅使用标准的方式连接关系数据库使用其数据存储服务。&lt;/li&gt;
-&lt;li&gt;云关系数据库 - 部署 云关系数据库   &lt;br&gt;
-阿里云、腾讯云、华为云都提供云关系数据库服务，如何开启服务请参考相应文档进行部署。paopao-ce采用标准方式连接其相应的数据库使用数据存储服务。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h4 id=&#34;对象存储&#34;&gt;对象存储&lt;/h4&gt;
-&lt;p&gt;paopao-ce使用对象存储服务存储 图片/视频/附件 等推文资源。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;本地(Native) - 部署OBS(Object Blob Storage System) &lt;br&gt;
-目前开发环境可以使用&lt;code&gt;localoss&lt;/code&gt;功能提供简单的OBS服务, 也可以自行部署&lt;a href=&#34;https://github.com/minio/minio&#34;&gt;MinIO&lt;/a&gt;来提供对象存储服务。&lt;/li&gt;
-&lt;li&gt;云对象存储服务
-阿里云、腾讯云、华为云都提供云对象存储服务，如何开启服务请参考相应文档进行部署。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h4 id=&#34;搜索引擎&#34;&gt;搜索引擎&lt;/h4&gt;
-&lt;p&gt;paopao-ce目前支持 使用&lt;a href=&#34;https://github.com/zinclabs/zinc&#34;&gt;Zinc&lt;/a&gt; /&lt;a href=&#34;https://github.com/meilisearch/meilisearch&#34;&gt;Meilisearch&lt;/a&gt; 提供推文搜索服务，搜索引擎实例的部署请参考相应官方文档。&lt;/p&gt;
-&lt;h4 id=&#34;缓存&#34;&gt;缓存&lt;/h4&gt;
-&lt;p&gt;paopao-ce目前支持Redis作为缓存存储引擎提供缓存服务，请参考Redis官方文档进行实例部署。&lt;/p&gt;
-&lt;h3 id=&#34;从代码实现角度思考&#34;&gt;从代码实现角度思考&lt;/h3&gt;
-&lt;p&gt;paopao-ce在代码实现上采用 &lt;strong&gt;单体架构模式、分层设计、功能模块化&lt;/strong&gt;，架构设计上可能略显保守，但是在使用新技术上却非常积极，比如搜索引擎就采用了近来新星&lt;a href=&#34;https://github.com/zinclabs/zinc&#34;&gt;Zinc&lt;/a&gt; /&lt;a href=&#34;https://github.com/meilisearch/meilisearch&#34;&gt;Meilisearch&lt;/a&gt;，同时也不排斥各种云端服务，包括阿里云、腾讯云、华为云的对象存储服务、关系数据库服务等。paopao-ce始终秉持着 &lt;strong&gt;包容并蓄、能用就上、去繁就简&lt;/strong&gt; 的架构思维，努力打造一个能 &lt;strong&gt;稳定运行、代码清晰、功能可扩展&lt;/strong&gt; 的开源项目。&lt;br&gt;
-&lt;img src=&#34;https://alimy.github.io/images/post/20221219103204.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;h3 id=&#34;从技术探索角度思考&#34;&gt;从技术探索角度思考&lt;/h3&gt;
-&lt;p&gt;IT世界是非常激动人心的，新技术层出不穷，在各自领域大展身手、大放异彩。作为开发者的我们首要目标当然是以产品为核心，不断的优化服务体验，也不吝啬于新技术的采用以达到更好的产品服务质量。新技术或者某种技术本身，是需要一个环境来支撑其运行、演进，脱离实际环境的技术演进，犹如纸上谈兵，实际效果是存疑的。开发者在研究一项(新)技术时，首先当然是知其然，了解其功能特性、适用场景；再而知其所以然，深入了解其设计原理、知悉其存在的局限等；进而知其不以为然，通过实践，找到技术的最适合场景、知悉其不适合的场景，或与其他技术配合使用，扬长避短，发挥各自的最佳效力以解决具体的事务。这些都是技术探索的通用流程，可以看出，一项技术的探索从陌生到一知半解再到了如指掌，需要一个漫长的过程以及一个技术探索的环境。有些技术的探索，确实需要一个具体的环境，才能更好的研究与实践，比如OBS、Search、Recommended discovery亦或各种云服务的使用、k8s的服务部署等，都需要一个具体的环境来进行技术探索。可以说以需求驱动的技术探索，也更能推进技术本身的不断演进。&lt;/p&gt;
-&lt;p&gt;说这么多，这就引出了本节所要说的一个观点了，paopao-ce不仅仅是作为一个提供推文分享服务的产品，也能作为一些（新）技术的探索环境。比如OBS(对象存储服务)、推文搜索服务、推文/用户推荐发现服务、广场推文消息流服务等，都可以作为相应技术领域的技术探索环境，从实践中去检验技术的有效性，更好的推进技术的学习、实践、演进。作为开发者/学习者，也能在理论学习与实际环境中实践(新)技术找到一个平衡，更好、更快的掌握一项(新)技术，这也是paopao-ce的另一价值所在。&lt;strong&gt;路漫漫其修远兮，吾将上下而求索&lt;/strong&gt;，用我们开发者的话来说，带着 &lt;strong&gt;上下文(环境/需求)&lt;/strong&gt; 去探索（新)技术，或能事半功倍、得心应手。&lt;/p&gt;
-&lt;h3 id=&#34;从人文角度思考&#34;&gt;从人文角度思考&lt;/h3&gt;
-&lt;p&gt;现在的互联网世界已经非常精彩，各种社交媒体平台琳琅满目，使用体验也非常友好。每个社交平台都有自己的运营方式，都有自己的核心用户群体，也有自己的产品灵魂，都在不断的进行生态演进。比如Twitter、微博都已经从最初的推文分享服务演进到一个成熟的传媒平台，注册用户非常庞大，日均访问PV也是一个惊人的数字，这就注定了平台的运营思维是多维度考量均衡的结果，只能做到让用户群体的大多数人用户体验友好，并不能满足所有人的需求。大平台有大平台的运营模式，小站点有小站点的维系空间。对于类似Twitter这样的推文分享服务，paopao-ce提供一种小站点部署模式，采用类似WordPress的运维模式，让 &lt;strong&gt;个人/小组织&lt;/strong&gt; 能快速、便捷的拥有一个提供推文分享服务的小站点，以填补那些在大平台下难以享受到的用户体验，享受小圈子内的自由空间。&lt;/p&gt;
-&lt;p&gt;就像许巍唱的「曾经的你」这首歌中所说: &lt;em&gt;&amp;ldquo;曾梦想仗剑走天涯～ 看一看世界的繁华～ 年少的心总有些轻狂～ 如今你四海为家～ &amp;hellip;&amp;hellip;&amp;rdquo;&lt;/em&gt; 曾经的你我也在 疯狂刷朋友圈、狂奔微博空间、畅游Twitter世界，但是随着环境的改变、岁月的洗礼、心路的淬炼后，你我可能已经不复当年的热情，逐渐淡出朋友圈、沦为微博的稀客，或许Twitter世界还有点吸引力，但是总感觉表达的欲望不复从前了。是什么原因变成这样的呢，原因可能很多，也各自有自己的不同情形所至于此；但是总归有一条，那就是 &lt;strong&gt;自由&lt;/strong&gt;。如果有那么一个有限空间内，可以自由的 &lt;em&gt;谈天说地、品头论足、唠唠叨叨亦或自言自语&lt;/em&gt;，你我是否又能燃起表达的激情呢？！从这个角度来说，paopao-ce就很契合这种需求，曾经你我想拥有一个自己的博客小站点而使用WordPress，那么今天想拥有一个自己的类似Twitter的推文分享服务小站点，部署paopao-ce或许也是一个不错的选择。&lt;/p&gt;
-&lt;p&gt;一个产品应该有一个&lt;strong&gt;属于自己的灵魂&lt;/strong&gt;，可以说 paopao-ce的宗旨就是 &lt;strong&gt;打造一个清新文艺的微社区&lt;/strong&gt;。&lt;/p&gt;
-&lt;h3 id=&#34;疑问&#34;&gt;疑问&lt;/h3&gt;
-&lt;ol&gt;
-&lt;li&gt;paopao-ce主要针对哪些站点运营者？&lt;br&gt;
-其实paopao-ce的运营形态有点类似WordPress，只不过WordPress是使用PHP语言开发的博客平台，提供的是博客服务，而paopao-ce提供的是类似Twitter的推文分享服务。paopao-ce 让 &lt;strong&gt;个人或小组织&lt;/strong&gt; 可以快速、方便的部署一个提供&lt;strong&gt;推文分享服务&lt;/strong&gt;的小站点，有限范围内形成一个友善的社交小圈子微社区。&lt;/li&gt;
-&lt;li&gt;paopao-ce是一个清新文艺的微社区，微社区的 &lt;code&gt;微&lt;/code&gt; 是如何界定的？
-&lt;ul&gt;
-&lt;li&gt;首先从站点用户流量层面，paopao-ce的部署一般针对的是小站点，注册用户不是很多，用户流量(QPS)也不会很高，这种情形本身很契合paopao-ce对自身微社区的服务定位；&lt;/li&gt;
-&lt;li&gt;从代码实现层面思考，在数据存储层面的架构设计中已经假定paopao-ce提供服务的QPS不会很高，因此不会考虑类似数据库 &lt;strong&gt;分库分表&lt;/strong&gt; 这样的设计优化来应对数据库CRUD的流量冲击，对站点推文数据的总容量也假定是单个SQL数据库提供满足查询需求的数据容量极限。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;paopao-ce在代码实现上为什么采用单体架构模式？&lt;br&gt;
-一个项目的架构设计是多方面考量均衡的结果，最终的目的是满足项目的需求与长远发展。
-&lt;ul&gt;
-&lt;li&gt;从架构模式的角度来说，单体架构模式可以满足paopao-ce对自身服务定位的需求，完全有能力承载预期的用户流量QPS，所以采用单体模式架构设计是没有问题的；&lt;/li&gt;
-&lt;li&gt;从运营者的角度来说，在能保障服务质量的前提下，最看重的还是运营成本的考量。提供一项保质保量的服务，可持续性是评价一项服务的重要指标。单体架构模式的项目部署简单，成本相对于分布式架构模式的项目也更低，架设门槛也没有那么高。黑猫白猫，能抓老鼠就是好猫， 在什么阶段就用什么技术，根据部署运营场景选择适合的技术来支撑服务，才是运营者明智的选择。&lt;/li&gt;
-&lt;li&gt;现在不管是单体架构模式亦或是云原生的分布式架构模式，相应的技术栈生态都已经非常成熟，技术本身没有优劣之分，需要根据具体环境来适配合适的技术，这样才能在你确保服务质量的同时保证服务的可持续性与经济性。说白了就是paopao-ce目前采用单体架构模式的设计，满足优质服务的同时性价比最高。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;如果一个paopao-ce部署站点运营一段时间后QPS逐渐提高到一定程度，目前架构的paopao-ce无法满足进一步的用户流量冲击，是否会采用分布式技术栈进行优化？  &lt;br&gt;
-不会。paopao-ce将保守的采用目前的单体架构模式提供极致的QPS用户体验，如果确实需要超高QPS需求的实例部署，将另起炉灶开发另一款相应的产品，或许会采用云原生的分布式技术栈生态进行架构设计，这将是另一个paopao产品的故事序章了(前提是paopao能火出圈)。&lt;/li&gt;
-&lt;/ol&gt;</description>
     </item>
     
   </channel>

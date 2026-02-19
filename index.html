@@ -319,6 +319,56 @@
                         
                             <article class="post panel-wrapper">
     <header>
+        <h2><a href="https://alimy.github.io/post/dev_202602191110/" title="阅读全文">Memcached - Meta Text Protocol </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <p>NOTE: These commands are new. Please let us know if you run into any trouble with the API or the documentation! The meta protocol is no longer considered experimental, please give it a shot!</p>
+<p>NOTE: binary protocol is deprecated. meta protocol is cross-compatible with the text protocol, includes every feature the binary protocol has, and has many enhancements.</p>
+<p>Memcached has additional commands which are used to reduce bytes on the wire, reduce network roundtrips required for complex queries (such as anti-dogpiling techniques), expose previously hidden item information, and add many new features. These are in addition to the existing Text Protocol, and can do everything the Binary Protocol could do before.</p>
+<p>The full description of the Meta commands are available in the Text Protocol documentation:</p>
+<ul>
+<li><a href="http://github.com/memcached/memcached/blob/master/doc/protocol.txt">Text Protocol</a></li>
+</ul>
+<p>This wiki serves as a companion to protocol.txt with use cases and examples of the new commands.</p>
+<h3 id="command-basics">Command Basics </h3>
+<p>Commands and responses start with a two character code then a set of flags, and potentially value data. Flags may have token data attached to them.</p>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/dev_202602191110/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
+</article>
+                        
+                            <article class="post panel-wrapper">
+    <header>
+        <h2><a href="https://alimy.github.io/post/dev_202602191100/" title="阅读全文">Memcached - Basic Text Protocol </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <p>Memcached handles a small number of basic commands.</p>
+<p>Full documentation can be found in the <a href="https://docs.memcached.org/protocols/">Protocol Documentation</a>.</p>
+<h3 id="standard-protocol">Standard Protocol </h3>
+<p>The “standard protocol stuff” of memcached involves running a command against an “item”. An item consists of:</p>
+<ul>
+<li>A key (arbitrary string up to 250 bytes in length. No space or newlines for ASCII mode)</li>
+<li>A 32bit “flag” value</li>
+<li>An expiration time, in seconds. ‘0’ means never expire. Can be up to 30 days. After 30 days, is treated as a unix timestamp of an exact date.</li>
+<li>A 64bit “CAS” value, which is kept unique.</li>
+<li>Arbitrary data</li>
+</ul>
+<p>CAS is optional (can be disabled entirely with <code>-C</code>, and there are more fields that internally make up an item, but these are what your client interacts with.</p>
+<h4 id="no-reply">No Reply </h4>
+<p>Most ASCII commands allow a “noreply” version. One should not normally use this with the ASCII protocol, as it is impossible to align errors with requests. The intent is to avoid having to wait for a return packet after executing a mutation command (such as a set or add).</p>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/dev_202602191100/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
+</article>
+                        
+                            <article class="post panel-wrapper">
+    <header>
         <h2><a href="https://alimy.github.io/post/dev_202602191015/" title="阅读全文">Cache your sessions. Don&#39;t piss off your users </a> </h2>
         
     </header>
@@ -559,64 +609,6 @@ Header size field is in bytes/4.</p>
     </div>
     <footer id="more">
         <a href='https://alimy.github.io/post/etc_202602031028/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
-            </nobr></a>
-    </footer>
-</article>
-                        
-                            <article class="post panel-wrapper">
-    <header>
-        <h2><a href="https://alimy.github.io/post/dev_202602011415/" title="阅读全文">git-sync同步所有git库 </a> </h2>
-        
-    </header>
-    <div class="summary">
-        <p>同步指定目录中所有git库的一个简单shell脚本。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ git sync -maxdepth <span style="color:#ae81ff">3</span>
-</span></span><span style="display:flex;"><span>&gt; Found <span style="color:#ae81ff">89</span> repositories.
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>&gt; Synching gin 1% <span style="color:#f92672">(</span>1/89<span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>Already up to date.
-</span></span><span style="display:flex;"><span>&gt; Synching gin finish.
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>&gt; Synching yj 2% <span style="color:#f92672">(</span>2/89<span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>Already up to date.
-</span></span><span style="display:flex;"><span>&gt; Synching yj finish.
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>&gt; Synching go-cmp 3% <span style="color:#f92672">(</span>3/89<span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>Already up to date.
-</span></span><span style="display:flex;"><span>&gt; Synching go-cmp finish.
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>&gt; Synching opentelemetry-go-contrib 4% <span style="color:#f92672">(</span>4/89<span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>remote: Enumerating objects: 775, <span style="color:#66d9ef">done</span>.
-</span></span><span style="display:flex;"><span>remote: Counting objects: 100% <span style="color:#f92672">(</span>363/363<span style="color:#f92672">)</span>, <span style="color:#66d9ef">done</span>.
-</span></span><span style="display:flex;"><span>remote: Compressing objects: 100% <span style="color:#f92672">(</span>117/117<span style="color:#f92672">)</span>, <span style="color:#66d9ef">done</span>.
-</span></span><span style="display:flex;"><span>remote: Total <span style="color:#ae81ff">775</span> <span style="color:#f92672">(</span>delta 264<span style="color:#f92672">)</span>, reused <span style="color:#ae81ff">307</span> <span style="color:#f92672">(</span>delta 240<span style="color:#f92672">)</span>, pack-reused <span style="color:#ae81ff">412</span> <span style="color:#f92672">(</span>from 3<span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>Receiving objects: 100% <span style="color:#f92672">(</span>775/775<span style="color:#f92672">)</span>, 351.23 KiB | 636.00 KiB/s, <span style="color:#66d9ef">done</span>.
-</span></span><span style="display:flex;"><span>Resolving deltas: 100% <span style="color:#f92672">(</span>448/448<span style="color:#f92672">)</span>, completed with <span style="color:#ae81ff">79</span> local objects.
-</span></span></code></pre></div>
-    </div>
-    <footer id="more">
-        <a href='https://alimy.github.io/post/dev_202602011415/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
-            </nobr></a>
-    </footer>
-</article>
-                        
-                            <article class="post panel-wrapper">
-    <header>
-        <h2><a href="https://alimy.github.io/post/dev_202601241258/" title="阅读全文">TL在Go如何实现oneof语义 </a> </h2>
-        
-    </header>
-    <div class="summary">
-        <p>TL的Type是一个总类型<code>Class</code>包含不同的结构子类型实例<code>Object</code>，类似于Protubuf中<code>Message</code>与<code>Oneof</code>的关系。</p>
-<h4 id="telegram的rpc-tl片段1">Telegram的RPC TL片段1：</h4>
-<pre tabindex="0"><code class="language-tl" data-lang="tl">peerUser#9db1bc6d user_id:int = Peer;
-peerChat#bad0e5bb chat_id:int = Peer;
-peerChannel#bddde532 channel_id:int = Peer;
-
-folderPeer#e9baa668 peer:Peer folder_id:int = FolderPeer;
-</code></pre>
-    </div>
-    <footer id="more">
-        <a href='https://alimy.github.io/post/dev_202601241258/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
             </nobr></a>
     </footer>
 </article>

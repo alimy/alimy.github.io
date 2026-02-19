@@ -5,7 +5,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-  <title> Memcached &middot; 那年江湖，遇见你 </title>
+  <title> Memcached - Basic Text Protocol &middot; 那年江湖，遇见你 </title>
   
   <link rel="stylesheet" type="text/css" href="https://alimy.github.io//css/uno.css" />
   <link rel="stylesheet" type="text/css" href="https://alimy.github.io//css/lightGallery.css" />
@@ -189,15 +189,14 @@
 </head>
 
 <body>
-    <div id="scriptHeader">
+  <div id="scriptHeader">
     <span class="mobile btn-mobile-menu">
         <i class="fa fa-bars btn-mobile-menu__icon"></i>
         <i class="fa fa-times btn-mobile-close__icon hidden"> </i>
     </span>
     <header class="
-        
          panel-cover
-        panel-cover--collapsed  " 
+        panel-cover--collapsed " 
         style="background-image: url(/images/cover.jpg)" >
         <div class="panel-main">
             <div class="panel-main__inner panel-inverted">
@@ -313,49 +312,95 @@
         </div>
     </header>
 </noscript>
-    <div class="content-wrapper">
-        <div class="content-wrapper__inner">
-            <h2>文章列表</h2>
-            
-            <div class="panel-wrapper">
-                <div id="caption">
-                    <h3>
-                        2026年 02月
-                        
-                        <span id="list-indicator" title="共3篇文章">3 </span>
-                    </h3>
-                </div>
-                <ul id="list">
-                    
-                    <li>
-                        <a href="https://alimy.github.io/post/dev_202602191110/">Memcached - Meta Text Protocol </a>&nbsp;
-                        <span id="list-date">(Thu, Feb 19, 2026)</span>
-                    </li>
-                    
-                    <li>
-                        <a href="https://alimy.github.io/post/dev_202602191100/">Memcached - Basic Text Protocol </a>&nbsp;
-                        <span id="list-date">(Thu, Feb 19, 2026)</span>
-                    </li>
-                    
-                    <li>
-                        <a href="https://alimy.github.io/post/dev_202602191015/">Cache your sessions. Don&#39;t piss off your users </a>&nbsp;
-                        <span id="list-date">(Thu, Feb 19, 2026)</span>
-                    </li>
-                    
-                </ul>
-            </div>
-            
-            <footer id="copyright">
+  <div class="content-wrapper">
+    <div class="content-wrapper__inner">
+      <div class="post panel-wrapper">
+        <h2>Memcached - Basic Text Protocol</h2>
+        
+        <p>Memcached handles a small number of basic commands.</p>
+<p>Full documentation can be found in the <a href="https://docs.memcached.org/protocols/">Protocol Documentation</a>.</p>
+<h3 id="standard-protocol">Standard Protocol </h3>
+<p>The “standard protocol stuff” of memcached involves running a command against an “item”. An item consists of:</p>
+<ul>
+<li>A key (arbitrary string up to 250 bytes in length. No space or newlines for ASCII mode)</li>
+<li>A 32bit “flag” value</li>
+<li>An expiration time, in seconds. ‘0’ means never expire. Can be up to 30 days. After 30 days, is treated as a unix timestamp of an exact date.</li>
+<li>A 64bit “CAS” value, which is kept unique.</li>
+<li>Arbitrary data</li>
+</ul>
+<p>CAS is optional (can be disabled entirely with <code>-C</code>, and there are more fields that internally make up an item, but these are what your client interacts with.</p>
+<h4 id="no-reply">No Reply </h4>
+<p>Most ASCII commands allow a “noreply” version. One should not normally use this with the ASCII protocol, as it is impossible to align errors with requests. The intent is to avoid having to wait for a return packet after executing a mutation command (such as a set or add).</p>
+<p>The binary protocol properly implements noreply (quiet) statements. If you have a client which supports or uses the binary protocol, odds are good you may take advantage of this.</p>
+<h3 id="storage-commands">Storage Commands </h3>
+<h4 id="set">set </h4>
+<p>Most common command. Store this data, possibly overwriting any existing data. New items are at the top of the LRU.</p>
+<h4 id="add">add </h4>
+<p>Store this data, only if it does not already exist. New items are at the top of the LRU. If an item already exists and an add fails, it promotes the item to the front of the LRU anyway.</p>
+<h4 id="replace">replace </h4>
+<p>Store this data, but only if the data already exists. Almost never used, and exists for protocol completeness (set, add, replace, etc)</p>
+<h4 id="append">append </h4>
+<p>Add this data after the last byte in an existing item. This does not allow you to extend past the item limit. Useful for managing lists.</p>
+<h4 id="prepend">prepend </h4>
+<p>Same as append, but adding new data before existing data.</p>
+<h4 id="cas">cas </h4>
+<p>Check And Set (or Compare And Swap). An operation that stores data, but only if no one else has updated the data since you read it last. Useful for resolving race conditions on updating cache data.</p>
+<h3 id="retrieval-commands">Retrieval Commands</h3>
+<h4 id="get">get</h4>
+<p>Command for retrieving data. Takes one or more keys and returns all found items.</p>
+<h4 id="gets">gets</h4>
+<p>An alternative get command for using with CAS. Returns a CAS identifier (a unique 64bit number) with the item. Return this value with the <code>cas</code> command. If the item’s CAS value has changed since you <code>gets</code>‘ed it, it will not be stored.</p>
+<h3 id="delete">delete</h3>
+<p>Removes an item from the cache, if it exists.</p>
+<h3 id="incrdecr">incr/decr</h3>
+<p>Increment and Decrement. If an item stored is the string representation of an unsigned 64bit integer, you may run incr or decr commands to modify that number. You may only incr by positive values, or decr by positive values. They do not accept negative values.</p>
+<p>If a value does not already exist, incr/decr will fail.</p>
+<h3 id="statistics">Statistics </h3>
+<p>There’re a handful of commands that return counters and settings of the memcached server. These can be inspected via a large array of tools or simply by telnet or netcat. These are further explained in the protocol docs.</p>
+<h4 id="stats">stats </h4>
+<p>ye ‘ole basic stats command.</p>
+<h4 id="stats-items">stats items</h4>
+<p>Returns some information, broken down by slab, about items stored in memcached.</p>
+<h4 id="stats-slabs">stats slabs </h4>
+<p>Returns more information, broken down by slab, about items stored in memcached. More centered to performance of a slab rather than counts of particular items.</p>
+<h4 id="stats-sizes">stats sizes </h4>
+<p>A special command that shows you how items would be distributed if slabs were broken into 32byte buckets instead of your current number of slabs. Useful for determining how efficient your slab sizing is.</p>
+<p><em>WARNING</em> this is a development command. As of 1.4 it is still the only command which will lock your memcached instance for some time. If you have many millions of stored items, it can become unresponsive for several minutes. Run this at your own risk. It is roadmapped to either make this feature optional or at least speed it up.</p>
+<h3 id="flush_all">flush_all</h3>
+<p>Invalidate all existing cache items. Optionally takes a parameter, which means to invalidate all items after N seconds have passed.</p>
+<p>This command does not pause the server, as it returns immediately. It does not free up or flush memory at all, it just causes all items to expire.</p>
+<hr>
+<p>本文转载自<a href="https://docs.memcached.org/protocols/basic/" title="Basic Text Protocol">网络</a>.</p>
+<p><em>本站为个人网站，集网络美文、技术文章与原创生活记录等，系孤芳自赏、个人用途，内容如有侵权请联系站长删除。</em></p>
+        <div id="post-tags">
+          
+          
+          <a href="https://alimy.github.io/tags/development/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;Development</a>
+          
+          <a href="https://alimy.github.io/tags/cache/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;Cache</a>
+          
+          <a href="https://alimy.github.io/tags/memcached/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;Memcached</a>
+          
+          
+        </div>
+      </div>
+      <div id="post-navigator">
+        <a id="post-navigator-prev" href="https://alimy.github.io/post/dev_202602191015/" title="上一篇"><i class="fa fa-chevron-left"
+            aria-hidden="true"></i>&nbsp;Cache your sessions. Don&#39;t piss off your users</a>
+        <a id="post-navigator-next" href="https://alimy.github.io/post/dev_202602191110/" title="下一篇">Memcached - Meta Text Protocol&nbsp;<i
+            class="fa fa-chevron-right" aria-hidden="true"></i></a>
+      </div>
+      
+      <footer id="copyright">
   <p>&copy;2015-至今 <a href="mailto:alimy@niubiu.com" title="Email:alimy@niubiu.com">北野 - Michael Li</a> All rights
     reserved.&nbsp;&nbsp;<a href="https://riiffy.com/alimy.github.io" title="访问统计" target="_blank">Riiffy</p>
 </footer>
-        </div>
     </div>
-</body>
-<script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
+    <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
 if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
 var s=document.getElementsByTagName('script')[0];sc.src='https://alimy.github.io/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
 WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
 
+</body>
 
 </html>
