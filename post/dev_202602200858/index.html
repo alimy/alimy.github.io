@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <title> Go - 巧用Constraint接口实现约束 &middot; 那年江湖，遇见你 </title>
+  
+  <link rel="stylesheet" type="text/css" href="https://alimy.github.io//css/uno.css" />
+  <link rel="stylesheet" type="text/css" href="https://alimy.github.io//css/lightGallery.css" />
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://alimy.github.io/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="https://alimy.github.io/favicon.png">
+  
+  <script src="https://alimy.github.io//js/jquery.min.js"></script>
+  <script src="https://alimy.github.io//js/main.min.js"></script>
+
+  <script data-host="https://riiffy.com" data-dnt="false" src="https://riiffy.com/js/script.js" id="ZwSg9rf6GA" async
+    defer></script>
+
+  <style type="text/css">
+    body {
+      background-color: #f9f9f9;
+    }
+
+    .panel-wrapper {
+      box-shadow: 0px 0px 8px rgba(68, 68, 68, .6);
+      -moz-box-shadow: 0px 0px 8px rgba(68, 68, 68, .6);
+      border-radius: 4px;
+      -moz-border-radius: 4px;
+      padding: 16px 24px;
+      margin-top: 32px;
+      background-color: #fff
+    }
+
+    .panel-wrapper:hover {
+      box-shadow: 0px 0px 12px rgba(68, 68, 68, .6);
+      -moz-box-shadow: 0px 0px 12px rgba(68, 68, 68, .6);
+    }
+
+    #more {
+      margin-top: 16px;
+    }
+
+    #copyright {
+      padding: 2em 0 0;
+      display: block;
+      font-size: .9em;
+      color: #b3b3b3;
+      width: 100%;
+      text-align: center
+    }
+
+    #list-indicator {
+      min-width: 48px;
+      text-align: center;
+      float: right;
+      margin-right: 64px;
+      background: rgba(68, 68, 68, .2);
+      border-radius: 4px;
+      -moz-border-radius: 4px;
+      padding: 8px;
+    }
+
+    #list-date {
+      color: #999;
+      font-size: .9em;
+      font-style: italic;
+    }
+
+    .post-tags-item {
+      padding-left: .75rem !important;
+      padding-right: .75rem !important;
+      padding-top: .25rem !important;
+      padding-bottom: .25rem !important;
+      margin-right: .5rem !important;
+      margin-top: .25rem !important;
+      margin-bottom: .25rem !important;
+      font-size: .875rem !important;
+      color: #666666;
+      display: inline-block !important;
+      border-radius: .25rem !important;
+      background-color: rgb(242 242 247) !important;
+    }
+
+    .post-tags-item:hover {
+      color: #38b2ac;
+    }
+
+    #post-navigator {
+      padding: 24px 0px 16px 0px;
+      vertical-align: middle;
+    }
+
+    #post-navigator>a {
+      display: block;
+      color: #2479cc;
+      text-decoration: none;
+    }
+
+    #post-navigator-prev {
+      float: left;
+    }
+
+    #post-navigator-next {
+      float: right;
+    }
+
+    .pages {
+      text-align: center;
+      margin-right: -15px;
+      margin-left: -15px;
+    }
+
+    .pages>ul {
+      font-weight: lighter;
+    }
+
+    .pages>.pagination {
+      display: inline-block;
+      padding-left: 0;
+      margin: 20px 0px;
+      border-radius: 4px;
+    }
+
+    .pages .pagination>li {
+      display: inline;
+    }
+
+    .pagination>.active>a,
+    .pagination>.active>span,
+    .pagination>.active>a:hover,
+    .pagination>.active>span:hover,
+    .pagination>.active>a:focus,
+    .pagination>.active>span:focus {
+      z-index: 2;
+      color: #fff;
+      cursor: default;
+      background-color: #428bca;
+      border-color: #428bca;
+    }
+
+    .pagination>li>a,
+    .pagination>li>span {
+      position: relative;
+      float: left;
+      padding: 6px 12px;
+      margin-left: -1px;
+      line-height: 1.428571429;
+      text-decoration: none;
+      background-color: #fff;
+      border: 1px solid #ddd;
+    }
+
+    .pagination>li:first-child>a,
+    .pagination>li:first-child>span {
+      margin-left: 0;
+      border-bottom-left-radius: 4px;
+      border-top-left-radius: 4px;
+    }
+
+    .pagination>.disabled>span,
+    .pagination>.disabled>span:hover,
+    .pagination>.disabled>span:focus,
+    .pagination>.disabled>a,
+    .pagination>.disabled>a:hover,
+    .pagination>.disabled>a:focus {
+      color: #999;
+      cursor: not-allowed;
+      background-color: #fff;
+      border-color: #ddd;
+    }
+
+    .pagination>li:last-child>a,
+    .pagination>li:last-child>span {
+      border-top-right-radius: 4px;
+      border-bottom-right-radius: 4px;
+    }
+
+    *,
+    *:before,
+    *:after {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="scriptHeader">
+    <span class="mobile btn-mobile-menu">
+        <i class="fa fa-bars btn-mobile-menu__icon"></i>
+        <i class="fa fa-times btn-mobile-close__icon hidden"> </i>
+    </span>
+    <header class="
+         panel-cover
+        panel-cover--collapsed " 
+        style="background-image: url(/images/cover.jpg)" >
+        <div class="panel-main">
+            <div class="panel-main__inner panel-inverted">
+                <div class="panel-main__content">
+                    <a href="https://alimy.github.io//"> <img src="https://alimy.github.io/images/logo.jpg"
+                            width="256" alt="北野 logo" class="panel-cover__logo logo" /> </a> 
+                    <h1 class="panel-cover__title panel-title">
+                        <a href="https://alimy.github.io//">北野</a>
+                    </h1>
+                    <hr class="panel-cover__divider" />
+                    <p class="panel-cover__description">  那年江湖，遇见你  </p>
+                    <hr class="panel-cover__divider panel-cover__divider--secondary" />
+                    <div class="navigation-wrapper">
+                        <nav class="cover-navigation cover-navigation--primary">
+                            <ul class="navigation">
+                                <li class="navigation__item"><a href="https://alimy.github.io/" title="博客首页"
+                                        class="blog-button">首页</a> </li> </br></br>
+                                <li class="navigation__item"><a href="https://alimy.github.io/post" title="文章列表"
+                                        class="blog-button">文章列表</a> </li>
+                                </br>  </br>
+                                <li class="navigation__item"><a href="https://alimy.github.io/pages/cv" title="关于我 "
+                                        class="blog-button">关于我</a> </li>
+                                </br> 
+                            </ul>
+                            <nav class="cover-navigation navigation--social">
+</br>
+    <ul class="navigation"> 
+        
+        <li class="navigation__item">
+            <a href="https://iibiubiu.com" title="@iiBiuBiu" target="_blank"> <i class='fa fa-anchor'></i> <span class="label">Twitter</span> </a>
+        </li>
+        <li class="navigation__item">
+            <a href="https://www.paopao.info/#/u?s=alimy" title="@paopao" target="_blank"> <i class='fa fa-leaf'></i> <span class="label">Twitter</span> </a>
+        </li><br>
+        
+        
+        
+          
+        
+        <li class="navigation__item">
+            <a href="https://github.com/alimy" title="@GitHub" target="_blank"> <i class='fa fa-github'></i> <span class="label">Github</span> </a>
+        </li>   </br>    </ul>
+</nav>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-cover--overlay"></div>
+        </div>
+    </header>
+</div>
+<noscript>
+    <style>
+        #scriptHeader {
+            display: none;
+        }
+
+        .navigation-wrapper {
+            display: block;
+            top: 0;
+        }
+    </style>
+
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url(/images/cover.jpg)">
+        <div class="panel-main">
+            <div class="panel-main__inner panel-inverted">
+                <div class="panel-main__content"> 
+                    <a href="https://alimy.github.io//"> <img src="https://alimy.github.io/images/logo.jpg" width="80"
+                            alt="北野 logo" class="panel-cover__logo logo" /> </a> 
+                    <h1 class="panel-cover__title panel-title">
+                        <a href="https://alimy.github.io//">北野</a>
+                    </h1>
+                    <hr class="panel-cover__divider" />
+                    <p class="panel-cover__description">  那年江湖，遇见你  </p>
+                    <hr class="panel-cover__divider panel-cover__divider--secondary" />
+                    <div class="navigation-wrapper">
+                        <nav class="cover-navigation cover-navigation--primary">
+                            <ul class="navigation">
+                                <li class="navigation__item"><a href="https://alimy.github.io/" title="博客首页"
+                                        class="blog-button">Blog</a> </li></br></br>
+                                <li class="navigation__item"><a href="https://alimy.github.io//post/" title="文章列表"
+                                        class="blog-button">Articles</a> </li>
+                                </br>  </br>
+                                <li class="navigation__item"><a href="https://alimy.github.io/pages/cv" title="关于我 "
+                                        class="blog-button">About Me</a> </li>
+                                </br> 
+                            </ul>
+                        </nav> <nav class="cover-navigation navigation--social">
+</br>
+    <ul class="navigation"> 
+        
+        <li class="navigation__item">
+            <a href="https://iibiubiu.com" title="@iiBiuBiu" target="_blank"> <i class='fa fa-anchor'></i> <span class="label">Twitter</span> </a>
+        </li>
+        <li class="navigation__item">
+            <a href="https://www.paopao.info/#/u?s=alimy" title="@paopao" target="_blank"> <i class='fa fa-leaf'></i> <span class="label">Twitter</span> </a>
+        </li><br>
+        
+        
+        
+          
+        
+        <li class="navigation__item">
+            <a href="https://github.com/alimy" title="@GitHub" target="_blank"> <i class='fa fa-github'></i> <span class="label">Github</span> </a>
+        </li>   </br>    </ul>
+</nav>
+
+                    </div>
+                </div>
+            </div>
+            <div class="panel-cover--overlay"></div>
+        </div>
+    </header>
+</noscript>
+  <div class="content-wrapper">
+    <div class="content-wrapper__inner">
+      <div class="post panel-wrapper">
+        <h2>Go - 巧用Constraint接口实现约束</h2>
+        
+        <p>在Go开发中，通常会使用类似 <code>var _ core.TweetSearchService = (*bridgeTweetSearchServant)(nil)</code> 的语句借助Go编译器在 <strong>编译期</strong> 检测某个类型是否完全实现了某个接口的所有方法，比如此例， 如果 <code>*bridgeTweetSearchServant</code> 缺失 接口 <code>core.TweetSearchService</code> 的某些方法实现，Go将会在编译期报错，不能成功编译App.</p>
+<p>在工程实践中，可以在 <strong>包内</strong> 将这类 <strong>接口实现约束（Constraint）</strong> 语句 统一放在 <code>constraint.go</code> 中，并添加 <em>build tag</em> <code>//go:build constraint</code> 使用tag条件编译机制，只有在使用 <code>go build -tags constraint</code> 时才会进行接口实现约束的检测，在编译产品App时就不带 <code>constraint</code> tag，也就不会把这些 <strong>只应在开发期有效的语句</strong> 编译到最终的App中。</p>
+<p>以下是 <a href="https://github.com/rocboss/paopao-ce/blob/dev/internal/dao/search/constraint.go" title="清新文艺微社区">『paopao-ce』</a> 的一个使用实例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// file: https://github.com/rocboss/paopao-ce/blob/dev/internal/dao/search/constraint.go</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//go:build constraint</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">search</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;github.com/rocboss/paopao-ce/internal/core&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">_</span> <span style="color:#a6e22e">core</span>.<span style="color:#a6e22e">TweetSearchService</span> = (<span style="color:#f92672">*</span><span style="color:#a6e22e">bridgeTweetSearchServant</span>)(<span style="color:#66d9ef">nil</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">_</span> <span style="color:#a6e22e">core</span>.<span style="color:#a6e22e">TweetSearchService</span> = (<span style="color:#f92672">*</span><span style="color:#a6e22e">meiliTweetSearchServant</span>)(<span style="color:#66d9ef">nil</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">_</span> <span style="color:#a6e22e">core</span>.<span style="color:#a6e22e">VersionInfo</span>        = (<span style="color:#f92672">*</span><span style="color:#a6e22e">meiliTweetSearchServant</span>)(<span style="color:#66d9ef">nil</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">_</span> <span style="color:#a6e22e">core</span>.<span style="color:#a6e22e">TweetSearchService</span> = (<span style="color:#f92672">*</span><span style="color:#a6e22e">zincTweetSearchServant</span>)(<span style="color:#66d9ef">nil</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">_</span> <span style="color:#a6e22e">core</span>.<span style="color:#a6e22e">VersionInfo</span>        = (<span style="color:#f92672">*</span><span style="color:#a6e22e">zincTweetSearchServant</span>)(<span style="color:#66d9ef">nil</span>)
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><ul>
+<li>使用 <code>//go:build constraint</code> 标记 只在 有 <code>-tags constraint</code> 时才进行 <strong>接口实现约束</strong> 的检测；</li>
+<li>形如 <code>var _ core.TweetSearchService = (*bridgeTweetSearchServant)(nil)</code> 的语句用于保证某个类型实现了接口定义的所有方法，否则将在编译期间报错；</li>
+<li>由于 <strong>接口实现约束语句</strong> 只会在 <strong>条件编译期间</strong>  有效，因此可以不用考虑<em>内存分配而导致的副作用</em>，也就可以使用类似 <code>var _ core.TweetSearchService = new(bridgeTweetSearchServant)</code> 这样的语句，更简洁的编写约束语句；</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// file: https://github.com/rocboss/paopao-ce/blob/dev/internal/core/search.go</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// TweetSearchService tweet search service interface</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">TweetSearchService</span> <span style="color:#66d9ef">interface</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">IndexName</span>() <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">AddDocuments</span>(<span style="color:#a6e22e">data</span> []<span style="color:#a6e22e">TsDocItem</span>, <span style="color:#a6e22e">primaryKey</span> <span style="color:#f92672">...</span><span style="color:#66d9ef">string</span>) (<span style="color:#66d9ef">bool</span>, <span style="color:#66d9ef">error</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">DeleteDocuments</span>(<span style="color:#a6e22e">identifiers</span> []<span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">error</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Search</span>(<span style="color:#a6e22e">user</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ms</span>.<span style="color:#a6e22e">User</span>, <span style="color:#a6e22e">q</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">QueryReq</span>, <span style="color:#a6e22e">offset</span>, <span style="color:#a6e22e">limit</span> <span style="color:#66d9ef">int</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">QueryResp</span>, <span style="color:#66d9ef">error</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>此例中的接口定义；</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// file: https://github.com/rocboss/paopao-ce/blob/dev/internal/dao/bridge.go</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">bridgeTweetSearchServant</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">ts</span>               <span style="color:#a6e22e">core</span>.<span style="color:#a6e22e">TweetSearchService</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">updateDocsCh</span>     <span style="color:#66d9ef">chan</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">documents</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">updateDocsTempCh</span> <span style="color:#66d9ef">chan</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">documents</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">s</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">bridgeTweetSearchServant</span>) <span style="color:#a6e22e">IndexName</span>() <span style="color:#66d9ef">string</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">ts</span>.<span style="color:#a6e22e">IndexName</span>()
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">s</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">bridgeTweetSearchServant</span>) <span style="color:#a6e22e">AddDocuments</span>(<span style="color:#a6e22e">data</span> []<span style="color:#a6e22e">core</span>.<span style="color:#a6e22e">TsDocItem</span>, <span style="color:#a6e22e">primaryKey</span> <span style="color:#f92672">...</span><span style="color:#66d9ef">string</span>) (<span style="color:#66d9ef">bool</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">updateDocs</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">documents</span>{
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">primaryKey</span>: <span style="color:#a6e22e">primaryKey</span>,
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">docItems</span>:   <span style="color:#a6e22e">data</span>,
+</span></span><span style="display:flex;"><span>	})
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>, <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">s</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">bridgeTweetSearchServant</span>) <span style="color:#a6e22e">DeleteDocuments</span>(<span style="color:#a6e22e">identifiers</span> []<span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">error</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">updateDocs</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">documents</span>{
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">identifiers</span>: <span style="color:#a6e22e">identifiers</span>,
+</span></span><span style="display:flex;"><span>	})
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">s</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">bridgeTweetSearchServant</span>) <span style="color:#a6e22e">Search</span>(<span style="color:#a6e22e">user</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ms</span>.<span style="color:#a6e22e">User</span>, <span style="color:#a6e22e">q</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">core</span>.<span style="color:#a6e22e">QueryReq</span>, <span style="color:#a6e22e">offset</span>, <span style="color:#a6e22e">limit</span> <span style="color:#66d9ef">int</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">core</span>.<span style="color:#a6e22e">QueryResp</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">ts</span>.<span style="color:#a6e22e">Search</span>(<span style="color:#a6e22e">user</span>, <span style="color:#a6e22e">q</span>, <span style="color:#a6e22e">offset</span>, <span style="color:#a6e22e">limit</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ...other logic...</span>
+</span></span></code></pre></div><ul>
+<li>此例中的接口实现类型；</li>
+</ul>
+<p><img src="https://alimy.github.io/images/post/20260220085800.png" alt=""></p>
+<ul>
+<li>在 <em><strong>vs code</strong></em> 编辑器的设置中，<code>Go:Build Tags</code> 添加 <code>constraint</code> tag，编辑器才会将 <code>//go:build constraint</code> 标记的go文件添加在项目中高亮显示，同时会实时做 <strong>接口实现约束</strong> 的检测工作，建议在开发环境中正确设置，方便有效的进行项目开发。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// file: https://github.com/rocboss/paopao-ce/blob/v0.6.0-alpha.3/internal/dao/search/bridge.go</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 接口实现约束，go在 编译期 检测 `*bridgeTweetSearchServant` 实现了接口 `core.TweetSearchService`</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 如果 检测到缺失某些 接口方法 的实现，将不能成功编译App.</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">_</span> <span style="color:#a6e22e">core</span>.<span style="color:#a6e22e">TweetSearchService</span> = (<span style="color:#f92672">*</span><span style="color:#a6e22e">bridgeTweetSearchServant</span>)(<span style="color:#66d9ef">nil</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">bridgeTweetSearchServant</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">ts</span>               <span style="color:#a6e22e">core</span>.<span style="color:#a6e22e">TweetSearchService</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">updateDocsCh</span>     <span style="color:#66d9ef">chan</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">documents</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">updateDocsTempCh</span> <span style="color:#66d9ef">chan</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">documents</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">s</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">bridgeTweetSearchServant</span>) <span style="color:#a6e22e">IndexName</span>() <span style="color:#66d9ef">string</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">ts</span>.<span style="color:#a6e22e">IndexName</span>()
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">s</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">bridgeTweetSearchServant</span>) <span style="color:#a6e22e">AddDocuments</span>(<span style="color:#a6e22e">data</span> []<span style="color:#a6e22e">core</span>.<span style="color:#a6e22e">TsDocItem</span>, <span style="color:#a6e22e">primaryKey</span> <span style="color:#f92672">...</span><span style="color:#66d9ef">string</span>) (<span style="color:#66d9ef">bool</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">updateDocs</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">documents</span>{
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">primaryKey</span>: <span style="color:#a6e22e">primaryKey</span>,
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">docItems</span>:   <span style="color:#a6e22e">data</span>,
+</span></span><span style="display:flex;"><span>	})
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>, <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">s</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">bridgeTweetSearchServant</span>) <span style="color:#a6e22e">DeleteDocuments</span>(<span style="color:#a6e22e">identifiers</span> []<span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">error</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">updateDocs</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">documents</span>{
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">identifiers</span>: <span style="color:#a6e22e">identifiers</span>,
+</span></span><span style="display:flex;"><span>	})
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">s</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">bridgeTweetSearchServant</span>) <span style="color:#a6e22e">Search</span>(<span style="color:#a6e22e">user</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ms</span>.<span style="color:#a6e22e">User</span>, <span style="color:#a6e22e">q</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">core</span>.<span style="color:#a6e22e">QueryReq</span>, <span style="color:#a6e22e">offset</span>, <span style="color:#a6e22e">limit</span> <span style="color:#66d9ef">int</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">core</span>.<span style="color:#a6e22e">QueryResp</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">ts</span>.<span style="color:#a6e22e">Search</span>(<span style="color:#a6e22e">user</span>, <span style="color:#a6e22e">q</span>, <span style="color:#a6e22e">offset</span>, <span style="color:#a6e22e">limit</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ...other logic...</span>
+</span></span></code></pre></div><ul>
+<li>项目中也可以 <strong>直接</strong> 在邻近接口实现的位置添加 <strong>接口实现约束</strong> 语句，如上面的 <code>var _ core.TweetSearchService = (*bridgeTweetSearchServant)(nil)</code>，这种方式对App的运行其实没有什么实质影响，可以放心使用。</li>
+</ul>
+        <div id="post-tags">
+          
+          
+          <a href="https://alimy.github.io/tags/development/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;Development</a>
+          
+          <a href="https://alimy.github.io/tags/go/" class="post-tags-item"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;Go</a>
+          
+          
+        </div>
+      </div>
+      <div id="post-navigator">
+        <a id="post-navigator-prev" href="https://alimy.github.io/post/dev_202602151705/" title="上一篇"><i class="fa fa-chevron-left"
+            aria-hidden="true"></i>&nbsp;Building a message queue with only two UNIX signals</a>
+        
+      </div>
+      
+      <footer id="copyright">
+  <p>&copy;2015-至今 <a href="mailto:alimy@niubiu.com" title="Email:alimy@niubiu.com">北野 - Michael Li</a> All rights
+    reserved.&nbsp;&nbsp;<a href="https://riiffy.com/alimy.github.io" title="访问统计" target="_blank">Riiffy</p>
+</footer>
+    </div>
+    <script>(function(){var WebP=new Image();WebP.onload=WebP.onerror=function(){
+if(WebP.height!=2){var sc=document.createElement('script');sc.type='text/javascript';sc.async=true;
+var s=document.getElementsByTagName('script')[0];sc.src='https://alimy.github.io/js/webpjs-0.0.2.min.js';s.parentNode.insertBefore(sc,s);}};
+WebP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';})();</script>
+
+</body>
+
+</html>

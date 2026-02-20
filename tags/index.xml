@@ -6,14 +6,23 @@
     <language>en</language>
     
     <copyright>&amp;copy;2018, Alimy; all rights reserved.</copyright>
-    <updated>Sun, 15 Feb 2026 17:05:00 CST</updated>
+    <updated>Fri, 20 Feb 2026 08:58:00 CST</updated>
     
     <item>
       <title>Development</title>
       <link>https://alimy.github.io/tags/development/</link>
-      <pubDate>Sun, 15 Feb 2026 17:05:00 CST</pubDate>
+      <pubDate>Fri, 20 Feb 2026 08:58:00 CST</pubDate>
       
       <guid>https://alimy.github.io/tags/development/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Go</title>
+      <link>https://alimy.github.io/tags/go/</link>
+      <pubDate>Fri, 20 Feb 2026 08:58:00 CST</pubDate>
+      
+      <guid>https://alimy.github.io/tags/go/</guid>
       <description></description>
     </item>
     
@@ -68,15 +77,6 @@
       <pubDate>Sat, 14 Feb 2026 19:00:00 CST</pubDate>
       
       <guid>https://alimy.github.io/tags/kitex/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Go</title>
-      <link>https://alimy.github.io/tags/go/</link>
-      <pubDate>Thu, 12 Feb 2026 12:40:00 CST</pubDate>
-      
-      <guid>https://alimy.github.io/tags/go/</guid>
       <description></description>
     </item>
     

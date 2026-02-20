@@ -319,6 +319,21 @@
                         
                             <article class="post panel-wrapper">
     <header>
+        <h2><a href="https://alimy.github.io/post/dev_201803181751/" title="阅读全文">RFC: DNS </a> </h2>
+        
+    </header>
+    <div class="summary">
+        <p><a href="https://tools.ietf.org/html/rfc1034" title="DOMAIN NAMES - CONCEPTS AND FACILITIES"><strong>DNS - CONCEPTS AND FACILITIES</strong> RFC https://www.ietf.org/rfc/rfc1034.txt</a></p>
+<p><a href="https://tools.ietf.org/html/rfc1035" title="DOMAIN NAMES - IMPLEMENTATION AND SPECIFICATION"><strong>DNS - IMPLEMENTATION AND SPECIFICATION</strong> RFC https://www.ietf.org/rfc/rfc1035.txt</a></p>
+    </div>
+    <footer id="more">
+        <a href='https://alimy.github.io/post/dev_201803181751/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
+            </nobr></a>
+    </footer>
+</article>
+                        
+                            <article class="post panel-wrapper">
+    <header>
         <h2><a href="https://alimy.github.io/post/dev_201803181718/" title="阅读全文">RFC: SMTP/POP3/IMAP </a> </h2>
         
     </header>
@@ -519,32 +534,6 @@ func main() {
     </div>
     <footer id="more">
         <a href='https://alimy.github.io/post/arc_201604150952/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
-            </nobr></a>
-    </footer>
-</article>
-                        
-                            <article class="post panel-wrapper">
-    <header>
-        <h2><a href="https://alimy.github.io/post/dev_201604101827/" title="阅读全文">Go - See what packages my app imports </a> </h2>
-        
-    </header>
-    <div class="summary">
-        <p>It’s often practical to see what packages your app is importing. Unfortunately there isn’t a simple way to do that, however it is doable via the go list tool and using templates.</p>
-<p>Go to your app and run the following.</p>
-<pre tabindex="0"><code>$ go list -f &#39;{{join .Deps &#34;\n&#34;}}&#39; |  xargs go list -f &#39;{{if not .Standard}}{{.ImportPath}}{{end}}&#39;
-</code></pre><p>Here is an example with the clirescue refactoring example:</p>
-<pre tabindex="0"><code>$ cd $GOPATH/src/github.com/GoBootcamp/clirescue
-$ go list -f &#39;{{join .Deps &#34;\n&#34;}}&#39; | xargs go list -f &#39;{{if not .Standard}}{{.ImportPath}}{{end}}&#39;
-github.com/GoBootcamp/clirescue/cmdutil
-github.com/GoBootcamp/clirescue/trackerapi
-github.com/GoBootcamp/clirescue/user
-github.com/codegangsta/cli
-</code></pre><p>If you want the list to also contain standard packages, edit the template and use:</p>
-<pre tabindex="0"><code>$ go list -f &#39;{{join .Deps &#34;\n&#34;}}&#39; |  xargs go list -f &#39;{{.ImportPath}}&#39;
-</code></pre>
-    </div>
-    <footer id="more">
-        <a href='https://alimy.github.io/post/dev_201604101827/' title="继续阅读">阅读全文<nobr>&nbsp;<i class="fa fa-caret-right" aria-hidden="true"></i>
             </nobr></a>
     </footer>
 </article>
